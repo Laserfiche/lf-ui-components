@@ -1,4 +1,4 @@
-import { LfTreeService, TreeNode } from '@laserfiche/types-laserfiche-ui-components';
+import { LfTreeService, TreeNode } from '@laserfiche/types-lf-ui-components';
 
 export abstract class LfTreeDemoService implements LfTreeService {
   abstract get rootNodesKey(): string;

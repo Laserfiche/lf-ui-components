@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { LfFolderBrowserComponent, LfTreeProviders, TreeNode } from '@laserfiche/types-laserfiche-ui-components';
+import { LfFolderBrowserComponent, LfTreeProviders, TreeNode } from '@laserfiche/types-lf-ui-components';
 import { LfTreeDemoFolderBrowserService } from '../lf-tree-documentation/lf-tree-demo-folder-browser.service';
 
 @Component({

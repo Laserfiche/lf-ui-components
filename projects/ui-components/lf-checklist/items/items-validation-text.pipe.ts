@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ValidationRule } from '@laserfiche/laserfiche-ui-components/shared';
-import { ChecklistItem } from '@laserfiche/types-laserfiche-ui-components';
+import { ChecklistItem } from '@laserfiche/types-lf-ui-components';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 

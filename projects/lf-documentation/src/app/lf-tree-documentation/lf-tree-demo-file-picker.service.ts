@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LfTreeService, TreeNode } from '@laserfiche/types-laserfiche-ui-components';
+import { LfTreeService, TreeNode } from '@laserfiche/types-lf-ui-components';
 import { LfTreeDemoService } from './lf-tree-demo.service';
 
 /**

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ToolbarOption } from '@laserfiche/types-laserfiche-ui-components';
+import { ToolbarOption } from '@laserfiche/types-lf-ui-components';
 
 @Component({
   selector: 'app-lf-toolbar-documentation',

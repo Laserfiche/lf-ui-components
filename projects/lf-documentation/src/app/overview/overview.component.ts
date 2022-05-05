@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { LfFieldContainerComponent } from '@laserfiche/types-laserfiche-ui-components';
+import { LfFieldContainerComponent } from '@laserfiche/types-lf-ui-components';
 import { LfFieldContainerDemoService } from '../lf-field-container-documentation/lf-field-container-demo.service';
 
 @Component({

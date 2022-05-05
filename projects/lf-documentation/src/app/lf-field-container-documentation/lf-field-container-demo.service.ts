@@ -7,7 +7,7 @@ import {
   LfFieldContainerService,
   FieldType,
   FieldFormat}
-  from '@laserfiche/types-laserfiche-ui-components';
+  from '@laserfiche/types-lf-ui-components';
 
 @Injectable({
   providedIn: 'root'

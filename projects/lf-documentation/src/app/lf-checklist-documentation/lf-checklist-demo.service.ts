@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Checklist } from '@laserfiche/types-laserfiche-ui-components';
+import { Checklist } from '@laserfiche/types-lf-ui-components';
 
 @Injectable({
   providedIn: 'root'

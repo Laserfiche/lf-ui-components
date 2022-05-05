@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { AbortedLoginError, LfLoginComponent, LoginState, RedirectBehavior, LoginMode } from '@laserfiche/types-laserfiche-ui-components';
+import { AbortedLoginError, LfLoginComponent, LoginState, RedirectBehavior, LoginMode } from '@laserfiche/types-lf-ui-components';
 
 @Component({
   selector: 'app-lf-login-documentation',

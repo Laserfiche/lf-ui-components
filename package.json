@@ -1,6 +1,10 @@
 {
-  "name": "laserfiche-ui-components",
-  "version": "1.0.0",
+  "name": "lf-ui-components",
+  "version": "12.0.0",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/Laserfiche/lf-ui-components"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -35,7 +39,6 @@
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
     "@laserfiche/lf-js-utils": "3.0.5",
-    "@laserfiche/types-laserfiche-ui-components": "3.0.2",
     "moment": "^2.29.1",
     "ngx-mask": "^12.0.0",
     "rxjs": "^6.6.7",

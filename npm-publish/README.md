@@ -1,4 +1,4 @@
-# @laserfiche/type-laserfiche-ui-components
+# @laserfiche/type-lf-ui-components
 
 This is the type NPM package that contains the declaration files for lf-prefixed elements.
 

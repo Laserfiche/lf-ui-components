@@ -11,7 +11,7 @@
     "resolveJsonModule": true,
     "preserveConstEnums": true,
     "paths": {
-      "@laserfiche/laserfiche-ui-components/shared": [
+      "@laserfiche/lf-ui-components/shared": [
         "dist/ui-components/shared",
         "projects/ui-components/shared"
       ]

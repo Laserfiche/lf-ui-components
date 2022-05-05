@@ -1,5 +1,5 @@
 {
-  "name": "@laserfiche/laserfiche-ui-components",
+  "name": "@laserfiche/lf-ui-components",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/animations": "~12.1.5",

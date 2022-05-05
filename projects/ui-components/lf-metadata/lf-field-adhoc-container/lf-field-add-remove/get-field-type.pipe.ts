@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LfFieldInfo, FieldType } from '@laserfiche/types-laserfiche-ui-components';
+import { LfFieldInfo, FieldType } from '@laserfiche/types-lf-ui-components';
 import { Observable } from 'rxjs';
 
 /**
