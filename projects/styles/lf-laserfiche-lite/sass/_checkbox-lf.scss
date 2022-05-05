@@ -1,0 +1,73 @@
+@use "typography-lf";
+
+$checked-color: #6D6D6D;
+$disabled-color: #CFCFCF;
+$border-color: #6D6D6D;
+$checkbox-size: 16px;
+
+$hover-border-width: 2px;
+$border-width: 1px;
+$ripple-size: 0px;
+
+.lf-checkbox {
+  
+  .mat-checkbox-inner-container {
+    width: $checkbox-size;
+    height: $checkbox-size;
+
+    .mat-checkbox-frame {
+      border-width: $border-width;
+      border-color: $border-color;
+    }
+
+    &:hover .mat-checkbox-frame {
+      border-width: $hover-border-width;
+    }
+
+  }
+
+  &.cdk-focused .mat-checkbox-frame {
+    border-width: $hover-border-width;
+  }
+
+  &.mat-checkbox-checked.mat-primary {
+    .mat-checkbox-background {
+      background-color: $checked-color;
+    }
+  }
+
+  &.mat-checkbox-disabled {
+    &.mat-checkbox-checked .mat-checkbox-background{
+      background-color: $disabled-color;
+    }
+
+    .mat-checkbox-inner-container {
+      &:hover .mat-checkbox-frame {
+        border-width: $border-width;
+      }
+
+      .mat-checkbox-frame {
+        border-color: $disabled-color;
+      }
+    }
+  }
+
+  .mat-checkbox-ripple.mat-ripple {
+    width: $ripple-size;
+    height: $ripple-size;
+  }
+
+  &.mat-checkbox .mat-checkbox-label {
+    font: typography-lf.$body-stack;
+  }
+
+  input[type=checkbox] {
+    opacity: 0;
+  }
+}
+
+
+
+
+
+

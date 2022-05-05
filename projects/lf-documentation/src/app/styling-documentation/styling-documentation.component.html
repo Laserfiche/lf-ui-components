@@ -1,0 +1,178 @@
+<p class="documentation-title">
+    Styling Components
+</p>
+
+<p class="documentation-sub-header">
+    Links to Stylesheets:
+    <a href="./lf-laserfiche-lite.css" target="_blank">
+        <button class="lf-button lf-link">Laserfiche Styling</button></a>
+    <a href="./lf-ms-office-lite.css" target="_blank">
+        <button class="lf-button ms-link">Microsoft Office Styling</button></a>
+</p>
+
+<hr>
+
+<p class="documentation-sub-header">
+    Importing Stylesheets
+</p>
+
+<p class="documentation-text">
+    You can use the stylesheets in one of two ways:
+</p>
+<ol>
+    <li>A &lt;link&gt; element inside your &lt;head&gt; element in your <code>index.html</code> with the relevant url.
+        (Recommended)
+    <li>An import at the top of your <code>styles.css</code>, <code>styles.scss</code> file, or equivalent.
+</ol>
+<p class="documentation-text">
+    Once this is included, all RWC components will be styled.
+</p>
+
+<app-card>
+    Example Code: <br>
+    <button class="lf-button" (click)="showCode('index.html', 'import')">index.html</button>
+    <button class="lf-button" (click)="showCode('styles.css', 'import')">styles.css</button>
+    <div>
+        <div id="index.html" class="import tab-content" style="display: none;">
+            <code>&lt;link id="lf-stylesheet" href="https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/lf-laserfiche-lite.css" rel="stylesheet" /&gt;</code>
+        </div>
+        <div id="styles.css" class="import tab-content" style="display: none;">
+            <code>@import "https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/lf-laserfiche-lite.css";</code>
+        </div>
+    </div>
+</app-card>
+
+<p class="documentation-sub-header">
+    Styling Non-components
+</p>
+
+<p class="documentation-text">
+    Once you have imported the stylesheet, you can also style simple elements that are not part of the components, for
+    example: buttons and text fields.
+    You do this by adding a class to the element. Some elements will also have subtypes/substyles which you will have to
+    specify. <br> <br>
+
+    The class names follow the convention: <br>
+    <b>Common Elements:</b> lf-element-name <br>
+    <b>Examples:</b> lf-button, lf-checkbox <br> <br>
+
+    <b>Element Subtypes:</b> subtype-element-name <br>
+    <b>Examples:</b> primary-button, sec-button <br>
+</p>
+
+<app-card>
+    <button class="lf-button" (click)="showCode('buttons', 'buttons')">Show HTML</button>
+    <div id="buttons" class="buttons tab-content" style="display: none;">
+        <pre><code>
+  &lt;button&gt;Unstyled&lt;/button&gt;
+  &lt;button class="lf-button primary-button"&gt;Primary&lt;/button&gt;
+  &lt;button class="lf-button sec-button"&gt;Secondary&lt;/button&gt;
+  &lt;button class="lf-button"&gt;No Subtype&lt;/button&gt;
+      </code></pre>
+    </div>
+
+    <hr>
+    <button>Unstyled</button>
+    <button class="lf-button primary-button">Primary</button>
+    <button class="lf-button sec-button">Secondary</button>
+    <button class="lf-button">No Subtype</button>
+</app-card>
+
+<app-card>
+    <button class="lf-button" (click)="showCode('text-field', 'text-field')">Show HTML</button>
+    <div id="text-field" class="text-field tab-content" style="display: none;">
+        <pre><code>
+  &lt;input value="Unstyled"&gt;
+  &lt;input class="lf-text-field" value="Styled"&gt;
+        </code></pre>
+    </div>
+
+    <hr>
+    <input value="Unstyled">
+    <input class="lf-text-field" value="Styled">
+</app-card>
+
+<p class="documentation-sub-header">
+    Dynamically Changing Styles/Themes
+</p>
+
+<p class="documentation-text">
+    This can only be done if you import the stylesheet in the index.html via a link element. Example implementations are
+    provided below (styling not included).
+</p>
+
+<app-card>
+    <div>
+        <button class="lf-button" (click)="showCode('html-buttons', 'theme-buttons')">View HTML</button>
+        <button class="lf-button" (click)="showCode('ts-buttons', 'theme-buttons')">View Typescript</button>
+        <div id="html-buttons" class="theme-buttons tab-content" style="display: none;">
+            <pre><code>
+  &lt;div&gt;
+    &lt;button (click)="setThemeLaserfiche()"&gt;Laserfiche&lt;/button&gt;
+    &lt;button (click)="setThemeMicrosoft()"&gt;Microsoft&lt;/button&gt;
+    &lt;button (click)="removeTheme()"&gt;No Theme&lt;/button&gt;
+  &lt;/div&gt;
+        </code></pre>
+        </div>
+        <div id="ts-buttons" class="theme-buttons tab-content" style="display: none;">
+            <pre><code>
+  setThemeLaserfiche() &#123;
+    const stylesheet = document.getElementById('lf-stylesheet');
+    stylesheet.setAttribute('href', 'https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/lf-laserfiche-lite.css');
+  &#125;
+
+  setThemeMicrosoft() &#123;
+    const stylesheet = document.getElementById('lf-stylesheet');
+    stylesheet.setAttribute('href', 'https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/lf-ms-office-lite.css');
+  &#125;
+
+  removeTheme() &#123;
+    const stylesheet = document.getElementById('lf-stylesheet');
+    stylesheet.setAttribute('href', '');
+  &#125;
+        </code></pre>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <button class="lf-button lf-link" (click)="changeStylesheet('laserfiche')">Laserfiche</button>
+        <button class="lf-button ms-link" (click)="changeStylesheet('microsoft')">Microsoft</button>
+        <button class="lf-button" (click)="removeTheme()">No Theme</button>
+    </div>
+</app-card>
+
+<app-card>
+    <div>
+        <button class="lf-button" (click)="showCode('html-dropdown', 'themes-dropdown')">View HTML</button>
+        <button class="lf-button" (click)="showCode('ts-dropdown', 'themes-dropdown')">View Typescript</button>
+        <div id="html-dropdown" class="themes-dropdown tab-content" style="display: none;">
+            <pre><code>
+  &lt;select id="theme-selector" (change)="setTheme()"&gt;
+    &lt;option value="laserfiche"&gt;Laserfiche Theme&lt;/option&gt;
+    &lt;option value="microsoft"&gt;Microsoft Theme&lt;/option&gt;
+  &lt;/select&gt;
+        </code></pre>
+        </div>
+        <div id="ts-dropdown" class="themes-dropdown tab-content" style="display: none;">
+            <pre><code>
+  setTheme() &#123;
+    const selectElement = (&lt;HTMLSelectElement&gt;document.getElementById('theme-selector'));
+    const themeSelected = selectElement.options[selectElement.selectedIndex].value;
+    if (themeSelected === 'laserfiche') &#123;
+      this.setThemeLaserfiche();
+    &#125;
+    else if (themeSelected === 'microsoft') &#123;
+      this.setThemeMicrosoft();
+    &#125;
+  &#125;
+        </code></pre>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <select id="theme-selector" (change)="setTheme('theme-selector')">
+            <option value="laserfiche">Laserfiche Theme</option>
+            <option value="microsoft">Microsoft Theme</option>
+        </select>
+    </div>
+</app-card>

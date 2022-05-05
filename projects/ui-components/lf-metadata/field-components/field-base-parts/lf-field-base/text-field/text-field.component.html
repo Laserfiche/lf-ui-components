@@ -1,0 +1,28 @@
+<span class="token-picker-field-box" *ngIf="!isDynamic else dynamic">
+  <mat-form-field *ngIf="isShortField" title="{{lf_field_info.name}}" appearance="outline" class="lf-field">
+    <input #tokenTarget matInput type="text" [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
+      (change)="onTextValueChanged()" (focus)="onFocusIn()" (focusout)="onFocusOut()"
+      (input)="onEveryInputChange()">
+    <mat-hint *ngIf="focusState && this.lf_field_info.length" align="end">
+      {{containsToken ? (tokenCharacterCountHint | async) : (noTokenCharacterCountHint | async)}}
+    </mat-hint>
+    <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
+  </mat-form-field>
+  <mat-form-field *ngIf="!isShortField" title="{{lf_field_info.name}}" appearance="outline" class="lf-textarea">
+    <textarea #tokenTarget matInput type="text" [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
+      (change)="onTextValueChanged()" (focus)="onFocusIn()" (focusout)="onFocusOut()"
+      (input)="onEveryInputChange()"></textarea>
+    <mat-hint *ngIf="focusState && this.lf_field_info?.length" align="end">
+      {{containsToken ? (tokenCharacterCountHint | async) : (noTokenCharacterCountHint | async)}}
+    </mat-hint>
+    <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
+  </mat-form-field>
+  <lf-token-picker-component class="lf-field-token-picker" (tokenPicked)="onTextTokenChosen($event)" [data]="lfFieldTokenData">
+  </lf-token-picker-component>
+</span>
+<ng-template #dynamic>
+  <lf-dynamic-field-component ngDefaultControl [options]="dynamic_field_value_options" [formControl]="lf_field_form_control"
+    [title]="lf_field_info.name" [fieldValidationErrorMsg]="fieldValidationErrorMsg"
+    [getBrokenValidationRule]="getBrokenValidationRule.bind(this)" (valueChange)="onTextValueChanged()">
+  </lf-dynamic-field-component>
+</ng-template>

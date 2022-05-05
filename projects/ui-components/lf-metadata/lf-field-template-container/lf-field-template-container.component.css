@@ -1,0 +1,9 @@
+.error-message {
+  color: red;
+  padding-top: 10px;
+  padding-left: 5px;
+}
+
+.lf-template-picker {
+  margin-bottom: 20px;
+}

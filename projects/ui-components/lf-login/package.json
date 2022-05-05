@@ -1,0 +1,8 @@
+{
+    "name": "lf-login",
+    "ngPackage": {
+        "lib": {
+            "entryFile": "./lf-login-public-api.ts"
+        }
+    }
+}

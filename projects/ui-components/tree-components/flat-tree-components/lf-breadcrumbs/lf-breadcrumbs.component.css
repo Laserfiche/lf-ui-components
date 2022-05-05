@@ -1,0 +1,86 @@
+.lf-breadcrumbs-container {
+  display: flex;
+  height: 34px;
+}
+
+.breadcrumb-parent {
+  padding-left: 10px;
+  font: 600 14px "Open Sans";
+  color: #605e5c;
+  align-self: center;
+  cursor: default;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.breadcrumb-chevron {
+  cursor: default;
+  align-self: center;
+}
+
+::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  font: 600 14px "Open Sans";
+  color: #605e5c;
+  line-height: 25px;
+  padding: 0 0px 0px 10px;
+  text-align: left;
+}
+
+::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content:hover {
+  color: black;
+}
+
+::ng-deep .breadcrumb-clickable-parent.breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  min-width: 75px;
+  max-width: 75px;
+  padding: 0px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-left: 10px;
+  height: 25px;
+}
+
+::ng-deep .single-selectable.breadcrumb-clickable-parent.breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  min-width: 90px;
+  max-width: 90px;
+}
+
+::ng-deep .breadcrumb-split-button-group.mat-button-toggle-group-appearance-standard {
+  border: none;
+  border-radius: 2px;
+  padding-top: 5px;
+}
+
+::ng-deep .breadcrumb-split-button .breadcrumb-select {
+  color: #605e5c;
+}
+::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard.breadcrumb-select .mat-button-toggle-label-content {
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 25px;
+}
+
+.breadcrumb-split-button-icon {
+  padding-bottom: 5px;
+}
+
+::ng-deep .breadcrumb-split-button .breadcrumb-select:hover {
+  padding-left: 0px;
+  color: black;
+}
+
+::ng-deep .breadcrumb-split-button.mat-button-toggle-checked {
+  background-color: inherit;
+}
+
+::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-focus-overlay,
+::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard,
+::ng-deep .breadcrumb-split-button .mat-button-toggle-button
+{
+  height: 25px;
+}
+::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard {
+  height: 25px;
+}

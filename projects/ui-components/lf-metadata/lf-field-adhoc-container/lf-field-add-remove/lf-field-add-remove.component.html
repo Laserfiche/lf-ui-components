@@ -1,0 +1,45 @@
+<div id="add-remove-container" class="add-remove-container">
+  <div id="adhoc-back-button" class='back-button-overlay' (click)='onClickBack()'>
+      <div class="adhoc-back-button-container">
+          <svg id="arrow-left-18" width="18" height="18" viewBox="0 0 18 18" class="lf-button adhoc-back-button">
+              <path
+                  d="M11.064,17.7c0.395,0.4,1.035,0.4,1.432,0l0.715-0.727c0.395-0.4,0.395-1.051,0-1.45L6.783,9.001
+          l6.43-6.522c0.395-0.401,0.395-1.051,0-1.453l-0.717-0.725c-0.395-0.401-1.035-0.401-1.43,0l-8.575,8.7L11.064,17.7z">
+              </path>
+          </svg>
+      </div>
+      <div class="ms-font-m back-button-text">{{ADD_REMOVE_FIELDS | async}}</div>
+  </div>
+  <div class="back-button-padding"></div>
+  <div class="field-picker-container" [ngClass]="{'has-changes': areCheckboxChanges}">
+      <div class="search">
+          <input [value]="fieldFilterText" [formControl]="filterFieldsControl" placeholder="{{SEARCH_FIELDS | async}}"
+              class="searchBox">
+          <div class="icon icon-search"></div>
+          <div *ngIf="fieldFilterText && fieldFilterText.length > 0" (click)="onClearFields()"
+              class="icon icon-clear">
+          </div>
+      </div>
+      <div *ngFor="let field of displayFieldInfos, let i = index" class="pick-field">
+          <mat-checkbox color="primary" class="lf-checkbox" (change)="onUpdateCheckbox($event, field)" id=`add-remove-checkbox-{{i}}`
+              [checked]="isFieldSelected(field)" title="{{field.name}}" [disabled]="field.inTemplateSelected">
+              {{field.name}} ({{field | getFieldType: LOCALIZED_FIELD_TYPES | async}})
+          </mat-checkbox>
+      </div>
+      <div class="fields-empty" *ngIf="!displayFieldInfos || displayFieldInfos.length===0">
+          {{NO_FIELD_AVAILABLE_WITH_FILTER | async}}
+      </div>
+  </div>
+  <div class="button-container" *ngIf="areCheckboxChanges">
+      <div class="button-padding-container">
+          <button id="adhoc-apply-button" class="primary-button lf-button adhoc-field-button"
+              (click)="onClickApply()">{{APPLY | async}}</button>
+          <button id="adhoc-cancel-button" class="sec-button lf-button adhoc-field-button"
+              (click)="onClickCancel()">{{CANCEL | async}}</button>
+      </div>
+  </div>
+</div>
+
+<ng-template #addRemoveConfirmModal let-data>
+    <lf-popup-modal-component [data]="data" (buttonClick)="onModalButtonClick($event)"></lf-popup-modal-component>
+</ng-template>

@@ -1,0 +1,22 @@
+.chrome-logo {
+    height: 70px;
+    width: 70px;
+    background: url("https://lfxstatic.com/Site/laserfiche-ui-components/2.0/chrome-logo.png");
+}
+.firefox-logo {
+    height: 75px;
+    width: 75px;
+    background: url("https://lfxstatic.com/Site/laserfiche-ui-components/2.0/firefox-logo.png");
+}
+.edge-logo {
+    height: 65px;
+    width: 65px;
+    background: url("https://lfxstatic.com/Site/laserfiche-ui-components/2.0/edge-logo.png");
+}
+
+.browser {
+    padding: 0px 20px 0px 0px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: bottom;
+}

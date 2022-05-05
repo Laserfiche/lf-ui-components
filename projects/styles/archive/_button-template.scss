@@ -1,0 +1,137 @@
+@font-face {
+  font-family: CustomFont;
+  src: url(assets/CustomFont.ttf);
+}
+
+/* Button Dimensions */
+$height: 30px;
+$min-width: 78px;
+$border-radius: 3px;
+
+$margin-left: 5px;
+$margin-right: 5px;
+
+$padding: 0px 12px;
+
+$border-width: 2px;
+$border-stack: $border-width solid;
+
+/* Typography Specs */
+$font-weight: 600;
+$font-size: 14px;
+$font-stack: $font-weight $font-size "CustomFont";
+
+/* Primary Button */
+$primary-color: #00866B;
+$primary-border-color: white;
+$prim-font-color: #FAFAFA;
+
+$primary-disabled-color: #ABD7CE;
+$primary-disabled-border-color: white;
+$primary-disabled-font-color: white;
+
+$primary-hover-color: white;
+$primary-hover-border-color: #005342;
+
+/* Secondary Button */
+$sec-color: #00866B;
+$sec-border-color: white;
+$sec-font-color: #FAFAFA;
+
+$sec-disabled-color: #ABD7CE;
+$sec-disabled-border-color: white;
+$sec-disabled-font-color: white;
+
+$sec-hover-color: white;
+$sec-hover-border-color: #005342;
+
+/* Tertiary Button */
+$tert-color: #00866B;
+$tert-border-color: white;
+$tert-font-color: #FAFAFA;
+
+$tert-disabled-color: #ABD7CE;
+$tert-disabled-border-color: white;
+$tert-disabled-font-color: white;
+
+$tert-hover-color: white;
+$tert-hover-border-color: #005342;
+
+
+
+
+
+button.lf-button {
+  font: $font-stack;
+  height: $height;
+  min-width: $min-width;
+  border-radius: $border-radius;
+
+  margin-left: $margin-left;
+  margin-right: $margin-right;
+
+  padding: $padding;
+
+  /* Possible to use calculations to do height - 2*border-width*/
+  line-height: $height - 2 * $border-width;
+
+  border: $border-stack;
+
+  transition-duration: 0.4s;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &.primary-button{
+    color: $prim-font-color;
+    border-color: $primary-border-color;
+    background-color: $primary-color;
+
+    &:disabled{
+      border-color: $primary-disabled-border-color;
+      background-color: $primary-disabled-color;
+      color: $primary-disabled-font-color;
+    }
+    &:hover:enabled{
+      border-color: $primary-hover-border-color;
+      background-color: $primary-hover-color;
+
+    }
+  }
+
+  &.sec-button{
+    color: $sec-font-color;
+    border-color: $sec-border-color;
+    background-color: $sec-color;
+
+    &:disabled{
+      border-color: $sec-disabled-border-color;
+      background-color: $sec-disabled-color;
+      color: $sec-disabled-font-color;
+    }
+    &:hover:enabled{
+      border-color: $sec-hover-border-color;
+      background-color: $sec-hover-color;
+
+    }
+  }
+
+  &.tert-button{
+    color: $tert-font-color;
+    border-color: $tert-border-color;
+    background-color: $tert-color;
+
+    &:disabled{
+      border-color: $tert-disabled-border-color;
+      background-color: $tert-disabled-color;
+      color: $tert-disabled-font-color
+    }
+    &:hover:enabled{
+      border-color: $tert-hover-border-color;
+      background-color: $tert-hover-color
+
+    }
+  }
+}

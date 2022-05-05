@@ -1,0 +1,33 @@
+.lf-checklist-name-container {
+  padding: 15px 0 5px 0;
+  white-space: nowrap;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.lf-checklist-button-container {
+  padding-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+::ng-deep .checklist-expansion-panel .mat-expansion-panel-header.mat-expanded {
+  height: 48px;
+}
+
+::ng-deep .checklist-expansion-panel.mat-expansion-panel {
+  position: static;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+::ng-deep .checklist-expansion-panel mat-expansion-panel-header {
+  padding-left: 0;
+  padding-right: 10px;
+}
+
+::ng-deep .checklist-expansion-panel div.mat-expansion-panel-body {
+  padding: 0;
+}

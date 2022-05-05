@@ -1,0 +1,14 @@
+<div *ngIf="data">
+    <span class="lf-dialog-title lf-popup-dialog-title">{{data.popupTitle | async}}</span>
+    <div class="lf-dialog-message">
+        <p>{{data.popupMessage | async}}</p>
+    </div>
+    <div class="lf-dialog-actions">
+        <button *ngIf="data.confirmButtonText" class="lf-button primary-button dialog-button"
+            (click)="onConfirmClick()" cdkFocusInitial>{{data.confirmButtonText | async}}</button>
+        <button *ngIf="data.noButtonText" class="lf-button sec-button dialog-button"
+            (click)="onNoClick()">{{data.noButtonText | async}}</button>
+        <button *ngIf="data.cancelButtonText" class="lf-button sec-button dialog-button"
+            (click)="onCancelClick()">{{data.cancelButtonText | async}}</button>
+    </div>
+</div>

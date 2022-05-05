@@ -1,0 +1,84 @@
+@use "typography-mo";
+
+$height: 32px;
+$primary-hover-color: rgb(16,110,190);
+$sec-color: white;
+$sec-border-color: rgb(138,136,134);
+$sec-border-width: 1px;
+$sec-border-stack: $sec-border-width solid;
+
+.lf-button {
+  box-sizing: border-box;
+  font: typography-mo.$label-stack;
+  height: $height;
+  line-height: $height;
+  min-width: 80px;
+  border: none;
+  border-radius: 2px;
+  padding: 0px 16px;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &.primary-button {
+    color: $sec-color;
+    background-color: typography-mo.$primary-color;
+
+    &:disabled {
+      color: typography-mo.$disabled-font-color;
+      background-color: typography-mo.$disabled-background-color;
+    }
+
+    &:hover:enabled {
+      background-color: $primary-hover-color;
+    }
+  }
+
+  &.sec-button {
+    color: typography-mo.$font-color;
+    background-color: $sec-color;
+    border: $sec-border-stack;
+    border-color: $sec-border-color;
+
+    line-height: $height - 2 * $sec-border-width;
+
+    &:hover:enabled {
+      background-color: typography-mo.$disabled-background-color;
+    }
+
+    &:disabled {
+      color: typography-mo.$disabled-font-color;
+      background-color: typography-mo.$disabled-background-color;
+    }
+  }
+}
+
+button {
+  &:enabled {
+    &.lf-login-menu-trigger {
+      & .lf-logged-in svg {
+        fill: typography-mo.$primary-color;
+      }
+    }
+    &.lf-trigger-logged-in {
+      border-color: typography-mo.$primary-color;
+    }
+  }
+}
+
+.lf-dialog-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  padding-top: 5px;
+}
+
+.lf-dialog-title {
+  font: 500 20px/32px Roboto,Helvetica Neue,sans-serif;
+}
+
+.lf-dialog-message {
+  margin: 10px 0px;
+}

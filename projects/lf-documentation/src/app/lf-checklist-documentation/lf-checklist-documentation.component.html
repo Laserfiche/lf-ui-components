@@ -1,0 +1,152 @@
+<p class="documentation-title">
+    LfChecklist
+</p>
+
+<p class="documentation-text code-container">
+    <code>
+        <span class="code-html-tagname">&lt;lf-checklist </span>
+        <span class="code-html-attribute-name">action_button_text</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"Element Action" </span>
+        <span class="code-html-attribute-name">cancel_button_text</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"Cancel" </span>
+        <span class="code-html-tagname">&gt;&lt;/lf-checklist&gt;</span>
+    </code>
+</p>
+<p class="documentation-text code-container">
+    <code>
+        <span class="code-html-tagname">const </span>
+        <span>checklist</span>
+        <span> = </span>
+        <span>document.querySelector('lf-checklist');</span>
+        <p>checklist.addEventListener('actionClick', onElementActionClick(event));</p>
+        <p>checklist.addEventListener('cancelClick', onElementCancelClick(event));</p>
+        <p>await checklist.initAsync(checklistProvidersObject);</p>
+    </code>
+</p>
+<app-card>
+    <lf-checklist #checklist [action_button_text]="elementActionButtonText"
+        [cancel_button_text]="elementCancelButtonText" (actionClick)=onElementActionClick($event)
+        (cancelClick)=onElementCancelClick($event) (checklistChanged)=onElementChecklistChanged($event)></lf-checklist>
+</app-card>
+<p class="documentation-text">lf-checklist output: </p>
+<textarea disabled cols="80" rows="10">{{ elementOutput }}</textarea>
+<p class="documentation-header">
+    Overview
+</p>
+<p class="documentation-text">
+    Web Component to give the user the ability to display a list of groups (each with a description, list of items
+    (which have an icon, name, and optional checkbox), and a list of checkbox options) and allow the user to change the
+    names and checkbox options before clicking the action (i.e. save, ok, etc.) button
+</p>
+<p class="documentation-header">
+    Use Case
+</p>
+<p class="documentation-text">
+    Upload to Laserfiche (Email and Attachments)
+</p>
+<p class="documentation-header">
+    HTML Element
+</p>
+<table>
+    <tr>
+        <th>Attribute</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>action_button_text (optional)</td>
+        <td>string</td>
+        <td>Action button text</td>
+    </tr>
+    <tr>
+        <td>cancel_button_text (optional)</td>
+        <td>string</td>
+        <td>Cancel button text</td>
+    </tr>
+</table>
+<br />
+<table>
+    <tr>
+        <th>Event</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>checklistChanged</td>
+        <td>
+            () => event: CustomEvent&lt;Checklist[]&gt;
+        </td>
+        <td>Event emitted when lf-checklist's checkbox or input data changes</td>
+    </tr>
+    <tr>
+        <td>actionClick</td>
+        <td>
+            () => event: CustomEvent&lt;Checklist[]&gt;
+        </td>
+        <td>Event emitted when the action button is clicked</td>
+    </tr>
+    <tr>
+        <td>cancelClick</td>
+        <td>
+            () => event: CustomEvent&lt;Checklist[]&gt;
+        </td>
+        <td>Event emitted when the cancel button is clicked</td>
+    </tr>
+</table>
+<br />
+<table>
+    <tr>
+        <th>Method</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>initAsync</td>
+        <td>(providers: LfChecklistProviders) => Promise&lt;void&gt;</td>
+        <td>Function that allows dynamically triggering a checklist update (will call the ChecklistService function
+            loadChecklistsAsync)</td>
+    </tr>
+    <tr>
+        <td>forceValidation</td>
+        <td>() => boolean</td>
+        <td>Function that triggers any validation messages and returns whether or not the checklists are valid</td>
+    </tr>
+</table>
+<p class="documentation-header">
+    LfChecklistProvider
+</p>
+<p class="documentation-sub-header">
+    ChecklistService Interface
+</p>
+<ul>
+    <li>loadChecklistsAsync() : Promise&lt;Checklist[]&gt;</li>
+</ul>
+<p class="documentation-sub-header">
+    Checklist Interface
+</p>
+<ul>
+    <li>name: string</li>
+    <li>checklistItems: ChecklistItem[]</li>
+    <li>checklistOptions: ChecklistOption[]</li>
+</ul>
+<p class="documentation-sub-header">
+    ChecklistItem Interface
+</p>
+<ul>
+    <li>icon: string | string[]</li>
+    <li>name: string</li>
+    <li>id: string</li>
+    <li>checked: boolean</li>
+    <li>disabled: boolean</li>
+    <li>editable: boolean</li>
+</ul>
+<p class="documentation-sub-header">
+    ChecklistOption Interface
+</p>
+<ul>
+    <li>name: string</li>
+    <li>checked: boolean</li>
+    <li>disabled: boolean</li>
+</ul>

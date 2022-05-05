@@ -1,0 +1,19 @@
+<span class="token-picker-field-box" *ngIf="!isDynamic else dynamic">
+  <mat-form-field *ngIf="!containsToken" title="{{lf_field_info.name}}" appearance="outline" class="lf-field">
+    <input #tokenTarget mask="{{mask}}" thousandSeparator="{{thousandSeparator}}" decimalMarker="{{decimalMarker}}"
+      prefix="{{prefix}}" suffix="{{suffix}}" [allowNegativeNumbers]="true" separatorLimit="{{separatorLimit}}" matInput
+      type="text" [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
+      (keypress)="numberOnly($event)" (change)="onValueChanged()" (focus)="onFocusIn()" (focusout)="onFocusOut()"
+      (input)="onEveryInputChange()">
+    <mat-hint *ngIf="focusState && this.lf_field_info?.length" align="end">
+      {{(noTokenCharacterCountHint | async)}}
+    </mat-hint>
+    <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
+  </mat-form-field>
+</span>
+<ng-template #dynamic>
+  <lf-dynamic-field-component ngDefaultControl [options]="dynamic_field_value_options"
+    [formControl]="lf_field_form_control" [title]="lf_field_info.name" [fieldValidationErrorMsg]="fieldValidationErrorMsg"
+    [getBrokenValidationRule]="getBrokenValidationRule.bind(this)" (valueChange)="onValueChanged()">
+  </lf-dynamic-field-component>
+</ng-template>

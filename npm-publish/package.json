@@ -1,0 +1,8 @@
+{
+  "name": "@laserfiche/types-laserfiche-ui-components",
+  "version": "1.0.0",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "types": "index.d.ts"
+}

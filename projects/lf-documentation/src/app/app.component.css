@@ -1,0 +1,146 @@
+button {
+    margin-right: 5px;
+}
+.documentation-title {
+    font-size: 30px;
+}
+.documentation-header {
+    font-size: 24px;
+}
+.documentation-sub-header {
+    font-size: 20px;
+}
+.documentation-text {
+    font-size: 16px;
+}
+.margin-right {
+    margin-right: 10px;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 15px;
+}
+
+/* The side navigation menu */
+.side-nav {
+    width: 290px; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    bottom: 40px;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 80px; /* Place content 60px from the top */
+    background-color: #F3F3F3;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.main-content {
+    margin-left: 290px;
+    padding: 80px 20px 20px 40px;
+}
+
+mat-toolbar {
+    position: fixed;
+    z-index: 2;
+}
+
+mat-toolbar, mat-toolbar-row {
+    background-color: #00866B;
+}
+
+.documentation-font {
+    font-family: 'Open Sans', sans-serif;
+}
+
+#header-title {
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.navigation-tree-invisible {
+    display: none;
+}
+  
+.navigation-tree ul,
+.navigation-tree li {
+    background-color: #F3F3F3;
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+    padding-inline-start: 8px;
+}
+
+.navigation-tree ul:hover,
+.navigation-tree li:hover {
+    background-color: #F5FBFF;
+}
+
+.navigation-tree li:focus {
+    background-color: #EAF5FF;
+}
+
+.navigation-tree-item {
+    text-decoration: none;
+    width: 100%;
+    padding: 12px 0;
+    color: black;
+}
+
+code {
+    font-size: 16px;
+}
+
+.code-container {
+    background-color: rgba(0,0,0,.03);
+    padding: 10px;
+    margin: 10px;
+    width: max-content;
+    max-width: 90%;
+    word-wrap: break-word;
+}
+
+.code-html-tagname {
+    color: #019875;
+}
+
+.code-html-attribute-name {
+    color: #e52690;
+}
+
+.code-html-attribute-value {
+    color: #2564d0;
+}
+
+.code-html-text {
+    color: black;
+}
+
+.code-ts-import {
+    color: #8030e7;
+}
+
+.code-ts-import-source {
+    color: #019875;
+}
+
+.code-ts-import-item {
+    color: black;
+}
+
+.code-ts-classname {
+    color: #e05300;
+}
+
+.code-ts-function {
+    color: goldenrod;
+}
+
+.num-list {
+    padding-bottom: 10px;
+}

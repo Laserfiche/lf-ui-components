@@ -1,0 +1,98 @@
+@use "typography-mo";
+
+$checked-hover-color: rgb(0,90,158);
+$disabled-color: rgb(200,198,196);
+$border-color: black;
+$checkmark-width: 1.5px;
+$checkmark-color: #fafafa;
+$checkbox-size: 20px;
+$border-width: 1px;
+$focus-border-width: 2px;
+$ripple-size: 0px;
+
+.lf-checkbox {
+  
+  .mat-checkbox-inner-container {
+    width: $checkbox-size;
+    height: $checkbox-size;
+
+    .mat-checkbox-frame {
+      border-width: $border-width;
+      border-color: $border-color;
+    }
+
+    &:hover {
+      .mat-checkbox-checkmark-path {
+        stroke-dashoffset: 0;
+        stroke: typography-mo.$hover-color !important;
+      }
+    }
+  }
+
+  &.cdk-focused .mat-checkbox-frame {
+    border-color: typography-mo.$primary-color;
+    border-width: 2px;
+  }
+
+  &.mat-checkbox-checked.mat-primary {
+    .mat-checkbox-background {
+      background-color: typography-mo.$primary-color;
+    }
+    .mat-checkbox-inner-container:hover .mat-checkbox-background {
+      background-color: $checked-hover-color;
+      .mat-checkbox-checkmark-path {
+        stroke: $checkmark-color !important;
+      }
+    }
+  }
+
+  &.mat-checkbox-disabled {
+    &.mat-checkbox-checked {
+      .mat-checkbox-inner-container:hover {
+        .mat-checkbox-background {
+          background-color: $disabled-color;
+        }
+
+        .mat-checkbox-checkmark-path {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      .mat-checkbox-background {
+        background-color: $disabled-color;
+      }
+    }
+
+    .mat-checkbox-inner-container:hover .mat-checkbox-checkmark-path {
+      stroke-dashoffset: 22.910259;
+    }
+
+    .mat-checkbox-inner-container .mat-checkbox-frame {
+      border-color: $disabled-color;
+    }
+  }
+
+  .mat-checkbox-ripple.mat-ripple {
+    width: $ripple-size;
+    height: $ripple-size;
+  }
+
+  .mat-checkbox-checkmark-path {
+    stroke-width: $checkmark-width;
+    stroke: $checkmark-color !important;
+  }
+
+  &.mat-checkbox .mat-checkbox-label {
+    font: typography-mo.$body-stack;
+  }
+}
+
+input[type=checkbox] {
+  opacity: 0;
+}
+
+
+
+
+
+

@@ -1,0 +1,121 @@
+<p class="documentation-title">
+  LfFieldAdhocContainer
+</p>
+
+<p class="documentation-text code-container">
+  <code>
+      <span class="code-html-tagname">&lt;lf-field-adhoc-container&gt;&lt;/lf-field-adhoc-container&gt;</span>
+  </code>
+</p>
+<p class="documentation-text code-container">
+  <code>
+        <span class="code-html-tagname">const </span>
+        <span>adhocContainerElement</span>
+        <span> = </span>
+        <span>document.querySelector('lf-field-adhoc-container');</span>
+        <p>adhocContainerElement.addEventListener('fieldValuesChanged', onElementFieldValueChange(event));</p>
+        <p>await adhocContainerElement.initAsync(adhocProvidersObject);</p>
+    </code>
+</p>
+<app-card>
+  <div style="min-height: 300px;">
+    <lf-field-adhoc-container #adhocContainer (fieldValuesChanged)="onElementFieldValueChange($event)">
+    </lf-field-adhoc-container>
+  </div>
+</app-card>
+
+<button (click)="elementForceValidation()" class="primary-button lf-button">Force Validation</button>
+<button (click)="elementGetFieldValues()" class="primary-button lf-button">Log Field Values</button>
+<button (click)="elementClearFieldValuesAsync()" class="primary-button lf-button">Clear Field Values</button>
+<br>
+<textarea disabled cols="80" rows="10">Container is valid: {{ elementIsValid }}</textarea>
+<p class="documentation-header">
+  Overview
+</p>
+<p class="documentation-text">
+  Web Component that contains single-value and multi-value fields
+</p>
+<p class="documentation-header">
+  Use Case
+</p>
+<p class="documentation-text">
+  The adhoc container is used for fields that do not belong in a template. The user can add, remove, and edit fields
+  from a pre-defined list.
+</p>
+<p class="documentation-header">
+  HTML Element
+</p>
+
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>fieldValuesChanged</td>
+    <td>() => CustomEvent &lt;boolean&gt; </td>
+    <td>Event emitted when any field values are changed. Emits whether adhoc container is valid or not without
+      forcing validation.</td>
+  </tr>
+  <tr>
+    <td>dialogOpened</td>
+    <td>() => CustomEvent&lt;void&gt;</td>
+    <td>Event emitted when the adhoc field selector is opened.
+    </td>
+  </tr>
+  <tr>
+    <td>dialogClosed</td>
+    <td>() => CustomEvent&lt;void&gt;</td>
+    <td>Event emitted when the adhoc field selector is closed.
+    </td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>initAsync</td>
+    <td>(adhocFieldContainerService: LfFieldAdhocContainerService) => Promise&lt;void&gt;</td>
+    <td>Function that initializes the adhoc field container with given provider</td>
+  </tr>
+  <tr>
+    <td>forceValidation</td>
+    <td>() => boolean</td>
+    <td>Function that triggers any validation messages and returns whether or not the fields in the container are
+      valid</td>
+  </tr>
+  <tr>
+    <td>getFieldValues</td>
+    <td>() => &#123;[key: string]: FieldValue&#125;</td>
+    <td>Function that removes blank values and returns an object, keyed by fieldName, of FieldValues (which contains
+      the updated,
+      serialized string values)</td>
+  </tr>
+  <tr>
+    <td>resetFieldDataAsync</td>
+    <td>(fields: &#123; value: FieldValue, definition: LfFieldInfo &#125;[]) => Promise&lt;void&gt;</td>
+    <td>Function that resets the currently selected fields to the definitions and values passed into this function</td>
+  </tr>
+  <tr>
+    <td>updateFieldValuesAsync</td>
+    <td>(values: FieldValue[]) => Promise&lt;void&gt;</td>
+    <td>Function that updates the fields values on the container. This function does not remove any fields.</td>
+  </tr>
+  <tr>
+    <td>clearAsync</td>
+    <td>() => Promise&lt;void&gt;</td>
+    <td>Clears all field values and removes any fields selected</td>
+  </tr>
+</table>
+
+<p class="documentation-sub-header">
+  LfFieldAdhocContainerService Interface
+</p>
+<ul>
+  <li>getAllFieldDefinitionsAsync() : Promise&lt;LfFieldInfo[]&gt;</li>
+</ul>

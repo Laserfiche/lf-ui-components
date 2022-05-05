@@ -1,0 +1,84 @@
+@use "typography-lf";
+
+$height: 1;
+
+$border-stack: 1px solid transparent;
+
+$primary-color: #00866B;
+$primary-hover-color: #0e9d81;
+
+$sec-color: #e5e5e5;
+$sec-hover-color: #ddd;
+
+$prim-font-color: #FAFAFA;
+$sec-font-color: #6D6D6D;
+
+
+button.lf-button {
+  box-sizing: border-box;
+  font: typography-lf.$label-stack;
+  height: $height;
+  line-height: $height;
+  min-width: 78px;
+  padding: 6px 12px;
+  cursor: pointer;
+  border: $border-stack;
+  border-radius: 2px;
+
+  &:disabled {
+    cursor: default;
+  }
+
+
+  &.primary-button {
+    color: $prim-font-color;
+    background-color: $primary-color;
+    box-shadow: rgb(0 0 0 / 19%) 0 1px 0 0, rgb(0 0 0 / 25%) 0 2px 3px 0, rgb(0 0 0 / 5%) 0 1px 5px 0;
+
+    &:disabled {
+      opacity: 0.5;
+      box-shadow: none;
+    }
+
+    &:hover:enabled {
+      background-color: $primary-hover-color;
+    }
+  }
+
+  &.sec-button {
+    background-color: $sec-color;
+    box-shadow: rgb(0 0 0 / 15%) 0 1px 0 0, rgb(0 0 0 / 12%) 0 2px 2px 0, rgb(0 0 0 / 5%) 0 1px 5px 0;
+
+    &:hover:enabled {
+      background: $sec-hover-color;
+    }
+  }
+}
+
+button {
+  &:enabled {
+    &.lf-login-menu-trigger {
+      & .lf-logged-in svg {
+        fill: $primary-color;
+      }
+    }
+    &.lf-trigger-logged-in {
+      border-color: $primary-color;
+    }
+  }
+}
+
+.lf-dialog-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  padding-top: 5px;
+}
+
+.lf-dialog-title {
+  font: 500 20px/32px Roboto,Helvetica Neue,sans-serif;
+}
+
+.lf-dialog-message {
+  margin: 10px 0px;
+}

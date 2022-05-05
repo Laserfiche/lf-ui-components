@@ -1,0 +1,66 @@
+.lf-multivalue-remove-icon {
+  vertical-align: middle;
+  cursor: default;
+  display: inline-block;
+}
+
+.lf-field-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+}
+
+.lf-multivalue-field {
+  flex-grow: 1;
+  align-self: flex-start;
+}
+
+.lf-multivalue-remove-button {
+  align-self: flex-start;
+  background-color: inherit;
+  border: none;
+  padding: 0;
+  margin-right: 1px;
+  margin-left: 2px;
+  margin-top: 4px;
+}
+
+svg#close {
+  fill: rgb(170, 170, 170);
+  opacity: 0.6;
+}
+
+svg#close:hover {
+  opacity: 1;
+}
+
+.lf-multivalue-remove-span {
+  width: 27px;
+}
+
+.lf-field-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.lf-field-title-container {
+  display: flex;
+  padding-left: 5px;
+  margin-right: 30px;
+}
+
+.lf-field-is-required {
+  padding-left: 2px;
+  color: red;
+}
+
+.single-field-container {
+  display: flex;
+}
+
+lf-field-base-component {
+  flex-grow: 1;
+  min-width: 85px;
+}

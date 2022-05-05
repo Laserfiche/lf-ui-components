@@ -1,0 +1,87 @@
+<p class="documentation-title">
+    LfToolbar
+</p>
+
+<p class="documentation-text code-container">
+    <code>
+        <span class="code-html-tagname">&lt;lf-toolbar</span>
+        <span class="code-html-tagname">&gt;&lt;/lf-toolbar&gt;</span>
+    </code>
+</p>
+<p class="documentation-text code-container">
+    <code>
+        <span class="code-html-tagname">const </span>
+        <span>toolbar</span>
+        <span> = </span>
+        <span>document.querySelector('lf-toolbar');</span>
+        <p>toolbar.displayed_options = displayedOptionsObject;</p>
+        <p>toolbar.dropdown_options = dropdownOptionsObject;</p>
+        <p>toolbar.addEventListener('optionSelected', onElementOptionSelected(event));</p>
+    </code>
+</p>
+<app-card>
+    <lf-toolbar [displayed_options]="elementToolbarOptions" [dropdown_options]="elementToolbarOptions" (optionSelected)="onElementOptionSelected($event)">
+    </lf-toolbar>
+</app-card>
+<button (click)="enableDisableElement()" class="primary-button lf-button">{{enableDisableElementText}}</button>
+<p class="documentation-text">onElementOptionSelected output: </p>
+<textarea disabled cols="80" rows="10">{{ selectedElementOption }}</textarea>
+
+<p class="documentation-header">
+    Overview
+</p>
+<p class="documentation-text">
+    Web Component for a toolbar with inline buttons
+</p>
+<p class="documentation-header">
+    Use Case
+</p>
+<p class="documentation-text">
+    A toolbar of actions that can be performed on items in a list or tree
+</p>
+<p class="documentation-header">
+    HTML Element
+</p>
+<table>
+    <tr>
+        <th>Attribute</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>displayed_options</td>
+        <td>ToolbarOption[]</td>
+        <td>A list of toolbar options that should be displayed outside of the dropdown</td>
+    </tr>
+    <tr>
+        <td>dropdown_options</td>
+        <td>ToolbarOption[]</td>
+        <td>A list of toolbar options that should be displayed in the dropdown</td>
+    </tr>
+</table>
+<br />
+<table>
+    <tr>
+        <th>Event</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>optionSelected</td>
+        <td>
+            (event: CustomEvent&lt;ToolbarOption&gt;) => Promise&lt;void&gt;
+        </td>
+        <td>event raised when a toolbar option is selected</td>
+    </tr>
+</table>
+
+<p class="documentation-sub-header">
+    ToolbarOption Interface
+</p>
+<ul>
+    <li>name: string</li>
+    <li>disabled: boolean</li>
+    <li>icon?: string[] | string</li>
+    <li>children?: ToolbarOption[]</li>
+    <li>tag?: any (Object that contains data about the toolbar option)</li>
+</ul>

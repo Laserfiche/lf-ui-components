@@ -1,0 +1,67 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Light.woff) format('woff'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Light.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans.woff) format('woff'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Regular.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Semibold.woff) format('woff'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Semibold.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Bold.woff) format('woff'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Bold.ttf) format('truetype');
+}
+
+$widget-stack: 600 14px  "Open Sans";
+$widget-color: #333333;
+
+$label-stack: 600 14px "Open Sans";
+$label-color: #333333;
+
+$body-stack: 400 14px  "Open Sans";
+$body-color: #333333;
+
+$link-stack: 600 14px "Open Sans";
+$link-color: #0069CF;
+
+$toolbar-stack: 400 20px "Open Sans";
+$toolbar-color: #333333;
+
+$placeholder-stack: 400 14px  "Open Sans";
+$placeholder-color: #6D6D6D;
+
+$empty-state-stack: 400 16px "Open Sans";
+$empty-state-color: #6D6D6D;
+
+$sec-info-stack: 400 12px "Open Sans";
+$sec-info-color: #6D6D6D;
+
+$kpi-stats-stack: 600 30px "Open Sans";
+$kpi-states-color: #6D6D6D;
+
+.lf-text-body {
+  font: $body-stack;
+  color: $body-color;
+}
+
+.lf-text-label {
+  font: $label-stack;
+  color: $label-color;
+}
+
+.lf-ellipsis-label {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

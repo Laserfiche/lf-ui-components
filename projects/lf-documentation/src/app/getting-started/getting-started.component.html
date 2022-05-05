@@ -1,0 +1,91 @@
+<p class="documentation-title">Getting Started</p>
+
+<p class="documentation-header">Using Framework-Agnostic Custom Elements</p>
+<ol>
+  <li>
+    Add the following script tags to your html file. The version should match the
+    types npm package you installed.
+  </li>
+  <p>
+    <code class="code-container">
+      <span class="code-html-tagname"> &lt;script </span>
+      <span class="code-html-attribute-name">src</span>
+      <span>=</span>
+      <span class="code-html-attribute-value"
+        >"https://lfxstatic.com/Site/laserfiche-ui-components/CDN_VERSION/laserfiche-ui-components.js"
+      </span>     <span class="code-html-attribute-name">defer</span>
+      <span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+    </code>
+    <br /><br />
+  </p>
+  <p class="documentation-text">Choose a theme to style your components:</p>
+  <p class="documentation-text">
+    <code class="code-container">
+      <span class="code-html-tagname"> &lt;link </span>
+      <span class="code-html-attribute-name">href</span>
+      <span>=</span>
+      <span class="code-html-attribute-value"
+        >"https://lfxstatic.com/Site/laserfiche-ui-components/CDN_VERSION/lf-laserfiche-lite.css"
+      </span>
+      <span class="code-html-attribute-name">rel</span>
+      <span>=</span>
+      <span class="code-html-attribute-value">"stylesheet" </span>
+      <span class="code-html-tagname">/&gt;</span>
+    </code>
+    <br /><br />
+  </p>
+  <p class="documentation-text">
+    If you are not using Angular Material, you will also need to add some
+    Angular Material styles:
+  </p>
+  <p class="documentation-text">
+    <code class="code-container">
+      <span class="code-html-tagname"> &lt;link </span>
+      <span class="code-html-attribute-name">href</span>
+      <span>=</span>
+      <span class="code-html-attribute-value"
+        >"https://lfxstatic.com/Site/laserfiche-ui-components/CDN_VERSION/indigo-pink.css"
+      </span>
+      <span class="code-html-attribute-name">rel</span>
+      <span>=</span>
+      <span class="code-html-attribute-value">"stylesheet" </span>
+      <span class="code-html-tagname">/&gt;</span>
+    </code>
+    <br /><br />
+  </p>
+  <li>
+    For Typescript, install the types definition for the custom elements. This is currently available for internal
+    developers.
+    <p class="documentation-text">
+      <code class="code-container">
+        npm install @laserfiche/types-laserfiche-ui-components@NPM_VERSION
+      </code>
+      <br /><br />
+    </p>
+  </li>
+  <li>
+    Use the custom elements as defined in the documentation (lf-tree,
+    etc.)
+  </li>
+  <li>
+    There are other libraries available for use as well, that may be useful for you.
+    <ul>
+      <li>
+        <code>@laserfiche/laserfiche-ui-components-core</code> - this library contains utility functions that help avoid
+        duplicate code.
+      </li>
+      <li>
+        <code>@laserfiche/laserfiche-ui-components-services</code> - this library contains implementations of the
+        services used by the UI components. (Ex/ LfTreeService)
+        <ol>
+          <li>
+            These services connect with the Laserfiche Repository API to render real data from Laserfiche.
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>
+    Some components, specifically those with popups like dialogs, dropdowns, or menus, cannot be used inside jQuery modals due to our use of Angular Material. In order to use these components in a modal, we recommend using basic modals built with html/css/bootstrap.
+  </li>
+</ol>

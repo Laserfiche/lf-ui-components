@@ -1,0 +1,11 @@
+<button class="token-picker-button" [matMenuTriggerFor]="tokenMenu">
+  <svg width="22" height="22" viewBox="0 0 16 16" class="chevron-icon">
+      <path
+          d="M6.34,3.257c-0.215-0.219-0.563-0.219-0.777,0l-0.89,0.896c-0.214,0.219-0.214,0.572,0,0.791l2.994,3.056
+          l-2.994,3.057c-0.215,0.219-0.215,0.573,0,0.792l0.888,0.896c0.215,0.219,0.563,0.219,0.777,0L11,7.999L6.34,3.257z" />
+  </svg>
+</button>
+<mat-menu #tokenMenu="matMenu" class="token-picker-dropdown">
+  <button class="token-picker-option" *ngFor="let token of tokens" mat-menu-item
+      (click)="onTokenChosen(token)">{{token.friendlyName | async}}</button>
+</mat-menu>

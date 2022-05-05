@@ -1,0 +1,65 @@
+<p class="documentation-header">
+  LfFieldProvider
+</p>
+<p class="documentation-sub-header">
+  LfFieldInfo Interface
+</p>
+<ul>
+  <li>name: string</li>
+  <li>id?: number</li>
+  <li>description?: string | null</li>
+  <li>fieldType?: FieldType</li>
+  <li>length?: number</li>
+  <li>defaultValue?: string | null</li>
+  <li>isMultiValue?: boolean</li>
+  <li>isRequired?: boolean</li>
+  <li>constraint?: string | null</li>
+  <li>constraintError?: string | null</li>
+  <li>listValues?: Array&lt;string&gt; | null</li>
+  <li>format?: FieldFormat</li>
+  <li>currency?: string | null</li>
+  <li>formatPattern?: string | null</li>
+</ul>
+<p class="documentation-sub-header">
+  FieldType Enum
+</p>
+<ul>
+  <li>DateTime</li>
+  <li>String</li>
+  <li>Date</li>
+  <li>ShortInteger</li>
+  <li>LongInteger</li>
+  <li>List</li>
+  <li>Number</li>
+  <li>Time</li>
+  <li>Blob (NOT IMPLEMENTED)</li>
+</ul>
+<p class="documentation-sub-header">
+  FieldFormat Enum
+</p>
+<ul>
+  <li>None</li>
+  <li>ShortDate (NOT IMPLEMENTED)</li>
+  <li>LongDate (NOT IMPLEMENTED)</li>
+  <li>ShortDateTime (NOT IMPLEMENTED)</li>
+  <li>LongDateTime (NOT IMPLEMENTED)</li>
+  <li>ShortTime (NOT IMPLEMENTED)</li>
+  <li>LongTime (NOT IMPLEMENTED)</li>
+  <li>GeneralNumber</li>
+  <li>Currency</li>
+  <li>Percent</li>
+  <li>Scientific (NOT IMPLEMENTED)</li>
+  <li>Custom (NOT IMPLEMENTED)</li>
+</ul>
+<p class="documentation-sub-header">
+  FieldValue Interface
+</p>
+<ul>
+  <li>fieldId: number</li>
+  <li>fieldName?: string | null</li>
+  <li>values?: Array&lt;&#123; [key: string]: string; &#125;&gt; | null</li>
+  <li>fieldType?: FieldType</li>
+  <li>groupId?: number | null</li>
+  <li>flags?: number | null</li>
+</ul>
+

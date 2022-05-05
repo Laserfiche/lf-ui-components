@@ -1,0 +1,62 @@
+<p class="documentation-title">
+    LfBreadcrumbs
+</p>
+
+<p class="documentation-text code-container">
+    <code>
+        <span class="code-html-tagname">&lt;lf-breadcrumbs&gt;&lt;/lf-breadcrumbs&gt;</span>
+    </code>
+</p>
+<p class="documentation-text code-container">
+    <code>
+        <span class="code-html-tagname">const </span>
+        <span class="code-html-attribute-name">breadcrumbsElement</span>
+        <span>=</span>
+        <span>document.querySelector('lf-breadcrumbs');</span>
+        <p>breadcrumbsElement.breadcrumbs = breadcrumbsObject;</p>
+    </code>
+</p>
+<app-card>
+    <lf-breadcrumbs #breadcrumbs></lf-breadcrumbs>
+</app-card>
+<p class="documentation-text">onElementBreadcrumbSelected output: </p>
+<textarea disabled cols="80" rows="10">{{ selectedElementBreadcrumb }}</textarea>
+
+<p class="documentation-header">
+    Overview
+</p>
+<p class="documentation-text">
+    Custom Element that displays a list of breadcrumbs, allowing the user to select the parent,
+    or one from the dropdown.
+</p>
+
+<p class="documentation-header">
+    HTML Element
+</p>
+<table>
+    <tr>
+        <th>Attribute</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>breadcrumbs</td>
+        <td>TreeNode[]</td>
+        <td>List of breadcrumbs to display</td>
+    </tr>
+</table>
+<br />
+<table>
+    <tr>
+        <th>Event</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>breadcrumbSelected</td>
+        <td>
+            () => event: CustomEvent&lt;TreeNode&gt;
+        </td>
+        <td>Event emitted when a breadcrumb is selected</td>
+    </tr>
+</table>

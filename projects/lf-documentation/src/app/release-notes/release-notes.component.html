@@ -1,0 +1,436 @@
+<p class="documentation-header">
+  Release Notes
+</p>
+Laserfiche UI Components Changelog and links.
+<app-card>
+  <div class="release-subtitle">
+    <p class="release-version patch">PATCH</p>
+    <p class="release-date">May 2, 2022</p>
+  </div>
+  <p class="release-title">
+    3.0.3: &lt;lf-login&gt;: State updates when on different pages
+  <p class="release-section-header">Fixes</p>
+  <ul>
+    <li>
+      Fixed <span class="code code-background">&lt;lf-login&gt;</span>: state updates and events (loginCompleted, logoutCompleted) are triggered if
+      the state is changed on a different page of the same application.
+    </li>
+  </ul>
+  <p class="release-section-header">New</p>
+  <ul>
+    <li>
+      Added Troubleshooting page to documentation including some known issues and workarounds.
+    </li>
+  </ul>
+  <p class="release-section-header">Links</p>
+  <ul>
+    <li>
+      CDN: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/3.0.3/laserfiche-ui-components.js"
+        target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/3.0.3/laserfiche-ui-components.js</a>
+    </li>
+    <li>
+      NPM: <a
+        href="https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=3.0.3&protocolType=Npm"
+        target="_blank">
+        https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=3.0.3&protocolType=Npm</a>
+    </li>
+    <li>
+      Documentation: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/3.0.3/index.html#/" target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/3.0.3/index.html#/
+      </a>
+    </li>
+  </ul>
+</app-card>
+<app-card>
+  <div class="release-subtitle">
+    <p class="release-version patch">PATCH</p>
+    <p class="release-date">April 8, 2022</p>
+  </div>
+  <p class="release-title">
+    3.0.2: &lt;lf-login&gt; Enhancements and material styles
+  <p class="release-section-header">Fixes</p>
+  <ul>
+    <li>
+      Disabled <span class="code code-background">&lt;lf-login&gt;</span> button while logging in or logging out so the
+      user is not able to start the process again.
+    </li>
+    <li>
+      Fixed <span class="code code-background">&lt;lf-field-container&gt;</span> date time field showing names of icons instead of icons.
+    </li>
+    <li>
+      Fixed <span class="code code-background">&lt;lf-toobar&gt;</span> popping up the menu behind the backdrop.
+    </li>
+    <li>
+      Fixed <span class="code code-background">&lt;lf-folder-browser&gt;</span> toolbar menu staying open when click away.
+    </li>
+    <li>
+      Fixed <span class="code code-background">&lt;lf-field-container&gt;</span> <span class="code code-background">clearAsync</span> not clearing selected template name when template is collapsed.
+    </li>
+  </ul>
+  <p class="release-section-header">New</p>
+  <ul>
+    <li>
+      <span class="code code-background">&lt;lf-login&gt;</span>: Added <span class="code">method </span>
+      <span class="code code-background">initLoginAsync</span> which will allow user to login without having to click
+      the login button.
+    </li>
+    <li>
+      <span class="code code-background">&lt;lf-login&gt;</span>: Added <span class="code">properties </span>
+      <span class="code code-background">signing_in_text</span> and <span class="code code-background">signing_out_text</span>
+      which will allow user to specify text for intermediate states.
+    </li>
+  </ul>
+  <p class="release-section-header">Links</p>
+  <ul>
+    <li>
+      CDN: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/3.0.2/laserfiche-ui-components.js"
+        target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/3.0.2/laserfiche-ui-components.js</a>
+    </li>
+    <li>
+      NPM: <a
+        href="https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=3.0.2&protocolType=Npm"
+        target="_blank">
+        https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=3.0.2&protocolType=Npm</a>
+    </li>
+    <li>
+      Documentation: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/3.0.2/index.html#/" target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/3.0.2/index.html#/
+      </a>
+    </li>
+  </ul>
+</app-card>
+<app-card>
+  <div class="release-subtitle">
+    <p class="release-version patch">PATCH</p>
+    <p class="release-date">Feburary 16, 2022</p>
+  </div>
+  <p class="release-title">
+    3.0.1: Fix &lt;lf-folder-browser&gt; Popup Error
+  </p>
+  <p class="release-section-header">Fixes</p>
+  <ul>
+    <li>
+      Fixed <span class="code code-background">&lt;lf-folder-browser&gt;</span> popup error that close event returned
+      undefined.
+    </li>
+  </ul>
+  <p class="release-section-header">Links</p>
+  <ul>
+    <li>
+      CDN: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/3.0.1/laserfiche-ui-components.js"
+        target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/3.0.1/laserfiche-ui-components.js</a>
+    </li>
+    <li>
+      NPM: <a
+        href="https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=3.0.1&protocolType=Npm"
+        target="_blank">
+        https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=3.0.1&protocolType=Npm</a>
+    </li>
+    <li>
+      Documentation: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/3.0.1/index.html#/" target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/3.0.1/index.html#/
+      </a>
+    </li>
+  </ul>
+</app-card>
+<app-card>
+  <div class="release-subtitle">
+    <p class="release-version major">MAJOR</p>
+    <p class="release-date">Feburary 3, 2022</p>
+  </div>
+  <p class="release-title">
+    3.0.0: UI Elements HTML Attribute Names using snake_case, Unpublished Some Elements
+  </p>
+  <p class="release-section-header">Breaking Changes</p>
+  <ul>
+    <li>
+      Changed all UI elements' HTML attribute names from camelCase to snake_case.
+    </li>
+    <li>
+      <span class="code code-background">&lt;lf-login&gt;</span>:
+      <ul>
+        <li>
+          Added new element with support for PKCE extension for Single-Page App.
+        </li>
+        <li>
+          Dropped support for login with Web App Oauth flow.
+        </li>
+        <li>
+          <span class="code"> interface </span> <span class="code code-background">AccountEndpoints</span>: Removed
+          <span class="code code-background">acsUrl</span>; renamed <span class="code code-background">signoutUrl</span>
+          to <span class="code code-background">wsignoutUrl</span>.
+        </li>
+        <li>
+          Renamed <span class="code"> interface </span> <span class="code code-background">AccessTokenCredentials</span>
+          to <span class="code code-background">AuthorizationCredentials</span>.
+        </li>
+        <li>
+          Renamed <span class="code"> attribute </span> <span class="code code-background">access_token</span> to <span
+            class="code code-background">authorization_credentials</span>.
+        </li>
+      </ul>
+    </li>
+    <li>
+      <span class="code code-background">&lt;lf-breadcrumbs&gt;</span>:
+      <ul>
+        <li>
+          Renamed <span class="code"> attribute </span> <span class="code code-background">breadcrumb_options</span> to
+          <span class="code code-background">breadcrumbs</span>.
+        </li>
+      </ul>
+    </li>
+    <li>
+      <span class="code code-background">&lt;lf-file-explorer&gt;</span>:
+      <ul>
+        <li>
+          Renamed <span class="code"> event </span> <span class="code code-background">selectedNodeChange</span> to
+          <span class="code code-background">nodeSelected</span>.
+        </li>
+        <li>
+          Added <span class="code"> event </span> <span class="code code-background">openSelectedNodeAsync</span>.
+        </li>
+        <li>
+          Added <span class="code"> attribute </span> <span class="code code-background">focused_node</span>.
+        </li>
+      </ul>
+    </li>
+    <li>
+      <span class="code code-background">&lt;lf-folder-browser&gt;</span>:
+      <ul>
+        <li>
+          Renamed <span class="code"> event </span> <span class="code code-background">selectedNodeChange</span> to
+          <span class="code code-background">nodeSelected</span>.
+        </li>
+        <li>
+          Added <span class="code"> event </span> <span class="code code-background">openSelectedNodeAsync</span>.
+        </li>
+      </ul>
+    </li>
+    <li>
+      <span class="code code-background">&lt;lf-tree&gt;</span>:
+      <ul>
+        <li>
+          <span class="code"> interface </span> <span class="code code-background">TreeNode</span>: Removed <span
+            class="code code-background">level</span>.
+        </li>
+        <li>
+          Removed <span class="code"> event </span> <span class="code code-background">selectedNodeChange</span>.
+        </li>
+      </ul>
+    </li>
+    <li>
+      Unpublished the following elements:
+      <ul>
+        <li>
+          <span class="code code-background">&lt;lf-login-buttom&gt;</span>
+        </li>
+        <li>
+          <span class="code code-background">&lt;lf-login-menu&gt;</span>
+        </li>
+        <li>
+          <span class="code code-background">&lt;lf-loader&gt;</span>
+        </li>
+        <li>
+          <span class="code code-background">&lt;lf-field&gt;</span>
+        </li>
+        <li>
+          <span class="code code-background">&lt;lf-field-group&gt;</span>
+        </li>
+        <li>
+          <span class="code code-background">&lt;lf-field-multivalue&gt;</span>
+        </li>
+        <li>
+          <span class="code code-background">&lt;lf-repository-selector&gt;</span>
+        </li>
+        <li>
+          <span class="code code-background">&lt;lf-new-folder-dialog&gt;</span>
+        </li>
+        <li>
+          <span class="code code-background">&lt;lf-popup&gt;</span>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p class="release-section-header">New</p>
+  <ul>
+    <li>
+      <span class="code code-background">&lt;lf-field-container&gt;</span>: Added <span class="code">events </span>
+      <span class="code code-background">dialogOpened</span> and <span class="code code-background">dialogClosed</span>.
+    </li>
+    <li>
+      <span class="code code-background">&lt;lf-field-adhoc-container&gt;</span>: Added <span class="code">events
+      </span> <span class="code code-background">dialogOpened</span> and <span
+        class="code code-background">dialogClosed</span>.
+    </li>
+    <li>
+      Added additional context to support issues in <span class="code code-background">&lt;lf-user-feedback&gt;</span>
+      dialog.
+    </li>
+  </ul>
+  <p class="release-section-header">Fixes</p>
+  <ul>
+    <li>
+      Fixed adhoc container freezing in lf-documentation.
+    </li>
+    <li>
+      Removed <span class="code code-background">email</span> in <span
+        class="code code-background">&lt;lf-user-feedback&gt;</span>.
+    </li>
+    <li>
+      Fixed <span class="code code-background">&lt;lf-user-feedback&gt;</span> sending feedback to dev Database in
+      production urls (eg: signin.laserfiche.com).
+    </li>
+    <li>
+      Fixed metadata bugs that dropdown field and token-picker don't work on initialization.
+    </li>
+  </ul>
+  <p class="release-section-header">Links</p>
+  <ul>
+    <li>
+      CDN: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/3.0.0/laserfiche-ui-components.js"
+        target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/3.0.0/laserfiche-ui-components.js</a>
+    </li>
+    <li>
+      NPM: <a
+        href="https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=3.0.0&protocolType=Npm"
+        target="_blank">
+        https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=3.0.0&protocolType=Npm</a>
+    </li>
+    <li>
+      Documentation: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/3.0.0/index.html#/" target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/3.0.0/index.html#/
+      </a>
+    </li>
+  </ul>
+</app-card>
+<app-card>
+  <div class="release-subtitle">
+    <p class="release-version patch">PATCH</p>
+    <p class="release-date">January 11, 2022</p>
+  </div>
+  <p class="release-title">
+    2.0.2: Introducing &lt;lf-login&gt;
+  </p>
+  <p class="release-section-header">New</p>
+  <ul>
+    <li>
+      Added new HTML elements: <span class="code code-background">&lt;lf-login-menu&gt;</span> and <span
+        class="code code-background">&lt;lf-login-button&gt;</span> that use Laserfiche Oauth Flow to authenticate and
+      authorize users.
+    </li>
+  </ul>
+  <p class="release-section-header">Fixes</p>
+  <ul>
+    <li>
+      Increased <span class="code code-background">&lt;lf-user-feedback&gt;</span> message max length from 512
+      characters to 2048 characters.
+    </li>
+  </ul>
+  <p class="release-section-header">Links</p>
+  <ul>
+    <li>
+      CDN: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/laserfiche-ui-components.js"
+        target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/laserfiche-ui-components.js</a>
+    </li>
+    <li>
+      NPM: <a
+        href="https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=2.0.2&protocolType=Npm"
+        target="_blank">
+        https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=2.0.2&protocolType=Npm</a>
+    </li>
+    <li>
+      Documentation: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/index.html#/" target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/index.html#/
+      </a>
+    </li>
+  </ul>
+</app-card>
+<app-card>
+  <div class="release-subtitle">
+    <p class="release-version patch">PATCH</p>
+    <p class="release-date">November 2, 2021</p>
+  </div>
+  <p class="release-title">
+    2.0.1: &lt;lf-user-feedback&gt; UI fixes and SourceMap
+  </p>
+  <p class="release-section-header">New</p>
+  <ul>
+    <li>
+      Added sourceMap for users/developers to see original source code.
+    </li>
+  </ul>
+  <p class="release-section-header">Fixes</p>
+  <ul>
+    <li>
+      Enhanced <span class="code code-background">&lt;lf-user-feedback&gt;</span> component's UI.
+    </li>
+    <li>
+      Fixed double clicking behavior to not highlight texts on the elements.
+    </li>
+    <li>
+      Fixed back screen to be not accessible to users when dialog is opened.
+    </li>
+    <li>
+      Fixed <span class="code code-background">&lt;lf-user-feedback&gt;</span> error handling when user email is
+      undefined.
+    </li>
+  </ul>
+  <p class="release-section-header">Links</p>
+  <ul>
+    <li>
+      CDN: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/2.0.1/laserfiche-ui-components.js"
+        target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/2.0.1/laserfiche-ui-components.js</a>
+    </li>
+    <li>
+      NPM: <a
+        href="https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=2.0.1&protocolType=Npm"
+        target="_blank">
+        https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=2.0.1&protocolType=Npm</a>
+    </li>
+    <li>
+      Documentation: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/2.0.1/index.html#/" target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/2.0.1/index.html#/
+      </a>
+    </li>
+  </ul>
+</app-card>
+<app-card>
+  <div class="release-subtitle">
+    <p class="release-version patch">PATCH</p>
+    <p class="release-date">October 27, 2021</p>
+  </div>
+  <p class="release-title">
+    2.0.0: Rebranded to Laserfiche UI Components
+  </p>
+  <p class="release-section-header">New</p>
+  <ul>
+    <li>
+      Rebranded from laserfiche-toolkit.
+    </li>
+  </ul>
+  <p class="release-section-header">Links</p>
+  <ul>
+    <li>
+      CDN: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/2.0.0/laserfiche-ui-components.js"
+        target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/2.0.0/laserfiche-ui-components.js</a>
+    </li>
+    <li>
+      NPM: <a
+        href="https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=2.0.0&protocolType=Npm"
+        target="_blank">
+        https://v-dev-tfs/DefaultCollection/Integrations/_packaging?_a=package&feed=LFNPMPackages&view=overview&package=%40laserfiche%2Ftypes-laserfiche-ui-components&version=2.0.0&protocolType=Npm</a>
+    </li>
+    <li>
+      Documentation: <a href="https://lfxstatic.com/Site/laserfiche-ui-components/2.0.0/index.html#/" target="_blank">
+        https://lfxstatic.com/Site/laserfiche-ui-components/2.0.0/index.html#/
+      </a>
+    </li>
+  </ul>
+</app-card>

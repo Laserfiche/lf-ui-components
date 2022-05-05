@@ -1,0 +1,31 @@
+<span class="token-picker-field-box" *ngIf="!isDynamic else dynamic">
+  <mat-form-field *ngIf="!showTokenTextBox" title="{{lf_field_info.name}}" appearance="outline" class="lf-field">
+    <input #tokenTarget matInput [ngxMatDatetimePicker]="picker" [formControl]="lf_field_form_control"
+      title="{{lf_field_form_control.value}}" (dateChange)="onDateOrTimeChanged()" (dateInput)="onDateOrTimeChanged(false)">
+    <button class="datetime-button-toggle" mat-icon-button matSuffix
+      (click)="onTogglePicker(); $event.stopPropagation();">
+      <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 0 24 24" width="22px" fill="#000000">
+        <path d="M0 0h24v24H0z" fill="none" />
+        <path fill="currentColor"
+          d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+      </svg>
+    </button>
+    <ngx-mat-datetime-picker [showSeconds]=true [enableMeridian]="shouldEnableMeridian" #picker>
+    </ngx-mat-datetime-picker>
+    <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
+  </mat-form-field>
+  <mat-form-field *ngIf="showTokenTextBox" title="{{lf_field_info.name}}" appearance="outline" class="lf-field">
+    <input #tokenTarget matInput [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
+      (change)="onDateOrTimeTokenValueChanged()">
+    <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
+  </mat-form-field>
+  <lf-token-picker-component class="lf-field-token-picker" (tokenPicked)="onTokenChosen($event)" [data]="lfFieldTokenData">
+  </lf-token-picker-component>
+</span>
+<ng-template #dynamic>
+  <lf-dynamic-field-component ngDefaultControl [options]="dynamic_field_value_options" [formControl]="lf_field_form_control"
+    [title]="lf_field_info.name" [fieldValidationErrorMsg]="fieldValidationErrorMsg"
+    [getBrokenValidationRule]="getBrokenValidationRule.bind(this)" (valueChange)="onValueChanged()"
+    [compareWith]="compareDateStrings">
+  </lf-dynamic-field-component>
+</ng-template>

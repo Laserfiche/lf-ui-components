@@ -1,0 +1,15 @@
+<div [hidden]="hideTemplate">
+  <mat-form-field floatLabel="never" class="lf-template-picker lf-dropdown">
+    <mat-label>{{emptyTemplateName | async}}</mat-label>
+    <mat-select name="template-dropdown" id="template-dropdown" class="lf-dropdown"
+        (selectionChange)="onTemplateChangedAsync($event)"
+        (openedChange)="onToggleDropdownAsync($event)"
+        [(value)]="templateSelected" [compareWith]="compareTemplateInfoFunc">
+        <mat-option selected>{{emptyTemplateName | async}}</mat-option>
+        <mat-option *ngFor="let template of availableTemplates" [value]="template">{{template.name}}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="error-message" *ngIf="templateErrorMessage">{{templateErrorMessage | async}}</div>
+  <ng-template lfFieldView></ng-template>
+</div>

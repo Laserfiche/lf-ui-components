@@ -1,0 +1,34 @@
+<span class="field-box" [ngSwitch]="lfFieldInfo?.fieldType">
+    <lf-date-time-field-component *ngSwitchCase="fieldTypeDateTime" [parent_form]="parentForm"
+        [lf_field_form_control]="lfFieldFormControl" [lf_field_info]="lfFieldInfo" [lf_field_value]="lfFieldValue"
+        [dynamic_field_value_options]="dynamicFieldValueOptions" (fieldValueChange)="onChange($event)">
+    </lf-date-time-field-component>
+    <lf-text-field-component *ngSwitchCase="fieldTypeString" [parent_form]="parentForm"
+        [lf_field_form_control]="lfFieldFormControl" [lf_field_info]="lfFieldInfo" [lf_field_value]="lfFieldValue"
+        [dynamic_field_value_options]="dynamicFieldValueOptions" (fieldValueChange)="onChange($event)">
+    </lf-text-field-component>
+    <lf-date-field-component *ngSwitchCase="fieldTypeDate" [parent_form]="parentForm" [lf_field_form_control]="lfFieldFormControl"
+        [lf_field_info]="lfFieldInfo" [lf_field_value]="lfFieldValue"
+        [dynamic_field_value_options]="dynamicFieldValueOptions" (fieldValueChange)="onChange($event)">
+    </lf-date-field-component>
+    <lf-number-field-component *ngSwitchCase="fieldTypeShortInteger" [parent_form]="parentForm"
+        [lf_field_form_control]="lfFieldFormControl" [lf_field_info]="lfFieldInfo" [lf_field_value]="lfFieldValue"
+        [dynamic_field_value_options]="dynamicFieldValueOptions" (fieldValueChange)="onChange($event)">
+    </lf-number-field-component>
+    <lf-number-field-component *ngSwitchCase="fieldTypeLongInteger" [parent_form]="parentForm"
+        [lf_field_form_control]="lfFieldFormControl" [lf_field_info]="lfFieldInfo" [lf_field_value]="lfFieldValue"
+        [dynamic_field_value_options]="dynamicFieldValueOptions" (fieldValueChange)="onChange($event)">
+    </lf-number-field-component>
+    <lf-list-field-component *ngSwitchCase="fieldTypeList" [parent_form]="parentForm" [lf_field_form_control]="lfFieldFormControl"
+        [lf_field_info]="lfFieldInfo" [lf_field_value]="lfFieldValue"
+        [dynamic_field_value_options]="dynamicFieldValueOptions" (fieldValueChange)="onChange($event)">
+    </lf-list-field-component>
+    <lf-number-field-component *ngSwitchCase="fieldTypeNumber" [parent_form]="parentForm"
+        [lf_field_form_control]="lfFieldFormControl" [lf_field_info]="lfFieldInfo" [lf_field_value]="lfFieldValue"
+        [dynamic_field_value_options]="dynamicFieldValueOptions" (fieldValueChange)="onChange($event)">
+    </lf-number-field-component>
+    <lf-time-field-component *ngSwitchCase="fieldTypeTime" [parent_form]="parentForm" [lf_field_form_control]="lfFieldFormControl"
+        [lf_field_info]="lfFieldInfo" [lf_field_value]="lfFieldValue"
+        [dynamic_field_value_options]="dynamicFieldValueOptions" (fieldValueChange)="onChange($event)">
+    </lf-time-field-component>
+</span>

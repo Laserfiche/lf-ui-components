@@ -1,0 +1,57 @@
+.mat-checkbox-label, .mat-checkbox-layout, .lf-checklist-item-name, .lf-text-field {
+  width: 100%;
+}
+
+.lf-checklist-item-name .lf-text-field {
+  min-width: 0px;
+}
+
+.lf-checklist-action-button {
+  margin-right: 10px;
+}
+
+.lf-checklist-item-container input {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font: 400 14px "Open Sans";
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: black;
+}
+
+.lf-checklist-item .mat-input-element:disabled {
+  color: inherit;
+}
+
+.lf-checklist-item .mat-form-field-appearance-standard .mat-form-field-flex {
+  padding: 1px 10px 7px 10px;
+}
+
+.lf-checklist-item .mat-checkbox-inner-container {
+  margin-top: 14px;
+}
+
+.lf-checklist-item .fixed-size-icon-container {
+  margin-top: 7px;
+}
+
+.lf-checklist-item .lf-text-field {
+  border: none;
+  margin-top: 5px;
+  padding: 0px;
+}
+
+.lf-checklist-item mat-form-field {
+  height: auto;
+  display: block;
+}
+
+.lf-checklist-item .mat-focused .mat-form-field-flex {
+  outline: #333333 auto 1px;
+}
+
+.lf-checklist-item .mat-form-field-appearance-standard.mat-form-field-invalid .mat-form-field-flex {
+  outline: #f44336 auto 1px;
+}

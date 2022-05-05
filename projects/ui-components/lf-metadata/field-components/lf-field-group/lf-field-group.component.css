@@ -1,0 +1,68 @@
+.lf-field-group {
+  border: 1px solid black;
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.field-group-top-bar {
+  border-bottom: 1px solid rgb(220,220,220);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.field-group-button {
+  background-color: white;
+  border: none;
+  color: grey;
+}
+
+.drag-index-section {
+  display: flex;
+  align-items: center;
+}
+
+.index-display {
+  padding-left: 10px;
+}
+
+.field-group-button:disabled {
+  color: rgb(220,220,220);
+}
+
+.field-group-button:hover:enabled {
+  background-color: rgb(220,220,220);
+  border: none;
+  cursor: pointer;
+}
+
+.field-group-drag-handle {
+  cursor: move;
+  padding-right: 10px;
+  border-right: 1px solid rgb(220,220,220);
+}
+
+.lf-field-is-required {
+  padding-left: 2px;
+  color: red;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

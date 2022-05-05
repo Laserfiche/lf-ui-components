@@ -1,0 +1,58 @@
+<div class="lf-tree-element-container">
+    <div id="description" *ngIf="description">{{description}}</div>
+    <div class="lf-tree-container" *ngIf="dataSource && treeControl">
+        <mat-tree class="lf-mat-tree" [dataSource]="dataSource" [treeControl]="treeControl">
+
+            <mat-tree-node id="{{node?.id}}" *matTreeNodeDef="let node" class="lf-mat-tree-node"
+                [class.selectable]="node.isSelectable" [class.selected]="node?.id === selected_node?.id"
+                [title]="node.name" [matTreeNodePaddingIndent]="matTreeNodeIndent" matTreeNodePadding
+                (keydown)="onKeyDownEvent(node, $event)" (click)="onClickTreeNode(node, $event)"
+                (dblclick)="onDblClickTreeNode($event)" tabindex="0">
+                <div *ngIf="getIcons(node).length>0" class="fixed-size-icon-container" tabindex="-1">
+                    <img *ngFor="let icon of getIcons(node)" src="{{icon}}" alt="" class='lf-tree-node-icon' />
+                </div>
+                <div class="lf-mat-tree-node-text">{{node.name}}</div>
+            </mat-tree-node>
+
+            <mat-tree-node id="{{node?.id}}" *matTreeNodeDef="let node; when: hasChild" class="lf-mat-tree-node"
+                [class.selectable]="node.isSelectable" [class.selected]="node?.id === selected_node?.id"
+                [title]="node.name" [matTreeNodePaddingIndent]="matTreeNodeIndent" matTreeNodePadding
+                (keydown)="onKeyDownEvent(node, $event)" (click)="onClickTreeNode(node, $event)"
+                (dblclick)="onDblClickTreeNode($event)" tabindex="0">
+                <span *ngIf="!node.isContainer" class="lf-tree-toggle-button-placeholder"></span>
+                <button *ngIf="node.isContainer" class="lf-tree-toggle-button" mat-icon-button
+                    [attr.aria-label]="'toggle ' + node.filename" matTreeNodeToggle tabindex="-1">
+                    <svg *ngIf="treeControl.isExpanded(node)" xmlns="http://www.w3.org/2000/svg" height="24px"
+                        viewBox="0 0 24 24" width="24px" fill="currentColor">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                    </svg>
+                    <svg *ngIf="!treeControl.isExpanded(node)" xmlns="http://www.w3.org/2000/svg" height="24px"
+                        viewBox="0 0 24 24" width="24px" fill="currentColor">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                    </svg>
+                </button>
+                <div *ngIf="getIcons(node).length>0" class="fixed-size-icon-container">
+                    <img *ngFor="let icon of getIcons(node)" src="{{icon}}" alt="" class='lf-tree-node-icon' />
+                </div>
+                <div class="lf-mat-tree-node-text">{{node.name}}</div>
+                <lf-loader-component class="lf-tree-loader" *ngIf="node?.isLoadingChildren"></lf-loader-component>
+            </mat-tree-node>
+
+        </mat-tree>
+    </div>
+    <div class="lf-tree-buttons">
+        <span *ngIf="ok_button_text">
+            <button class="primary-button lf-button" id="okButton"
+                [disabled]="(selected_node === undefined || ok_button_disabled)" (click)="onClickOkButton()">
+                {{ok_button_text}}
+            </button>
+        </span>
+        <span *ngIf="cancel_button_text">
+            <button class="sec-button lf-button" id="cancelButton" (click)="onClickCancelButton()">
+                {{cancel_button_text}}
+            </button>
+        </span>
+    </div>
+</div>

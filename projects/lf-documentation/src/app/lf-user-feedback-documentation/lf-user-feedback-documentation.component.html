@@ -1,0 +1,97 @@
+<p class="documentation-title">
+    LfUserFeedback
+</p>
+
+<p class="documentation-text code-container">
+    <code>
+        <span class="code-html-tagname">&lt;lf-user-feedback </span>
+        <span class="code-html-attribute-name">hosting_module</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"testhostingmodule" </span>
+        <span class="code-html-attribute-name">hosting_context</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"testhostingcontext" </span>
+        <span class="code-html-attribute-name">user_id</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"testuserid" </span>
+        <span class="code-html-attribute-name">account_id</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"testaccountid" </span>
+        <span class="code-html-tagname">&gt;&lt;/lf-user-feedback&gt;</span>
+    </code>
+</p>
+
+With all inputs defined:
+<lf-user-feedback id="my-feedback-button" hosting_module="testhostingmodule" hosting_context="testhostingcontext"
+    user_id="testuserid" account_id="testaccountid"></lf-user-feedback>
+
+<br><br>
+With no user_id or account_id input:
+<lf-user-feedback id="my-feedback-button" hosting_module="testhostingmodule" hosting_context="testhostingcontext"
+    account_id="testaccountid"></lf-user-feedback>
+
+<p class="documentation-header">
+    Overview
+</p>
+<p class="documentation-text">
+    (Laserfiche Cloud only) Custom element that opens a dialog to ask for product feedback or suggestions. Feedback
+    and suggestions are automatically collected in Redshift upon clicking "Submit".
+</p>
+
+<p class="documentation-header">
+    Use Case
+</p>
+<p class="documentation-text">
+    The feedback button can be styled as a button or as an item in a dropdown. The element requires the name of the
+    hosting module, the account ID, and user ID. No other customization is needed.
+</p>
+
+<p class="documentation-header">
+    HTML Element
+</p>
+<table>
+    <tr>
+        <th>Attribute</th>
+        <th>Value</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>hosting_module</td>
+        <td>string</td>
+        <td>Name of the product that the feedback is being given on. If your product already sends tracking events to
+            Redshift, use the same module name. This will be used to filter submissions by product.</td>
+    </tr>
+    <tr>
+        <td>hosting_context (optional)</td>
+        <td>string</td>
+        <td>Any additional context you want to include (to aid in interpretting the feedback and suggestions)</td>
+    </tr>
+    <tr>
+        <td>user_id</td>
+        <td>string</td>
+        <td>Cloud user ID</td>
+    </tr>
+    <tr>
+        <td>account_id</td>
+        <td>string</td>
+        <td>Cloud account ID</td>
+    </tr>
+</table>
+
+<p class="documentation-header">
+    Styling
+</p>
+<p class="documentation-text">
+    To style the button, use Javascript to find the button by ID:
+</p>
+<p class="code-container">
+    <code>
+        <span class="code-ts-import-item">var feedbackButton = document.getElementById('lf-user-feedback');</span>
+        <br>
+        <span class="code-ts-import-item">if (feedbackButton) &#123;</span>
+        <br>
+        <span class="code-ts-import-item">feedbackButton.style.color = 'red';</span>
+        <br>
+        <span class="code-ts-import-item">&#125;</span>
+    </code>
+</p>

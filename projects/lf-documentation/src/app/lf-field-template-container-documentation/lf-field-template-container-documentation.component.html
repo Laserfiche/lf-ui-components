@@ -1,0 +1,114 @@
+<p class="documentation-title">
+  LfFieldTemplateContainer
+</p>
+
+<p>
+  <code class="code-container">
+      <span class="code-html-tagname">
+          &lt;lf-field-template-container&gt;&lt;/lf-field-template-container&gt;
+      </span>
+  </code>
+</p>
+<p class="documentation-text code-container">
+  <code>
+        <span class="code-html-tagname">const </span>
+        <span>templateContainerElement</span>
+        <span> = </span>
+        <span>document.querySelector('lf-field-template-container');</span>
+        <p>templateContainerElement.addEventListener('fieldValuesChanged', onElementFieldValueChange(event));</p>
+        <p>await templateContainerElement.initAsync(fieldsProvidersObject);</p>
+    </code>
+</p>
+<app-card>
+  <lf-field-template-container #templateContainer></lf-field-template-container>
+</app-card>
+
+<button class="primary-button lf-button" (click)="logElementInfo()">Log Element Info and Validity</button>
+<button class="primary-button lf-button" (click)="clearElementAsync()">Clear Element</button>
+<p class="documentation-header">
+  Overview
+</p>
+<p class="documentation-text">
+  Web Component to give the user the ability to select a template and edit fields within the chosen template.
+</p>
+<p class="documentation-header">
+  Use Case
+</p>
+<p class="documentation-text">
+  Display an template field container for the user to interact with
+</p>
+<p class="documentation-header">
+  HTML Element
+</p>
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>fieldValuesChanged</td>
+    <td>() => CustomEvent&lt;boolean&gt;</td>
+    <td>Event emitted when any field values are changed. Emits whether template is valid or not without
+      forcing validation.</td>
+  </tr>
+  <tr>
+    <td>templateSelectedChange</td>
+    <td>() => CustomEvent&lt;number&gt;</td>
+    <td>Event emitted when the template selected is changed. Emits the templateId of the newly selected
+      template.
+    </td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>initAsync</td>
+    <td>(providers: LfFieldTemplateProviders, templateIdentifier?: number | string) => Promise&lt;void&gt;</td>
+    <td>Function that initializes the template field container with given provider. Optionally initialize to a
+      template with specific id or name</td>
+  </tr>
+  <tr>
+    <td>getTemplateValue</td>
+    <td>() => TemplateValue | undefined</td>
+    <td>accessor that returns the current TemplateValue which includes name and values</td>
+  </tr>
+  <tr>
+    <td>clearAsync</td>
+    <td>() => Promise&lt;void&gt;</td>
+    <td>clears the template and fields</td>
+  </tr>
+  <tr>
+    <td>forceValidation</td>
+    <td>() => boolean</td>
+    <td>function that returns whether all fields within container are valid</td>
+  </tr>
+</table>
+
+<p class="documentation-header">
+  LfFieldTemplateContainerProvider
+</p>
+<p class="documentation-sub-header">
+  LfFieldTemplateProviders Interface
+</p>
+<ul>
+  <li>templateFieldContainerService: LfFieldTemplateContainerService</li>
+</ul>
+<p class="documentation-sub-header">
+  LfFieldTemplateContainerService Interface
+</p>
+<ul>
+  <li>getAvailableTemplatesAsync(): Promise&lt;TemplateInfo[]&gt;</li>
+</ul>
+<ul>
+  <li>getTemplateFieldsAsync(templateId: number): Promise&lt;TemplateFieldInfo[]&gt;</li>
+</ul>
+<ul>
+  <li>getDynamicFieldValueOptionsAsync(templateId: number, currentValues: FieldValues): Promise&lt;&#123; [fieldId:
+    number]: string[] &#125;&gt;</li>
+</ul>

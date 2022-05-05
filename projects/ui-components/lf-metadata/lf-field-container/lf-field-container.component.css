@@ -1,0 +1,44 @@
+::ng-deep .template-adhoc-expansion-panel.mat-expansion-panel {
+  position: static;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+::ng-deep .template-adhoc-expansion-panel mat-expansion-panel-header {
+  padding-left: 0;
+  padding-right: 10px;
+}
+
+::ng-deep .template-adhoc-expansion-panel div.mat-expansion-panel-body {
+  padding: 0;
+}
+
+.combo-container-separater {
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+
+::ng-deep .template-adhoc-expansion-panel .mat-expansion-panel-header.mat-expanded {
+  height: 48px;
+}
+
+::ng-deep .template-adhoc-expansion-panel .mat-expansion-panel-header-title {
+  width: -webkit-fill-available;
+}
+
+.lf-sub-label {
+  color: #777;
+}
+
+.field-sub-label {
+  margin: auto 0;
+}
+
+.field-label {
+  margin: auto 0;
+  color: black;
+}

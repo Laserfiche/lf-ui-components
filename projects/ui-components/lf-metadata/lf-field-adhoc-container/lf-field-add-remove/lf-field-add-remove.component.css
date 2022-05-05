@@ -1,0 +1,151 @@
+.add-remove-container {
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.pick-field {
+  display: block;
+  word-wrap: none;
+  overflow: ellipsis;
+  position: relative;
+}
+
+.adhoc-field-button {
+  margin-top: 2px;
+  margin-left: 8px;
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
+.back-button-padding {
+  text-align: right;
+  max-height: 43px;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.back-button-overlay {
+  position: absolute;
+}
+
+.back-button:hover {
+  background-color: #fafafa;
+}
+
+.back-button-text {
+  padding-left: 5px;
+  vertical-align: middle;
+  font-weight: bold;
+  display: inline-block;
+  cursor: pointer;
+}
+
+i {
+  vertical-align: middle;
+}
+
+.field-picker-container {
+  position: absolute;
+  top: 43px;
+  bottom: 0px;
+  left: 0;
+  right: 0px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.field-picker-container.has-changes {
+  bottom: 52px;
+}
+
+.button-container {
+  max-height: 52px;
+  min-height: 52px;
+  width: 100%;
+  bottom: 0px;
+  position: absolute;
+  border-top: 1px solid #ddd;
+}
+
+.button-padding-container {
+  padding: 10px;
+}
+
+.adhoc-back-button-container {
+  height: 42px;
+  display: inline-block;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.adhoc-back-button-container:hover {
+  background-color: #ddd;
+}
+
+.adhoc-back-button {
+  fill: #767676;
+  padding: 12px 5px 12px 15px;
+  font-size: 30px;
+  box-sizing: content-box;
+}
+
+.fields-empty {
+  font-size: 14px;
+  color: #777;
+}
+
+.searchBox {
+  width: 100%;
+  padding: 3px;
+  line-height: 1.428571429;
+  color: #555;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+  -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  padding-left: 28px;
+  padding-right: 22px;
+}
+
+.search {
+  position: relative;
+  padding-bottom: 15px;
+  display: flex;
+}
+
+.icon {
+  position: absolute;
+  background-image: url(https://lfxstatic.com/Site/WA/11.0.2104.16_2021-04-21_145031/assets/images/newdoc_sprite.png);
+  margin: 3px;
+  top: 3px;
+  height: 16px;
+  width: 16px;
+  line-height: 14px;
+  background-repeat: no-repeat;
+}
+
+.icon-search {
+  left: 5px;
+  background-position: -76px -49px;
+  display: inline-block;
+}
+
+.icon-clear {
+  right: 2px;
+  cursor: pointer;
+  background-position: -92px -224px;
+  vertical-align: middle;
+}
+
+.icon-clear:hover {
+  background-position: -76px -224px;
+}

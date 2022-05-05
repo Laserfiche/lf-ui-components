@@ -1,0 +1,8 @@
+{
+    "name": "lf-user-feedback",
+    "ngPackage": {
+        "lib": {
+            "entryFile": "./lf-user-feedback-public-api.ts"
+        }
+    }
+}

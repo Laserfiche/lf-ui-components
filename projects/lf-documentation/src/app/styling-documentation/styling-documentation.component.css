@@ -1,0 +1,15 @@
+.tab-content {
+    background-color: lightgrey;
+    overflow: auto;
+}
+  
+.lf-link {
+    background-color: #00866B;
+    color: #FAFAFA;
+}
+  
+.ms-link {
+    background-color: #0078d4;
+    color: white;
+}
+  

@@ -1,0 +1,8 @@
+{
+    "name": "shared",
+    "ngPackage": {
+        "lib": {
+            "entryFile": "./lf-shared-public-api.ts"
+        }
+    }
+}

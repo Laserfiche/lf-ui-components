@@ -1,0 +1,47 @@
+@use "typography-lf";
+
+$height: 34px;
+$min-width: 330px;
+$border-width: 1px;
+$border-color: #6D6D6D;
+$disabled-border-color: #F3F3F3;
+$border-radius: 2px;
+
+$padding-stack: 7px 10px 8px 10px;
+$margin-stack: 5px 0px;
+
+$background-color: white;
+$disabled-background-color: #F3F3F3;
+$disabled-font-color: #8A8A8A;
+
+.lf-text-field {
+  padding: $padding-stack;
+  margin: $margin-stack;
+  height: $height;
+  min-width: $min-width;
+
+  font: typography-lf.$placeholder-stack;
+  color: typography-lf.$placeholder-color;
+
+  border-radius: $border-radius;
+  border-color: $border-color;
+  border-width: $border-width;
+  border-style: solid;
+  outline-color: $border-color;
+
+  box-sizing: border-box;
+
+  &:focus {
+    color: typography-lf.$body-color;
+  }
+
+  &:disabled {
+    border-color: $disabled-border-color;
+    background-color: $disabled-background-color;
+    color: $disabled-font-color;
+  }
+}
+
+.lf-textarea {
+  outline-color: $border-color;
+}

@@ -1,0 +1,11 @@
+<span class="lf-field-container" id="lf-field-container">
+  <span *ngIf="lfFieldInfo?.name" class="lf-field-title-container">
+      <span class="lf-field-title" title="{{lfFieldInfo?.name}}">{{lfFieldInfo?.name}}</span>
+      <span class="lf-field-is-required" *ngIf="lfFieldInfo?.isRequired">*</span>
+      <lf-loader-component *ngIf="isLoading"></lf-loader-component>
+  </span>
+  <form class="lf-field-form" [formGroup]="singleFieldParentForm">
+      <lf-field-base-component [parentForm]="singleFieldParentForm" [lfFieldFormControl]="getSingleField()" [dynamicFieldValueOptions]="getOptions()"
+          [lfFieldInfo]="lfFieldInfo" [lfFieldValue]="lfFieldValue" (fieldValueChange)="fieldDataChange($event)"></lf-field-base-component>
+  </form>
+</span>

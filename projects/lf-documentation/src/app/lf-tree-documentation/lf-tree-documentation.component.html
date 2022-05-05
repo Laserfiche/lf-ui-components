@@ -1,0 +1,204 @@
+<p class="documentation-title">
+  LfTree
+</p>
+
+<p class="documentation-text code-container">
+  <code>
+        <span class="code-html-tagname">&lt;lf-tree </span>
+        <span class="code-html-attribute-name">description</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"Test Description for Element" </span>
+        <span class="code-html-attribute-name">ok_button_text</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"Okay" </span>
+        <span class="code-html-attribute-name">cancel_button_text</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"Cancel" </span>
+        <span class="code-html-attribute-name">ok_button_disabled</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"false"</span>
+        <span class="code-html-tagname">&gt;&lt;/lf-tree&gt;</span>
+    </code>
+</p>
+<p class="documentation-text code-container">
+  <code>
+        <span class="code-html-tagname">const </span>
+        <span>tree</span>
+        <span> = </span>
+        <span>document.querySelector('lf-tree');</span>
+        <p>tree.addEventListener('okClick', onElementOkClick(event));</p>
+        <p>tree.addEventListener('cancelClick', onElementCancelClick(event));</p>
+        <p>tree.addEventListener('nodeSelected', onElementNodeSelected(event));</p>
+        <p>await tree.initAsync(treeProvidersObject);</p>
+    </code>
+</p>
+<app-card>
+  <lf-tree #tree (nodeSelected)="onElementNodeSelected($event)" (okClick)="onElementOkClick($event)"
+    (cancelClick)="onElementCancelClick($event)" [selected_node]="elementSelectedNode" [description]="elementString"
+    [ok_button_text]="okString" [cancel_button_text]="cancelString" [ok_button_disabled]="elementLoading">
+  </lf-tree>
+</app-card>
+<p class="documentation-text">lf-tree output: </p>
+<textarea disabled cols="80" rows="10">{{ elementSelectedNode | json }}</textarea>
+<p>
+  <button (click)="toggleElementProviders()" class="primary-button lf-button">
+    Toggle Providers
+  </button>
+  <button (click)="elementSelectedNode = undefined" class="primary-button lf-button">
+    Unselect node
+  </button>
+  <button (click)="elementDisable()" class="primary-button lf-button">Disable OK button</button>
+  <button (click)="elementEnable()" class="primary-button lf-button">Enable OK button</button>
+</p>
+
+<p class="documentation-header">
+  Overview
+</p>
+<p class="documentation-text">
+  Web Component to interact with tree data structures such as folders/files
+</p>
+<p class="documentation-header">
+  Use Case
+</p>
+<p class="documentation-text">
+  Selecting folder to save document to in Laserfiche
+</p>
+<p class="documentation-header">
+  HTML Element
+</p>
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>description</td>
+    <td>string</td>
+    <td>displayed on top</td>
+  </tr>
+  <tr>
+    <td>ok_button_text</td>
+    <td>string</td>
+    <td>
+      if specified, shows the ok button which is enabled when a node is selected
+    </td>
+  </tr>
+  <tr>
+    <td>cancel_button_text</td>
+    <td>string</td>
+    <td>if specified, shows the cancel button with specified text</td>
+  </tr>
+  <tr>
+    <td>ok_button_disabled</td>
+    <td>boolean</td>
+    <td>if true, disables the ok button</td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>nodeSelected</td>
+    <td>
+      (event: CustomEvent&lt;TreeNode&gt;) => Promise&lt;void&gt;
+    </td>
+    <td>event raised when selectable node is selected</td>
+  </tr>
+  <tr>
+    <td>okClick</td>
+    <td>
+      (event: CustomEvent&lt;TreeNode&gt;) => Promise&lt;void&gt;
+    </td>
+    <td>event emitted when ok button is clicked</td>
+  </tr>
+  <tr>
+    <td>cancelClick</td>
+    <td>
+      (event: CustomEvent&lt;TreeNode | undefined&gt;) => Promise&lt;void&gt;
+    </td>
+    <td>
+      event emitted when cancel button is clicked, or undefined if no node is selected
+    </td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Method/Property</th>
+    <th>Signature</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>initAsync</td>
+    <td>
+      (providers: LfTreeProviders, selectedNodeId?: string) => Promise&lt;void&gt;
+    </td>
+    <td>
+      initializes the tree with a LfTreeProviders. You <b>must</b> call this method. Each time this is called, the state
+      of lf-tree is reset. If selectedNodeId is specified, the tree is directly opened to the node with id =
+      selectedNodeId.
+    </td>
+  </tr>
+  <tr>
+    <td>selected_node</td>
+    <td>item: TreeNode | undefined</td>
+    <td>the currently selected node, or undefined if no node is selected</td>
+  </tr>
+</table>
+<p class="documentation-header">
+  LfTreeProvider
+</p>
+<p class="documentation-sub-header">
+  LfTreeService Interface
+</p>
+
+<ul>
+  <li>getRootNodesAsync() : Promise&lt;TreeNode[]&gt;</li>
+  <li>getChildrenAsync(node: TreeNode): Promise&lt;TreeNode[]&gt;</li>
+  <li>getParentNodeAsync(node: TreeNode): Promise&lt;TreeNode | undefined&gt;
+    <ul>
+      <li>
+        If a node does not have a parent (i.e. a root node), then we expect getParentNodeAsync to return
+        Promise&lt;undefined&gt;
+      </li>
+    </ul>
+  </li>
+  <li>getNodeByIdAsync(id: string): Promise&lt;TreeNode | undefined&gt;</li>
+  <li>refreshAsync?(node: TreeNode): Promise&lt;TreeNode[]&gt;
+    <ul>
+      <li>
+        Optional. If defined, users can refresh the tree. This function should not use cached values.
+      </li>
+    </ul>
+  </li>
+  <li>addNewFolderAsync?(parentNode: TreeNode, folderName: string): Promise&lt;void&gt;
+    <ul>
+      <li>
+        Optional. If defined, users can add a folder to the tree. This function should throw an error if unsuccessful.
+      </li>
+    </ul>
+  </li>
+</ul>
+<p class="documentation-sub-header">
+  LfTreeProviders Interface
+</p>
+<ul>
+  <li>treeService: LfTreeService</li>
+</ul>
+<p class="documentation-sub-header">
+  TreeNode Interface
+</p>
+<ul>
+  <li>id : string</li>
+  <li>icon : string | string[]</li>
+  <li>isContainer : boolean</li>
+  <li>isLeaf : boolean</li>
+  <li>isSelectable: boolean</li>
+  <li>name : string</li>
+  <li>path : string</li>
+</ul>

@@ -1,0 +1,75 @@
+import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
+import { LfFieldContainerComponent } from './lf-field-container/lf-field-container.component';
+import { LfFieldAddRemoveComponent } from './lf-field-adhoc-container/lf-field-add-remove/lf-field-add-remove.component';
+import { LfFieldAdhocContainerComponent } from './lf-field-adhoc-container/lf-field-adhoc-container.component';
+import { LfFieldTemplateContainerComponent } from './lf-field-template-container/lf-field-template-container.component';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { createCustomElement } from '@angular/elements';
+import { LfModalsModule } from '@laserfiche/laserfiche-ui-components/shared';
+import { FieldComponentsModule } from './field-components/field-components.module';
+import { GetFieldTypePipe } from './lf-field-adhoc-container/lf-field-add-remove/get-field-type.pipe';
+import { LfFieldViewDirective } from './lf-field-view.directive';
+
+@NgModule({
+  declarations: [
+    LfFieldAdhocContainerComponent,
+    LfFieldTemplateContainerComponent,
+    LfFieldAddRemoveComponent,
+    LfFieldContainerComponent,
+    GetFieldTypePipe,
+    LfFieldViewDirective
+  ],
+  imports: [
+    CommonModule,
+    BrowserAnimationsModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatExpansionModule,
+    FieldComponentsModule,
+    ReactiveFormsModule,
+    LfModalsModule,
+  ],
+  bootstrap: [
+    LfFieldAdhocContainerComponent,
+    LfFieldTemplateContainerComponent,
+    LfFieldContainerComponent
+  ],
+  exports: [
+    LfFieldAdhocContainerComponent,
+    LfFieldTemplateContainerComponent,
+    LfFieldContainerComponent
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class LfMetadataModule {
+  /** @internal */
+  constructor(
+    /** @internal */ injector: Injector
+  ) {
+    const templateElementName: string = 'lf-field-template-container';
+    if (window.customElements && !customElements.get(templateElementName)) {
+      // Convert component to a custom element.
+      const LfFieldTemplateContainerElement = createCustomElement(LfFieldTemplateContainerComponent, { injector });
+
+      // Register the custom element with the browser.
+      customElements.define(templateElementName, LfFieldTemplateContainerElement);
+    }
+
+    const adhocElementName: string = 'lf-field-adhoc-container';
+    if (window.customElements && !customElements.get(adhocElementName)) {
+      const newElement = createCustomElement(LfFieldAdhocContainerComponent, { injector });
+      customElements.define(adhocElementName, newElement);
+    }
+
+    const fieldContainerElementName: string = 'lf-field-container';
+    if (window.customElements && !customElements.get(fieldContainerElementName)) {
+      const lfFieldContainerElement = createCustomElement(LfFieldContainerComponent, { injector });
+      customElements.define(fieldContainerElementName, lfFieldContainerElement);
+    }
+  }
+}

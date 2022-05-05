@@ -1,0 +1,57 @@
+::ng-deep .login-menu-item button.lf-button.login-button {
+  background: transparent;
+  border: none;
+}
+
+::ng-deep .lf-login-mat-menu .mat-menu-item {
+  line-height: 34px;
+  height: 34px;
+}
+
+::ng-deep .lf-login-mat-menu.mat-menu-panel {
+  min-height: 0;
+  width: 200px;
+}
+
+.lf-login-menu-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #333333;
+  height: 30px;
+  width: 30px;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.lf-login-trigger-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lf-login-initials {
+  line-height: 1;
+}
+
+.lf-login-menu-button {
+  color: #333333;
+}
+
+.lf-login-menu-internal-button {
+  background: none;
+  border: none;
+}
+
+.lf-login-wrapper-button {
+  background: transparent;
+  border: none;
+  text-align: center;
+}
+
+::ng-deep .lf-button.login-button {
+  width: 200px;
+}

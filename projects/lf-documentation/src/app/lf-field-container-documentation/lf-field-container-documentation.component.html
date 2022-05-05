@@ -1,0 +1,174 @@
+<p class="documentation-title">
+  LfFieldContainer
+</p>
+
+<p class="documentation-text code-container">
+  <code>
+      <span class="code-html-tagname">&lt;lf-field-container </span>
+      <span class="code-html-attribute-name">collapsible</span>
+      <span>=</span>
+      <span class="code-html-attribute-value">"true" </span>
+      <span class="code-html-attribute-name">start_collapsed</span>
+      <span>=</span>
+      <span class="code-html-attribute-value">"true" </span>
+      <span class="code-html-tagname">&gt;&lt;/lf-field-container&gt;</span>
+  </code>
+</p>
+<p class="documentation-text code-container">
+  <code>
+        <span class="code-html-tagname">const </span>
+        <span class="code-html-attribute-name">fieldContainerElement</span>
+        <span> = </span>
+        <span>document.querySelector('lf-field-container');</span>
+        <p>fieldContainerElement.addEventListener('fieldValuesChanged', onElementFieldValueChange(event));</p>
+        <p>fieldContainerElement.addEventListener('templateSelectedChanged', onElementTemplateSelectedChanged(event));</p>
+        <p>await fieldContainerElement.initAsync(fieldProvidersObject);</p>
+    </code>
+</p>
+<mat-checkbox class="margin-right" ngDefaultControl [(ngModel)]="elementIsCollapsible" id="collapsible">collapsible</mat-checkbox>
+<app-card>
+  <div style="min-height: 300px;">
+    <lf-field-container #fieldContainer [collapsible]="elementIsCollapsible" [start_collapsed]="true"
+      (fieldValuesChanged)="onFieldValueChange($event)" (templateSelectedChanged)="onTemplateSelectedChanged($event)">
+    </lf-field-container>
+  </div>
+</app-card>
+
+<p class="documentation-header">
+  Overview
+</p>
+<p class="documentation-text">
+  Web Component that contains both template and adhoc fields
+</p>
+<p class="documentation-header">
+  Use Case
+</p>
+<p class="documentation-text">
+  Use the field container to add and edit fields from a template and add additional fields outside of the chosen
+  template.
+</p>
+<p class="documentation-header">
+  HTML Element
+</p>
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>collapsible</td>
+    <td>boolean</td>
+    <td>Input indicating whether or not template and adhoc container views should be collapsible</td>
+  </tr>
+  <tr>
+    <td>start_collapsed</td>
+    <td>boolean</td>
+    <td>Input indicating whether or not template and adhoc container views will initialize collapsed
+      (only valid if collapsible is set to true)</td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>fieldValuesChanged</td>
+    <td>() => CustomEvent&lt;boolean&gt;</td>
+    <td>Event emitted when any field values are changed. Emits whether the container is valid or not without
+      forcing validation.</td>
+  </tr>
+  <tr>
+    <td>templateSelectedChange</td>
+    <td>() => CustomEvent&lt;number&gt;</td>
+    <td>Event emitted when the template selected is changed. Emits the templateId of the newly selected
+      template.
+    </td>
+  </tr>
+  <tr>
+    <td>dialogOpened</td>
+    <td>() => CustomEvent&lt;void&gt;</td>
+    <td>Event emitted when the adhoc field selector is opened.
+    </td>
+  </tr>
+  <tr>
+    <td>dialogClosed</td>
+    <td>() => CustomEvent&lt;void&gt;</td>
+    <td>Event emitted when the adhoc field selector is closed.
+    </td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>initAsync</td>
+    <td>(lfFieldContainerService: LfFieldContainerService, templateIdentifier?: number | string) =>
+      Promise&lt;void&gt;</td>
+    <td>Function that initializes the field container with given provider. Optionally initialize to a template with
+      a given id or name
+    </td>
+  </tr>
+  <tr>
+    <td>forceValidation</td>
+    <td>() => boolean</td>
+    <td>Function that triggers any validation messages and returns whether or not the fields in the container are
+      valid</td>
+  </tr>
+  <tr>
+    <td>getFieldValues</td>
+    <td>() => &#123;[key: string]: FieldValue&#125;</td>
+    <td>Function that removes blank values and returns an object, keyed by fieldName, of FieldValues (which contains
+      the updated, serialized string values)</td>
+  </tr>
+  <tr>
+    <td>resetFieldDataAsync</td>
+    <td>(fields: &#123; value: FieldValue, definition: LfFieldInfo &#125;[]) => Promise&lt;void&gt;</td>
+    <td>Function that resets the currently selected fields to the definitions and values passed into this function
+    </td>
+  </tr>
+  <tr>
+    <td>updateFieldValuesAsync</td>
+    <td>(values: FieldValue[]) => Promise&lt;void&gt;</td>
+    <td>Function that updates the fields values on the container. This function does not remove any fields.</td>
+  </tr>
+  <tr>
+    <td>clearAsync</td>
+    <td>() => Promise&lt;void&gt;</td>
+    <td>Clears all field values and removes any fields selected</td>
+  </tr>
+  <tr>
+    <td>getTemplateValue</td>
+    <td>() => TemplateValue | undefined</td>
+    <td>accessor that returns the current TemplateValue which includes name and values</td>
+  </tr>
+  <tr>
+    <td>getNumAdhocFields</td>
+    <td>() => number</td>
+    <td>Function that returns the current number of adhoc fields assigned</td>
+  </tr>
+</table>
+
+<p class="documentation-sub-header">
+  LfFieldContainerService Interface
+</p>
+<ul>
+  <li>getAllFieldDefinitionsAsync() : Promise&lt;LfFieldInfo[]&gt;</li>
+</ul>
+<ul>
+  <li>getAvailableTemplatesAsync(): Promise&lt;TemplateInfo[]&gt;</li>
+</ul>
+<ul>
+  <li>getTemplateFieldsAsync(templateId: number): Promise&lt;TemplateFieldInfo[]&gt;</li>
+</ul>
+<ul>
+  <li>getDynamicFieldValueOptionsAsync(templateId: number, currentValues: FieldValues): Promise&lt;&#123; [fieldId:
+    number]: string[] &#125;&gt;</li>
+</ul>

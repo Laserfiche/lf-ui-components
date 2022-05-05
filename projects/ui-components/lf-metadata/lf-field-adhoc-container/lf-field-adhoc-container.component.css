@@ -1,0 +1,32 @@
+.adhoc-modal {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+}
+
+/* Modal Content/Box */
+.adhoc-modal-content {
+  background-color: #fefefe;
+  border: none;
+  width: 100%; /* Could be more or less, depending on screen size */
+  height: 100%;
+}
+
+.adhoc-container {
+  display: block;
+}
+
+.adhoc-add-remove-button {
+  margin-bottom: 15px;
+  width: -webkit-fill-available;
+  max-width: max-content;
+}
+
+.fields-empty {
+  font-size: 14px;
+  color: #777;
+  padding-top: 10px;
+}

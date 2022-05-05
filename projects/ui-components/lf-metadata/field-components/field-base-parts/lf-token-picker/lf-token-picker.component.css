@@ -1,0 +1,69 @@
+.token-picker-button {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 5px;
+  width: 34px;
+  height: 28px;
+  cursor: pointer;
+  line-height: 38px;
+}
+
+.token-picker-button:hover {
+  background-color: #ddd;
+}
+
+.token-picker-button:focus {
+  background-color: #ddd;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.token-picker-dropdown {
+  right: 0;
+  left: auto;
+  display: inline;
+  float: right;
+  position: absolute;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 33px 0 0;
+  font-size: 14px;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+}
+
+.token-picker-option {
+  position: relative;
+  box-sizing: border-box;
+  display: block;
+  text-align: -webkit-match-parent;
+  color: #202020;
+  padding: 3px 24px;
+  margin: 2px 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.428571429;
+  height: 26px;
+}
+
+::ng-deep .token-picker-dropdown.mat-menu-panel {
+  min-height: auto;
+}
+
+.token-picker-option:hover {
+  background-color: rgba(204,233,241,0.5);
+}
+
+.token-picker-option:focus {
+  background-color: rgba(204,233,241,0.3);
+}
+
+.chevron-icon {
+  vertical-align: top;
+}

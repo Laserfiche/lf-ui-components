@@ -1,0 +1,38 @@
+<div id="lf-checklist-container" class="lf-checklist-container">
+    <div id="lf-checklist-list-container" class="lf-checklist-list-container">
+        <div id="lf-checklist-list" class="lf-checklist-list" *ngFor="let checklist of checklists">
+            <div *ngIf="!checklist.collapsible">
+                <div id="lf-checklist-name-container" class="lf-checklist-name-container">
+                    <span id="lf-checklist-name" class="lf-text-label"
+                        title="{{checklist.name}}">{{checklist.name}}</span>
+                </div>
+                <lf-items-component *ngIf="checklist.checklistItems.length > 0" [items]="checklist.checklistItems"
+                    (itemsChanged)="emitChecklistChanges()"></lf-items-component>
+                <lf-options-component *ngIf="checklist.checklistOptions.length > 0" [options]="checklist.checklistOptions"
+                    (optionsChanged)="emitChecklistChanges()"></lf-options-component>
+            </div>
+            <div *ngIf="checklist.collapsible">
+                <mat-expansion-panel [expanded]="false" class="checklist-expansion-panel">
+                    <mat-expansion-panel-header class="checklist-expansion-panel">
+                        <mat-panel-title>
+                            <span id="lf-checklist-name" class="lf-text-label"
+                                title="{{checklist.name}}">{{checklist.name}}</span>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <lf-items-component *ngIf="checklist.checklistItems.length > 0" [items]="checklist.checklistItems"
+                        (itemsChanged)="emitChecklistChanges()"></lf-items-component>
+                    <lf-options-component *ngIf="checklist.checklistOptions.length > 0" [options]="checklist.checklistOptions"
+                        (optionsChanged)="emitChecklistChanges()"></lf-options-component>
+                </mat-expansion-panel>
+            </div>
+        </div>
+    </div>
+    <div id="lf-checklist-button-container" class="lf-checklist-button-container">
+        <button *ngIf="action_button_text" id="lf-checklist-action-button"
+            class="lf-checklist-action-button primary-button lf-button"
+            (click)="onActionButtonClicked()">{{action_button_text}}</button>
+        <button *ngIf="cancel_button_text" id="lf-checklist-cancel-button"
+            class="lf-checklist-cancel-button lf-button sec-button"
+            (click)="onCancelButtonClicked()">{{cancel_button_text}}</button>
+    </div>
+</div>

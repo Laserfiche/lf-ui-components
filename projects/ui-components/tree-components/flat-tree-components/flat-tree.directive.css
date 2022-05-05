@@ -1,0 +1,125 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans.woff) format('woff'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Regular.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Semibold.woff) format('woff'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Semibold.ttf) format('truetype');
+}
+
+.lf-flat-tree-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    max-height: 100%;
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+.lf-flat-tree-button-container {
+    align-self: flex-end;
+    margin: 10px 0 0 0;
+}
+
+.lf-flat-tree-list-container {
+    padding-bottom: 10px;
+    overflow: auto;
+}
+
+.mat-list-base .mat-list-option.lf-flat-tree-option, .mat-list-option.lf-flat-tree-option {
+    font: 400 14px "Open Sans";
+    max-height: 36px;
+    min-height: 36px;
+    height: 36px;
+    color: #605e5c;
+}
+
+.fixed-size-icon-container {
+    position: relative;
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    margin: 5px 10px 5px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.margin-left-button {
+    margin-left: 10px;
+}
+
+.lf-flat-tree-node-icon {
+    display: block;
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+    position: absolute;
+}
+
+::ng-deep .mat-list-base .mat-list-option.mat-list-option .mat-list-text .lf-flat-tree-node-name {
+    padding-left: 16px;
+}
+
+::ng-deep .lf-flat-tree-container .mat-list-base .mat-list-item .mat-list-text {
+    flex-direction: row;
+    align-items: center;
+}
+
+::ng-deep .mat-menu-content .mat-menu-item {
+    line-height: 34px;
+    height: 34px;
+}
+
+::ng-deep .cdk-overlay-pane .mat-menu-panel {
+    min-height: 0;
+}
+
+.no-entries-text, .error-entries-text {
+    display: table;
+    font-size: 14px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 20px 10px 10px 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.no-entries-text {
+    color: #777;
+}
+
+.error-entries-text {
+    color: red;
+}
+
+.lf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+}
+
+lf-breadcrumbs-component {
+    width: 100%;
+    min-width: 50px;
+}
+
+lf-toolbar-component {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.lf-flat-tree-node-name,
+.fixed-size-icon-container,
+.lf-flat-tree-node-icon,
+.error-entries-text,
+.no-entries-text,
+.lf-flat-tree-button-container {
+    user-select: none;
+}

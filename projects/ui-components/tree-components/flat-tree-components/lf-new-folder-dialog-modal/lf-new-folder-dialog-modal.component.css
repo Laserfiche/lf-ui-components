@@ -1,0 +1,99 @@
+.dialog-button {
+  margin-left: 10px;
+}
+
+.new-folder-label {
+  display: inline;
+  vertical-align: top;
+  padding-right: 20px;
+  line-height: 34px;
+}
+
+.popup-error, .new-folder-label {
+  font-size: 14px;
+}
+
+.lf-popup-dialog-title {
+  display: inline;
+}
+
+.lf-close-button {
+  cursor: pointer;
+  float: right;
+  display: inline;
+  background-color: inherit;
+  border: none;
+  padding: 0;
+  margin-right: 1px;
+  margin-left: 2px;
+  margin-top: 4px;
+  line-height: 16px;
+}
+
+svg#close {
+  fill: rgb(170, 170, 170);
+  opacity: 0.6;
+}
+
+svg#close:hover {
+  opacity: 1;
+}
+
+::ng-deep mat-form-field.lf-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix,
+::ng-deep mat-form-field.lf-textarea > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix {
+  padding: 11px 0 7px 0;
+  border: none;
+}
+
+::ng-deep mat-form-field.lf-field.lf-date-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix {
+  line-height: 0;
+}
+
+::ng-deep mat-form-field.lf-field > .mat-form-field-wrapper > .mat-form-field-flex >
+.mat-form-field-infix > .mat-select > .mat-select-trigger > .mat-select-arrow-wrapper {
+  padding-top: 8px;
+}
+
+::ng-deep mat-form-field.lf-field > .mat-form-field-wrapper > .mat-form-field-flex >
+.mat-form-field-infix > .mat-select > .mat-select-trigger > .mat-select-arrow-wrapper > .mat-select-arrow {
+  color: rgba(0,0,0,.54);
+}
+
+::ng-deep mat-form-field.lf-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-outline {
+  height: 28px;
+  color: #ccc;
+}
+
+::ng-deep mat-form-field.lf-textarea > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-outline {
+  color: #ccc;
+}
+
+::ng-deep mat-form-field.lf-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-outline-thick,
+::ng-deep mat-form-field.lf-textarea > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-outline-thick {
+  color: black;
+}
+
+::ng-deep mat-form-field.lf-field.ng-invalid > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-outline-thick,
+::ng-deep mat-form-field.lf-textarea.ng-invalid > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-outline-thick {
+  color: red;
+}
+
+::ng-deep mat-form-field.lf-field.mat-form-field-appearance-outline .mat-form-field-outline-start,
+::ng-deep mat-form-field.lf-textarea.mat-form-field-appearance-outline .mat-form-field-outline-start {
+  border-radius: 4px 0 0 4px;
+}
+
+::ng-deep mat-form-field.lf-field.mat-form-field-appearance-outline .mat-form-field-outline-end,
+::ng-deep mat-form-field.lf-textarea.mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-radius: 0 4px 4px 0;
+}
+
+::ng-deep mat-form-field.lf-field .mat-form-field-subscript-wrapper,
+::ng-deep mat-form-field.lf-textarea .mat-form-field-subscript-wrapper {
+  position: static;
+}
+
+::ng-deep mat-form-field.lf-field > .mat-form-field-wrapper,
+::ng-deep mat-form-field.lf-textarea > .mat-form-field-wrapper {
+  padding-bottom: 0;
+}

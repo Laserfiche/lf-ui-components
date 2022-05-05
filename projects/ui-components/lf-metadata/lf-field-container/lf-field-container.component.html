@@ -1,0 +1,26 @@
+<div class="lf-template-and-adhoc-container">
+  <mat-expansion-panel [hideToggle]="!collapsible" [expanded]="!collapsible || !start_collapsed" [disabled]="!collapsible"
+      (opened)="panelOpenState = true" (closed)="panelOpenState = false" class="template-adhoc-expansion-panel">
+    <mat-expansion-panel-header class="template-adhoc-expansion-panel">
+        <mat-panel-title>
+            <p title="{{TEMPLATE | async}}" class="lf-text-label lf-ellipsis-label field-label">{{TEMPLATE | async}}</p>
+            <p title="{{SELECTED_TEMPLATE_NAME | async}}" *ngIf="!panelOpenState && collapsible"
+                class="lf-sub-label lf-text-body field-sub-label lf-ellipsis-label">
+                &nbsp;&nbsp;&nbsp;&nbsp;{{SELECTED_TEMPLATE_NAME | async}}</p>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <lf-field-template-container-component (fieldValuesChanged)="onFieldValuesChanged()"
+        (templateSelectedChange)="onTemplateSelectedChange($event)"></lf-field-template-container-component>
+    </mat-expansion-panel>
+  <hr class="combo-container-separater">
+  <mat-expansion-panel [expanded]="!collapsible || !start_collapsed" class="template-adhoc-expansion-panel"
+      [hideToggle]="!collapsible" [disabled]="!collapsible">
+    <mat-expansion-panel-header class="template-adhoc-expansion-panel">
+        <mat-panel-title>
+            <p title="{{FIELDS | async}}" class="lf-text-label field-label lf-ellipsis-label">{{FIELDS | async}}</p>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <lf-field-adhoc-container-component (fieldValuesChanged)="onFieldValuesChanged()"
+    (dialogOpened)="onDialogOpened()" (dialogClosed)="onDialogClosed()"></lf-field-adhoc-container-component>
+  </mat-expansion-panel>
+  </div>

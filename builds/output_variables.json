@@ -1,0 +1,9 @@
+{
+  "FileType": "Site",
+  "Product": "laserfiche-ui-components",
+  "Region": "us-west-2",
+  "Version": "PIPELINE_VERSION",
+  "BucketName": "",
+  "CDNInvalidationPath": "/Site/laserfiche-ui-components/*",
+  "Overwrite": "OVERWRITE_VAR"
+}

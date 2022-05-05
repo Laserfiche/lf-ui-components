@@ -1,0 +1,27 @@
+@use "typography-lf";
+
+.mat-tree-node {
+  height: 34px;
+  font: typography-lf.$body-stack;
+  color: typography-lf.$body-color;
+  &.selected {
+    background-color: #EAF5FF;
+    border: 1px solid typography-lf.$link-color;
+  }
+  &.selectable:hover {
+    background-color: lightskyblue;
+  }
+  &:focus {
+    background-color: lightskyblue;
+    outline: none;
+  }
+}
+
+#description {
+  color: typography-lf.$link-color;
+  font: typography-lf.$link-stack;
+}
+
+#cancelButton {
+  margin-left: 10px;
+}

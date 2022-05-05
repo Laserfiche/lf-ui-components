@@ -1,0 +1,32 @@
+@use "typography-mo";
+
+.mat-tree-node {
+  height: 44px;
+  font: typography-mo.$body-stack;
+  color: typography-mo.$font-color;
+  &.selected {
+    font: typography-mo.$label-stack;
+    background-color: rgb(237,235,233);
+    border-left: solid typography-mo.$primary-color;
+    border-width: 0px 0px 0px 2px;
+  }
+  &:hover {
+    background-color: typography-mo.$disabled-background-color;
+    color: typography-mo.$primary-color;
+  }
+  &:focus {
+    background-color: typography-mo.$disabled-background-color;
+    color: typography-mo.$primary-color;
+    outline: none;
+  }
+}
+
+#description {
+  color: typography-mo.$font-color;
+  font: typography-mo.$label-stack;
+}
+
+#cancelButton {
+  margin-left: 12px;
+}
+

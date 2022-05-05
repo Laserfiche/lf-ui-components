@@ -1,0 +1,72 @@
+<p class="documentation-header">
+    Convert Angular Component to Element
+</p>
+
+If you were previously using the Angular component version of the library, using the
+<code>laserfiche-ui-components</code> npm package, the following are steps to convert your components
+to our newly supported Angular Elements, accessible via the Laserfiche CDN.
+
+<ol>
+    <li class="num-list">
+        Add the script tag to your index.html (or anywhere that will load before you use the elements). We will work
+        on our side to add dynamic loading so you only have to load the code for the elements you need, when you need
+        them.
+    </li>
+    <li class="num-list">
+        Install the <code>@laserfiche/types-laserfiche-ui-components'</code> package
+    </li>
+    <li class="num-list">
+        Change all reference to <code>laserfiche-ui-components</code> to <code>@laserfiche/types-laserfiche-ui-components</code>
+    </li>
+    <li class="num-list">
+        Remove import of module (i.e. "LfChecklistModule") in Angular module
+    </li>
+    <li class="num-list">
+        Change any event handlers to accept the parameter as a Custom Event (i.e. <code>onClick(node: TreeNode)</code> to
+        <code>onClick(nodeEvent: CustomEvent&lt;TreeNode&gt;)</code>)
+    </li>
+    <li>
+        To run initAsync of the element (or get any of the properties from the element)
+        <ul class="num-list">
+            <li>
+                you can continue using <code>ViewChild</code>
+                <ol>
+                    <li class="num-list">
+                        add a template reference (i.e. #checklistelement) to the element and query select for that
+                        instead of the component
+                    </li>
+                    <li class="num-list">
+                        the type of the element is <code>ElementRef&lt;LfChecklistComponent&gt;</code>
+                    </li>
+                    <li class="num-list">
+                        you can then call <code>initAsync</code> of the <code>nativeElement</code> of that variable any time after ngAfterViewInit
+                    </li>
+                    <li class="num-list">
+                        sometimes <code>ViewChild</code> gets messed up when <code>*ngIf</code> causes the view to be undefined. Please use <code>ViewChildren</code> instead of <code>ViewChild</code> in this case
+                    </li>
+                </ol>
+            </li>
+            <li>
+                you can use querySelector instead
+                <ol>
+                    <li class="num-list">
+                        change the ViewChild to just a variable of type <code>NgElement &
+                        WithProperties&lt;LfChecklistComponent&gt;</code>
+                    </li>
+                    <li class="num-list">
+                        before you call initAsync on the variable make sure you assign the variable by calling
+                        document.querySelector
+                    </li>
+                    <li class="num-list">
+                        take care that this will point to the specific instance of that element so if, for example, a
+                        surrounding <code>*ngIf</code> is
+                        toggled you will have to use querySelector again.
+                    </li>
+                </ol>
+            </li>
+        </ul>
+    </li>
+    <li class="num-list">
+        Uninstall the <code>laserfiche-ui-components</code> npm package
+    </li>
+</ol>

@@ -1,0 +1,40 @@
+<div class="lf-flat-tree-container">
+  <div class="lf-header">
+      <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbSelected)="onBreadcrumbSelected($event)">
+      </lf-breadcrumbs-component>
+      <lf-toolbar-component [dropdown_options]="toolbarOptions" (optionSelected)="onToolbarOptionSelectedAsync($event)">
+      </lf-toolbar-component>
+  </div>
+  <div class="lf-flat-tree-list-container">
+      <lf-loader-component *ngIf="isLoading" class="no-entries-text"></lf-loader-component>
+      <div *ngIf="!isLoading">
+          <div *ngIf="shouldShowErrorMessage" class="error-entries-text">{{AN_ERROR_OCCURED | async}}</div>
+          <div *ngIf="shouldShowEmptyMessage" class="no-entries-text">{{EMPTY_FILE_EXPLORER | async}}</div>
+          <div *ngIf="shouldShowNoMatchesMessage" class="no-entries-text">{{NO_MATCHES_FOUND | async}}</div>
+          <mat-selection-list *ngIf="displayedNodes" #displayedNodesList [multiple]="multiple" [disableRipple]="true"
+              (selectionChange)="onSelectionChange(displayedNodesList.selectedOptions?.selected, $event)"
+              (keydown.enter)="onPressEnterAsync()">
+              <mat-list-option *ngFor="let displayedNode of displayedNodes" [value]="displayedNode"
+                  [ngClass]="{ 'non-selectable-option': !displayedNode.isSelectable, 'selectable-option': displayedNode.isSelectable }"
+                  class="lf-flat-tree-option" checkboxPosition="before"
+                  (dblclick)="openChildFolderAsync(displayedNode)" [title]="displayedNode?.name">
+                  <div *ngIf="getIcons(displayedNode).length>0" class="fixed-size-icon-container">
+                      <img *ngFor="let icon of getIcons(displayedNode)" src="{{icon}}" alt=""
+                          class='lf-flat-tree-node-icon' />
+                  </div>
+                  <p matLine class="lf-flat-tree-node-name"><span>{{displayedNode?.name}}</span></p>
+              </mat-list-option>
+          </mat-selection-list>
+      </div>
+  </div>
+  <div *ngIf="ok_button_text || cancel_button_text" class="lf-flat-tree-button-container">
+      <span>
+          <button *ngIf="shouldShowOkButton" class="primary-button lf-button" id="okButton"
+              (click)="onClickOkButton()" [disabled]="isOkButtonDisabled">{{ok_button_text}}</button>
+          <button *ngIf="shouldShowOpenButton" class="primary-button lf-button" id="openButton"
+              (click)="openSelectedNodeAsync()">{{OPEN | async}}</button>
+          <button *ngIf="cancel_button_text" class="sec-button lf-button margin-left-button"
+              (click)="onClickCancelButton()">{{cancel_button_text}}</button>
+      </span>
+  </div>
+</div>

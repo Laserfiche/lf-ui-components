@@ -1,0 +1,8 @@
+{
+    "name": "lf-checklist",
+    "ngPackage": {
+        "lib": {
+            "entryFile": "./lf-checklist-public-api.ts"
+        }
+    }
+}

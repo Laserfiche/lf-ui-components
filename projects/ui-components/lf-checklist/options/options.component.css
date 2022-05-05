@@ -1,0 +1,16 @@
+.lf-checklist-option-container {
+  padding: 5px 0 5px 45px;
+}
+
+.lf-checkbox.mat-checkbox .mat-checkbox-label {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.lf-checklist-option {
+  margin-bottom: 5px;
+}
+
+mat-checkbox.lf-checkbox {
+  width: 100%;
+}

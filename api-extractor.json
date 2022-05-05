@@ -1,0 +1,74 @@
+
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+
+  "mainEntryPointFilePath": "./dist/out-tsc/lf-cdn/src/index.d.ts",
+
+  "bundledPackages": ["@laserfiche/laserfiche-ui-components"],
+
+  "compiler": {
+  },
+
+  "apiReport": {
+    "enabled": false
+  },
+
+  "docModel": {
+
+    "enabled": false
+  },
+
+  "dtsRollup": {
+    "enabled": true,
+
+    "publicTrimmedFilePath": "./npm-publish/index.d.ts",
+
+    "omitTrimmingComments": true
+  },
+
+  "tsdocMetadata": {
+
+    "enabled": false
+  },
+
+  "messages": {
+    "compilerMessageReporting": {
+
+      "default": {
+
+        "logLevel": "warning",
+
+        "addToApiReportFile": false
+      },
+
+      "TS2551": {
+        "logLevel": "warning",
+        "addToApiReportFile": true
+      }
+    },
+
+    "extractorMessageReporting": {
+      "default": {
+        "logLevel": "warning",
+        "addToApiReportFile": false
+      },
+
+      "ae-extra-release-tag": {
+        "logLevel": "warning",
+        "addToApiReportFile": true
+      }
+    },
+
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "warning",
+        "addToApiReportFile": false
+      },
+
+      "tsdoc-link-tag-unescaped-text": {
+        "logLevel": "warning",
+        "addToApiReportFile": true
+      }
+    }
+  }
+}

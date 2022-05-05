@@ -1,0 +1,10 @@
+<mat-form-field [title]="title" appearance="outline" class="lf-field">
+  <mat-select [formControl]="formControl" [title]="formControl.value"
+    (selectionChange)="onValueChanged()" [compareWith]="compareWith" >
+    <mat-option>--</mat-option>
+    <mat-option *ngFor="let listOption of options" [value]="listOption">
+      {{listOption}}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
+</mat-form-field>
