@@ -4,7 +4,7 @@ import { LfFieldComponent } from './lf-field/lf-field.component';
 import { LfFieldMultivalueComponent } from './lf-field-multivalue/lf-field-multivalue.component';
 import { LfFieldGroupComponent } from './lf-field-group/lf-field-group.component';
 import { LfFieldBaseModule } from './field-base-parts/lf-field-base/lf-field-base.module';
-import { LfLoaderModule } from '@laserfiche/laserfiche-ui-components/shared';
+import { LfLoaderModule } from '@laserfiche/lf-ui-components/shared';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';

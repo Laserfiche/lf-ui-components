@@ -8,7 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FieldValues, LfFieldInfo } from '../../field-components/utils/lf-field-types';
 import { LfFieldAddRemoveComponent } from './lf-field-add-remove.component';
 import { LfFieldAdhocContainerDemoService } from '../lf-field-adhoc-container-demo.service';
-import { FieldType, LfPopupModalComponent } from '@laserfiche/laserfiche-ui-components/shared';
+import { FieldType, LfPopupModalComponent } from '@laserfiche/lf-ui-components/shared';
 import { GetFieldTypePipe } from './get-field-type.pipe';
 
 describe('LfFieldAddRemoveComponent', () => {

@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output } fro
 import { MatDialog } from '@angular/material/dialog';
 import { LfTreeProviders, TreeNode } from '../../utils/lf-tree.service';
 import { FlatTreeDirective } from '../flat-tree.directive';
-import { AppLocalizationService } from '@laserfiche/laserfiche-ui-components/shared';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 import { validateDefined } from '@laserfiche/lf-js-utils';
 
 @Component({

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatListOption, MatSelectionListChange } from '@angular/material/list';
 import { FlatTreeDirective } from '../flat-tree.directive';
 import { LfTreeProviders, TreeNode } from '../../utils/lf-tree.service';
-import { AppLocalizationService } from '@laserfiche/laserfiche-ui-components/shared';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 import { validateDefined } from '@laserfiche/lf-js-utils';
 
 @Component({

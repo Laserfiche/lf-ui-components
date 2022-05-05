@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FieldType } from '@laserfiche/laserfiche-ui-components/shared';
+import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { TimeUtils } from '@laserfiche/lf-js-utils';
 import { LfFieldTokenId, LfFieldTokenData, LfFieldTokenService } from './lf-field-token.service';
 

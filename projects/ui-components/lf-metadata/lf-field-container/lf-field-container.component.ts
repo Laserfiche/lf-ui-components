@@ -11,7 +11,7 @@ import { LfFieldContainerService } from './lf-field-container.service';
 import { LfFieldAdhocContainerComponent } from '../lf-field-adhoc-container/lf-field-adhoc-container.component';
 import { LfFieldTemplateContainerComponent } from '../lf-field-template-container/lf-field-template-container.component';
 import { FieldValue, LfFieldInfo, TemplateValue } from '../field-components/utils/lf-field-types';
-import { AppLocalizationService } from '@laserfiche/laserfiche-ui-components/shared';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 import { validateDefined } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
 

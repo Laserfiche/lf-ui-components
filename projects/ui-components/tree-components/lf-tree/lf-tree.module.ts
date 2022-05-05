@@ -7,7 +7,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { LfTreeComponent } from './lf-tree.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { createCustomElement } from '@angular/elements';
-import { LfLoaderModule } from '@laserfiche/laserfiche-ui-components/shared';
+import { LfLoaderModule } from '@laserfiche/lf-ui-components/shared';
 
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { LoginState } from '@laserfiche/laserfiche-ui-components/shared';
+import { LoginState } from '@laserfiche/lf-ui-components/shared';
 import { LfLoginService } from './lf-login.service';
 
 describe('LfLoginService', () => {

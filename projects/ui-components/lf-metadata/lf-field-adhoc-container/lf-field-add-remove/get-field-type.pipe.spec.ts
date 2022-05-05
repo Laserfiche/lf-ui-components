@@ -1,4 +1,4 @@
-import { FieldType } from '@laserfiche/laserfiche-ui-components/shared';
+import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { TimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
 import { LfFieldInfo } from '../../field-components/utils/lf-field-types';

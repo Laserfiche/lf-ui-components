@@ -11,7 +11,7 @@ import { LfFieldMultivalueComponent } from '../field-components/lf-field-multiva
 import { LfFieldGroupComponent } from '../field-components/lf-field-group/lf-field-group.component';
 import { FieldDefinition } from '../field-components/utils/lf-field-internal-types';
 import { isDynamicField } from '../field-components/utils/metadata-utils';
-import { AppLocalizationService } from '@laserfiche/laserfiche-ui-components/shared';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 import { TimeUtils, validateDefined } from '@laserfiche/lf-js-utils';
 
 @Component({

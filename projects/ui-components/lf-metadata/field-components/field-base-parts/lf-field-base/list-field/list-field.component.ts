@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import { ValidationRule } from '@laserfiche/laserfiche-ui-components/shared';
+import { ValidationRule } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
 
 @Component({

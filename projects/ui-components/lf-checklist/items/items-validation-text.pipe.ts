@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { ValidationRule } from '@laserfiche/laserfiche-ui-components/shared';
-import { ChecklistItem } from '@laserfiche/types-lf-ui-components';
+import { ValidationRule } from '@laserfiche/lf-ui-components/shared';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { ChecklistItem } from './checklist-item';
 
 /**
  * Pipe that gets the error message for a checklist item depending on the type of error

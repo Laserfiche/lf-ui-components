@@ -14,7 +14,7 @@ import { LfFolderBrowserComponent } from './lf-folder-browser/lf-folder-browser.
 import { LfToolbarComponent } from './lf-toolbar/lf-toolbar.component';
 import { LfBreadcrumbsComponent } from './lf-breadcrumbs/lf-breadcrumbs.component';
 import { LfFileExplorerNewFolderComponent } from './lf-file-explorer-new-folder/lf-file-explorer-new-folder.component';
-import { LfModalsModule, LfLoaderModule } from '@laserfiche/laserfiche-ui-components/shared';
+import { LfModalsModule, LfLoaderModule } from '@laserfiche/lf-ui-components/shared';
 import { LfNewFolderDialogModalModule } from './lf-new-folder-dialog-modal/lf-new-folder-dialog-modal.module';
 
 @NgModule({

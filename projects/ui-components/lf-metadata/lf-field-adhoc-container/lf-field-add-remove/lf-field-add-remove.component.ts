@@ -6,12 +6,12 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { LfFieldAdhocContainerService } from '../lf-field-adhoc-container.service';
-import { FieldType, PopupModalData } from '@laserfiche/laserfiche-ui-components/shared';
+import { FieldType, PopupModalData } from '@laserfiche/lf-ui-components/shared';
 import { LfFieldInfo } from '../../field-components/utils/lf-field-types';
-import { AppLocalizationService, filterObjectsByName } from '@laserfiche/laserfiche-ui-components/shared';
+import { AppLocalizationService, filterObjectsByName } from '@laserfiche/lf-ui-components/shared';
 import { validateDefined } from '@laserfiche/lf-js-utils';
 import { Observable } from 'rxjs';
-import { PopupModalResult } from '@laserfiche/laserfiche-ui-components/shared';
+import { PopupModalResult } from '@laserfiche/lf-ui-components/shared';
 
 /**
  * @internal

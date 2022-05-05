@@ -8,7 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LfFileExplorerComponent } from './lf-file-explorer.component';
 import { LfBreadcrumbsComponent } from './../lf-breadcrumbs/lf-breadcrumbs.component';
 import { LfToolbarComponent } from '../lf-toolbar/lf-toolbar.component';
-import { LfLoaderComponent } from '@laserfiche/laserfiche-ui-components/shared';
+import { LfLoaderComponent } from '@laserfiche/lf-ui-components/shared';
 import { LfTreeProviders, TreeNode } from '../../utils/lf-tree.service';
 import { LfTreeDemoFilePickerService } from './../../../../lf-documentation/src/app/lf-tree-documentation/lf-tree-demo-file-picker.service';
 

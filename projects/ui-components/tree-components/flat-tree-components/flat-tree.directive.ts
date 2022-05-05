@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Directive, Input, NgZone, OnChanges, OnDestroy, SimpleChange, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService, filterObjectsByName } from '@laserfiche/laserfiche-ui-components/shared';
+import { AppLocalizationService, filterObjectsByName } from '@laserfiche/lf-ui-components/shared';
 import { Subscription } from 'rxjs';
 import { LfTreeService, TreeNode } from '../utils/lf-tree.service';
 import { ToolbarOption } from './lf-toolbar/lf-toolbar.component';

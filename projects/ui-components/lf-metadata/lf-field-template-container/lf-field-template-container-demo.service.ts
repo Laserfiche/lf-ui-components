@@ -1,6 +1,6 @@
 // This service is an intentional duplication of the service in lf-documentation
 
-import { FieldType } from '@laserfiche/laserfiche-ui-components/shared';
+import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { FieldValues, TemplateFieldInfo, TemplateInfo } from '../field-components/utils/lf-field-types';
 import { isDynamicField } from '../field-components/utils/metadata-utils';
 import { DatetimeUtils } from './lf-field-template-container-datetime-utils';

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AppLocalizationService } from '@laserfiche/laserfiche-ui-components/shared';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 import { LfTreeService, TreeNode } from '../../utils/lf-tree.service';
 
 @Component({

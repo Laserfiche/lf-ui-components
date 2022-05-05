@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LfFieldInfo, FieldType } from '@laserfiche/types-lf-ui-components';
+import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
+import { LfFieldInfo } from './../../field-components/utils/lf-field-types';
 
 /**
  * Pipe that returns the localized field type, given a fieldInfo and a set of localized strings

@@ -5,7 +5,7 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
 import * as _moment from 'moment';
 const moment = _moment;
 import { NgxMatDateAdapter, NgxMatDatetimePicker } from '@angular-material-components/datetime-picker';
-import { AppLocalizationService, ValidationRule } from '@laserfiche/laserfiche-ui-components/shared';
+import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable } from 'rxjs';
 import { LocaleDatetimeUtils } from '../locale-datetime-utils';

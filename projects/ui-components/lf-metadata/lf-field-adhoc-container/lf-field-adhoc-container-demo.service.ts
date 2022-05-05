@@ -1,7 +1,7 @@
 // This service is an intentional duplication of the demo service in lf-documentation
 
 import { LfFieldAdhocContainerService } from './lf-field-adhoc-container.service';
-import { FieldFormat, FieldType } from '@laserfiche/laserfiche-ui-components/shared';
+import { FieldFormat, FieldType } from '@laserfiche/lf-ui-components/shared';
 import { FieldValue, LfFieldInfo } from '../field-components/utils/lf-field-types';
 export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerService {
   fieldInfos: LfFieldInfo[] = [

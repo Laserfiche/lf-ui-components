@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy
 import { Subscription } from 'rxjs';
 import { AccountInfo } from './login-utils/lf-login-internal-types';
 import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from './login-utils/lf-login-types';
-import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/laserfiche-ui-components/shared';
+import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { LfLoginService } from './login-utils/lf-login.service';
 import { arrayBufferToBase64, dec2base64 } from './login-utils/pkce-utils';
 
