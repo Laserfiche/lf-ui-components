@@ -59,7 +59,7 @@ jobs:
       #     fail-on-error: 'false'
 
       - name: Npm run build-ui-components
-        run: npm run build-ui-components
+        run: npm run build-ui-components-prod
 
       - name: move intellisense-imports.d.ts to entry.d.ts
         run: mv -f ./dist/ui-components/intellisense-imports.d.ts ./dist/ui-components/entry.d.ts
