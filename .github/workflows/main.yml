@@ -123,8 +123,8 @@ jobs:
 
 # copy cdn and documentation files from dist/lf-cdn and dist/lf-documentation to dist/cdn
 
-      - powershell: 'mkdir -p ./dist/ui-components/cdn'
-        displayName: 'create an empty ./dist/ui-components/cdn folder'
+      - name: 'create an empty ./dist/ui-components/cdn folder'
+        run: 'mkdir -p ./dist/ui-components/cdn'
 
       - name: 'move lf-ui-components.js to cdn'
         run: cp ./dist/lf-cdn/lf-ui-components.js ./dist/ui-components/cdn/lf-ui-components.js
