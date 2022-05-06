@@ -82,10 +82,10 @@ jobs:
         run: npm --prefix ./npm-publish pack 
 
       - name: Npm install local package
-        run: npm install ./npm-publish/laserfiche-types-lf-ui-components-$(NpmPackageVersion).tgz
+        run: npm install ./npm-publish/laserfiche-types-lf-ui-components-$(NPM_VERSION).tgz
 
       - name: 'gulp replaceVersionInGettingStarted'
-        run: gulp replaceVersionInGettingStarted --npmVersion $(NpmPackageVersion) --cdnVersion $(CURRENT_VERSION)
+        run: gulp replaceVersionInGettingStarted --npmVersion $(NPM_VERSION) --cdnVersion $(NPM_VERSION)
 
       - name: Npm run build-lf-documentation-prod
         run: npm run build-lf-documentation-prod
@@ -115,10 +115,7 @@ jobs:
         run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
         
       - name: 'gulp replaceScriptsInIndexHtml'
-        run: gulp replaceScriptsInIndexHtml --buildVersion $(NpmPackageVersion)
-
-      - name: 'gulp replaceVersionInOutputVariables'
-        run: gulp replaceVersionInOutputVariables --buildVersion $(CDNFolder) --overwrite $(CDN_Overwrite)
+        run: gulp replaceScriptsInIndexHtml --buildVersion $(NPM_VERSION)
 
       - name: 'move  to npm-publish'
         run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/lf-cdn/indigo-pink.css
