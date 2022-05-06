@@ -79,7 +79,8 @@ jobs:
 # haven't done versioning yet, but that's okay? -- no, it's used for building the documentation?
 # has the documentation always had a temp package as it's dependency?
       - name: Npm pack
-        run: npm --prefix ./npm-publish pack 
+        run: npm pack 
+        working-directory: ./npm-publish
 
       - name: Npm install local package
         run: npm install ./npm-publish/laserfiche-types-lf-ui-components-1.0.0.tgz
