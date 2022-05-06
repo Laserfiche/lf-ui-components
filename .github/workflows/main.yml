@@ -44,21 +44,6 @@ jobs:
       - name: Npm run lint
         run: npm run lint
 
-
-      - name: Npm run test
-        shell: pwsh
-        run: npm run test:ci
-
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if:  ${{ always() && github.event.pull_request.head.repo.fork == 'false' }}  # fork pr does not permission to write to checks
-        with:
-          name: Jest Test Results
-          path: ./*.xml
-          reporter: jest-junit
-          only-summary: 'true'
-          fail-on-error: 'false'
-
       - name: Npm run build-ui-components
         run: npm run build-ui-components-prod
 
@@ -94,6 +79,20 @@ jobs:
 
       - name: Npm run build-lf-cdn-prod
         run: npm run build-lf-cdn-prod
+
+      - name: Npm run test
+        shell: pwsh
+        run: npm run test:ci
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if:  ${{ always() && github.event.pull_request.head.repo.fork == 'false' }}  # fork pr does not permission to write to checks
+        with:
+          name: Jest Test Results
+          path: ./*.xml
+          reporter: jest-junit
+          only-summary: 'true'
+          fail-on-error: 'false'
 
       - name: Npm run sass-lf
         run: npm run sass-lf
