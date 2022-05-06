@@ -46,7 +46,8 @@ jobs:
 
 # will this work -- does it have to be on windows agent?
       - name: Npm run test
-        shell: npm run test --watch=false --browsers=ChromeHeadless --reporters "junit,progress"
+        shell: pwsh
+        run: npm run test --watch=false --browsers=ChromeHeadless --reporters "junit,progress"
 
       - name: Test Report
         uses: dorny/test-reporter@v1
