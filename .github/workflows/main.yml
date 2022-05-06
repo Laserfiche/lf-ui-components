@@ -175,10 +175,10 @@ jobs:
       - name: set NpmPackageVersion environment
         run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
 
-      - name: 'move license'
-        run: |
-          mv -t ./npm-publish LICENSE
-          mv -t ./dist/ui-components LICENSE
+      # - name: 'move license'
+      #   run: |
+      #     mv -t ./npm-publish LICENSE
+      #     mv -t ./dist/ui-components LICENSE
 
       - name: npm version @laserfiche/types-lf-ui-components
         run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
