@@ -45,18 +45,18 @@ jobs:
         run: npm run lint
 
 # will this work -- does it have to be on windows agent?
-      # - name: Npm run test
-      #   run: npm run test --watch=false --browsers=ChromeHeadless --reporters "junit,progress"
+      - name: Npm run test
+        run: npm run test --watch=false --browsers=ChromeHeadless --reporters "junit,progress"
 
-      # - name: Test Report
-      #   uses: dorny/test-reporter@v1
-      #   if:  ${{ always() && github.event.pull_request.head.repo.fork == 'false' }}  # fork pr does not permission to write to checks
-      #   with:
-      #     name: Jest Test Results
-      #     path: ./*.xml
-      #     reporter: jest-junit
-      #     only-summary: 'true'
-      #     fail-on-error: 'false'
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if:  ${{ always() && github.event.pull_request.head.repo.fork == 'false' }}  # fork pr does not permission to write to checks
+        with:
+          name: Jest Test Results
+          path: ./*.xml
+          reporter: jest-junit
+          only-summary: 'true'
+          fail-on-error: 'false'
 
       - name: Npm run build-ui-components
         run: npm run build-ui-components-prod
@@ -79,7 +79,7 @@ jobs:
 # haven't done versioning yet, but that's okay? -- no, it's used for building the documentation?
 # has the documentation always had a temp package as it's dependency?
       - name: Npm pack
-        run: npm pack 
+        run: npm pack
         working-directory: ./npm-publish
 
       - name: Npm install local package
@@ -105,16 +105,16 @@ jobs:
 
       - name: 'gulp renameRuntimeWebpackChunk'
         run: gulp renameRuntimeWebpackChunk
-        
+
       - name: 'gulp renamePolyfillsWebpackChunk'
         run: gulp renamePolyfillsWebpackChunk
 
       - name: concatenate runtime.js, main.js, and polyfills.js into lf-ui-components.js
         run: (cat ./dist/lf-cdn/main.js; echo ""; cat ./dist/lf-cdn/polyfills.js; echo ""; cat ./dist/lf-cdn/runtime.js; echo ""; echo "//# sourceMappingURL=main.js.map") > ./dist/lf-cdn/lf-ui-components.js
-        
+
       - name: 'concatenate runtime.js, main.js, and polyfills.js into lf-documentation.js'
         run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
-        
+
       - name: 'gulp replaceScriptsInIndexHtml'
         run: gulp replaceScriptsInIndexHtml --buildVersion ${{env.NPM_VERSION}}
 
@@ -157,7 +157,7 @@ jobs:
   #   if: ${{ (github.run_attempt != 1) && (github.run_attempt != 2 && github.event.pull_request.head.repo.owner.login != 'Laserfiche') }}
   #   needs: [ build ]
   #   steps:
-          
+
   #     - name: Download a Build Artifact
   #       uses: actions/download-artifact@v2.1.0
   #       with:
