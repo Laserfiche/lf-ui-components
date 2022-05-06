@@ -123,8 +123,11 @@ jobs:
 
 # copy cdn and documentation files from dist/lf-cdn and dist/lf-documentation to dist/cdn
 
+      - powershell: 'mkdir -p ./dist/ui-components/cdn'
+        displayName: 'create an empty ./dist/ui-components/cdn folder'
+
       - name: 'move lf-ui-components.js to cdn'
-        run: cp ./dist/lf-cdn/lf-ui-components.js ./dist/cdn/lf-ui-components.js
+        run: cp ./dist/lf-cdn/lf-ui-components.js ./dist/ui-components/cdn/lf-ui-components.js
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.3.1
@@ -133,7 +136,6 @@ jobs:
           # A file, directory or wildcard pattern that describes what to upload
           path: |
             ./dist/ui-components
-            ./dist/cdn
             ./npm-publish
             ./.npmrc
             ./README.md
