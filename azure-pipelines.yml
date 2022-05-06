@@ -475,33 +475,6 @@ stages:
         - powershell: 'New-Item ./dist/lf-cdn -ItemType directory -Force'
           displayName: 'create an empty ./dist/lf-cdn folder'
 
-        # cannot directory download to folder because the full path of the downloaded artifact is preserved
-        - task: DownloadBuildArtifacts@0
-          displayName: 'Download artifact lf-ui-components.js to artifact directory'
-          inputs:
-            buildType: 'current'
-            downloadType: 'specific'
-            itemPattern: 'CDN_Content/files/*'
-            downloadPath:  '$(System.ArtifactsDirectory)'
-
-        - task: CopyFiles@2
-          displayName: 'Copy cdn files to ./dist/ui-components/cdn'
-          inputs:
-            SourceFolder: '$(System.ArtifactsDirectory)/CDN_Content/files/'
-            Contents: '*'
-            TargetFolder: './dist/ui-components/cdn'
-            CleanTargetFolder: false
-            OverWrite: true
-
-        - task: CopyFiles@2
-          displayName: 'Copy lf-ui-components.js to ./dist/lf-cdn/'
-          inputs:
-            SourceFolder: '$(System.ArtifactsDirectory)/CDN_Content/files/'
-            Contents: 'lf-ui-components.js'
-            TargetFolder: './dist/lf-cdn'
-            CleanTargetFolder: false
-            OverWrite: true
-
         - task: DownloadBuildArtifacts@0
           displayName: 'Download artifact ui-components files to artifact directory'
           inputs:
