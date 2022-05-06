@@ -142,26 +142,85 @@ jobs:
           path: |
             ./dist/ui-components
             ./npm-publish
-            ./.npmrc
-            ./README.md
-            ./LICENSE
 
       - name: echo github run attempt
         run: echo ${{ github.run_attempt }} ${{  github.event.pull_request.head.repo.owner.login }}
 
 
 
-  # publish_to_npm_release:
-  #   runs-on: ubuntu-latest
-  #   environment: npm_production
-  #   if: ${{ (github.run_attempt != 1) && (github.run_attempt != 2 && github.event.pull_request.head.repo.owner.login != 'Laserfiche') }}
-  #   needs: [ build ]
-  #   steps:
+  publish_to_npm_release:
+    runs-on: ubuntu-latest
+    environment: npm_production
+    if: ${{ github.run_attempt != 1 }}
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.sha }}
 
-  #     - name: Download a Build Artifact
-  #       uses: actions/download-artifact@v2.1.0
-  #       with:
-  #         name: npm-publish-artifact
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.1.0
+        with:
+          name: npm-publish-artifact
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: '14'
+
+      - name: Npm tool install
+        run: npm install -g npm@8
+
+      - name: set NpmPackageVersion environment
+        run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
+
+      - name: 'move license'
+        run: |
+          mv -t ./npm-publish LICENSE
+          mv -t ./dist/ui-components LICENSE
+
+      - name: npm version @laserfiche/types-lf-ui-components
+        run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
+        working-directory: ./npm-publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_USERNAME: ${{ secrets.NPM_USERNAME }}
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
+
+      - name: Npm publish @laserfiche/types-lf-ui-components
+        run: npm publish  --access public  --tag next
+        working-directory: ./npm-publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_USERNAME: ${{ secrets.NPM_USERNAME }}
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
+
+      - name: npm version @laserfiche/lf-ui-components
+        run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
+        working-directory: ./dist/ui-components
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_USERNAME: ${{ secrets.NPM_USERNAME }}
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
+
+      - name: Npm publish @laserfiche/lf-ui-components
+        run: npm publish  --access public  --tag next
+        working-directory: ./dist/ui-components
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_USERNAME: ${{ secrets.NPM_USERNAME }}
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
+
+      - name: Tag commit
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ env.NpmPackageVersion }}
+          commit_sha: ${{ github.sha }}
+          message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
   # need to download, version, publish both packages
 
