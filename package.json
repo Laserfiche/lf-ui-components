@@ -14,6 +14,7 @@
     "build-ui-components-prod": "ng build ui-components --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --reporters='junit,progress'",
     "lint": "ng lint",
     "tsc-cdn": "tsc --project ./projects/lf-cdn/tsconfig.app.json",
     "api-extractor": "api-extractor run --local",

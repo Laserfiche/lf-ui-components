@@ -47,7 +47,7 @@ jobs:
 
       - name: Npm run test
         shell: pwsh
-        run: npm run test --watch=false --browsers=ChromeHeadless --reporters="junit,progress"
+        run: npm run test:ci
 
       - name: Test Report
         uses: dorny/test-reporter@v1
