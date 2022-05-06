@@ -127,8 +127,12 @@ jobs:
         run: 'mkdir -p ./dist/ui-components/cdn'
 
       - name: 'move lf-ui-components.js to cdn'
-        run: mv -t ./dist/ui-components/cdn lf-ui-components.js main.js.map runtime.js.map polyfills.js.map
+        run: mv -t ../ui-components/cdn lf-ui-components.js main.js.map runtime.js.map polyfills.js.map
         working-directory: ./dist/lf-cdn
+
+      - name: 'move lf-ui-components.js to cdn'
+        run: mv -t ../ui-components/cdn lf-documentation.js index.html favicon.ico 3rdpartylicenses.txt file.svg folder.svg lf-16.png lf-80.png chrome-logo.png edge-logo.png firefox-logo.png styles.css lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
+        working-directory: ./dist/lf-documentation
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.3.1
