@@ -348,7 +348,6 @@ stages:
             SourceFolder: './dist/lf-documentation'
             Contents: |
               lf-documentation.js
-              polyfills.js
               index.html
               favicon.ico
               3rdpartylicenses.txt
@@ -357,7 +356,6 @@ stages:
               lf-16.png
               lf-80.png
               chrome-logo.png
-              lf_addin_icons.svg
               edge-logo.png
               firefox-logo.png
               styles.css
