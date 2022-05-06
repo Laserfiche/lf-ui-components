@@ -46,8 +46,8 @@ jobs:
 
 # will this work -- does it have to be on windows agent?
       - name: Npm run test
-        run: npm run test:ci
-        
+        run: npm run test --watch=false --browsers=ChromeHeadless --reporters "junit,progress"
+
       - name: Test Report
         uses: dorny/test-reporter@v1
         if:  ${{ always() && github.event.pull_request.head.repo.fork == 'false' }}  # fork pr does not permission to write to checks
