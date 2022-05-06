@@ -142,6 +142,7 @@ jobs:
           path: |
             ./dist/ui-components
             ./npm-publish
+            LICENSE
 
       - name: echo github run attempt
         run: echo ${{ github.run_attempt }} ${{  github.event.pull_request.head.repo.owner.login }}
