@@ -147,8 +147,6 @@ jobs:
       - name: echo github run attempt
         run: echo ${{ github.run_attempt }} ${{  github.event.pull_request.head.repo.owner.login }}
 
-
-
   publish_to_npm_review:
     runs-on: ubuntu-latest
     environment: npm_preview
@@ -184,11 +182,6 @@ jobs:
       - name: npm version @laserfiche/types-lf-ui-components
         run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
         working-directory: ./npm-publish
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_USERNAME: ${{ secrets.NPM_USERNAME }}
-          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
-          NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
 
       - name: Npm publish @laserfiche/types-lf-ui-components
         run: npm publish  --access public  --tag next
@@ -199,17 +192,12 @@ jobs:
       - name: npm version @laserfiche/lf-ui-components
         run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
         working-directory: ./dist/ui-components
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Npm publish @laserfiche/lf-ui-components
         run: npm publish  --access public  --tag next
         working-directory: ./dist/ui-components
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_USERNAME: ${{ secrets.NPM_USERNAME }}
-          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
-          NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Tag commit
         uses: rickstaa/action-create-tag@v1
@@ -218,14 +206,4 @@ jobs:
           commit_sha: ${{ github.sha }}
           message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
-  # need to download, version, publish both packages
 
-
-#need to do this inside ./npm-publish
-      # - name: npm version
-      #   run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
-      #   env:
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #     NPM_USERNAME: ${{ secrets.NPM_USERNAME }}
-      #     NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
-      #     NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
