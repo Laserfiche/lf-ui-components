@@ -149,9 +149,9 @@ jobs:
 
 
 
-  publish_to_npm_release:
+  publish_to_npm_review:
     runs-on: ubuntu-latest
-    environment: npm_production
+    environment: npm_preview
     if: ${{ github.run_attempt != 1 }}
     needs: [ build ]
     steps:
