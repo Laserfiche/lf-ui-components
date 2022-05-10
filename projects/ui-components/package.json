@@ -1,6 +1,10 @@
 {
   "name": "@laserfiche/lf-ui-components",
   "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/Laserfiche/lf-ui-components"
+  },
   "peerDependencies": {
     "@angular/animations": "~12.1.5",
     "@angular/cdk": "~12.1.4",

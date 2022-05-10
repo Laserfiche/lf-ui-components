@@ -168,6 +168,7 @@ jobs:
         uses: actions/setup-node@v2.5.1
         with:
           node-version: '14'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Npm tool install
         run: npm install -g npm@8
@@ -179,11 +180,6 @@ jobs:
         run: |
           cp LICENSE ./npm-publish
           cp LICENSE ./dist/ui-components
-          
-      - name: 'cp npmrc'
-        run: |
-          cp .npmrc ./npm-publish
-          cp .npmrc ./dist/ui-components
 
       - name: npm version @laserfiche/types-lf-ui-components
         run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
@@ -198,19 +194,13 @@ jobs:
         run: npm publish  --access public  --tag next
         working-directory: ./npm-publish
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_USERNAME: ${{ secrets.NPM_USERNAME }}
-          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
-          NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: npm version @laserfiche/lf-ui-components
         run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
         working-directory: ./dist/ui-components
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_USERNAME: ${{ secrets.NPM_USERNAME }}
-          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
-          NPM_REGISTRY: ${{ secrets.NPM_REGISTRY }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Npm publish @laserfiche/lf-ui-components
         run: npm publish  --access public  --tag next
