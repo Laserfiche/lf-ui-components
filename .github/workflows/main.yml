@@ -207,3 +207,60 @@ jobs:
           message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
 
+  publish_to_npm_release:
+    runs-on: ubuntu-latest
+    environment: npm_production
+    if: ${{ github.run_attempt != 1 }}
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.1.0
+        with:
+          name: npm-publish-artifact
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: '14'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Npm tool install
+        run: npm install -g npm@8
+
+      - name: 'copy license'
+        run: |
+          cp LICENSE ./npm-publish
+          cp LICENSE ./dist/ui-components
+
+      - name: npm version @laserfiche/types-lf-ui-components
+        run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version
+        working-directory: ./npm-publish
+
+      - name: Npm publish @laserfiche/types-lf-ui-components
+        run: npm publish  --access public  --tag latest
+        working-directory: ./npm-publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: npm version @laserfiche/lf-ui-components
+        run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version
+        working-directory: ./dist/ui-components
+
+      - name: Npm publish @laserfiche/lf-ui-components
+        run: npm publish  --access public  --tag latest
+        working-directory: ./dist/ui-components
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Tag commit
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ env.NPM_VERSION }}
+          commit_sha: ${{ github.sha }}
+          message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
+
+
