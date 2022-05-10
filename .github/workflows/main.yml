@@ -141,8 +141,8 @@ jobs:
           # A file, directory or wildcard pattern that describes what to upload
           path: |
             ./dist/ui-components
-            ./npm-publish
-            LICENSE
+            ./npm-publish/index.d.ts
+            ./npm-publish/index.js
 
       - name: echo github run attempt
         run: echo ${{ github.run_attempt }} ${{  github.event.pull_request.head.repo.owner.login }}
