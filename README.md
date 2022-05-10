@@ -5,6 +5,9 @@ A collection of UI Components to be used to interact with Laserfiche.
 It is a library for reusable laserfiche ui web components, as well as its documentation.
 The default project is `lf-documentation`.
 
+# [Documentation](https://unpkg.com/@laserfiche/lf-ui-components@latest/cdn/index.html#/)
+
+
 ## Setting UI Components Language
 
 - The default language of the UI Components is the browser language.

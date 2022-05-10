@@ -1,24 +1,22 @@
-# UiComponents
+# lf-ui-components
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.0.
+A collection of UI Components to be used to interact with Laserfiche.
 
-## Code scaffolding
+It is a library for reusable laserfiche ui web components, as well as its documentation.
+The default project is `lf-documentation`.
 
-Run `ng generate component component-name --project ui-components` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ui-components`.
-> Note: Don't forget to add `--project ui-components` or else it will be added to the default project in your `angular.json` file. 
+# [Documentation](https://unpkg.com/@laserfiche/lf-ui-components@latest/cdn/index.html#/)
 
-## Build
+## Setting UI Components Language
 
-Run `ng build ui-components` to build the project. The build artifacts will be stored in the `dist/` directory.
+- The default language of the UI Components is the browser language.
+- To explicitly set the language of the UI Components post a message as follows:
 
-## Publishing
+```typescript
+const langObj = {
+    'lf-localization-service-set-language': language
+}
+window.postMessage(JSON.stringify(langObj), window.origin);
+```
 
-After building your library with `ng build ui-components`, go to the dist folder `cd dist/ui-components` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test ui-components` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- [Supported Languages](https://www.jsdelivr.com/package/npm/@laserfiche/lf-resource-library?path=resources%2Flaserfiche-base)
