@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IconUtils } from '@laserfiche/lf-js-utils/';
 import { ToolbarOption } from '@laserfiche/types-lf-ui-components';
 
 @Component({
@@ -9,12 +10,12 @@ import { ToolbarOption } from '@laserfiche/types-lf-ui-components';
 export class LfToolbarDocumentationComponent {
 
   elementToolbarOptions: ToolbarOption[] = [
-    { name: 'Refresh', disabled: false, icon: 'https://lfxstatic.com/Site/laserfiche-ui-components/2.0/file.svg' },
-    { name: 'New Folder', disabled: true, icon: 'https://lfxstatic.com/Site/laserfiche-ui-components/2.0/file.svg' },
-    { name: 'Download', disabled: true, icon: 'https://lfxstatic.com/Site/laserfiche-ui-components/2.0/file.svg' },
-    { name: 'Scan', disabled: true, icon: 'https://lfxstatic.com/Site/laserfiche-ui-components/2.0/file.svg' },
-    { name: 'Rename', disabled: false, icon: 'https://lfxstatic.com/Site/laserfiche-ui-components/2.0/file.svg' },
-    { name: 'Share', disabled: false, icon: 'https://lfxstatic.com/Site/laserfiche-ui-components/2.0/file.svg' },
+    { name: 'Refresh', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'New Folder', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'Download', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'Scan', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'Rename', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'Share', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
   ];
   selectedElementOption?: string;
 
