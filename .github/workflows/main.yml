@@ -16,12 +16,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      NPM_TOKEN: dummy
-      NPM_USERNAME: dummy
-      NPM_EMAIL: dummy
-      NPM_REGISTRY: dummy
-
     steps:
       - uses: actions/checkout@v2
         with:
