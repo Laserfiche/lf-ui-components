@@ -26,12 +26,14 @@
   margin-top: 4px;
 }
 
-svg#close {
-  fill: rgb(170, 170, 170);
+span#close {
+  color: rgb(170, 170, 170);
   opacity: 0.6;
+  font-size: 20px;
+  vertical-align: -webkit-baseline-middle;
 }
 
-svg#close:hover {
+span#close:hover {
   opacity: 1;
 }
 

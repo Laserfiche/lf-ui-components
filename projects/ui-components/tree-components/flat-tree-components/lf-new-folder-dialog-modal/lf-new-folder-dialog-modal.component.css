@@ -30,12 +30,13 @@
   line-height: 16px;
 }
 
-svg#close {
-  fill: rgb(170, 170, 170);
+span#close {
+  color: rgb(170, 170, 170);
   opacity: 0.6;
+  font-size: 20px;
 }
 
-svg#close:hover {
+span#close:hover {
   opacity: 1;
 }
 

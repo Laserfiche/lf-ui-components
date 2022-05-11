@@ -64,6 +64,7 @@
   background-color: rgba(204,233,241,0.3);
 }
 
-.chevron-icon {
+.token-picker-icon {
   vertical-align: top;
+  font-weight: bold;
 }

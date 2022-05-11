@@ -84,6 +84,10 @@
   background-color: rgba(204,233,241,0.3);
 }
 
+.lf-toolbar-dropdown-button-icon {
+  font-size: 18px;
+}
+
 ::ng-deep .lf-web-client-tooltip {
   background-color: rgb(0 0 0 / 75%);
   font-size: 12px;
