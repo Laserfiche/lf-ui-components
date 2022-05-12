@@ -6,7 +6,7 @@
     "url": "https://github.com/Laserfiche/lf-ui-components"
   },
   "scripts": {
-    "postprepare": "cd lf-metadata && npm install"
+    "postinstall": "cd lf-metadata && npm install"
   },
   "peerDependencies": {
     "@angular/animations": "~12.1.5",
