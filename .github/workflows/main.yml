@@ -83,7 +83,7 @@ jobs:
         with:
           name: Jest Test Results
           path: ./**/TESTS*.xml
-          reporter: jest-junit
+          reporter: java-junit
           only-summary: 'true'
           fail-on-error: 'false'
 
