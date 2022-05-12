@@ -79,6 +79,7 @@ jobs:
         run: npm run test:ci
 
       - name: Test Report
+        if: always()
         uses: dorny/test-reporter@v1
         with:
           name: Jest Test Results
