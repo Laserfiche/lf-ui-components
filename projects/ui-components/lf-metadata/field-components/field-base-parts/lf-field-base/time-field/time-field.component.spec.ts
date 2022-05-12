@@ -13,7 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TimeUtils } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 describe('TimeFieldComponent', () => {
   let requiredTimeComponent: TimeFieldComponent;
@@ -95,7 +95,7 @@ describe('TimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -110,7 +110,7 @@ describe('TimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     optionalTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -135,7 +135,7 @@ describe('TimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -158,7 +158,7 @@ describe('TimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );

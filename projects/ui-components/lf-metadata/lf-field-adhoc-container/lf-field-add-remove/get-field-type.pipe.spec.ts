@@ -1,5 +1,5 @@
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
-import { TimeUtils } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
 import { LfFieldInfo } from '../../field-components/utils/lf-field-types';
 import { GetFieldTypePipe } from './get-field-type.pipe';
@@ -12,7 +12,7 @@ describe('GetFieldTypePipe', () => {
   it('create an instance', () => {
     expect(pipe).toBeTruthy();
   });
-  
+
   it('should return Observable if exists', async () => {
     const item: LfFieldInfo = {
       id: 1,
@@ -25,7 +25,7 @@ describe('GetFieldTypePipe', () => {
     });
     const expectedValue = 'string type';
 
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedValue,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
