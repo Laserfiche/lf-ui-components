@@ -82,7 +82,7 @@ jobs:
         uses: dorny/test-reporter@v1
         with:
           name: Jest Test Results
-          path: ./**/*.xml
+          path: ./**/TESTS*.xml
           reporter: jest-junit
           only-summary: 'true'
           fail-on-error: 'false'
