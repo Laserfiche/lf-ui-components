@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
-import { validateDefined } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { FieldValue, LfFieldInfo, LfFieldValue } from '../utils/lf-field-types';
 
 @Component({
@@ -66,7 +66,7 @@ export class LfFieldMultivalueComponent {
   /** @internal */
   @Input()
   initAsync = async (fieldDefinition: LfFieldInfo, fieldValues: LfFieldValue[] = [], dynamicFieldOptions?: string[][]): Promise<void> => {
-    this.lfFieldInfo = validateDefined(fieldDefinition, 'fieldDefinition');
+    this.lfFieldInfo = CoreUtils.validateDefined(fieldDefinition, 'fieldDefinition');
     this.dynamicFieldOptions = dynamicFieldOptions;
     if ((!fieldValues || fieldValues.length === 0) && this.lfFieldInfo.defaultValue) {
       this.lfFieldValues = [this.lfFieldInfo.defaultValue];
