@@ -17,12 +17,12 @@ The default project is `lf-documentation`.
 # Example Usages 
 
 ## CDN with Angular Applications
-1. `npm install @laserfiche/type-lf-ui-components` (use the link from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes) to obtain the NPM package for the desired version)
-2. Import the UI elements from the CDN by adding this line in `./index.html` inside your application (use the url from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes)).
+1. `npm install @laserfiche/type-lf-ui-components`
+2. Import the UI elements from the CDN by adding this line in `./index.html` inside your application
    ```html
    <script src="https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/lf-ui-components.js" defer></script>
    ```
-3. Import the style sheet from the CDN by adding this line in `./index.html` inside your application (use the url from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes)).
+3. Import the style sheet from the CDN by adding this line in `./index.html` inside your application
    ```html
    <link href="https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/lf-laserfiche-lite.css"  rel="stylesheet"/>
    ```
@@ -80,7 +80,7 @@ The default project is `lf-documentation`.
    ```
 ## NPM library in Angular Projects
 
-1. `npm install @laserfiche/lf-ui-components` (use the link from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes) to obtain the NPM package for the desired version)
+1. `npm install @laserfiche/lf-ui-components`
 2. Inside `./app.module.ts`, import the Angular modules. For example, we want to use the <lf-checklist> element:
    ```TypeScript
       import { NgModule } from '@angular/core';
@@ -103,41 +103,41 @@ The default project is `lf-documentation`.
 ```
 4. the same usage of using `lf-cheklist`, except this time, both the implementation and the typing are provided via `@laserfiche/lf-ui-components/lf-checklist`
 
-   In a html file, 
-   ```html
-   <lf-checklist #myChecklist (checklistChanged)="onChecklistChangedAsync($event)"></lf-checklist>
-   <!-- checklistChanged is a HTML custom event -->
-   ```
-   To add a handle of this element, in the `.ts` file,
-   ```ts
-   import { AfterViewInit, Component, ViewChild, ElementRef} from '@angular/core';
-   // we can directly import types from the NPM package
+In a html file, 
+  ```html
+  <lf-checklist #myChecklist (checklistChanged)="onChecklistChangedAsync($event)"></lf-checklist>
+  <!-- checklistChanged is a HTML custom event -->
+  ```
+  To add a handle of this element, in the `.ts` file,
+  ```ts
+  import { AfterViewInit, Component, ViewChild, ElementRef} from '@angular/core';
+  // we can directly import types from the NPM package
   import { Checklist, LfChecklistComponent, LfChecklistService } from '@laserfiche/lf-ui-components/lf-checklist';
-  
-   @Component({
-     selector: 'app-attachments',
-     templateUrl: './attachments.component.html',
-     styleUrls: ['./attachments.component.css'],
-   })
-   export class ExampleApp implements AfterViewInit {
 
-     // a handle of the LfCheckistElement in the html above, available after ngAfterViewInit
-     @ViewChild('myChecklist') componentChecklist!: ElementRef<LfChecklistComponent>; 
+  @Component({
+    selector: 'app-attachments',
+    templateUrl: './attachments.component.html',
+    styleUrls: ['./attachments.component.css'],
+  })
+  export class ExampleApp implements AfterViewInit {
 
-     // type Checklist is the type of the custom element imported from the NPM pakage
-     currentChecklist: Checklist[]; 
+    // a handle of the LfCheckistElement in the html above, available after ngAfterViewInit
+    @ViewChild('myChecklist') componentChecklist!: ElementRef<LfChecklistComponent>; 
 
-     // event that emits the custom type  outputs are dispatched as HTML Custom Events
-     onClick(event: CustomEvent<Checklist>) {
-       const checklist = event.detail;   // data will be stored in the detail property
-     }
+    // type Checklist is the type of the custom element imported from the NPM pakage
+    currentChecklist: Checklist[]; 
 
-     ngAfterViewInit() {
-        // the element's view is initialized after ngAfterViewInit
-       this.componentChecklist.nativeElement.initAsync(...)
-     }
-   }
-   ```
+    // event that emits the custom type  outputs are dispatched as HTML Custom Events
+    onClick(event: CustomEvent<Checklist>) {
+      const checklist = event.detail;   // data will be stored in the detail property
+    }
+
+    ngAfterViewInit() {
+      // the element's view is initialized after ngAfterViewInit
+      this.componentChecklist.nativeElement.initAsync(...)
+    }
+  }
+  ```
 ## Setting UI Components Language
 
 - The default language of the UI Components is the browser language.

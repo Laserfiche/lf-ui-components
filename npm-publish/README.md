@@ -26,12 +26,12 @@ The `laserfiche-ui-components` in CDN is essentially loosely typed JavaScript. F
 # How to use the type NPM Package for laserfiche-ui-components?
 
 ## With Angular Applications
-1. `npm install @laserfiche/type-lf-ui-components` (use the link from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes) to obtain the NPM package for the desired version)
-2. Import the UI elements from the CDN by adding this line in `./index.html` inside your application (use the url from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes)).
+1. `npm install @laserfiche/type-lf-ui-components`
+2. Import the UI elements from the CDN by adding this line in `./index.html` inside your application
    ```html
    <script src="https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/lf-ui-components.js" defer></script>
    ```
-3. Import the style sheet from the CDN by adding this line in `./index.html` inside your application (use the url from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes)).
+3. Import the style sheet from the CDN by adding this line in `./index.html` inside your application 
    ```html
    <link href="https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/lf-laserfiche-lite.css"  rel="stylesheet"/>
    ```
