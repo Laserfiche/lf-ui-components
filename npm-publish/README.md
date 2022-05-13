@@ -21,17 +21,21 @@ export * from './lib/items/checklist-item';
 export * from './lib/options/checklist-option';
 ```
 # Why do we need it?
-The `laserfiche-ui-components` in CDN is essentially loosely typed JavaScript. For this reason, if an application use elements imported from CDN, it will not have any typing information about those elements. To compliment this, we provide ***@laserfiche/type-lf-ui-components***, a type NPM package that contains the declaration files for those elements.
+The `laserfiche-ui-components` in CDN is essentially loosely typed JavaScript. For this reason, if an application use elements imported from CDN, it will not have any typing information about those elements. To compliment this, we provide ***@laserfiche/types-lf-ui-components***, a type NPM package that contains the declaration files for those elements.
 
 # How to use the type NPM Package for laserfiche-ui-components?
 
 ## With Angular Applications
 1. `npm install @laserfiche/type-lf-ui-components` (use the link from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes) to obtain the NPM package for the desired version)
-2. Import the lf-elements from the CDN by adding this line in `./index.html` inside your application (use the url from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes)).
+2. Import the UI elements from the CDN by adding this line in `./index.html` inside your application (use the url from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes)).
    ```html
    <script src="https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/lf-ui-components.js" defer></script>
    ```
-3. Inside `./app.module.ts`, add `CUSTOM_ELEMENTS_SCHEMA` to @NgModule.schemas. This enables custom elements in your Angular application.
+3. Import the style sheet from the CDN by adding this line in `./index.html` inside your application (use the url from the [released versions](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/release-notes)).
+   ```html
+   <link href="https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/lf-laserfiche-lite.css"  rel="stylesheet"/>
+   ```
+4. Inside `./app.module.ts`, add `CUSTOM_ELEMENTS_SCHEMA` to @NgModule.schemas. This enables custom elements in your Angular application.
    ```TypeScript
       import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
@@ -46,18 +50,18 @@ The `laserfiche-ui-components` in CDN is essentially loosely typed JavaScript. F
          schemas: [CUSTOM_ELEMENTS_SCHEMA]
        })
    ```
-4. example usage of using `lf-cheklist` whose implementation is provided in CDN, while type information is provided in the `@laserfiche/type-laserfiche-ui-components` NPM package.
+5. example usage of using `lf-cheklist` whose implementation is provided in CDN, while type information is provided in the `@laserfiche/type-lf-ui-components` NPM package.
 
    In a html file, 
    ```html
-   <lf-checklist-element #myChecklist (checklistChanged)="onChecklistChangedAsync($event)"></lf-checklist-element>
+   <lf-checklist #myChecklist (checklistChanged)="onChecklistChangedAsync($event)"></lf-checklist>
    <!-- checklistChanged is a HTML custom event -->
    ```
    To add a handle of this element, in the `.ts` file,
    ```ts
    import { AfterViewInit, Component, ViewChild, ElementRef} from '@angular/core';
    // we can directly import types from the NPM package
-   import {LfChecklistComponent, Checklist} from '@laserfiche/types-laserfiche-ui-components'  
+   import {LfChecklistComponent, Checklist} from '@laserfiche/types-lf-ui-components'  
   
    @Component({
      selector: 'app-attachments',
@@ -79,7 +83,7 @@ The `laserfiche-ui-components` in CDN is essentially loosely typed JavaScript. F
 
      ngAfterViewInit() {
         // the element's view is initialized after ngAfterViewInit
-       this.componentChecklist.initAsync(...)
+       this.componentChecklist.nativeElement.initAsync(...)
      }
    }
    ```
