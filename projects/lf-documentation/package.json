@@ -1,0 +1,31 @@
+{
+  "name": "@laserfiche/lf-ui-documentation",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/Laserfiche/lf-ui-components"
+  },
+  "peerDependencies": {
+    "@angular/animations": "~12.1.5",
+    "@angular/cdk": "~12.1.4",
+    "@angular/common": "~12.1.1",
+    "@angular/compiler": "~12.1.1",
+    "@angular/core": "~12.1.1",
+    "@angular/elements": "~12.1.4",
+    "@angular/forms": "~12.1.1",
+    "@angular/material": "~12.1.4",
+    "@angular/platform-browser": "~12.1.1",
+    "@laserfiche/lf-js-utils": "3.0.5",
+    "rxjs": "~6.6.0",
+    "zone.js": "~0.11.4",
+    "@laserfiche/types-laserfiche-ui-components": "~12.0.0.--preview-2347226596"
+  },
+  "exports": {
+    "./lf-login": "./lf-login",
+    "./lf-checklist": "./lf-checklist",
+    "./lf-metadata": "./lf-metadata",
+    "./shared": "./shared",
+    "./tree-components": "./tree-components",
+    "./lf-user-feedback": "./lf-user-feedback"
+  }
+}
