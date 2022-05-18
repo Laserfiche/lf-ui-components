@@ -90,9 +90,10 @@ i {
 }
 
 .adhoc-back-button {
-  fill: #767676;
+  color: #767676;
   padding: 12px 5px 12px 15px;
-  font-size: 30px;
+  font-size: 18px;
+  font-weight: bold;
   box-sizing: content-box;
 }
 

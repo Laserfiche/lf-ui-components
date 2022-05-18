@@ -1,12 +1,9 @@
 <div id="add-remove-container" class="add-remove-container">
   <div id="adhoc-back-button" class='back-button-overlay' (click)='onClickBack()'>
       <div class="adhoc-back-button-container">
-          <svg id="arrow-left-18" width="18" height="18" viewBox="0 0 18 18" class="lf-button adhoc-back-button">
-              <path
-                  d="M11.064,17.7c0.395,0.4,1.035,0.4,1.432,0l0.715-0.727c0.395-0.4,0.395-1.051,0-1.45L6.783,9.001
-          l6.43-6.522c0.395-0.401,0.395-1.051,0-1.453l-0.717-0.725c-0.395-0.401-1.035-0.401-1.43,0l-8.575,8.7L11.064,17.7z">
-              </path>
-          </svg>
+          <span class="material-icons lf-button adhoc-back-button" id="arrow-left-18">
+            arrow_back_ios_new
+            </span>
       </div>
       <div class="ms-font-m back-button-text">{{ADD_REMOVE_FIELDS | async}}</div>
   </div>

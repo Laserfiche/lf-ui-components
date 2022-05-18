@@ -11,7 +11,6 @@ import { LfFieldMultivalueComponent } from '../field-components/lf-field-multiva
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldContainerDirective } from '../lf-field-container.directive';
 import { validateDefined } from '@laserfiche/lf-js-utils';
-
 @Component({
   selector: 'lf-field-adhoc-container-component',
   templateUrl: './lf-field-adhoc-container.component.html',

@@ -226,7 +226,7 @@ describe('DateFieldComponent', () => {
     // assert
     expect(containsToken).toBeFalse();
   });
-  
+
   it('should have update locale for date when language updated', async () => {
     // act
     let value: string | undefined;

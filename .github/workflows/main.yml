@@ -1,36 +1,277 @@
-# This is a basic workflow to help you get started with Actions
+name: lf-ui-components-CI
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the 12.x branch
   push:
-    branches: [ 12.x ]
+    branches: [ '\d+.x' ]
   pull_request:
-    branches: [ 12.x ]
+    branches: [ '\d+.x' ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  NPM_VERSION: "12.0.0"
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.sha }}
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Echo build number
+        run: echo ${{github.run_id}}
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: '14'
+
+      - name: Npm tool install
+        run: npm install -g npm@8
+
+      - name: Npm ci
+        run: npm ci
+
+      - name: Npm run lint
+        run: npm run lint
+
+      - name: Npm run build-ui-components
+        run: npm run build-ui-components-prod
+
+      - name: move intellisense-imports.d.ts to entry.d.ts
+        run: mv -f ./dist/ui-components/intellisense-imports.d.ts ./dist/ui-components/entry.d.ts
+
+      - name: Npm run tsc-cdn
+        run: npm run tsc-cdn
+
+      - name: Npm run api-extractor
+        run: npm run api-extractor
+
+      - name: 'gulp processTypesFile: clean up bundled file'
+        run: gulp processTypesFile
+
+      - name: 'move enums.js to npm-publish'
+        run: cp ./dist/ui-components/esm2015/shared/enums.js ./npm-publish/index.js
+
+      - name: Npm pack
+        run: npm pack
+        working-directory: ./npm-publish
+
+      - name: Npm install local package
+        run: npm install ./npm-publish/laserfiche-types-lf-ui-components-1.0.0.tgz
+
+      - name: Npm run build-lf-documentation-prod
+        run: npm run build-lf-documentation-prod
+
+      - name: Npm run build-lf-cdn-prod
+        run: npm run build-lf-cdn-prod
+
+      - name: Npm run test
+        shell: pwsh
+        run: npm run test:ci
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Jest Test Results
+          path: ./**/TESTS*.xml
+          reporter: java-junit
+          only-summary: 'true'
+          fail-on-error: 'false'
+
+      - name: Npm run sass-lf
+        run: npm run sass-lf
+
+      - name: Npm run sass-ms
+        run: npm run sass-ms
+
+      - name: 'gulp renameMainWebpackChunk'
+        run: gulp renameMainWebpackChunk
+
+      - name: 'gulp renameRuntimeWebpackChunk'
+        run: gulp renameRuntimeWebpackChunk
+
+      - name: 'gulp renamePolyfillsWebpackChunk'
+        run: gulp renamePolyfillsWebpackChunk
+
+      - name: concatenate runtime.js, main.js, and polyfills.js into lf-ui-components.js
+        run: (cat ./dist/lf-cdn/main.js; echo ""; cat ./dist/lf-cdn/polyfills.js; echo ""; cat ./dist/lf-cdn/runtime.js; echo ""; echo "//# sourceMappingURL=main.js.map") > ./dist/lf-cdn/lf-ui-components.js
+
+      - name: 'concatenate runtime.js, main.js, and polyfills.js into lf-documentation.js'
+        run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
+
+# copy cdn and documentation files from dist/lf-cdn and dist/lf-documentation to dist/cdn
+
+      - name: 'create an empty ./dist/ui-components/cdn folder'
+        run: 'mkdir -p ./dist/ui-components/cdn'
+
+
+      - name: 'gulp replaceScriptsInIndexHtml'
+        run: gulp replaceScriptsInIndexHtml
+
+      - name: 'move indigo-pink to ui-components/cdn'
+        run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
+
+      - name: 'move lf-ui-components.js to cdn'
+        run: mv -t ../ui-components/cdn lf-ui-components.js main.js.map runtime.js.map polyfills.js.map
+        working-directory: ./dist/lf-cdn
+
+      - name: 'move lf-ui-components.js to cdn'
+        run: mv -t ../ui-components/cdn lf-documentation.js index.html favicon.ico 3rdpartylicenses.txt lf-16.png lf-80.png chrome-logo.png edge-logo.png firefox-logo.png styles.css lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
+        working-directory: ./dist/lf-documentation
+
+      - name: 'move README to ui-components'
+        run: mv -t ./dist/ui-components README.md
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: npm-publish-artifact
+          # A file, directory or wildcard pattern that describes what to upload
+          path: |
+            ./dist/ui-components
+            ./npm-publish/index.d.ts
+            ./npm-publish/index.js
+
+      - name: echo github run attempt
+        run: echo ${{ github.run_attempt }} ${{  github.event.pull_request.head.repo.owner.login }}
+
+  publish_to_npm_preview:
+    runs-on: ubuntu-latest
+    environment: npm_preview
+    if: ${{ github.run_attempt != 1 }}
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.1.0
+        with:
+          name: npm-publish-artifact
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: '14'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Npm tool install
+        run: npm install -g npm@8
+
+      - name: Npm install gulp
+        run: npm install gulp
+
+      - name: set NpmPackageVersion environment
+        run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
+
+      - name: 'copy license'
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          cp LICENSE ./npm-publish
+          cp LICENSE ./dist/ui-components
+
+      - name: 'gulp replaceVersionInGettingStarted'
+        run: gulp replaceVersionInGettingStarted --npmVersion ${{ env.NpmPackageVersion }}
+
+      - name: 'gulp replaceVersionInIndexHtml'
+        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NpmPackageVersion }}
+
+      - name: npm version @laserfiche/types-lf-ui-components
+        run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
+        working-directory: ./npm-publish
+
+      - name: Npm publish @laserfiche/types-lf-ui-components
+        run: npm publish  --access public  --tag next
+        working-directory: ./npm-publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: npm version @laserfiche/lf-ui-components
+        run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
+        working-directory: ./dist/ui-components
+
+      - name: Npm publish @laserfiche/lf-ui-components
+        run: npm publish  --access public  --tag next
+        working-directory: ./dist/ui-components
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Tag commit
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ env.NpmPackageVersion }}
+          commit_sha: ${{ github.sha }}
+          message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
+
+
+  publish_to_npm_release:
+    runs-on: ubuntu-latest
+    environment: npm_production
+    if: ${{ github.run_attempt != 1 }}
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.1.0
+        with:
+          name: npm-publish-artifact
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: '14'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Npm tool install
+        run: npm install -g npm@8
+
+      - name: Npm install gulp
+        run: npm install gulp
+
+      - name: 'copy license'
+        run: |
+          cp LICENSE ./npm-publish
+          cp LICENSE ./dist/ui-components
+
+      - name: 'gulp replaceVersionInGettingStarted'
+        run: gulp replaceVersionInGettingStarted --npmVersion ${{ env.NPM_VERSION }}
+
+      - name: 'gulp replaceVersionInIndexHtml'
+        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
+
+      - name: npm version @laserfiche/types-lf-ui-components
+        run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version
+        working-directory: ./npm-publish
+
+      - name: Npm publish @laserfiche/types-lf-ui-components
+        run: npm publish  --access public  --tag latest
+        working-directory: ./npm-publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: npm version @laserfiche/lf-ui-components
+        run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version
+        working-directory: ./dist/ui-components
+
+      - name: Npm publish @laserfiche/lf-ui-components
+        run: npm publish  --access public  --tag latest
+        working-directory: ./dist/ui-components
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Tag commit
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ env.NPM_VERSION }}
+          commit_sha: ${{ github.sha }}
+          message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
+
+
