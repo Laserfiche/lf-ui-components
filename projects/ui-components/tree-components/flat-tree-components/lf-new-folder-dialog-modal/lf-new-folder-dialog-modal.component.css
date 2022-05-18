@@ -30,13 +30,13 @@
   line-height: 16px;
 }
 
-span#close {
+span#new-folder-dialog-close-icon {
   color: rgb(170, 170, 170);
   opacity: 0.6;
   font-size: 20px;
 }
 
-span#close:hover {
+span#new-folder-dialog-close-icon:hover {
   opacity: 1;
 }
 
