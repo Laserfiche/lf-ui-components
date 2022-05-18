@@ -56,8 +56,6 @@ jobs:
       - name: 'move enums.js to npm-publish'
         run: cp ./dist/ui-components/esm2015/shared/enums.js ./npm-publish/index.js
 
-# haven't done versioning yet, but that's okay? -- no, it's used for building the documentation?
-# has the documentation always had a temp package as it's dependency?
       - name: Npm pack
         run: npm pack
         working-directory: ./npm-publish
@@ -112,7 +110,7 @@ jobs:
       - name: 'gulp replaceScriptsInIndexHtml'
         run: gulp replaceScriptsInIndexHtml --buildVersion ${{env.NPM_VERSION}}
 
-      - name: 'move  to npm-publish'
+      - name: 'move indigo-pink to lf-cdn'
         run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/lf-cdn/indigo-pink.css
 
 # copy cdn and documentation files from dist/lf-cdn and dist/lf-documentation to dist/cdn
@@ -128,6 +126,9 @@ jobs:
         run: mv -t ../ui-components/cdn lf-documentation.js index.html favicon.ico 3rdpartylicenses.txt lf-16.png lf-80.png chrome-logo.png edge-logo.png firefox-logo.png styles.css lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
         working-directory: ./dist/lf-documentation
 
+      - name: 'move README to ui-components'
+        run: mv -t ./dist/ui-components README.md
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
@@ -141,7 +142,7 @@ jobs:
       - name: echo github run attempt
         run: echo ${{ github.run_attempt }} ${{  github.event.pull_request.head.repo.owner.login }}
 
-  publish_to_npm_review:
+  publish_to_npm_preview:
     runs-on: ubuntu-latest
     environment: npm_preview
     if: ${{ github.run_attempt != 1 }}

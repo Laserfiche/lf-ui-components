@@ -17,7 +17,7 @@ The default project is `lf-documentation`.
 # Example Usages 
 
 ## CDN with Angular Applications
-1. `npm install @laserfiche/type-lf-ui-components`
+1. `npm install @laserfiche/types-lf-ui-components`
 2. Import the UI elements from the CDN by adding this line in `./index.html` inside your application
    ```html
    <script src="https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/lf-ui-components.js" defer></script>
@@ -41,18 +41,18 @@ The default project is `lf-documentation`.
          schemas: [CUSTOM_ELEMENTS_SCHEMA]
        })
    ```
-5. example usage of using `lf-cheklist` whose implementation is provided in CDN, while type information is provided in the `@laserfiche/type-lf-ui-components` NPM package.
+5. Example usage of `lf-checklist`, with the implementation coming from the CDN and the types provided in the `@laserfiche/types-lf-ui-components` NPM package.
 
    In a html file, 
    ```html
    <lf-checklist #myChecklist (checklistChanged)="onChecklistChangedAsync($event)"></lf-checklist>
    <!-- checklistChanged is a HTML custom event -->
    ```
-   To add a handle of this element, in the `.ts` file,
+   To add a handle for this element, in the `.ts` file,
    ```ts
    import { AfterViewInit, Component, ViewChild, ElementRef} from '@angular/core';
    // we can directly import types from the NPM package
-   import {LfChecklistComponent, Checklist} from '@laserfiche/types-lf-ui-components'  
+   import {LfChecklistComponent, Checklist} from '@laserfiche/types-lf-ui-components';  
   
    @Component({
      selector: 'app-attachments',
@@ -61,20 +61,20 @@ The default project is `lf-documentation`.
    })
    export class ExampleApp implements AfterViewInit {
 
-     // a handle of the LfCheckistElement in the html above, available after ngAfterViewInit
-     @ViewChild('myChecklist') componentChecklist!: ElementRef<LfChecklistComponent>; 
+     // allows access to the LfChecklistElement in the html above, available starting in ngAfterViewInit hook
+     @ViewChild('myChecklist') checklist!: ElementRef<LfChecklistComponent>; 
 
-     // type Checklist is the type of the custom element imported from the NPM pakage
+     // type Checklist is the type of the custom element imported from the NPM package
      currentChecklist: Checklist[]; 
 
-     // event that emits the custom type  outputs are dispatched as HTML Custom Events
+     // events for the elements are received as CustomEvents
      onClick(event: CustomEvent<Checklist>) {
        const checklist = event.detail;   // data will be stored in the detail property
      }
 
      ngAfterViewInit() {
         // the element's view is initialized after ngAfterViewInit
-       this.componentChecklist.nativeElement.initAsync(...)
+       this.checklist.nativeElement.initAsync(...)
      }
    }
    ```
@@ -101,14 +101,14 @@ The default project is `lf-documentation`.
 ```css
 @import '~@laserfiche/lf-ui-components/cdn/lf-laserfiche-lite.css';
 ```
-4. the same usage of using `lf-cheklist`, except this time, both the implementation and the typing are provided via `@laserfiche/lf-ui-components/lf-checklist`
+4. the same usage of using `lf-checklist`, except this time, both the implementation and the typing are provided via `@laserfiche/lf-ui-components/lf-checklist`
 
 In a html file, 
   ```html
   <lf-checklist #myChecklist (checklistChanged)="onChecklistChangedAsync($event)"></lf-checklist>
   <!-- checklistChanged is a HTML custom event -->
   ```
-  To add a handle of this element, in the `.ts` file,
+  To add a handle for this element, in the `.ts` file,
   ```ts
   import { AfterViewInit, Component, ViewChild, ElementRef} from '@angular/core';
   // we can directly import types from the NPM package
@@ -121,10 +121,10 @@ In a html file,
   })
   export class ExampleApp implements AfterViewInit {
 
-    // a handle of the LfCheckistElement in the html above, available after ngAfterViewInit
-    @ViewChild('myChecklist') componentChecklist!: ElementRef<LfChecklistComponent>; 
+    // allows access to the LfChecklistElement in the html above, available starting in ngAfterViewInit hook
+    @ViewChild('myChecklist') checklist!: ElementRef<LfChecklistComponent>; 
 
-    // type Checklist is the type of the custom element imported from the NPM pakage
+    // events for the elements are received as CustomEvents
     currentChecklist: Checklist[]; 
 
     // event that emits the custom type  outputs are dispatched as HTML Custom Events
@@ -134,7 +134,7 @@ In a html file,
 
     ngAfterViewInit() {
       // the element's view is initialized after ngAfterViewInit
-      this.componentChecklist.nativeElement.initAsync(...)
+      this.checklist.nativeElement.initAsync(...)
     }
   }
   ```

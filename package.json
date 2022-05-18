@@ -8,6 +8,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild": "npm install @laserfiche/types-lf-ui-components@12",
     "build": "ng build",
     "build-lf-documentation-prod": "ng build --configuration production --output-hashing=none --extractCss=true",
     "build-lf-cdn-prod": "ng build lf-cdn --configuration production --output-hashing=none",
@@ -39,7 +40,6 @@
     "@angular/platform-browser": "~12.1.1",
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
-    "@laserfiche/lf-js-utils": "^4.0.1--preview-2304130007",
     "@laserfiche/types-lf-ui-components": "^12.0.0--preview-2303403845",
     "moment": "^2.29.1",
     "ngx-mask": "^12.0.0",
