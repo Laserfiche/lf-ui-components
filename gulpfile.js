@@ -15,7 +15,6 @@ const RUNTIME = 'runtime.js';
 const REMAINING_INDEX_SCRIPT_TAGS = '<script src="polyfills.js" defer></script><script src="main.js" defer></script>';
 const BUILD_NUMBER = 'PIPELINE_VERSION';
 const NPM_VERSION = 'NPM_VERSION';
-const CDN_VERSION = 'CDN_VERSION';
 const OVERWRITE = '"OVERWRITE_VAR"'
 const LF_DOCUMENTATION = 'lf-documentation.js'
 const TYPE_FILE_PATH = './npm-publish/index.d.ts';
@@ -37,13 +36,13 @@ const SCRIPT_DEST = './dist/lf-cdn';
 const SCRIPT_FILE = 'lf-ui-components.js';
 const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
 const SOURCEMAP_POLYFILLS_URL = '//# sourceMappingURL=polyfills.js.map';
-const GETTING_STARTED_FILE_PATH = './projects/lf-documentation/src/app/getting-started/getting-started.component.html';
+const GETTING_STARTED_FILE_PATH = './dist/lf-documentation/main.js';
+const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
 
 async function replaceScriptsInIndexHtml(){
     src(INDEX_HTML_FILEPATH, {base: './'})
         .pipe(replace(RUNTIME, LF_DOCUMENTATION))
         .pipe(replace(REMAINING_INDEX_SCRIPT_TAGS, ''))
-        .pipe(replace(BUILD_NUMBER, getBuildNumber()))
         .pipe(replace(OLD_SCRIPT_NAME, NEW_SCRIPT_NAME))
         .pipe(dest('./'));
 };
@@ -51,7 +50,12 @@ async function replaceScriptsInIndexHtml(){
 async function replaceVersionInGettingStarted(){
   src(GETTING_STARTED_FILE_PATH, {base: './'})
       .pipe(replace(NPM_VERSION, getNpmVersion()))
-      .pipe(replace(CDN_VERSION, getCDNVersion()))
+      .pipe(dest('./'));
+};
+
+async function replaceVersionInIndexHtml(){
+  src(BUILT_INDEX_HTML_FILEPATH, {base: './'})
+      .pipe(replace(BUILD_NUMBER, getNpmVersion()))
       .pipe(dest('./'));
 };
 
@@ -62,19 +66,14 @@ async function replaceVersionInOutputVariables(){
         .pipe(dest('./'));
 }
 
-function getBuildNumber() {
-    const buildVersion = yargs.argv.buildVersion;
-    return buildVersion;
-}
+// function getBuildNumber() {
+//     const buildVersion = yargs.argv.buildVersion;
+//     return buildVersion;
+// }
 
 function getNpmVersion() {
   const npmVersion = yargs.argv.npmVersion;
   return npmVersion;
-}
-
-function getCDNVersion() {
-  const cdnVersion = yargs.argv.cdnVersion;
-  return cdnVersion;
 }
 
 function getOverwrite() {
@@ -124,3 +123,4 @@ exports.renameMainWebpackChunk = renameMainWebpackChunk;
 exports.renameRuntimeWebpackChunk = renameRuntimeWebpackChunk;
 exports.renamePolyfillsWebpackChunk = renamePolyfillsWebpackChunk;
 exports.concateLfCdnToScript = concateLfCdnToScript;
+exports.replaceVersionInIndexHtml = replaceVersionInIndexHtml;

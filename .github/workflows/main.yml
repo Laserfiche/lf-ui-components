@@ -63,9 +63,6 @@ jobs:
       - name: Npm install local package
         run: npm install ./npm-publish/laserfiche-types-lf-ui-components-1.0.0.tgz
 
-      - name: 'gulp replaceVersionInGettingStarted'
-        run: gulp replaceVersionInGettingStarted --npmVersion ${{ env.NPM_VERSION }} --cdnVersion ${{env.NPM_VERSION}}
-
       - name: Npm run build-lf-documentation-prod
         run: npm run build-lf-documentation-prod
 
@@ -107,11 +104,8 @@ jobs:
       - name: 'concatenate runtime.js, main.js, and polyfills.js into lf-documentation.js'
         run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
 
-      - name: 'gulp replaceScriptsInIndexHtml'
-        run: gulp replaceScriptsInIndexHtml --buildVersion ${{env.NPM_VERSION}}
-
-      - name: 'move indigo-pink to lf-cdn'
-        run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/lf-cdn/indigo-pink.css
+      - name: 'move indigo-pink to lf-ui-components/cdn'
+        run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/lf-ui-components/cdn/indigo-pink.css
 
 # copy cdn and documentation files from dist/lf-cdn and dist/lf-documentation to dist/cdn
 
@@ -174,6 +168,12 @@ jobs:
           cp LICENSE ./npm-publish
           cp LICENSE ./dist/ui-components
 
+      - name: 'gulp replaceVersionInGettingStarted'
+        run: gulp replaceVersionInGettingStarted --npmVersion ${{ env.NpmPackageVersion }}
+
+      - name: 'gulp replaceVersionInIndexHtml'
+        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NpmPackageVersion }}
+
       - name: npm version @laserfiche/types-lf-ui-components
         run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
         working-directory: ./npm-publish
@@ -230,6 +230,12 @@ jobs:
         run: |
           cp LICENSE ./npm-publish
           cp LICENSE ./dist/ui-components
+
+      - name: 'gulp replaceVersionInGettingStarted'
+        run: gulp replaceVersionInGettingStarted --npmVersion ${{ env.NPM_VERSION }}
+
+      - name: 'gulp replaceVersionInIndexHtml'
+        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
 
       - name: npm version @laserfiche/types-lf-ui-components
         run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version
