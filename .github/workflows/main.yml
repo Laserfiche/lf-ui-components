@@ -109,6 +109,10 @@ jobs:
       - name: 'create an empty ./dist/ui-components/cdn folder'
         run: 'mkdir -p ./dist/ui-components/cdn'
 
+
+      - name: 'gulp replaceScriptsInIndexHtml'
+        run: gulp replaceScriptsInIndexHtml
+
       - name: 'move indigo-pink to ui-components/cdn'
         run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
 
