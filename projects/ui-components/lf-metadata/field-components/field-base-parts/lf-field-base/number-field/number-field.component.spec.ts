@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMaskModule } from 'ngx-mask';
-import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { TimeUtils } from '@laserfiche/lf-js-utils';
 
 describe('NumberFieldComponent', () => {
   let numberComponent: NumberFieldComponent;
@@ -113,7 +113,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     numberComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -129,7 +129,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     shortIntComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -143,7 +143,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     longIntComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -158,7 +158,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     numberComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -173,7 +173,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     shortIntComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -189,7 +189,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     longIntComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -207,7 +207,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     numberComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -225,7 +225,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     numberComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -243,7 +243,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     numberComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -261,7 +261,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     numberComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -279,7 +279,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     numberComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -298,7 +298,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     numberComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -316,7 +316,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     shortIntComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -341,7 +341,7 @@ describe('NumberFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     longIntComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );

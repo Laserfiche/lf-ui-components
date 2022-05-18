@@ -13,7 +13,7 @@ import { LfFieldTemplateContainerComponent } from '../lf-field-template-containe
 import { FieldValue, LfFieldInfo, TemplateValue } from '../field-components/utils/lf-field-types';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 import { Observable, of } from 'rxjs';
-import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { validateDefined } from '@laserfiche/lf-js-utils';
 
 @Component({
   selector: 'lf-field-container-component',
@@ -73,7 +73,7 @@ export class LfFieldContainerComponent {
     templateIdentifier?: number | string
   ): Promise<void> => {
     this.ref.detectChanges();
-    this.lfFieldContainerService = CoreUtils.validateDefined(
+    this.lfFieldContainerService = validateDefined(
       lfFieldContainerService,
       'lfFieldContainerService'
     );

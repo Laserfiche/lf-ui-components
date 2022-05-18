@@ -10,8 +10,7 @@ import { LfFieldComponent } from '../field-components/lf-field/lf-field.componen
 import { LfFieldMultivalueComponent } from '../field-components/lf-field-multivalue/lf-field-multivalue.component';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldContainerDirective } from '../lf-field-container.directive';
-import { CoreUtils } from '@laserfiche/lf-js-utils';
-
+import { validateDefined } from '@laserfiche/lf-js-utils';
 @Component({
   selector: 'lf-field-adhoc-container-component',
   templateUrl: './lf-field-adhoc-container.component.html',
@@ -103,7 +102,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   initAsync = async (adhocFieldContainerService: LfFieldAdhocContainerService): Promise<void> => {
     this.zone.run(() => {
       this.resetComponentValues();
-      this.adhocFieldContainerService = CoreUtils.validateDefined(adhocFieldContainerService, 'adhocFieldContainerService');
+      this.adhocFieldContainerService = validateDefined(adhocFieldContainerService, 'adhocFieldContainerService');
     });
   };
 

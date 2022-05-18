@@ -13,7 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { TimeUtils } from '@laserfiche/lf-js-utils';
 
 describe('TextFieldComponent', () => {
   let shortComponent: TextFieldComponent;
@@ -111,7 +111,7 @@ describe('TextFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     shortComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -126,7 +126,7 @@ describe('TextFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     longComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -141,7 +141,7 @@ describe('TextFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     shortComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -156,7 +156,7 @@ describe('TextFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     longComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -177,7 +177,7 @@ describe('TextFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     shortComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -192,7 +192,7 @@ describe('TextFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     longComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -218,7 +218,7 @@ describe('TextFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     longComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );

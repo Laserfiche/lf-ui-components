@@ -15,7 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { TimeUtils } from '@laserfiche/lf-js-utils';
 
 describe('DateFieldComponent', () => {
   let requiredDateComponent: DateFieldComponent;
@@ -98,7 +98,7 @@ describe('DateFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredDateComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -114,7 +114,7 @@ describe('DateFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     optionalDateComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -137,7 +137,7 @@ describe('DateFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredDateComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -162,7 +162,7 @@ describe('DateFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     optionalDateComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -237,7 +237,7 @@ describe('DateFieldComponent', () => {
     await optionalDateComponent.localizationService.setLanguageAsync('es');
 
     // assert
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === 'DD/MM/YYYY',
       () => { throw Error(`Timeout: value was ${value}`); }
     );

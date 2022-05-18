@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { TimeUtils } from '@laserfiche/lf-js-utils';
 
 describe('DateTimeFieldComponent', () => {
   let requiredDateTimeComponent: DateTimeFieldComponent;
@@ -98,7 +98,7 @@ describe('DateTimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredDateTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -114,7 +114,7 @@ describe('DateTimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     optionalDateTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -137,7 +137,7 @@ describe('DateTimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     optionalDateTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -160,7 +160,7 @@ describe('DateTimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredDateTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -185,7 +185,7 @@ describe('DateTimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     optionalDateTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -215,7 +215,7 @@ describe('DateTimeFieldComponent', () => {
     await optionalDateTimeComponent.localizationService.setLanguageAsync('es');
 
     // assert
-    await CoreUtils.waitForConditionAsync(
+    await TimeUtils.waitForConditionAsync(
       () => value === 'DD/MM/YYYY, HH:mm:ss',
       () => { throw Error(`Timeout: value was ${value}`); }
     );
