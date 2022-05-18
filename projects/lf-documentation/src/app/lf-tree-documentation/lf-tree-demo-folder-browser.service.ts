@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { IconUtils } from '@laserfiche/lf-js-utils';
 import { LfTreeService, TreeNode } from '@laserfiche/types-lf-ui-components';
 import { LfTreeDemoService } from './lf-tree-demo.service';
 
-const FILE_SVG = `./file.svg`;
-const FOLDER_SVG = `./folder.svg`;
+const FILE_SVG = IconUtils.getDocumentIconUrlFromIconId('document-20');
+const FOLDER_SVG = IconUtils.getDocumentIconUrlFromIconId('folder-20');
 /**
  * Database for dynamic data. When expanding a node in the tree, the data source will need to fetch
  * the descendants data from the database.

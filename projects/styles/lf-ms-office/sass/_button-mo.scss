@@ -58,8 +58,8 @@ $sec-border-stack: $sec-border-width solid;
 button {
   &:enabled {
     &.lf-login-menu-trigger {
-      & .lf-logged-in svg {
-        fill: typography-mo.$primary-color;
+      & .lf-logged-in span {
+        color: typography-mo.$primary-color;
       }
     }
     &.lf-trigger-logged-in {

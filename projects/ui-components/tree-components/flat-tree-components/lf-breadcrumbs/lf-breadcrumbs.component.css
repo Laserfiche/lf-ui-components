@@ -14,9 +14,11 @@
   white-space: nowrap;
 }
 
-.breadcrumb-chevron {
+.breadcrumb-arrow_right {
   cursor: default;
   align-self: center;
+  font-size: 12px;
+  font-weight: bolder;
 }
 
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {

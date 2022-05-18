@@ -4,5 +4,9 @@
   "scripts": {},
   "dependencies": {},
   "devDependencies": {},
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/Laserfiche/lf-ui-components"
+  }
 }
