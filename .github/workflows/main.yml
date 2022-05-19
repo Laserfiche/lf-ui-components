@@ -38,6 +38,9 @@ jobs:
       - name: Npm run lint
         run: npm run lint
 
+      - name: Npm install dependencies for ui-components
+        run: npm run install-ui-components
+
       - name: Npm run build-ui-components
         run: npm run build-ui-components-prod
 
@@ -62,6 +65,9 @@ jobs:
 
       - name: Npm install local package
         run: npm install ./npm-publish/laserfiche-types-lf-ui-components-1.0.0.tgz
+
+      - name: Npm install dependencies for lf-documentation
+        run: npm run install-lf-documentation
 
       - name: Npm run build-lf-documentation-prod
         run: npm run build-lf-documentation-prod

@@ -22,6 +22,7 @@
     "@angular-material-components/moment-adapter": "^6.0.0",
     "@angular/material-moment-adapter": "^12.2.1",
     "@angular-material-components/datetime-picker": "^6.0.3",
+    "@angular/platform-browser-dynamic": "~12.1.1",
     "moment": "^2.29.1"
   },
   "exports": {

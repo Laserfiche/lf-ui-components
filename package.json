@@ -8,7 +8,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prebuild": "npm install @laserfiche/types-lf-ui-components@12",
+    "install-lf-documentation": "cd ./projects/lf-documentation && npm install --prefix ../../",
+    "install-ui-components": "cd ./projects/ui-components && npm install --prefix ../../",
     "build": "ng build",
     "build-lf-documentation-prod": "ng build --configuration production --output-hashing=none --extractCss=true",
     "build-lf-cdn-prod": "ng build lf-cdn --configuration production --output-hashing=none",
@@ -24,28 +25,6 @@
     "concate-lf-cdn": "gulp concateLfCdnToScript",
     "rename-cdn-webpack-chunk": "gulp renameRuntimeWebpackChunk && gulp renamePolyfillsWebpackChunk && gulp renameMainWebpackChunk",
     "create-lf-cdn": "npm run build-lf-cdn-prod && npm run rename-cdn-webpack-chunk && npm run concate-lf-cdn"
-  },
-  "dependencies": {
-    "@angular-material-components/datetime-picker": "^6.0.3",
-    "@angular-material-components/moment-adapter": "^6.0.0",
-    "@angular/animations": "~12.1.5",
-    "@angular/cdk": "~12.1.4",
-    "@angular/common": "~12.1.1",
-    "@angular/compiler": "~12.1.1",
-    "@angular/core": "~12.1.1",
-    "@angular/elements": "~12.1.4",
-    "@angular/forms": "~12.1.1",
-    "@angular/material": "~12.1.4",
-    "@angular/material-moment-adapter": "12.1.4",
-    "@angular/platform-browser": "~12.1.1",
-    "@angular/platform-browser-dynamic": "~12.1.1",
-    "@angular/router": "~12.1.1",
-    "@laserfiche/lf-js-utils": "^3.0.5",
-    "moment": "^2.29.1",
-    "ngx-mask": "^12.0.0",
-    "rxjs": "^6.6.7",
-    "tslib": "^2.3.1",
-    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.1.4",
@@ -77,5 +56,9 @@
     "puppeteer": "^10.2.0",
     "typescript": "~4.3.5",
     "yargs": "^17.1.0"
+  },
+  "dependencies": {
+    "@laserfiche/lf-ui-components": "file:projects/ui-components",
+    "@laserfiche/lf-ui-documentation": "file:projects/lf-documentation"
   }
 }
