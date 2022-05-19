@@ -8,8 +8,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "install-lf-documentation": "cd ./projects/lf-documentation && npm install --no-save --prefix ../../",
-    "install-ui-components": "cd ./projects/ui-components && npm install --no-save --prefix ../../",
+    "install-lf-documentation": "cd projects/lf-documentation && npm install --no-save --prefix ../../",
+    "install-ui-components": "cd projects/ui-components && npm install --no-save --prefix ../../",
     "build": "ng build",
     "build-lf-documentation-prod": "ng build --configuration production --output-hashing=none --extractCss=true",
     "build-lf-cdn-prod": "ng build lf-cdn --configuration production --output-hashing=none",
