@@ -50,20 +50,6 @@ jobs:
       - name: Npm run build-lf-cdn-prod
         run: npm run build-lf-cdn-prod
 
-      - name: Npm run test
-        shell: pwsh
-        run: npm run test:ci
-
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Jest Test Results
-          path: ./**/TESTS*.xml
-          reporter: java-junit
-          only-summary: 'true'
-          fail-on-error: 'false'
-
       - name: Npm run tsc-cdn
         run: npm run tsc-cdn
 
@@ -83,6 +69,20 @@ jobs:
       - name: Npm install local package
         run: npm install ../../npm-publish/laserfiche-types-lf-ui-components-1.0.0.tgz
         working-directory: projects/lf-documentation
+
+      - name: Npm run test
+        shell: pwsh
+        run: npm run test:ci
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Jest Test Results
+          path: ./**/TESTS*.xml
+          reporter: java-junit
+          only-summary: 'true'
+          fail-on-error: 'false'
 
       - name: Npm install dependencies for lf-documentation
         run: npm run install-lf-documentation
