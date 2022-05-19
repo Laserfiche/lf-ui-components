@@ -63,11 +63,12 @@ jobs:
         run: npm pack
         working-directory: ./npm-publish
 
+      - name: Npm install local package
+        run: npm install ./npm-publish/laserfiche-types-lf-ui-components-1.0.0.tgz  --prefix ../../
+        working-directory: projects/lf-documentation
+
       - name: Npm install dependencies for lf-documentation
         run: npm run install-lf-documentation
-
-      - name: Npm install local package
-        run: npm install ./npm-publish/laserfiche-types-lf-ui-components-1.0.0.tgz
 
       - name: Npm run build-lf-documentation-prod
         run: npm run build-lf-documentation-prod
