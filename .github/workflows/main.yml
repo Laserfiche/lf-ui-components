@@ -104,7 +104,6 @@ jobs:
       - name: 'concatenate runtime.js, main.js, and polyfills.js into lf-documentation.js'
         run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
 
-# copy cdn and documentation files from dist/lf-cdn and dist/lf-documentation to dist/cdn
 
       - name: 'create an empty ./dist/ui-components/cdn folder'
         run: 'mkdir -p ./dist/ui-components/cdn'

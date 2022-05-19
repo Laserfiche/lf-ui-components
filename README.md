@@ -103,40 +103,12 @@ The default project is `lf-documentation`.
 ```
 4. the same usage of using `lf-checklist`, except this time, both the implementation and the typing are provided via `@laserfiche/lf-ui-components/lf-checklist`
 
-In a html file, 
-  ```html
-  <lf-checklist #myChecklist (checklistChanged)="onChecklistChangedAsync($event)"></lf-checklist>
-  <!-- checklistChanged is a HTML custom event -->
-  ```
-  To add a handle for this element, in the `.ts` file,
+
   ```ts
   import { AfterViewInit, Component, ViewChild, ElementRef} from '@angular/core';
   // we can directly import types from the NPM package
   import { Checklist, LfChecklistComponent, LfChecklistService } from '@laserfiche/lf-ui-components/lf-checklist';
-
-  @Component({
-    selector: 'app-attachments',
-    templateUrl: './attachments.component.html',
-    styleUrls: ['./attachments.component.css'],
-  })
-  export class ExampleApp implements AfterViewInit {
-
-    // allows access to the LfChecklistElement in the html above, available starting in ngAfterViewInit hook
-    @ViewChild('myChecklist') checklist!: ElementRef<LfChecklistComponent>; 
-
-    // events for the elements are received as CustomEvents
-    currentChecklist: Checklist[]; 
-
-    // event that emits the custom type  outputs are dispatched as HTML Custom Events
-    onClick(event: CustomEvent<Checklist>) {
-      const checklist = event.detail;   // data will be stored in the detail property
-    }
-
-    ngAfterViewInit() {
-      // the element's view is initialized after ngAfterViewInit
-      this.checklist.nativeElement.initAsync(...)
-    }
-  }
+  ...
   ```
 ## Setting UI Components Language
 
