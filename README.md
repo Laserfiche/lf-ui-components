@@ -128,6 +128,32 @@ window.postMessage(JSON.stringify(langObj), window.origin);
 
 We welcome contributions and feedback. Please follow our [contributing guidelines](https://github.com/Laserfiche/lf-ui-components/blob/12.x/CONTRIBUTING.md).
 
-# Development prerequisite
+# Development 
+
+## prerequisite
 
 See .github/workflows/main.yml for Node and NPM version used.
+
+## Build ui-components CDN script
+
+```sh
+npm run install-ui-components
+npm run build-ui-components-prod
+npm run create-lf-cdn
+```
+to create `./dist/lf-cdn/lf-ui-components.js`.
+
+## Build ui-components NPM
+
+```sh
+npm run install-ui-components
+npm run build-ui-components-prod
+```
+to create `./dist/ui-components`.
+## Build lf-documentation
+
+```sh
+npm run install-lf-documentation
+ng build
+```
+to create `./dist/lf-documentation`.

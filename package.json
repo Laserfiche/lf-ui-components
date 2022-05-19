@@ -8,8 +8,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "install-lf-documentation": "cd ./projects/lf-documentation && npm install --prefix ../../",
-    "install-ui-components": "cd ./projects/ui-components && npm install --prefix ../../",
+    "install-lf-documentation": "cd ./projects/lf-documentation && npm install --no-save --prefix ../../",
+    "install-ui-components": "cd ./projects/ui-components && npm install --no-save --prefix ../../",
     "build": "ng build",
     "build-lf-documentation-prod": "ng build --configuration production --output-hashing=none --extractCss=true",
     "build-lf-cdn-prod": "ng build lf-cdn --configuration production --output-hashing=none",
@@ -56,9 +56,5 @@
     "puppeteer": "^10.2.0",
     "typescript": "~4.3.5",
     "yargs": "^17.1.0"
-  },
-  "dependencies": {
-    "@laserfiche/lf-ui-components": "file:projects/ui-components",
-    "@laserfiche/lf-ui-documentation": "file:projects/lf-documentation"
   }
 }
