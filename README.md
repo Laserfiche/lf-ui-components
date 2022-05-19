@@ -155,7 +155,7 @@ to create `./dist/ui-components`.
 Install `@laserfiche/types-lf-ui-components`.
 ```sh
 cd projects/lf-documentation
-npm install @laserfiche/types-lf-ui-components@<PREFERRED_VERSION> --prefix ../../  # to overwrite the version of @laserfiche/types-lf-ui-components in projects/lf-documentation/package.json
+npm install @laserfiche/types-lf-ui-components@<PREFERRED_VERSION>  # to overwrite the version of @laserfiche/types-lf-ui-components in projects/lf-documentation/package.json
 cd ../..
 ```
 Build lf-documentation:
