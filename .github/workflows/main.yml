@@ -59,6 +59,9 @@ jobs:
       - name: 'move enums.js to npm-publish'
         run: cp ./dist/ui-components/esm2015/shared/enums.js ./npm-publish/index.js
 
+      - name: Npm run build-lf-cdn-prod
+        run: npm run build-lf-cdn-prod
+
       - name: Npm pack
         run: npm pack
         working-directory: ./npm-publish
@@ -72,9 +75,6 @@ jobs:
 
       - name: Npm run build-lf-documentation-prod
         run: npm run build-lf-documentation-prod
-
-      - name: Npm run build-lf-cdn-prod
-        run: npm run build-lf-cdn-prod
 
       - name: Npm run test
         shell: pwsh
