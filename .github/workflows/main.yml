@@ -32,11 +32,11 @@ jobs:
       - name: Npm tool install
         run: npm install -g npm@8
 
-      - name: Npm run lint
-        run: npm run lint
-
       - name: npm install ui components
         run: npm install -w @laserfiche/lf-ui-components
+
+      - name: Npm run lint
+        run: npm run lint
 
       - name: Npm run build-ui-components
         run: npm run build-ui-components-prod
