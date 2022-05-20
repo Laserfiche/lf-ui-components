@@ -27,8 +27,5 @@
   },
   "workspaces": [
     "./projects/*"
-  ],
-  "dependencies": {
-    "@laserfiche/types-lf-ui-components": "file:npm-publish/laserfiche-types-lf-ui-components-1.0.0.tgz"
-  }
+  ]
 }
