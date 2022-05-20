@@ -128,6 +128,44 @@ window.postMessage(JSON.stringify(langObj), window.origin);
 
 We welcome contributions and feedback. Please follow our [contributing guidelines](https://github.com/Laserfiche/lf-ui-components/blob/12.x/CONTRIBUTING.md).
 
-# Development prerequisite
+# Development 
+
+## prerequisite
 
 See .github/workflows/main.yml for Node and NPM version used.
+
+## <a name="CDN"></a> Build ui-components CDN script
+
+```sh
+npm install -w @laserfiche/lf-ui-components
+npm run build-ui-components-prod
+npm run create-lf-cdn
+```
+to create `./dist/lf-cdn/lf-ui-components.js`.
+
+## Build ui-components NPM
+
+```sh
+npm install -w @laserfiche/lf-ui-components
+npm run build-ui-components-prod
+```
+to create `./dist/ui-components`.
+## Build lf-documentation
+
+Install `@laserfiche/types-lf-ui-components`.
+```sh
+npm install @laserfiche/types-lf-ui-components@<PREFERRED_VERSION> -w @laserfiche/lf-ui-documentation # to overwrite the version of @laserfiche/types-lf-ui-components in projects/lf-documentation/package.json
+
+```
+Build lf-documentation:
+```sh
+npm install -w @laserfiche/lf-ui-documentation
+ng build
+```
+to create `./dist/lf-documentation`.
+Build lf style sheet:
+```sh
+npm run sass-lf
+```
+
+This project is loading the script at `./dist/lf-cdn/lf-ui-components.js`. Please [build the script locally](#CDN) or [download from CDN](https://unpkg.com/@laserfiche/lf-ui-components@12/cdn/lf-ui-components.js) to view the documentation.
