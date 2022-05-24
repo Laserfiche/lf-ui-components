@@ -3,10 +3,26 @@ Generates `dist/lf-documentation`, the documentation of the lf-ui-componenents, 
 
 # Build: 
 1. Cd to repo's root folder.
-2. `npm install ./projects/ui-components --no-save` or `cd ./projects/ui-components && npm install --prefix ../../ --no-save`
+2. `npm install ./projects/ui-components --no-save` or 
+```sh
+cd ./projects/ui-components
+npm install --prefix ../../ --no-save
+cd ../../
+```
 3. Build ui-components using `npm run build-ui-components-prod`.
-4. Build using `npm run create-lf-cdn`.
-5. `npm run create-types-ui-components`
-6. `npm install ./projects/lf-documentation --no-save`
-7. `npm run build-lf-documentation-prod`
-8. `npm run sass-lf`
+4. Build lf-cdn using `npm run create-lf-cdn`.
+5. Create local types npm package using `npm run create-types-ui-components`
+6. Install local types npm package
+```sh
+# this removes previously installed dependencies of ui-components, and installs lf-documentation's dependencies
+npm install ./projects/lf-documentation --no-save 
+```
+or
+```sh
+# this installs lf-documentation's dependencies, while keeping the previously installed dependencies of ui-components 
+cd ./projects/lf-documentation
+npm install --no-save
+cd ../../
+```
+7. Build lf-documentation using `npm run build-lf-documentation-prod`, generating `dist/lf-documentation`
+8. Build stylesheet using `npm run sass-lf`
