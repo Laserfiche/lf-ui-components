@@ -33,7 +33,7 @@ jobs:
         run: npm install -g npm@8
 
       - name: npm install ui components
-        run: npm install ./projects/ui-components --no-save
+        run: npm ci
 
       - name: Npm run lint
         run: npm run lint
@@ -45,14 +45,26 @@ jobs:
         run: mv -f ./dist/ui-components/intellisense-imports.d.ts ./dist/ui-components/entry.d.ts
 
       - name: Npm run create types ui components
-        run: npm run create-types-ui-components
+        run: npm run create-types-lf-ui-components
 
-      - name: Npm run build-lf-cdn-prod
-        run: npm run build-lf-cdn-prod
+      - name: Npm run create-lf-cdn
+        run: npm run create-lf-cdn
 
       - name: Npm install lf-documentation
-        run: npm install --no-save
+        run: npm ci
         working-directory: ./projects/lf-documentation
+
+      - name: Npm run build-lf-documentation-prod
+        run: npm run build-lf-documentation-prod
+
+      - name: Npm run sass-lf
+        run: npm run sass-lf
+
+      - name: Npm run sass-ms
+        run: npm run sass-ms
+
+      - name: 'concatenate runtime.js, main.js, and polyfills.js into lf-documentation.js'
+        run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
 
       - name: Npm run test
         shell: pwsh
@@ -68,34 +80,8 @@ jobs:
           only-summary: 'true'
           fail-on-error: 'false'
 
-      - name: Npm run build-lf-documentation-prod
-        run: npm run build-lf-documentation-prod
-
-      - name: Npm run sass-lf
-        run: npm run sass-lf
-
-      - name: Npm run sass-ms
-        run: npm run sass-ms
-
-      - name: 'gulp renameMainWebpackChunk'
-        run: gulp renameMainWebpackChunk
-
-      - name: 'gulp renameRuntimeWebpackChunk'
-        run: gulp renameRuntimeWebpackChunk
-
-      - name: 'gulp renamePolyfillsWebpackChunk'
-        run: gulp renamePolyfillsWebpackChunk
-
-      - name: concatenate runtime.js, main.js, and polyfills.js into lf-ui-components.js
-        run: (cat ./dist/lf-cdn/main.js; echo ""; cat ./dist/lf-cdn/polyfills.js; echo ""; cat ./dist/lf-cdn/runtime.js; echo ""; echo "//# sourceMappingURL=main.js.map") > ./dist/lf-cdn/lf-ui-components.js
-
-      - name: 'concatenate runtime.js, main.js, and polyfills.js into lf-documentation.js'
-        run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
-
-
       - name: 'create an empty ./dist/ui-components/cdn folder'
         run: 'mkdir -p ./dist/ui-components/cdn'
-
 
       - name: 'gulp replaceScriptsInIndexHtml'
         run: gulp replaceScriptsInIndexHtml
@@ -107,7 +93,7 @@ jobs:
         run: mv -t ../ui-components/cdn lf-ui-components.js main.js.map runtime.js.map polyfills.js.map
         working-directory: ./dist/lf-cdn
 
-      - name: 'move lf-ui-components.js to cdn'
+      - name: 'move lf-documentation to cdn'
         run: mv -t ../ui-components/cdn lf-documentation.js index.html favicon.ico 3rdpartylicenses.txt lf-16.png lf-80.png chrome-logo.png edge-logo.png firefox-logo.png styles.css lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
         working-directory: ./dist/lf-documentation
 

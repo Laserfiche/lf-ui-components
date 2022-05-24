@@ -66,11 +66,6 @@ async function replaceVersionInOutputVariables(){
         .pipe(dest('./'));
 }
 
-// function getBuildNumber() {
-//     const buildVersion = yargs.argv.buildVersion;
-//     return buildVersion;
-// }
-
 function getNpmVersion() {
   const npmVersion = yargs.argv.npmVersion;
   return npmVersion;

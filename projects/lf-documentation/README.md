@@ -11,7 +11,7 @@ cd ../../
 ```
 3. Build ui-components using `npm run build-ui-components-prod`.
 4. Build lf-cdn using `npm run create-lf-cdn`.
-5. Create local types npm package using `npm run create-types-ui-components`
+5. Create local types npm package using `npm run create-types-lf-ui-components`
 6. Install local types npm package
 ```sh
 # this removes previously installed dependencies of ui-components, and installs lf-documentation's dependencies

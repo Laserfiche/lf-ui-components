@@ -26,7 +26,7 @@
     "move-enums-to-types-linux": "cp ./dist/ui-components/esm2015/shared/enums.js ./types-lf-ui-components-publish/index.js",
     "move-enums-to-types-windows": "copy .\\dist\\ui-components\\esm2015\\shared\\enums.js .\\types-lf-ui-components-publish\\index.js",
     "move-enums-to-types": "npm run move-enums-to-types-linux || npm run move-enums-to-types-windows",
-    "create-types-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run move-enums-to-types && cd ./types-lf-ui-components-publish && npm pack"
+    "create-types-lf-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run move-enums-to-types && cd ./types-lf-ui-components-publish && npm pack"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^12.1.4",
