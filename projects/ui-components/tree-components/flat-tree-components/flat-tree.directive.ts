@@ -62,7 +62,7 @@ export abstract class FlatTreeDirective implements OnChanges, OnDestroy {
 
   /** @internal */
   ngOnChanges(changes: SimpleChanges) {
-    const filterTextChange: SimpleChange = changes['filterText'];
+    const filterTextChange: SimpleChange = changes['filter_text'];
     if (filterTextChange && (filterTextChange.currentValue !== filterTextChange.previousValue)) {
       this.filterDisplayedNodes(filterTextChange.currentValue);
     }
