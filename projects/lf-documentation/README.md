@@ -1,28 +1,23 @@
-# What this project does: 
-Generates `dist/lf-documentation`, the documentation of the lf-ui-componenents, also can be used as the sample project of using the ui components via CDN. Please see top-level README for more information.
+# lf-documentation
 
-# Build: 
+## What this project does
+
+Generates `dist/lf-documentation`, the documentation for lf-ui-components, which can be used as the sample project for the ui components via CDN. Please see top-level README for more information.
+
+## Build
+
 1. Cd to repo's root folder.
-2. `npm install ./projects/ui-components --no-save` or 
-```sh
-cd ./projects/ui-components
-npm install --prefix ../../ --no-save
-cd ../../
-```
+2. `npm install ./projects/ui-components
 3. Build ui-components using `npm run build-ui-components-prod`.
 4. Build lf-cdn using `npm run create-lf-cdn`.
 5. Create local types npm package using `npm run create-types-lf-ui-components`
 6. Install local types npm package
-```sh
-# this removes previously installed dependencies of ui-components, and installs lf-documentation's dependencies
-npm install ./projects/lf-documentation --no-save 
-```
-or
-```sh
-# this installs lf-documentation's dependencies, while keeping the previously installed dependencies of ui-components 
-cd ./projects/lf-documentation
-npm install --no-save
-cd ../../
-```
+
+    ```sh
+    cd ./projects/lf-documentation
+    npm install
+    cd ../../
+    ```
+
 7. Build lf-documentation using `npm run build-lf-documentation-prod`, generating `dist/lf-documentation`
 8. Build stylesheet using `npm run sass-lf`
