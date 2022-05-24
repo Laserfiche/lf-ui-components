@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IconUtils } from '@laserfiche/lf-js-utils/';
+import { IconUtils } from '@laserfiche/lf-js-utils';
 import { ToolbarOption } from '@laserfiche/types-lf-ui-components';
 
 @Component({
