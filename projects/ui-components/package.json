@@ -6,23 +6,28 @@
     "url": "https://github.com/Laserfiche/lf-ui-components"
   },
   "peerDependencies": {
-    "@angular/animations": "~12.1.5",
-    "@angular/cdk": "~12.1.4",
-    "@angular/common": "~12.1.1",
-    "@angular/compiler": "~12.1.1",
-    "@angular/core": "~12.1.1",
-    "@angular/elements": "~12.1.4",
-    "@angular/forms": "~12.1.1",
-    "@angular/material": "~12.1.4",
-    "@angular/platform-browser": "~12.1.1",
-    "@laserfiche/lf-js-utils": "3.0.5",
-    "rxjs": "~6.6.0",
-    "zone.js": "~0.11.4",
-    "ngx-mask": "^12.0.0",
     "@angular-material-components/moment-adapter": "^6.0.0",
-    "@angular/material-moment-adapter": "^12.2.1",
+    "@angular/animations": "^12.1.5",
+    "@angular/cdk": "^12.1.4",
+    "@angular/common": "^12.1.1",
+    "@angular/compiler": "^12.1.1",
+    "@angular/core": "^12.1.1",
+    "@angular/elements": "^12.1.4",
+    "@angular/forms": "^12.1.1",
+    "@angular/material": "^12.1.4",
+    "@angular/material-moment-adapter": "^12.1.1",
+    "@angular/platform-browser": "^12.1.1",
+    "@angular/platform-browser-dynamic": "^12.1.1",
+    "@angular/router": "^12.1.1",
     "@angular-material-components/datetime-picker": "^6.0.3",
-    "moment": "^2.29.1"
+    "@laserfiche/lf-js-utils": "3.0.5",
+    "moment": "^2.29.1",
+    "ngx-mask": "^12.0.0",
+    "rxjs": "^6.6.0",
+    "zone.js": "^0.11.4"
+  },
+  "dependencies": {
+    "tslib": "^2.3.1"
   },
   "exports": {
     "./lf-login": "./lf-login",

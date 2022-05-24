@@ -1,24 +1,29 @@
 {
   "name": "@laserfiche/lf-ui-documentation",
-  "version": "0.0.1",
   "license": "MIT",
+  "version": "1.0.0",
   "repository": {
     "url": "https://github.com/Laserfiche/lf-ui-components"
   },
+  "devDependencies": {
+    "@laserfiche/types-lf-ui-components": "file:./../../types-lf-ui-components-publish/laserfiche-types-lf-ui-components-1.0.0.tgz"
+  },
   "peerDependencies": {
-    "@angular/animations": "~12.1.5",
-    "@angular/cdk": "~12.1.4",
-    "@angular/common": "~12.1.1",
-    "@angular/compiler": "~12.1.1",
-    "@angular/core": "~12.1.1",
-    "@angular/elements": "~12.1.4",
-    "@angular/forms": "~12.1.1",
-    "@angular/material": "~12.1.4",
-    "@angular/platform-browser": "~12.1.1",
+    "@angular/animations": "^12.1.5",
+    "@angular/cdk": "^12.1.4",
+    "@angular/common": "^12.1.1",
+    "@angular/compiler": "^12.1.1",
+    "@angular/core": "^12.1.1",
+    "@angular/elements": "^12.1.4",
+    "@angular/forms": "^12.1.1",
+    "@angular/material": "^12.1.4",
+    "@angular/platform-browser": "^12.1.1",
+    "@angular/platform-browser-dynamic": "^12.1.1",
     "@laserfiche/lf-js-utils": "3.0.5",
-    "rxjs": "~6.6.0",
-    "zone.js": "~0.11.4",
-    "@laserfiche/types-laserfiche-ui-components": "~12.0.0.--preview-2347226596"
+    "rxjs": "^6.6.0",
+    "zone.js": "^0.11.4",
+    "@angular/router": "^12.1.1",
+    "tslib": "^2.3.1"
   },
   "exports": {
     "./lf-login": "./lf-login",

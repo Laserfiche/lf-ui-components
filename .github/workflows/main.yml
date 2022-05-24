@@ -32,7 +32,7 @@ jobs:
       - name: Npm tool install
         run: npm install -g npm@8
 
-      - name: Npm ci
+      - name: npm install ui components
         run: npm ci
 
       - name: Npm run lint
@@ -44,30 +44,27 @@ jobs:
       - name: move intellisense-imports.d.ts to entry.d.ts
         run: mv -f ./dist/ui-components/intellisense-imports.d.ts ./dist/ui-components/entry.d.ts
 
-      - name: Npm run tsc-cdn
-        run: npm run tsc-cdn
+      - name: Npm run create types ui components
+        run: npm run create-types-lf-ui-components
 
-      - name: Npm run api-extractor
-        run: npm run api-extractor
+      - name: Npm run create-lf-cdn
+        run: npm run create-lf-cdn
 
-      - name: 'gulp processTypesFile: clean up bundled file'
-        run: gulp processTypesFile
-
-      - name: 'move enums.js to npm-publish'
-        run: cp ./dist/ui-components/esm2015/shared/enums.js ./npm-publish/index.js
-
-      - name: Npm pack
-        run: npm pack
-        working-directory: ./npm-publish
-
-      - name: Npm install local package
-        run: npm install ./npm-publish/laserfiche-types-lf-ui-components-1.0.0.tgz
+      - name: Npm install lf-documentation
+        run: npm ci
+        working-directory: ./projects/lf-documentation
 
       - name: Npm run build-lf-documentation-prod
         run: npm run build-lf-documentation-prod
 
-      - name: Npm run build-lf-cdn-prod
-        run: npm run build-lf-cdn-prod
+      - name: Npm run sass-lf
+        run: npm run sass-lf
+
+      - name: Npm run sass-ms
+        run: npm run sass-ms
+
+      - name: 'concatenate runtime.js, main.js, and polyfills.js into lf-documentation.js'
+        run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
 
       - name: Npm run test
         shell: pwsh
@@ -83,31 +80,8 @@ jobs:
           only-summary: 'true'
           fail-on-error: 'false'
 
-      - name: Npm run sass-lf
-        run: npm run sass-lf
-
-      - name: Npm run sass-ms
-        run: npm run sass-ms
-
-      - name: 'gulp renameMainWebpackChunk'
-        run: gulp renameMainWebpackChunk
-
-      - name: 'gulp renameRuntimeWebpackChunk'
-        run: gulp renameRuntimeWebpackChunk
-
-      - name: 'gulp renamePolyfillsWebpackChunk'
-        run: gulp renamePolyfillsWebpackChunk
-
-      - name: concatenate runtime.js, main.js, and polyfills.js into lf-ui-components.js
-        run: (cat ./dist/lf-cdn/main.js; echo ""; cat ./dist/lf-cdn/polyfills.js; echo ""; cat ./dist/lf-cdn/runtime.js; echo ""; echo "//# sourceMappingURL=main.js.map") > ./dist/lf-cdn/lf-ui-components.js
-
-      - name: 'concatenate runtime.js, main.js, and polyfills.js into lf-documentation.js'
-        run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
-
-
       - name: 'create an empty ./dist/ui-components/cdn folder'
         run: 'mkdir -p ./dist/ui-components/cdn'
-
 
       - name: 'gulp replaceScriptsInIndexHtml'
         run: gulp replaceScriptsInIndexHtml
@@ -119,7 +93,7 @@ jobs:
         run: mv -t ../ui-components/cdn lf-ui-components.js main.js.map runtime.js.map polyfills.js.map
         working-directory: ./dist/lf-cdn
 
-      - name: 'move lf-ui-components.js to cdn'
+      - name: 'move lf-documentation to cdn'
         run: mv -t ../ui-components/cdn lf-documentation.js index.html favicon.ico 3rdpartylicenses.txt lf-16.png lf-80.png chrome-logo.png edge-logo.png firefox-logo.png styles.css lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
         working-directory: ./dist/lf-documentation
 
@@ -133,8 +107,8 @@ jobs:
           # A file, directory or wildcard pattern that describes what to upload
           path: |
             ./dist/ui-components
-            ./npm-publish/index.d.ts
-            ./npm-publish/index.js
+            ./types-lf-ui-components-publish/index.d.ts
+            ./types-lf-ui-components-publish/index.js
 
       - name: echo github run attempt
         run: echo ${{ github.run_attempt }} ${{  github.event.pull_request.head.repo.owner.login }}
@@ -171,7 +145,7 @@ jobs:
 
       - name: 'copy license'
         run: |
-          cp LICENSE ./npm-publish
+          cp LICENSE ./types-lf-ui-components-publish
           cp LICENSE ./dist/ui-components
 
       - name: 'gulp replaceVersionInGettingStarted'
@@ -182,11 +156,11 @@ jobs:
 
       - name: npm version @laserfiche/types-lf-ui-components
         run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
-        working-directory: ./npm-publish
+        working-directory: ./types-lf-ui-components-publish
 
       - name: Npm publish @laserfiche/types-lf-ui-components
         run: npm publish  --access public  --tag next
-        working-directory: ./npm-publish
+        working-directory: ./types-lf-ui-components-publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -237,7 +211,7 @@ jobs:
 
       - name: 'copy license'
         run: |
-          cp LICENSE ./npm-publish
+          cp LICENSE ./types-lf-ui-components-publish
           cp LICENSE ./dist/ui-components
 
       - name: 'gulp replaceVersionInGettingStarted'
@@ -248,11 +222,11 @@ jobs:
 
       - name: npm version @laserfiche/types-lf-ui-components
         run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version
-        working-directory: ./npm-publish
+        working-directory: ./types-lf-ui-components-publish
 
       - name: Npm publish @laserfiche/types-lf-ui-components
         run: npm publish  --access public  --tag latest
-        working-directory: ./npm-publish
+        working-directory: ./types-lf-ui-components-publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

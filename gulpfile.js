@@ -17,14 +17,14 @@ const BUILD_NUMBER = 'PIPELINE_VERSION';
 const NPM_VERSION = 'NPM_VERSION';
 const OVERWRITE = '"OVERWRITE_VAR"'
 const LF_DOCUMENTATION = 'lf-documentation.js'
-const TYPE_FILE_PATH = './npm-publish/index.d.ts';
+const TYPE_FILE_PATH = './types-lf-ui-components-publish/index.d.ts';
 const TYPES_IMPORTS = /import.*/g;
 const TYPES_EXPORTS = /export.*{.*}.*/g;
 const TYPES_EVENTEMITTER = 'EventEmitter';
 const TYPES_CUSTOMEVENT = 'CustomEvent';
 const TYPES_IMPLEMENTS = /implements.*{/g;
 const TYPES_NO_IMPLEMENTS = '{';
-const NPM_PUBLISH = './npm-publish/';
+const NPM_PUBLISH = './types-lf-ui-components-publish/';
 const LF_CDN_MAINJS_FILEPATH = './dist/lf-cdn/main.js';
 const LF_CDN_RUNTIMEJS_FILEPATH = './dist/lf-cdn/runtime.js';
 const LF_CDN_POLYFILLSJS_FILEPATH = './dist/lf-cdn/polyfills.js';
@@ -65,11 +65,6 @@ async function replaceVersionInOutputVariables(){
         .pipe(replace(OVERWRITE, getOverwrite()))
         .pipe(dest('./'));
 }
-
-// function getBuildNumber() {
-//     const buildVersion = yargs.argv.buildVersion;
-//     return buildVersion;
-// }
 
 function getNpmVersion() {
   const npmVersion = yargs.argv.npmVersion;
