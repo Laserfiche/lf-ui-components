@@ -59,21 +59,9 @@ async function replaceVersionInIndexHtml(){
       .pipe(dest('./'));
 };
 
-async function replaceVersionInOutputVariables(){
-  src(OUTPUT_VARIABLES_FILEPATH, {base: './'})
-        .pipe(replace(BUILD_NUMBER, getBuildNumber()))
-        .pipe(replace(OVERWRITE, getOverwrite()))
-        .pipe(dest('./'));
-}
-
 function getNpmVersion() {
   const npmVersion = yargs.argv.npmVersion;
   return npmVersion;
-}
-
-function getOverwrite() {
-  const overwrite = yargs.argv.overwrite;
-  return overwrite;
 }
 
 async function renameMainWebpackChunk(){
@@ -113,7 +101,6 @@ async function concateLfCdnToScript() {
 exports.replaceScriptsInIndexHtml = replaceScriptsInIndexHtml;
 exports.processTypesFile = processTypesFile;
 exports.replaceVersionInGettingStarted = replaceVersionInGettingStarted;
-exports.replaceVersionInOutputVariables = replaceVersionInOutputVariables;
 exports.renameMainWebpackChunk = renameMainWebpackChunk;
 exports.renameRuntimeWebpackChunk = renameRuntimeWebpackChunk;
 exports.renamePolyfillsWebpackChunk = renamePolyfillsWebpackChunk;
