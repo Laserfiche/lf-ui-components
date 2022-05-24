@@ -1,0 +1,12 @@
+{
+  "name": "@laserfiche/types-lf-ui-components",
+  "version": "1.0.0",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "types": "index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/Laserfiche/lf-ui-components"
+  }
+}
