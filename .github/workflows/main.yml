@@ -33,7 +33,7 @@ jobs:
         run: npm install -g npm@8
 
       - name: npm install ui components
-        run: npm install -w @laserfiche/lf-ui-components
+        run: npm install ./projects/ui-components --no-save
 
       - name: Npm run lint
         run: npm run lint
@@ -44,30 +44,8 @@ jobs:
       - name: move intellisense-imports.d.ts to entry.d.ts
         run: mv -f ./dist/ui-components/intellisense-imports.d.ts ./dist/ui-components/entry.d.ts
 
-      - name: Npm run tsc-cdn
-        run: npm run tsc-cdn
-
-      - name: Npm run api-extractor
-        run: npm run api-extractor
-
-      - name: 'gulp processTypesFile: clean up bundled file'
-        run: gulp processTypesFile
-
-      - name: 'move enums.js to npm-publish'
-        run: cp ./dist/ui-components/esm2015/shared/enums.js ./npm-publish/index.js
-
-      - name: Npm pack
-        run: npm pack
-        working-directory: ./npm-publish
-
-      - name: Npm install local package
-        run: npm install ./npm-publish/laserfiche-types-lf-ui-components-1.0.0.tgz
-
-      - name: npm install lf-documentation
-        run: npm install -w @laserfiche/lf-ui-documentation
-
-      - name: Npm run build-lf-documentation-prod
-        run: npm run build-lf-documentation-prod
+      - name: Npm run create types ui components
+        run: npm run create-types-ui-components
 
       - name: Npm run build-lf-cdn-prod
         run: npm run build-lf-cdn-prod
@@ -85,6 +63,12 @@ jobs:
           reporter: java-junit
           only-summary: 'true'
           fail-on-error: 'false'
+
+      - name: Npm install lf-documentation
+        run: npm install ./projects/lf-documentation --no-save
+
+      - name: Npm run build-lf-documentation-prod
+        run: npm run build-lf-documentation-prod
 
       - name: Npm run sass-lf
         run: npm run sass-lf
