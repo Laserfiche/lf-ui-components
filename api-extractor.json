@@ -21,7 +21,7 @@
   "dtsRollup": {
     "enabled": true,
 
-    "publicTrimmedFilePath": "./npm-publish/index.d.ts",
+    "publicTrimmedFilePath": "./types-lf-ui-components-publish/index.d.ts",
 
     "omitTrimmingComments": true
   },

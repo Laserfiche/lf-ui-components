@@ -11,6 +11,7 @@ import { LfToolbarComponent } from '../lf-toolbar/lf-toolbar.component';
 import { LfLoaderComponent } from '@laserfiche/lf-ui-components/shared';
 import { LfTreeProviders, TreeNode } from '../../utils/lf-tree.service';
 import { LfTreeDemoFilePickerService } from './../../../../lf-documentation/src/app/lf-tree-documentation/lf-tree-demo-file-picker.service';
+import { IconUtils } from '@laserfiche/lf-js-utils';
 
 const moduleDef: TestModuleMetadata = {
   imports: [
@@ -29,8 +30,8 @@ const moduleDef: TestModuleMetadata = {
   ]
 };
 const providers: LfTreeProviders = { treeService: new LfTreeDemoFilePickerService() };
-const FILE_SVG = `./file.svg`;
-const FOLDER_SVG = `./folder.svg`;
+const FILE_SVG = IconUtils.getDocumentIconUrlFromIconId('document-20');
+const FOLDER_SVG = IconUtils.getDocumentIconUrlFromIconId('folder-20');
 const rootNode: TreeNode = {
   name: 'Repository 1',
   id: 'Repository 1',

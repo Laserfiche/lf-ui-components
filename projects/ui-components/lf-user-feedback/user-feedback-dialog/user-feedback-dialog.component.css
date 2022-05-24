@@ -6,12 +6,12 @@
   margin: 0;
 }
 
-svg#close {
-  fill: rgb(170, 170, 170);
+span#pop-up-dialog-close {
+  color: rgb(170, 170, 170);
   opacity: 0.6;
 }
 
-svg#close:hover {
+span#pop-up-dialog-close:hover {
   opacity: 1;
 }
 

@@ -30,7 +30,6 @@ import { LfFolderBrowserDocumentationComponent } from './lf-folder-browser-docum
 import { LfToolbarDocumentationComponent } from './lf-toolbar-documentation/lf-toolbar-documentation.component';
 import { ConvertComponentToElementComponent } from './convert-component-to-element/convert-component-to-element.component';
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
-import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
 
@@ -55,7 +54,6 @@ import { TroubleshootingComponent } from './troubleshooting/troubleshooting.comp
     LfToolbarDocumentationComponent,
     ConvertComponentToElementComponent,
     LfLoginDocumentationComponent,
-    ReleaseNotesComponent,
     TroubleshootingComponent
   ],
   imports: [

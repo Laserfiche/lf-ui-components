@@ -22,16 +22,12 @@
                 <span *ngIf="!node.isContainer" class="lf-tree-toggle-button-placeholder"></span>
                 <button *ngIf="node.isContainer" class="lf-tree-toggle-button" mat-icon-button
                     [attr.aria-label]="'toggle ' + node.filename" matTreeNodeToggle tabindex="-1">
-                    <svg *ngIf="treeControl.isExpanded(node)" xmlns="http://www.w3.org/2000/svg" height="24px"
-                        viewBox="0 0 24 24" width="24px" fill="currentColor">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
-                    </svg>
-                    <svg *ngIf="!treeControl.isExpanded(node)" xmlns="http://www.w3.org/2000/svg" height="24px"
-                        viewBox="0 0 24 24" width="24px" fill="currentColor">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-                    </svg>
+                    <span *ngIf="treeControl.isExpanded(node)" class="material-icons">
+                      expand_more
+                    </span>
+                    <span *ngIf="!treeControl.isExpanded(node)" class="material-icons">
+                      navigate_next
+                    </span>
                 </button>
                 <div *ngIf="getIcons(node).length>0" class="fixed-size-icon-container">
                     <img *ngFor="let icon of getIcons(node)" src="{{icon}}" alt="" class='lf-tree-node-icon' />

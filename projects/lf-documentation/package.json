@@ -1,13 +1,14 @@
 {
-  "name": "@laserfiche/lf-ui-components",
-  "version": "0.0.1",
+  "name": "@laserfiche/lf-ui-documentation",
   "license": "MIT",
+  "version": "1.0.0",
   "repository": {
-    "type": "git",
     "url": "https://github.com/Laserfiche/lf-ui-components"
   },
+  "devDependencies": {
+    "@laserfiche/types-lf-ui-components": "file:./../../types-lf-ui-components-publish/laserfiche-types-lf-ui-components-1.0.0.tgz"
+  },
   "peerDependencies": {
-    "@angular-material-components/moment-adapter": "^6.0.0",
     "@angular/animations": "^12.1.5",
     "@angular/cdk": "^12.1.4",
     "@angular/common": "^12.1.1",
@@ -16,18 +17,12 @@
     "@angular/elements": "^12.1.4",
     "@angular/forms": "^12.1.1",
     "@angular/material": "^12.1.4",
-    "@angular/material-moment-adapter": "^12.1.1",
     "@angular/platform-browser": "^12.1.1",
     "@angular/platform-browser-dynamic": "^12.1.1",
-    "@angular/router": "^12.1.1",
-    "@angular-material-components/datetime-picker": "^6.0.3",
     "@laserfiche/lf-js-utils": "3.0.5",
-    "moment": "^2.29.1",
-    "ngx-mask": "^12.0.0",
     "rxjs": "^6.6.0",
-    "zone.js": "^0.11.4"
-  },
-  "dependencies": {
+    "zone.js": "^0.11.4",
+    "@angular/router": "^12.1.1",
     "tslib": "^2.3.1"
   },
   "exports": {
