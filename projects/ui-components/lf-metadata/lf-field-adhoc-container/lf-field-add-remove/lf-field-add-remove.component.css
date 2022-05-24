@@ -46,7 +46,7 @@
   cursor: pointer;
 }
 
-i {
+i.loader {
   vertical-align: middle;
 }
 
