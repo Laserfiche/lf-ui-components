@@ -36,7 +36,7 @@ const SCRIPT_DEST = './dist/lf-cdn';
 const SCRIPT_FILE = 'lf-ui-components.js';
 const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
 const SOURCEMAP_POLYFILLS_URL = '//# sourceMappingURL=polyfills.js.map';
-const GETTING_STARTED_FILE_PATH = './dist/ui-components/cdn/lf-documentation.js';
+const COMPILED_GETTING_STARTED_FILE_PATH = './dist/ui-components/cdn/lf-documentation.js';
 const BUILT_INDEX_HTML_FILEPATH = './dist/ui-components/cdn/index.html';
 
 async function replaceScriptsInIndexHtml(){
@@ -48,7 +48,7 @@ async function replaceScriptsInIndexHtml(){
 };
 
 async function replaceVersionInGettingStarted(){
-  src(GETTING_STARTED_FILE_PATH, {base: './'})
+  src(COMPILED_GETTING_STARTED_FILE_PATH, {base: './'})
       .pipe(replace(NPM_VERSION, getNpmVersion()))
       .pipe(dest('./'));
 };
