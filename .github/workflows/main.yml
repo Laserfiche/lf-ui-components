@@ -51,7 +51,7 @@ jobs:
         run: npm run build-lf-cdn-prod
 
       - name: Npm install lf-documentation
-        run: npm install --prefix ../../ --no-save
+        run: npm install --no-save
         working-directory: ./projects/lf-documentation
 
       - name: Npm run test
