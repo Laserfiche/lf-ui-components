@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IconUtils } from '@laserfiche/lf-js-utils';
 import { Checklist } from '@laserfiche/types-lf-ui-components';
 
 @Injectable({
@@ -9,7 +10,7 @@ export class LfChecklistDemoService {
   private demoChecklists: Checklist[] = [{
     name: 'First Checklist',
     checklistItems: [{
-      icon: `./file.svg`,
+      icon: IconUtils.getDocumentIconUrlFromIconId('document-20'),
       name: 'Item 1!',
       id: '1',
       disabled: false,
@@ -21,7 +22,7 @@ export class LfChecklistDemoService {
       requiredError: 'Field name is required'
     },
     {
-      icon: `./folder.svg`,
+      icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
       name: 'Item 2!',
       id: '2',
       disabled: false,
@@ -32,7 +33,7 @@ export class LfChecklistDemoService {
       isRequired: true
     },
     {
-      icon: `./file.svg`,
+      icon: IconUtils.getDocumentIconUrlFromIconId('document-20'),
       name: 'Item 3!',
       id: '3',
       disabled: false,

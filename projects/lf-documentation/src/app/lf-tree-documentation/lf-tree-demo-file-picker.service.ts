@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IconUtils } from '@laserfiche/lf-js-utils';
 import { LfTreeService, TreeNode } from '@laserfiche/types-lf-ui-components';
 import { LfTreeDemoService } from './lf-tree-demo.service';
 
@@ -9,8 +10,8 @@ import { LfTreeDemoService } from './lf-tree-demo.service';
 @Injectable({ providedIn: 'root' })
 export class LfTreeDemoFilePickerService extends LfTreeDemoService implements LfTreeService {
   readonly rootNodesKey = 'Roots';
-  folderSvg: string = `./folder.svg`;
-  fileSvg: string = `./file.svg`;
+  folderSvg: string = IconUtils.getDocumentIconUrlFromIconId('folder-20');
+  fileSvg: string = IconUtils.getDocumentIconUrlFromIconId('document-20');
 
   folderStructure: Record<string, string[]> = {
     [this.rootNodesKey]: ['Repository 1', 'Root Folder 2'],

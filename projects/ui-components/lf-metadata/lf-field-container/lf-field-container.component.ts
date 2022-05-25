@@ -12,8 +12,8 @@ import { LfFieldAdhocContainerComponent } from '../lf-field-adhoc-container/lf-f
 import { LfFieldTemplateContainerComponent } from '../lf-field-template-container/lf-field-template-container.component';
 import { FieldValue, LfFieldInfo, TemplateValue } from '../field-components/utils/lf-field-types';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
-import { validateDefined } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
+import { validateDefined } from '@laserfiche/lf-js-utils';
 
 @Component({
   selector: 'lf-field-container-component',

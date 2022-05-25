@@ -6,9 +6,9 @@ import { LfFieldValidationUtils } from '../lf-field-validation-utils';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 import { isDynamicField } from '../../../utils/metadata-utils';
 import { ValidationRule } from '@laserfiche/lf-ui-components/shared';
-import { validateDefined } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
 import { concatMap, map, mergeMap, startWith } from 'rxjs/operators';
+import { validateDefined } from '@laserfiche/lf-js-utils';
 
 /** @internal */
 @Directive()
@@ -89,7 +89,6 @@ export abstract class BaseFieldDirective implements OnInit {
     this.lf_field_form_control = validateDefined(this.lf_field_form_control, 'lfFieldFormControl');
     this.setLfFieldFormControlValue(this.lf_field_value);
 
-    console.log('field length', this.lf_field_info.name, this.lf_field_info.length);
     this.STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER = this.localizationService.getStringObservable('STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER', [this.lf_field_info?.length?.toString() ?? '0']);
 
     this.fieldValidationErrorMsg = this.lf_field_form_control.valueChanges.pipe(mergeMap((value) => {

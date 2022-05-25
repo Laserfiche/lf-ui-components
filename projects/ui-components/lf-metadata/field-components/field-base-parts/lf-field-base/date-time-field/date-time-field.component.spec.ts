@@ -204,7 +204,7 @@ describe('DateTimeFieldComponent', () => {
     const expectedValue: string = '2020-12-01T05:12:13';
     expect(optionalDateTimeComponent.serializeFieldFormControlValue()).toEqual(expectedValue);
   });
-  
+
   it('should update locale when language updated', async () => {
     // act
     let value: string | undefined;

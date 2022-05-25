@@ -58,8 +58,8 @@ button.lf-button {
 button {
   &:enabled {
     &.lf-login-menu-trigger {
-      & .lf-logged-in svg {
-        fill: $primary-color;
+      & .lf-logged-in span {
+        color: $primary-color;
       }
     }
     &.lf-trigger-logged-in {
