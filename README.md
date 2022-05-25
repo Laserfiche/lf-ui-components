@@ -40,7 +40,7 @@ npm install ./projects/ui-components # if you haven't already
 npm run create-types-lf-ui-components
 ```
 
-to create `./types-lf-ui-components-publish/laserfiche-types-lf-ui-components-1.0.0.tgz`.
+to create `./types-lf-ui-components-publish/laserfiche-types-lf-ui-components-12.0.0.tgz`.
 
 Steps if you want to run them consecutively:
 
