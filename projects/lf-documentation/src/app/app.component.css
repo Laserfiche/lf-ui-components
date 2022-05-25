@@ -66,7 +66,7 @@ mat-toolbar, mat-toolbar-row {
 .navigation-tree-invisible {
     display: none;
 }
-  
+
 .navigation-tree ul,
 .navigation-tree li {
     background-color: #F3F3F3;
@@ -103,6 +103,7 @@ code {
     width: max-content;
     max-width: 90%;
     word-wrap: break-word;
+    overflow: auto;
 }
 
 .code-html-tagname {
@@ -121,8 +122,16 @@ code {
     color: black;
 }
 
+.code-html-comment {
+  color: #66707B;
+}
+
+.code-ts-comment {
+  color: #66707B;
+}
+
 .code-ts-import {
-    color: #8030e7;
+    color: #A0111F;
 }
 
 .code-ts-import-source {
@@ -138,9 +147,45 @@ code {
 }
 
 .code-ts-function {
-    color: goldenrod;
+    color: #622CBC;
+}
+
+.code-ts-key-name {
+  color: #023B95;
 }
 
 .num-list {
     padding-bottom: 10px;
+}
+
+.toc-container {
+  border: 1px solid;
+  border-color: rgba(234,234,234,1);
+  border-radius: 4px;
+  display: inline-block;
+  padding: 10px 16px 10px 0;
+  margin-bottom: 14px;
+  min-width: 250px;
+}
+
+.toc-container-header {
+  font-weight: 600;
+  margin: 0 16px 5px 16px;
+}
+
+.toc-container a {
+  margin-left: 5px;
+  display: inline-block;
+  vertical-align: top;
+  width: auto;
+  max-width: 400px;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+a {
+  color: #005A9E
 }
