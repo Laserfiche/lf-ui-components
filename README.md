@@ -24,14 +24,14 @@ We welcome contributions and feedback. Please follow our [contributing guideline
 
 See .github/workflows/main.yml for Node and NPM version used.
 
-### [Build ui-components CDN script](#cdn)
+### Build ui-components CDN script
 
 1. Cd to repo's root folder.
 1. `npm install ./projects/ui-components`
 1. Build ui-components using `npm run build-ui-components-prod`.
 1. Run `npm run create-lf-cdn`, which will generate `dist/lf-cdn/lf-ui-components.js`.
 
-### [Build types-lf-ui-components NPM](#npm)
+### Build types-lf-ui-components NPM
 
 This will create a package with version 1.0.0. If you would like to update the version, change the version at `./types-lf-ui-components-publish/package.json`.
 
@@ -51,7 +51,7 @@ Steps if you want to run them consecutively:
 1. `cd ./types-lf-ui-components-publish`
 1. `npm pack`
 
-### [Build lf-documentation](#documentation)
+### Build lf-documentation
 
 Install lf-documentation specific dependencies (including local types package):
 
