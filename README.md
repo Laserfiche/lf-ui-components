@@ -33,7 +33,7 @@ See .github/workflows/main.yml for Node and NPM version used.
 
 ### Build types-lf-ui-components NPM
 
-This will create a package with version 1.0.0. If you would like to update the version, change the version at `./types-lf-ui-components-publish/package.json`.
+This will create a package with version 12.0.0. If you would like to update the version, change the version at `./types-lf-ui-components-publish/package.json`.
 
 ```sh
 npm install ./projects/ui-components # if you haven't already
