@@ -1,5 +1,5 @@
 <p class="documentation-title">Getting Started</p>
-<p> UI components can be used via CDN script or NPM library. Below we list instructions on how to use the UI components.</p>
+<p> UI components can be used via a CDN script or NPM library. We list instructions on how to use the UI components.</p>
 <div class="toc-container">
 <p class="toc-container-header"> Contents</p>
 <ul>
@@ -10,37 +10,17 @@
     <a href="#npm-usage">Using Via NPM</a>
   </li>
   <li>
+    <a href="#usage">General Usage Tips</a>
+  </li>
+  <li>
     <a href="#set-language">Setting UI Components Language</a>
   </li>
 </ul>
 </div>
-<h2 id="usage">General Usage Tips</h2>
-<ol>
-  <li>
-    UI components may be used with other laserfiche libraries:
-    <ul>
-      <li>
-        <code>@laserfiche/lf-js-utils</code> - this library contains utility functions that help avoid duplicate code.
-      </li>
-      <li>
-        <code>@laserfiche/laserfiche-ui-components-services</code> - this library contains implementations of the
-        services used by the UI components. (Ex/ LfTreeService)
-        <ol>
-          <li>These services connect with the Laserfiche Repository API to render real data from Laserfiche.</li>
-        </ol>
-      </li>
-    </ul>
-  </li>
-  <li>
-    Some components, specifically those with popups like dialogs, dropdowns, or menus, cannot be used inside jQuery
-    modals due to our use of Angular Material. In order to use these components in a modal, we recommend using basic
-    modals built with html/css/bootstrap.
-  </li>
-</ol>
 <h2 id="cdn-usage">Using Via CDN</h2>
 <ol>
   <li>
-    Add the following script tags to your html file. The version should match the types npm package you installed.
+    Add the following script tags to your html file.
   </li>
   <p>
     <code class="code-container">
@@ -55,7 +35,7 @@
     </code>
     <br /><br />
   </p>
-  <p class="documentation-text">Choose a theme to style your components. Import the style sheet from the CDN by adding this line to your html file inside your application:</p>
+  <p class="documentation-text">Choose a theme to style your components. Import the style sheet from the CDN by adding this line to the html file inside your application. You must choose either lf-laserfiche-lite or lf-ms-office-lite.</p>
   <p class="documentation-text">
     <code class="code-container">
       <span class="code-html-tagname"> &lt;link </span>
@@ -72,7 +52,22 @@
     <br /><br />
   </p>
   <p class="documentation-text">
-    If you are not using Angular Material, you will also need to add some Angular Material styles:
+    <code class="code-container">
+      <span class="code-html-tagname"> &lt;link </span>
+      <span class="code-html-attribute-name">href</span>
+      <span>=</span>
+      <span class="code-html-attribute-value"
+        >"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css"
+      </span>
+      <span class="code-html-attribute-name">rel</span>
+      <span>=</span>
+      <span class="code-html-attribute-value">"stylesheet" </span>
+      <span class="code-html-tagname">/&gt;</span>
+    </code>
+    <br /><br />
+  </p>
+  <p class="documentation-text">
+    Even if you are not using Angular Material, you will still need to add an Angular Material stylesheet:
   </p>
   <p class="documentation-text">
     <code class="code-container">
@@ -90,48 +85,69 @@
     <br /><br />
   </p>
   <li>
-    Install the types definition for the custom elements.
+    Install the custom types NPM package. Ensure the version matches the version of the script you added above.
     <p class="documentation-text">
       <code class="code-container"> npm install @laserfiche/types-lf-ui-components@NPM_VERSION </code>
       <br /><br />
     </p>
   </li>
-  <li>Use the custom elements as defined in the documentation (lf-tree, etc.)</li>
+  <li>Use the components as defined in the documentation (lf-tree, etc.)</li>
 </ol>
-
-<!-- <p class="documentation-header">Example Using Via NPM (with Angular)</p>
-<p>setting up language</p> -->
 
 
     <h2 id="npm-usage">Using Via NPM</h2>
     <ol>
       <li>
-        Install the npm package for the custom elements.
+        Install the UI components NPM package.
         <p class="documentation-text">
           <code class="code-container"> npm install @laserfiche/lf-ui-components@NPM_VERSION </code>
           <br /><br />
         </p>
       </li>
-      <li>Use the custom elements as defined in the documentation (lf-tree, etc.)</li>
+      <li>Use the components as defined in the documentation (lf-tree, etc.)</li>
     </ol>
-              <h2 id="set-language">Setting UI Components Language
-              </h2>
-              <ol>
-                <li>The default language of the UI Components is the browser language.</li>
-                <li>To explicitly set the language of the UI Components post a message as follows:</li>
-                <pre class="code-container">
+
+    <h2 id="usage">General Usage Tips</h2>
+    <ol>
+      <li>
+        UI components may be used with other Laserfiche libraries:
+        <ul>
+          <li>
+            <code>@laserfiche/lf-js-utils</code> - this library contains utility functions that help avoid duplicate code.
+          </li>
+          <li>
+            <code>@laserfiche/laserfiche-ui-components-services</code> - this library contains implementations of the
+            services used by the UI components. (Ex/ LfTreeService)
+            <ol>
+              <li>These services connect with the Laserfiche Repository API to render real data from Laserfiche.</li>
+            </ol>
+          </li>
+        </ul>
+      </li>
+      <li>
+        Some components, specifically those with popups like dialogs, dropdowns, or menus, cannot be used inside jQuery
+        modals due to our use of Angular Material. In order to use these components in a modal, we recommend using basic
+        modals built with html/css/bootstrap.
+      </li>
+    </ol>
+    <h2 id="set-language">Setting UI Components Language
+    </h2>
+    <ol>
+      <li>The default language of the UI Components is the browser language.</li>
+      <li>To explicitly set the language of the UI Components post a message as follows:</li>
+      <pre class="code-container">
 <span class="code-ts-import">const</span> langObj = &#123;
   'lf-localization-service-set-language': language
   }
 window.<span class="code-ts-function">postMessage</span>(JSON.<span class="code-ts-function">stringify</span>(langObj), window.<span class="code-ts-key-name">origin</span>);
-                </pre>
-                <li>
-                  <a
-                    href="https://www.jsdelivr.com/package/npm/@laserfiche/lf-resource-library?path=resources%2Flaserfiche-base"
-                    rel="nofollow"
-                    >Supported Languages</a
-                  >
-                </li>
-              </ol>
+      </pre>
+      <li>
+        <a
+          href="https://www.jsdelivr.com/package/npm/@laserfiche/lf-resource-library?path=resources%2Flaserfiche-base"
+          rel="nofollow"
+          >Supported Languages</a
+        >
+      </li>
+    </ol>
 
 
