@@ -2,14 +2,11 @@
 
 A collection of UI Components to be used to build apps that interact with Laserfiche.
 
-## Why choose @Laserfiche/lf-ui-components?
-
-- Compatible with many web frameworks including Angular, React, Vue, or no framework at all.
-- Pure client side implementation with no dependencies on specific services implementation.
+UI Components are compatible with many web frameworks including Angular, React, Vue, and no framework.
 
 ## Using @laserfiche/lf-ui-components
 
-See detailed documentation [here](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/getting-started)
+See documentation [here](https://unpkg.com/@laserfiche/lf-ui-components@12.0/cdn/index.html#/getting-started).
 
 ## Contribution
 
@@ -25,8 +22,9 @@ See .github/workflows/main.yml for Node and NPM version used.
 
 1. Cd to repo's root folder.
 1. `npm install ./projects/ui-components`
-1. Build ui-components using `npm run build-ui-components-prod`.
-1. Run `npm run create-lf-cdn`, which will generate `dist/lf-cdn/lf-ui-components.js`.
+1. Build ui-components using: `npm run build-ui-components-prod`
+1. Run: `npm run create-lf-cdn`
+   - This command will generate the CDN entry file `dist/lf-cdn/lf-ui-components.js`.
 
 ### Build types-lf-ui-components NPM
 
@@ -37,16 +35,7 @@ npm install ./projects/ui-components # if you haven't already
 npm run create-types-lf-ui-components
 ```
 
-to create `./types-lf-ui-components-publish/laserfiche-types-lf-ui-components-12.0.0.tgz`.
-
-Steps if you want to run them consecutively:
-
-1. `npm run tsc-cdn`
-1. `npm run api-extractor`
-1. `gulp processTypesFile`
-1. `npm run move-enum-to-types`
-1. `cd ./types-lf-ui-components-publish`
-1. `npm pack`
+The command above will output: `./types-lf-ui-components-publish/laserfiche-types-lf-ui-components-12.0.0.tgz`.
 
 ### Build lf-documentation
 
@@ -60,6 +49,7 @@ npm install
 Build lf-documentation:
 
 ```sh
+cd repo-root-folder
 npm run build-lf-documentation-prod
 ```
 
@@ -72,9 +62,13 @@ npm run sass-lf
 npm run sass-ms
 ```
 
-You can then open `./dist/lf-documentation/index.html` to view the documentation. Some components won't work correctly if opened locally so we recommend create an IIS Virtual Directory and pointing it to the `./dist` folder when running locally.
+### View the interactive documentation
 
-This project loads the script from `./dist/lf-cdn/lf-ui-components.js`. Please [build the script locally](#CDN) or [download from the CDN](https://unpkg.com/@laserfiche/lf-ui-components@12/cdn/lf-ui-components.js) to view the documentation.
+1. Configure a web server to serve `./dist` (e.g. IIS on WIndows).
+
+2. Browse to `http://localhost/dist-folder/lf-documentation/index.html` to view the documentation (assuming that `dist-folder` is mapped to `./dist`).
+
+   - Note that index.html loads the UI components using `<script src="./../lf-cdn/lf-ui-components.js" defer></script>`
 
 ## Things to verify before creating a Pull Request
 
@@ -84,7 +78,9 @@ This project loads the script from `./dist/lf-cdn/lf-ui-components.js`. Please [
 npm run test
 ```
 
-This will launch a Chrome browser and run all projects, starting with the first. You can press Ctrl+C in the console to run the next project.
+This will launch a Chrome browser and run all projects.
+Press Ctrl+C in the console to run the next project.
+
 You can also run a specific project, for example: `npm run test ui-components`.
 For more details on how to run specific components or tests, visit the karma test documentation.
 
