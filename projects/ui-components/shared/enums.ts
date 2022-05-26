@@ -9,6 +9,7 @@ export enum FieldType {
   String = 'String',
   Time = 'Time',
 }
+
 /** FieldFormat copied from Web Access */
 export enum FieldFormat {
   None = 'None',
@@ -31,7 +32,6 @@ export enum RedirectBehavior {
   None = 'None'
 }
 
-// type RedirectBehavior = 'Replace' | 'Popup' | 'None'
 export enum LoginState {
   LoggingIn = 'LoggingIn', // starting OAuth flow, previous state: LoggedOut, LoggedIn
   LoggedIn = 'LoggedIn',  // have tokens, previous state: LoggingIn
