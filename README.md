@@ -1,9 +1,6 @@
 # @laserfiche/lf-ui-components
 
-A collection of UI Components to be used to interact with Laserfiche.
-
-It is a library for reusable laserfiche ui web components, as well as its documentation.
-The default project is `lf-documentation`.
+A collection of UI Components to be used to build apps that interact with Laserfiche.
 
 ## Why choose @Laserfiche/lf-ui-components?
 
