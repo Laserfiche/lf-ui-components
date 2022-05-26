@@ -84,7 +84,7 @@ this.<span class="code-ts-key-name">checklist.nativeElement</span>.<span class="
   </li>
 </ol>
 
-<h3 id="cdn-example-react"> Example: <code>lf-checklist</code> In a ReactJS Project Via CDN</h3>
+<h3 id="cdn-example-react"> Example: <code>lf-checklist</code> In a React Project Via CDN</h3>
 <p>In the example below, the implementation comes from the CDN.
 <ol>
   <li>
@@ -101,8 +101,18 @@ this.<span class="code-ts-key-name">checklist.nativeElement</span>.<span class="
 <span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
   >"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"</span><span class="code-html-attribute-name"> rel</span><span
   >=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
-</pre>
-</li>
+    </pre>
+  </li>
+  <li>
+    If you are using TypeScript, add a file <code>./src/definitions.d.ts</code>. This enables custom elements in your React application.
+    <pre class="code-container">
+<span class="code-ts-import">declare namespace</span> JSX &#123;
+  <span class="code-ts-import">interface</span> IntrinsicElements &#123;
+    <span class="code-js-string">'lf-checklist'</span>: any;
+  }
+}
+    </pre>
+  </li>
   <li>
     <p dir="auto">In the <code>.js</code> file,</p>
     <pre class="code-container">
