@@ -30,7 +30,7 @@
     "create-types-lf-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run move-enums-to-types && cd ./types-lf-ui-components-publish && npm pack"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^12.1.4",
+    "@angular-devkit/build-angular": "^12.2.17",
     "@angular-eslint/builder": "12.3.1",
     "@angular-eslint/eslint-plugin": "12.3.1",
     "@angular-eslint/eslint-plugin-template": "12.3.1",
@@ -56,7 +56,7 @@
     "karma-jasmine-html-reporter": "^1.7.0",
     "karma-junit-reporter": "^2.0.1",
     "ng-packagr": "^12.1.0",
-    "puppeteer": "^10.2.0",
+    "puppeteer": "^14.1.1",
     "typescript": "^4.3.5",
     "yargs": "^17.1.0"
   },
