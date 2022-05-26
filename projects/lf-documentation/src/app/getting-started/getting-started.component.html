@@ -1,30 +1,42 @@
 <p class="documentation-title">Getting Started</p>
-<p> UI components can be used via CDN script or NPM library. Below we list instructions and examples on how to use the UI components.</p>
+<p> UI components can be used via CDN script or NPM library. Below we list instructions on how to use the UI components.</p>
 <div class="toc-container">
 <p class="toc-container-header"> Contents</p>
 <ul>
   <li>
     <a href="#cdn-usage">Using Via CDN</a>
-    <ul>
-      <li>
-        <a href="#cdn-example">Example: <code>lf-checklist</code> In an Angular Project Via CDN</a>
-      </li>
-    </ul>
   </li>
   <li>
     <a href="#npm-usage">Using Via NPM</a>
-    <ul>
-      <li>
-        <a href="#npm-example">Example: <code>lf-checklist</code> In an Angular Project Via NPM</a>
-      </li>
-    </ul>
   </li>
   <li>
     <a href="#set-language">Setting UI Components Language</a>
   </li>
 </ul>
 </div>
-
+<h2 id="usage">General Usage Tips</h2>
+<ol>
+  <li>
+    UI components may be used with other laserfiche libraries:
+    <ul>
+      <li>
+        <code>@laserfiche/lf-js-utils</code> - this library contains utility functions that help avoid duplicate code.
+      </li>
+      <li>
+        <code>@laserfiche/laserfiche-ui-components-services</code> - this library contains implementations of the
+        services used by the UI components. (Ex/ LfTreeService)
+        <ol>
+          <li>These services connect with the Laserfiche Repository API to render real data from Laserfiche.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>
+    Some components, specifically those with popups like dialogs, dropdowns, or menus, cannot be used inside jQuery
+    modals due to our use of Angular Material. In order to use these components in a modal, we recommend using basic
+    modals built with html/css/bootstrap.
+  </li>
+</ol>
 <h2 id="cdn-usage">Using Via CDN</h2>
 <ol>
   <li>
@@ -85,105 +97,14 @@
     </p>
   </li>
   <li>Use the custom elements as defined in the documentation (lf-tree, etc.)</li>
-  <li>
-    There are other libraries available for use as well, that may be useful for you.
-    <ul>
-      <li>
-        <code>@laserfiche/lf-js-utils</code> - this library contains utility functions that help avoid duplicate code.
-      </li>
-      <li>
-        <code>@laserfiche/laserfiche-ui-components-services</code> - this library contains implementations of the
-        services used by the UI components. (Ex/ LfTreeService)
-        <ol>
-          <li>These services connect with the Laserfiche Repository API to render real data from Laserfiche.</li>
-        </ol>
-      </li>
-    </ul>
-  </li>
-  <li>
-    Some components, specifically those with popups like dialogs, dropdowns, or menus, cannot be used inside jQuery
-    modals due to our use of Angular Material. In order to use these components in a modal, we recommend using basic
-    modals built with html/css/bootstrap.
-  </li>
 </ol>
 
 <!-- <p class="documentation-header">Example Using Via NPM (with Angular)</p>
 <p>setting up language</p> -->
-    <h3 id="cdn-example"> Example: <code>lf-checklist</code> In an Angular Project Via CDN</h3>
-    <p>In the example below, the implementation comes from the CDN and the types is provided
-      in the <code>@laserfiche/types-lf-ui-components</code> NPM package.</p>
-    <ol>
-      <li>
-        <p>Follow through step 1 and 2 above.</p>
-      </li>
-      <li>
-        <p>
-          Inside <code>./app.module.ts</code>, add <code>CUSTOM_ELEMENTS_SCHEMA</code> to @NgModule.schemas. This
-          enables custom elements in your Angular application.
-        </p>
-        <div>
-          <pre class="code-container">
-  <span class="code-ts-import">import</span> &#123;  NgModule, CUSTOM_ELEMENTS_SCHEMA } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@angular/core'</span>;
-  @NgModule(&#123;
-    <span class="code-ts-key-name">declarations:</span> [
-      AppComponent,
-      ...
-    ],
-    <span class="code-ts-key-name">imports:</span> [
-      ...
-    ],
-    <span class="code-ts-key-name">schemas</span>: [CUSTOM_ELEMENTS_SCHEMA]
-  })
-          </pre>
-          <div class="zeroclipboard-container position-absolute right-0 top-0">
-          </div>
-        </div>
-      </li>
-      <li>
-        <p dir="auto">In a html file,</p>
-          <pre class="code-container"><span class="code-html-tagname">&lt;lf-checklist</span> <span class="code-html-attribute-name">#myChecklist</span> <span class="code-html-attribute-name">(checklistChanged)</span>="<span class="code-html-attribute-value">onChecklistChangedAsync($event)</span>"<span class="code-html-tagname">&gt;</span><span class="code-html-tagname">&lt;/lf-checklist&gt;</span>
-<span class="code-html-comment">&lt;!-- checklistChanged is a HTML custom event --&gt;</span>
-          </pre>
-        <p dir="auto">To add a handle for this element, in the <code>.ts</code> file,</p>
-        <pre class="code-container">
-<span class="code-ts-import">import</span> &#123; AfterViewInit, Component, ViewChild, ElementRef } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@angular/core'</span>;
-<span class="code-ts-comment">// we can directly import types from the NPM package</span>
-<span class="code-ts-import">import</span> &#123;LfChecklistComponent, Checklist } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@laserfiche/types-lf-ui-components'</span>;
-
-@Component(&#123;
-  <span class="code-ts-key-name">selector</span>: 'app-attachments',
-  <span class="code-ts-key-name">templateUrl</span>:  './attachments.component.html',
-  <span class="code-ts-key-name">styleUrls</span>: ['./attachments.component.css'],
-})
-
-<span class="code-ts-import">export class</span> ExampleApp <span class="code-ts-import">implements</span> AfterViewInit &#123;
-
-  <span class="code-ts-comment">// allows access to the LfChecklistElement in the html above, available starting in ngAfterViewInit hook</span>
-  @ViewChild('myChecklist') <span class="code-ts-key-name">checklist!</span>: ElementRef
-
-  <span class="code-ts-comment">// type Checklist is the type of the custom element imported from the NPM package</span>
-  <span class="code-ts-key-name">currentChecklist: Checklist[];</span>
-
-  <span class="code-ts-comment">// events for the elements are received as CustomEvents </span>
-  <span class="code-ts-function">onClick</span>(event: CustomEvent &lt;Checklist>	) &#123;
-    <span class="code-ts-import">const</span> checklist = event.<span class="code-ts-key-name">detail</span>;   <span class="code-ts-comment"> // data will be stored in the detail property</span>
-  }
-
-  <span class="code-ts-function">ngAfterViewInit()</span> &#123;
-    <span class="code-ts-comment">// the element's view is initialized after ngAfterViewInit</span>
-    this.<span class="code-ts-key-name">checklist.nativeElement</span>.<span class="code-ts-function">initAsync</span>(...)
-  }
-}
-        </pre>
-      </li>
-    </ol>
 
 
     <h2 id="npm-usage">Using Via NPM</h2>
     <ol>
-      <li>
-        It is more straightforward to use the NPM package.
-      </li>
       <li>
         Install the npm package for the custom elements.
         <p class="documentation-text">
@@ -192,75 +113,7 @@
         </p>
       </li>
       <li>Use the custom elements as defined in the documentation (lf-tree, etc.)</li>
-      <li>
-        There are other libraries available for use as well, that may be useful for you.
-        <ul>
-          <li>
-            <code>@laserfiche/lf-js-utils</code> - this library contains utility functions that help avoid duplicate code.
-          </li>
-          <li>
-            <code>@laserfiche/laserfiche-ui-components-services</code> - this library contains implementations of the
-            services used by the UI components. (Ex/ LfTreeService)
-            <ol>
-              <li>These services connect with the Laserfiche Repository API to render real data from Laserfiche.</li>
-            </ol>
-          </li>
-        </ul>
-      </li>
-      <li>
-        Some components, specifically those with popups like dialogs, dropdowns, or menus, cannot be used inside jQuery
-        modals due to our use of Angular Material. In order to use these components in a modal, we recommend using basic
-        modals built with html/css/bootstrap.
-      </li>
     </ol>
-  <h3 id="npm-example">Example: <code>lf-checklist</code> In an Angular Project Via NPM
-  </h3>
-  <p>In the example below, both the implementation and the typing are provided via <code>@laserfiche/lf-ui-components/lf-checklist</code>.</p>
-  <ol>
-    <li>
-      <p><code>npm install @laserfiche/lf-ui-components</code></p>
-    </li>
-    <li>
-      <p>
-        Inside <code>./app.module.ts</code>, import the Angular modules.
-      </p>
-        <pre  class="code-container">
-<span class="code-ts-import">import</span> &#123; NgModule } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@angular/core'</span>;
-<span class="code-ts-import">import</span> &#123; LfChecklistModule } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@laserfiche/lf-ui-components/lf-checklist'</span>;
-@NgModule(&#123;
-  <span class="code-ts-key-name">declarations:</span> [
-     AppComponent,
-     ...
-  ],
-  <span class="code-ts-key-name">imports: </span>[
-     LfChecklistModule,
-     BrowserAnimationsModule
-  ]
- })
-        </pre>
-
-      </li>
-      <li>
-        <p dir="auto">
-          Import the style sheet from the npm package by adding this line in <code>styles.css</code> in your
-          angular application.
-        </p>
-
-        <pre class="code-container">
-<span class="code-ts-import">@import</span> '~@laserfiche/lf-ui-components/cdn/lf-laserfiche-lite.css';
-        </pre>
-      </li>
-        <li>
-          The same usage of using <code>lf-checklist</code> in the html and ts file as used as CDN, except to import the component typing from <code>@laserfiche/lf-ui-components</code>
-
-          <pre class="code-container">
-<span class="code-ts-import">import</span> &#123; AfterViewInit, Component, ViewChild, ElementRef } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@angular/core'</span>;
-<span class="code-ts-comment">// we can directly import types from the NPM package</span>
-<span class="code-ts-import">import</span> &#123; Checklist, LfChecklistComponent, LfChecklistService } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@laserfiche/lf-ui-components/lf-checklist'</span><span class="pl-kos">;</span>
-...
-          </pre>
-        </li>
-      </ol>
               <h2 id="set-language">Setting UI Components Language
               </h2>
               <ol>

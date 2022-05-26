@@ -154,6 +154,26 @@ code {
   color: #023B95;
 }
 
+.code-js-import-item {
+  color: #702C00;
+}
+
+.code-js-string {
+  color: #032563;
+}
+
+.code-js-classname {
+  color: #702C00;
+}
+
+.code-js-prop {
+  color: #023B95;
+}
+
+.code-js-function {
+  color: #622CBC;
+}
+
 .num-list {
     padding-bottom: 10px;
 }
@@ -188,4 +208,8 @@ code {
 
 a {
   color: #005A9E
+}
+
+li {
+  line-height: 1.5rem;
 }
