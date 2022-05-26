@@ -37,4 +37,5 @@ export interface UserFeedbackUserTrackingEvent extends IUserTrackingEvent {
   hosting_context: string;
   is_willing_to_be_contacted: boolean;
   message: string;
+  email_address: string;
 }
