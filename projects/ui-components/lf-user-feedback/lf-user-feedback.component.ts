@@ -95,6 +95,7 @@ export class LfUserFeedbackComponent {
       hosting_context: this.hosting_context,
       is_willing_to_be_contacted: dialogData.canContact,
       message: dialogData.feedbackText,
+      email_address: '' // dummy empty value to satisfy the schema requirements
     };
     return data;
   }
