@@ -1,0 +1,137 @@
+<h3 id="cdn-example"> Example: <code>lf-checklist</code> In an Angular Project Via CDN</h3>
+<p>In the example below, the implementation comes from the CDN and the types is provided
+  in the <code>@laserfiche/types-lf-ui-components</code> NPM package.</p>
+<ol>
+  <li>
+    <p  class="documentation-text">
+      Add the following script tags to <code>index.html</code>
+    </p>
+    <pre class="code-container">
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+>"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/laserfiche-ui-components.js"</span><span class="code-html-attribute-name"
+> defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
+>"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"</span><span class="code-html-attribute-name"> rel</span><span
+>=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
+<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
+  >"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"</span><span class="code-html-attribute-name"> rel</span><span
+  >=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
+</pre>
+</li>
+    <li>
+      Install the types definition for the custom elements.
+        <pre class="code-container"> npm install @laserfiche/types-lf-ui-components@NPM_VERSION </pre>
+    </li>
+  <li>
+    <p>
+      Inside <code>./app.module.ts</code>, add <code>CUSTOM_ELEMENTS_SCHEMA</code> to @NgModule.schemas. This
+      enables custom elements in your Angular application.
+    </p>
+    <div>
+      <pre class="code-container">
+<span class="code-ts-import">import</span> &#123;  NgModule, CUSTOM_ELEMENTS_SCHEMA } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@angular/core'</span>;
+@NgModule(&#123;
+<span class="code-ts-key-name">declarations:</span> [
+  AppComponent,
+  ...
+],
+<span class="code-ts-key-name">imports:</span> [
+  ...
+],
+<span class="code-ts-key-name">schemas</span>: [CUSTOM_ELEMENTS_SCHEMA]
+})
+      </pre>
+      <div class="zeroclipboard-container position-absolute right-0 top-0">
+      </div>
+    </div>
+  </li>
+  <li>
+    <p dir="auto">In a html file,</p>
+      <pre class="code-container"><span class="code-html-tagname">&lt;lf-checklist</span> <span class="code-html-attribute-name">#myChecklist</span> <span class="code-html-attribute-name">(checklistChanged)</span>="<span class="code-html-attribute-value">onChecklistChanged($event)</span>"<span class="code-html-tagname">&gt;</span><span class="code-html-tagname">&lt;/lf-checklist&gt;</span>
+<span class="code-html-comment">&lt;!-- checklistChanged is a HTML custom event --&gt;</span>
+      </pre>
+    <p dir="auto">To add a handle for this element, in the <code>.ts</code> file,</p>
+    <pre class="code-container">
+<span class="code-ts-import">import</span> &#123; AfterViewInit, Component, ViewChild, ElementRef } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@angular/core'</span>;
+<span class="code-ts-comment">// we can directly import types from the NPM package</span>
+<span class="code-ts-import">import</span> &#123;LfChecklistComponent, Checklist } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@laserfiche/types-lf-ui-components'</span>;
+
+@Component(&#123;
+<span class="code-ts-key-name">selector</span>: 'app-attachments',
+<span class="code-ts-key-name">templateUrl</span>:  './attachments.component.html',
+<span class="code-ts-key-name">styleUrls</span>: ['./attachments.component.css'],
+})
+
+<span class="code-ts-import">export class</span> ExampleApp <span class="code-ts-import">implements</span> AfterViewInit &#123;
+
+<span class="code-ts-comment">// allows access to the LfChecklistElement in the html above, available starting in ngAfterViewInit hook</span>
+@ViewChild('myChecklist') <span class="code-ts-key-name">checklist!</span>: ElementRef
+
+<span class="code-ts-comment">// type Checklist is the type of the custom element imported from the NPM package</span>
+<span class="code-ts-key-name">currentChecklist: Checklist[];</span>
+
+<span class="code-ts-comment">// events for the elements are received as CustomEvents </span>
+<span class="code-ts-function">onChecklistChanged</span>(event: CustomEvent &lt;Checklist>	) &#123;
+  <span class="code-ts-import">const</span> checklist = event.<span class="code-ts-key-name">detail</span>;   <span class="code-ts-comment"> // data will be stored in the detail property</span>
+}
+
+<span class="code-ts-function">ngAfterViewInit()</span> &#123;
+<span class="code-ts-comment">// the element's view is initialized after ngAfterViewInit</span>
+this.<span class="code-ts-key-name">checklist.nativeElement</span>.<span class="code-ts-function">initAsync</span>(...)
+}
+}
+    </pre>
+  </li>
+</ol>
+
+<h3 id="cdn-example-react"> Example: <code>lf-checklist</code> In a ReactJS Project Via CDN</h3>
+<p>In the example below, the implementation comes from the CDN.
+<ol>
+  <li>
+    <p  class="documentation-text">
+      Add the following script tags to <code>./public/index.html</code>
+    </p>
+    <pre class="code-container">
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+>"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/laserfiche-ui-components.js"</span> <span class="code-html-attribute-name"
+>defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
+>"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"</span><span class="code-html-attribute-name"> rel</span><span
+>=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
+<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
+  >"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"</span><span class="code-html-attribute-name"> rel</span><span
+  >=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
+</pre>
+</li>
+  <li>
+    <p dir="auto">In the <code>.js</code> file,</p>
+    <pre class="code-container">
+<span class="code-ts-import">import</span> <span class="code-js-import-item">React</span> <span class="code-ts-import">from</span> <span class="code-js-string">'react'</span>;
+<span class="code-ts-import">export class</span> <span class="code-js-classname">App</span> <span class="code-ts-import">extends</span> <span class="code-js-classname">React</span>.<span class="code-js-prop">Component</span> &#123;
+  <span class="code-js-prop">checklist</span> = <span class="code-js-classname">React</span>.<span class="code-js-function">createRef()</span>;  <span class="code-ts-comment">// create handle for custom element</span>
+
+  <span class="code-js-function">constructor</span>(props) &#123;
+    super(props);
+  }
+
+  <span class="code-ts-import">async</span> <span class="code-js-function">componentDidMount()</span> &#123;
+    <span class="code-ts-import">await</span> this.<span class="code-js-prop">checklist.current</span>?.<span class="code-js-function">initAsync</span>(...);
+    this.<span class="code-js-prop">checklist.current</span>?.<span class="code-js-function">addEventListener</span>(<span class="code-js-string">'checklistChanged'</span>, this.<span class="code-js-prop">onChecklistChanged</span>);
+    <span class="code-ts-comment">// we have to add event listen to listen for the HTML custom event checklistChanged</span>
+  }
+
+  <span class="code-js-function">onChecklistChanged</span>(event) &#123;
+    <span class="code-ts-import">const</span> checklist = event.<span class="code-js-prop">detail</span>;    <span class="code-ts-comment">// data will be stored in the detail property</span>
+  }
+
+  <span class="code-js-function">render</span>() &#123;
+  <span class="code-ts-import">return</span> (
+    <span class="code-html-tagname">&lt;lf-checklist</span>
+      <span class="code-js-prop">ref</span>=&#123;this.<span class="code-js-prop">checklist</span>}
+      <span class="code-html-tagname">&gt;&lt;/lf-checklist&gt;</span>
+    );
+  }
+}
+    </pre>
+  </li>
+</ol>
