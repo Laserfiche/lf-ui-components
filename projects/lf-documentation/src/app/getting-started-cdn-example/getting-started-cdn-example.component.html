@@ -107,11 +107,18 @@ this.<span class="code-ts-key-name">checklist.nativeElement</span>.<span class="
     <p dir="auto">In the <code>.js</code> file,</p>
     <pre class="code-container">
 <span class="code-ts-import">import</span> <span class="code-js-import-item">React</span> <span class="code-ts-import">from</span> <span class="code-js-string">'react'</span>;
+<span class="code-ts-comment">// in tsx project, add the following import statements  </span>
+<span class="code-ts-import">import</span> <span class="code-js-import-item">&#123; NgElement, WithProperties }</span> <span class="code-ts-import">from</span> <span class="code-js-string">'@angular/elements'</span>;
+<span class="code-ts-import">import</span> <span class="code-js-import-item">&#123;LfChecklistComponent, Checklist }</span> <span class="code-ts-import">from</span> <span class="code-js-string">'@laserfiche/types-lf-ui-components'</span>;
+
 <span class="code-ts-import">export class</span> <span class="code-js-classname">App</span> <span class="code-ts-import">extends</span> <span class="code-js-classname">React</span>.<span class="code-js-prop">Component</span> &#123;
-  <span class="code-js-prop">checklist</span> = <span class="code-js-classname">React</span>.<span class="code-js-function">createRef()</span>;  <span class="code-ts-comment">// create handle for custom element</span>
+  <span class="code-js-prop">checklist</span>;
+  <span class="code-ts-comment">// in tsx project, provide type </span>
+  <span class="code-ts-comment">// checklist: React.RefObject&lt;NgElement & WithProperties&lt;LfChecklistComponent&gt;&gt;;</span>
 
   <span class="code-js-function">constructor</span>(props) &#123;
     super(props);
+    <span class="code-js-prop">checklist</span> = <span class="code-js-classname">React</span>.<span class="code-js-function">createRef()</span>;  <span class="code-ts-comment">// create handle for custom element</span>
   }
 
   <span class="code-ts-import">async</span> <span class="code-js-function">componentDidMount()</span> &#123;
