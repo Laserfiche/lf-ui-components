@@ -8,10 +8,9 @@
           </mat-button-toggle>
           <mat-button-toggle class="breadcrumb-select breadcrumb-split-button" *ngIf="breadcrumbs?.length > 2"
               [matMenuTriggerFor]="breadcrumbDropdownMenu">
-              <svg class="breadcrumb-split-button-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path d="M7 10l5 5 5-5z" />
-              </svg>
+              <span class="material-icons breadcrumb-split-button-icon">
+                arrow_drop_down
+              </span>
           </mat-button-toggle>
       </mat-button-toggle-group>
 
@@ -21,13 +20,9 @@
               {{breadcrumbOption?.name}}</button>
       </mat-menu>
   </div>
-  <svg *ngIf="breadcrumbs?.length > 1" class="breadcrumb-chevron" id="arrow-right" height="11px" width="11px"
-      viewBox="0 0 16 16">
-      <path
-          d="M6.34,3.257c-0.215-0.219-0.563-0.219-0.777,0l-0.89,0.896c-0.214,0.219-0.214,0.572,0,0.791l2.994,3.056
-          l-2.994,3.057c-0.215,0.219-0.215,0.573,0,0.792l0.888,0.896c0.215,0.219,0.563,0.219,0.777,0L11,7.999L6.34,3.257z">
-      </path>
-  </svg>
+  <span *ngIf="breadcrumbs?.length > 1" class="material-icons breadcrumb-arrow_right" id="arrow-right">
+      keyboard_arrow_right
+    </span>
   <span *ngIf="breadcrumbs?.length > 0" class="breadcrumb-parent" title="{{breadcrumbs[0]?.name}}">
       {{breadcrumbs[0]?.name}}
   </span>

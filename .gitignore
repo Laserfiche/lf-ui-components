@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 index.d.ts
+index.js
 # Only exists if Bazel was run
 /bazel-out
 

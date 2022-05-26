@@ -6,9 +6,9 @@ import { LfFieldValidationUtils } from '../lf-field-validation-utils';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 import { isDynamicField } from '../../../utils/metadata-utils';
 import { ValidationRule } from '@laserfiche/lf-ui-components/shared';
-import { validateDefined } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
 import { concatMap, map, mergeMap, startWith } from 'rxjs/operators';
+import { validateDefined } from '@laserfiche/lf-js-utils';
 
 /** @internal */
 @Directive()
