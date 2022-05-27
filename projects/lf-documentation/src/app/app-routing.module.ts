@@ -18,10 +18,14 @@ import { LfToolbarDocumentationComponent } from './lf-toolbar-documentation/lf-t
 import { ConvertComponentToElementComponent } from './convert-component-to-element/convert-component-to-element.component';
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
+import { GettingStartedCdnExampleComponent } from './getting-started-cdn-example/getting-started-cdn-example.component';
+import { GettingStartedNpmExampleComponent } from './getting-started-npm-example/getting-started-npm-example.component';
 
 export enum RouterLinks {
   OVERVIEW = 'overview',
   GETTING_STARTED = 'getting-started',
+  GETTING_STARTED_NPM = 'getting-started-npm',
+  GETTING_STARTED_CDN = 'getting-started-cdn',
   // LOCALIZATION = 'localization',
   STYLING = 'styling',
   TROUBLESHOOTING = 'troubleshooting',
@@ -56,6 +60,8 @@ const routes: Routes = [
   { path: RouterLinks.LF_USER_FEEDBACK, component: LfUserFeedbackDocumentationComponent },
   { path: RouterLinks.STYLING, component: StylingDocumentationComponent },
   { path: RouterLinks.GETTING_STARTED, component: GettingStartedComponent },
+  { path: RouterLinks.GETTING_STARTED_CDN, component: GettingStartedCdnExampleComponent },
+  { path: RouterLinks.GETTING_STARTED_NPM, component: GettingStartedNpmExampleComponent },
   // { path: RouterLinks.LOCALIZATION, component: LocalizationDocumentationComponent },
   { path: RouterLinks.OVERVIEW, component: OverviewComponent },
   { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },
