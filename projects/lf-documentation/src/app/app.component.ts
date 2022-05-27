@@ -16,8 +16,8 @@ const TREE_DATA: ComponentNode[] = [
     name: 'Getting Started',
     routerLink: RouterLinks.GETTING_STARTED,
     children: [
-      { name: 'Example via CDN', routerLink: RouterLinks.GETTING_STARTED_CDN },
-      { name: 'Example via NPM', routerLink: RouterLinks.GETTING_STARTED_NPM },
+      { name: 'Examples Using CDN', routerLink: RouterLinks.GETTING_STARTED_CDN },
+      { name: 'Examples Using NPM', routerLink: RouterLinks.GETTING_STARTED_NPM },
     ]
   },
   // { name: 'Localization', routerLink: RouterLinks.LOCALIZATION },
