@@ -30,7 +30,7 @@
 </pre>
 </li>
     <li>
-      Install the types definition for the UI components.
+      Install the types NPM package.
         <pre class="code-container"> npm install @laserfiche/types-lf-ui-components@NPM_VERSION </pre>
     </li>
   <li>
@@ -41,14 +41,14 @@
       <pre class="code-container">
 <span class="code-ts-import">import</span> &#123;  NgModule, CUSTOM_ELEMENTS_SCHEMA } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@angular/core'</span>;
 @NgModule(&#123;
-<span class="code-ts-key-name">declarations:</span> [
-  AppComponent,
-  ...
-],
-<span class="code-ts-key-name">imports:</span> [
-  ...
-],
-<span class="code-ts-key-name">schemas</span>: [CUSTOM_ELEMENTS_SCHEMA]
+  <span class="code-ts-key-name">declarations:</span> [
+    AppComponent,
+    ...
+  ],
+  <span class="code-ts-key-name">imports:</span> [
+    ...
+  ],
+  <span class="code-ts-key-name">schemas</span>: [CUSTOM_ELEMENTS_SCHEMA]
 })
       </pre>
       <div class="zeroclipboard-container position-absolute right-0 top-0">
@@ -56,7 +56,7 @@
     </div>
   </li>
   <li>
-    <p dir="auto">In the html file,</p>
+    <p dir="auto">To add to a component, in the html file,</p>
       <pre class="code-container"><span class="code-html-tagname">&lt;lf-checklist</span> <span class="code-html-attribute-name">#myChecklist</span> <span class="code-html-attribute-name">(checklistChanged)</span>="<span class="code-html-attribute-value">onChecklistChanged($event)</span>"<span class="code-html-tagname">&gt;</span><span class="code-html-tagname">&lt;/lf-checklist&gt;</span>
 <span class="code-html-comment">&lt;!-- checklistChanged is a HTML custom event --&gt;</span>
       </pre>
@@ -75,13 +75,13 @@
 <span class="code-ts-import">export class</span> ExampleApp <span class="code-ts-import">implements</span> AfterViewInit &#123;
 
   <span class="code-ts-comment">// allows access to the LfChecklistElement in the html above, available starting in ngAfterViewInit hook</span>
-  @ViewChild('myChecklist') <span class="code-ts-key-name">checklist!</span>: ElementRef;
+  @ViewChild('myChecklist') <span class="code-ts-key-name">checklist!</span>: ElementRef&lt;LfChecklistComponent>;
 
   <span class="code-ts-comment">// type Checklist is the type of the custom element imported from the NPM package</span>
   <span class="code-ts-key-name">currentChecklist: Checklist[];</span>
 
   <span class="code-ts-comment">// events for the elements are received as CustomEvents </span>
-  <span class="code-ts-function">onChecklistChanged</span>(event: CustomEvent &lt;Checklist>) &#123;
+  <span class="code-ts-function">onChecklistChanged</span>(event: CustomEvent&lt;Checklist>) &#123;
     <span class="code-ts-import">const</span> checklist = event.<span class="code-ts-key-name">detail</span>;   <span class="code-ts-comment"> // data will be stored in the detail property</span>
   }
 
@@ -152,13 +152,12 @@
   }
 
   <span class="code-js-function">render</span>() &#123;
-  <span class="code-ts-import">return</span> (
-    <span class="code-html-tagname">&lt;lf-checklist</span>
-      <span class="code-js-prop">ref</span>=&#123;this.<span class="code-js-prop">checklist</span>}
-      <span class="code-html-tagname">&gt;&lt;/lf-checklist&gt;</span>
+    <span class="code-ts-import">return</span> (
+      <span class="code-html-tagname">&lt;lf-checklist</span>
+        <span class="code-js-prop">ref</span>=&#123;this.<span class="code-js-prop">checklist</span>}
+        <span class="code-html-tagname">&gt;&lt;/lf-checklist&gt;</span>
     );
   }
-}
     </pre>
   </li>
 </ol>
