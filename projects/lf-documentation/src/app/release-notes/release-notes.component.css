@@ -1,0 +1,67 @@
+.release-date {
+  color: grey;
+  overflow: auto;
+  padding-left: 5px;
+}
+
+.release-title {
+  color: #00866B;
+  font-size: 1.5em;
+  margin-block-start: 0;
+  font-weight: 500;
+}
+
+.release-version {
+  background-color: #0078d4;
+  color: white;
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
+}
+
+.patch {
+  background-color: goldenrod;
+}
+
+.minor {
+  background-color: #0078d4;
+}
+
+.major {
+  background-color: #e05300;
+}
+
+.release-subtitle {
+  display: flex;
+}
+
+.release-section-header {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-weight: 500;
+  font-size: 1.1em;
+}
+
+a {
+  display: block;
+  overflow: hidden;
+}
+
+:host ::ng-deep app-card .resize {
+  width: 90%
+}
+
+.code-background {
+  background-color: rgba(0, 0, 0, 0.06);
+  padding: 2px 2px;
+  border-radius: 1.5px;
+}
+
+li {
+  line-height: 1.35em;;
+}
+
+.code {
+  font-family: monospace;
+}

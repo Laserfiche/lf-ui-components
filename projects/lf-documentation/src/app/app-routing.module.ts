@@ -18,6 +18,7 @@ import { LfToolbarDocumentationComponent } from './lf-toolbar-documentation/lf-t
 import { ConvertComponentToElementComponent } from './convert-component-to-element/convert-component-to-element.component';
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
+import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 
 export enum RouterLinks {
   OVERVIEW = 'overview',
@@ -38,7 +39,7 @@ export enum RouterLinks {
   LF_FIELD_ADHOC_CONTAINER = 'lf-field-adhoc-container',
   LF_FIELD_TEMPLATE_CONTAINER = 'lf-field-template-container',
   LF_LOGIN = 'lf-login',
-  LF_USER_FEEDBACK = 'lf-user-feedback'
+  LF_USER_FEEDBACK = 'lf-user-feedback',
 }
 
 const routes: Routes = [
@@ -60,6 +61,7 @@ const routes: Routes = [
   { path: RouterLinks.OVERVIEW, component: OverviewComponent },
   { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },
   { path: RouterLinks.TROUBLESHOOTING, component: TroubleshootingComponent },
+  { path: RouterLinks.RELEASE_NOTES, component: ReleaseNotesComponent },
   { path: '', component: OverviewComponent },
 ];
 
