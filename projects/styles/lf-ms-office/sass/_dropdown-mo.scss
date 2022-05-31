@@ -75,3 +75,7 @@ div.mat-select-value {
 .lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0px;
 }
+
+.lf-dropdown-no-template .mat-select-value-text {
+  color: rgba(0, 0, 0, 0.54) !important;
+}
