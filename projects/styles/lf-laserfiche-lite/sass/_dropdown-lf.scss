@@ -12,7 +12,15 @@ $focus-box-shadow: rgba(32, 124, 185, 0.637) 0px 0px 3px 1.5px;
 $options-height: 34px;
 $options-padding-stack: 7px 10px 8px;
 
+mat-label.lf-dropdown-label {
+  padding-left: $padding-left;
+  line-height: 32px !important;
+}
 
+.mat-form-field-label-wrapper, .mat-form-field-appearance-legacy .mat-form-field-label, .mat-form-field-label {
+  top: 0;
+  padding-top: 0;
+}
 
 mat-select.lf-dropdown, select.lf-dropdown {
   font: typography-lf.$body-stack;
@@ -66,7 +74,7 @@ div.mat-select-value {
 }
 
 .lf-dropdown .mat-form-field-infix {
-  height: 28px;
+  height: 32px;
   padding: 0px;
   border-top: 0 solid transparent;
 }

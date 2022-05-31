@@ -1,6 +1,6 @@
 <div [hidden]="hideTemplate">
   <mat-form-field floatLabel="never" class="lf-template-picker lf-dropdown">
-    <mat-label>{{emptyTemplateName | async}}</mat-label>
+    <mat-label class="lf-dropdown-label">{{emptyTemplateName | async}}</mat-label>
     <mat-select name="template-dropdown" id="template-dropdown" class="lf-dropdown"
         (selectionChange)="onTemplateChangedAsync($event)"
         (openedChange)="onToggleDropdownAsync($event)"
