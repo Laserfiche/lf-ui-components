@@ -38,6 +38,8 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   templateSelected: TemplateInfo | undefined;
   /** @internal */
+  dropdownValue: TemplateInfo | string | undefined;
+  /** @internal */
   dynamicOptions: Map<number, string[][]> = new Map<number, string[][]>();
   /** @internal */
   private adhocFieldsSub: Subscription | undefined;
@@ -72,6 +74,11 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     this.adhocDialogOpenedSub = this.metadataConnectorService.getAddRemoveContainerToggled().subscribe(async (addRemovedOpened) => {
       this.hideTemplate = addRemovedOpened;
     });
+    this.emptyTemplateName.subscribe((val) => {
+      if (!this.templateSelected) {
+        this.dropdownValue = val;
+      }
+    })
   };
 
   /** @internal */
@@ -262,7 +269,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
   /** @internal */
   async onTemplateChangedAsync(event: MatSelectChange): Promise<void> {
-    this.templateSelected = event.value as TemplateInfo ?? undefined;
+    this.templateSelected = typeof event.value === "object" ? event.value : undefined;
     await this.updateTemplateFieldsAsync();
     this.templateSelectedChange.emit(this.templateSelected?.id);
   }
