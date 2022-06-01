@@ -78,7 +78,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       if (!this.templateSelected) {
         this.dropdownValue = val;
       }
-    })
+    });
   };
 
   /** @internal */
