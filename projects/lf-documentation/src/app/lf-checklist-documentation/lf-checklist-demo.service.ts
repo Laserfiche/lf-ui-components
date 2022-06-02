@@ -9,6 +9,7 @@ export class LfChecklistDemoService {
 
   private demoChecklists: Checklist[] = [{
     name: 'First Checklist',
+    collapsible: true,
     checklistItems: [{
       icon: IconUtils.getDocumentIconUrlFromIconId('document-20'),
       name: 'Item 1!',
@@ -22,7 +23,7 @@ export class LfChecklistDemoService {
       requiredError: 'Field name is required'
     },
     {
-      icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
+      icon: [IconUtils.getDocumentIconUrlFromIconId('folder-20'), IconUtils.getDocumentIconUrlFromIconId('shortcut-overlay')],
       name: 'Item 2!',
       id: '2',
       disabled: false,
