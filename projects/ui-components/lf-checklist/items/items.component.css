@@ -13,6 +13,7 @@
   height: 30px;
   align-items: center;
   margin-right: 5px;
+  position: relative;
 }
 
 .lf-checklist-item-icon {
@@ -20,6 +21,7 @@
   height: 24px;
   width: 24px;
   overflow: hidden;
+  position: absolute;
 }
 
 mat-checkbox.lf-checkbox {
