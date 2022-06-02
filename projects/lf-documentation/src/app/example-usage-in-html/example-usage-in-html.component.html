@@ -1,0 +1,53 @@
+<p class="documentation-title">Using UI components in HTML5</p>
+<h3 id="cdn-example-react"> Example: <code>lf-checklist</code></h3>
+<p>In the example below, the implementation comes from the CDN.
+<ol>
+  <li>
+    <p  class="documentation-text">
+      Add the following script tags to <code>index.html</code>
+    </p>
+    <pre class="code-container">
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+>"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span> <span class="code-html-attribute-name"
+>defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
+>"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"</span><span class="code-html-attribute-name"> rel</span><span
+>=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
+<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
+  >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"</span><span class="code-html-attribute-name"> rel</span><span
+  >=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
+    </pre>
+  </li>
+  <li>
+      <p  class="documentation-text">
+        Add the following script tags to <code>index.html</code>
+      </p>
+      <pre class="code-container"><span class="code-html-tagname">&lt;lf-checklist</span> <span class="code-html-attribute-name">id="myChecklist"</span> <span class="code-html-tagname">&gt;</span><span class="code-html-tagname">&lt;/lf-checklist&gt;</span>
+              </pre>
+    </li>
+    <li>
+    <p dir="auto">In the <code>.js</code> file (e.g.: <code>app.js</code>),</p>
+    <pre class="code-container">
+<span class="code-js-import-item">const</span> <span class="code-js-prop">checklist</span> = document.<span class="code-js-function">getElementById</span>('<span class="code-js-string">mychecklist</span>'); <span class="code-ts-comment"
+>// create a reference for custom element</span>
+checklist.<span class="code-js-function">initAsync</span>(...);
+
+<span class="code-js-import-item">function</span> onChecklistchanged(event) &#123;
+  const checklistItem = event.detail; <span class="code-ts-comment">// event data will be stored in the detail property</span>
+}
+
+<span class="code-ts-comment">// we have to add event listener to listen for the HTML custom event checklistChanged</span>
+checklist.addEventListener('checklistChanged', onChecklistchanged);
+    </pre>
+  </li>
+  <li>
+    <p  class="documentation-text">
+      Add the <code>.js</code> script to <code>index.html</code>
+    </p>
+    <pre class="code-container">
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+>"./app.js"</span> <span class="code-html-attribute-name"
+>defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+</pre>
+  </li>
+</ol>
