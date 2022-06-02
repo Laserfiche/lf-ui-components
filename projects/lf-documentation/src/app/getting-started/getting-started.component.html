@@ -26,7 +26,7 @@
       <span class="code-html-attribute-name">src</span>
       <span>=</span>
       <span class="code-html-attribute-value"
-        >"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/laserfiche-ui-components.js"
+        >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"
       </span>
       <span class="code-html-attribute-name">defer</span>
       <span class="code-html-tagname">&gt;&lt;/script&gt;</span>
@@ -42,7 +42,7 @@
       <span class="code-html-attribute-name">href</span>
       <span>=</span>
       <span class="code-html-attribute-value"
-        >"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"
+        >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"
       </span>
       <span class="code-html-attribute-name">rel</span>
       <span>=</span>
@@ -51,13 +51,14 @@
     </code>
     <br /><br />
   </p>
+  <p class="documentation-text">or</p>
   <p class="documentation-text">
     <code class="code-container">
       <span class="code-html-tagname"> &lt;link </span>
       <span class="code-html-attribute-name">href</span>
       <span>=</span>
       <span class="code-html-attribute-value"
-        >"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css"
+        >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css"
       </span>
       <span class="code-html-attribute-name">rel</span>
       <span>=</span>
@@ -75,7 +76,7 @@
       <span class="code-html-attribute-name">href</span>
       <span>=</span>
       <span class="code-html-attribute-value"
-        >"https://unpkg.com/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"
+        >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"
       </span>
       <span class="code-html-attribute-name">rel</span>
       <span>=</span>
@@ -86,27 +87,45 @@
   </p>
   </li>
   <li>
-    Install the custom types NPM package. Ensure the version matches the version of the script you added above.
+    Optional TypeScript types NPM package. Ensure the version matches the version of the script you added above.
     <p class="documentation-text">
-      <code class="code-container"> npm install @laserfiche/types-lf-ui-components@NPM_VERSION </code>
+      <code class="code-container"> npm install @laserfiche/types-lf-ui-components@NPM_VERSION --save-dev</code>
       <br /><br />
     </p>
   </li>
-  <li>Use the components as defined in the documentation (lf-tree, etc.)</li>
 </ol>
-
-
     <h2 id="npm-usage">Using Via NPM</h2>
-    <ol>
-      <li>
+
         Install the UI components NPM package.
         <p class="documentation-text">
           <code class="code-container"> npm install @laserfiche/lf-ui-components@NPM_VERSION </code>
           <br /><br />
         </p>
-      </li>
-      <li>Use the components as defined in the documentation (lf-tree, etc.)</li>
-    </ol>
+        <p class="documentation-text">
+          This installs Angular components. Ensure that the version matches the Angular framework version in your angular project.
+        </p>
+        To use in a non-angular project:
+        <ol>
+          <li>
+            Either manually or as part of a build script, copy the CDN folder <code>node_modules/@laserfiche/lf-ui-components/cdn/</code> into a destination served by your web server e.g.: <code>static_assets</code>
+          </li>
+          <li>
+            Reference that location in a script tag within the HTML file in your project e.g.:
+          </li>
+        </ol>
+        <p>
+          <code class="code-container">
+            <span class="code-html-tagname"> &lt;script </span>
+            <span class="code-html-attribute-name">src</span>
+            <span>=</span>
+            <span class="code-html-attribute-value"
+              >"static_assets/lf-ui-components.js"
+            </span>
+            <span class="code-html-attribute-name">defer</span>
+            <span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+          </code>
+          <br /><br />
+        </p>
 
     <h2 id="usage">General Usage Tips</h2>
     <ol>
@@ -114,14 +133,13 @@
         UI components may be used with other Laserfiche libraries:
         <ul>
           <li>
-            <code>@laserfiche/lf-js-utils</code> - this library contains utility functions that help avoid duplicate code.
+            <a href="https://www.npmjs.com/package/@laserfiche/lf-js-utils"><code>@laserfiche/lf-js-utils</code></a> - this library contains utility functions and a reusable localization service.
           </li>
           <li>
-            <code>@laserfiche/laserfiche-ui-components-services</code> - this library contains implementations of the
-            services used by the UI components. (Ex/ LfTreeService)
-            <ol>
-              <li>These services connect with the Laserfiche Repository API to render real data from Laserfiche.</li>
-            </ol>
+            <a href="https://www.npmjs.com/package/@laserfiche/lf-resource-library"><code>@laserfiche/laserfiche-ui-components-services</code></a> - this library contains the data sources implementation to connect the ui components to live data from Laserfiche API services.
+          </li>
+          <li>
+            <code>@laserfiche/lf-resource-library</code> - this library contains localized strings resource files, fonts, and icons, that can be used to build Laserfiche Apps.
           </li>
         </ul>
       </li>
@@ -144,7 +162,7 @@ window.<span class="code-ts-function">postMessage</span>(JSON.<span class="code-
       </pre>
       <li>
         <a
-          href="https://www.jsdelivr.com/package/npm/@laserfiche/lf-resource-library?path=resources%2Flaserfiche-base"
+          href="https://github.com/Laserfiche/lf-resource-library/tree/2.x/resources/laserfiche-base"
           rel="nofollow"
           >Supported Languages</a
         >

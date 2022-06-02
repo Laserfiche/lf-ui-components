@@ -50,7 +50,8 @@ mat-toolbar {
 }
 
 mat-toolbar, mat-toolbar-row {
-    background-color: #00866B;
+    background-color: rgb(242, 246, 249);
+    border-bottom: #d0d3d6 solid 1px;
 }
 
 .documentation-font {
@@ -58,7 +59,7 @@ mat-toolbar, mat-toolbar-row {
 }
 
 #header-title {
-    color: white;
+    color: black;
     font-weight: 600;
     font-size: 20px;
 }

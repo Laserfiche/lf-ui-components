@@ -32,8 +32,10 @@ import { ConvertComponentToElementComponent } from './convert-component-to-eleme
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
-import { GettingStartedCdnExampleComponent } from './getting-started-cdn-example/getting-started-cdn-example.component';
-import { GettingStartedNpmExampleComponent } from './getting-started-npm-example/getting-started-npm-example.component';
+import { ExampleUsageInAngularComponent } from './example-usage-in-angular/example-usage-in-angular.component';
+import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
+import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
+import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angular/example-npm-usage-in-angular.component';
 
 @NgModule({
   declarations: [
@@ -57,8 +59,10 @@ import { GettingStartedNpmExampleComponent } from './getting-started-npm-example
     ConvertComponentToElementComponent,
     LfLoginDocumentationComponent,
     TroubleshootingComponent,
-    GettingStartedCdnExampleComponent,
-    GettingStartedNpmExampleComponent
+    ExampleUsageInAngularComponent,
+    ExampleUsageInReactComponent,
+    ExampleUsageInHtmlComponent,
+    ExampleNpmUsageInAngularComponent
   ],
   imports: [
     BrowserModule,
