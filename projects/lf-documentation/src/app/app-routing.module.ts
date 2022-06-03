@@ -18,10 +18,18 @@ import { LfToolbarDocumentationComponent } from './lf-toolbar-documentation/lf-t
 import { ConvertComponentToElementComponent } from './convert-component-to-element/convert-component-to-element.component';
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
+import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angular/example-npm-usage-in-angular.component';
+import { ExampleUsageInAngularComponent } from './example-usage-in-angular/example-usage-in-angular.component';
+import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
+import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
 
 export enum RouterLinks {
   OVERVIEW = 'overview',
   GETTING_STARTED = 'getting-started',
+  EXAMPLE_USAGE_ANGULAR = 'using-ui-components-in-angular',
+  EXAMPLE_USAGE_REACT = 'using-ui-components-in-react',
+  EXAMPLE_USAGE_HTML = 'using-ui-components-in-html5',
+  EXAMPLE_NPM_USAGE_ANGULAR = 'using-npm-ui-components-in-angular',
   // LOCALIZATION = 'localization',
   STYLING = 'styling',
   TROUBLESHOOTING = 'troubleshooting',
@@ -56,6 +64,10 @@ const routes: Routes = [
   { path: RouterLinks.LF_USER_FEEDBACK, component: LfUserFeedbackDocumentationComponent },
   { path: RouterLinks.STYLING, component: StylingDocumentationComponent },
   { path: RouterLinks.GETTING_STARTED, component: GettingStartedComponent },
+  { path: RouterLinks.EXAMPLE_NPM_USAGE_ANGULAR, component: ExampleNpmUsageInAngularComponent },
+  { path: RouterLinks.EXAMPLE_USAGE_ANGULAR, component: ExampleUsageInAngularComponent },
+  { path: RouterLinks.EXAMPLE_USAGE_REACT, component: ExampleUsageInReactComponent },
+  { path: RouterLinks.EXAMPLE_USAGE_HTML, component: ExampleUsageInHtmlComponent },
   // { path: RouterLinks.LOCALIZATION, component: LocalizationDocumentationComponent },
   { path: RouterLinks.OVERVIEW, component: OverviewComponent },
   { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },
