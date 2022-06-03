@@ -32,6 +32,7 @@ import { ConvertComponentToElementComponent } from './convert-component-to-eleme
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
+import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { ExampleUsageInAngularComponent } from './example-usage-in-angular/example-usage-in-angular.component';
 import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
 import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
@@ -59,6 +60,7 @@ import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angula
     ConvertComponentToElementComponent,
     LfLoginDocumentationComponent,
     TroubleshootingComponent,
+    ReleaseNotesComponent
     ExampleUsageInAngularComponent,
     ExampleUsageInReactComponent,
     ExampleUsageInHtmlComponent,
