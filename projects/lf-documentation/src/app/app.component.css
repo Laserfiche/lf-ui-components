@@ -34,7 +34,7 @@ th, td {
     bottom: 40px;
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 80px; /* Place content 60px from the top */
-    background-color: #F3F3F3;
+    background-color: rgb(242, 246, 249);
     font-size: 16px;
     font-weight: 500;
 }
@@ -47,11 +47,11 @@ th, td {
 mat-toolbar {
     position: fixed;
     z-index: 2;
+    border-bottom: #d0d3d6 solid 1px;
 }
 
 mat-toolbar, mat-toolbar-row {
     background-color: rgb(242, 246, 249);
-    border-bottom: #d0d3d6 solid 1px;
 }
 
 .documentation-font {
@@ -75,6 +75,7 @@ mat-toolbar, mat-toolbar-row {
     margin-bottom: 0;
     list-style-type: none;
     padding-inline-start: 8px;
+    background-color: rgb(242, 246, 249);
 }
 
 .navigation-tree ul:hover,
