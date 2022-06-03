@@ -9,7 +9,6 @@ yargs.parserConfiguration({
 
 // File paths
 const INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
-const OUTPUT_VARIABLES_FILEPATH = './builds/output_variables.json'
 // Strings for replacement
 const RUNTIME = 'runtime.js';
 const REMAINING_INDEX_SCRIPT_TAGS = '<script src="polyfills.js" defer></script><script src="main.js" defer></script>';

@@ -280,6 +280,6 @@ jobs:
           aws-region: us-west-2 # Use your bucket region here
 
       - name: Upload docs to S3 bucket
-        run: aws s3 sync ./lf-documentation s3://apiserver-publish-client-library-docs/${GITHUB_REPOSITORY##*/}/docs/${GITHUB_REF##*/} --delete
+        run: aws s3 sync ./dist/lf-documentation s3://apiserver-publish-client-library-docs/${GITHUB_REPOSITORY##*/}/docs/${GITHUB_REF##*/} --delete
 
 
