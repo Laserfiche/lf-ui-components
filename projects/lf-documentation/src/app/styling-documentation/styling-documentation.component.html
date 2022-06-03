@@ -34,10 +34,10 @@
     <button class="lf-button" (click)="showCode('styles.css', 'import')">styles.css</button>
     <div>
         <div id="index.html" class="import tab-content" style="display: none;">
-            <code>&lt;link id="lf-stylesheet" href="https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/lf-laserfiche-lite.css" rel="stylesheet" /&gt;</code>
+            <code>&lt;link id="lf-stylesheet" href="https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css" rel="stylesheet" /&gt;</code>
         </div>
         <div id="styles.css" class="import tab-content" style="display: none;">
-            <code>@import "https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/lf-laserfiche-lite.css";</code>
+            <code>@import "https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css";</code>
         </div>
     </div>
 </app-card>
@@ -118,12 +118,12 @@
             <pre><code>
   setThemeLaserfiche() &#123;
     const stylesheet = document.getElementById('lf-stylesheet');
-    stylesheet.setAttribute('href', 'https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/lf-laserfiche-lite.css');
+    stylesheet.setAttribute('href', 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css');
   &#125;
 
   setThemeMicrosoft() &#123;
     const stylesheet = document.getElementById('lf-stylesheet');
-    stylesheet.setAttribute('href', 'https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/lf-ms-office-lite.css');
+    stylesheet.setAttribute('href', 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css');
   &#125;
 
   removeTheme() &#123;
