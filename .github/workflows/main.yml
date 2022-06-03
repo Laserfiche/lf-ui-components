@@ -239,47 +239,47 @@ jobs:
           commit_sha: ${{ github.sha }}
           message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
-  publish_documentation_to_s3:
-    runs-on: ubuntu-latest
-    environment: publish_to_S3
-    if: ${{ github.run_attempt != 1 }}
-    needs: [ build ]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.sha }}
+  # publish_documentation_to_s3:
+  #   runs-on: ubuntu-latest
+  #   environment: publish_to_S3
+  #   if: ${{ github.run_attempt != 1 }}
+  #   needs: [ build ]
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         ref: ${{ github.sha }}
 
-      - name: Download a Build Artifact
-        uses: actions/download-artifact@v2.1.0
-        with:
-          name: npm-publish-artifact
+  #     - name: Download a Build Artifact
+  #       uses: actions/download-artifact@v2.1.0
+  #       with:
+  #         name: npm-publish-artifact
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.1
-        with:
-          node-version: '14'
-          registry-url: 'https://registry.npmjs.org'
+  #     - name: Setup Node.js environment
+  #       uses: actions/setup-node@v2.5.1
+  #       with:
+  #         node-version: '14'
+  #         registry-url: 'https://registry.npmjs.org'
 
-      - name: Npm tool install
-        run: npm install -g npm@8
+  #     - name: Npm tool install
+  #       run: npm install -g npm@8
 
-      - name: Npm install gulp
-        run: npm install gulp
+  #     - name: Npm install gulp
+  #       run: npm install gulp
 
-      - name: 'gulp replaceVersionInGettingStarted'
-        run: gulp replaceVersionInGettingStarted --npmVersion ${{ env.NPM_VERSION }}
+  #     - name: 'gulp replaceVersionInGettingStarted'
+  #       run: gulp replaceVersionInGettingStarted --npmVersion ${{ env.NPM_VERSION }}
 
-      - name: 'gulp replaceVersionInIndexHtml'
-        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
+  #     - name: 'gulp replaceVersionInIndexHtml'
+  #       run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2 # Use your bucket region here
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-west-2 # Use your bucket region here
 
-      - name: Upload docs to S3 bucket
-        run: aws s3 sync ./dist/lf-documentation s3://apiserver-publish-client-library-docs/${GITHUB_REPOSITORY##*/}/docs/${GITHUB_REF##*/} --delete
+  #     - name: Upload docs to S3 bucket
+  #       run: aws s3 sync ./dist/lf-documentation s3://apiserver-publish-client-library-docs/${GITHUB_REPOSITORY##*/}/docs/${GITHUB_REF##*/} --delete
 
 
