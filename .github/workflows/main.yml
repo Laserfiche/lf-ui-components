@@ -54,6 +54,12 @@ jobs:
         run: npm ci
         working-directory: ./projects/lf-documentation
 
+      - name: 'gulp replaceStyleSheetInLfDocumentationMainTs'
+        run: gulp replaceStyleSheetInLfDocumentationMainTs
+
+      - name: 'gulp replaceStyleSheetInLfDocumentationThemeServiceTs'
+        run: gulp replaceStyleSheetInLfDocumentationThemeServiceTs
+
       - name: Npm run build-lf-documentation-prod
         run: npm run build-lf-documentation-prod
 
@@ -97,7 +103,7 @@ jobs:
         working-directory: ./dist/lf-cdn
 
       - name: 'move lf-documentation/styles to ui-components/cdn'
-        run: cp  lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map ../ui-components/cdn/
+        run: mv -t  ../ui-components/cdn/ lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
         working-directory: ./dist/lf-documentation
 
       - name: 'move README to ui-components'

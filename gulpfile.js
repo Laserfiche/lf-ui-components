@@ -36,6 +36,13 @@ const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
 const SOURCEMAP_POLYFILLS_URL = '//# sourceMappingURL=polyfills.js.map';
 const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/lf-documentation.js';
 const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
+const LF_DOCUMENTATION_MAIN_TS_FILEPATH = './projects/lf-documentation/src/main.ts';
+const OLD_LF_STYLE_SHEET_PATH = './lf-laserfiche-lite.css';
+const NEW_LF_STYLE_SHEET_PATH = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css';
+const LF_DOCUMENTATION_THEMESERVICE_FILEPATH = './projects/lf-documentation/src/app/theme.service.ts';
+const OLD_MS_OFFICE_STYLE_SHEET_PATH = './lf-ms-office-lite.css';
+const NEW_MS_OFFIC_STYLE_SHEET_PATH = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css';
+
 
 async function replaceScriptsInIndexHtml(){
     src(INDEX_HTML_FILEPATH, {base: './'})
@@ -43,6 +50,27 @@ async function replaceScriptsInIndexHtml(){
         .pipe(replace(REMAINING_INDEX_SCRIPT_TAGS, ''))
         .pipe(replace(OLD_SCRIPT_NAME, NEW_SCRIPT_NAME))
         .pipe(dest('./'));
+};
+
+async function replaceStyleSheetInLfDocumentationMainTs(){
+  src(LF_DOCUMENTATION_MAIN_TS_FILEPATH, {base: './'})
+      .pipe(replace(OLD_LF_STYLE_SHEET_PATH, NEW_LF_STYLE_SHEET_PATH))
+      .pipe(dest('./'));
+};
+
+async function replaceStyleSheetInLfDocumentationThemeServiceTs(){
+  src(LF_DOCUMENTATION_THEMESERVICE_FILEPATH, {base: './'})
+      .pipe(replace(OLD_LF_STYLE_SHEET_PATH, NEW_LF_STYLE_SHEET_PATH))
+      .pipe(replace(OLD_MS_OFFICE_STYLE_SHEET_PATH, NEW_MS_OFFIC_STYLE_SHEET_PATH))
+      .pipe(dest('./'));
+};
+
+async function replaceScriptsInIndexHtml(){
+  src(INDEX_HTML_FILEPATH, {base: './'})
+      .pipe(replace(RUNTIME, LF_DOCUMENTATION))
+      .pipe(replace(REMAINING_INDEX_SCRIPT_TAGS, ''))
+      .pipe(replace(OLD_SCRIPT_NAME, NEW_SCRIPT_NAME))
+      .pipe(dest('./'));
 };
 
 async function replaceVersionInGettingStarted(){
@@ -105,3 +133,5 @@ exports.renameRuntimeWebpackChunk = renameRuntimeWebpackChunk;
 exports.renamePolyfillsWebpackChunk = renamePolyfillsWebpackChunk;
 exports.concateLfCdnToScript = concateLfCdnToScript;
 exports.replaceVersionInIndexHtml = replaceVersionInIndexHtml;
+exports.replaceStyleSheetInLfDocumentationMainTs = replaceStyleSheetInLfDocumentationMainTs;
+exports.replaceStyleSheetInLfDocumentationThemeServiceTs = replaceStyleSheetInLfDocumentationThemeServiceTs;
