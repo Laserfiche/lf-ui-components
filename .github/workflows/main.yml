@@ -97,7 +97,7 @@ jobs:
         working-directory: ./dist/lf-cdn
 
       - name: 'move lf-documentation/styles to ui-components/cdn'
-        run: mv -t ../ui-components/cdn lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
+        run: cp  lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map ../ui-components/cdn/
         working-directory: ./dist/lf-documentation
 
       - name: 'move README to ui-components'
