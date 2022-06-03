@@ -60,7 +60,7 @@ import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angula
     ConvertComponentToElementComponent,
     LfLoginDocumentationComponent,
     TroubleshootingComponent,
-    ReleaseNotesComponent
+    ReleaseNotesComponent,
     ExampleUsageInAngularComponent,
     ExampleUsageInReactComponent,
     ExampleUsageInHtmlComponent,
