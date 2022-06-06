@@ -2,8 +2,7 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AccountInfo, AccessTokenError, OAuthAccessTokenData } from './lf-login-internal-types';
 import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';
 import { LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
-import { JwtUtils } from '@laserfiche/lf-js-utils';
-
+import { JwtUtils  } from '@laserfiche/lf-api-client-core';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
 @Injectable({

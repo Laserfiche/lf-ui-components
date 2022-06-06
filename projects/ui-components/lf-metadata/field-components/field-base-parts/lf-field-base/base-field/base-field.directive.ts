@@ -7,8 +7,8 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 import { isDynamicField } from '../../../utils/metadata-utils';
 import { ValidationRule } from '@laserfiche/lf-ui-components/shared';
 import { Observable, of } from 'rxjs';
-import { concatMap, map, mergeMap, startWith } from 'rxjs/operators';
-import { validateDefined } from '@laserfiche/lf-js-utils';
+import { map, mergeMap, startWith } from 'rxjs/operators';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 /** @internal */
 @Directive()
@@ -85,8 +85,8 @@ export abstract class BaseFieldDirective implements OnInit {
   fieldValidationErrorMsg!: Observable<string | undefined>;
 
   async ngOnInit(): Promise<void> {
-    this.lf_field_info = validateDefined(this.lf_field_info, 'LfFieldInfo');
-    this.lf_field_form_control = validateDefined(this.lf_field_form_control, 'lfFieldFormControl');
+    this.lf_field_info = CoreUtils.validateDefined(this.lf_field_info, 'LfFieldInfo');
+    this.lf_field_form_control = CoreUtils.validateDefined(this.lf_field_form_control, 'lfFieldFormControl');
     this.setLfFieldFormControlValue(this.lf_field_value);
 
     this.STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER = this.localizationService.getStringObservable('STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER', [this.lf_field_info?.length?.toString() ?? '0']);

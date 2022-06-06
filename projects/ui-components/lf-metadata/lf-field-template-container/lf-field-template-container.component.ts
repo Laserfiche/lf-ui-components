@@ -12,7 +12,7 @@ import { LfFieldGroupComponent } from '../field-components/lf-field-group/lf-fie
 import { FieldDefinition } from '../field-components/utils/lf-field-internal-types';
 import { isDynamicField } from '../field-components/utils/metadata-utils';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
-import { TimeUtils, validateDefined } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
   selector: 'lf-field-template-container-component',
@@ -85,7 +85,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   initAsync = async (providers: LfFieldTemplateProviders, templateIdentifier?: number | string): Promise<void> => {
     await this.zone.run(async () => {
       this.resetComponentValues();
-      this.templateFieldContainerService = validateDefined(providers.templateFieldContainerService, 'templateFieldContainerService');
+      this.templateFieldContainerService = CoreUtils.validateDefined(providers.templateFieldContainerService, 'templateFieldContainerService');
       await this.selectTemplateAsync(templateIdentifier);
       await this.updateTemplateFieldsAsync();
     });
@@ -369,7 +369,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       for (const indexChanged of indicesOfValueChanged) {
         this.showLoader(indexChanged);
         const fieldInfoOptions = this.getOrCreateDynamicOptions(lfFieldInfo);
-        await TimeUtils.yieldAsync();
+        await CoreUtils.yieldAsync();
         const fieldOptions = fieldInfoOptions[indexChanged];
         if (!fieldOptions) {
           const isBaseDynamicField = isDynamicField(lfFieldInfo) && lfFieldInfo.rule?.ancestors.length === 0;
