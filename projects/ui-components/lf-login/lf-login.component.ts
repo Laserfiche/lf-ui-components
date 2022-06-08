@@ -5,6 +5,7 @@ import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from '.
 import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { LfLoginService } from './login-utils/lf-login.service';
 import { arrayBufferToBase64, dec2base64 } from './login-utils/pkce-utils';
+import { HTTPError, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-core';
 
 const LOGIN_REDIRECT_STATE = 'lf-login-redirect';
 const CODE_CHALLENGE_METHOD = 'S256';
@@ -57,6 +58,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
   @Input() set authorize_url_host_name(val: string) {
     this.loginService.authorize_url_host_name = val;
+    this.loginService.tokenClient = new TokenClient(this.loginService.authorize_url_host_name);
   };
   get authorize_url_host_name(): string {
     return this.loginService.authorize_url_host_name;
@@ -186,13 +188,14 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
         return undefined;
       }
       else {
-        const response = await this.refreshAsync();
-        const newAccessToken = await this.loginService.parseTokenResponseAsync(response, true);
-        if (newAccessToken) {
+        try {
+          const response = await this.loginService.tokenClient?.refreshAccessToken(refreshToken, this.client_id);
+          const newAccessToken = await this.loginService.parseTokenResponseAsync(response!, true);
           return newAccessToken;
         }
-        else {
-          if (response?.status === 401 || response?.status === 403) {
+        catch (e) {
+          const status = (<HTTPError>e).status;
+          if (status === 401 || status === 403) {
             if (initiateLoginFlowOnRefreshFailure && !this.hasLoginError && (this.state === LoginState.LoggedOut)) {
               console.warn('Unable to refresh. Will attempt to start the OAuth login flow');
               await this.startOAuthLoginFlowAsync();
@@ -378,15 +381,15 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     }
   }
 
-  /** @internal */
-  private async refreshAsync(): Promise<Response> {
-    const request = this.createRefreshTokenRequest();
-    const response = await fetch(
-      this.loginService.getOAuthTokenUrl(),
-      request
-    );
-    return response;
-  }
+  // /** @internal */
+  // private async refreshAsync(): Promise<Response> {
+  //   const request = this.createRefreshTokenRequest();
+  //   const response = await fetch(
+  //     this.loginService.getOAuthTokenUrl(),
+  //     request
+  //   );
+  //   return response;
+  // }
 
   /** @internal */
   parseCallbackURI(urlString: string): { error?: { name: string; description: string }; authorizationCode?: string } | undefined {
@@ -431,7 +434,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     if (storedAccessToken && storedAccountEndpoints && storedAccountId) {
       this.loginService._accessToken = JSON.parse(storedAccessToken);
       this.loginService._accountEndpoints = JSON.parse(storedAccountEndpoints);
-      this.loginService._accountInfo = JSON.parse(storedAccountId);
+      const accountInfo = JSON.parse(storedAccountId)
+      this.loginService._accountInfo = accountInfo;
       return LoginState.LoggedIn;
     }
     else if (callBackURIParams?.authorizationCode || callBackURIParams?.error) {
@@ -520,10 +524,10 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
   /** @internal */
   private async startOAuthLoginFlowAsync() {
-    const code_verifier = this.generateCodeVerifier();
+    const code_verifier = PKCEUtils.generateCodeVerifier();
     this.loginService.storeCodeVerifier(code_verifier);
 
-    this.code_challenge = await this.generateCodeChallengeAsync(code_verifier);
+    this.code_challenge = await PKCEUtils.generateCodeChallengeAsync(code_verifier);
 
     const fullAuthorizeUrl = this.getAuthorizeUrl();
     this.loginInitiated.emit(fullAuthorizeUrl);
@@ -531,19 +535,6 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     this.ref.detectChanges();
     console.info('state changed to LoggingIn');
     this.handleRedirectBehavior(fullAuthorizeUrl, 'Log in button clicked.');
-  }
-
-  /** @internal */
-  generateCodeVerifier() {
-    const array = new Uint8Array(25);
-    const randomString = window.crypto.getRandomValues(array);
-    const code_verifier_raw = Array.from(randomString, dec2base64).join('');
-    const code_verifier = btoa(code_verifier_raw)
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '');
-    this.loginService.storeCodeVerifier(code_verifier);
-    return code_verifier;
   }
 
   /** @internal */

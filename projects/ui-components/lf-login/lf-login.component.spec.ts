@@ -146,21 +146,4 @@ describe('LfLoginComponent', () => {
     expect(component.concatStrings('hi ', ' test')).toEqual('hi test');
     expect(component.concatStrings('hi', ' test')).toEqual('hi test');
   });
-
-  it('generateCodeVerifier generates a random string of length 43-128', () => {
-    const code_verifier = component.generateCodeVerifier();
-    expect((code_verifier.length <= 128 && code_verifier.length >= 43)).toBeTrue();
-  });
-
-  it('generateCodeVerifier generates a random string of 0-9, a-z, A-Z, -._~', () => {
-    const code_verifier = component.generateCodeVerifier();
-    expect(/[\w\-.\~]*/.test(code_verifier)).toEqual(true);
-  });
-
-  it('generateCodeChallenge transforms the result of generateCodeVerifier to a output string using SHA-256 hash function', async () => {
-    const code_verifier = component.generateCodeVerifier();
-    const code_challenge_1 = await component.generateCodeChallengeAsync(code_verifier);
-    const code_challenge_2 = await component.generateCodeChallengeAsync(code_verifier);
-    expect(code_challenge_1).toEqual(code_challenge_2);
-  });
 });

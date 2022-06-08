@@ -82,45 +82,45 @@ describe('LfLoginService', () => {
     })).toThrow();
   });
 
-  it('getExchangeCodeErrorResponse should parse error response', () => {
-    const error = service.getExchangeCodeErrorResponse({
-      "type": 'test-type',
-      "title": 'test-title',
-      'traceId': 'test-trace',
-      'instance': 'test-instance',
-      'operationId': 'test-operation'
-    }, 200);
-    expect(error).toEqual({ status: 200, type: 'test-type', title: 'test-title', traceId: 'test-trace', instance: 'test-instance', operationId: 'test-operation' });
-  });
+  // it('getExchangeCodeErrorResponse should parse error response', () => {
+  //   const error = service.getExchangeCodeErrorResponse({
+  //     "type": 'test-type',
+  //     "title": 'test-title',
+  //     'traceId': 'test-trace',
+  //     'instance': 'test-instance',
+  //     'operationId': 'test-operation'
+  //   }, 200);
+  //   expect(error).toEqual({ status: 200, type: 'test-type', title: 'test-title', traceId: 'test-trace', instance: 'test-instance', operationId: 'test-operation' });
+  // });
 
-  it('getExchangeCodeErrorResponse should have undefined properties when not all properties exist', () => {
-    let error = service.getExchangeCodeErrorResponse({
-      "type": 'test-type',
-      "title": 'test-title',
-      'traceId': 'test-trace',
-    }, 401);
-    expect(error).toEqual({ status: 401, type: 'test-type', title: 'test-title', traceId: 'test-trace', instance: undefined, operationId: undefined });
+  // it('getExchangeCodeErrorResponse should have undefined properties when not all properties exist', () => {
+  //   let error = service.getExchangeCodeErrorResponse({
+  //     "type": 'test-type',
+  //     "title": 'test-title',
+  //     'traceId': 'test-trace',
+  //   }, 401);
+  //   expect(error).toEqual({ status: 401, type: 'test-type', title: 'test-title', traceId: 'test-trace', instance: undefined, operationId: undefined });
 
-    error = service.getExchangeCodeErrorResponse({
-      "type": 'test-type',
-      'traceId': 'test-trace',
-    }, 401);
-    expect(error).toEqual({ status: 401, type: 'test-type', title: '401', traceId: 'test-trace', instance: undefined, operationId: undefined });
-  });
+  //   error = service.getExchangeCodeErrorResponse({
+  //     "type": 'test-type',
+  //     'traceId': 'test-trace',
+  //   }, 401);
+  //   expect(error).toEqual({ status: 401, type: 'test-type', title: '401', traceId: 'test-trace', instance: undefined, operationId: undefined });
+  // });
 
   it('getPostRequestHeaders should get headers', () => {
     const requestHeaders = service.getPostRequestHeaders();
     expect(requestHeaders).toEqual({ 'Content-Type': 'application/x-www-form-urlencoded' });
   });
 
-  it('getOAuthTokenUrl should return expected url', () => {
-    let oauthurl = service.getOAuthTokenUrl();
-    expect(oauthurl).toEqual('https://signin.laserfiche.com/oauth/token');
+  // it('getOAuthTokenUrl should return expected url', () => {
+  //   let oauthurl = service.getOAuthTokenUrl();
+  //   expect(oauthurl).toEqual('https://signin.laserfiche.com/oauth/token');
 
-    service.authorize_url_host_name = 'a.clouddev.laserfiche.com';
-    oauthurl = service.getOAuthTokenUrl();
-    expect(oauthurl).toEqual('https://signin.a.clouddev.laserfiche.com/oauth/token');
-  });
+  //   service.authorize_url_host_name = 'a.clouddev.laserfiche.com';
+  //   oauthurl = service.getOAuthTokenUrl();
+  //   expect(oauthurl).toEqual('https://signin.a.clouddev.laserfiche.com/oauth/token');
+  // });
 
   it('storeInLocalStorage should have correct data in local storage', () => {
     const testHeader = btoa('{"test": "test"}');
