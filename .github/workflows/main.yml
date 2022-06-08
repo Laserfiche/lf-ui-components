@@ -66,15 +66,6 @@ jobs:
       - name: 'concatenate runtime.js, main.js, and polyfills.js into lf-documentation.js'
         run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
 
-      - name: 'gulp replacePlaceholdersInDocumentation'
-        run: gulp replacePlaceholdersInDocumentation
-
-      - name: 'gulp replaceVersionInDocumentation'
-        run: gulp replaceVersionInDocumentation --npmVersion ${{ env.NPM_VERSION }}
-
-      - name: 'gulp replaceVersionInIndexHtml'
-        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
-
       - name: Npm run test
         shell: pwsh
         run: npm run test:ci
@@ -94,6 +85,15 @@ jobs:
 
       - name: 'gulp replaceScriptsInIndexHtml'
         run: gulp replaceScriptsInIndexHtml
+
+      - name: 'gulp replacePlaceholdersInDocumentation'
+        run: gulp replacePlaceholdersInDocumentation
+
+      - name: 'gulp replaceVersionInDocumentation'
+        run: gulp replaceVersionInDocumentation --npmVersion ${{ env.NPM_VERSION }}--preview-${{ github.run_id }}
+
+      - name: 'gulp replaceVersionInIndexHtml'
+        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}--preview-${{ github.run_id }}
 
       - name: 'move indigo-pink to ui-components/cdn'
         run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
