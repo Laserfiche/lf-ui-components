@@ -10,6 +10,17 @@ $height: 32px;
 $options-height: 36px;
 $options-padding-stack: 7px 10px 8px;
 
+mat-label.lf-dropdown-label {
+  padding-left: $padding-left;
+  line-height:  $height - 2*$border-width;
+}
+
+.lf-dropdown .mat-form-field-label-wrapper, .lf-dropdown .mat-form-field-label {
+  top: 0;
+  padding-top: 0;
+  height: $height;
+}
+
 mat-select.lf-dropdown, select.lf-dropdown{
   font: typography-mo.$body-stack;
   color: typography-mo.$hover-color;
