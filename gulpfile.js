@@ -41,15 +41,6 @@ const NEW_LF_STYLE_SHEET_PATH = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-
 const OLD_MS_OFFICE_STYLE_SHEET_PATH = './lf-ms-office-lite.css';
 const NEW_MS_OFFICE_STYLE_SHEET_PATH = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css';
 
-
-async function replaceScriptsInIndexHtml(){
-    src(INDEX_HTML_FILEPATH, {base: './'})
-        .pipe(replace(RUNTIME, LF_DOCUMENTATION))
-        .pipe(replace(REMAINING_INDEX_SCRIPT_TAGS, ''))
-        .pipe(replace(OLD_SCRIPT_NAME, NEW_SCRIPT_NAME))
-        .pipe(dest('./'));
-};
-
 async function replaceScriptsInIndexHtml(){
   src(INDEX_HTML_FILEPATH, {base: './'})
       .pipe(replace(RUNTIME, LF_DOCUMENTATION))
