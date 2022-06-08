@@ -215,3 +215,8 @@ a {
 li {
   line-height: 1.5rem;
 }
+
+.documentation-h4 {
+  display: inline;
+  line-height: 1.5rem;
+}
