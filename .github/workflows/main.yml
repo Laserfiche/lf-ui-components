@@ -67,7 +67,10 @@ jobs:
         run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
 
       - name: 'gulp replacePlaceholdersInDocumentation'
-        run: gulp replacePlaceholdersInDocumentation --npmVersion ${{ env.NPM_VERSION }}
+        run: gulp replacePlaceholdersInDocumentation
+
+      - name: 'gulp replaceVersionInDocumentation'
+        run: gulp replaceVersionInDocumentation --npmVersion ${{ env.NPM_VERSION }}
 
       - name: 'gulp replaceVersionInIndexHtml'
         run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}

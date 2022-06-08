@@ -36,10 +36,8 @@ const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
 const SOURCEMAP_POLYFILLS_URL = '//# sourceMappingURL=polyfills.js.map';
 const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/lf-documentation.js';
 const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
-const LF_DOCUMENTATION_MAIN_TS_FILEPATH = './projects/lf-documentation/src/main.ts';
 const OLD_LF_STYLE_SHEET_PATH = './lf-laserfiche-lite.css';
 const NEW_LF_STYLE_SHEET_PATH = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css';
-const LF_DOCUMENTATION_THEMESERVICE_FILEPATH = './projects/lf-documentation/src/app/theme.service.ts';
 const OLD_MS_OFFICE_STYLE_SHEET_PATH = './lf-ms-office-lite.css';
 const NEW_MS_OFFICE_STYLE_SHEET_PATH = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css';
 
@@ -64,6 +62,11 @@ async function replacePlaceholdersInDocumentation(){
   src(COMPILED_GETTING_STARTED_FILE_PATH, {base: './'})
       .pipe(replace(OLD_LF_STYLE_SHEET_PATH, NEW_LF_STYLE_SHEET_PATH))
       .pipe(replace(OLD_MS_OFFICE_STYLE_SHEET_PATH, NEW_MS_OFFICE_STYLE_SHEET_PATH))
+      .pipe(dest('./'));
+};
+
+async function replaceVersionInDocumentation(){
+  src(COMPILED_GETTING_STARTED_FILE_PATH, {base: './'})
       .pipe(replace(NPM_VERSION, getNpmVersion()))
       .pipe(dest('./'));
 };
@@ -122,3 +125,4 @@ exports.renameRuntimeWebpackChunk = renameRuntimeWebpackChunk;
 exports.renamePolyfillsWebpackChunk = renamePolyfillsWebpackChunk;
 exports.concateLfCdnToScript = concateLfCdnToScript;
 exports.replaceVersionInIndexHtml = replaceVersionInIndexHtml;
+exports.replaceVersionInDocumentation = replaceVersionInDocumentation;
