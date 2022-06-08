@@ -30,7 +30,7 @@ body {
   color: black;
   z-index: 2;
   font-family: 'Open Sans', sans-serif;
-  background-color: #E0E0E0;
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .documentation-content {
