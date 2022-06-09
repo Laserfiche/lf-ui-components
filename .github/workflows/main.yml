@@ -229,7 +229,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: npm version @laserfiche/lf-ui-components
-        run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version
+        run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version --allow-same-version
         working-directory: ./dist/ui-components
 
       - name: Npm publish @laserfiche/lf-ui-components
