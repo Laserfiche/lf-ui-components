@@ -219,7 +219,7 @@ jobs:
           cp LICENSE ./dist/ui-components
 
       - name: npm version @laserfiche/types-lf-ui-components
-        run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version
+        run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version --allow-same-version
         working-directory: ./types-lf-ui-components-publish
 
       - name: Npm publish @laserfiche/types-lf-ui-components
