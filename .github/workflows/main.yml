@@ -274,4 +274,4 @@ jobs:
           aws-region: us-west-2
 
       - name: Upload docs to S3 bucket
-        run: aws s3 sync ./docs_temp/${{ github.ref_name }}/ s3://apiserver-publish-client-library-docs/${{ github.event.repository.name }}/docs/${{ github.ref_name }} --delete
+        run: aws s3 sync ./dist/lf-documentation/ s3://apiserver-publish-client-library-docs/${{ github.event.repository.name }}/docs/${{ github.ref_name }} --delete
