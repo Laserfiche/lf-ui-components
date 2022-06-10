@@ -71,12 +71,6 @@ export class LfLoginService {
   /** @internal */
   async exchangeCodeForTokenAsync(callBackURIParams: { error?: { name: string; description: string } | undefined; authorizationCode?: string | undefined }) {
     let concurrentCallsDetected: boolean = false;
-    if (this.authorize_url_host_name) {
-      this.tokenClient = new TokenClient(this.authorize_url_host_name)
-    }
-    else {
-      console.log('cannot get account info, tokenClient does not exist')
-    }
     try {
       if (this.exchangeCodeForToken_lock) {
         concurrentCallsDetected = true;
@@ -132,21 +126,6 @@ export class LfLoginService {
       }
     }
   }
-
-  // /** @internal */
-  // private async getTokenAsync(code: string) {
-  //   const request = this.createPostTokenRequest(code);
-  //   const response = await fetch(
-  //     this.getOAuthTokenUrl(),
-  //     request
-  //   );
-  //   return response;
-  // }
-
-  // /** @internal */
-  // getOAuthTokenUrl(): RequestInfo {
-  //   return `https://signin.${this.authorize_url_host_name}/oauth/token`;
-  // }
 
   /** @internal */
   async parseTokenResponseAsync(response: GetAccessTokenResponse, refresh: boolean = false): Promise<string | undefined> {
@@ -234,19 +213,6 @@ export class LfLoginService {
     this.storeAccountInfo(parsedAccessToken);
     this.storeAccountEndpoints(parsedAccessToken);
     this.storeAccessToken(accessTokenCredentials);
-  }
-
-  /** @internal */
-  getExchangeCodeErrorResponse(jsonResponse: any, responseStatus: number) {
-    // const responseError: AccessTokenError = {
-    //   type: jsonResponse['type'],
-    //   title: jsonResponse['title'] ?? responseStatus.toString(),
-    //   status: responseStatus,
-    //   instance: jsonResponse['instance'],
-    //   operationId: jsonResponse['operationId'],
-    //   traceId: jsonResponse['traceId']
-    // };
-    // return responseError;
   }
 
   /** @internal */

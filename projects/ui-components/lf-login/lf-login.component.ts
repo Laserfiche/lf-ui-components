@@ -434,7 +434,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     if (storedAccessToken && storedAccountEndpoints && storedAccountId) {
       this.loginService._accessToken = JSON.parse(storedAccessToken);
       this.loginService._accountEndpoints = JSON.parse(storedAccountEndpoints);
-      const accountInfo = JSON.parse(storedAccountId)
+      const accountInfo = JSON.parse(storedAccountId);
       this.loginService._accountInfo = accountInfo;
       return LoginState.LoggedIn;
     }
