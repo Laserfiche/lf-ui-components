@@ -245,7 +245,7 @@ jobs:
           commit_sha: ${{ github.sha }}
           message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
-publish_documentation:
+  publish_documentation:
     runs-on: ubuntu-latest
     environment: publish_to_S3
     if: ${{ github.run_attempt != 1 }}
