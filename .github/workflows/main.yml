@@ -244,3 +244,34 @@ jobs:
           tag: ${{ env.NPM_VERSION }}
           commit_sha: ${{ github.sha }}
           message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
+
+publish_documentation:
+    runs-on: ubuntu-latest
+    environment: publish_to_S3
+    if: ${{ github.run_attempt != 1 }}
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.1.0
+        with:
+          name: npm-publish-artifact
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: '14'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Upload docs to S3 bucket
+        run: aws s3 sync ./docs_temp/${{ github.ref_name }}/ s3://apiserver-publish-client-library-docs/${{ github.event.repository.name }}/docs/${{ github.ref_name }} --delete
