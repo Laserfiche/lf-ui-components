@@ -381,16 +381,6 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     }
   }
 
-  // /** @internal */
-  // private async refreshAsync(): Promise<Response> {
-  //   const request = this.createRefreshTokenRequest();
-  //   const response = await fetch(
-  //     this.loginService.getOAuthTokenUrl(),
-  //     request
-  //   );
-  //   return response;
-  // }
-
   /** @internal */
   parseCallbackURI(urlString: string): { error?: { name: string; description: string }; authorizationCode?: string } | undefined {
     const url = new URL(urlString);

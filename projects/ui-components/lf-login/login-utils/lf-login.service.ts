@@ -87,7 +87,6 @@ export class LfLoginService {
         catch (e) {
           const status = (<HTTPError>e).status;
           const message = (<HTTPError>e).message;
-          // const accessTokenError: AccessTokenError = this.getExchangeCodeErrorResponse(response, response.status);
           this.removeFromLocalStorage();
           this._state = LoginState.LoggedOut;
           console.error('Login Error (state changed to LoggedOut): ' + message);
