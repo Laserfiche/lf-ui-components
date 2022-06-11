@@ -190,7 +190,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       else {
         try {
           const response = await this.loginService.tokenClient?.refreshAccessToken(refreshToken, this.client_id);
-          const newAccessToken = await this.loginService.parseTokenResponseAsync(response!, true);
+          const newAccessToken = await this.loginService.parseTokenResponseAsync(response!);
           return newAccessToken;
         }
         catch (e) {

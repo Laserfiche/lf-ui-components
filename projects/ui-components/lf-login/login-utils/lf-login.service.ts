@@ -127,13 +127,13 @@ export class LfLoginService {
   }
 
   /** @internal */
-  async parseTokenResponseAsync(response: GetAccessTokenResponse, refresh: boolean = false): Promise<string | undefined> {
-      const accessTokenSuccess: AuthorizationCredentials = this.getExchangeCodeSuccessResponse(response);
-      this.storeInLocalStorage(accessTokenSuccess);
+  async parseTokenResponseAsync(response: GetAccessTokenResponse): Promise<string | undefined> {
+      const accessToken: AuthorizationCredentials = this.getExchangeCodeSuccessResponse(response);
+      this.storeInLocalStorage(accessToken);
       this._state = LoginState.LoggedIn;
       console.info('state changed to LoggedIn');
       this.loginCompletedInService.emit();
-      return accessTokenSuccess.accessToken;
+      return accessToken.accessToken;
   }
 
   /** @internal */
@@ -149,7 +149,6 @@ export class LfLoginService {
     this._accessToken = undefined;
     this._accountInfo = undefined;
     this._accountEndpoints = undefined;
-    this.tokenClient = undefined;
   }
 
   /** @internal */
