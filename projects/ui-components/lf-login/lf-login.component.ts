@@ -528,18 +528,6 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   }
 
   /** @internal */
-  async generateCodeChallengeAsync(code_verifier: string) {
-    const msgUint8 = new TextEncoder().encode(code_verifier); // encode as (utf-8) Uint8Array
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8); // hash the message
-    const hashEncoded = arrayBufferToBase64(hashBuffer) // convert bytes to base64 string
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '');
-    this.code_challenge = hashEncoded;
-    return hashEncoded;
-  }
-
-  /** @internal */
   getAuthorizeUrl(): string {
     const baseUrl = new URL(`https://signin.${this.authorize_url_host_name}/oauth/Authorize`);
     baseUrl.searchParams.set('client_id', this.client_id);
