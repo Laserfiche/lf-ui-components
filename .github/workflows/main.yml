@@ -271,14 +271,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
-
-      - name: Set GIT_BRANCH
-        run: |
-          # Short name for current branch. For PRs, use target branch (base ref)
-          GIT_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
-          echo "GIT_BRANCH=$GIT_BRANCH" >> $GITHUB_ENV
-          echo ${{env.GIT_BRANCH}}
+          aws-region: us-west-2 # Use your bucket region here
 
       - name: Upload docs to S3 bucket
-        run: aws s3 sync ./dist/lf-documentation/ s3://apiserver-publish-client-library-docs/${GITHUB_REPOSITORY##*/}/docs/${GIT_BRANCH} --delete
+        run: aws s3 sync ./dist/lf-documentation s3://apiserver-publish-client-library-docs/${GITHUB_REPOSITORY##*/}/docs/${GITHUB_REF##*/} --delete
