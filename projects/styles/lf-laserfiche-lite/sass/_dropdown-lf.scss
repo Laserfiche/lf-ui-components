@@ -18,7 +18,7 @@ mat-label.lf-dropdown-label {
 }
 
 .lf-dropdown .mat-form-field-label-wrapper, .lf-dropdown .mat-form-field-label {
-  top: 0;
+  top: 0 !important;
   padding-top: 0;
   height: $height;
 }
