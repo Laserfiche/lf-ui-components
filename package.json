@@ -61,6 +61,7 @@
     "yargs": "^17.1.0"
   },
   "dependencies": {
-    "@laserfiche/lf-ui-components": "file:projects/ui-components"
+    "@laserfiche/lf-ui-components": "file:projects/ui-components",
+    "isomorphic-fetch": "^3.0.0"
   }
 }
