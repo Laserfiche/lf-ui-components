@@ -1,0 +1,88 @@
+<p class="documentation-title">Using UI components in React</p>
+<h3 id="cdn-example-react"> Example: <code>lf-checklist</code></h3>
+<p>In the example below, the implementation comes from the CDN.
+<ol>
+  <li>
+    <p  class="documentation-text">
+      Add the following script tags to <code>./public/index.html</code>
+    </p>
+    <pre class="code-container">
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+>"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
+> defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+</pre>
+  </li>
+<li>
+  <p  class="documentation-text">
+    Choose a theme to style your components:
+  </p>
+<pre class="code-container">
+<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
+>"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"</span><span class="code-html-attribute-name"> rel</span><span
+>=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
+</pre>
+<p  class="documentation-text">
+  or
+</p>
+<pre class="code-container">
+<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
+>"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-ofice-lite.css"</span><span class="code-html-attribute-name"> rel</span><span
+>=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
+</pre>
+</li>
+<li>
+  <p  class="documentation-text">
+    Add the Angular Material stylesheet
+  </p>
+<pre class="code-container">
+<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
+  >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"</span><span class="code-html-attribute-name"> rel</span><span
+  >=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
+</pre>
+  </li>
+  <li>
+    If you are using TypeScript, create a file <code>./src/definitions.d.ts</code>. This allows you to use the custom UI component in your application.
+    <pre class="code-container">
+<span class="code-ts-import">declare namespace</span> JSX &#123;
+  <span class="code-ts-import">interface</span> IntrinsicElements &#123;
+    <span class="code-js-string">'lf-checklist'</span>: any;
+  }
+}
+</pre>
+  </li>
+  <li>
+    <p dir="auto">In the <code>.tsx</code> file,</p>
+    <pre class="code-container">
+<span class="code-ts-import">import</span> <span class="code-js-import-item">React</span> <span class="code-ts-import">from</span> <span class="code-js-string">'react'</span>;
+<span class="code-ts-comment">// do not need to add the following import statements in ReactJS project  </span>
+<span class="code-ts-import">import</span> <span class="code-js-import-item">&#123; NgElement, WithProperties }</span> <span class="code-ts-import">from</span> <span class="code-js-string">'@angular/elements'</span>;
+<span class="code-ts-import">import</span> <span class="code-js-import-item">&#123;LfChecklistComponent, Checklist }</span> <span class="code-ts-import">from</span> <span class="code-js-string">'@laserfiche/types-lf-ui-components'</span>;
+
+<span class="code-ts-import">export class</span> <span class="code-js-classname">ExampleApp</span> <span class="code-ts-import">extends</span> <span class="code-js-classname">React</span>.<span class="code-js-prop">Component</span> &#123;
+  <span class="code-js-prop">checklist</span>: <span class="code-js-import-item">React.RefObject</span>&lt;<span class="code-js-prop">NgElement & WithProperties&lt;LfChecklistComponent&gt;&gt;</span>;
+
+  <span class="code-js-function">constructor</span>(props) &#123;
+    super(props);
+    <span class="code-js-prop">checklist</span> = <span class="code-js-classname">React</span>.<span class="code-js-function">createRef()</span>;  <span class="code-ts-comment">// create a reference for custom element</span>
+  }
+
+  <span class="code-ts-import">async</span> <span class="code-js-function">componentDidMount()</span> &#123;
+    <span class="code-ts-import">await</span> this.<span class="code-js-prop">checklist.current</span>?.<span class="code-js-function">initAsync</span>(...);
+    <span class="code-ts-comment">// we have to add event listener to listen for the HTML custom event checklistChanged</span>
+    this.<span class="code-js-prop">checklist.current</span>?.<span class="code-js-function">addEventListener</span>(<span class="code-js-string">'checklistChanged'</span>, this.<span class="code-js-prop">onChecklistChanged</span>);
+  }
+
+  <span class="code-js-function">onChecklistChanged</span>(event) &#123;
+    <span class="code-ts-import">const</span> checklist = event.<span class="code-js-prop">detail</span>;    <span class="code-ts-comment">// event data will be stored in the detail property</span>
+  }
+
+  <span class="code-js-function">render</span>() &#123;
+    <span class="code-ts-import">return</span> (
+      <span class="code-html-tagname">&lt;lf-checklist</span>
+        <span class="code-js-prop">ref</span>=&#123;this.<span class="code-js-prop">checklist</span>}
+        <span class="code-html-tagname">&gt;&lt;/lf-checklist&gt;</span>
+    );
+  }
+    </pre>
+  </li>
+</ol>

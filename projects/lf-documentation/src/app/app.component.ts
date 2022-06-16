@@ -12,7 +12,16 @@ interface ComponentNode {
 
 const TREE_DATA: ComponentNode[] = [
   { name: 'Overview', routerLink: RouterLinks.OVERVIEW },
-  { name: 'Getting Started', routerLink: RouterLinks.GETTING_STARTED },
+  {
+    name: 'Getting Started',
+    routerLink: RouterLinks.GETTING_STARTED,
+    children: [
+      { name: 'Using UI Components in Angular', routerLink: RouterLinks.EXAMPLE_USAGE_ANGULAR },
+      { name: 'Using NPM UI Components in Angular', routerLink: RouterLinks.EXAMPLE_NPM_USAGE_ANGULAR },
+      { name: 'Using UI Components in React', routerLink: RouterLinks.EXAMPLE_USAGE_REACT },
+      { name: 'Using UI Components in HTML5', routerLink: RouterLinks.EXAMPLE_USAGE_HTML },
+    ]
+  },
   // { name: 'Localization', routerLink: RouterLinks.LOCALIZATION },
   { name: 'Styling', routerLink: RouterLinks.STYLING },
   {
