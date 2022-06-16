@@ -6,7 +6,7 @@ UI Components are compatible with many web frameworks including Angular, React, 
 
 ## Using @laserfiche/lf-ui-components
 
-See documentation [here](https:/developer.laserfiche.com).
+See documentation [here](https://developer.laserfiche.com).
 
 ## Contribution
 
