@@ -106,7 +106,7 @@ describe('NumberFieldComponent', () => {
   });
 
   it('should validate an empty Number that is required', async () => {
-    const expectedError = numberComponent.localizationService.getString('INVALID_FIELD_REQUIRED_FIELD_EMPTY');
+    const expectedError = numberComponent.localizationService.getString('REQUIRED_FIELD_IS_EMPTY');
     let value: string | undefined;
     numberComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;
@@ -122,7 +122,7 @@ describe('NumberFieldComponent', () => {
 
   it('should validate a ShortInteger with invalid length and pattern', async () => {
     const lengthParam: string[] = [testShortInt?.length?.toString() ?? '0'];
-    const expectedError: string = shortIntComponent.localizationService.getString('STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER', lengthParam);
+    const expectedError: string = shortIntComponent.localizationService.getString('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', lengthParam);
     let value: string | undefined;
     shortIntComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;
@@ -182,7 +182,7 @@ describe('NumberFieldComponent', () => {
 
   it('should dynamically change LongInteger value', async () => {
     longIntComponent.setLfFieldFormControlValue('9999999999999999999999999999999999');
-    const expectedError = longIntComponent.localizationService.getString('LONG_FIELD_VALIDATOR_INVALID_MESSAGE');
+    const expectedError = longIntComponent.localizationService.getString('LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999');
     let value: string | undefined;
     longIntComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;
@@ -291,7 +291,7 @@ describe('NumberFieldComponent', () => {
     numberComponent.onValueChanged();
     expect(numberComponent.lf_field_value).toEqual('');
     expect(numberComponent.getLfFieldFormControlValue()).toEqual('asdf');
-    const expectedError = numberComponent.localizationService.getString('NUMBER_FIELD_VALIDATOR_INVALID_MESSAGE');
+    const expectedError = numberComponent.localizationService.getString('NUMBER_FIELD_MUST_BE_VALID_NUMBER');
     let value: string | undefined;
     numberComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;

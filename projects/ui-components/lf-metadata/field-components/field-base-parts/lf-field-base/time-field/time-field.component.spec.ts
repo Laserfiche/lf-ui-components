@@ -88,7 +88,7 @@ describe('TimeFieldComponent', () => {
   });
 
   it('should have validation error if required field is blank', async () => {
-    const expectedError = requiredTimeComponent.localizationService.getString('INVALID_FIELD_REQUIRED_FIELD_EMPTY');
+    const expectedError = requiredTimeComponent.localizationService.getString('REQUIRED_FIELD_IS_EMPTY');
     let value: string | undefined;
     requiredTimeComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;
@@ -127,7 +127,7 @@ describe('TimeFieldComponent', () => {
 
     // assert
     const expectedBrokenRule = ValidationRule.TIME;
-    const expectedError = requiredTimeComponent.localizationService.getString('FIELD_NOT_TIME', ['HH:mm:ss']);
+    const expectedError = requiredTimeComponent.localizationService.getString('TIME_FIELDS_MUST_BE_IN_FORMAT_0', ['HH:mm:ss']);
     expect(requiredTimeComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     requiredTimeComponent.fieldValidationErrorMsg.subscribe((val) => {

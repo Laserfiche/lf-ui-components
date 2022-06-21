@@ -90,7 +90,7 @@ describe('DateTimeFieldComponent', () => {
   it('should have validation error if required field is blank', async () => {
     // assert
     const expectedBrokenRule = ValidationRule.REQUIRED;
-    const expectedError = requiredDateTimeComponent.localizationService.getString('INVALID_FIELD_REQUIRED_FIELD_EMPTY');
+    const expectedError = requiredDateTimeComponent.localizationService.getString('REQUIRED_FIELD_IS_EMPTY');
     expect(requiredDateTimeComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     requiredDateTimeComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -177,7 +177,7 @@ describe('DateTimeFieldComponent', () => {
 
     // assert
     const expectedBrokenRule = ValidationRule.MAT_DATETIME_PICKER_PARSE;
-    const expectedError = optionalDateTimeComponent.localizationService.getString('FIELD_NOT_DATETIME', ['MM/DD/YYYY, HH:mm:ss']);
+    const expectedError = optionalDateTimeComponent.localizationService.getString('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', ['MM/DD/YYYY, HH:mm:ss']);
     expect(optionalDateTimeComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     optionalDateTimeComponent.fieldValidationErrorMsg.subscribe((val) => {

@@ -104,7 +104,7 @@ describe('TextFieldComponent', () => {
   });
 
   it('should show validation error for required field with no value', async () => {
-    const expectedError = shortComponent.localizationService.getString('INVALID_FIELD_REQUIRED_FIELD_EMPTY');
+    const expectedError = shortComponent.localizationService.getString('REQUIRED_FIELD_IS_EMPTY');
     let value: string | undefined;
     shortComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;
@@ -169,7 +169,7 @@ describe('TextFieldComponent', () => {
 
     const expectedBrokenRule = ValidationRule.MAX_LENGTH;
     const lengthParam: string[] = [shortStringTextInfo?.length?.toString() ?? '0'];
-    const expectedError: string = shortComponent.localizationService.getString('STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER', lengthParam);
+    const expectedError: string = shortComponent.localizationService.getString('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', lengthParam);
     expect(shortComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     shortComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -210,7 +210,7 @@ describe('TextFieldComponent', () => {
 
     const expectedBrokenRule = ValidationRule.MAX_LENGTH;
     const lengthParam: string[] = [longStringTextInfo?.length?.toString() ?? '0'];
-    const expectedError: string = longComponent.localizationService.getString('STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER', lengthParam);
+    const expectedError: string = longComponent.localizationService.getString('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', lengthParam);
     expect(longComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     longComponent.fieldValidationErrorMsg.subscribe((val) => {
