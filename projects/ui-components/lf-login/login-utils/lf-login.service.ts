@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { AccountInfo, AccessTokenError, OAuthAccessTokenData } from './lf-login-internal-types';
+import { AccountInfo, OAuthAccessTokenData } from './lf-login-internal-types';
 import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';
 import { LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { GetAccessTokenResponse, HTTPError, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
@@ -33,7 +33,7 @@ export class LfLoginService {
   /** @internal */
   code_verifier?: string;
   /** @internal */
-  tokenClient?: TokenClient;
+  tokenClient: TokenClient = new TokenClient(this.authorize_url_host_name);
 
   /** @internal */
   @Output() logoutCompletedInService: EventEmitter<AbortedLoginError | undefined> = new EventEmitter<AbortedLoginError | undefined>();
@@ -81,7 +81,7 @@ export class LfLoginService {
       this.code_verifier = localStorage.getItem(this.codeVerifierStorageKey)!;
       if (callBackURIParams.authorizationCode && this.code_verifier) {
         try {
-          const response = await this.tokenClient?.getAccessTokenFromCode(callBackURIParams.authorizationCode, this.redirect_uri, this.client_id, undefined, this.code_verifier);
+          const response = await this.tokenClient.getAccessTokenFromCode(callBackURIParams.authorizationCode, this.redirect_uri, this.client_id, undefined, this.code_verifier);
           await this.parseTokenResponseAsync(response!);
         }
         catch (e) {
@@ -128,12 +128,12 @@ export class LfLoginService {
 
   /** @internal */
   async parseTokenResponseAsync(response: GetAccessTokenResponse): Promise<string | undefined> {
-      const accessToken: AuthorizationCredentials = this.getExchangeCodeSuccessResponse(response);
-      this.storeInLocalStorage(accessToken);
+      const authorizationCredentials: AuthorizationCredentials = this.getExchangeCodeSuccessResponse(response);
+      this.storeInLocalStorage(authorizationCredentials);
       this._state = LoginState.LoggedIn;
       console.info('state changed to LoggedIn');
       this.loginCompletedInService.emit();
-      return accessToken.accessToken;
+      return authorizationCredentials.accessToken;
   }
 
   /** @internal */

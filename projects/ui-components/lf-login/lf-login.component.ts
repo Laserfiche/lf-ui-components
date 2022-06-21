@@ -4,7 +4,6 @@ import { AccountInfo } from './login-utils/lf-login-internal-types';
 import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from './login-utils/lf-login-types';
 import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { LfLoginService } from './login-utils/lf-login.service';
-import { arrayBufferToBase64, dec2base64 } from './login-utils/pkce-utils';
 import { HTTPError, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-core';
 
 const LOGIN_REDIRECT_STATE = 'lf-login-redirect';
@@ -189,7 +188,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       }
       else {
         try {
-          const response = await this.loginService.tokenClient?.refreshAccessToken(refreshToken, this.client_id);
+          const response = await this.loginService.tokenClient.refreshAccessToken(refreshToken, this.client_id);
           const newAccessToken = await this.loginService.parseTokenResponseAsync(response!);
           return newAccessToken;
         }
