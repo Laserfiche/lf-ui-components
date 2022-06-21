@@ -26,7 +26,7 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
   private readonly LOCALE_DATE_TIME = this.localizationService.languageChanged().pipe(map((language) => {
     return LocaleDatetimeUtils.getLocaleDateTimePattern(language);
   }));
-  private readonly DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringWithObservableParams('FIELD_NOT_DATETIME', [this.LOCALE_DATE_TIME]);
+  private readonly DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringWithObservableParams('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', [this.LOCALE_DATE_TIME]);
 
   @ViewChild('picker') picker?: NgxMatDatetimePicker<any>;
 

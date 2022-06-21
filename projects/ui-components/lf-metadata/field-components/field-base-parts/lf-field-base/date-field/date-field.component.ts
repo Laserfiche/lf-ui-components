@@ -37,7 +37,7 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
   private readonly LOCALE_DATE = this.localizationService.languageChanged().pipe(map((language) => {
     return LocaleDatetimeUtils.getLocaleDatePattern(language);
   }));
-  private readonly DATE_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringWithObservableParams('FIELD_NOT_DATE', [this.LOCALE_DATE]);
+  private readonly DATE_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringWithObservableParams('DATE_FIELDS_MUST_BE_IN_FORMAT_0', [this.LOCALE_DATE]);
 
   constructor(
     public tokenService: LfFieldTokenService,
