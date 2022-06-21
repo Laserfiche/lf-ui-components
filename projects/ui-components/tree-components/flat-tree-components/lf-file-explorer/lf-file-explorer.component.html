@@ -9,8 +9,8 @@
       <lf-loader-component *ngIf="isLoading" class="no-entries-text"></lf-loader-component>
       <div *ngIf="!isLoading">
           <div *ngIf="shouldShowErrorMessage" class="error-entries-text">{{AN_ERROR_OCCURED | async}}</div>
-          <div *ngIf="shouldShowEmptyMessage" class="no-entries-text">{{EMPTY_FILE_EXPLORER | async}}</div>
-          <div *ngIf="shouldShowNoMatchesMessage" class="no-entries-text">{{NO_MATCHES_FOUND | async}}</div>
+          <div *ngIf="shouldShowEmptyMessage" class="no-entries-text">{{THIS_FOLDER_IS_EMPTY | async}}</div>
+          <div *ngIf="shouldShowNoMatchesMessage" class="no-entries-text">{{NO_MATCHING_ENTRIES_FOUND | async}}</div>
           <mat-selection-list *ngIf="displayedNodes" #displayedNodesList [multiple]="multiple" [disableRipple]="true"
               (selectionChange)="onSelectionChange(displayedNodesList.selectedOptions?.selected, $event)"
               (keydown.enter)="onPressEnterAsync()">

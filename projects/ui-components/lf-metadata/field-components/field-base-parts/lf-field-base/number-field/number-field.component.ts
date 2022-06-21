@@ -17,9 +17,9 @@ import { LfFieldTokenService } from '../lf-field-token.service';
   ]
 })
 export class NumberFieldComponent extends BaseFieldDirective implements OnInit, AfterViewInit {
-  private readonly NUMBER_FIELD_VALIDATOR_INVALID_MESSAGE = this.localizationService.getStringObservable('NUMBER_FIELD_VALIDATOR_INVALID_MESSAGE');
-  private readonly SHORT_FIELD_VALIDATOR_INVALID_MESSAGE = this.localizationService.getStringObservable('SHORT_FIELD_VALIDATOR_INVALID_MESSAGE');
-  private readonly LONG_FIELD_VALIDATOR_INVALID_MESSAGE = this.localizationService.getStringObservable('LONG_FIELD_VALIDATOR_INVALID_MESSAGE');
+  private readonly NUMBER_FIELD_MUST_BE_VALID_NUMBER = this.localizationService.getStringObservable('NUMBER_FIELD_MUST_BE_VALID_NUMBER');
+  private readonly SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999 = this.localizationService.getStringObservable('SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999');
+  private readonly LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999 = this.localizationService.getStringObservable('LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999');
 
   prefix: string | undefined;
   suffix: string | undefined;
@@ -72,11 +72,11 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
       case ValidationRule.NUMERIC:
         return this.lf_field_info.constraintError ? of(this.lf_field_info.constraintError) : undefined;
       case ValidationRule.NUMBER:
-        return this.NUMBER_FIELD_VALIDATOR_INVALID_MESSAGE;
+        return this.NUMBER_FIELD_MUST_BE_VALID_NUMBER;
       case ValidationRule.SHORT_INT:
-        return this.SHORT_FIELD_VALIDATOR_INVALID_MESSAGE;
+        return this.SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999;
       case ValidationRule.LONG_INT:
-        return this.LONG_FIELD_VALIDATOR_INVALID_MESSAGE;
+        return this.LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999;
     }
     return undefined;
   }

@@ -32,20 +32,20 @@ export class LfFieldTokenService implements LfTokenService {
     LfFieldTokenId.PARENT_FIELD
   ];
 
-  private readonly TOKEN_DATE_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_DATE_FRIENDLYNAME');
-  private readonly TOKEN_TIME_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_TIME_FRIENDLYNAME');
-  private readonly TOKEN_DATETIME_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_DATETIME_FRIENDLYNAME');
-  private readonly TOKEN_COUNT_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_COUNT_FRIENDLYNAME');
-  private readonly TOKEN_GCOUNT_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_GCOUNT_FRIENDLYNAME');
-  private readonly TOKEN_USERNAME_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_USERNAME_FRIENDLYNAME');
-  private readonly TOKEN_NAME_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_NAME_FRIENDLYNAME');
-  private readonly TOKEN_PARENTNAME_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_PARENTNAME_FRIENDLYNAME');
-  private readonly TOKEN_ID_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_ID_FRIENDLYNAME');
-  private readonly TOKEN_PARENTID_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_PARENTID_FRIENDLYNAME');
-  private readonly TOKEN_PARENT_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_PARENT_FRIENDLYNAME');
-  private readonly TOKEN_FILENAME_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_FILENAME_FRIENDLYNAME');
-  private readonly TOKEN_FILE_EXTENSION_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_FILE_EXTENSION_FRIENDLYNAME');
-  private readonly TOKEN_FILE_MODIFIED_FRIENDLYNAME = this.localizationService.getStringObservable('TOKEN_FILE_MODIFIED_FRIENDLYNAME');
+  private readonly DATE = this.localizationService.getStringObservable('DATE');
+  private readonly TIME = this.localizationService.getStringObservable('TIME');
+  private readonly DATE_TIME = this.localizationService.getStringObservable('DATE_TIME');
+  private readonly SESSION_COUNT = this.localizationService.getStringObservable('SESSION_COUNT');
+  private readonly REPOSITORY_COUNT = this.localizationService.getStringObservable('REPOSITORY_COUNT');
+  private readonly USER_NAME = this.localizationService.getStringObservable('USER_NAME');
+  private readonly ENTRY_NAME = this.localizationService.getStringObservable('ENTRY_NAME');
+  private readonly PARENT_NAME = this.localizationService.getStringObservable('PARENT_NAME');
+  private readonly ENTRY_ID = this.localizationService.getStringObservable('ENTRY_ID');
+  private readonly PARENT_ID = this.localizationService.getStringObservable('PARENT_ID');
+  private readonly PARENT_FIELD = this.localizationService.getStringObservable('PARENT_FIELD');
+  private readonly FILE_NAME = this.localizationService.getStringObservable('FILE_NAME');
+  private readonly FILE_EXTENSION = this.localizationService.getStringObservable('FILE_EXTENSION');
+  private readonly FILE_MODIFIED = this.localizationService.getStringObservable('FILE_MODIFIED');
 
   private readonly defaultDateTokens: LfFieldTokenId[] = [LfFieldTokenId.DATE];
 
@@ -119,46 +119,46 @@ export class LfFieldTokenService implements LfTokenService {
   private getTokenFriendlyName(tokenId: LfFieldTokenId): Observable<string> {
     switch (tokenId) {
       case LfFieldTokenId.DATE: {
-        return this.TOKEN_DATE_FRIENDLYNAME;
+        return this.DATE;
       }
       case LfFieldTokenId.TIME: {
-        return this.TOKEN_TIME_FRIENDLYNAME;
+        return this.TIME;
       }
       case LfFieldTokenId.DATETIME: {
-        return this.TOKEN_DATETIME_FRIENDLYNAME;
+        return this.DATE_TIME;
       }
       case LfFieldTokenId.SESSION_COUNT: {
-        return this.TOKEN_COUNT_FRIENDLYNAME;
+        return this.SESSION_COUNT;
       }
       case LfFieldTokenId.REPOSITORY_COUNT: {
-        return this.TOKEN_GCOUNT_FRIENDLYNAME;
+        return this.REPOSITORY_COUNT;
       }
       case LfFieldTokenId.USER_NAME: {
-        return this.TOKEN_USERNAME_FRIENDLYNAME;
+        return this.USER_NAME;
       }
       case LfFieldTokenId.ENTRY_NAME: {
-        return this.TOKEN_NAME_FRIENDLYNAME;
+        return this.ENTRY_NAME;
       }
       case LfFieldTokenId.PARENT_NAME: {
-        return this.TOKEN_PARENTNAME_FRIENDLYNAME;
+        return this.PARENT_NAME;
       }
       case LfFieldTokenId.ENTRY_ID: {
-        return this.TOKEN_ID_FRIENDLYNAME;
+        return this.ENTRY_ID;
       }
       case LfFieldTokenId.PARENT_ID: {
-        return this.TOKEN_PARENTID_FRIENDLYNAME;
+        return this.PARENT_ID;
       }
       case LfFieldTokenId.PARENT_FIELD: {
-        return this.TOKEN_PARENT_FRIENDLYNAME;
+        return this.PARENT_FIELD;
       }
       case LfFieldTokenId.FILE_NAME: {
-        return this.TOKEN_FILENAME_FRIENDLYNAME;
+        return this.FILE_NAME;
       }
       case LfFieldTokenId.FILE_EXTENSION: {
-        return this.TOKEN_FILE_EXTENSION_FRIENDLYNAME;
+        return this.FILE_EXTENSION;
       }
       case LfFieldTokenId.FILE_MODIFIED: {
-        return this.TOKEN_FILE_MODIFIED_FRIENDLYNAME;
+        return this.FILE_MODIFIED;
       }
     }
   }

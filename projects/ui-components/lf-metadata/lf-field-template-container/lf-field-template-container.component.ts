@@ -46,7 +46,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   private readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
   /** @internal */
-  private readonly TEMPLATE_LOAD_FAILED = this.localizationService.getStringObservable('TEMPLATE_LOAD_FAILED');
+  private readonly TEMPLATE_HAS_FAILED_TO_LOAD = this.localizationService.getStringObservable('TEMPLATE_HAS_FAILED_TO_LOAD');
 
   /** @internal */
   constructor(
@@ -312,7 +312,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           }
 
         } catch (err: any) {
-          this.templateErrorMessage = this.TEMPLATE_LOAD_FAILED;
+          this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
           console.error('getDynamicFieldValueOptionsAsync failed: ' + err.message);
           throw err;
         }
@@ -339,7 +339,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         this.allFieldInfos = await this.templateFieldContainerService.getTemplateFieldsAsync(this.templateSelected.id);
       }
       catch (err: any) {
-        this.templateErrorMessage = this.TEMPLATE_LOAD_FAILED;
+        this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
         console.error('getTemplateFieldsAsync failed: ' + err.message);
         throw err;
       }

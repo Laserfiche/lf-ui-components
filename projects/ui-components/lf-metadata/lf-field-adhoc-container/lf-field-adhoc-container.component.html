@@ -3,8 +3,8 @@
       <button title="{{ADD_REMOVE_FIELDS | async}}" id="adhoc-add-remove-button"
           class="lf-ellipsis-label sec-button lf-button adhoc-add-remove-button"
           (click)="addRemoveFieldsAsync()">{{ADD_REMOVE_FIELDS | async}}</button>
-      <div class="fields-empty lf-ellipsis-label" title="{{NO_SUPPLEMENTAL_FIELDS | async}}" *ngIf="fieldsEmpty()">
-          {{NO_SUPPLEMENTAL_FIELDS | async}}</div>
+      <div class="fields-empty lf-ellipsis-label" title="{{NO_ADDITIONAL_FIELDS_ASSIGNED | async}}" *ngIf="fieldsEmpty()">
+          {{NO_ADDITIONAL_FIELDS_ASSIGNED | async}}</div>
       <ng-template lfFieldView></ng-template>
   </div>
 </div>

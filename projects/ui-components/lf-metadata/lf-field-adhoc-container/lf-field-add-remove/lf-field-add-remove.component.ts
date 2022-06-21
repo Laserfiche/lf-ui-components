@@ -22,26 +22,26 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
   styleUrls: ['./lf-field-add-remove.component.css']
 })
 export class LfFieldAddRemoveComponent implements AfterViewInit {
-  private readonly APPLY_CHANGES_TITLE = this.localizationService.getStringObservable('APPLY_CHANGES_TITLE');
   private readonly APPLY_CHANGES = this.localizationService.getStringObservable('APPLY_CHANGES');
+  private readonly DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES = this.localizationService.getStringObservable('DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES');
   private readonly YES = this.localizationService.getStringObservable('YES');
   private readonly NO = this.localizationService.getStringObservable('NO');
   readonly CANCEL: Observable<string> = this.localizationService.getStringObservable('CANCEL');
   readonly APPLY: Observable<string> = this.localizationService.getStringObservable('APPLY');
   readonly ADD_REMOVE_FIELDS: Observable<string> = this.localizationService.getStringObservable('ADD_REMOVE_FIELDS');
-  readonly NO_FIELD_AVAILABLE_WITH_FILTER: Observable<string> = this.localizationService.getStringObservable('NO_FIELD_AVAILABLE_WITH_FILTER');
+  readonly NO_MATCHING_FIELDS_FOUND: Observable<string> = this.localizationService.getStringObservable('NO_MATCHING_FIELDS_FOUND');
   readonly SEARCH_FIELDS: Observable<string> = this.localizationService.getStringObservable('SEARCH_FIELDS');
 
   readonly LOCALIZED_FIELD_TYPES: Map<string, Observable<string>> = new Map<string, Observable<string>>([
-    ['FIELD_TYPE_BLOB', this.localizationService.getStringObservable('FIELD_TYPE_BLOB')],
-    ['FIELD_TYPE_DATE', this.localizationService.getStringObservable('FIELD_TYPE_DATE')],
-    ['FIELD_TYPE_DATETIME', this.localizationService.getStringObservable('FIELD_TYPE_DATETIME')],
-    ['FIELD_TYPE_LIST', this.localizationService.getStringObservable('FIELD_TYPE_LIST')],
-    ['FIELD_TYPE_LONG', this.localizationService.getStringObservable('FIELD_TYPE_LONG')],
-    ['FIELD_TYPE_NUMBER', this.localizationService.getStringObservable('FIELD_TYPE_NUMBER')],
-    ['FIELD_TYPE_SHORT', this.localizationService.getStringObservable('FIELD_TYPE_SHORT')],
-    ['FIELD_TYPE_STRING', this.localizationService.getStringObservable('FIELD_TYPE_STRING')],
-    ['FIELD_TYPE_TIME', this.localizationService.getStringObservable('FIELD_TYPE_TIME')],
+    ['DATA', this.localizationService.getStringObservable('DATA')],
+    ['DATE', this.localizationService.getStringObservable('DATE')],
+    ['DATE_TIME', this.localizationService.getStringObservable('DATE_TIME')],
+    ['LIST', this.localizationService.getStringObservable('LIST')],
+    ['LONG_INTEGER', this.localizationService.getStringObservable('LONG_INTEGER')],
+    ['NUMBER', this.localizationService.getStringObservable('NUMBER')],
+    ['INTEGER', this.localizationService.getStringObservable('INTEGER')],
+    ['TEXT', this.localizationService.getStringObservable('TEXT')],
+    ['TIME', this.localizationService.getStringObservable('TIME')],
   ]);
 
   allFieldInfos: AdhocFieldInfo[] = [];
@@ -83,8 +83,8 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   async onClickBack() {
     if (this.areCheckboxChanges) {
       const popupModalData: PopupModalData = {
-        popupTitle: this.APPLY_CHANGES_TITLE,
-        popupMessage: this.APPLY_CHANGES,
+        popupTitle: this.APPLY_CHANGES,
+        popupMessage: this.DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES,
         cancelButtonText: this.CANCEL,
         confirmButtonText: this.YES,
         noButtonText: this.NO

@@ -28,7 +28,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   readonly ADD_REMOVE_FIELDS = this.localizationService.getStringObservable('ADD_REMOVE_FIELDS');
 
   /** @internal */
-  readonly NO_SUPPLEMENTAL_FIELDS = this.localizationService.getStringObservable('NO_SUPPLEMENTAL_FIELDS');
+  readonly NO_ADDITIONAL_FIELDS_ASSIGNED = this.localizationService.getStringObservable('NO_ADDITIONAL_FIELDS_ASSIGNED');
 
   /** @internal */
   showAdhocModal: boolean = false;

@@ -25,11 +25,11 @@ export abstract class BaseFieldDirective implements OnInit {
 
   showTokenTextBox: boolean = false;
 
-  private readonly CHARACTER_COUNT_LABEL = this.localizationService.getStringObservable('CHARACTER_COUNT_LABEL');
-  private readonly CHARACTER_COUNT_NOT_AVAILABLE = this.localizationService.getStringObservable('CHARACTER_COUNT_NOT_AVAILABLE');
+  private readonly CHARACTER_COUNT = this.localizationService.getStringObservable('CHARACTER_COUNT');
+  private readonly NOT_AVAILABLE_WITH_TOKENS = this.localizationService.getStringObservable('NOT_AVAILABLE_WITH_TOKENS');
 
-  private readonly INVALID_FIELD_REQUIRED_FIELD_EMPTY = this.localizationService.getStringObservable('INVALID_FIELD_REQUIRED_FIELD_EMPTY');
-  private STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER?: Observable<string>;
+  private readonly REQUIRED_FIELD_IS_EMPTY = this.localizationService.getStringObservable('REQUIRED_FIELD_IS_EMPTY');
+  private THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS?: Observable<string>;
 
   get containsToken(): boolean {
     return this.tokenService.containsTokenForFieldType(this.lf_field_form_control.value, this.lf_field_info.fieldType, this.is_import_mode);
@@ -50,17 +50,17 @@ export abstract class BaseFieldDirective implements OnInit {
   readonly noTokenCharacterCountHint = this.getNoTokenCharacterCountHint();
 
   private getConcatenatedTokenLabel(firstVal: string): Observable<string> {
-    return this.CHARACTER_COUNT_NOT_AVAILABLE.pipe(map(value => firstVal.concat(` ${value}`)));
+    return this.NOT_AVAILABLE_WITH_TOKENS.pipe(map(value => firstVal.concat(` ${value}`)));
   }
 
   private getTokenCharacterCountHint(): Observable<string> {
-    return this.CHARACTER_COUNT_LABEL.pipe(
+    return this.CHARACTER_COUNT.pipe(
       mergeMap((value) => this.getConcatenatedTokenLabel(value))
     );
   }
 
   private getNoTokenCharacterCountHint(): Observable<string> {
-    const obs = this.CHARACTER_COUNT_LABEL.pipe(mergeMap((value) => {
+    const obs = this.CHARACTER_COUNT.pipe(mergeMap((value) => {
       const startValue = `${value}
       ${this.lf_field_form_control.value ? this.lf_field_form_control.value.length : 0}
       / ${this.lf_field_info?.length}`;
@@ -89,7 +89,7 @@ export abstract class BaseFieldDirective implements OnInit {
     this.lf_field_form_control = CoreUtils.validateDefined(this.lf_field_form_control, 'lfFieldFormControl');
     this.setLfFieldFormControlValue(this.lf_field_value);
 
-    this.STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER = this.localizationService.getStringObservable('STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER', [this.lf_field_info?.length?.toString() ?? '0']);
+    this.THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS = this.localizationService.getStringObservable('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', [this.lf_field_info?.length?.toString() ?? '0']);
 
     this.fieldValidationErrorMsg = this.lf_field_form_control.valueChanges.pipe(mergeMap((value) => {
       const validationRuleName = this.getBrokenValidationRule();
@@ -181,9 +181,9 @@ export abstract class BaseFieldDirective implements OnInit {
     else {
       switch (validationRuleName) {
         case ValidationRule.REQUIRED:
-          return this.INVALID_FIELD_REQUIRED_FIELD_EMPTY;
+          return this.REQUIRED_FIELD_IS_EMPTY;
         case ValidationRule.MAX_LENGTH:
-          return this.STRING_FIELD_VALIDATOR_INVALID_MESSAGE_LENGTH_FORMATTER;
+          return this.THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS;
         case ValidationRule.PATTERN:
           return this.lf_field_info.constraintError ? of(this.lf_field_info.constraintError) : undefined;
 
