@@ -81,7 +81,7 @@ export class LfLoginService {
       this.code_verifier = localStorage.getItem(this.codeVerifierStorageKey)!;
       if (callBackURIParams.authorizationCode && this.code_verifier) {
         try {
-          const response = await this.tokenClient?.getAccessTokenFromCode(callBackURIParams.authorizationCode, this.redirect_uri, this.client_id, this.code_verifier);
+          const response = await this.tokenClient?.getAccessTokenFromCode(callBackURIParams.authorizationCode, this.redirect_uri, this.client_id, undefined, this.code_verifier);
           await this.parseTokenResponseAsync(response!);
         }
         catch (e) {
