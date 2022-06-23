@@ -82,10 +82,10 @@ export class LfLoginService {
       if (callBackURIParams.authorizationCode && this.code_verifier) {
         try {
           const response = await this.tokenClient.getAccessTokenFromCode(callBackURIParams.authorizationCode, this.redirect_uri, this.client_id, undefined, this.code_verifier);
-          await this.parseTokenResponseAsync(response!);
+          await this.parseTokenResponseAsync(response);
         }
         catch (e) {
-          const status = (<HTTPError>e).status;
+          const status = (<HTTPError>e).status ?? 0;
           const message = (<HTTPError>e).message;
           this.removeFromLocalStorage();
           this._state = LoginState.LoggedOut;
@@ -128,12 +128,17 @@ export class LfLoginService {
 
   /** @internal */
   async parseTokenResponseAsync(response: GetAccessTokenResponse): Promise<string | undefined> {
+    try {
       const authorizationCredentials: AuthorizationCredentials = this.getExchangeCodeSuccessResponse(response);
       this.storeInLocalStorage(authorizationCredentials);
       this._state = LoginState.LoggedIn;
       console.info('state changed to LoggedIn');
       this.loginCompletedInService.emit();
       return authorizationCredentials.accessToken;
+    }
+    catch {
+      throw Error('Parse token response error.');
+    }
   }
 
   /** @internal */

@@ -189,11 +189,11 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       else {
         try {
           const response = await this.loginService.tokenClient.refreshAccessToken(refreshToken, this.client_id);
-          const newAccessToken = await this.loginService.parseTokenResponseAsync(response!);
+          const newAccessToken = await this.loginService.parseTokenResponseAsync(response);
           return newAccessToken;
         }
         catch (e) {
-          const status = (<HTTPError>e).status;
+          const status = (<HTTPError>e).status ?? 0;
           if (status === 401 || status === 403) {
             if (initiateLoginFlowOnRefreshFailure && !this.hasLoginError && (this.state === LoginState.LoggedOut)) {
               console.warn('Unable to refresh. Will attempt to start the OAuth login flow');
@@ -206,7 +206,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
               this.loginService.removeFromLocalStorage();
             }
           }
-          return undefined;
+          throw e;
         }
       }
     }
