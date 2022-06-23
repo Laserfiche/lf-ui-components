@@ -22,7 +22,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     return this.mode === LoginMode.Menu;
   };
   // TODO localize
-  @Input() sign_in_text: string = 'Sign in to Laserfiche';
+  @Input() sign_in_text: string = 'Sign in';
   @Input() sign_out_text: string = 'Sign out';
   @Input() signing_in_text: string = 'Signing in...';
   @Input() signing_out_text: string = 'Signing out...';
