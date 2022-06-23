@@ -23,6 +23,10 @@ mat-label.lf-dropdown-label {
   height: $height;
 }
 
+.mat-form-field-wrapper .mat-form-field-label-wrapper  .mat-form-field-label {
+  top: 0;
+}
+
 mat-select.lf-dropdown, select.lf-dropdown {
   font: typography-lf.$body-stack;
   color: typography-lf.$body-color;

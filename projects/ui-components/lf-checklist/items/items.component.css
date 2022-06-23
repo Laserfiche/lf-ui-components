@@ -13,6 +13,7 @@
   height: 30px;
   align-items: center;
   margin-right: 5px;
+  position: relative;
 }
 
 .lf-checklist-item-icon {
