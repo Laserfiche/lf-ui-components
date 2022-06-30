@@ -141,6 +141,9 @@ jobs:
       - name: Npm tool install
         run: npm install -g npm@8
 
+      - name: Npm install gulp
+        run: npm install gulp
+
       - name: set NpmPackageVersion environment
         run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
 
@@ -150,7 +153,7 @@ jobs:
           cp LICENSE ./dist/ui-components
 
       - name: 'gulp replaceVersionInCDNScript'
-        run: gulp replaceVersionInCDNScript --npmVersion ${{ env.NPM_VERSION }}--preview-${{ github.run_id }}
+        run: gulp replaceVersionInCDNScript --npmVersion ${{ env.NpmPackageVersion }}
 
       - name: npm version @laserfiche/types-lf-ui-components
         run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
@@ -203,6 +206,9 @@ jobs:
 
       - name: Npm tool install
         run: npm install -g npm@8
+
+      - name: Npm install gulp
+        run: npm install gulp
 
       - name: 'copy license'
         run: |
