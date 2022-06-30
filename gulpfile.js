@@ -32,6 +32,7 @@ const OLD_SCRIPT_NAME = './../lf-cdn/lf-ui-components.js';
 const NEW_SCRIPT_NAME = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js';
 const SCRIPT_DEST = './dist/lf-cdn';
 const SCRIPT_FILE = 'ui-components.js';
+const CDN_SCRIPT_DEST = './dist/ui-components/cdn'
 const SCRIPT_FILE_WITHOUT_ZONE = 'ui-components-without-zone.js';
 const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
 const SOURCEMAP_POLYFILLS_URL = '//# sourceMappingURL=polyfills.js.map';
@@ -74,7 +75,7 @@ async function replaceVersionInIndexHtml(){
 async function replaceVersionInCDNScript(){
   src(CDN_SCRIPT_PATH, {base: './'})
       .pipe(replace(NPM_VERSION, getNpmVersion()))
-      .pipe(dest(SCRIPT_DEST));
+      .pipe(dest(CDN_SCRIPT_DEST));
 };
 
 function getNpmVersion() {
