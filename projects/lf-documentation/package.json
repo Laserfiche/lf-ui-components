@@ -6,7 +6,7 @@
     "url": "https://github.com/Laserfiche/lf-ui-components"
   },
   "devDependencies": {
-    "@laserfiche/types-lf-ui-components": "file:./../../types-lf-ui-components-publish/laserfiche-types-lf-ui-components-12.0.0.tgz"
+    "@laserfiche/types-lf-ui-components": "file:./../../types-lf-ui-components-publish/laserfiche-types-lf-ui-components-13.0.0.tgz"
   },
   "peerDependencies": {
     "@angular/animations": "^13.3.11",

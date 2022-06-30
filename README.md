@@ -28,14 +28,14 @@ See .github/workflows/main.yml for Node and NPM version used.
 
 ### Build types-lf-ui-components NPM
 
-This will create a package with version 12.0.0. If you would like to update the version, change the version at `./types-lf-ui-components-publish/package.json`.
+This will create a package with version 13.0.0. If you would like to update the version, change the version at `./types-lf-ui-components-publish/package.json`.
 
 ```sh
 npm install ./projects/ui-components # if you haven't already
 npm run create-types-lf-ui-components
 ```
 
-The command above will output: `./types-lf-ui-components-publish/laserfiche-types-lf-ui-components-12.0.0.tgz`.
+The command above will output: `./types-lf-ui-components-publish/laserfiche-types-lf-ui-components-13.0.0.tgz`.
 
 ### Build lf-documentation
 
