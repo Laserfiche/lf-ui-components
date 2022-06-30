@@ -61,7 +61,6 @@
     "yargs": "^17.1.0"
   },
   "dependencies": {
-    "@laserfiche/lf-ui-components": "file:projects/ui-components",
-    "@laserfiche/lf-ui-documentation": "file:projects/lf-documentation"
+    "@laserfiche/lf-ui-components": "file:projects/ui-components"
   }
 }
