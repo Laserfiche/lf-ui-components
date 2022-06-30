@@ -78,8 +78,5 @@
     "ngx-mask": "^12.0.0",
     "rxjs": "^6.6.0",
     "zone.js": "^0.11.4"
-  },
-  "dependencies": {
-    "@laserfiche/lf-ui-components": "file:projects/ui-components"
   }
 }
