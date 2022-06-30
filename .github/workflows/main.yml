@@ -89,17 +89,11 @@ jobs:
       - name: 'gulp replacePlaceholdersInDocumentation'
         run: gulp replacePlaceholdersInDocumentation
 
-      - name: 'gulp replaceVersionInDocumentation'
-        run: gulp replaceVersionInDocumentation --npmVersion ${{ env.NPM_VERSION }}--preview-${{ github.run_id }}
-
-      - name: 'gulp replaceVersionInIndexHtml'
-        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}--preview-${{ github.run_id }}
-
       - name: 'move indigo-pink to ui-components/cdn'
         run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
 
-      - name: 'move lf-ui-components.js to ui-components/cdn'
-        run: mv -t ../ui-components/cdn lf-ui-components.js main.js.map runtime.js.map polyfills.js.map
+      - name: 'move ui-components.js to ui-components/cdn'
+        run: mv -t ../ui-components/cdn ui-components.js ui-components-without-zone.js  main.js.map runtime.js.map polyfills.js.map
         working-directory: ./dist/lf-cdn
 
       - name: 'move lf-documentation/styles to ui-components/cdn'
@@ -154,6 +148,9 @@ jobs:
         run: |
           cp LICENSE ./types-lf-ui-components-publish
           cp LICENSE ./dist/ui-components
+
+      - name: 'gulp replaceVersionInCDNScript'
+        run: gulp replaceVersionInCDNScript --npmVersion ${{ env.NPM_VERSION }}--preview-${{ github.run_id }}
 
       - name: npm version @laserfiche/types-lf-ui-components
         run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
@@ -212,6 +209,9 @@ jobs:
           cp LICENSE ./types-lf-ui-components-publish
           cp LICENSE ./dist/ui-components
 
+      - name: 'gulp replaceVersionInCDNScript'
+        run: gulp replaceVersionInCDNScript --npmVersion ${{ env.NPM_VERSION }}
+
       - name: npm version @laserfiche/types-lf-ui-components
         run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version --allow-same-version
         working-directory: ./types-lf-ui-components-publish
@@ -260,6 +260,14 @@ jobs:
           node-version: '14'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Npm install gulp
+        run: npm install gulp
+
+      - name: 'gulp replaceVersionInDocumentation'
+        run: gulp replaceVersionInDocumentation --npmVersion ${{ env.NPM_VERSION }}
+
+      - name: 'gulp replaceVersionInIndexHtml'
+        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

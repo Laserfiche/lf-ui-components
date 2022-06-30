@@ -31,10 +31,12 @@ const NEW_WEBPACK_CHUNK_NAME = 'webpackChunklf_components_ui';
 const OLD_SCRIPT_NAME = './../lf-cdn/lf-ui-components.js';
 const NEW_SCRIPT_NAME = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js';
 const SCRIPT_DEST = './dist/lf-cdn';
-const SCRIPT_FILE = 'lf-ui-components.js';
+const SCRIPT_FILE = 'ui-components.js';
+const SCRIPT_FILE_WITHOUT_ZONE = 'ui-components-without-zone.js';
 const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
 const SOURCEMAP_POLYFILLS_URL = '//# sourceMappingURL=polyfills.js.map';
 const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/lf-documentation.js';
+const CDN_SCRIPT_PATH = './lf-ui-components.js'
 const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
 const OLD_LF_STYLE_SHEET_PATH = './lf-laserfiche-lite.css';
 const NEW_LF_STYLE_SHEET_PATH = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css';
@@ -67,6 +69,12 @@ async function replaceVersionInIndexHtml(){
       .pipe(replace(BUILD_NUMBER, getNpmVersion()))
       .pipe(replace(NPM_VERSION, getNpmVersion()))
       .pipe(dest('./'));
+};
+
+async function replaceVersionInCDNScript(){
+  src(CDN_SCRIPT_PATH, {base: './'})
+      .pipe(replace(NPM_VERSION, getNpmVersion()))
+      .pipe(dest(SCRIPT_DEST));
 };
 
 function getNpmVersion() {
@@ -102,8 +110,15 @@ async function processTypesFile() {
 }
 
 async function concateLfCdnToScript() {
-  src([LF_CDN_MAINJS_FILEPATH, LF_CDN_RUNTIMEJS_FILEPATH, LF_CDN_POLYFILLSJS_FILEPATH])
+  src([LF_CDN_MAINJS_FILEPATH, LF_CDN_POLYFILLSJS_FILEPATH, LF_CDN_RUNTIMEJS_FILEPATH])
   .pipe(concat(SCRIPT_FILE))
+  .pipe(replace(SOURCEMAP_POLYFILLS_URL,SOURCEMAP_MAIN_URL))
+  .pipe(dest(SCRIPT_DEST))
+}
+
+async function concateLfCdnToScriptWithoutZone() {
+  src([LF_CDN_MAINJS_FILEPATH, LF_CDN_RUNTIMEJS_FILEPATH])
+  .pipe(concat(SCRIPT_FILE_WITHOUT_ZONE))
   .pipe(replace(SOURCEMAP_POLYFILLS_URL,SOURCEMAP_MAIN_URL))
   .pipe(dest(SCRIPT_DEST))
 }
@@ -117,3 +132,5 @@ exports.renamePolyfillsWebpackChunk = renamePolyfillsWebpackChunk;
 exports.concateLfCdnToScript = concateLfCdnToScript;
 exports.replaceVersionInIndexHtml = replaceVersionInIndexHtml;
 exports.replaceVersionInDocumentation = replaceVersionInDocumentation;
+exports.concateLfCdnToScriptWithoutZone = concateLfCdnToScriptWithoutZone;
+exports.replaceVersionInCDNScript = replaceVersionInCDNScript;
