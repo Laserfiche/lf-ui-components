@@ -58,25 +58,10 @@
     "ng-packagr": "^13.3.1",
     "puppeteer": "^14.1.1",
     "typescript": "^4.6.4",
-    "yargs": "^17.1.0",
-    "@angular-material-components/moment-adapter": "^6.0.0",
-    "@angular/animations": "^13.3.11",
-    "@angular/cdk": "^13.3.9",
-    "@angular/common": "^13.3.11",
-    "@angular/compiler": "^13.3.11",
-    "@angular/core": "^13.3.11",
-    "@angular/elements": "^13.3.11",
-    "@angular/forms": "^13.3.11",
-    "@angular/material": "^13.3.9",
-    "@angular/material-moment-adapter": "^13.3.9",
-    "@angular/platform-browser": "^13.3.11",
-    "@angular/platform-browser-dynamic": "^13.3.11",
-    "@angular/router": "^13.3.11",
-    "@angular-material-components/datetime-picker": "^6.0.3",
-    "@laserfiche/lf-js-utils": "3.0.5",
-    "moment": "^2.29.1",
-    "ngx-mask": "^12.0.0",
-    "rxjs": "^6.6.0",
-    "zone.js": "^0.11.4"
+    "yargs": "^17.1.0"
+  },
+  "dependencies": {
+    "@laserfiche/lf-ui-components": "file:projects/ui-components",
+    "@laserfiche/lf-ui-documentation": "file:projects/lf-documentation"
   }
 }
