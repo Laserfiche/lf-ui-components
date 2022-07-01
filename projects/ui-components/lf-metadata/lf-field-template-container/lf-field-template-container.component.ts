@@ -12,7 +12,7 @@ import { LfFieldGroupComponent } from '../field-components/lf-field-group/lf-fie
 import { FieldDefinition } from '../field-components/utils/lf-field-internal-types';
 import { isDynamicField } from '../field-components/utils/metadata-utils';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
-import { TimeUtils, validateDefined } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
   selector: 'lf-field-template-container-component',
@@ -46,7 +46,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   private readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
   /** @internal */
-  private readonly TEMPLATE_LOAD_FAILED = this.localizationService.getStringObservable('TEMPLATE_LOAD_FAILED');
+  private readonly TEMPLATE_HAS_FAILED_TO_LOAD = this.localizationService.getStringObservable('TEMPLATE_HAS_FAILED_TO_LOAD');
 
   /** @internal */
   constructor(
@@ -85,7 +85,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   initAsync = async (providers: LfFieldTemplateProviders, templateIdentifier?: number | string): Promise<void> => {
     await this.zone.run(async () => {
       this.resetComponentValues();
-      this.templateFieldContainerService = validateDefined(providers.templateFieldContainerService, 'templateFieldContainerService');
+      this.templateFieldContainerService = CoreUtils.validateDefined(providers.templateFieldContainerService, 'templateFieldContainerService');
       await this.selectTemplateAsync(templateIdentifier);
       await this.updateTemplateFieldsAsync();
     });
@@ -312,7 +312,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           }
 
         } catch (err: any) {
-          this.templateErrorMessage = this.TEMPLATE_LOAD_FAILED;
+          this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
           console.error('getDynamicFieldValueOptionsAsync failed: ' + err.message);
           throw err;
         }
@@ -339,7 +339,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         this.allFieldInfos = await this.templateFieldContainerService.getTemplateFieldsAsync(this.templateSelected.id);
       }
       catch (err: any) {
-        this.templateErrorMessage = this.TEMPLATE_LOAD_FAILED;
+        this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
         console.error('getTemplateFieldsAsync failed: ' + err.message);
         throw err;
       }
@@ -369,7 +369,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       for (const indexChanged of indicesOfValueChanged) {
         this.showLoader(indexChanged);
         const fieldInfoOptions = this.getOrCreateDynamicOptions(lfFieldInfo);
-        await TimeUtils.yieldAsync();
+        await CoreUtils.yieldAsync();
         const fieldOptions = fieldInfoOptions[indexChanged];
         if (!fieldOptions) {
           const isBaseDynamicField = isDynamicField(lfFieldInfo) && lfFieldInfo.rule?.ancestors.length === 0;

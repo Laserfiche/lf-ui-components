@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LfTreeProviders, TreeNode } from '../../utils/lf-tree.service';
 import { FlatTreeDirective } from '../flat-tree.directive';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
-import { validateDefined } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
   selector: 'lf-folder-browser-component',
@@ -38,7 +38,7 @@ export class LfFolderBrowserComponent extends FlatTreeDirective {
    */
   @Input() initAsync = async (providers: LfTreeProviders, selectedNode?: string | TreeNode[]): Promise<void> => {
     await this.zone.run(async () => {
-      this.treeService = validateDefined(providers.treeService, 'treeService');
+      this.treeService = CoreUtils.validateDefined(providers.treeService, 'treeService');
       await this.initializeTreeAsync(selectedNode);
     });
   };

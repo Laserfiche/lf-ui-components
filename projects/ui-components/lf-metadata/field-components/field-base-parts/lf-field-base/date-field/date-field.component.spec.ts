@@ -15,7 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { TimeUtils } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 describe('DateFieldComponent', () => {
   let requiredDateComponent: DateFieldComponent;
@@ -90,7 +90,7 @@ describe('DateFieldComponent', () => {
   it('should have validation error if required field is blank', async () => {
     // assert
     const expectedBrokenRule = ValidationRule.REQUIRED;
-    const expectedError = requiredDateComponent.localizationService.getString('INVALID_FIELD_REQUIRED_FIELD_EMPTY');
+    const expectedError = requiredDateComponent.localizationService.getString('REQUIRED_FIELD_IS_EMPTY');
     expect(requiredDateComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     requiredDateComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -98,7 +98,7 @@ describe('DateFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredDateComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -114,7 +114,7 @@ describe('DateFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     optionalDateComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -137,7 +137,7 @@ describe('DateFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredDateComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -154,7 +154,7 @@ describe('DateFieldComponent', () => {
 
     // assert
     const expectedBrokenRule = ValidationRule.MAT_DATEPICKER_PARSE;
-    const expectedError = optionalDateComponent.localizationService.getString('FIELD_NOT_DATE', ['MM/DD/YYYY']);
+    const expectedError = optionalDateComponent.localizationService.getString('DATE_FIELDS_MUST_BE_IN_FORMAT_0', ['MM/DD/YYYY']);
     expect(optionalDateComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     optionalDateComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -162,7 +162,7 @@ describe('DateFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     optionalDateComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -237,7 +237,7 @@ describe('DateFieldComponent', () => {
     await optionalDateComponent.localizationService.setLanguageAsync('es');
 
     // assert
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === 'DD/MM/YYYY',
       () => { throw Error(`Timeout: value was ${value}`); }
     );

@@ -13,7 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TimeUtils } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 describe('TimeFieldComponent', () => {
   let requiredTimeComponent: TimeFieldComponent;
@@ -88,14 +88,14 @@ describe('TimeFieldComponent', () => {
   });
 
   it('should have validation error if required field is blank', async () => {
-    const expectedError = requiredTimeComponent.localizationService.getString('INVALID_FIELD_REQUIRED_FIELD_EMPTY');
+    const expectedError = requiredTimeComponent.localizationService.getString('REQUIRED_FIELD_IS_EMPTY');
     let value: string | undefined;
     requiredTimeComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;
     });
     // needed to trigger first value of subscription
     requiredTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -110,7 +110,7 @@ describe('TimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     optionalTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -127,7 +127,7 @@ describe('TimeFieldComponent', () => {
 
     // assert
     const expectedBrokenRule = ValidationRule.TIME;
-    const expectedError = requiredTimeComponent.localizationService.getString('FIELD_NOT_TIME', ['HH:mm:ss']);
+    const expectedError = requiredTimeComponent.localizationService.getString('TIME_FIELDS_MUST_BE_IN_FORMAT_0', ['HH:mm:ss']);
     expect(requiredTimeComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     requiredTimeComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -135,7 +135,7 @@ describe('TimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -158,7 +158,7 @@ describe('TimeFieldComponent', () => {
     });
     // needed to trigger first value of subscription
     requiredTimeComponent.lf_field_form_control.updateValueAndValidity();
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );

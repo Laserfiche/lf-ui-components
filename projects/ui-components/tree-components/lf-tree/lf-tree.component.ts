@@ -5,7 +5,7 @@ import { DataSource, CollectionViewer, SelectionChange } from '@angular/cdk/coll
 import { BehaviorSubject, Observable, merge, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LfTreeKeysDirective } from './lf-tree-keys.directive';
-import { TimeUtils, validateDefined } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 interface TreeNodeEx extends TreeNode {
   level: number;
@@ -46,7 +46,7 @@ export class LfTreeComponent extends LfTreeKeysDirective implements OnDestroy {
         (node) => node.isContainer
       );
 
-      this.treeService = validateDefined(providers.treeService, 'treeService');
+      this.treeService = CoreUtils.validateDefined(providers.treeService, 'treeService');
       this.dataSource = new DynamicDataSource(this.treeControl, this.treeService);
       this.ref.detectChanges();
 
@@ -304,10 +304,10 @@ export class DynamicDataSource implements DataSource<TreeNodeEx> {
 
     if (expand && node.isContainer) {
       this.data[index].isLoadingChildren = true;
-      await TimeUtils.yieldAsync();
+      await CoreUtils.yieldAsync();
       const children = await this.getChildrenAsync(node);
       this.data[index].isLoadingChildren = false;
-      await TimeUtils.yieldAsync();
+      await CoreUtils.yieldAsync();
       if (!children) {
         return;
       }

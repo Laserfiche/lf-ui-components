@@ -1,4 +1,4 @@
-import { TimeUtils } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { of } from 'rxjs';
 import { LfFieldGroupIndexDisplayPipe } from './lf-field-group-index-display.pipe';
 
@@ -16,7 +16,7 @@ describe('LfFieldGroupIndexDisplayPipe', () => {
     transform.subscribe((val) => {
       value = val;
     });
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expected,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -31,7 +31,7 @@ describe('LfFieldGroupIndexDisplayPipe', () => {
     transform.subscribe((val) => {
       value = val;
     });
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expected,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -45,7 +45,7 @@ describe('LfFieldGroupIndexDisplayPipe', () => {
     transform.subscribe((val) => {
       value = val;
     });
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expected,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
