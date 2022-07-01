@@ -29,13 +29,5 @@
   },
   "dependencies": {
     "tslib": "^2.3.1"
-  },
-  "exports": {
-    "./lf-login": "./lf-login",
-    "./lf-checklist": "./lf-checklist",
-    "./lf-metadata": "./lf-metadata",
-    "./shared": "./shared",
-    "./tree-components": "./tree-components",
-    "./lf-user-feedback": "./lf-user-feedback"
   }
 }
