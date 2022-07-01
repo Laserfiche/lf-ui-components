@@ -8,6 +8,7 @@ interface ComponentNode {
   name: string;
   children?: ComponentNode[];
   routerLink?: string;
+  hyperLink?: string;
 }
 
 const TREE_DATA: ComponentNode[] = [
@@ -65,7 +66,7 @@ const TREE_DATA: ComponentNode[] = [
   },
   {
     name: 'Release Notes',
-    routerLink: RouterLinks.RELEASE_NOTES
+    hyperLink: 'https://github.com/Laserfiche/lf-ui-components/blob/12.x/CHANGELOG.md'
   }
 ];
 

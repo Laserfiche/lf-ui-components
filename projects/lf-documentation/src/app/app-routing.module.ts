@@ -18,7 +18,6 @@ import { LfToolbarDocumentationComponent } from './lf-toolbar-documentation/lf-t
 import { ConvertComponentToElementComponent } from './convert-component-to-element/convert-component-to-element.component';
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
-import { ReleaseNotesComponent } from './release-notes/release-notes.component';
 import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angular/example-npm-usage-in-angular.component';
 import { ExampleUsageInAngularComponent } from './example-usage-in-angular/example-usage-in-angular.component';
 import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
@@ -73,7 +72,6 @@ const routes: Routes = [
   { path: RouterLinks.OVERVIEW, component: OverviewComponent },
   { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },
   { path: RouterLinks.TROUBLESHOOTING, component: TroubleshootingComponent },
-  { path: RouterLinks.RELEASE_NOTES, component: ReleaseNotesComponent },
   { path: '', component: OverviewComponent },
 ];
 

@@ -57,6 +57,9 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
   @Input() set authorize_url_host_name(val: string) {
     this.loginService.authorize_url_host_name = val;
+    // TODO: tokenClient regional Domain should be provided by the directed query string from the authorize url
+    // because tokenClient regional domain can be different from authorize_url_host_name which is supposed to
+    // be region-agnostic
     this.loginService.tokenClient = new TokenClient(this.loginService.authorize_url_host_name);
   };
   get authorize_url_host_name(): string {
