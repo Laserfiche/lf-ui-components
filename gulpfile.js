@@ -120,7 +120,6 @@ async function concateLfCdnToScript() {
 async function concateLfCdnToScriptWithoutZone() {
   src([LF_CDN_MAINJS_FILEPATH, LF_CDN_RUNTIMEJS_FILEPATH])
   .pipe(concat(SCRIPT_FILE_WITHOUT_ZONE))
-  .pipe(replace(SOURCEMAP_POLYFILLS_URL,SOURCEMAP_MAIN_URL))
   .pipe(dest(SCRIPT_DEST))
 }
 
