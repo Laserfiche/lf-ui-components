@@ -24,7 +24,7 @@
     "concate-lf-cdn": "gulp concateLfCdnToScript",
     "rename-cdn-webpack-chunk": "gulp renameRuntimeWebpackChunk && gulp renamePolyfillsWebpackChunk && gulp renameMainWebpackChunk",
     "create-lf-cdn": "npm run build-lf-cdn-prod && npm run rename-cdn-webpack-chunk && npm run concate-lf-cdn",
-    "move-enums-to-types-linux": "cp ./dist/ui-components/esm2015/shared/enums.js ./types-lf-ui-components-publish/index.js",
+    "move-enums-to-types-linux": "cp ./dist/ui-components/esm2020/shared/enums.mjs ./types-lf-ui-components-publish/index.mjs",
     "move-enums-to-types-windows": "copy .\\dist\\ui-components\\esm2015\\shared\\enums.js .\\types-lf-ui-components-publish\\index.js",
     "move-enums-to-types": "npm run move-enums-to-types-linux || npm run move-enums-to-types-windows",
     "create-types-lf-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run move-enums-to-types && cd ./types-lf-ui-components-publish && npm pack"
