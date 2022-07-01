@@ -10,7 +10,7 @@ import { LfFieldComponent } from '../field-components/lf-field/lf-field.componen
 import { LfFieldMultivalueComponent } from '../field-components/lf-field-multivalue/lf-field-multivalue.component';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldContainerDirective } from '../lf-field-container.directive';
-import { validateDefined } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
   selector: 'lf-field-adhoc-container-component',
@@ -28,7 +28,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   readonly ADD_REMOVE_FIELDS = this.localizationService.getStringObservable('ADD_REMOVE_FIELDS');
 
   /** @internal */
-  readonly NO_SUPPLEMENTAL_FIELDS = this.localizationService.getStringObservable('NO_SUPPLEMENTAL_FIELDS');
+  readonly NO_ADDITIONAL_FIELDS_ASSIGNED = this.localizationService.getStringObservable('NO_ADDITIONAL_FIELDS_ASSIGNED');
 
   /** @internal */
   showAdhocModal: boolean = false;
@@ -103,7 +103,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   initAsync = async (adhocFieldContainerService: LfFieldAdhocContainerService): Promise<void> => {
     this.zone.run(() => {
       this.resetComponentValues();
-      this.adhocFieldContainerService = validateDefined(adhocFieldContainerService, 'adhocFieldContainerService');
+      this.adhocFieldContainerService = CoreUtils.validateDefined(adhocFieldContainerService, 'adhocFieldContainerService');
     });
   };
 

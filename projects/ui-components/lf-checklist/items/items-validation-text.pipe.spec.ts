@@ -1,5 +1,5 @@
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
-import { TimeUtils } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
 import { ChecklistItem } from './checklist-item';
 import { ItemsValidationTextPipe } from './items-validation-text.pipe';
@@ -37,7 +37,7 @@ describe('ItemsValidationTextPipe', () => {
     testForm.updateValueAndValidity();
     const expectedValue = 'required';
 
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedValue,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -63,7 +63,7 @@ describe('ItemsValidationTextPipe', () => {
     // needed to trigger first value of subscription
     testForm.updateValueAndValidity();
 
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -87,7 +87,7 @@ describe('ItemsValidationTextPipe', () => {
     // needed to trigger first value of subscription
     testForm.updateValueAndValidity();
 
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === undefined,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -115,7 +115,7 @@ describe('ItemsValidationTextPipe', () => {
     // needed to trigger first value of subscription
     testForm.updateValueAndValidity();
 
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expected,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -143,7 +143,7 @@ describe('ItemsValidationTextPipe', () => {
     // needed to trigger first value of subscription
     testForm.updateValueAndValidity();
 
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expected,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -171,7 +171,7 @@ describe('ItemsValidationTextPipe', () => {
     // needed to trigger first value of subscription
     testForm.updateValueAndValidity();
 
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expected,
       () => { throw Error(`Timeout: value was ${value}`); }
     );

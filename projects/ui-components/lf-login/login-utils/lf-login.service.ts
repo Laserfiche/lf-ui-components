@@ -1,9 +1,8 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { AccountInfo, AccessTokenError, OAuthAccessTokenData } from './lf-login-internal-types';
+import { AccountInfo, OAuthAccessTokenData } from './lf-login-internal-types';
 import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';
 import { LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
-import { JwtUtils } from '@laserfiche/lf-js-utils';
-
+import { GetAccessTokenResponse, HTTPError, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
 @Injectable({
@@ -33,6 +32,8 @@ export class LfLoginService {
   authorize_url_host_name: string = 'laserfiche.com';
   /** @internal */
   code_verifier?: string;
+  /** @internal */
+  tokenClient: TokenClient = new TokenClient(this.authorize_url_host_name);
 
   /** @internal */
   @Output() logoutCompletedInService: EventEmitter<AbortedLoginError | undefined> = new EventEmitter<AbortedLoginError | undefined>();
@@ -79,8 +80,22 @@ export class LfLoginService {
       this.exchangeCodeForToken_lock = true;
       this.code_verifier = localStorage.getItem(this.codeVerifierStorageKey)!;
       if (callBackURIParams.authorizationCode && this.code_verifier) {
-        const response = await this.getTokenAsync(callBackURIParams.authorizationCode);
-        await this.parseTokenResponseAsync(response);
+        try {
+          const response = await this.tokenClient.getAccessTokenFromCode(callBackURIParams.authorizationCode, this.redirect_uri, this.client_id, undefined, this.code_verifier);
+          await this.parseTokenResponseAsync(response);
+        }
+        catch (e) {
+          const status = (<HTTPError>e).status ?? 0;
+          const message = (<HTTPError>e).message;
+          this.removeFromLocalStorage();
+          this._state = LoginState.LoggedOut;
+          console.error('Login Error (state changed to LoggedOut): ' + message);
+          this.logoutCompletedInService.emit(
+            {
+              ErrorType: status.toString(),
+              ErrorMessage: message
+            });
+        }
       }
       else if (callBackURIParams.error) {
         this._state = LoginState.LoggedOut;
@@ -112,41 +127,17 @@ export class LfLoginService {
   }
 
   /** @internal */
-  private async getTokenAsync(code: string) {
-    const request = this.createPostTokenRequest(code);
-    const response = await fetch(
-      this.getOAuthTokenUrl(),
-      request
-    );
-    return response;
-  }
-
-  /** @internal */
-  getOAuthTokenUrl(): RequestInfo {
-    return `https://signin.${this.authorize_url_host_name}/oauth/token`;
-  }
-
-  /** @internal */
-  async parseTokenResponseAsync(response: Response, refresh: boolean = false): Promise<string | undefined> {
-    const jsonResponse = await response.json();
-    if (jsonResponse['access_token']) {
-      const accessTokenSuccess: AuthorizationCredentials = this.getExchangeCodeSuccessResponse(jsonResponse);
-      this.storeInLocalStorage(accessTokenSuccess);
+  async parseTokenResponseAsync(response: GetAccessTokenResponse): Promise<string | undefined> {
+    try {
+      const authorizationCredentials: AuthorizationCredentials = this.getExchangeCodeSuccessResponse(response);
+      this.storeInLocalStorage(authorizationCredentials);
       this._state = LoginState.LoggedIn;
       console.info('state changed to LoggedIn');
       this.loginCompletedInService.emit();
-      return accessTokenSuccess.accessToken;
-    } else {
-      const accessTokenError: AccessTokenError = this.getExchangeCodeErrorResponse(jsonResponse, response.status);
-      this.removeFromLocalStorage();
-      this._state = LoginState.LoggedOut;
-      console.error('Login Error (state changed to LoggedOut): ' + accessTokenError);
-      this.logoutCompletedInService.emit(
-        {
-          ErrorType: accessTokenError.status.toString(),
-          ErrorMessage: accessTokenError.title
-        });
-      return undefined;
+      return authorizationCredentials.accessToken;
+    }
+    catch {
+      throw Error('Parse token response error.');
     }
   }
 
@@ -225,19 +216,6 @@ export class LfLoginService {
     this.storeAccountInfo(parsedAccessToken);
     this.storeAccountEndpoints(parsedAccessToken);
     this.storeAccessToken(accessTokenCredentials);
-  }
-
-  /** @internal */
-  getExchangeCodeErrorResponse(jsonResponse: any, responseStatus: number) {
-    const responseError: AccessTokenError = {
-      type: jsonResponse['type'],
-      title: jsonResponse['title'] ?? responseStatus.toString(),
-      status: responseStatus,
-      instance: jsonResponse['instance'],
-      operationId: jsonResponse['operationId'],
-      traceId: jsonResponse['traceId']
-    };
-    return responseError;
   }
 
   /** @internal */

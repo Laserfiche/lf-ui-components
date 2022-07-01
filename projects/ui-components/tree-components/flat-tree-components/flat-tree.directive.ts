@@ -276,7 +276,7 @@ export abstract class FlatTreeDirective implements OnChanges, OnDestroy {
   }
 
   /** @internal */
-  readonly EMPTY_FILE_EXPLORER = this.localizationService.getStringObservable('EMPTY_FILE_EXPLORER');
+  readonly THIS_FOLDER_IS_EMPTY = this.localizationService.getStringObservable('THIS_FOLDER_IS_EMPTY');
 
   /** @internal */
   get shouldShowEmptyMessage(): boolean {
@@ -284,7 +284,7 @@ export abstract class FlatTreeDirective implements OnChanges, OnDestroy {
   }
 
   /** @internal */
-  readonly NO_MATCHES_FOUND = this.localizationService.getStringObservable('NO_MATCHES_FOUND');
+  readonly NO_MATCHING_ENTRIES_FOUND = this.localizationService.getStringObservable('NO_MATCHING_ENTRIES_FOUND');
 
   /** @internal */
   get shouldShowNoMatchesMessage(): boolean {

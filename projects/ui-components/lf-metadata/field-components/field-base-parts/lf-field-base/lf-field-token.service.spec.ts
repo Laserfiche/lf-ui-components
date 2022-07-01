@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TimeUtils } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfFieldTokenId, LfFieldTokenData, LfFieldTokenService } from './lf-field-token.service';
 
@@ -30,7 +30,7 @@ describe('LfFieldTokenService', () => {
     dateTokens[0].friendlyName.subscribe(async (val) => {
       value = val;
     });
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedDateTokens[0].friendlyName,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -51,7 +51,7 @@ describe('LfFieldTokenService', () => {
     datetimeTokens[0].friendlyName.subscribe(async (val) => {
       value = val;
     });
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedDatetimeTokens[0].friendlyName,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -72,7 +72,7 @@ describe('LfFieldTokenService', () => {
     timeTokens[0].friendlyName.subscribe(async (val) => {
       value = val;
     });
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedTimeTokens[0].friendlyName,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -102,7 +102,7 @@ describe('LfFieldTokenService', () => {
     numberTokens[0].friendlyName.subscribe(async (val) => {
       value = val;
     });
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedNumberTokens[0].friendlyName,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -114,7 +114,7 @@ describe('LfFieldTokenService', () => {
     integerTokens[0].friendlyName.subscribe(async (val) => {
       intValue = val;
     });
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => intValue === expectedNumberTokens[0].friendlyName,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
@@ -145,7 +145,7 @@ describe('LfFieldTokenService', () => {
     stringTokens[0].friendlyName.subscribe(async (val) => {
       value = val;
     });
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedStringTokens[0].friendlyName,
       () => { throw Error(`Timeout: value was ${value}`); }
     );

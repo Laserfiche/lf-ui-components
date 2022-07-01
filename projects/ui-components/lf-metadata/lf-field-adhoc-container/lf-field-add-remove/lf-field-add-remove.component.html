@@ -24,7 +24,7 @@
           </mat-checkbox>
       </div>
       <div class="fields-empty" *ngIf="!displayFieldInfos || displayFieldInfos.length===0">
-          {{NO_FIELD_AVAILABLE_WITH_FILTER | async}}
+          {{NO_MATCHING_FIELDS_FOUND | async}}
       </div>
   </div>
   <div class="button-container" *ngIf="areCheckboxChanges">

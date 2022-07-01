@@ -1,4 +1,4 @@
-import { TimeUtils } from '@laserfiche/lf-js-utils';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { Observable, of } from 'rxjs';
 import { LfFieldInfo } from '../../field-components/utils/lf-field-types';
@@ -25,7 +25,7 @@ describe('GetFieldTypePipe', () => {
     });
     const expectedValue = 'string type';
 
-    await TimeUtils.waitForConditionAsync(
+    await CoreUtils.waitForConditionAsync(
       () => value === expectedValue,
       () => { throw Error(`Timeout: value was ${value}`); }
     );
