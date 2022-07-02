@@ -10,7 +10,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build-lf-documentation-dev": "ng build",
-    "build-lf-documentation-prod": "ng build --configuration production --output-hashing=none --extractCss=true",
+    "build-lf-documentation-prod": "ng build --configuration production --output-hashing=none",
     "build-lf-cdn-prod": "ng build lf-cdn --configuration production --output-hashing=none",
     "build-ui-components-prod": "ng build ui-components --configuration production",
     "watch": "ng build --watch --configuration development",
