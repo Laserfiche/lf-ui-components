@@ -89,12 +89,6 @@ jobs:
       - name: 'gulp replacePlaceholdersInDocumentation'
         run: gulp replacePlaceholdersInDocumentation
 
-      - name: 'gulp replaceVersionInDocumentation'
-        run: gulp replaceVersionInDocumentation --npmVersion ${{ env.NPM_VERSION }}--preview-${{ github.run_id }}
-
-      - name: 'gulp replaceVersionInIndexHtml'
-        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}--preview-${{ github.run_id }}
-
       - name: 'move indigo-pink to ui-components/cdn'
         run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
 
@@ -259,6 +253,15 @@ jobs:
         with:
           node-version: '14'
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Npm install gulp
+        run: npm install gulp
+
+      - name: 'gulp replaceVersionInDocumentation'
+        run: gulp replaceVersionInDocumentation --npmVersion ${{ env.NPM_VERSION }}--preview-${{ github.run_id }}
+
+      - name: 'gulp replaceVersionInIndexHtml'
+        run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}--preview-${{ github.run_id }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
