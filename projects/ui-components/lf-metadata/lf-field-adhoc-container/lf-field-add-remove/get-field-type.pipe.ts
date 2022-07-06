@@ -29,31 +29,31 @@ export class GetFieldTypePipe implements PipeTransform {
   private getFieldType(field: LfFieldInfo): Observable<string> | undefined {
     switch (field.fieldType) {
       case FieldType.Blob: {
-        return this.localizedFieldTypes?.get('FIELD_TYPE_BLOB');
+        return this.localizedFieldTypes?.get('DATA');
       }
       case FieldType.Date: {
-        return this.localizedFieldTypes?.get('FIELD_TYPE_DATE');
+        return this.localizedFieldTypes?.get('DATE');
       }
       case FieldType.DateTime: {
-        return this.localizedFieldTypes?.get('FIELD_TYPE_DATETIME');
+        return this.localizedFieldTypes?.get('DATE_TIME');
       }
       case FieldType.List: {
-        return this.localizedFieldTypes?.get('FIELD_TYPE_LIST');
+        return this.localizedFieldTypes?.get('LIST');
       }
       case FieldType.LongInteger: {
-        return this.localizedFieldTypes?.get('FIELD_TYPE_LONG');
+        return this.localizedFieldTypes?.get('LONG_INTEGER');
       }
       case FieldType.Number: {
-        return this.localizedFieldTypes?.get('FIELD_TYPE_NUMBER');
+        return this.localizedFieldTypes?.get('NUMBER');
       }
       case FieldType.ShortInteger: {
-        return this.localizedFieldTypes?.get('FIELD_TYPE_SHORT');
+        return this.localizedFieldTypes?.get('INTEGER');
       }
       case FieldType.String: {
-        return this.localizedFieldTypes?.get('FIELD_TYPE_STRING');
+        return this.localizedFieldTypes?.get('TEXT');
       }
       case FieldType.Time: {
-        return this.localizedFieldTypes?.get('FIELD_TYPE_TIME');
+        return this.localizedFieldTypes?.get('TIME');
       }
       default:
         return undefined;

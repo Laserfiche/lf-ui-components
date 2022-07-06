@@ -7,7 +7,7 @@ import { GetFieldTypePipe } from './get-field-type.pipe';
 describe('GetFieldTypePipe', () => {
   const pipe = new GetFieldTypePipe();
   const mappedObservables: Map<string, Observable<string>> = new Map<string, Observable<string>>([
-    ['FIELD_TYPE_STRING', of('string type')]
+    ['TEXT', of('string type')]
   ]);
   it('create an instance', () => {
     expect(pipe).toBeTruthy();
