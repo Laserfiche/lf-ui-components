@@ -7,6 +7,10 @@
 ### Chore & Maintenance
 
 - Update to use @angular@13.
+- Add dependency to `zone.js`.
+    - For CDN usage, add a script tag to load `zone.js`
+    - `<script src='https://www.jsdelivr.com/package/npm/zone.js'></script>`
+- NPM package's module format is now ECMAScript Modules (ESM).
 
 ## 12.x
 
