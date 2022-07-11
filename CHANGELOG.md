@@ -1,3 +1,17 @@
+## 13.x
+
+### Features
+
+### Fixes
+
+### Chore & Maintenance
+
+- Update to use @angular@13.
+- Add dependency to `zone.js`.
+    - For CDN usage, add a script tag to load `zone.js`
+    - `<script src='https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js'></script>`
+- NPM package's module format is now ECMAScript Modules (ESM).
+
 ## 12.0.2
 
 ### Features
