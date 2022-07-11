@@ -39,6 +39,7 @@ const SCRIPT_FILE = 'lf-ui-components.js';
 const DOCUMENTATION_SCRIPT_FILE = 'lf-documentation.js';
 const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
 const SOURCEMAP_RUNTIME_URL = '//# sourceMappingURL=runtime.js.map';
+const SOURCEMAP_POLYFILLS_URL = '//# sourceMappingURL=polyfills.js.map';
 const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/lf-documentation.js';
 const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
 const OLD_LF_STYLE_SHEET_PATH = './lf-laserfiche-lite.css';
