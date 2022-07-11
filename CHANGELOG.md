@@ -12,15 +12,19 @@
     - `<script src='https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js'></script>`
 - NPM package's module format is now ECMAScript Modules (ESM).
 
-## 12.x
+## 12.0.2
 
 ### Features
 
 ### Fixes
 
+- `lf-ms-office-lite.css` Fix `lf-button` style.
+- `<lf-field-adhoc-container>` Fix localization of field types.
+
 ### Chore & Maintenance
 
 - Add dependency to `@laserfiche/lf-api-client-core`.
+- `docs` Change documentation to point to released package/url.
 
 ## 12.0.1
 

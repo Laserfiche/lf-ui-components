@@ -26,12 +26,17 @@ const NPM_PUBLISH = './types-lf-ui-components-publish/';
 const LF_CDN_MAINJS_FILEPATH = './dist/lf-cdn/main.js';
 const LF_CDN_RUNTIMEJS_FILEPATH = './dist/lf-cdn/runtime.js';
 const LF_CDN_POLYFILLSJS_FILEPATH = './dist/lf-cdn/polyfills.js';
+const LF_DOCUMENTATION_MAINJS_FILEPATH = './dist/lf-documentation/main.js';
+const LF_DOCUMENTATION_RUNTIMEJS_FILEPATH = './dist/lf-documentation/runtime.js';
+const LF_DOCUMENTATION_POLYFILLSJS_FILEPATH = './dist/lf-documentation/polyfills.js';
 const OLD_WEBPACK_CHUNK_NAME = 'webpackChunklf_ui_components';
 const NEW_WEBPACK_CHUNK_NAME = 'webpackChunklf_components_ui';
 const OLD_SCRIPT_NAME = './../lf-cdn/lf-ui-components.js';
 const NEW_SCRIPT_NAME = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js';
 const SCRIPT_DEST = './dist/lf-cdn';
+const DOCUMENTATION_SCRIPT_DEST = './dist/lf-documentation';
 const SCRIPT_FILE = 'lf-ui-components.js';
+const DOCUMENTATION_SCRIPT_FILE = 'lf-documentation.js';
 const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
 const SOURCEMAP_RUNTIME_URL = '//# sourceMappingURL=runtime.js.map';
 const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/lf-documentation.js';
@@ -108,12 +113,20 @@ async function concateLfCdnToScript() {
   .pipe(dest(SCRIPT_DEST))
 }
 
+async function concatLfDocumentationToScript() {
+  src([LF_DOCUMENTATION_MAINJS_FILEPATH, LF_DOCUMENTATION_RUNTIMEJS_FILEPATH, LF_DOCUMENTATION_POLYFILLSJS_FILEPATH])
+  .pipe(concat(DOCUMENTATION_SCRIPT_FILE))
+  .pipe(replace(SOURCEMAP_POLYFILLS_URL,SOURCEMAP_MAIN_URL))
+  .pipe(dest(DOCUMENTATION_SCRIPT_DEST))
+}
+
 exports.replaceScriptsInIndexHtml = replaceScriptsInIndexHtml;
 exports.processTypesFile = processTypesFile;
 exports.replacePlaceholdersInDocumentation = replacePlaceholdersInDocumentation;
 exports.renameMainWebpackChunk = renameMainWebpackChunk;
 exports.renameRuntimeWebpackChunk = renameRuntimeWebpackChunk;
 exports.renamePolyfillsWebpackChunk = renamePolyfillsWebpackChunk;
-exports.concateLfCdnToScript = concateLfCdnToScript;
+exports.concatLfCdnToScript = concatLfCdnToScript;
 exports.replaceVersionInIndexHtml = replaceVersionInIndexHtml;
 exports.replaceVersionInDocumentation = replaceVersionInDocumentation;
+exports.concatLfDocumentationToScript = concatLfDocumentationToScript;

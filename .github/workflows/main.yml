@@ -64,7 +64,10 @@ jobs:
         run: npm run sass-ms
 
       - name: 'concatenate runtime.js, main.js, and polyfills.js into lf-documentation.js'
-        run: (cat ./dist/lf-documentation/runtime.js; echo ""; cat ./dist/lf-documentation/polyfills.js; echo ""; cat ./dist/lf-documentation/main.js; echo) > ./dist/lf-documentation/lf-documentation.js
+        run: npm run concat-lf-documentation
+
+      - name: 'remove main.js, polyfills.js and runtime.js'
+        run: rm ./dist/lf-documentation/main.js ./dist/lf-documentation/polyfills.js ./dist/lf-documentation/runtime.js
 
       - name: Npm run test
         shell: pwsh
