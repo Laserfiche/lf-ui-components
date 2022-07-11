@@ -6,7 +6,10 @@
 <ol>
   <li>
     <p  class="documentation-text">
-      Add the following script tags to <code>index.html</code>
+      Add the following script tag to <code>index.html</code>. </p>
+    <p  class="documentation-text"> Insert this script tag after <code>&lt;body&gt;</code>.
+
+      This script requires <code>Zone.js</code> to load before it loads, and Angular by default loads <code>Zone.js</code> in <code>polyfills.js</code> inside <code>&lt;body&gt;</code>.
     </p>
     <pre class="code-container">
 <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
@@ -40,15 +43,6 @@
 <span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
   >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"</span><span class="code-html-attribute-name"> rel</span><span
   >=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
-</pre>
-</li>
-<li>
-  <p  class="documentation-text">
-    Add Zone.js if not already imported
-  </p>
-<pre class="code-container">
-  <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
-  >"https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
 </pre>
 </li>
     <li>

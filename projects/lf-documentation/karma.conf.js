@@ -33,6 +33,6 @@ module.exports = function (config) {
     browsers: ['Chrome'],
     singleRun: false,
     restartOnFileChange: true,
-    files: ["../../dist/lf-cdn/polyfills.js", "../../dist/lf-cdn/lf-ui-components.js"]
+    files: [ "../../dist/lf-cdn/lf-ui-components.js"]
   });
 };
