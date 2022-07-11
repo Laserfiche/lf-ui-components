@@ -106,7 +106,7 @@ async function processTypesFile() {
   .pipe(dest(NPM_PUBLISH));
 }
 
-async function concateLfCdnToScript() {
+async function concatLfCdnToScript() {
   src([LF_CDN_MAINJS_FILEPATH, LF_CDN_RUNTIMEJS_FILEPATH])
   .pipe(concat(SCRIPT_FILE))
   .pipe(replace(SOURCEMAP_RUNTIME_URL,SOURCEMAP_MAIN_URL))
