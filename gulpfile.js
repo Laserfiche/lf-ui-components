@@ -33,7 +33,7 @@ const NEW_SCRIPT_NAME = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-componen
 const SCRIPT_DEST = './dist/lf-cdn';
 const SCRIPT_FILE = 'lf-ui-components.js';
 const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
-const SOURCEMAP_POLYFILLS_URL = '//# sourceMappingURL=polyfills.js.map';
+const SOURCEMAP_RUNTIME_URL = '//# sourceMappingURL=runtime.js.map';
 const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/lf-documentation.js';
 const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
 const OLD_LF_STYLE_SHEET_PATH = './lf-laserfiche-lite.css';
@@ -102,9 +102,9 @@ async function processTypesFile() {
 }
 
 async function concateLfCdnToScript() {
-  src([LF_CDN_MAINJS_FILEPATH, LF_CDN_RUNTIMEJS_FILEPATH, LF_CDN_POLYFILLSJS_FILEPATH])
+  src([LF_CDN_MAINJS_FILEPATH, LF_CDN_RUNTIMEJS_FILEPATH])
   .pipe(concat(SCRIPT_FILE))
-  .pipe(replace(SOURCEMAP_POLYFILLS_URL,SOURCEMAP_MAIN_URL))
+  .pipe(replace(SOURCEMAP_RUNTIME_URL,SOURCEMAP_MAIN_URL))
   .pipe(dest(SCRIPT_DEST))
 }
 

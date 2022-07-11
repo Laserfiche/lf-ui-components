@@ -8,9 +8,13 @@ UI Components are compatible with many web frameworks including Angular, React, 
 
 See documentation [here](https://developer.laserfiche.com).
 
+## Change Log
+
+See CHANGELOG [here](https://github.com/Laserfiche/lf-ui-components/blob/13.x/CONTRIBUTING.md)
+
 ## Contribution
 
-We welcome contributions and feedback. Please follow our [contributing guidelines](https://github.com/Laserfiche/lf-ui-components/blob/12.x/CONTRIBUTING.md).
+We welcome contributions and feedback. Please follow our [contributing guidelines](https://github.com/Laserfiche/lf-ui-components/blob/13.x/CONTRIBUTING.md).
 
 ## Development Setup
 
