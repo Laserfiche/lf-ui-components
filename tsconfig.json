@@ -14,10 +14,6 @@
       "@laserfiche/lf-ui-components/shared": [
         "dist/ui-components/shared",
         "projects/ui-components/shared"
-      ],
-      "@laserfiche/lf-ui-components/lf-checklist": [
-        "dist/ui-components/lf-checklist",
-        "projects/ui-components/lf-checklist"
       ]
     },
     "sourceMap": true,
