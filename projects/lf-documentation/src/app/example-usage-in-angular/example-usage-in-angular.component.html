@@ -10,14 +10,17 @@
     <p  class="documentation-text"> Insert this script tag after <code>&lt;body&gt;</code>.
       This script requires <code>Zone.js</code> to load before it loads, and Angular by default loads <code>Zone.js</code> in <code>polyfills.js</code> inside <code>&lt;body&gt;</code>.
     </p>
-    <p  class="documentation-text">
-    If for some reason you do not already import zone.js in polyfills.ts you can add the script tag:
-    </p>
     <pre class="code-container">
 <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
 >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
 > defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
 </pre>
+<p  class="documentation-text">
+  If for some reason you do not already import zone.js in polyfills.ts you can add the script tag:
+  </p>
+  <pre class="code-container">
+    <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+    >"https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span></pre>
   </li>
 <li>
   <p  class="documentation-text">
