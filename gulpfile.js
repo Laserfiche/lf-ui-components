@@ -38,7 +38,6 @@ const DOCUMENTATION_SCRIPT_DEST = './dist/lf-documentation';
 const SCRIPT_FILE = 'lf-ui-components.js';
 const DOCUMENTATION_SCRIPT_FILE = 'lf-documentation.js';
 const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
-const SOURCEMAP_RUNTIME_URL = '//# sourceMappingURL=runtime.js.map';
 const SOURCEMAP_POLYFILLS_URL = '//# sourceMappingURL=polyfills.js.map';
 const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/lf-documentation.js';
 const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
@@ -108,9 +107,9 @@ async function processTypesFile() {
 }
 
 async function concatLfCdnToScript() {
-  src([LF_CDN_MAINJS_FILEPATH, LF_CDN_RUNTIMEJS_FILEPATH])
+  src([LF_CDN_MAINJS_FILEPATH, LF_CDN_RUNTIMEJS_FILEPATH, LF_CDN_POLYFILLSJS_FILEPATH])
   .pipe(concat(SCRIPT_FILE))
-  .pipe(replace(SOURCEMAP_RUNTIME_URL,SOURCEMAP_MAIN_URL))
+  .pipe(replace(SOURCEMAP_POLYFILLS_URL,SOURCEMAP_MAIN_URL))
   .pipe(dest(SCRIPT_DEST))
 }
 
