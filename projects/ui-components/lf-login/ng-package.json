@@ -1,0 +1,5 @@
+{
+  "lib": {
+      "entryFile": "./lf-login-public-api.ts"
+  }
+}
