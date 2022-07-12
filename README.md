@@ -10,7 +10,7 @@ See documentation [here](https://developer.laserfiche.com).
 
 ## Change Log
 
-See CHANGELOG [here](https://github.com/Laserfiche/lf-ui-components/blob/13.x/CONTRIBUTING.md)
+See CHANGELOG [here](https://github.com/Laserfiche/lf-ui-components/blob/13.x/CHANGELOG.md).
 
 ## Contribution
 
