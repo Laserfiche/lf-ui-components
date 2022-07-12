@@ -1,5 +1,5 @@
 import { LfFieldViewDirective } from './lf-field-view.directive';
-import { ViewContainerRef, ViewRef, TemplateRef, EmbeddedViewRef, ComponentFactory, Injector, NgModuleRef, ComponentRef, ElementRef } from '@angular/core';
+import { ViewContainerRef, ViewRef, TemplateRef, EmbeddedViewRef, ComponentFactory, Injector, NgModuleRef, ComponentRef, ElementRef, Type } from '@angular/core';
 
 describe('LfFieldViewDirective', () => {
   it('should create an instance', () => {
@@ -10,6 +10,11 @@ describe('LfFieldViewDirective', () => {
 
 // mock view container ref to test directive
 class TestViewContainerRef extends ViewContainerRef {
+  createComponent<C>(componentType: Type<C>, options?: { index?: number | undefined; injector?: Injector | undefined; ngModuleRef?: NgModuleRef<unknown> | undefined; projectableNodes?: Node[][] | undefined } | undefined): ComponentRef<C>;
+  createComponent<C>(componentFactory: ComponentFactory<C>, index?: number | undefined, injector?: Injector | undefined, projectableNodes?: any[][] | undefined, ngModuleRef?: NgModuleRef<any> | undefined): ComponentRef<C>;
+  createComponent<C>(componentFactory: unknown, index?: unknown, injector?: unknown, projectableNodes?: unknown, ngModuleRef?: unknown): ComponentRef<C> | ComponentRef<C> {
+    throw new Error('Method not implemented.');
+  }
   get element(): ElementRef<any> {
     throw new Error('Method not implemented.');
   }
@@ -32,11 +37,7 @@ class TestViewContainerRef extends ViewContainerRef {
     EmbeddedViewRef<C> {
     throw new Error('Method not implemented.');
   }
-  createComponent<C>(componentFactory: ComponentFactory<C>,
-                     index?: number, injector?: Injector, projectableNodes?: any[][],
-                     ngModule?: NgModuleRef<any>): ComponentRef<C> {
-    throw new Error('Method not implemented.');
-  }
+
   insert(viewRef: ViewRef, index?: number): ViewRef {
     throw new Error('Method not implemented.');
   }
