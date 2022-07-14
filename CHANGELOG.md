@@ -7,7 +7,7 @@
 ### Chore & Maintenance
 
 - Remove dependency of `zone.js`.
-    - Zone is bundled in our package. We conditionally load zone.js if it doesn't exist in the host environment.
+    - `zone.js` is bundled in our CDN script `lf-ui-components.js`. We conditionally load `zone.js` if it doesn't exist in the host environment.
 
 ## 13.0.0
 
