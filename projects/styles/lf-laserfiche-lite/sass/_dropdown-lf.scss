@@ -64,7 +64,7 @@ mat-form-field.lf-dropdown {
   width: 100%;
 }
 
-.lf-form-field .mat-form-field-underline {
+.lf-field .mat-form-field-underline {
   display: none;
 }
 
@@ -86,6 +86,6 @@ mat-form-field.lf-dropdown {
   border-top: 0 solid transparent;
 }
 
-.lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-infix {
+.lf-dropdown.mat-form-field.lf-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix {
   padding: 0px;
 }
