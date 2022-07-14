@@ -33,6 +33,6 @@ module.exports = function (config) {
     browsers: ['Chrome'],
     singleRun: false,
     restartOnFileChange: true,
-    files: ["../../dist/lf-cdn/lf-ui-components.js"]
+    files: ["https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js", "../../dist/lf-cdn/lf-ui-components.js"]
   });
 };
