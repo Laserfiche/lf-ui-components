@@ -46,10 +46,10 @@
  * Zone JS is required by default for Angular itself.
  */
  if ( !window.Zone) {
-  require('zone.js')
-  console.log("zone doesn't exist. loading zone")
+  require('zone.js');
+  console.log("zone doesn't exist. loading zone");
 } else {
-  console.log("zone already exists. no need to import zone")
+  console.log("zone already exists. no need to import zone");
 }
 
 
