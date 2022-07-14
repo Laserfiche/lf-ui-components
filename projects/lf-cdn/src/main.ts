@@ -10,3 +10,9 @@ if (environment.production) {
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
+
+  declare global {
+    interface Window {
+      Zone: any; // 👈️ turn off type checking
+    }
+  }
