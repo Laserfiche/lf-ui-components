@@ -1,6 +1,5 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
-import 'zone.js';
 import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
 import {
@@ -26,3 +25,9 @@ getTestBed().initTestEnvironment(
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
+
+declare global {
+  interface Window {
+    Zone: any; // 👈️ turn off type checking
+  }
+}
