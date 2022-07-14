@@ -1,6 +1,6 @@
 @use "typography-lf";
 
-$border-color: #E0E0E0;
+$border-color: #e0e0e0;
 $border-width: 1px;
 $border-radius: 2px;
 
@@ -14,26 +14,28 @@ $options-padding-stack: 7px 10px 8px;
 
 mat-label.lf-dropdown-label {
   padding-left: $padding-left;
-  line-height: $height - 2*$border-width;
+  line-height: $height - 2 * $border-width;
+
+  .mat-form-field-wrapper .mat-form-field-label-wrapper .mat-form-field-label {
+    top: 0;
+  }
 }
 
-.lf-dropdown .mat-form-field-label-wrapper, .lf-dropdown .mat-form-field-label {
+.lf-dropdown .mat-form-field-label-wrapper,
+.lf-dropdown .mat-form-field-label {
   top: 0;
   padding-top: 0;
   height: $height;
 }
 
-.mat-form-field-wrapper .mat-form-field-label-wrapper  .mat-form-field-label {
-  top: 0;
-}
-
-mat-select.lf-dropdown, select.lf-dropdown {
+mat-select.lf-dropdown,
+select.lf-dropdown {
   font: typography-lf.$body-stack;
   color: typography-lf.$body-color;
   padding-left: $padding-left;
   cursor: pointer;
   height: $height;
-  line-height: $height - 2*$border-width;
+  line-height: $height - 2 * $border-width;
 
   box-sizing: border-box;
 
@@ -62,15 +64,15 @@ mat-form-field.lf-dropdown {
   width: 100%;
 }
 
-.mat-form-field-underline {
+.lf-form-field .mat-form-field-underline {
   display: none;
 }
 
-div.mat-select-arrow-wrapper {
+.lf-dropdown div.mat-select-arrow-wrapper {
   padding-top: 0px;
 }
 
-div.mat-select-value {
+.lf-dropdown div.mat-select-value {
   padding-top: 0px;
 }
 

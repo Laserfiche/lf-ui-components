@@ -12,26 +12,28 @@ $options-padding-stack: 7px 10px 8px;
 
 mat-label.lf-dropdown-label {
   padding-left: $padding-left;
-  line-height:  $height - 2*$border-width;
+  line-height: $height - 2 * $border-width;
+
+  .mat-form-field-wrapper .mat-form-field-label-wrapper .mat-form-field-label {
+    top: 0;
+  }
 }
 
-.lf-dropdown .mat-form-field-label-wrapper, .lf-dropdown .mat-form-field-label {
+.lf-dropdown .mat-form-field-label-wrapper,
+.lf-dropdown .mat-form-field-label {
   top: 0;
   padding-top: 0;
   height: $height;
 }
 
-.mat-form-field-wrapper .mat-form-field-label-wrapper  .mat-form-field-label {
-  top: 0;
-}
-
-mat-select.lf-dropdown, select.lf-dropdown{
+mat-select.lf-dropdown,
+select.lf-dropdown {
   font: typography-mo.$body-stack;
   color: typography-mo.$hover-color;
   padding-left: $padding-left;
   cursor: pointer;
   height: $height;
-  line-height: $height - 2*$border-width;
+  line-height: $height - 2 * $border-width;
   box-sizing: border-box;
   border-width: $border-width;
   border-style: solid;
@@ -45,10 +47,9 @@ mat-select.lf-dropdown, select.lf-dropdown{
   &:focus {
     border-color: typography-mo.$primary-color;
     border-width: $focus-border-width;
-    line-height: $height - 2*$focus-border-width;
+    line-height: $height - 2 * $focus-border-width;
     outline: 0px;
     padding-left: $padding-left - math.div($focus-border-width, 2);
-
   }
   option {
     color: typography-mo.$font-color;
@@ -57,7 +58,6 @@ mat-select.lf-dropdown, select.lf-dropdown{
     padding: $options-padding-stack;
     box-sizing: border-box;
   }
-
 }
 
 mat-form-field.lf-dropdown {
@@ -65,15 +65,15 @@ mat-form-field.lf-dropdown {
   width: 100%;
 }
 
-.mat-form-field-underline {
+.lf-form-field .mat-form-field-underline {
   display: none;
 }
 
-div.mat-select-arrow-wrapper {
+.lf-dropdown div.mat-select-arrow-wrapper {
   padding-top: 0px;
 }
 
-div.mat-select-value {
+.lf-dropdown div.mat-select-value {
   padding-top: 0px;
 }
 

@@ -45,6 +45,7 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.cdk-overlay-container, .cdk-overlay-pane {
+/*TODO this is wrong*/
+.cdk-overlay-container.custom-overlay-class, .cdk-overlay-pane.custom-overlay-class {
   z-index: 9999;
 }
