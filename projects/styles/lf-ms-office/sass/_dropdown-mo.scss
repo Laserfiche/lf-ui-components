@@ -21,7 +21,7 @@ mat-label.lf-dropdown-label {
   height: $height;
 }
 
-.mat-form-field-wrapper .mat-form-field-label-wrapper  .mat-form-field-label {
+.lf-label .mat-form-field-wrapper .mat-form-field-label-wrapper  .mat-form-field-label {
   top: 0;
 }
 
@@ -48,7 +48,6 @@ mat-select.lf-dropdown, select.lf-dropdown{
     line-height: $height - 2*$focus-border-width;
     outline: 0px;
     padding-left: $padding-left - math.div($focus-border-width, 2);
-
   }
   option {
     color: typography-mo.$font-color;
@@ -65,15 +64,15 @@ mat-form-field.lf-dropdown {
   width: 100%;
 }
 
-.mat-form-field-underline {
+.lf-field .mat-form-field-underline {
   display: none;
 }
 
-div.mat-select-arrow-wrapper {
+.lf-dropdown div.mat-select-arrow-wrapper {
   padding-top: 0px;
 }
 
-div.mat-select-value {
+.lf-dropdown div.mat-select-value {
   padding-top: 0px;
 }
 
@@ -87,6 +86,6 @@ div.mat-select-value {
   border-top: 0 solid transparent;
 }
 
-.lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-infix {
+.lf-dropdown.mat-form-field.lf-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix {
   padding: 0px;
 }
