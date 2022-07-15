@@ -45,7 +45,7 @@ export class LfFieldContainerComponent {
   readonly TEMPLATE = this.localizationService.getStringObservable('TEMPLATE');
 
   /** @internal */
-  readonly SELECTED_TEMPLATE_NAME = this.getSelectedTemplateName();
+  SELECTED_TEMPLATE_NAME = this.getSelectedTemplateName();
 
   /** @internal */
   getSelectedTemplateName(): Observable<string> {
@@ -83,7 +83,9 @@ export class LfFieldContainerComponent {
         { templateFieldContainerService: this.lfFieldContainerService },
         templateIdentifier
       );
+      this.SELECTED_TEMPLATE_NAME = this.getSelectedTemplateName();
     });
+
   };
 
   @Input()
@@ -147,6 +149,7 @@ export class LfFieldContainerComponent {
   /** @internal */
   onTemplateSelectedChange(selectedTemplateId: number) {
     this.templateSelectedChanged.emit(selectedTemplateId);
+    this.SELECTED_TEMPLATE_NAME = this.getSelectedTemplateName();
   }
 
   /** @internal */
