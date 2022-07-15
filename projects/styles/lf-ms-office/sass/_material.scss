@@ -44,8 +44,3 @@
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
-
-/*TODO this is wrong*/
-.cdk-overlay-container.custom-overlay-class, .cdk-overlay-pane.custom-overlay-class {
-  z-index: 9999;
-}
