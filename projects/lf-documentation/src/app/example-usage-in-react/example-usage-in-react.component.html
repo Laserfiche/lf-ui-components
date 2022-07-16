@@ -1,52 +1,10 @@
-<p class="documentation-title">Using UI components in React</p>
+<p class="documentation-title">Using UI Components from CDN in React</p>
 <h3 id="cdn-example-react"> Example: <code>lf-checklist</code></h3>
 <p>In the example below, the implementation comes from the CDN.
 <ol>
   <li>
     <p  class="documentation-text">
-      Add the following script tags to <code>./public/index.html</code>
-    </p>
-    <pre class="code-container">
-<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
->"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
-> defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
-</pre>
-  </li>
-<li>
-  <p  class="documentation-text">
-    Choose a theme to style your components:
-  </p>
-<pre class="code-container">
-<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
->"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"</span><span class="code-html-attribute-name"> rel</span><span
->=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
-</pre>
-<p  class="documentation-text">
-  or
-</p>
-<pre class="code-container">
-<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
->"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-ofice-lite.css"</span><span class="code-html-attribute-name"> rel</span><span
->=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
-</pre>
-</li>
-<li>
-  <p  class="documentation-text">
-    Add the Angular Material stylesheet
-  </p>
-<pre class="code-container">
-<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
-  >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"</span><span class="code-html-attribute-name"> rel</span><span
-  >=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
-</pre>
-  </li>
-  <li>
-    <p  class="documentation-text">
-      Add Zone.js if not already imported
-    </p>
-  <pre class="code-container">
-    <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
-    >"https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span></pre>
+      <a href="#/getting-started#cdn-usage">Follow these steps to get started.</a></p>
   </li>
   <li>
     If you are using TypeScript, create a file <code>./src/definitions.d.ts</code>. This allows you to use the custom UI component in your application.

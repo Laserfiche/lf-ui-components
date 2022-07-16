@@ -19,21 +19,19 @@
 <h2 id="cdn-usage">Using Via CDN</h2>
 <ol>
   <li>
-    Add the following script tags to your html file.
-  <p>
-    <code class="code-container">
-      <span class="code-html-tagname"> &lt;script </span>
-      <span class="code-html-attribute-name">src</span>
-      <span>=</span>
-      <span class="code-html-attribute-value"
-        >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"
-      </span>
-      <span class="code-html-attribute-name">defer</span>
-      <span class="code-html-tagname">&gt;&lt;/script&gt;</span>
-    </code>
-    <br /><br />
-  </p>
-</li>
+    <p  class="documentation-text">
+      Add the following script tags to <code>index.html</code>. <code>zone.js</code> should be loaded before <code>lf-ui-components.js</code>.
+    </p>
+    <pre class="code-container">
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+      >"https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+>"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
+> defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+</pre>
+<p class="documentation-text"><code>zone.js</code> is a peer dependency of the UI components, and it needs to be loaded by the container application. If <code>zone.js</code> is not already included as a dependency, we recommend to import <code>zone.js</code> as follows.</p>
+<p class="documentation-text">Note that Angular applications include <code> zone.js</code> by default in <code>polyfills.ts</code>. We recommend removing the default <code>zone.js</code>, because having multiple copies of <code>zone.js</code> can cause unexpected errors. </p>
+  </li>
 <li>
   <p class="documentation-text">Choose a theme to style your components. Import the style sheet from the CDN by adding this line to the html file inside your application. You must choose either lf-laserfiche-lite or lf-ms-office-lite.</p>
   <p class="documentation-text">
@@ -86,22 +84,6 @@
     <br /><br />
   </p>
   </li>
-  <li>
-    <p class="documentation-text">Zone.js is a peer dependency of the UI components. If Zone.js is not imported, import Zone.js using the script tag.</p>
-    <p class="documentation-text">Note that Angular applications include <code> zone.js</code> by default in <code>polyfills.ts</code>. We recommend removing the default <code>zone.js</code>, because having multiple copies of <code>zone.js</code> can cause unexpected errors. </p>
-    <p class="documentation-text">
-      <code class="code-container">
-        <span class="code-html-tagname"> &lt;script </span>
-        <span class="code-html-attribute-name">src</span>
-        <span>=</span>
-        <span class="code-html-attribute-value"
-          >"https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js"
-        </span>
-      <span class="code-html-tagname">&gt;&lt;/script&gt;</span>
-      </code>
-      <br /><br />
-    </p>
-    </li>
   <li>
     Optional TypeScript types NPM package. Ensure the version matches the version of the script you added above.
     <p class="documentation-text">
