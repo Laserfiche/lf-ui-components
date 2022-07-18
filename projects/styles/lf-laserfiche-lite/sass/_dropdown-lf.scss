@@ -15,10 +15,6 @@ $options-padding-stack: 7px 10px 8px;
 mat-label.lf-dropdown-label {
   padding-left: $padding-left;
   line-height: $height - 2 * $border-width;
-
-  .mat-form-field-wrapper .mat-form-field-label-wrapper .mat-form-field-label {
-    top: 0;
-  }
 }
 
 .lf-dropdown .mat-form-field-label-wrapper,
@@ -88,4 +84,8 @@ mat-form-field.lf-dropdown {
 
 .lf-dropdown.mat-form-field.lf-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix {
   padding: 0px;
+}
+
+.lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-label {
+  top: 0;
 }
