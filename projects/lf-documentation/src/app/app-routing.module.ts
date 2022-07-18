@@ -29,7 +29,7 @@ export enum RouterLinks {
   EXAMPLE_USAGE_ANGULAR = 'using-ui-components-from-CDN-in-angular',
   EXAMPLE_USAGE_REACT = 'using-ui-components-from-cdn-in-react',
   EXAMPLE_USAGE_HTML = 'using-ui-components-from-cdn-in-html5',
-  EXAMPLE_NPM_USAGE_ANGULAR = 'using-ui-components-npm-in-angular',
+  EXAMPLE_NPM_USAGE_ANGULAR = 'using-ui-components-from-npm-package-in-angular',
   // LOCALIZATION = 'localization',
   STYLING = 'styling',
   TROUBLESHOOTING = 'troubleshooting',
