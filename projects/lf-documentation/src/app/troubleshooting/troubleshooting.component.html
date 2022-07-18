@@ -1,115 +1,130 @@
-<p class="documentation-title">
-    Troubleshooting
-</p>
+<p class="documentation-title">Troubleshooting</p>
 
-<p class="documentation-sub-header">
-    Why does the element disappear?
-<p>
+<p class="documentation-sub-header">Why does the element disappear?</p>
+
+<p></p>
 <ul>
-    <li>
-        The combination of &lt;ng-content&gt; and ngIf is not recommended by <a
-            href="https://angular.io/guide/content-projection#conditional-content-projection">Angular</a>, and can
-        sometimes make element
-        disappears in the DOM. Try using [hidden] instead of ngIf.
-    </li>
-    <li>
-        Make sure the element initialization happens after ngAfterViewInit. This is to make sure that the initialization
-        happens after Angular fully initialized a component's view, which includes the custom element
-    </li>
+  <li>
+    The combination of &lt;ng-content&gt; and ngIf is not recommended by
+    <a href="https://angular.io/guide/content-projection#conditional-content-projection">Angular</a>, and can sometimes
+    make element disappears in the DOM. Try using [hidden] instead of ngIf.
+  </li>
+  <li>
+    Make sure the element initialization happens after ngAfterViewInit. This is to make sure that the initialization
+    happens after Angular fully initialized a component's view, which includes the custom element
+  </li>
+</ul>
+<br />
+
+<p class="documentation-sub-header">Why is the component not showing up when in a css/html modal?</p>
+
+<p></p>
+<ul>
+  <li>
+    If you are putting our components in another modal with a z-index > 999, there is a chance some of the functionality
+    won't work properly.
+  </li>
+  <li>
+    In order to increase the z-index for our components you can add the following css. This will affect all material
+    dialogs, including yours if you are using Angular Material.
+    <p class="documentation-text code-container">
+      <code>
+        .cdk-overlay-container, .cdk-overlay-pane &#123;
+        <div class="level-1-indent">z-index: 9999;</div>
+        &#125;
+      </code>
+    </p>
+  </li>
 </ul>
 
-<br>
+<br />
 <p class="documentation-sub-header">
-    To write unit tests with elements from CDN, you will need to import the scripts in karma.conf.js:
+  To write unit tests with elements from CDN, you will need to import the scripts in karma.conf.js:
 </p>
 <p class="documentation-text code-container">
-    <code>
-        module.exports = function (config) &#123;
-        <div class="level-1-indent">
-            config.set(&#123;
-        </div>
-        <div class="level-2-indent">
-            ...
-            files: ["https://lfxstatic.com/Site/laserfiche-ui-components/latest/laserfiche-ui-components.js"]
-        </div>
-        <div class="level-1-indent">
-        &#125;);
-        </div>
-        &#125;;
-    </code>
+  <code>
+    module.exports = function (config) &#123;
+    <div class="level-1-indent">config.set(&#123;</div>
+    <div class="level-2-indent">
+      ... files: ["https://lfxstatic.com/Site/laserfiche-ui-components/latest/laserfiche-ui-components.js"]
+    </div>
+    <div class="level-1-indent">&#125;);</div>
+    &#125;;
+  </code>
 </p>
-<br>
-<p class="documentation-sub-header">
-    Using the components within a mat-menu Angular Material component.
-</p>
+<br />
+<p class="documentation-sub-header">Using the components within a mat-menu Angular Material component.</p>
 
 <ul>
-    <li>
-        You must use ng-template within the mat-menu or the element will disappear
-        (or the attributes will not be preserved) when it is opened more than once.
-    </li>
-    <li>
-        You can use a nested list within the mat-menu as long as it is within the ng-template
-    </li>
+  <li>
+    You must use ng-template within the mat-menu or the element will disappear (or the attributes will not be preserved)
+    when it is opened more than once.
+  </li>
+  <li>You can use a nested list within the mat-menu as long as it is within the ng-template</li>
 </ul>
 
 <p class="documentation-text code-container">
-    <code>
-        <span class="code-html-tagname">&lt;button </span>
-        <span class="code-html-attribute-name">[matMenuTriggerFor]</span>
-        <span>=</span>
-        <span class="code-html-attribute-value">"testMenu"</span>
-        <span class="code-html-tagname">&gt;</span>
-        Test mat-menu
-        <span class="code-html-tagname">&lt;/button&gt;</span>
+  <code>
+    <span class="code-html-tagname">&lt;button </span>
+    <span class="code-html-attribute-name">[matMenuTriggerFor]</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"testMenu"</span>
+    <span class="code-html-tagname">&gt;</span>
+    Test mat-menu
+    <span class="code-html-tagname">&lt;/button&gt;</span>
 
-        <div>
-            <span class="code-html-tagname">&lt;mat-menu </span>
-            <span class="code-html-attribute-name">#testMenu</span>
-            <span>=</span>
-            <span class="code-html-attribute-value">"matMenu" </span>
-            <span class="code-html-tagname">&gt;</span>
-        </div>
-        
-        <div class="level-1-indent">
-            <span class="code-html-tagname">&lt;ng-template </span>
-            <span class="code-html-attribute-name">matMenuContent</span>
-            <span class="code-html-tagname">&gt;</span>
-        </div>
-        <div class="level-2-indent">
-            <span class="code-html-tagname">&lt;lf-user-feedback </span>
-            <span class="code-html-attribute-name">hosting_module</span>
-            <span>=</span>
-            <span class="code-html-attribute-value">"testhostingmodule" </span>
-            <span class="code-html-attribute-name">hosting_context</span>
-            <span>=</span>
-            <span class="code-html-attribute-value">"testhostingcontext" </span>
-            <span class="code-html-attribute-name">user_id</span>
-            <span>=</span>
-            <span class="code-html-attribute-value">"testuserid" </span>
-            <span class="code-html-attribute-name">account_id</span>
-            <span>=</span>
-            <span class="code-html-attribute-value">"testaccountid" </span>
-            <span class="code-html-tagname">&gt;&lt;/lf-user-feedback&gt;</span>
-        </div>
-        <div class="level-1-indent">
-            <span class="code-html-tagname">&lt;/ng-template&gt;</span>
-        </div>
-        <div>
-            <span class="code-html-tagname">&lt;/mat-menu&gt;</span>
-        </div>
-    </code>
+    <div>
+      <span class="code-html-tagname">&lt;mat-menu </span>
+      <span class="code-html-attribute-name">#testMenu</span>
+      <span>=</span>
+      <span class="code-html-attribute-value">"matMenu" </span>
+      <span class="code-html-tagname">&gt;</span>
+    </div>
+
+    <div class="level-1-indent">
+      <span class="code-html-tagname">&lt;ng-template </span>
+      <span class="code-html-attribute-name">matMenuContent</span>
+      <span class="code-html-tagname">&gt;</span>
+    </div>
+    <div class="level-2-indent">
+      <span class="code-html-tagname">&lt;lf-user-feedback </span>
+      <span class="code-html-attribute-name">hosting_module</span>
+      <span>=</span>
+      <span class="code-html-attribute-value">"testhostingmodule" </span>
+      <span class="code-html-attribute-name">hosting_context</span>
+      <span>=</span>
+      <span class="code-html-attribute-value">"testhostingcontext" </span>
+      <span class="code-html-attribute-name">user_id</span>
+      <span>=</span>
+      <span class="code-html-attribute-value">"testuserid" </span>
+      <span class="code-html-attribute-name">account_id</span>
+      <span>=</span>
+      <span class="code-html-attribute-value">"testaccountid" </span>
+      <span class="code-html-tagname">&gt;&lt;/lf-user-feedback&gt;</span>
+    </div>
+    <div class="level-1-indent">
+      <span class="code-html-tagname">&lt;/ng-template&gt;</span>
+    </div>
+    <div>
+      <span class="code-html-tagname">&lt;/mat-menu&gt;</span>
+    </div>
+  </code>
 </p>
 
 <app-card>
-    <button [matMenuTriggerFor]="testMenu">
-        Test Mat Menu
-    </button>
-    <mat-menu #testMenu="matMenu">
-        <ng-template matMenuContent>
-            <lf-user-feedback mat-menu-item role="menuitem" id="my-feedback-button" hosting_module="testhostingmodule"
-                hosting_context="testhostingcontext" [user_id]="testuserid" [account_id]="testaccountid">
-            </lf-user-feedback>
-        </ng-template>
-    </mat-menu>
+  <button [matMenuTriggerFor]="testMenu">Test Mat Menu</button>
+  <mat-menu #testMenu="matMenu">
+    <ng-template matMenuContent>
+      <lf-user-feedback
+        mat-menu-item
+        role="menuitem"
+        id="my-feedback-button"
+        hosting_module="testhostingmodule"
+        hosting_context="testhostingcontext"
+        [user_id]="testuserid"
+        [account_id]="testaccountid"
+      >
+      </lf-user-feedback>
+    </ng-template>
+  </mat-menu>
 </app-card>

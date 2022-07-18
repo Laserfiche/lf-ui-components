@@ -1,3 +1,12 @@
+## 13.0.1
+
+### Features
+
+### Fixes
+- `lf-laserfiche-lite.css`, `lf-ms-office-lite.css` - Made styles more specific
+
+### Chore & Maintenance
+
 ## 13.0.0
 
 ### Features
