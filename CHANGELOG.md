@@ -4,6 +4,8 @@
 
 ### Fixes
 - `lf-laserfiche-lite.css`, `lf-ms-office-lite.css` - Made styles more specific
+- `<lf-user-feedback>`, `<lf-login>`, `<lf-breadcrumbs>`, `<lf-file-explorer>`, `<lf-folder-browser>`, `<lf-toolbar>`, `<lf-field-container>`, `<lf-field-adhoc-container>`, `<lf-field-template-container>`:
+    These elements have dialogs, dropdowns, or menus. When they are opened, an overlay element is attached to the body of the hosting application that contains the contents of the dialogs, dropdowns, or menus. We changed the z-index of the overlay element to 1000 from 9999.
 
 ### Chore & Maintenance
 

@@ -11,7 +11,7 @@ yargs.parserConfiguration({
 const INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
 // Strings for replacement
 const RUNTIME = 'runtime.js';
-const REMAINING_INDEX_SCRIPT_TAGS = '<script src="polyfills.js" defer></script><script src="main.js" defer></script>';
+const REMAINING_INDEX_SCRIPT_TAGS = '<script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>';
 const BUILD_NUMBER = 'PIPELINE_VERSION';
 const NPM_VERSION = 'NPM_VERSION';
 const LF_DOCUMENTATION = 'lf-documentation.js'
