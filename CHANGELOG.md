@@ -3,9 +3,9 @@
 ### Features
 
 ### Fixes
-- `lf-laserfiche-lite.css`, `lf-ms-office-lite.css` - Made styles more specific
-- `<lf-user-feedback>`, `<lf-login>`, `<lf-breadcrumbs>`, `<lf-file-explorer>`, `<lf-folder-browser>`, `<lf-toolbar>`, `<lf-field-container>`, `<lf-field-adhoc-container>`, `<lf-field-template-container>`:
-    These elements have dialogs, dropdowns, or menus. When they are opened, an overlay element is attached to the body of the hosting application that contains the contents of the dialogs, dropdowns, or menus. We changed the z-index of the overlay element to 1000 from 9999.
+- `lf-laserfiche-lite.css`, `lf-ms-office-lite.css` 
+  - Made styles more specific.
+  - Stopped overriding the cdk-overlay z-index for material components to 9999. This means any of our elements with dialogs, dropdowns, or menus will open those components in an overlay with the default z-index for Angular Material, 1000.
 
 ### Chore & Maintenance
 
