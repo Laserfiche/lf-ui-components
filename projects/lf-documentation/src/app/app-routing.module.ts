@@ -26,7 +26,7 @@ import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usa
 export enum RouterLinks {
   OVERVIEW = 'overview',
   GETTING_STARTED = 'getting-started',
-  EXAMPLE_USAGE_ANGULAR = 'using-ui-components-from-CDN-in-angular',
+  EXAMPLE_USAGE_ANGULAR = 'using-ui-components-from-cdn-in-angular',
   EXAMPLE_USAGE_REACT = 'using-ui-components-from-cdn-in-react',
   EXAMPLE_USAGE_HTML = 'using-ui-components-from-cdn-in-html5',
   EXAMPLE_NPM_USAGE_ANGULAR = 'using-ui-components-from-npm-package-in-angular',
