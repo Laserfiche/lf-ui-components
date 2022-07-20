@@ -3,18 +3,18 @@ import { FieldFormat, FieldType } from '@laserfiche/lf-ui-components/shared';
 export interface LfFieldInfo {
   name: string;
   id: number;
-  description?: string | null;
+  description?: string;
   fieldType: FieldType;
   length?: number;
-  defaultValue?: string | null;
+  defaultValue?: string;
   isMultiValue?: boolean;
   isRequired?: boolean;
-  constraint?: string | null;
-  constraintError?: string | null;
-  listValues?: Array<string> | null;
+  constraint?: string;
+  constraintError?: string;
+  listValues?: Array<string>;
   format?: FieldFormat;
-  currency?: string | null;
-  formatPattern?: string | null;
+  currency?: string;
+  formatPattern?: string;
 }
 
 export type LfFieldValue = string;
