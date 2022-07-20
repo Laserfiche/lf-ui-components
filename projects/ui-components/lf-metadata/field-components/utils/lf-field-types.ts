@@ -22,11 +22,11 @@ export type LfFieldValue = string;
 // TODO find better name: too similar to LfFieldValue
 export interface FieldValue {
   fieldId: number;
-  fieldName?: string | null;
-  values?: Array<{ [key: string]: string }> | null;
+  fieldName?: string;
+  values?: Array<{ [key: string]: string }>;
   fieldType?: FieldType;
-  groupId?: number | null;
-  flags?: number | null;
+  groupId?: number;
+  flags?: number;
 }
 
 export interface FieldValues {
