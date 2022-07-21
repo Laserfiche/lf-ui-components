@@ -81,6 +81,7 @@ export class AppComponent implements OnInit {
   title = 'lf-documentation';
   treeControl = new NestedTreeControl<ComponentNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<ComponentNode>();
+  landingPageUrl = 'https://developer.laserfiche.com'; // TODO: update this URL once we have the landing page
 
   constructor(private themeService: ThemeService) {
     this.dataSource.data = TREE_DATA;
