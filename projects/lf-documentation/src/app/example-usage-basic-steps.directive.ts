@@ -1,13 +1,11 @@
-import { Component } from '@angular/core';
+import { Directive } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { RouterLinks } from '../app-routing.module';
+import { RouterLinks } from './app-routing.module';
 
-@Component({
-  selector: 'app-example-usage-base',
-  templateUrl: './example-usage-base.component.html',
-  styleUrls: ['./example-usage-base.component.css']
+@Directive({
+  selector: '[appExampleUsageBasicSteps]'
 })
-export class ExampleUsageBaseComponent {
+export class ExampleUsageBasicStepsDirective {
 
   constructor(public router: Router) { }
 
