@@ -218,6 +218,10 @@ a {
   color: #005A9E
 }
 
+a:hover {
+  cursor: pointer;
+}
+
 li {
   line-height: 1.5rem;
 }
