@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment';
 
 export class LocaleDatetimeUtils {
   static getLocaleDateTimePattern(locale?: string): string {
