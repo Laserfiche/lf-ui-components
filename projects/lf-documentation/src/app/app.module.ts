@@ -36,6 +36,7 @@ import { ExampleUsageInAngularComponent } from './example-usage-in-angular/examp
 import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
 import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
 import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angular/example-npm-usage-in-angular.component';
+import { ExampleUsageBasicStepsDirective } from './example-usage-basic-steps.directive';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angula
     ExampleUsageInAngularComponent,
     ExampleUsageInReactComponent,
     ExampleUsageInHtmlComponent,
-    ExampleNpmUsageInAngularComponent
+    ExampleNpmUsageInAngularComponent,
+    ExampleUsageBasicStepsDirective
   ],
   imports: [
     BrowserModule,

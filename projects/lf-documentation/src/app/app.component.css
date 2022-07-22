@@ -1,11 +1,18 @@
 button {
     margin-right: 5px;
 }
-.arrow-left {
-  background-color: white;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #e0e0e0;
+.lf-doc-arrow-back {
+  vertical-align: sub;
+  color: rgba(0,0,0,.5);
+}
+.lf-doc-arrow-back:hover {
+  font-weight: bold;
+}
+.lf-back-button-vertical-divider {
+  display: inline-block;
+  border-left: 1px solid #ccc;
+  margin: 20px;
+  height: 100%;
 }
 .documentation-title {
     font-size: 30px;
@@ -216,6 +223,10 @@ code {
 
 a {
   color: #005A9E
+}
+
+a:hover {
+  cursor: pointer;
 }
 
 li {

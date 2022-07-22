@@ -1,34 +1,19 @@
-<p class="documentation-title">Using NPM UI Components in Angular</p>
+<p class="documentation-title">Using UI Components from NPM Package in Angular</p>
+<p class="documentation-text">This is an alternative to using the CDN that is only possible in Angular.</p>
+<h3 id="npm-example">Example: <code>lf-checklist</code></h3>
 <p class="documentation-text">
-  This is an alternative to using the CDN that is only possible in Angular.
+  In the example below, both the implementation and types are provided via
+  <code>@laserfiche/lf-ui-components/lf-checklist</code>.
 </p>
-<h3>Secondary Entry Points</h3>
-<p class="documentation-text">@laserfiche/lf-ui-components has several secondary entry points, allowing you to only import the components needed in your project.</p>
-<ul>
-<li><code class="code"><b>@laserfiche/lf-ui-components/lf-checklist</b></code> <span class="documentation-text"> contains <code>LfChecklistModule</code> that you can import to use <code>&lt;lf-checklist></code>.</span>
-</li>
-<li><code><b>@laserfiche/lf-ui-components/lf-login</b></code><span class="documentation-text"> contains <code>LfLoginModule</code> that you can import to use <code>&lt;lf-login></code>.</span>
-</li>
-<li>
-<code><b>@laserfiche/lf-ui-components/lf-metadata</b></code><span class="documentation-text"> contains <code>LfMetadataModule</code> that you can import to use <code>&lt;lf-field-container></code>, <code>&lt;lf-field-adhoc-container></code>, and <code>&lt;lf-field-template-container></code>.</span>
-</li><li>
-<code><b>@laserfiche/lf-ui-components/lf-user-feedback</b></code><span class="documentation-text"> contains <code>LfUserFeedbackModule</code> that you can import to use <code>&lt;lf-user-feedback></code>.</span>
-</li><li>
-<code><b>@laserfiche/lf-ui-components/tree-components</b></code><span class="documentation-text"> contains <code>TreeComponentsModule</code> that you can import to use <code>&lt;lf-breadcrumbs></code>, <code>&lt;lf-file-explorer></code>, <code>&lt;lf-folder-browser></code>, <code>&lt;lf-toolbar></code> and <code>&lt;lf-tree></code>.</span>
-</li>
-</ul>
-<h3 id="npm-example">Example: <code>lf-checklist</code>
-</h3>
-<p class="documentation-text">In the example below, both the implementation and types are provided via <code>@laserfiche/lf-ui-components/lf-checklist</code>.</p>
 <ol>
   <li>
-    <p><code>npm install @laserfiche/lf-ui-components</code></p>
+    <p class="documentation-text">
+      <a (click)="navigateToGettingStarted('npm-usage')">Follow these steps to get started.</a>
+    </p>
   </li>
   <li>
-    <p class="documentation-text">
-      Inside <code>./app.module.ts</code>, import the Angular modules.
-    </p>
-      <pre  class="code-container">
+    <p class="documentation-text">Inside <code>./app.module.ts</code>, import the Angular modules.</p>
+    <pre class="code-container">
 <span class="code-ts-import">import</span> &#123; NgModule } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@angular/core'</span>;
 <span class="code-ts-import">import</span> &#123; LfChecklistModule } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@laserfiche/lf-ui-components/lf-checklist'</span>;
 @NgModule(&#123;
@@ -42,23 +27,22 @@
   ]
 })
       </pre>
+  </li>
+  <li>
+    <p dir="auto">
+      Import the style sheet from the npm package by adding this line in <code>styles.css</code> in your angular
+      application.
+    </p>
 
-    </li>
-    <li>
-      <p dir="auto">
-        Import the style sheet from the npm package by adding this line in <code>styles.css</code> in your
-        angular application.
-      </p>
-
-      <pre class="code-container">
+    <pre class="code-container">
 <span class="code-ts-import">@import</span> '~@laserfiche/lf-ui-components/cdn/lf-laserfiche-lite.css';
 <span class="code-ts-import">@import</span> '~@laserfiche/lf-ui-components/cdn/indigo-pink.css';
       </pre>
-    </li>
-      <li>
-        Use <code>lf-checklist</code>.
+  </li>
+  <li>
+    Use <code>lf-checklist</code>.
 
-        <pre class="code-container">
+    <pre class="code-container">
 <span class="code-ts-import">import</span> &#123; AfterViewInit, Component, ViewChild, ElementRef } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@angular/core'</span>;
 <span class="code-ts-comment">// we can directly import types from the NPM package</span>
 <span class="code-ts-import">import</span> &#123; Checklist, LfChecklistComponent, LfChecklistService } <span class="code-ts-import">from</span> <span class="code-ts-import-source">'@laserfiche/lf-ui-components/lf-checklist'</span><span class="pl-kos">;</span>
@@ -88,5 +72,45 @@
   }
 }
         </pre>
-      </li>
-    </ol>
+  </li>
+</ol>
+<h3>Secondary Entry Points</h3>
+<p class="documentation-text">
+  @laserfiche/lf-ui-components has several secondary entry points, allowing you to only import the components needed in
+  your project.
+</p>
+<ul>
+  <li>
+    <code class="code"><b>@laserfiche/lf-ui-components/lf-checklist</b></code>
+    <span class="documentation-text">
+      contains <code>LfChecklistModule</code> that you can import to use <code>&lt;lf-checklist></code>.</span
+    >
+  </li>
+  <li>
+    <code><b>@laserfiche/lf-ui-components/lf-login</b></code
+    ><span class="documentation-text">
+      contains <code>LfLoginModule</code> that you can import to use <code>&lt;lf-login></code>.</span
+    >
+  </li>
+  <li>
+    <code><b>@laserfiche/lf-ui-components/lf-metadata</b></code
+    ><span class="documentation-text">
+      contains <code>LfMetadataModule</code> that you can import to use <code>&lt;lf-field-container></code>,
+      <code>&lt;lf-field-adhoc-container></code>, and <code>&lt;lf-field-template-container></code>.</span
+    >
+  </li>
+  <li>
+    <code><b>@laserfiche/lf-ui-components/lf-user-feedback</b></code
+    ><span class="documentation-text">
+      contains <code>LfUserFeedbackModule</code> that you can import to use <code>&lt;lf-user-feedback></code>.</span
+    >
+  </li>
+  <li>
+    <code><b>@laserfiche/lf-ui-components/tree-components</b></code
+    ><span class="documentation-text">
+      contains <code>TreeComponentsModule</code> that you can import to use <code>&lt;lf-breadcrumbs></code>,
+      <code>&lt;lf-file-explorer></code>, <code>&lt;lf-folder-browser></code>, <code>&lt;lf-toolbar></code> and
+      <code>&lt;lf-tree></code>.</span
+    >
+  </li>
+</ul>
