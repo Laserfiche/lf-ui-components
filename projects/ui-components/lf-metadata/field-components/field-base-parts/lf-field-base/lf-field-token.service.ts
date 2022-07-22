@@ -190,7 +190,7 @@ export class LfFieldTokenService implements LfTokenService {
     }
   }
 
-  containsTokenForFieldType(fieldValue: string | null, fieldType: FieldType, isImport: boolean): boolean {
+  containsTokenForFieldType(fieldValue: string, fieldType: FieldType, isImport: boolean): boolean {
     if (!fieldValue || fieldValue === '') {
       return false;
     }

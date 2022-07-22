@@ -17,10 +17,10 @@ const TREE_DATA: ComponentNode[] = [
     name: 'Getting Started',
     routerLink: RouterLinks.GETTING_STARTED,
     children: [
-      { name: 'Using UI Components in Angular', routerLink: RouterLinks.EXAMPLE_USAGE_ANGULAR },
-      { name: 'Using NPM UI Components in Angular', routerLink: RouterLinks.EXAMPLE_NPM_USAGE_ANGULAR },
-      { name: 'Using UI Components in React', routerLink: RouterLinks.EXAMPLE_USAGE_REACT },
-      { name: 'Using UI Components in HTML5', routerLink: RouterLinks.EXAMPLE_USAGE_HTML },
+      { name: 'Using UI Components from NPM Package in Angular', routerLink: RouterLinks.EXAMPLE_NPM_USAGE_ANGULAR },
+      { name: 'Using UI Components from CDN in Angular', routerLink: RouterLinks.EXAMPLE_USAGE_ANGULAR },
+      { name: 'Using UI Components from CDN in React', routerLink: RouterLinks.EXAMPLE_USAGE_REACT },
+      { name: 'Using UI Components from CDN in HTML5', routerLink: RouterLinks.EXAMPLE_USAGE_HTML },
     ]
   },
   // { name: 'Localization', routerLink: RouterLinks.LOCALIZATION },
@@ -81,6 +81,7 @@ export class AppComponent implements OnInit {
   title = 'lf-documentation';
   treeControl = new NestedTreeControl<ComponentNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<ComponentNode>();
+  landingPageUrl = 'https://developer.laserfiche.com'; // TODO: update this URL once we have the landing page
 
   constructor(private themeService: ThemeService) {
     this.dataSource.data = TREE_DATA;

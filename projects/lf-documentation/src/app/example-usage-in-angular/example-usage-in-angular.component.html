@@ -1,4 +1,4 @@
-<p class="documentation-title">Using UI components in Angular</p>
+<p class="documentation-title">Using UI components from CDN in Angular</p>
 
 <h3 id="cdn-example-angular"> Example: <code>lf-checklist</code></h3>
 <p>In the example below, the implementation comes from the CDN and the types are provided
@@ -6,54 +6,14 @@
 <ol>
   <li>
     <p  class="documentation-text">
-      Add the following script tags to <code>index.html</code>.
-    </p>
-    <pre class="code-container">
-<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
-      >"https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
-<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
->"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
-> defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
-</pre>
+      <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to get started.</a></p>
   </li>
 <li>
-  Remove the Angular default <code>zone.js</code> import statement from <code>polyfills.ts</code>.
+  You may need to remove <code>zone.js</code> import statement from the <code>polyfills.ts</code> to avoid loading it twice.
   <pre class="code-container">
-<s><span class="code-ts-import">import </span><span class="code-js-string">"zone.js"</span></s></pre>
+<s><span class="code-ts-import">import </span><span class="code-js-string">"zone.js";</span></s></pre>
 </li>
 <li>
-  <p  class="documentation-text">
-    Choose a theme to style your components:
-  </p>
-<pre class="code-container">
-<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
->"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"</span><span class="code-html-attribute-name"> rel</span><span
->=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
-</pre>
-<p  class="documentation-text">
-  or
-</p>
-<pre class="code-container">
-<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
->"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-ofice-lite.css"</span><span class="code-html-attribute-name"> rel</span><span
->=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
-</pre>
-</li>
-<li>
-  <p  class="documentation-text">
-    Add the Angular Material stylesheet
-  </p>
-<pre class="code-container">
-<span class="code-html-tagname"> &lt;link </span><span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value"
-  >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"</span><span class="code-html-attribute-name"> rel</span><span
-  >=</span><span class="code-html-attribute-value">"stylesheet" </span><span class="code-html-tagname">/&gt;</span>
-</pre>
-</li>
-    <li>
-      Install the types NPM package.
-        <pre class="code-container"> npm install @laserfiche/types-lf-ui-components@NPM_VERSION </pre>
-    </li>
-  <li>
     <p>
       Inside <code>./app.module.ts</code>, add <code>CUSTOM_ELEMENTS_SCHEMA</code> to @NgModule.schemas. This allows you to use custom non-Angular components in your Angular application.
     </p>
