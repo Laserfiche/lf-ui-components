@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { ExampleUsageInReactComponent } from './example-usage-in-react.component';
 
@@ -8,7 +9,8 @@ describe('ExampleUsageInReactComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExampleUsageInReactComponent ]
+      imports: [RouterTestingModule],
+      declarations: [ ExampleUsageInReactComponent ],
     })
     .compileComponents();
   });

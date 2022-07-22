@@ -1,188 +1,192 @@
 <p class="documentation-title">Getting Started</p>
 <div class="toc-container">
-<p class="toc-container-header"> Contents</p>
-<ul>
-  <li>
-    <a href="#cdn-usage">Using Via CDN</a>
-  </li>
-  <li>
-    <a href="#npm-usage">Using Via NPM</a>
-  </li>
-  <li>
-    <a href="#usage">General Usage Tips</a>
-  </li>
-  <li>
-    <a href="#set-language">Setting UI Components Language</a>
-  </li>
-</ul>
+  <p class="toc-container-header">Contents</p>
+  <ul>
+    <li>
+      <a (click)="navigateToElements('cdn-usage')">Using Via CDN</a>
+    </li>
+    <li>
+      <a (click)="navigateToElements('npm-usage')">Using Via NPM</a>
+    </li>
+    <li>
+      <a (click)="navigateToElements('usage')">General Usage Tips</a>
+    </li>
+    <li>
+      <a (click)="navigateToElements('set-language')">Setting UI Components Language</a>
+    </li>
+  </ul>
 </div>
 <h2 id="cdn-usage">Using Via CDN</h2>
 <ol>
   <li>
-    Add the following script tags to your html file.
-  <p>
-    <code class="code-container">
-      <span class="code-html-tagname"> &lt;script </span>
-      <span class="code-html-attribute-name">src</span>
-      <span>=</span>
-      <span class="code-html-attribute-value"
-        >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"
-      </span>
-      <span class="code-html-attribute-name">defer</span>
-      <span class="code-html-tagname">&gt;&lt;/script&gt;</span>
-    </code>
-    <br /><br />
-  </p>
-</li>
-<li>
-  <p class="documentation-text">Choose a theme to style your components. Import the style sheet from the CDN by adding this line to the html file inside your application. You must choose either lf-laserfiche-lite or lf-ms-office-lite.</p>
-  <p class="documentation-text">
-    <code class="code-container">
-      <span class="code-html-tagname"> &lt;link </span>
-      <span class="code-html-attribute-name">href</span>
-      <span>=</span>
-      <span class="code-html-attribute-value"
-        >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"
-      </span>
-      <span class="code-html-attribute-name">rel</span>
-      <span>=</span>
-      <span class="code-html-attribute-value">"stylesheet" </span>
-      <span class="code-html-tagname">/&gt;</span>
-    </code>
-    <br /><br />
-  </p>
-  <p class="documentation-text">or</p>
-  <p class="documentation-text">
-    <code class="code-container">
-      <span class="code-html-tagname"> &lt;link </span>
-      <span class="code-html-attribute-name">href</span>
-      <span>=</span>
-      <span class="code-html-attribute-value"
-        >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css"
-      </span>
-      <span class="code-html-attribute-name">rel</span>
-      <span>=</span>
-      <span class="code-html-attribute-value">"stylesheet" </span>
-      <span class="code-html-tagname">/&gt;</span>
-    </code>
-    <br /><br />
-  </p>
-</li>
-<li>
-  <p class="documentation-text">If you are not using Angular Material, you must add an Angular Material stylesheet.</p>
-  <p class="documentation-text">
-    <code class="code-container">
-      <span class="code-html-tagname"> &lt;link </span>
-      <span class="code-html-attribute-name">href</span>
-      <span>=</span>
-      <span class="code-html-attribute-value"
-        >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"
-      </span>
-      <span class="code-html-attribute-name">rel</span>
-      <span>=</span>
-      <span class="code-html-attribute-value">"stylesheet" </span>
-      <span class="code-html-tagname">/&gt;</span>
-    </code>
-    <br /><br />
-  </p>
+    <p class="documentation-text">Add the following script tags to <code>index.html</code>.</p>
+    <pre class="code-container">
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+      >"https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+>"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
+> defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+</pre>
+    <p class="documentation-text">
+      <code>zone.js</code> is a peer dependency of the UI components, and it needs to be loaded by the container
+      application, before loading <code>lf-ui-components.js</code>.
+    </p>
+    <p class="documentation-text">
+      Note that Angular applications include <code> zone.js</code> by default in <code>polyfills.ts</code>. We recommend
+      removing that import of <code>zone.js</code>, and loading it as shown above instead, to reduce the risks of
+      loading <code>zone.js</code> twice.
+    </p>
   </li>
   <li>
-    <p class="documentation-text">Zone.js is a peer dependency of the UI components. If Zone.js is not imported, import Zone.js using the script tag.</p>
-    <p class="documentation-text">Note that Angular applications include <code> &lt;zone.js&gt;</code> by default.</p>
+    <p class="documentation-text">
+      Choose a theme to style your components. Import the style sheet from the CDN by adding this line to the html file
+      inside your application. You must choose either lf-laserfiche-lite or lf-ms-office-lite.
+    </p>
     <p class="documentation-text">
       <code class="code-container">
-        <span class="code-html-tagname"> &lt;script </span>
-        <span class="code-html-attribute-name">src</span>
+        <span class="code-html-tagname"> &lt;link </span>
+        <span class="code-html-attribute-name">href</span>
         <span>=</span>
         <span class="code-html-attribute-value"
-          >"https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js"
+          >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"
         </span>
-      <span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+        <span class="code-html-attribute-name">rel</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"stylesheet" </span>
+        <span class="code-html-tagname">/&gt;</span>
       </code>
       <br /><br />
     </p>
-    </li>
+    <p class="documentation-text">or</p>
+    <p class="documentation-text">
+      <code class="code-container">
+        <span class="code-html-tagname"> &lt;link </span>
+        <span class="code-html-attribute-name">href</span>
+        <span>=</span>
+        <span class="code-html-attribute-value"
+          >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css"
+        </span>
+        <span class="code-html-attribute-name">rel</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"stylesheet" </span>
+        <span class="code-html-tagname">/&gt;</span>
+      </code>
+      <br /><br />
+    </p>
+  </li>
   <li>
-    Optional TypeScript types NPM package. Ensure the version matches the version of the script you added above.
+    <p class="documentation-text">
+      If you are not using Angular Material, you must add an Angular Material stylesheet.
+    </p>
+    <p class="documentation-text">
+      <code class="code-container">
+        <span class="code-html-tagname"> &lt;link </span>
+        <span class="code-html-attribute-name">href</span>
+        <span>=</span>
+        <span class="code-html-attribute-value"
+          >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"
+        </span>
+        <span class="code-html-attribute-name">rel</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"stylesheet" </span>
+        <span class="code-html-tagname">/&gt;</span>
+      </code>
+      <br /><br />
+    </p>
+  </li>
+  <li>
+    Add the types NPM package. This is not required but highly recommended if you are working in Typescript. Ensure the
+    version matches the version of the script you added above.
     <p class="documentation-text">
       <code class="code-container"> npm install @laserfiche/types-lf-ui-components@NPM_VERSION --save-dev</code>
       <br /><br />
     </p>
   </li>
 </ol>
-    <h2 id="npm-usage">Using Via NPM</h2>
-
-        Install the UI components NPM package.
-        <p class="documentation-text">
-          <code class="code-container"> npm install @laserfiche/lf-ui-components@NPM_VERSION </code>
-          <br /><br />
-        </p>
-        <p class="documentation-text">
-          This installs Angular components. Ensure that the version matches the Angular framework version in your angular project.
-        </p>
-        To use in a non-angular project:
-        <ol>
-          <li>
-            Either manually or as part of a build script, copy the CDN folder <code>node_modules/@laserfiche/lf-ui-components/cdn/</code> into a destination served by your web server e.g.: <code>static_assets</code>
-          </li>
-          <li>
-            Reference that location in a script tag within the HTML file in your project e.g.:
-          </li>
-        </ol>
-        <p>
-          <code class="code-container">
-            <span class="code-html-tagname"> &lt;script </span>
-            <span class="code-html-attribute-name">src</span>
-            <span>=</span>
-            <span class="code-html-attribute-value"
-              >"static_assets/lf-ui-components.js"
-            </span>
-            <span class="code-html-attribute-name">defer</span>
-            <span class="code-html-tagname">&gt;&lt;/script&gt;</span>
-          </code>
-          <br /><br />
-        </p>
-
-    <h2 id="usage">General Usage Tips</h2>
+<h2 id="npm-usage">Using Via NPM</h2>
+<ol>
+  <li>
+    Install the UI components NPM package.
+    <p class="documentation-text">
+      <code class="code-container"> npm install @laserfiche/lf-ui-components@NPM_VERSION </code>
+      <br /><br />
+    </p>
+    <p class="documentation-text">
+      This installs Angular components. You can use the strictly Angular components or the Angular elements by importing
+      the relevant module into your app.module.ts.
+    </p><p class="documentation-text">
+     For example to use <code>&lt;lf-tree&gt;</code> or
+      <code >&lt;lf-tree-component&gt;</code> you would do <br />
+      <code class="code-container">import LfTreeModule} from '@laserfiche/lf-ui-components/tree-components'</code>;
+    </p>
+  </li>
+  <li>
+    To use in a non-angular project:
     <ol>
       <li>
-        UI components may be used with other Laserfiche libraries:
-        <ul>
-          <li>
-            <a href="https://www.npmjs.com/package/@laserfiche/lf-js-utils"><code>@laserfiche/lf-js-utils</code></a> - this library contains utility functions and a reusable localization service.
-          </li>
-          <li>
-            <code>@laserfiche/laserfiche-ui-components-services</code> - this library contains the data sources implementation to connect the ui components to live data from Laserfiche API services.
-          </li>
-          <li>
-            <a href="https://www.npmjs.com/package/@laserfiche/lf-resource-library"><code>@laserfiche/lf-resource-library</code></a> - this library contains localized strings resource files, fonts, and icons, that can be used to build Laserfiche Apps.
-          </li>
-        </ul>
+        Either manually or as part of a build script, copy the CDN folder
+        <code>node_modules/@laserfiche/lf-ui-components/cdn/</code> into a destination served by your web server e.g.:
+        <code>static_assets</code>
       </li>
-      <li>
-        Some components, specifically those with popups like dialogs, dropdowns, or menus, cannot be used inside jQuery
-        modals due to our use of Angular Material. In order to use these components in a modal, we recommend using basic
-        modals built with html/css/bootstrap.
-      </li>
+      <li>Reference that location in a script tag within the HTML file in your project e.g.:</li>
     </ol>
-    <h2 id="set-language">Setting UI Components Language
-    </h2>
-    <ol>
-      <li>The default language of the UI Components is the browser language.</li>
-      <li>To explicitly set the language of the UI Components post a message as follows:</li>
-      <pre class="code-container">
+    <p>
+      <code class="code-container">
+        <span class="code-html-tagname"> &lt;script </span>
+        <span class="code-html-attribute-name">src</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"static_assets/lf-ui-components.js" </span>
+        <span class="code-html-attribute-name">defer</span>
+        <span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+      </code>
+      <br /><br />
+    </p>
+  </li>
+</ol>
+<h2 id="usage">General Usage Tips</h2>
+<ol>
+  <li>
+    UI components may be used with other Laserfiche libraries:
+    <ul>
+      <li>
+        <a href="https://www.npmjs.com/package/@laserfiche/lf-js-utils"><code>@laserfiche/lf-js-utils</code></a> - this
+        library contains utility functions and a reusable localization service.
+      </li>
+      <li>
+        <a href="https://www.npmjs.com/package/@laserfiche/lf-ui-components-services"
+          ><code>@laserfiche/lf-ui-components-services</code></a
+        >
+        - this library contains the data sources implementation to connect the ui components to live data from
+        Laserfiche API services.
+      </li>
+      <li>
+        <a href="https://www.npmjs.com/package/@laserfiche/lf-resource-library"
+          ><code>@laserfiche/lf-resource-library</code></a
+        >
+        - this library contains localized strings resource files, fonts, and icons, that can be used to build Laserfiche
+        Apps.
+      </li>
+    </ul>
+  </li>
+  <li>
+    Some components, specifically those with popups like dialogs, dropdowns, or menus, cannot be used inside jQuery
+    modals due to our use of Angular Material. In order to use these components in a modal, we recommend using basic
+    modals built with html/css/bootstrap.
+  </li>
+</ol>
+<h2 id="set-language">Setting UI Components Language</h2>
+<ol>
+  <li>The default language of the UI Components is the browser language.</li>
+  <li>To explicitly set the language of the UI Components post a message as follows:</li>
+  <pre class="code-container">
 <span class="code-ts-import">const</span> langObj = &#123;
   'lf-localization-service-set-language': language
   }
 window.<span class="code-ts-function">postMessage</span>(JSON.<span class="code-ts-function">stringify</span>(langObj), window.<span class="code-ts-key-name">origin</span>);
       </pre>
-      <li>
-        <a
-          href="https://github.com/Laserfiche/lf-resource-library/tree/3.x/resources/laserfiche-base"
-          rel="nofollow"
-          >Supported Languages</a
-        >
-      </li>
-    </ol>
-
-
+  <li>
+    <a href="https://github.com/Laserfiche/lf-resource-library/tree/3.x/resources/laserfiche-base" rel="nofollow"
+      >Supported Languages</a
+    >
+  </li>
+</ol>

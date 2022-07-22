@@ -32,7 +32,7 @@ export abstract class BaseFieldDirective implements OnInit {
   private THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS?: Observable<string>;
 
   get containsToken(): boolean {
-    return this.tokenService.containsTokenForFieldType(this.lf_field_form_control.value, this.lf_field_info.fieldType, this.is_import_mode);
+    return this.tokenService.containsTokenForFieldType(this.lf_field_form_control.value ?? '', this.lf_field_info.fieldType, this.is_import_mode);
   }
 
   get lfFieldTokenData(): LfFieldTokenData {
