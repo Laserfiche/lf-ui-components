@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angula
 import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgxMatDateAdapter, NgxMatDatetimePicker } from '@angular-material-components/datetime-picker';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
