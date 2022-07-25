@@ -4,6 +4,16 @@
 
 ### Fixes
 
+- `lf-field-container`, `lf-field-adhoc-container`, `lf-field-template-container`: update `LfFieldInfo` and `LfFieldValue` types to not contain null values
+
+### Chore & Maintenance
+
+## 12.0.2
+
+### Features
+
+### Fixes
+
 - `lf-ms-office-lite.css` Fix `lf-button` style.
 - `<lf-field-adhoc-container>` Fix localization of field types.
 
