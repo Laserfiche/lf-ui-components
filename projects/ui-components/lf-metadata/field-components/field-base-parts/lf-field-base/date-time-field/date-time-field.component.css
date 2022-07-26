@@ -21,3 +21,7 @@
 .datetime-icon {
   font-size: 22px;
 }
+
+::ng-deep .lf-datetime-picker .mat-calendar-body-cell {
+  position: relative;
+}
