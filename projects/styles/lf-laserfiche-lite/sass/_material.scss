@@ -3,14 +3,14 @@
     font-family: 'Material Icons';
     font-style: normal;
     font-weight: 400;
-    src: url(https://cdn.jsdelivr.net/npm/@laserfiche/lf-resource-library@3/resources/google-material-design-icons/regular-filled.woff2) format('woff2');
+    src: url(https://cdn.jsdelivr.net/npm/@laserfiche/lf-resource-library@4/resources/google-material-design-icons/regular-filled.woff2) format('woff2');
 }
 
 @font-face {
   font-family: 'Material Icons Outlined';
   font-style: normal;
   font-weight: 400;
-  src: url(https://cdn.jsdelivr.net/npm/@laserfiche/lf-resource-library@3/resources/google-material-design-icons/outlined.woff2) format('woff2');
+  src: url(https://cdn.jsdelivr.net/npm/@laserfiche/lf-resource-library@4/resources/google-material-design-icons/outlined.woff2) format('woff2');
 }
 
 .material-icons {
@@ -43,4 +43,8 @@
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+}
+
+.lf-datetime-picker .mat-calendar-body-cell {
+  position: relative;
 }

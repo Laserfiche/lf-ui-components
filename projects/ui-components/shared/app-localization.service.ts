@@ -8,7 +8,7 @@ import { concatMap, map, startWith } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AppLocalizationService {
-  resourceUrl = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-resource-library@3/resources/laserfiche-base';
+  resourceUrl = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-resource-library@4/resources/laserfiche-base';
   localizationService = new LfLocalizationService();
   internalGetString: Subject<void> = new Subject<void>();
 
