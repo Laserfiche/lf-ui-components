@@ -4,12 +4,15 @@
 
 ### Fixes
 - `lf-laserfiche-lite.css`, `lf-ms-office-lite.css` 
-  - Made styles more specific.
-  - Stopped overriding the cdk-overlay z-index for material components to 9999. This means any of our elements with dialogs, dropdowns, or menus will open those components in an overlay with the default z-index for Angular Material, 1000.
+  - Make styles more specific.
+  - Stop overriding the cdk-overlay z-index for material components to 9999. This means any of our elements with dialogs, dropdowns, or menus will open those components in an overlay with the default z-index for Angular Material, 1000.
 - `[lf-documentation]`: add back button to go to the landing page.
 - `[lf-field-container]` Fix selected template name not showing.
+- `[lf-field-container]` Fix datetime picker styling issues.
 
 ### Chore & Maintenance
+- `@laserfiche/lf-js-utils` upgrade to version 4.0.3
+- `@laserfiche/lf-resource-library` upgrade to version 4.x
 
 ## 13.0.0
 

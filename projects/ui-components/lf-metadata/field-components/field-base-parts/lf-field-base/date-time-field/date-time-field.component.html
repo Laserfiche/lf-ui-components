@@ -8,7 +8,7 @@
         today
       </span>
     </button>
-    <ngx-mat-datetime-picker [showSeconds]=true [enableMeridian]="shouldEnableMeridian" #picker>
+    <ngx-mat-datetime-picker panelClass="lf-datetime-picker-overlay" [showSeconds]=true [enableMeridian]="shouldEnableMeridian" #picker>
     </ngx-mat-datetime-picker>
     <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
   </mat-form-field>
