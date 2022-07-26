@@ -23,10 +23,10 @@
 }
 
 /* TODO: this is only a temporary fix for Angular 13 datetime picker style issues. Remove this if there is better solution.*/
-::ng-deep ngx-mat-calendar.lf-datetime-picker .mat-calendar-body-cell {
+::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-body-cell {
   position: relative;
 }
 
-::ng-deep ngx-mat-calendar.lf-datetime-picker .mat-calendar-arrow {
+::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-arrow {
   width: 0;
 }
