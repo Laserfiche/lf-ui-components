@@ -4,7 +4,7 @@
     <input #tokenTarget matInput [matDatepicker]="picker" [formControl]="lf_field_form_control"
       title="{{lf_field_form_control.value}}" (dateChange)="onDateOrTimeChanged()" (dateInput)="onDateOrTimeChanged(false)">
     <mat-datepicker-toggle class="lf-datepicker-toggle" matSuffix (click)="onTogglePicker()"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
+    <mat-datepicker #picker panelClass="lf-date-picker"></mat-datepicker>
     <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
   </mat-form-field>
   <mat-form-field *ngIf="showTokenTextBox" title="{{lf_field_info.name}}" appearance="outline"

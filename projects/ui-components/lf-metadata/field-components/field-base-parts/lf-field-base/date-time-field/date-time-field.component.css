@@ -2,19 +2,19 @@
   background: transparent;
   border: none;
   outline: none;
-  color: rgba(0,0,0,.54);
+  color: rgba(0, 0, 0, 0.54);
   cursor: pointer;
   padding: 3px 5px 2px 5px;
   vertical-align: text-bottom;
 }
 
 .datetime-button-toggle:hover {
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .datetime-button-toggle:focus {
-  color: rgba(0,0,0,.8);
-  background-color: rgba(0,0,0,.1);
+  color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.1);
   border-radius: 24px;
 }
 
@@ -23,6 +23,10 @@
 }
 
 /* TODO: this is only a temporary fix. Remove this if there is better solution.*/
-::ng-deep .lf-datetime-picker .mat-calendar-body-cell {
+::ng-deep ngx-mat-calendar.lf-datetime-picker .mat-calendar-body-cell {
   position: relative;
+}
+
+::ng-deep ngx-mat-calendar.lf-datetime-picker .mat-calendar-arrow {
+  width: 0;
 }

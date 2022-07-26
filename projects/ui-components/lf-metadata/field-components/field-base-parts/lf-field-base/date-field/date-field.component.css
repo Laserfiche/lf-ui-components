@@ -1,0 +1,9 @@
+::ng-deep mat-calendar.lf-date-picker .mat-calendar-arrow {
+  width: 0;
+  height: 0;
+}
+
+::ng-deep mat-calendar.lf-date-picker .mat-calendar-body-cell {
+  position: absolute;
+  height: 100%;
+}
