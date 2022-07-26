@@ -6,8 +6,6 @@
     "url": "https://github.com/Laserfiche/lf-ui-components"
   },
   "devDependencies": {
-    "@laserfiche/types-lf-ui-components": "file:./../../types-lf-ui-components-publish/laserfiche-types-lf-ui-components-13.0.0.tgz",
-    "@laserfiche/lf-js-utils": "^4.0.3",
     "@angular/animations": "^13.3.11",
     "@angular/cdk": "^13.3.9",
     "@angular/common": "^13.3.11",
@@ -18,6 +16,8 @@
     "@angular/material": "^13.3.9",
     "@angular/platform-browser": "^13.3.11",
     "@angular/platform-browser-dynamic": "^13.3.11",
+    "@laserfiche/types-lf-ui-components": "file:./../../types-lf-ui-components-publish/laserfiche-types-lf-ui-components-13.0.0.tgz",
+    "@laserfiche/lf-js-utils": "^4.0.3",
     "rxjs": "^6.6.0",
     "zone.js": "^0.11.4",
     "@angular/router": "^13.3.11",
