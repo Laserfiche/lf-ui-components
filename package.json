@@ -61,9 +61,6 @@
     "typescript": "^4.6.4",
     "yargs": "^17.1.0"
   },
-  "peerDependencies": {
-    "@laserfiche/lf-js-utils": "^4.0.3"
-  },
   "dependencies": {
     "@laserfiche/lf-ui-components": "file:projects/ui-components"
   }
