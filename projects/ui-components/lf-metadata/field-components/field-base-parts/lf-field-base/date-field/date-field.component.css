@@ -1,3 +1,4 @@
+/* TODO: this is only a temporary fix for Angular 13 datetime picker style issues. Remove this if there is better solution.*/
 ::ng-deep mat-calendar.lf-date-picker .mat-calendar-arrow {
   width: 0;
   height: 0;
