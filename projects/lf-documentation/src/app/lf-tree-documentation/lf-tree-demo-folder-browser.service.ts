@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IconUtils } from '@laserfiche/lf-js-utils';
-import { LfTreeService, TreeNode } from '@laserfiche/types-lf-ui-components';
+import { LfTreeService, TreeNode } from './../../../../ui-components/tree-components/lf-tree-components-public-api';
 import { LfTreeDemoService } from './lf-tree-demo.service';
 
 const FILE_SVG = IconUtils.getDocumentIconUrlFromIconId('document-20');

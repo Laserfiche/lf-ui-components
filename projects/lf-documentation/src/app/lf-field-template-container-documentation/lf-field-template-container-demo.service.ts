@@ -1,4 +1,6 @@
-import { FieldValues, TemplateFieldInfo, TemplateInfo, LfFieldTemplateContainerService, FieldType, LfFieldInfo} from '@laserfiche/types-lf-ui-components';
+import { FieldValues, LfFieldInfo, TemplateFieldInfo, TemplateInfo } from './../../../../ui-components/lf-metadata/field-components/utils/lf-field-types';
+import { LfFieldTemplateContainerService } from './../../../../ui-components/lf-metadata/lf-field-template-container/public-api';
+import { FieldType } from './../../../../ui-components/shared/lf-shared-public-api';
 import { DatetimeUtils } from './lf-field-template-container-datetime-utils';
 
 

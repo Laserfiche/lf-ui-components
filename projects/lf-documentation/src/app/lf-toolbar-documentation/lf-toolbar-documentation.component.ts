@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IconUtils } from '@laserfiche/lf-js-utils';
-import { ToolbarOption } from '@laserfiche/types-lf-ui-components';
+import { ToolbarOption } from './../../../../ui-components/tree-components/flat-tree-components/flat-tree-components-public-api';
 
 @Component({
   selector: 'app-lf-toolbar-documentation',

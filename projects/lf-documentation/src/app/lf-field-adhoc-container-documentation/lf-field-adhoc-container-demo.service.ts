@@ -1,4 +1,6 @@
-import { FieldFormat, FieldType, FieldValue, LfFieldAdhocContainerService, LfFieldInfo } from '@laserfiche/types-lf-ui-components';
+import { FieldValue, LfFieldInfo } from "./../../../../ui-components/lf-metadata/field-components/utils/lf-field-types";
+import { LfFieldAdhocContainerService } from "./../../../../ui-components/lf-metadata/lf-field-adhoc-container/public-api";
+import { FieldFormat, FieldType } from "./../../../../ui-components/shared/lf-shared-public-api";
 
 
 export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerService {

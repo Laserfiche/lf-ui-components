@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  FieldValues,
-  LfFieldInfo,
-  TemplateFieldInfo,
-  TemplateInfo,
-  LfFieldContainerService,
-  FieldType,
-  FieldFormat}
-  from '@laserfiche/types-lf-ui-components';
+import { FieldValues, LfFieldInfo, TemplateFieldInfo, TemplateInfo } from './../../../../ui-components/lf-metadata/field-components/utils/lf-field-types';
+import { LfFieldContainerService } from './../../../../ui-components/lf-metadata/lf-field-container/public-api';
+import { FieldFormat, FieldType } from './../../../../ui-components/shared/lf-shared-public-api';
 
 @Injectable({
   providedIn: 'root'
