@@ -58,8 +58,7 @@
     "puppeteer": "^14.1.1",
     "tslib": "^2.4.0",
     "typescript": "^4.6.4",
-    "yargs": "^17.1.0",
-    "zone.js": "^0.11.4"
+    "yargs": "^17.1.0"
   },
   "dependencies": {
     "@angular-material-components/datetime-picker": "^7.0.1",
@@ -81,6 +80,7 @@
     "@laserfiche/lf-api-client-core": "^1.0.8",
     "@laserfiche/lf-js-utils": "^4.0.3",
     "ngx-mask": "^12.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "^0.11.4"
   }
 }
