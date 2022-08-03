@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IconUtils } from '@laserfiche/lf-js-utils';
-import { Checklist } from '@laserfiche/types-lf-ui-components';
+import { Checklist } from './../../../../ui-components/lf-checklist/lf-checklist-public-api';
 
 @Injectable({
   providedIn: 'root'

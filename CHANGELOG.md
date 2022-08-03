@@ -1,9 +1,21 @@
+## 13.x
+
+### Features
+
+### Fixes
+
+### Chore & Maintenance
+
+- `[lf-documentation]`: Use Angular modules directly in documentation, instead of via the CDN
+  - This adds the ability to use `--watch` with `ng build`
+
 ## 13.0.1
 
 ### Features
 
 ### Fixes
-- `lf-laserfiche-lite.css`, `lf-ms-office-lite.css` 
+
+- `lf-laserfiche-lite.css`, `lf-ms-office-lite.css`
   - Make styles more specific.
   - Stop overriding the cdk-overlay z-index for material components to 9999. This means any of our elements with dialogs, dropdowns, or menus will open those components in an overlay with the default z-index for Angular Material, 1000.
 - `[lf-documentation]`: add back button to go to the landing page.
@@ -11,6 +23,7 @@
 - `[lf-field-container]` Fix datetime picker styling issues.
 
 ### Chore & Maintenance
+
 - `@laserfiche/lf-js-utils` upgrade to version 4.0.3
 - `@laserfiche/lf-resource-library` upgrade to version 4.x
 
@@ -24,8 +37,8 @@
 
 - Update to use @angular@13.
 - Add dependency to `zone.js`.
-    - For CDN usage, add a script tag to load `zone.js`
-    - `<script src='https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js'></script>`
+  - For CDN usage, add a script tag to load `zone.js`
+  - `<script src='https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js'></script>`
 - NPM package's module format is now ECMAScript Modules (ESM).
 
 ## 12.0.2
@@ -51,9 +64,7 @@
 - `<lf-field-container>` Fix no template selected styles.
 - `<lf-checklist>` Fix icons not disappearing right away.
 
-
 ### Chore & Maintenance
-
 
 ## 12.0.0
 
@@ -63,5 +74,5 @@
 
 ### Chore & Maintenance
 
-- Initial release to NPM. 
+- Initial release to NPM.
 - Built using Angular 12.

@@ -32,7 +32,7 @@ jobs:
       - name: Npm tool install
         run: npm install -g npm@8
 
-      - name: npm install ui components
+      - name: npm ci
         run: npm ci
 
       - name: Npm run lint
@@ -49,10 +49,6 @@ jobs:
 
       - name: Npm run create-lf-cdn
         run: npm run create-lf-cdn
-
-      - name: Npm install lf-documentation
-        run: npm ci
-        working-directory: ./projects/lf-documentation
 
       - name: Npm run build-lf-documentation-prod
         run: npm run build-lf-documentation-prod
