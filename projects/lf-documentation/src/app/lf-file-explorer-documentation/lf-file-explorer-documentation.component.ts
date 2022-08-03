@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { LfFileExplorerComponent, LfTreeProviders, TreeNode } from '@laserfiche/types-lf-ui-components';
+import { LfFileExplorerComponent } from './../../../../ui-components/tree-components/flat-tree-components/flat-tree-components-public-api';
+import { LfTreeProviders, TreeNode } from './../../../../ui-components/tree-components/lf-tree-components-public-api';
 import { LfTreeDemoFilePickerService } from '../lf-tree-documentation/lf-tree-demo-file-picker.service';
 
 @Component({

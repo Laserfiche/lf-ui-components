@@ -31,8 +31,6 @@ const LF_DOCUMENTATION_RUNTIMEJS_FILEPATH = './dist/lf-documentation/runtime.js'
 const LF_DOCUMENTATION_POLYFILLSJS_FILEPATH = './dist/lf-documentation/polyfills.js';
 const OLD_WEBPACK_CHUNK_NAME = 'webpackChunklf_ui_components';
 const NEW_WEBPACK_CHUNK_NAME = 'webpackChunklf_components_ui';
-const OLD_SCRIPT_NAME = './../lf-cdn/lf-ui-components.js';
-const NEW_SCRIPT_NAME = 'https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js';
 const SCRIPT_DEST = './dist/lf-cdn';
 const DOCUMENTATION_SCRIPT_DEST = './dist/lf-documentation';
 const SCRIPT_FILE = 'lf-ui-components.js';
@@ -50,7 +48,6 @@ async function replaceScriptsInIndexHtml(){
   src(INDEX_HTML_FILEPATH, {base: './'})
       .pipe(replace(RUNTIME, LF_DOCUMENTATION))
       .pipe(replace(REMAINING_INDEX_SCRIPT_TAGS, ''))
-      .pipe(replace(OLD_SCRIPT_NAME, NEW_SCRIPT_NAME))
       .pipe(dest('./'));
 };
 

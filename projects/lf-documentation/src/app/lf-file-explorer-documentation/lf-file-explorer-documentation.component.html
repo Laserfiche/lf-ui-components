@@ -37,7 +37,7 @@
 <app-card>
   <lf-file-explorer #fileExplorer (okClick)="onElementOkClick($event)" (cancelClick)="onElementCancelClick($event)"
     [ok_button_text]="elementOkString" [cancel_button_text]="elementCancelString" [ok_button_disabled]="elementLoading"
-    (nodeSelected)="onElementNodesSelected($event)" [filter_text]="elementFilterText">
+    (nodeSelected)="onElementNodesSelected($event)" [filter_text]="elementFilterText" multiple="true">
   </lf-file-explorer>
 </app-card>
 <p class="documentation-text">lf-file-explorer selectedNodes: </p>

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Checklist, LfChecklistComponent, LfChecklistService } from '@laserfiche/types-lf-ui-components';
+import { Checklist, LfChecklistComponent, LfChecklistService } from './../../../../ui-components/lf-checklist/lf-checklist-public-api';
 import { LfChecklistDemoService } from './lf-checklist-demo.service';
 
 @Component({

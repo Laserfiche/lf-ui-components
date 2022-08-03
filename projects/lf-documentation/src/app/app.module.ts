@@ -37,6 +37,11 @@ import { ExampleUsageInReactComponent } from './example-usage-in-react/example-u
 import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
 import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angular/example-npm-usage-in-angular.component';
 import { ExampleUsageBasicStepsDirective } from './example-usage-basic-steps.directive';
+import { LfChecklistModule } from '../../../ui-components/lf-checklist/lf-checklist-public-api';
+import { LfLoginModule } from '../../../ui-components/lf-login/lf-login-public-api';
+import { LfMetadataModule } from '../../../ui-components/lf-metadata/lf-metadata-public-api';
+import { LfUserFeedbackModule } from '../../../ui-components/lf-user-feedback/lf-user-feedback-public-api';
+import { TreeComponentsModule } from '../../../ui-components/tree-components/lf-tree-components-public-api';
 
 @NgModule({
   declarations: [
@@ -79,7 +84,12 @@ import { ExampleUsageBasicStepsDirective } from './example-usage-basic-steps.dir
     MatToolbarModule,
     MatTreeModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    LfLoginModule,
+    LfUserFeedbackModule,
+    LfChecklistModule,
+    LfMetadataModule,
+    TreeComponentsModule
   ],
   providers: [
     {
