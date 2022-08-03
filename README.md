@@ -43,12 +43,7 @@ The command above will output: `./types-lf-ui-components-publish/laserfiche-type
 
 ### Build lf-documentation
 
-Install lf-documentation specific dependencies (including local types package):
-
-```sh
-cd ./projects/lf-documentation
-npm install
-```
+You can use the lf-documentation project for testing changes.
 
 Build lf-documentation:
 
@@ -65,6 +60,17 @@ Build style sheets:
 npm run sass-lf
 npm run sass-ms
 ```
+
+### Build lf-documentation in watch mode
+
+This allows you to see changes you make to the ui components quickly.
+
+```sh
+cd repo-root-folder
+npm run build-lf-documentation-dev --watch
+```
+
+to create `./dist/lf-documentation`.
 
 ### View the interactive documentation
 
