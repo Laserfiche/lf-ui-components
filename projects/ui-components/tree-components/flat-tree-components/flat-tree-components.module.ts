@@ -12,16 +12,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LfFileExplorerComponent } from './lf-file-explorer/lf-file-explorer.component';
 import { LfFolderBrowserComponent } from './lf-folder-browser/lf-folder-browser.component';
 import { LfToolbarComponent } from './lf-toolbar/lf-toolbar.component';
-import { LfBreadcrumbsComponent } from './lf-breadcrumbs/lf-breadcrumbs.component';
 import { LfFileExplorerNewFolderComponent } from './lf-file-explorer-new-folder/lf-file-explorer-new-folder.component';
-import { LfModalsModule, LfLoaderModule } from '@laserfiche/lf-ui-components/shared';
+import { LfModalsModule, LfLoaderModule, LfBreadcrumbsModule } from '@laserfiche/lf-ui-components/shared';
 import { LfNewFolderDialogModalModule } from './lf-new-folder-dialog-modal/lf-new-folder-dialog-modal.module';
 
 @NgModule({
   declarations: [
     LfFileExplorerComponent,
     LfFolderBrowserComponent,
-    LfBreadcrumbsComponent,
     LfToolbarComponent,
     LfFileExplorerNewFolderComponent
   ],
@@ -37,19 +35,18 @@ import { LfNewFolderDialogModalModule } from './lf-new-folder-dialog-modal/lf-ne
     MatDialogModule,
     LfLoaderModule,
     LfModalsModule,
-    LfNewFolderDialogModalModule
+    LfNewFolderDialogModalModule,
+    LfBreadcrumbsModule
   ],
   bootstrap: [
     LfFileExplorerComponent,
     LfFolderBrowserComponent,
     LfToolbarComponent,
-    LfBreadcrumbsComponent
   ],
   exports: [
     LfFileExplorerComponent,
     LfFolderBrowserComponent,
-    LfToolbarComponent,
-    LfBreadcrumbsComponent
+    LfToolbarComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -76,10 +73,5 @@ export class FlatTreeComponentsModule {
       customElements.define(toolbarElementName, toolbarElement);
     }
 
-    const breadcrumbsElementName: string = 'lf-breadcrumbs';
-    if (window.customElements && !customElements.get(breadcrumbsElementName)) {
-      const breadcrumbsElement = createCustomElement(LfBreadcrumbsComponent, { injector });
-      customElements.define(breadcrumbsElementName, breadcrumbsElement);
-    }
   }
 }
