@@ -272,7 +272,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
 
   /** @internal */
   get shouldShowEmptyMessage(): boolean {
-    return this.dataService.list.length === 0;
+    return this.dataService?.list.length === 0;
   }
 
   /** @internal */
@@ -280,7 +280,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
 
   /** @internal */
   get shouldShowNoMatchesMessage(): boolean {
-    return this.dataService.list.length === 0 && !this.filter_text;
+    return this.dataService?.list.length === 0 && !this.filter_text;
   }
 
 }

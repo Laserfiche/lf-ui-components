@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Entry, LfRepositoryService } from 'projects/ui-components/lf-repository-browser/ILFRepositoryService';
-import { LfRepositoryBrowserComponent } from 'projects/ui-components/projects';
+import { LfRepositoryBrowserComponent } from 'projects/ui-components/lf-repository-browser/lf-repository-browser.component';
 
 class DemoRepoService implements LfRepositoryService {
   breadCrumb: Entry[] = [];
@@ -73,14 +73,14 @@ class DemoRepoService implements LfRepositoryService {
   styleUrls: ['./lf-repository-browser-documentation.component.css']
 })
 export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit {
-  @ViewChild(LfRepositoryBrowserComponent) repoBrowser: LfRepositoryBrowserComponent | undefined;
+  @ViewChild('repoBrowser') repoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
   
   dataService: DemoRepoService = new DemoRepoService();
 
   constructor() { }
 
   ngAfterViewInit(): void {
-    this.repoBrowser?.initAsync({dataService: this.dataService});
+    this.repoBrowser?.nativeElement?.initAsync({dataService: this.dataService});
   }
 
 }

@@ -90,10 +90,10 @@ import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-brows
     MatIconModule,
     MatMenuModule,
     LfLoginModule,
-    // LfUserFeedbackModule,
+    LfUserFeedbackModule,
     LfChecklistModule,
     LfMetadataModule,
-    // LfRepositoryBrowserModule,
+    LfRepositoryBrowserModule,
     TreeComponentsModule,
   ],
   providers: [
