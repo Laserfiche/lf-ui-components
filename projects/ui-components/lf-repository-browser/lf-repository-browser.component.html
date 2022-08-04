@@ -2,8 +2,8 @@
     <div class="lf-header">
         <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbSelected)="onBreadcrumbSelected($event)">
         </lf-breadcrumbs-component>
-        <lf-toolbar-component [dropdown_options]="toolbarOptions" (optionSelected)="onToolbarOptionSelectedAsync($event)">
-        </lf-toolbar-component>
+        <!-- <lf-toolbar-component [dropdown_options]="toolbarOptions" (optionSelected)="onToolbarOptionSelectedAsync($event)">
+        </lf-toolbar-component> -->
     </div>
     <div class="lf-flat-tree-list-container">
         <lf-loader-component *ngIf="isLoading" class="no-entries-text"></lf-loader-component>
@@ -11,11 +11,11 @@
             <div *ngIf="shouldShowErrorMessage" class="error-entries-text">{{AN_ERROR_OCCURED | async}}</div>
             <div *ngIf="shouldShowEmptyMessage" class="no-entries-text">{{THIS_FOLDER_IS_EMPTY | async}}</div>
             <div *ngIf="shouldShowNoMatchesMessage" class="no-entries-text">{{NO_MATCHING_ENTRIES_FOUND | async}}</div>
-            <mat-selection-list *ngIf="displayedNodes" #displayedNodesList [multiple]="multiple" [disableRipple]="true"
+            <mat-selection-list *ngIf="dataService.list" #displayedNodesList [multiple]="multiple" [disableRipple]="true"
                 (selectionChange)="onSelectionChange(displayedNodesList.selectedOptions?.selected, $event)"
                 (keydown.enter)="onPressEnterAsync()">
                 <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
-                    <mat-list-option *cdkVirtualFor="let displayedNode of displayedNodes" [value]="displayedNode"
+                    <mat-list-option *cdkVirtualFor="let displayedNode of dataService.list" [value]="displayedNode"
                         [ngClass]="{ 'non-selectable-option': !displayedNode.isSelectable, 'selectable-option': displayedNode.isSelectable }"
                         class="lf-flat-tree-option" checkboxPosition="before" [disabled]="!displayedNode.isSelectable"
                         (dblclick)="openChildFolderAsync(displayedNode)" [title]="displayedNode?.name">

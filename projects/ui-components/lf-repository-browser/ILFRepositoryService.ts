@@ -23,7 +23,7 @@ export interface LfRepositoryService {
      * @param refresh: Boolean value that should be used to indicate if the data for a folder should be pulled from the server even if cached
      * returns - Promise with a list of Entry items that are in the associated folder
     **/
-    getData(folderId: string | null, refresh?: boolean): Promise<Entry[]>;
+    getData(folderId: string | null, filterText: string | undefined, refresh?: boolean): Promise<Entry[]>;
 
     /** 
      * 

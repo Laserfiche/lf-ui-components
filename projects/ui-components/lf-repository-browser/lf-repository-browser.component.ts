@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatList, MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
+import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 
@@ -8,7 +8,7 @@ import { RepositoryBrowserDirective } from './repository-browser.directive';
 import { Entry, LfRepositoryProviders } from './ILFRepositoryService';
 
 @Component({
-  selector: 'lf-repository-browser',
+  selector: 'lf-repository-browser-component',
   templateUrl: './lf-repository-browser.component.html',
   styleUrls: ['./lf-repository-browser.component.css']
 })

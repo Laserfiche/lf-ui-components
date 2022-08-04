@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AppLocalizationService, filterObjectsByName } from '@laserfiche/lf-ui-components/shared';
 import { Subscription } from 'rxjs';
 import { LfRepositoryService, Entry } from './ILFRepositoryService';
-import { ToolbarOption } from '../tree-components/flat-tree-components/lf-toolbar/lf-toolbar.component';
+// import { ToolbarOption } from '../tree-components/flat-tree-components/lf-toolbar/lf-toolbar.component';
 // import * as TreeToolbarUtils from './tree-toolbar-utils';
 
 @Directive()
@@ -17,16 +17,19 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
 
   /** @internal */
   private _breadcrumbs: Entry[] = [];
+
+  private _currentEntry?: Entry;
   /** @internal */
   dataService!: LfRepositoryService;
-  /** @internal */
-  toolbarOptions: ToolbarOption[] = [];
-  /** @internal */
-  displayedEntries: Entry[] | undefined = [];
-  /** @internal */
-  allPossibleEntries: Entry[] | undefined = [];
+  // /** @internal */
+  // toolbarOptions: ToolbarOption[] = [];
+  // /** @internal */
+  // displayedEntries: Entry[] | undefined = [];
+  // /** @internal */
+  // allPossibleEntries: Entry[] | undefined = [];
   /** @internal */
   isLoading: boolean = false;
+  hasError: boolean = false;
 
   /** @internal */
   private REFRESH: string = 'REFRESH';
@@ -58,7 +61,10 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   ngOnChanges(changes: SimpleChanges) {
     const filterTextChange: SimpleChange = changes['filter_text'];
     if (filterTextChange && (filterTextChange.currentValue !== filterTextChange.previousValue)) {
-      this.filterDisplayedEntries(filterTextChange.currentValue);
+      if (this._currentEntry == null) {
+        return;
+      }
+      this.dataService.getData(this._currentEntry?.id, this.filter_text, true);
     }
   }
 
@@ -78,16 +84,16 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     const rootEntry: Entry | undefined = await this.dataService.getRootEntryAsync();
     if (rootEntry == null) {
       console.error(`Repository browser must have a root entry`);
-      this.allPossibleEntries = undefined;
-      this.displayedEntries = undefined;
+      this.hasError = true;
       return;
     }
+    this.hasError = false;
     await this.setNodeAsParentAsync(rootEntry);
   }
 
   /** @internal */
   async initializeAsync(parentIdOrListOfAncestorEntries?: string | Entry[]): Promise<void> {
-    this.toolbarOptions = this.getToolbarOptions();
+    // this.toolbarOptions = this.getToolbarOptions();
     let parentEntry: Entry | undefined;
     let listOfAncestorEntries: Entry[] | undefined;
     if (!parentIdOrListOfAncestorEntries) {
@@ -112,49 +118,50 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   }
 
   /** @internal */
-  private getToolbarOptions(): ToolbarOption[] {
-    const toolbarOptions: ToolbarOption[] = [];
-    const refreshToobarOption: ToolbarOption = {
-      tag: this.REFRESH,
-      name: '',
-      disabled: false
-    };
-    const refreshStringSub = this.REFRESH_LOCALIZED.subscribe((value) => {
-      refreshToobarOption.name = value;
-    });
-    this.allSubscriptions.add(refreshStringSub);
-    toolbarOptions.push(refreshToobarOption);
+  // private getToolbarOptions(): ToolbarOption[] {
+  //   const toolbarOptions: ToolbarOption[] = [];
+  //   const refreshToobarOption: ToolbarOption = {
+  //     tag: this.REFRESH,
+  //     name: '',
+  //     disabled: false
+  //   };
+  //   const refreshStringSub = this.REFRESH_LOCALIZED.subscribe((value) => {
+  //     refreshToobarOption.name = value;
+  //   });
+  //   this.allSubscriptions.add(refreshStringSub);
+  //   toolbarOptions.push(refreshToobarOption);
 
-    // if (this.treeService?.addNewFolderAsync) {
-    //   const addFolderToolbarOption: ToolbarOption = {
-    //     tag: this.NEW_FOLDER,
-    //     name: '',
-    //     disabled: false
-    //   };
-      // const newFolderSub = this.ADD_NEW_FOLDER_LOCALIZED.subscribe((value) => {
-      //   addFolderToolbarOption.name = value;
-      // });
-      // this.allSubscriptions.add(newFolderSub);
-      // toolbarOptions.push(addFolderToolbarOption);
-    // }
-    return toolbarOptions;
-  }
+  //   // if (this.treeService?.addNewFolderAsync) {
+  //   //   const addFolderToolbarOption: ToolbarOption = {
+  //   //     tag: this.NEW_FOLDER,
+  //   //     name: '',
+  //   //     disabled: false
+  //   //   };
+  //     // const newFolderSub = this.ADD_NEW_FOLDER_LOCALIZED.subscribe((value) => {
+  //     //   addFolderToolbarOption.name = value;
+  //     // });
+  //     // this.allSubscriptions.add(newFolderSub);
+  //     // toolbarOptions.push(addFolderToolbarOption);
+  //   // }
+  //   return toolbarOptions;
+  // }
 
   /** @internal */
-  async setNodeAsParentAsync(parentNode: Entry, listOfAncestorNodes?: Entry[]): Promise<void> {
-    if (!listOfAncestorNodes) {
-      await this.initializeBreadcrumbOptionsAsync(parentNode);
+  async setNodeAsParentAsync(parentEntry: Entry, listOfAncestorEntry?: Entry[]): Promise<void> {
+    if (!listOfAncestorEntry) {
+      await this.initializeBreadcrumbOptionsAsync(parentEntry);
     }
     else {
-      this._breadcrumbs = listOfAncestorNodes;
+      this._breadcrumbs = listOfAncestorEntry;
     }
-    await this.updateAllPossibleEntriesAsync(parentNode);
+    this._currentEntry = parentEntry;
+    await this.updateAllPossibleEntriesAsync(parentEntry);
   }
 
   /** @internal */
-  private async initializeBreadcrumbOptionsAsync(selectedNode: Entry) {
-    this._breadcrumbs = [selectedNode];
-    let currentNode: Entry | undefined = selectedNode;
+  private async initializeBreadcrumbOptionsAsync(selectedEntry: Entry) {
+    this._breadcrumbs = [selectedEntry];
+    let currentNode: Entry | undefined = selectedEntry;
     while (currentNode) {
       const nextParent: Entry | undefined = await this.dataService.getParentEntryAsync(currentNode);
       if (nextParent) {
@@ -165,10 +172,10 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   }
 
   /** @internal */
-  async openChildFolderAsync(node: Entry | undefined) {
-    if (node?.isContainer === true) {
-      this._breadcrumbs = [node].concat(this.breadcrumbs);
-      await this.updateAllPossibleEntriesAsync(node);
+  async openChildFolderAsync(entry: Entry | undefined) {
+    if (entry?.isContainer === true) {
+      this._breadcrumbs = [entry].concat(this.breadcrumbs);
+      await this.updateAllPossibleEntriesAsync(entry);
     }
   }
 
@@ -177,20 +184,17 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     if (parentEntry) {
       try {
         this.isLoading = true;
+        this.hasError = false;
         this.ref.detectChanges();
-        let newDisplayedNodes: Entry[] = [];
 
-        newDisplayedNodes = await this.dataService.getData(parentEntry.id, true);
+        await this.dataService.getData(parentEntry.id, this.filter_text, true);
 
-        this.allPossibleEntries = newDisplayedNodes ?? [];
-        this.filterDisplayedEntries(this.filter_text);
         this.resetSelection();
       }
       catch (error) {
-        this.allPossibleEntries = undefined;
-        this.displayedEntries = undefined;
         this.resetSelection();
         console.error(error);
+        this.hasError = true;
       }
       finally {
         this.isLoading = false;
@@ -198,7 +202,8 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
       }
     }
     else {
-      console.error('flat-tree updateAllPossibleNodesAsync parentNode undefined');
+      console.error('repository browser updateAllPossibleNodesAsync parentNode undefined');
+      this.hasError = true;
     }
   }
 
@@ -211,18 +216,18 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   }
 
   /** @internal */
-  async onToolbarOptionSelectedAsync(option: ToolbarOption): Promise<void> {
-    switch (option.tag) {
-      case this.REFRESH:
-        await this.refreshTreeAsync();
-        break;
-      // case this.NEW_FOLDER:
-      //   await this.addNewFolderAsync();
-      //   break;
-      default:
-        break;
-    }
-  }
+  // async onToolbarOptionSelectedAsync(option: ToolbarOption): Promise<void> {
+  //   switch (option.tag) {
+  //     case this.REFRESH:
+  //       await this.refreshTreeAsync();
+  //       break;
+  //     // case this.NEW_FOLDER:
+  //     //   await this.addNewFolderAsync();
+  //     //   break;
+  //     default:
+  //       break;
+  //   }
+  // }
 
   /** @internal */
   private async refreshTreeAsync(): Promise<void> {
@@ -246,9 +251,9 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   }
 
   /** @internal */
-  private filterDisplayedEntries(filterText?: string) {
-    this.displayedEntries = filterObjectsByName(this.allPossibleEntries, filterText);
-  }
+  // private filterDisplayedEntries(filterText?: string) {
+  //   this.displayedEntries = filterObjectsByName(this.allPossibleEntries, filterText);
+  // }
 
 
   /** @internal */
@@ -259,7 +264,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
 
   /** @internal */
   get shouldShowErrorMessage(): boolean {
-    return !this.displayedEntries;
+    return this.hasError;
   }
 
   /** @internal */
@@ -267,7 +272,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
 
   /** @internal */
   get shouldShowEmptyMessage(): boolean {
-    return this.allPossibleEntries?.length === 0;
+    return this.dataService.list.length === 0;
   }
 
   /** @internal */
@@ -275,7 +280,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
 
   /** @internal */
   get shouldShowNoMatchesMessage(): boolean {
-    return this.allPossibleEntries !== undefined && this.allPossibleEntries.length > 0 && this.displayedEntries?.length === 0;
+    return this.dataService.list.length === 0 && !this.filter_text;
   }
 
 }
