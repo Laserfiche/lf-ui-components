@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
@@ -9,7 +9,7 @@
     font-style: normal;
     font-weight: 600;
     src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Semibold.woff) format('woff'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Semibold.ttf) format('truetype');
-}
+} */
 
 :host {
     display: flex;
@@ -45,7 +45,7 @@
     max-height: 36px;
     min-height: 36px;
     height: 36px;
-    color: #605e5c;
+    color: #333333;
 }
 
 .fixed-size-icon-container {
@@ -93,22 +93,26 @@
     min-height: 0;
 }
 
-.no-entries-text, .error-entries-text {
-    display: table;
-    font-size: 14px;
+#message-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 100%;
-    margin: 0 auto;
     padding: 20px 10px 10px 10px;
-    text-align: center;
-    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+.no-entries-text, .error-entries-text {
+    font-size: 14px;
 }
 
 .no-entries-text {
-    color: #777;
+    color: #333333;
 }
 
 .error-entries-text {
-    color: red;
+    color: #AB2227;
 }
 
 .lf-header {

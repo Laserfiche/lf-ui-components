@@ -7,39 +7,43 @@
 <div class="lf-repo-entry-container">
   <lf-loader-component *ngIf="isLoading" class="no-entries-text"></lf-loader-component>
   <ng-container *ngIf="!isLoading">
-    <div *ngIf="shouldShowErrorMessage" class="error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
-    <div *ngIf="shouldShowEmptyMessage" class="no-entries-text">{{ THIS_FOLDER_IS_EMPTY | async }}</div>
-    <div *ngIf="shouldShowNoMatchesMessage" class="no-entries-text">{{ NO_MATCHING_ENTRIES_FOUND | async }}</div>
-    <mat-selection-list id="lf-repo-select-list"
-      *ngIf="dataService?.list"
-      #displayedNodesList
-      [multiple]="multiple"
-      [disableRipple]="true"
-      (selectionChange)="onSelectionChange(displayedNodesList.selectedOptions?.selected, $event)"
-      (keydown.enter)="onPressEnterAsync()"
-    >
-      <cdk-virtual-scroll-viewport appendOnly itemSize="50" id="lf-repo-browser-viewport">
-        <mat-list-option
-          *cdkVirtualFor="let displayedNode of dataService.list"
-          [value]="displayedNode"
-          [ngClass]="{
-            'non-selectable-option': !displayedNode.isSelectable,
-            'selectable-option': displayedNode.isSelectable
-          }"
-          class="lf-flat-tree-option"
-          checkboxPosition="before"
-          [disabled]="!displayedNode.isSelectable"
-          (dblclick)="openChildFolderAsync(displayedNode)"
-          [title]="displayedNode?.name"
+    <div id="message-display" *ngIf="shouldShowErrorMessage || shouldShowEmptyMessage || shouldShowNoMatchesMessage; else showList">
+        <div *ngIf="shouldShowErrorMessage" class="error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
+        <div *ngIf="shouldShowEmptyMessage" class="no-entries-text">{{ THIS_FOLDER_IS_EMPTY | async }}</div>
+        <div *ngIf="shouldShowNoMatchesMessage" class="no-entries-text">{{ NO_MATCHING_ENTRIES_FOUND | async }}</div>
+    </div>
+    <ng-template #showList>
+        <mat-selection-list id="lf-repo-select-list"
+        *ngIf="dataService?.list"
+        #displayedNodesList
+        [multiple]="multiple"
+        [disableRipple]="true"
+        (selectionChange)="onSelectionChange(displayedNodesList.selectedOptions?.selected, $event)"
+        (keydown.enter)="onPressEnterAsync()"
         >
-          <div *ngIf="getIcons(displayedNode).length > 0" class="fixed-size-icon-container">
-            <img *ngFor="let icon of getIcons(displayedNode)" src="{{ icon }}" alt="" class="lf-flat-tree-node-icon" />
-          </div>
-          <p matLine class="lf-flat-tree-node-name">
-            <span>{{ displayedNode?.name }}</span>
-          </p>
-        </mat-list-option>
-      </cdk-virtual-scroll-viewport>
-    </mat-selection-list>
+        <cdk-virtual-scroll-viewport id="lf-repo-browser-viewport" itemSize="36" >
+            <mat-list-option
+            *cdkVirtualFor="let displayedNode of dataService.list"
+            [value]="displayedNode"
+            [ngClass]="{
+                'non-selectable-option': !displayedNode.isSelectable,
+                'selectable-option': displayedNode.isSelectable
+            }"
+            class="lf-flat-tree-option"
+            checkboxPosition="before"
+            [disabled]="!displayedNode.isSelectable"
+            (dblclick)="openChildFolderAsync(displayedNode)"
+            [title]="displayedNode?.name"
+            >
+            <div *ngIf="getIcons(displayedNode).length > 0" class="fixed-size-icon-container">
+                <img *ngFor="let icon of getIcons(displayedNode)" src="{{ icon }}" alt="" class="lf-flat-tree-node-icon" />
+            </div>
+            <p matLine class="lf-flat-tree-node-name">
+                <span>{{ displayedNode?.name }}</span>
+            </p>
+            </mat-list-option>
+        </cdk-virtual-scroll-viewport>
+        </mat-selection-list>
+</ng-template>
   </ng-container>
 </div>

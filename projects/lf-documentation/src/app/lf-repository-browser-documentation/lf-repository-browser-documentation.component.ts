@@ -24,6 +24,9 @@ class DemoRepoService implements LfRepositoryService {
     '13': {icon: 'file', id: '13', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry10', path: '2'},
     '14': {icon: 'file', id: '14', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry11', path: '2'},
     '15': {icon: 'folder', id: '15', isContainer: true, isLeaf: false, isSelectable: true, name: 'folder4', path: '2'},
+    '16': {icon: 'folder', id: '16', isContainer: true, isLeaf: false, isSelectable: true, name: 'error folder', path: '1'},
+    '17': {icon: 'folder', id: '17', isContainer: true, isLeaf: false, isSelectable: true, name: 'folder with 10000 entries', path: '1'}
+  
   }
   _testData: {[key: string]: Entry[]} = {
     '1': [
@@ -31,6 +34,8 @@ class DemoRepoService implements LfRepositoryService {
       this._entries['3'],
       this._entries['4'],
       this._entries['5'],
+      this._entries['16'],
+      this._entries['17']
     ],
     '2': [
       this._entries['6'],
@@ -43,11 +48,26 @@ class DemoRepoService implements LfRepositoryService {
       this._entries['13'],
       this._entries['14'],
       this._entries['15']
-    ]
+    ],
+    '4': [],
+    '15': [],
+    '16': [],
+    '17': []
+  }
+
+  constructor() {
+    for(let i = 0; i < 10000; i++) {
+      this._testData['17'].push(
+        {icon: 'file', id: i.toString(), isContainer: false, isLeaf: true, isSelectable: true, name: `generated entry ${i}`, path: '17'}
+      )
+    }
   }
   
   getData(folderId: string | null, filterText: string | undefined, refresh?: boolean | undefined): Promise<Entry[]> {
     if (folderId != null && this._testData[folderId]) {
+      if (folderId === '16') {
+        return Promise.reject();
+      }
       const testData = this._testData[folderId].filter((value: Entry) => {
         if (!filterText) { return true; }
         return value.name.indexOf(filterText) >= 0;

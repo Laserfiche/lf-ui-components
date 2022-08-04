@@ -280,7 +280,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
 
   /** @internal */
   get shouldShowNoMatchesMessage(): boolean {
-    return this.dataService?.list.length === 0 && !this.filter_text;
+    return this.dataService != null && this.dataService.list.length === 0 && !!this.filter_text;
   }
 
 }
