@@ -48,10 +48,12 @@ class DemoRepoService implements LfRepositoryService {
   
   getData(folderId: string | null, filterText: string | undefined, refresh?: boolean | undefined): Promise<Entry[]> {
     if (folderId != null && this._testData[folderId]) {
-      return Promise.resolve(this._testData[folderId].filter((value: Entry) => {
+      const testData = this._testData[folderId].filter((value: Entry) => {
         if (!filterText) { return true; }
         return value.name.indexOf(filterText) >= 0;
-      }));
+      });
+      this.list = testData;
+      return Promise.resolve(testData);
     }
     return Promise.reject();
   }

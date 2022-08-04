@@ -11,7 +11,7 @@
     src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Semibold.woff) format('woff'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Semibold.ttf) format('truetype');
 }
 
-.lf-flat-tree-container {
+:host {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -21,14 +21,23 @@
     flex-grow: 1;
 }
 
+#lf-repo-select-list {
+    height: 100%;
+}
+
+#lf-repo-browser-viewport {
+    height: 100%;
+}
+
 .lf-flat-tree-button-container {
     align-self: flex-end;
     margin: 10px 0 0 0;
 }
 
-.lf-flat-tree-list-container {
+.lf-repo-entry-container {
     padding-bottom: 10px;
     overflow: auto;
+    flex: 1 1 auto;
 }
 
 .mat-list-base .mat-list-option.lf-flat-tree-option, .mat-list-option.lf-flat-tree-option {
@@ -66,9 +75,13 @@
     padding-left: 16px;
 }
 
-::ng-deep .lf-flat-tree-container .mat-list-base .mat-list-item .mat-list-text {
+::ng-deep #lf-repo-select-list.mat-list-base .mat-list-item .mat-list-text {
     flex-direction: row;
     align-items: center;
+}
+
+#lf-repo-select-list.mat-list-base {
+    box-sizing: border-box;
 }
 
 ::ng-deep .mat-menu-content .mat-menu-item {
@@ -102,7 +115,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 100%;
+    width: 100%;
+    height: 32px;
 }
 
 lf-breadcrumbs-component {
