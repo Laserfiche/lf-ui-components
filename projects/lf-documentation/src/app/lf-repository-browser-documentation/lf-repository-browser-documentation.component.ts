@@ -8,12 +8,12 @@ class DemoRepoService implements LfRepositoryService {
   currentFolder: Entry | undefined;
   list: Entry[] = [];
 
-  _rootEntry: Entry = {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '1', isContainer: true, isLeaf: false, isSelectable: true, name: 'root', path: ''};
+  _rootEntry: Entry = {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '1', isContainer: true, isLeaf: false, isSelectable: false, name: 'root', path: ''};
   _entries: {[key: string]: Entry} = {
-    '2': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '2', isContainer: true, isLeaf: false, isSelectable: true, name: 'folder2', path: '1'},
+    '2': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '2', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder2', path: '1'},
     '3': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '3', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry1', path: '1'},
-    '4': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '4', isContainer: true, isLeaf: false, isSelectable: true, name: 'folder3', path: '1'},
-    '5': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '5', isContainer: false, isLeaf: true, isSelectable: true, 
+    '4': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '4', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder3', path: '1'},
+    '5': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '5', isContainer: false, isLeaf: true, isSelectable: false, 
             name: 'LongNameToCheckHowTheComponentHandledFileLongNamesLongNameToCheckHowTheComponentHandledFileLongNames', path: '1'},
     '6': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '6', isContainer: false, isLeaf: true, isSelectable: true, name: '3', path: '2'},
     '7': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '7', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry4', path: '2'},
@@ -24,10 +24,10 @@ class DemoRepoService implements LfRepositoryService {
     '12': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '12', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry9', path: '2'},
     '13': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '13', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry10', path: '2'},
     '14': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '14', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry11', path: '2'},
-    '15': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '15', isContainer: true, isLeaf: false, isSelectable: true, name: 'folder4', path: '2'},
-    '16': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '16', isContainer: true, isLeaf: false, isSelectable: true, name: 'error folder', path: '1'},
-    '17': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '17', isContainer: true, isLeaf: false, isSelectable: true, name: 'folder with 10000 entries', path: '1'},
-    '18': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '18', isContainer: true, isLeaf: false, isSelectable: true, name: 'dynamicly loaded entries', path: '1'}
+    '15': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '15', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder4', path: '2'},
+    '16': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '16', isContainer: true, isLeaf: false, isSelectable: false, name: 'error folder', path: '1'},
+    '17': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '17', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder with 10000 entries', path: '1'},
+    '18': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '18', isContainer: true, isLeaf: false, isSelectable: false, name: 'dynamicly loaded entries', path: '1'}
   }
   _testData: {[key: string]: Entry[]} = {
     '1': [
@@ -130,11 +130,16 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   @ViewChild('repoBrowser') repoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
   
   dataService: DemoRepoService = new DemoRepoService();
+  elementSelectedEntry: Entry[] | undefined;
 
   constructor() { }
 
   ngAfterViewInit(): void {
     this.repoBrowser?.nativeElement?.initAsync({dataService: this.dataService});
+  }
+
+  onEntrySelected(event: CustomEvent<Entry[] | undefined>) {
+    this.elementSelectedEntry = event.detail;
   }
 
 }
