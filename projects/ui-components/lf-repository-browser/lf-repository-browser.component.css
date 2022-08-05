@@ -1,16 +1,3 @@
-/* @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Open Sans'), local('OpenSans'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans.woff) format('woff'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Regular.ttf) format('truetype');
-}
-@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Semibold.woff) format('woff'), url(https://lfxstatic.com/libs/Open_Sans/OpenSans-Semibold.ttf) format('truetype');
-} */
-
 :host {
     display: flex;
     flex-direction: column;
@@ -29,10 +16,6 @@
     height: 100%;
 }
 
-.lf-flat-tree-button-container {
-    align-self: flex-end;
-    margin: 10px 0 0 0;
-}
 
 .lf-repo-entry-container {
     padding-bottom: 10px;
@@ -40,8 +23,7 @@
     flex: 1 1 auto;
 }
 
-.mat-list-base .mat-list-option.lf-flat-tree-option, .mat-list-option.lf-flat-tree-option {
-    font: 400 14px "Open Sans";
+.mat-list-base .mat-list-option.lf-entry-option, .mat-list-option.lf-entry-option {
     max-height: 36px;
     min-height: 36px;
     height: 36px;
@@ -59,11 +41,7 @@
     justify-content: center;
 }
 
-.margin-left-button {
-    margin-left: 10px;
-}
-
-.lf-flat-tree-node-icon {
+.lf-entry-icon {
     display: block;
     height: 24px;
     width: 24px;
@@ -71,7 +49,7 @@
     position: absolute;
 }
 
-::ng-deep .mat-list-base .mat-list-option.mat-list-option .mat-list-text .lf-flat-tree-node-name {
+::ng-deep .mat-list-base .mat-list-option.mat-list-option .mat-list-text .lf-entry-name {
     padding-left: 16px;
 }
 
@@ -133,11 +111,10 @@ lf-toolbar-component {
     flex-shrink: 0;
 }
 
-.lf-flat-tree-node-name,
+.lf-entry-name,
 .fixed-size-icon-container,
-.lf-flat-tree-node-icon,
+.lf-entry-icon,
 .error-entries-text,
-.no-entries-text,
-.lf-flat-tree-button-container {
+.no-entries-text{
     user-select: none;
 }

@@ -18,7 +18,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   /** @internal */
   private _breadcrumbs: Entry[] = [];
 
-  private _currentEntry?: Entry;
+  protected _currentEntry?: Entry;
   /** @internal */
   dataService!: LfRepositoryService;
   // /** @internal */
@@ -175,6 +175,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   async openChildFolderAsync(entry: Entry | undefined) {
     if (entry?.isContainer === true) {
       this._breadcrumbs = [entry].concat(this.breadcrumbs);
+      this._currentEntry = entry;
       await this.updateAllPossibleEntriesAsync(entry);
     }
   }
@@ -187,7 +188,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
         this.hasError = false;
         this.ref.detectChanges();
 
-        await this.dataService.getData(parentEntry.id, this.filter_text, true);
+        await this.dataService.getData(parentEntry.id, this.filter_text, refresh);
 
         this.resetSelection();
       }
@@ -202,17 +203,18 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
       }
     }
     else {
-      console.error('repository browser updateAllPossibleNodesAsync parentNode undefined');
+      console.error('repository browser updateAllPossibleNodesAsync parentEntry undefined');
       this.hasError = true;
     }
   }
 
   /** @internal */
-  async onBreadcrumbSelected(node: Entry) {
-    while (this.breadcrumbs?.length > 0 && this.breadcrumbs[0].id !== node.id) {
+  async onBreadcrumbSelected(entry: Entry) {
+    while (this.breadcrumbs?.length > 0 && this.breadcrumbs[0].id !== entry.id) {
       this._breadcrumbs = this.breadcrumbs.slice(1);
     }
-    await this.updateAllPossibleEntriesAsync(node);
+    this._currentEntry = entry;
+    await this.updateAllPossibleEntriesAsync(entry);
   }
 
   /** @internal */
@@ -230,9 +232,12 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   // }
 
   /** @internal */
-  private async refreshTreeAsync(): Promise<void> {
-    const parentNode = this.breadcrumbs[0];
-    await this.updateAllPossibleEntriesAsync(parentNode, true);
+  private async refreshAsync(): Promise<void> {
+    if (this._currentEntry == null) {
+      console.error('Could not find current entry on refreshAsync');
+      return;
+    }
+    await this.updateAllPossibleEntriesAsync(this._currentEntry, true);
   }
 
   /** @internal */
@@ -246,8 +251,8 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   // }
 
   /** @internal */
-  getIcons(node: Entry): string[] {
-    return typeof (node.icon) === 'string' ? [node.icon] : node.icon;
+  getIcons(entry: Entry): string[] {
+    return typeof (entry.icon) === 'string' ? [entry.icon] : entry.icon;
   }
 
   /** @internal */

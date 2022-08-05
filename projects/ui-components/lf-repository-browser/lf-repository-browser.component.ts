@@ -6,6 +6,9 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 
 import { RepositoryBrowserDirective } from './repository-browser.directive';
 import { Entry, LfRepositoryProviders } from './ILFRepositoryService';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime} from 'rxjs/operators';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'lf-repository-browser-component',
@@ -14,12 +17,16 @@ import { Entry, LfRepositoryProviders } from './ILFRepositoryService';
 })
 export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
   @ViewChild(MatSelectionList) entryList: MatSelectionList | undefined;
+  @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
+
   @Input() multiple: boolean = false;
 
   @Output() entrySelected = new EventEmitter<Entry[] | undefined>();
 
   /** @internal */
   _focused_node: Entry | undefined;
+
+  private scrolledIndexChanged = new Subject();
 
   /** @internal */
   constructor(
@@ -32,6 +39,13 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
     /** @internal */
     public localizationService: AppLocalizationService) {
     super(ref, popupDialog, zone, localizationService);
+
+    this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(() => {
+      if (this._currentEntry == null) {
+        return;
+      }
+      this.dataService.getData(this._currentEntry.id, this.filter_text, false)
+    });
   }
 
   /**
@@ -45,6 +59,7 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
         this.dataService = CoreUtils.validateDefined(providers.dataService, 'dataService');
       } catch(error) {
         console.error(error);
+        this.hasError = true;
         return;
       }
       await this.initializeAsync(selectedNode);
@@ -60,6 +75,19 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
   /** @internal */
   async onPressEnterAsync() {
     await this.openChildFolderAsync(this._focused_node);
+  }
+
+  onScroll(event: Observable<number>) {
+    if (this.viewport == null) {
+      console.error('Viewport was not defined when onScroll was called');
+      return;
+    }
+    // If the viewport is at the end we should try and pull more data
+    const end = this.viewport.getRenderedRange().end;
+    const total = this.viewport.getDataLength();
+    if (end === total) {
+      this.scrolledIndexChanged.next();
+    }
   }
 
   /** @internal */

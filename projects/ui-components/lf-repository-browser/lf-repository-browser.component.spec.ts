@@ -5,26 +5,29 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { LfLoaderComponent } from '../shared/lf-shared-public-api';
-import { LfBreadcrumbsComponent, LfToolbarComponent } from '../tree-components/lf-tree-components-public-api';
-import { Entry, LfRepositoryService } from './ILFRepositoryService';
+import { LfBreadcrumbsComponent, LfLoaderComponent } from '../shared/lf-shared-public-api';
+import { Entry, LfRepositoryProviders, LfRepositoryService } from './ILFRepositoryService';
 
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 
 import { IconUtils } from '@laserfiche/lf-js-utils';
 
 class TestRepoService implements LfRepositoryService {
+  
   breadCrumb: Entry[] = [];
   currentFolder: Entry | undefined;
   list: Entry[] = [];
 
-  getData(folderId: string | null, refresh?: boolean | undefined): Promise<Entry[]> {
+  getData(folderId: string | null, filterText: string | undefined, refresh?: boolean | undefined): Promise<Entry[]> {
     throw new Error('Method not implemented.');
   }
-  getParentNodeAsync(node: Entry): Promise<Entry | undefined> {
+  getRootEntryAsync(): Promise<Entry | undefined> {
     throw new Error('Method not implemented.');
   }
-  getNodeByIdAsync(id: string): Promise<Entry | undefined> {
+  getParentEntryAsync(entry: Entry): Promise<Entry | undefined> {
+    throw new Error('Method not implemented.');
+  }
+  getEntryByIdAsync(id: string): Promise<Entry | undefined> {
     throw new Error('Method not implemented.');
   }
 }
@@ -42,11 +45,10 @@ const moduleDef: TestModuleMetadata = {
   declarations: [
     LfRepositoryBrowserComponent,
     LfBreadcrumbsComponent,
-    LfToolbarComponent,
     LfLoaderComponent
   ]
 };
-const providers: LfRepositoryService = new TestRepoService();
+const providers: LfRepositoryProviders = { dataService: new TestRepoService()};
 const FILE_SVG = IconUtils.getDocumentIconUrlFromIconId('document-20');
 const FOLDER_SVG = IconUtils.getDocumentIconUrlFromIconId('folder-20');
 const rootNode: Entry = {
@@ -57,7 +59,7 @@ const rootNode: Entry = {
   isContainer: true,
   isSelectable: false,
   isLeaf: false,
-  selected: false
+  
 };
 const nested1Node: Entry = {
   name: 'Nested1',
@@ -67,7 +69,7 @@ const nested1Node: Entry = {
   isContainer: true,
   isSelectable: false,
   isLeaf: false,
-  selected: false
+  
 };
 const errorNode: Entry = {
   name: 'Wait 3 seconds, then throw an error!',
@@ -77,7 +79,7 @@ const errorNode: Entry = {
   isContainer: true,
   isSelectable: false,
   isLeaf: false,
-  selected: false
+  
 };
 const emptyFolderNode: Entry = {
   name: 'Nothing in here',
@@ -87,7 +89,7 @@ const emptyFolderNode: Entry = {
   isContainer: true,
   isSelectable: false,
   isLeaf: false,
-  selected: false
+  
 };
 const nested2Node: Entry = {
   name: 'Nested2',
@@ -97,7 +99,7 @@ const nested2Node: Entry = {
   isContainer: true,
   isSelectable: false,
   isLeaf: false,
-  selected: false
+  
 };
 const nested3Node: Entry = {
   name: 'Nested3',
@@ -107,7 +109,7 @@ const nested3Node: Entry = {
   isContainer: true,
   isSelectable: false,
   isLeaf: false,
-  selected: false
+  
 };
 const nested4Node: Entry = {
   name: 'Nested4',
@@ -117,7 +119,7 @@ const nested4Node: Entry = {
   isContainer: false,
   isSelectable: true,
   isLeaf: true,
-  selected: false
+  
 };
 
 describe('LfRepositoryBrowserComponent - no selected node', () => {
@@ -154,11 +156,11 @@ describe('LfRepositoryBrowserComponent - no selected node', () => {
 
   it('initAsync with no selectedNode should display children of root node', async () => {
     // Arrange
-    const rootNodeChildren = await providers.getData(rootNode.id);
+    const rootNodeChildren = await providers.dataService.getData(rootNode.id, '');
 
     // Act
     // Assert
-    expect(component.displayedEntries).toEqual(rootNodeChildren);
+    expect(component).toEqual(rootNodeChildren);
   });
 
   it('initAsync with no selectedNode should have root node in breadcrumbs', async () => {
@@ -178,7 +180,7 @@ describe('LfRepositoryBrowserComponent - no selected node', () => {
       isLeaf: false,
       isContainer: true,
       isSelectable: false,
-      selected: false
+      
     };
 
     // Act
@@ -202,7 +204,7 @@ describe('LfRepositoryBrowserComponent - no selected node', () => {
       isLeaf: true,
       isContainer: false,
       isSelectable: true,
-      selected: false
+      
     }];
 
     // Act
@@ -227,7 +229,7 @@ describe('LfRepositoryBrowserComponent - no selected node', () => {
       isLeaf: true,
       isContainer: false,
       isSelectable: true,
-      selected: false
+      
     }];
 
     // Act
