@@ -141,3 +141,12 @@ lf-toolbar-component {
 .lf-flat-tree-button-container {
     user-select: none;
 }
+
+::ng-deep .non-selectable-option .mat-pseudo-checkbox {
+    visibility: hidden;
+}
+  
+::ng-deep .selectable-option .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+    background: #6D6D6D;
+}
+  
