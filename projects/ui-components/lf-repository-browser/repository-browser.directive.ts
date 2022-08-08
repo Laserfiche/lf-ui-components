@@ -75,15 +75,50 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     this.allSubscriptions?.unsubscribe();
   }
 
+  /** @internal */
+  async initializeAsync(currentIdOrEntry?: string | Entry): Promise<void> {
+    if (this.dataService == null) {
+      this.hasError = true;
+      throw new Error('Repository Browser cannot be initialized without a data service.');
+    }
+    // this.toolbarOptions = this.getToolbarOptions();
+    let currentEntry: Entry | undefined;
+    if (currentIdOrEntry == null) {
+      await this.initializeWithRootOpenAsync();
+      return;
+    }
+    else if (typeof (currentIdOrEntry) === 'string') {
+      currentEntry = await this.dataService.getEntryByIdAsync(currentIdOrEntry);
+    }
+    else if (typeof(currentIdOrEntry) === 'object') {
+      if (currentIdOrEntry.id == null) {
+        throw new Error('current entry does not contain an id property');
+      }
+      currentEntry = currentIdOrEntry;
+    }
+    // If the entry passed in is not a container we will get the parent of this by default.
+    if (currentEntry && !currentEntry.isContainer) {
+      currentEntry = await this.dataService.getParentEntryAsync(currentEntry);
+    }
+    if (currentEntry) {
+      await this.setNodeAsParentAsync(currentEntry);
+      return;
+    }
+  }
+
   /**
    * Initialize with root node open and selected
    * Note: assumes that rootNodes is only one root node (with entry ID = 1)
    */
   /** @internal */
   async initializeWithRootOpenAsync(): Promise<void> {
+    if (this.dataService == null) {
+      this.hasError = true;
+      throw new Error('Repository Browser cannot be initialized without a data service.');
+    }
     const rootEntry: Entry | undefined = await this.dataService.getRootEntryAsync();
     if (rootEntry == null) {
-      console.error(`Repository browser must have a root entry`);
+      console.error(`Repository browser does not contain a root entry`);
       this.hasError = true;
       return;
     }
@@ -92,29 +127,14 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   }
 
   /** @internal */
-  async initializeAsync(parentIdOrListOfAncestorEntries?: string | Entry[]): Promise<void> {
-    // this.toolbarOptions = this.getToolbarOptions();
-    let parentEntry: Entry | undefined;
-    let listOfAncestorEntries: Entry[] | undefined;
-    if (!parentIdOrListOfAncestorEntries) {
-      await this.initializeWithRootOpenAsync();
+  async onBreadcrumbClicked(event: {breadcrumbs: Entry[], selected: Entry}) {
+    if (!event.breadcrumbs || !event.selected) {
+      console.error('onBreadcrumbClicked event is required to have a breadcrumbs as well as a selected entry');
       return;
     }
-    else if (typeof (parentIdOrListOfAncestorEntries) === 'string') {
-      parentEntry = await this.dataService.getEntryByIdAsync(parentIdOrListOfAncestorEntries);
-    }
-    else if (Array.isArray(parentIdOrListOfAncestorEntries)) {
-      parentEntry = parentIdOrListOfAncestorEntries[0];
-      listOfAncestorEntries = parentIdOrListOfAncestorEntries;
-    }
-    // If the entry passed in is not a container we will get the parent of this by default.
-    if (parentEntry && !parentEntry.isContainer) {
-      parentEntry = await this.dataService.getParentEntryAsync(parentEntry);
-    }
-    if (parentEntry) {
-      await this.setNodeAsParentAsync(parentEntry, listOfAncestorEntries);
-      return;
-    }
+    this._breadcrumbs = event.breadcrumbs;
+    this._currentEntry = event.selected;
+    await this.updateAllPossibleEntriesAsync(this._currentEntry);
   }
 
   /** @internal */
@@ -147,31 +167,6 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   // }
 
   /** @internal */
-  async setNodeAsParentAsync(parentEntry: Entry, listOfAncestorEntry?: Entry[]): Promise<void> {
-    if (!listOfAncestorEntry) {
-      await this.initializeBreadcrumbOptionsAsync(parentEntry);
-    }
-    else {
-      this._breadcrumbs = listOfAncestorEntry;
-    }
-    this._currentEntry = parentEntry;
-    await this.updateAllPossibleEntriesAsync(parentEntry);
-  }
-
-  /** @internal */
-  private async initializeBreadcrumbOptionsAsync(selectedEntry: Entry) {
-    this._breadcrumbs = [selectedEntry];
-    let currentNode: Entry | undefined = selectedEntry;
-    while (currentNode) {
-      const nextParent: Entry | undefined = await this.dataService.getParentEntryAsync(currentNode);
-      if (nextParent) {
-        this.breadcrumbs.push(nextParent);
-      }
-      currentNode = nextParent;
-    }
-  }
-
-  /** @internal */
   async openChildFolderAsync(entry: Entry | undefined) {
     if (entry?.isContainer === true) {
       this._breadcrumbs = [entry].concat(this.breadcrumbs);
@@ -181,8 +176,28 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   }
 
   /** @internal */
-  async updateAllPossibleEntriesAsync(parentEntry: Entry, refresh?: boolean) {
-    if (parentEntry) {
+  async setNodeAsParentAsync(parentEntry: Entry, listOfAncestorEntries?: Entry[]): Promise<void> {
+    if (!parentEntry) {
+      console.error('parentEntry must not be null');
+      return;
+    }
+    if(!parentEntry.isContainer) {
+      console.error('parentEntry must be a container');
+      return;
+    }
+    if (listOfAncestorEntries == null) {
+      await this.initializeBreadcrumbOptionsAsync(parentEntry);
+    }
+    else {
+      this._breadcrumbs = [parentEntry].concat(listOfAncestorEntries);
+    }
+    this._currentEntry = parentEntry;
+    await this.updateAllPossibleEntriesAsync(parentEntry);
+  }
+
+  /** @internal */
+  async updateAllPossibleEntriesAsync(parentEntry: Entry, refresh: boolean = false) {
+    if (parentEntry && parentEntry.id) {
       try {
         this.isLoading = true;
         this.hasError = false;
@@ -203,18 +218,9 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
       }
     }
     else {
-      console.error('repository browser updateAllPossibleNodesAsync parentEntry undefined');
+      console.error('updateAllPossibleEntriesAsync parentEntry undefined or missing id property');
       this.hasError = true;
     }
-  }
-
-  /** @internal */
-  async onBreadcrumbSelected(entry: Entry) {
-    while (this.breadcrumbs?.length > 0 && this.breadcrumbs[0].id !== entry.id) {
-      this._breadcrumbs = this.breadcrumbs.slice(1);
-    }
-    this._currentEntry = entry;
-    await this.updateAllPossibleEntriesAsync(entry);
   }
 
   /** @internal */
@@ -232,34 +238,9 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   // }
 
   /** @internal */
-  private async refreshAsync(): Promise<void> {
-    if (this._currentEntry == null) {
-      console.error('Could not find current entry on refreshAsync');
-      return;
-    }
-    await this.updateAllPossibleEntriesAsync(this._currentEntry, true);
-  }
-
-  /** @internal */
-  // private async addNewFolderAsync(): Promise<void> {
-  //   await this.zone.run(async () => {
-  //     const result = await TreeToolbarUtils.openNewFolderDialogAsync(this.treeService, this.breadcrumbs[0], this.popupDialog);
-  //     if (result === 'OK') { // Should not be localized
-  //       await this.refreshTreeAsync();
-  //     }
-  //   });
-  // }
-
-  /** @internal */
   getIcons(entry: Entry): string[] {
     return typeof (entry.icon) === 'string' ? [entry.icon] : entry.icon;
   }
-
-  /** @internal */
-  // private filterDisplayedEntries(filterText?: string) {
-  //   this.displayedEntries = filterObjectsByName(this.allPossibleEntries, filterText);
-  // }
-
 
   /** @internal */
   readonly OPEN = this.localizationService.getStringObservable('OPEN');
@@ -286,6 +267,43 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   /** @internal */
   get shouldShowNoMatchesMessage(): boolean {
     return this.dataService != null && this.dataService.list.length === 0 && !!this.filter_text;
+  }
+
+  /** @internal */
+  private async initializeBreadcrumbOptionsAsync(selectedEntry: Entry) {
+    this._breadcrumbs = [selectedEntry];
+    let currentNode: Entry | undefined = selectedEntry;
+    while (currentNode) {
+      try {
+        const nextParent: Entry | undefined = await this.dataService.getParentEntryAsync(currentNode);
+        if (nextParent) {
+          this.breadcrumbs.push(nextParent);
+        }
+        currentNode = nextParent;
+      } catch(error) {
+        console.error(error);
+        return;
+      }
+    }
+  }
+
+  /** @internal */
+  // private async addNewFolderAsync(): Promise<void> {
+  //   await this.zone.run(async () => {
+  //     const result = await TreeToolbarUtils.openNewFolderDialogAsync(this.treeService, this.breadcrumbs[0], this.popupDialog);
+  //     if (result === 'OK') { // Should not be localized
+  //       await this.refreshTreeAsync();
+  //     }
+  //   });
+  // }
+
+  /** @internal */
+  private async refreshAsync(): Promise<void> {
+    if (this._currentEntry == null) {
+      console.error('Could not find current entry on refreshAsync');
+      return;
+    }
+    await this.updateAllPossibleEntriesAsync(this._currentEntry, true);
   }
 
 }

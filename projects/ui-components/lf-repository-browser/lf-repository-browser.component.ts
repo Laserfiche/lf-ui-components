@@ -51,9 +51,9 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
   /**
    * function to initialize the lf-file-explorer component
    * @param provider LfRepositoryService service
-   * @param selectedNode the id of the node to select, or a Entry[] starting from the selected node to the root node
+   * @param selectedEntry the id of the node to select, or a Entry starting from the selected entry
    */
-  @Input() initAsync = async (providers: LfRepositoryProviders, selectedNode?: string | Entry[]): Promise<void> => {
+  @Input() initAsync = async (providers: LfRepositoryProviders, selectedEntry?: string | Entry): Promise<void> => {
     await this.zone.run(async () => {
       try {
         this.dataService = CoreUtils.validateDefined(providers.dataService, 'dataService');
@@ -62,7 +62,7 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
         this.hasError = true;
         return;
       }
-      await this.initializeAsync(selectedNode);
+      await this.initializeAsync(selectedEntry);
     });
   };
 

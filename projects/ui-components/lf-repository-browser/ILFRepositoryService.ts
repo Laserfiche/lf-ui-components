@@ -1,3 +1,4 @@
+
 export interface Entry {
     id: string;
     icon: string | string[];
