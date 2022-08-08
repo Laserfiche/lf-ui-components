@@ -72,6 +72,7 @@ class DemoRepoService implements LfTreeNodeService {
     if (folderId != null && this._testData[folderId]) {
       
       if (folderId === '16') {
+        this.lastFolder = folderId;
         return Promise.reject();
       }
       if (folderId === '18') {

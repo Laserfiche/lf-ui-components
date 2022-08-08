@@ -287,7 +287,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
 
   /** @internal */
   get shouldShowEmptyMessage(): boolean {
-    return this.currentFolderChildren.length === 0;
+    return this.currentFolderChildren.length === 0 && !this.hasError;
   }
 
   /** @internal */
