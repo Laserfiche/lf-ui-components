@@ -5,10 +5,11 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 
 import { RepositoryBrowserDirective } from './repository-browser.directive';
-import { Entry, LfRepositoryProviders } from './ILFRepositoryService';
+import { TreeNodePage, LfTreeNodeService, TreeNode } from './ILFRepositoryService';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime} from 'rxjs/operators';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { ILfSelectable, Selectable } from './LfSelectable';
 
 @Component({
   selector: 'lf-repository-browser-component',
@@ -19,12 +20,13 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
   @ViewChild(MatSelectionList) entryList: MatSelectionList | undefined;
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
 
+  selectable: Selectable = new Selectable();
   @Input() multiple: boolean = false;
 
-  @Output() entrySelected = new EventEmitter<Entry[] | undefined>();
+  @Output() entrySelected = new EventEmitter<TreeNode[] | undefined>();
 
   /** @internal */
-  _focused_node: Entry | undefined;
+  _focused_node: TreeNode | undefined;
 
   private scrolledIndexChanged = new Subject();
 
@@ -39,12 +41,15 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
     /** @internal */
     public localizationService: AppLocalizationService) {
     super(ref, popupDialog, zone, localizationService);
+    this.selectable.multiSelectable = true;
 
-    this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(() => {
+    this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
       if (this._currentEntry == null) {
         return;
       }
-      this.dataService.getData(this._currentEntry.id, this.filter_text, false)
+      const nextPage: TreeNodePage = await this.treeNodeService.getFolderChildrenAsync(this._currentEntry, this.nextPage);
+      this.currentFolderChildren = this.currentFolderChildren.concat(...nextPage.page);
+      this.nextPage = nextPage.nextPage;
     });
   }
 
@@ -53,10 +58,10 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
    * @param provider LfRepositoryService service
    * @param selectedNode the id of the node to select, or a Entry[] starting from the selected node to the root node
    */
-  @Input() initAsync = async (providers: LfRepositoryProviders, selectedNode?: string | Entry[]): Promise<void> => {
+  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: string | TreeNode[]): Promise<void> => {
     await this.zone.run(async () => {
       try {
-        this.dataService = CoreUtils.validateDefined(providers.dataService, 'dataService');
+        this.treeNodeService = treeNodeService;
       } catch(error) {
         console.error(error);
         this.hasError = true;
@@ -92,12 +97,6 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
 
   /** @internal */
   onSelectionChange(allSelectedOptions: MatListOption[] | undefined, changes: MatSelectionListChange): void {
-    const changedOptions: MatListOption[] = changes.options;
-    this._focused_node = changedOptions?.length === 1 ? changedOptions[0].value : undefined;
-    const selectedNodes: Entry[] | undefined = allSelectedOptions?.map(selection => selection.value);
-    const selectableSelectedNodes: Entry[] | undefined = selectedNodes?.filter(selection => selection.isSelectable);
-    this.ref.detectChanges();
-    this.entrySelected.emit(selectableSelectedNodes);
   }
 
   /** @internal */
@@ -108,7 +107,17 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
       .map((listOption: MatListOption) => listOption.value));
   }
 
-  @Input() get focused_node(): Entry | undefined {
+  @Input() get focused_node(): TreeNode | undefined {
     return this._focused_node;
   };
+
+  onClickMatListOption(event: MouseEvent, option: TreeNode) {
+    if((event.target as HTMLElement).classList.contains('mat-pseudo-checkbox')) {
+      this.selectable.onItemClicked(event, option, this.currentFolderChildren, true);
+    }
+    else {
+      this.selectable.onItemClicked(event, option, this.currentFolderChildren);
+    }
+  }
+
 }

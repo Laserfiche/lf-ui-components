@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { LfBreadcrumbsComponent, LfLoaderComponent } from '../shared/lf-shared-public-api';
-import { Entry, LfRepositoryProviders, LfRepositoryService } from './ILFRepositoryService';
+import { TreeNode, LfRepositoryProviders, LfRepositoryService } from './ILFRepositoryService';
 
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 
@@ -14,20 +14,20 @@ import { IconUtils } from '@laserfiche/lf-js-utils';
 
 class TestRepoService implements LfRepositoryService {
   
-  breadCrumb: Entry[] = [];
-  currentFolder: Entry | undefined;
-  list: Entry[] = [];
+  breadCrumb: TreeNode[] = [];
+  currentFolder: TreeNode | undefined;
+  currentFolderChildren: TreeNode[] = [];
 
-  getData(folderId: string | null, filterText: string | undefined, refresh?: boolean | undefined): Promise<Entry[]> {
+  getFolderChildrenAsync(folderId: string | null, filterText: string | undefined, refresh?: boolean | undefined): Promise<TreeNode[]> {
     throw new Error('Method not implemented.');
   }
-  getRootEntryAsync(): Promise<Entry | undefined> {
+  getRootEntryAsync(): Promise<TreeNode | undefined> {
     throw new Error('Method not implemented.');
   }
-  getParentEntryAsync(entry: Entry): Promise<Entry | undefined> {
+  getParentEntryAsync(entry: TreeNode): Promise<TreeNode | undefined> {
     throw new Error('Method not implemented.');
   }
-  getEntryByIdAsync(id: string): Promise<Entry | undefined> {
+  getEntryByIdAsync(id: string): Promise<TreeNode | undefined> {
     throw new Error('Method not implemented.');
   }
 }
@@ -51,7 +51,7 @@ const moduleDef: TestModuleMetadata = {
 const providers: LfRepositoryProviders = { dataService: new TestRepoService()};
 const FILE_SVG = IconUtils.getDocumentIconUrlFromIconId('document-20');
 const FOLDER_SVG = IconUtils.getDocumentIconUrlFromIconId('folder-20');
-const rootNode: Entry = {
+const rootNode: TreeNode = {
   name: 'Repository 1',
   id: 'Repository 1',
   path: 'Repository 1',
@@ -61,7 +61,7 @@ const rootNode: Entry = {
   isLeaf: false,
   
 };
-const nested1Node: Entry = {
+const nested1Node: TreeNode = {
   name: 'Nested1',
   id: 'Repository 1/Nested1',
   path: 'Repository 1/Nested1',
@@ -71,7 +71,7 @@ const nested1Node: Entry = {
   isLeaf: false,
   
 };
-const errorNode: Entry = {
+const errorNode: TreeNode = {
   name: 'Wait 3 seconds, then throw an error!',
   id: 'Repository 1/Nested1/Wait 3 seconds, then throw an error!',
   path: 'Repository 1/Nested1/Wait 3 seconds, then throw an error!',
@@ -81,7 +81,7 @@ const errorNode: Entry = {
   isLeaf: false,
   
 };
-const emptyFolderNode: Entry = {
+const emptyFolderNode: TreeNode = {
   name: 'Nothing in here',
   id: 'Repository 1/Nested1/Nothing in here',
   path: 'Repository 1/Nested1/Nothing in here',
@@ -91,7 +91,7 @@ const emptyFolderNode: Entry = {
   isLeaf: false,
   
 };
-const nested2Node: Entry = {
+const nested2Node: TreeNode = {
   name: 'Nested2',
   id: 'Repository 1/Nested1/Nested2',
   path: 'Repository 1/Nested1/Nested2',
@@ -101,7 +101,7 @@ const nested2Node: Entry = {
   isLeaf: false,
   
 };
-const nested3Node: Entry = {
+const nested3Node: TreeNode = {
   name: 'Nested3',
   id: 'Repository 1/Nested1/Nested2/Nested3',
   path: 'Repository 1/Nested1/Nested2/Nested3',
@@ -111,7 +111,7 @@ const nested3Node: Entry = {
   isLeaf: false,
   
 };
-const nested4Node: Entry = {
+const nested4Node: TreeNode = {
   name: 'Nested4',
   id: 'Repository 1/Nested1/Nested2/Nested3/Nested4',
   path: 'Repository 1/Nested1/Nested2/Nested3/Nested4',
@@ -156,7 +156,7 @@ describe('LfRepositoryBrowserComponent - no selected node', () => {
 
   it('initAsync with no selectedNode should display children of root node', async () => {
     // Arrange
-    const rootNodeChildren = await providers.dataService.getData(rootNode.id, '');
+    const rootNodeChildren = await providers.dataService.getFolderChildrenAsync(rootNode.id, '');
 
     // Act
     // Assert
@@ -172,7 +172,7 @@ describe('LfRepositoryBrowserComponent - no selected node', () => {
 
   it('should enable OPEN button when focused node is container', async () => {
     // Arrange
-    const nonSelectableContainerNode: Entry = {
+    const nonSelectableContainerNode: TreeNode = {
       name: 'dummy-name',
       id: 'dummy-id',
       path: 'dummy-path',
@@ -196,7 +196,7 @@ describe('LfRepositoryBrowserComponent - no selected node', () => {
 
   it('should enable OK button when selectedNodes is not empty', async () => {
     // Arrange
-    const selectableLeafNode: Entry[] = [{
+    const selectableLeafNode: TreeNode[] = [{
       name: 'dummy-name',
       id: 'dummy-id',
       path: 'dummy-path',
@@ -221,7 +221,7 @@ describe('LfRepositoryBrowserComponent - no selected node', () => {
 
   it('should disable OK button when okButtonDisabled is set to true', async () => {
     // Arrange
-    const selectableLeafNode: Entry[] = [{
+    const selectableLeafNode: TreeNode[] = [{
       name: 'dummy-name',
       id: 'dummy-id',
       path: 'dummy-path',
@@ -281,7 +281,7 @@ describe('LfFileExplorerComponent - valid selected node', () => {
     // Arrange
     // Act
     // Assert
-    const expectedDisplayedNodes: Entry[] = [nested3Node];
+    const expectedDisplayedNodes: TreeNode[] = [nested3Node];
     expect(component.displayedEntries).toEqual(expectedDisplayedNodes);
   });
 
@@ -289,7 +289,7 @@ describe('LfFileExplorerComponent - valid selected node', () => {
     // Arrange
     // Act
     // Assert
-    const expectedBreadcrumbs: Entry[] = [nested2Node, nested1Node, rootNode];
+    const expectedBreadcrumbs: TreeNode[] = [nested2Node, nested1Node, rootNode];
     expect(component.breadcrumbs).toEqual(expectedBreadcrumbs);
   });
 
@@ -299,8 +299,8 @@ describe('LfFileExplorerComponent - valid selected node', () => {
     fixture.detectChanges();
 
     // Assert
-    const expectedDisplayedNodes: Entry[] = await component.dataService.getData(rootNode.id);
-    const expectedBreadcrumbs: Entry[] = [rootNode];
+    const expectedDisplayedNodes: TreeNode[] = await component.treeNodeService.getFolderChildrenAsync(rootNode.id);
+    const expectedBreadcrumbs: TreeNode[] = [rootNode];
     expect(component.displayedEntries).toEqual(expectedDisplayedNodes);
     expect(component.breadcrumbs).toEqual(expectedBreadcrumbs);
   });
@@ -311,8 +311,8 @@ describe('LfFileExplorerComponent - valid selected node', () => {
     fixture.detectChanges();
 
     // Assert
-    const expectedDisplayedNodes: Entry[] = [nested2Node, emptyFolderNode, errorNode];
-    const expectedBreadcrumbs: Entry[] = [nested1Node, rootNode];
+    const expectedDisplayedNodes: TreeNode[] = [nested2Node, emptyFolderNode, errorNode];
+    const expectedBreadcrumbs: TreeNode[] = [nested1Node, rootNode];
     expect(component.displayedEntries).toEqual(expectedDisplayedNodes);
     expect(component.breadcrumbs).toEqual(expectedBreadcrumbs);
   });
@@ -325,8 +325,8 @@ describe('LfFileExplorerComponent - valid selected node', () => {
     fixture.detectChanges();
 
     // Assert
-    const expectedDisplayedNodes: Entry[] = [nested4Node];
-    const expectedBreadcrumbs: Entry[] = [nested3Node, nested2Node, nested1Node, rootNode];
+    const expectedDisplayedNodes: TreeNode[] = [nested4Node];
+    const expectedBreadcrumbs: TreeNode[] = [nested3Node, nested2Node, nested1Node, rootNode];
     expect(component.displayedEntries).toEqual(expectedDisplayedNodes);
     expect(component.breadcrumbs).toEqual(expectedBreadcrumbs);
   });

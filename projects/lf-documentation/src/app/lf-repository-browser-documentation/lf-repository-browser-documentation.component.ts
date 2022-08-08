@@ -1,35 +1,34 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IconUtils } from '@laserfiche/lf-js-utils';
-import { Entry, LfRepositoryService } from 'projects/ui-components/lf-repository-browser/ILFRepositoryService';
+import { TreeNode, LfTreeNodeService, TreeNodePage } from 'projects/ui-components/lf-repository-browser/ILFRepositoryService';
 import { LfRepositoryBrowserComponent } from 'projects/ui-components/lf-repository-browser/lf-repository-browser.component';
 
-class DemoRepoService implements LfRepositoryService {
-  breadCrumb: Entry[] = [];
-  currentFolder: Entry | undefined;
-  list: Entry[] = [];
+class DemoRepoService implements LfTreeNodeService {
+  breadCrumb: TreeNode[] = [];
+  currentFolder: TreeNode | undefined;
 
-  _rootEntry: Entry = {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '1', isContainer: true, isLeaf: false, isSelectable: false, name: 'root', path: ''};
-  _entries: {[key: string]: Entry} = {
-    '2': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '2', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder2', path: '1'},
-    '3': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '3', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry1', path: '1'},
-    '4': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '4', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder3', path: '1'},
+  _rootEntry: TreeNode = {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '1', isContainer: true, isLeaf: false, isSelectable: false, name: 'root', path: '', isSelected: false};
+  _entries: {[key: string]: TreeNode} = {
+    '2': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '2', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder2', path: '1', isSelected: false},
+    '3': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '3', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry1', path: '1', isSelected: true},
+    '4': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '4', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder3', path: '1', isSelected: false},
     '5': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '5', isContainer: false, isLeaf: true, isSelectable: false, 
-            name: 'LongNameToCheckHowTheComponentHandledFileLongNamesLongNameToCheckHowTheComponentHandledFileLongNames', path: '1'},
-    '6': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '6', isContainer: false, isLeaf: true, isSelectable: true, name: '3', path: '2'},
-    '7': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '7', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry4', path: '2'},
-    '8': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '8', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry5', path: '2'},
-    '9': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '9', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry6', path: '2'},
-    '10': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '10', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry7', path: '2'},
-    '11': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '11', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry8', path: '2'},
-    '12': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '12', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry9', path: '2'},
-    '13': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '13', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry10', path: '2'},
-    '14': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '14', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry11', path: '2'},
-    '15': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '15', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder4', path: '2'},
-    '16': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '16', isContainer: true, isLeaf: false, isSelectable: false, name: 'error folder', path: '1'},
-    '17': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '17', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder with 10000 entries', path: '1'},
-    '18': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '18', isContainer: true, isLeaf: false, isSelectable: false, name: 'dynamicly loaded entries', path: '1'}
+            name: 'LongNameToCheckHowTheComponentHandledFileLongNamesLongNameToCheckHowTheComponentHandledFileLongNames', path: '1', isSelected: false},
+    '6': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '6', isContainer: false, isLeaf: true, isSelectable: true, name: '3', path: '2', isSelected: false},
+    '7': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '7', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry4', path: '2', isSelected: false},
+    '8': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '8', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry5', path: '2', isSelected: false},
+    '9': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '9', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry6', path: '2', isSelected: false},
+    '10': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '10', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry7', path: '2', isSelected: false},
+    '11': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '11', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry8', path: '2', isSelected: false},
+    '12': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '12', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry9', path: '2', isSelected: false},
+    '13': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '13', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry10', path: '2', isSelected: false},
+    '14': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '14', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry11', path: '2', isSelected: false},
+    '15': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '15', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder4', path: '2', isSelected: false},
+    '16': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '16', isContainer: true, isLeaf: false, isSelectable: false, name: 'error folder', path: '1', isSelected: false},
+    '17': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '17', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder with 10000 entries', path: '1', isSelected: false},
+    '18': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '18', isContainer: true, isLeaf: false, isSelectable: false, name: 'dynamicly loaded entries', path: '1', isSelected: false}
   }
-  _testData: {[key: string]: Entry[]} = {
+  _testData: {[key: string]: TreeNode[]} = {
     '1': [
       this._entries['2'],
       this._entries['3'],
@@ -63,13 +62,13 @@ class DemoRepoService implements LfRepositoryService {
   constructor() {
     for(let i = 0; i < 10000; i++) {
       this._testData['17'].push(
-        {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: i.toString(), isContainer: false, isLeaf: true, isSelectable: true, name: `generated entry ${i}`, path: '17'}
+        {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: i.toString(), isContainer: false, isLeaf: true, isSelectable: true, name: `generated entry ${i}`, path: '17', isSelected: false}
       )
     }
   }
   
-  getData(folderId: string | null, filterText: string | undefined, refresh?: boolean | undefined): Promise<Entry[]> {
-    
+  getFolderChildrenAsync(folder: TreeNode, nextPage?: string): Promise<TreeNodePage> {
+    const folderId: string = folder.id;
     if (folderId != null && this._testData[folderId]) {
       
       if (folderId === '16') {
@@ -77,44 +76,52 @@ class DemoRepoService implements LfRepositoryService {
       }
       if (folderId === '18') {
         if (this.lastFolder != null && this.lastFolder !== folderId) {
-          this.list = [];
+          Promise.resolve({
+            page: undefined,
+            nextPage: undefined
+          });
         }
         this.lastFolder = folderId;
-        const newEntries: Entry[] = this.createDynamicItems();
-        this.list = this.list.concat(newEntries);
-        return Promise.resolve(newEntries);
+        const newEntries: TreeNode[] = this.createDynamicItems(nextPage);
+        return Promise.resolve({
+          page: newEntries,
+          nextPage: (Number.parseInt(nextPage ?? '0', 10) + 20).toString()
+        });
       }
 
       if (this.lastFolder != null && this.lastFolder === folderId) {
-        return Promise.resolve([]);
+        return Promise.resolve({
+          page: [],
+          nextPage: undefined
+        });
       }
       this.lastFolder = folderId;
-      const testData = this._testData[folderId].filter((value: Entry) => {
-        if (!filterText) { return true; }
-        return value.name.indexOf(filterText) >= 0;
+      const testData = this._testData[folderId];
+      return Promise.resolve({
+        page: testData,
+        nextPage: undefined
       });
-      this.list = testData;
-      return Promise.resolve(testData);
     }
     return Promise.reject();
   }
-  getRootEntryAsync(): Promise<Entry | undefined> {
+  getRootTreeNodeAsync(): Promise<TreeNode | undefined> {
     return Promise.resolve(this._rootEntry);
   }
-  getParentEntryAsync(entry: Entry): Promise<Entry | undefined> {
+  getParentTreeNodeAsync(entry: TreeNode): Promise<TreeNode | undefined> {
     return Promise.resolve(this._entries[entry.path]);
   }
-  getEntryByIdAsync(id: string): Promise<Entry | undefined> {
+  getTreeNodeByIdAsync(id: string): Promise<TreeNode | undefined> {
     return Promise.resolve(this._entries[id]);
   }
   
-  private createDynamicItems(): Entry[] {
+  private createDynamicItems(nextPage?: string): TreeNode[] {
     const entries = [];
-    for(let i = 0; i < 20; i++) {
+    const pageStart = nextPage ? Number.parseInt(nextPage, 10) : 0;
+    for(let i = pageStart; i < pageStart + 20; i++) {
       entries.push(
         {
-          icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: i.toString(), 
-        isContainer: false, isLeaf: true, isSelectable: true, name: `dynamic entry ${Date.now()}`, path: '18'}
+          icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: (i).toString(), 
+        isContainer: false, isLeaf: true, isSelectable: true, name: `dynamic entry ${(i).toString()}`, path: '18', isSelected: false}
       )
     }
     return entries;
@@ -130,15 +137,15 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   @ViewChild('repoBrowser') repoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
   
   dataService: DemoRepoService = new DemoRepoService();
-  elementSelectedEntry: Entry[] | undefined;
+  elementSelectedEntry: TreeNode[] | undefined;
 
   constructor() { }
 
   ngAfterViewInit(): void {
-    this.repoBrowser?.nativeElement?.initAsync({dataService: this.dataService});
+    this.repoBrowser?.nativeElement?.initAsync(this.dataService);
   }
 
-  onEntrySelected(event: CustomEvent<Entry[] | undefined>) {
+  onEntrySelected(event: CustomEvent<TreeNode[] | undefined>) {
     this.elementSelectedEntry = event.detail;
   }
 
