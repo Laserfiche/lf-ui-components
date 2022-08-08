@@ -14,7 +14,7 @@
         </div>
         <ng-template #showList>
             <mat-selection-list id="lf-repo-select-list"
-                *ngIf="dataService?.list"
+                *ngIf="currentFolderChildren"
                 #displayedEntryList
                 [multiple]="multiple"
                 [disableRipple]="true"
@@ -24,7 +24,7 @@
                 <cdk-virtual-scroll-viewport id="lf-repo-browser-viewport" itemSize="36"
                     (scrolledIndexChange)="onScroll($event)">
                     <mat-list-option
-                        *cdkVirtualFor="let displayedEntry of dataService.list"
+                        *cdkVirtualFor="let displayedEntry of currentFolderChildren;"
                         [value]="displayedEntry"
                         [ngClass]="{
                             'non-selectable-option': !displayedEntry.isSelectable,

@@ -1,15 +1,14 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IconUtils } from '@laserfiche/lf-js-utils';
-import { Entry, LfRepositoryService } from 'projects/ui-components/lf-repository-browser/ILFRepositoryService';
+import { TreeNode, LfTreeNodeService, TreeNodePage } from 'projects/ui-components/lf-repository-browser/ILFRepositoryService';
 import { LfRepositoryBrowserComponent } from 'projects/ui-components/lf-repository-browser/lf-repository-browser.component';
 
-class DemoRepoService implements LfRepositoryService {
-  breadCrumb: Entry[] = [];
-  currentFolder: Entry | undefined;
-  list: Entry[] = [];
+class DemoRepoService implements LfTreeNodeService {
+  breadCrumb: TreeNode[] = [];
+  currentFolder: TreeNode | undefined;
 
-  _rootEntry: Entry = {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '1', isContainer: true, isLeaf: false, isSelectable: false, name: 'root', path: ''};
-  _entries: {[key: string]: Entry} = {
+  _rootEntry: TreeNode = {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '1', isContainer: true, isLeaf: false, isSelectable: false, name: 'root', path: ''};
+  _entries: {[key: string]: TreeNode} = {
     '2': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '2', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder2', path: '1'},
     '3': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '3', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry1', path: '1'},
     '4': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '4', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder3', path: '1'},
@@ -29,7 +28,7 @@ class DemoRepoService implements LfRepositoryService {
     '17': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '17', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder with 10000 entries', path: '1'},
     '18': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '18', isContainer: true, isLeaf: false, isSelectable: false, name: 'dynamicly loaded entries', path: '1'}
   }
-  _testData: {[key: string]: Entry[]} = {
+  _testData: {[key: string]: TreeNode[]} = {
     '1': [
       this._entries['2'],
       this._entries['3'],
@@ -68,53 +67,62 @@ class DemoRepoService implements LfRepositoryService {
     }
   }
   
-  getData(folderId: string | null, filterText: string | undefined, refresh?: boolean | undefined): Promise<Entry[]> {
-    
+  getFolderChildrenAsync(folder: TreeNode, nextPage?: string): Promise<TreeNodePage> {
+    const folderId: string = folder.id;
     if (folderId != null && this._testData[folderId]) {
       
       if (folderId === '16') {
+        this.lastFolder = folderId;
         return Promise.reject();
       }
       if (folderId === '18') {
         if (this.lastFolder != null && this.lastFolder !== folderId) {
-          this.list = [];
+          Promise.resolve({
+            page: undefined,
+            nextPage: undefined
+          });
         }
         this.lastFolder = folderId;
-        const newEntries: Entry[] = this.createDynamicItems();
-        this.list = this.list.concat(newEntries);
-        return Promise.resolve(newEntries);
+        const newEntries: TreeNode[] = this.createDynamicItems(nextPage);
+        return Promise.resolve({
+          page: newEntries,
+          nextPage: (Number.parseInt(nextPage ?? '0', 10) + 20).toString()
+        });
       }
 
       if (this.lastFolder != null && this.lastFolder === folderId) {
-        return Promise.resolve([]);
+        return Promise.resolve({
+          page: [],
+          nextPage: undefined
+        });
       }
       this.lastFolder = folderId;
-      const testData = this._testData[folderId].filter((value: Entry) => {
-        if (!filterText) { return true; }
-        return value.name.indexOf(filterText) >= 0;
+      const testData = this._testData[folderId];
+      return Promise.resolve({
+        page: testData,
+        nextPage: undefined
       });
-      this.list = testData;
-      return Promise.resolve(testData);
     }
     return Promise.reject();
   }
-  getRootEntryAsync(): Promise<Entry | undefined> {
+  getRootTreeNodeAsync(): Promise<TreeNode | undefined> {
     return Promise.resolve(this._rootEntry);
   }
-  getParentEntryAsync(entry: Entry): Promise<Entry | undefined> {
+  getParentTreeNodeAsync(entry: TreeNode): Promise<TreeNode | undefined> {
     return Promise.resolve(this._entries[entry.path]);
   }
-  getEntryByIdAsync(id: string): Promise<Entry | undefined> {
+  getTreeNodeByIdAsync(id: string): Promise<TreeNode | undefined> {
     return Promise.resolve(this._entries[id]);
   }
   
-  private createDynamicItems(): Entry[] {
+  private createDynamicItems(nextPage?: string): TreeNode[] {
     const entries = [];
-    for(let i = 0; i < 20; i++) {
+    const pageStart = nextPage ? Number.parseInt(nextPage, 10) : 0;
+    for(let i = pageStart; i < pageStart + 20; i++) {
       entries.push(
         {
-          icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: i.toString(), 
-        isContainer: false, isLeaf: true, isSelectable: true, name: `dynamic entry ${Date.now()}`, path: '18'}
+          icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: (i).toString(), 
+        isContainer: false, isLeaf: true, isSelectable: true, name: `dynamic entry ${(i).toString()}`, path: '18', isSelected: false}
       )
     }
     return entries;
@@ -130,15 +138,15 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   @ViewChild('repoBrowser') repoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
   
   dataService: DemoRepoService = new DemoRepoService();
-  elementSelectedEntry: Entry[] | undefined;
+  elementSelectedEntry: TreeNode[] | undefined;
 
   constructor() { }
 
   ngAfterViewInit(): void {
-    this.repoBrowser?.nativeElement?.initAsync({dataService: this.dataService});
+    this.repoBrowser?.nativeElement?.initAsync(this.dataService);
   }
 
-  onEntrySelected(event: CustomEvent<Entry[] | undefined>) {
+  onEntrySelected(event: CustomEvent<TreeNode[] | undefined>) {
     this.elementSelectedEntry = event.detail;
   }
 
