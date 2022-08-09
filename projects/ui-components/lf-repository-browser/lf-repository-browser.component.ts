@@ -5,7 +5,7 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 
 import { RepositoryBrowserDirective } from './repository-browser.directive';
-import { Entry, LfRepositoryProviders } from './ILFRepositoryService';
+import { TreeNodePage, LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime} from 'rxjs/operators';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
@@ -21,10 +21,10 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
 
   @Input() multiple: boolean = false;
 
-  @Output() entrySelected = new EventEmitter<Entry[] | undefined>();
+  @Output() entrySelected = new EventEmitter<TreeNode[] | undefined>();
 
   /** @internal */
-  _focused_node: Entry | undefined;
+  _focused_node: TreeNode | undefined;
 
   private scrolledIndexChanged = new Subject();
 
@@ -40,29 +40,31 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
     public localizationService: AppLocalizationService) {
     super(ref, popupDialog, zone, localizationService);
 
-    this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(() => {
+    this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
       if (this._currentEntry == null) {
         return;
       }
-      this.dataService.getData(this._currentEntry.id, this.filter_text, false)
+      const nextPage: TreeNodePage = await this.treeNodeService.getFolderChildrenAsync(this._currentEntry, this.nextPage);
+      this.currentFolderChildren = this.currentFolderChildren.concat(...nextPage.page);
+      this.nextPage = nextPage.nextPage;
     });
   }
 
   /**
    * function to initialize the lf-file-explorer component
    * @param provider LfRepositoryService service
-   * @param selectedEntry the id of the node to select, or a Entry starting from the selected entry
+   * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
    */
-  @Input() initAsync = async (providers: LfRepositoryProviders, selectedEntry?: string | Entry): Promise<void> => {
+  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: string | TreeNode): Promise<void> => {
     await this.zone.run(async () => {
       try {
-        this.dataService = CoreUtils.validateDefined(providers.dataService, 'dataService');
+        this.treeNodeService = treeNodeService;
       } catch(error) {
         console.error(error);
         this.hasError = true;
         return;
       }
-      await this.initializeAsync(selectedEntry);
+      await this.initializeAsync(selectedNode);
     });
   };
 
@@ -94,8 +96,8 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
   onSelectionChange(allSelectedOptions: MatListOption[] | undefined, changes: MatSelectionListChange): void {
     const changedOptions: MatListOption[] = changes.options;
     this._focused_node = changedOptions?.length === 1 ? changedOptions[0].value : undefined;
-    const selectedNodes: Entry[] | undefined = allSelectedOptions?.map(selection => selection.value);
-    const selectableSelectedNodes: Entry[] | undefined = selectedNodes?.filter(selection => selection.isSelectable);
+    const selectedNodes: TreeNode[] | undefined = allSelectedOptions?.map(selection => selection.value);
+    const selectableSelectedNodes: TreeNode[] | undefined = selectedNodes?.filter(selection => selection.isSelectable);
     this.ref.detectChanges();
     this.entrySelected.emit(selectableSelectedNodes);
   }
@@ -108,7 +110,7 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
       .map((listOption: MatListOption) => listOption.value));
   }
 
-  @Input() get focused_node(): Entry | undefined {
+  @Input() get focused_node(): TreeNode | undefined {
     return this._focused_node;
   };
 }

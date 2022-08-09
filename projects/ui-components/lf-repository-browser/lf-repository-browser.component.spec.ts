@@ -6,28 +6,24 @@
 // import { MatListModule } from '@angular/material/list';
 // import { MatMenuModule } from '@angular/material/menu';
 // import { LfBreadcrumbsComponent, LfLoaderComponent } from '../shared/lf-shared-public-api';
-// import { Entry, LfRepositoryProviders, LfRepositoryService } from './ILFRepositoryService';
+// import { TreeNode, LfTreeNodeService, TreeNodePage } from './ILFRepositoryService';
 
 // import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 
 // import { IconUtils } from '@laserfiche/lf-js-utils';
 
-// class TestRepoService implements LfRepositoryService {
+// class TestRepoService implements LfTreeNodeService {
   
-//   breadCrumb: Entry[] = [];
-//   currentFolder: Entry | undefined;
-//   list: Entry[] = [];
-
-//   getData(folderId: string | null, filterText: string | undefined, refresh?: boolean | undefined): Promise<Entry[]> {
+//   getFolderChildrenAsync(folder: TreeNode, nextPage?: string): Promise<TreeNodePage> {
 //     throw new Error('Method not implemented.');
 //   }
-//   getRootEntryAsync(): Promise<Entry | undefined> {
+//   getRootTreeNodeAsync(): Promise<TreeNode | undefined> {
 //     throw new Error('Method not implemented.');
 //   }
-//   getParentEntryAsync(entry: Entry): Promise<Entry | undefined> {
+//   getParentTreeNodeAsync(treeNode: TreeNode): Promise<TreeNode | undefined> {
 //     throw new Error('Method not implemented.');
 //   }
-//   getEntryByIdAsync(id: string): Promise<Entry | undefined> {
+//   getTreeNodeByIdAsync(id: string): Promise<TreeNode | undefined> {
 //     throw new Error('Method not implemented.');
 //   }
 // }
@@ -48,10 +44,10 @@
 //     LfLoaderComponent
 //   ]
 // };
-// const providers: LfRepositoryProviders = { dataService: new TestRepoService()};
+// const repoService: LfTreeNodeService = new TestRepoService();
 // const FILE_SVG = IconUtils.getDocumentIconUrlFromIconId('document-20');
 // const FOLDER_SVG = IconUtils.getDocumentIconUrlFromIconId('folder-20');
-// const rootNode: Entry = {
+// const rootNode: TreeNode = {
 //   name: 'Repository 1',
 //   id: 'Repository 1',
 //   path: 'Repository 1',
@@ -61,7 +57,7 @@
 //   isLeaf: false,
   
 // };
-// const nested1Node: Entry = {
+// const nested1Node: TreeNode = {
 //   name: 'Nested1',
 //   id: 'Repository 1/Nested1',
 //   path: 'Repository 1/Nested1',
@@ -71,7 +67,7 @@
 //   isLeaf: false,
   
 // };
-// const errorNode: Entry = {
+// const errorNode: TreeNode = {
 //   name: 'Wait 3 seconds, then throw an error!',
 //   id: 'Repository 1/Nested1/Wait 3 seconds, then throw an error!',
 //   path: 'Repository 1/Nested1/Wait 3 seconds, then throw an error!',
@@ -81,7 +77,7 @@
 //   isLeaf: false,
   
 // };
-// const emptyFolderNode: Entry = {
+// const emptyFolderNode: TreeNode = {
 //   name: 'Nothing in here',
 //   id: 'Repository 1/Nested1/Nothing in here',
 //   path: 'Repository 1/Nested1/Nothing in here',
@@ -91,7 +87,7 @@
 //   isLeaf: false,
   
 // };
-// const nested2Node: Entry = {
+// const nested2Node: TreeNode = {
 //   name: 'Nested2',
 //   id: 'Repository 1/Nested1/Nested2',
 //   path: 'Repository 1/Nested1/Nested2',
@@ -101,7 +97,7 @@
 //   isLeaf: false,
   
 // };
-// const nested3Node: Entry = {
+// const nested3Node: TreeNode = {
 //   name: 'Nested3',
 //   id: 'Repository 1/Nested1/Nested2/Nested3',
 //   path: 'Repository 1/Nested1/Nested2/Nested3',
@@ -111,7 +107,7 @@
 //   isLeaf: false,
   
 // };
-// const nested4Node: Entry = {
+// const nested4Node: TreeNode = {
 //   name: 'Nested4',
 //   id: 'Repository 1/Nested1/Nested2/Nested3/Nested4',
 //   path: 'Repository 1/Nested1/Nested2/Nested3/Nested4',
@@ -121,6 +117,8 @@
 //   isLeaf: true,
   
 // };
+
+// describe('')
 
 // describe('LfRepositoryBrowserComponent - no selected node', () => {
 //   let component: LfRepositoryBrowserComponent;
@@ -134,7 +132,7 @@
 //   beforeEach(async () => {
 //     fixture = TestBed.createComponent(LfRepositoryBrowserComponent);
 //     component = fixture.componentInstance;
-//     await component.initAsync(providers);
+//     await component.initAsync(repoService);
 //     fixture.detectChanges();
 //   });
 
@@ -147,21 +145,21 @@
 //     spyOn(component, 'initAsync');
 
 //     // Act
-//     await component.initAsync(providers);
+//     await component.initAsync(repoService);
 //     fixture.detectChanges();
 
 //     // Assert
-//     expect(component.initAsync).toHaveBeenCalledWith(providers);
+//     expect(component.initAsync).toHaveBeenCalledWith(repoService);
 //   });
 
-//   it('initAsync with no selectedNode should display children of root node', async () => {
-//     // Arrange
-//     const rootNodeChildren = await providers.dataService.getData(rootNode.id, '');
+//   // it('initAsync with no selectedNode should display children of root node', async () => {
+//   //   // Arrange
+//   //   const rootNodeChildren = await repoService.getFolderChildrenAsync(rootNode);
 
-//     // Act
-//     // Assert
-//     expect(component).toEqual(rootNodeChildren);
-//   });
+//   //   // Act
+//   //   // Assert
+//   //   expect(component).toEqual(rootNodeChildren);
+//   // });
 
 //   it('initAsync with no selectedNode should have root node in breadcrumbs', async () => {
 //     // Arrange
@@ -170,79 +168,6 @@
 //     expect(component.breadcrumbs).toEqual([rootNode]);
 //   });
 
-//   it('should enable OPEN button when focused node is container', async () => {
-//     // Arrange
-//     const nonSelectableContainerNode: Entry = {
-//       name: 'dummy-name',
-//       id: 'dummy-id',
-//       path: 'dummy-path',
-//       icon: 'dummy-icon',
-//       isLeaf: false,
-//       isContainer: true,
-//       isSelectable: false,
-      
-//     };
-
-//     // Act
-//     component._focused_node = nonSelectableContainerNode;
-//     fixture.detectChanges();
-
-//     // Assert
-//     const openButton: HTMLButtonElement | undefined = document.getElementById('openButton') as HTMLButtonElement;
-//     const okButton: HTMLButtonElement | undefined = document.getElementById('okButton') as HTMLButtonElement;
-//     expect(openButton).toBeTruthy();
-//     expect(okButton).toBeFalsy();
-//   });
-
-//   it('should enable OK button when selectedNodes is not empty', async () => {
-//     // Arrange
-//     const selectableLeafNode: Entry[] = [{
-//       name: 'dummy-name',
-//       id: 'dummy-id',
-//       path: 'dummy-path',
-//       icon: 'dummy-icon',
-//       isLeaf: true,
-//       isContainer: false,
-//       isSelectable: true,
-      
-//     }];
-
-//     // Act
-//     component.selected_nodes = selectableLeafNode;
-//     fixture.detectChanges();
-
-//     // Assert
-//     const openButton: HTMLButtonElement | undefined = document.getElementById('openButton') as HTMLButtonElement;
-//     const okButton: HTMLButtonElement | undefined = document.getElementById('okButton') as HTMLButtonElement;
-//     expect(openButton).toBeFalsy();
-//     expect(okButton).toBeTruthy();
-//     expect(okButton.disabled).toBeFalse();
-//   });
-
-//   it('should disable OK button when okButtonDisabled is set to true', async () => {
-//     // Arrange
-//     const selectableLeafNode: Entry[] = [{
-//       name: 'dummy-name',
-//       id: 'dummy-id',
-//       path: 'dummy-path',
-//       icon: 'dummy-icon',
-//       isLeaf: true,
-//       isContainer: false,
-//       isSelectable: true,
-      
-//     }];
-
-//     // Act
-//     component.selected_nodes = selectableLeafNode;
-//     fixture.detectChanges();
-
-//     // Assert
-//     const openButton: HTMLButtonElement | undefined = document.getElementById('openButton') as HTMLButtonElement;
-//     const okButton: HTMLButtonElement | undefined = document.getElementById('okButton') as HTMLButtonElement;
-//     expect(openButton).toBeFalsy();
-//     expect(okButton).toBeTruthy();
-//     expect(okButton.disabled).toBeTrue();
-//   });
 // });
 
 // describe('LfFileExplorerComponent - valid selected node', () => {
@@ -258,7 +183,7 @@
 //   beforeEach(async () => {
 //     fixture = TestBed.createComponent(LfRepositoryBrowserComponent);
 //     component = fixture.componentInstance;
-//     await component.initAsync(providers, selectedNodeId);
+//     await component.initAsync(repoService, selectedNodeId);
 //     fixture.detectChanges();
 //   });
 
@@ -270,50 +195,34 @@
 //     // Arrange
 //     // Act
 //     spyOn(component, 'initAsync');
-//     await component.initAsync(providers, selectedNodeId);
+//     await component.initAsync(repoService, selectedNodeId);
 //     fixture.detectChanges();
 
 //     // Assert
-//     expect(component.initAsync).toHaveBeenCalledWith(providers, selectedNodeId);
-//   });
-
-//   it('initAsync with a valid selectedNode should return children', async () => {
-//     // Arrange
-//     // Act
-//     // Assert
-//     const expectedDisplayedNodes: Entry[] = [nested3Node];
-//     expect(component.displayedEntries).toEqual(expectedDisplayedNodes);
-//   });
-
-//   it('initAsync with a valid selectedNode should return selectedNode and ancestors in breadcrumbs', async () => {
-//     // Arrange
-//     // Act
-//     // Assert
-//     const expectedBreadcrumbs: Entry[] = [nested2Node, nested1Node, rootNode];
-//     expect(component.breadcrumbs).toEqual(expectedBreadcrumbs);
+//     expect(component.initAsync).toHaveBeenCalledWith(repoService, selectedNodeId);
 //   });
 
 //   it('should update breadcrumbs and displayed nodes when selecting root node in breadcrumbs', async () => {
 //     // Act
-//     await component.onBreadcrumbSelected(rootNode);
+//     await component.onBreadcrumbClicked({breadcrumbs: [rootNode], selected: rootNode});
 //     fixture.detectChanges();
 
 //     // Assert
-//     const expectedDisplayedNodes: Entry[] = await component.dataService.getData(rootNode.id);
-//     const expectedBreadcrumbs: Entry[] = [rootNode];
-//     expect(component.displayedEntries).toEqual(expectedDisplayedNodes);
+    
+//     const expectedBreadcrumbs: TreeNode[] = [rootNode];
+
 //     expect(component.breadcrumbs).toEqual(expectedBreadcrumbs);
 //   });
 
 //   it('should update breadcrumbs and displayed nodes when selecting grandparent in breadcrumbs', async () => {
 //     // Act
-//     await component.onBreadcrumbSelected(nested1Node);
+//     await component.onBreadcrumbClicked({breadcrumbs: [nested1Node, rootNode], selected: nested1Node});
 //     fixture.detectChanges();
 
 //     // Assert
-//     const expectedDisplayedNodes: Entry[] = [nested2Node, emptyFolderNode, errorNode];
-//     const expectedBreadcrumbs: Entry[] = [nested1Node, rootNode];
-//     expect(component.displayedEntries).toEqual(expectedDisplayedNodes);
+//     // const expectedDisplayedNodes: TreeNode[] = [nested2Node, emptyFolderNode, errorNode];
+//     const expectedBreadcrumbs: TreeNode[] = [nested1Node, rootNode];
+//     // expect(component.displayedEntries).toEqual(expectedDisplayedNodes);
 //     expect(component.breadcrumbs).toEqual(expectedBreadcrumbs);
 //   });
 
@@ -325,9 +234,9 @@
 //     fixture.detectChanges();
 
 //     // Assert
-//     const expectedDisplayedNodes: Entry[] = [nested4Node];
-//     const expectedBreadcrumbs: Entry[] = [nested3Node, nested2Node, nested1Node, rootNode];
-//     expect(component.displayedEntries).toEqual(expectedDisplayedNodes);
+//     // const expectedDisplayedNodes: TreeNode[] = [nested4Node];
+//     const expectedBreadcrumbs: TreeNode[] = [nested3Node, nested2Node, nested1Node, rootNode];
+//     // expect(component.displayedEntries).toEqual(expectedDisplayedNodes);
 //     expect(component.breadcrumbs).toEqual(expectedBreadcrumbs);
 //   });
 // });

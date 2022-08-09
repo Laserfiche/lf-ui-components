@@ -1,8 +1,7 @@
 import { ChangeDetectorRef, NgZone } from "@angular/core";
-import { fakeAsync, tick } from "@angular/core/testing";
 import { MatDialog } from "@angular/material/dialog";
 import { AppLocalizationService } from "../shared/app-localization.service";
-import { Entry, LfRepositoryService } from "./ILFRepositoryService";
+import { TreeNode, LfTreeNodeService } from "./ILfTreeNodeService";
 import { RepositoryBrowserDirective } from "./repository-browser.directive";
 
 class RepoBrowserDirectiveTest extends RepositoryBrowserDirective {
@@ -11,7 +10,7 @@ class RepoBrowserDirectiveTest extends RepositoryBrowserDirective {
     }
 }
 
-const rootEntry: Entry = {
+const rootTreeNode: TreeNode = {
     icon: '',
     id: '1',
     isContainer: true,
@@ -20,24 +19,41 @@ const rootEntry: Entry = {
     name: 'root',
     path: ''
 }
+const rootTreeNodeChildren: TreeNode[] = [
+    {
+        icon: '',
+        id: '2',
+        isContainer: false,
+        isLeaf: false,
+        isSelectable: true,
+        name: 'tree node (2)',
+        path: ''
+    },
+    {
+        icon: '',
+        id: '3',
+        isContainer: true,
+        isLeaf: false,
+        isSelectable: true,
+        name: 'tree folder (3)',
+        path: ''
+    }
+]
 
 describe('RepositoryBrowserDirective', () => {
     let directive: RepositoryBrowserDirective;
 
     let changeRefMock: ChangeDetectorRef;
-    let dataServiceMock: jasmine.SpyObj<LfRepositoryService>;
+    let dataServiceMock: jasmine.SpyObj<LfTreeNodeService> = jasmine.createSpyObj('dataService', 
+        [ 'getFolderChildrenAsync', 'getRootTreeNodeAsync', 
+        'getParentTreeNodeAsync', 'getTreeNodeByIdAsync']
+    );
     let localizeServiceMock: AppLocalizationService;
     let matDialogMock: MatDialog;
     let ngZoneMock: NgZone;
     
     beforeEach(() => {
         changeRefMock = jasmine.createSpyObj('changeDetectorRef', ['detectChanges']);
-        dataServiceMock = jasmine.createSpyObj('dataService', {
-            'getData': Promise.resolve([]),
-            'getRootEntryAsync': Promise.resolve(rootEntry),
-            'getParentEntryAsync': Promise.resolve(undefined),
-            'getEntryByIdAsync': Promise.resolve(undefined)
-        });
         localizeServiceMock = jasmine.createSpyObj('localizeion', {
             getStringObservable: (value: string) => value
         });
@@ -56,42 +72,54 @@ describe('RepositoryBrowserDirective', () => {
     describe('initializeAsync', () => {
 
         it('should throw error when no dataService is defined', async () => {
+            // Arrange
             let error;
+
+            // Act
             try {
                 await directive.initializeAsync();
             } catch(er) {
                 error = er;
             }
+
+            // Assert
             expect(error).not.toBeUndefined();
             expect(directive.hasError).toBeTrue();
         });
     
-        it('should get the rootEntry when called without currentIdOrEntry parameter', async () => {
-            
-            dataServiceMock.getParentEntryAsync.and.returnValue(Promise.resolve(undefined));
+        it('should get the rootEntry and its folder data when no parameter is passed', async () => {
+            // Arrange
+            dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
+            dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
+            dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
       
-            directive.dataService = dataServiceMock;
+            directive.treeNodeService = dataServiceMock;
     
+            // Act
             await directive.initializeAsync();
     
-            expect(directive.breadcrumbs[0]).toEqual(rootEntry);
-    
+            // Assert
+            expect(directive.breadcrumbs[0]).toEqual(rootTreeNode);
+            expect(directive.currentFolderChildren).toEqual(rootTreeNodeChildren);
         });
-    
-        it('should get data for the root entry when called without currentIdOrEntry parameter', async () => {
-            dataServiceMock.getParentEntryAsync.and.returnValue(Promise.resolve(undefined));
-      
-            directive.dataService = dataServiceMock;
-    
+
+        it('should be in an erorr state when there is no root tree node found when being called without the currentIdOrEntry parameter', async () => {
+            // Arrange
+            dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+
+            directive.treeNodeService = dataServiceMock;
+
+            // Act
             await directive.initializeAsync();
-    
-            expect(dataServiceMock.getData).toHaveBeenCalledOnceWith(rootEntry.id, undefined, false);
-    
+
+            // Assert
+            expect(directive.hasError).toBeTrue();
         });
     
         it('should get the entry associated with the string passed to currentIdOrEntry parameter', async () => {
+            // Arrange
             const id = '2';
-            const entryToGet: Entry = {
+            const entryToGet: TreeNode = {
                 icon: '',
                 id,
                 isContainer: true,
@@ -100,20 +128,24 @@ describe('RepositoryBrowserDirective', () => {
                 name: 'test entry (2)',
                 path: ''
             }
-            dataServiceMock.getEntryByIdAsync.and.returnValue(Promise.resolve(entryToGet));
-            dataServiceMock.getParentEntryAsync.and.returnValue(Promise.resolve(undefined));
+            dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
+            dataServiceMock.getTreeNodeByIdAsync.and.returnValue(Promise.resolve(entryToGet));
+            dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
 
-            directive.dataService = dataServiceMock;
+            directive.treeNodeService = dataServiceMock;
 
+            // Act
             await directive.initializeAsync(id);
 
+            // Assert
             expect(directive.breadcrumbs[0]).toEqual(entryToGet);
-            expect(dataServiceMock.getData).toHaveBeenCalledOnceWith(id, undefined, false);
+            expect(directive.currentFolderChildren).toEqual(rootTreeNodeChildren);
         });
 
         it('should use the entry passed to currentIdOrEntry parameter as the root', async () => {
+            // Arrange
             const id = '3';
-            const entryToGet: Entry = {
+            const entryToGet: TreeNode = {
                 icon: '',
                 id,
                 isContainer: true,
@@ -122,21 +154,24 @@ describe('RepositoryBrowserDirective', () => {
                 name: 'test entry (3)',
                 path: ''
             }
+            dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
+            dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
 
-            dataServiceMock.getParentEntryAsync.and.returnValue(Promise.resolve(undefined));
+            directive.treeNodeService = dataServiceMock;
 
-            directive.dataService = dataServiceMock;
-
+            // Act
             await directive.initializeAsync(entryToGet);
 
+            // Assert
             expect(directive.breadcrumbs[0]).toEqual(entryToGet);
-            expect(dataServiceMock.getData).toHaveBeenCalledOnceWith(id, undefined, false);
+            expect(directive.currentFolderChildren).toEqual(rootTreeNodeChildren);
         });
 
         it('should use the parent entry of the passed in entry if it is not a container entry', async () => {
+            // Arrange
             const id = '4';
             const parentId = '5';
-            const entry: Entry = {
+            const entry: TreeNode = {
                 icon: '',
                 id,
                 isContainer: false,
@@ -145,7 +180,7 @@ describe('RepositoryBrowserDirective', () => {
                 name: 'test entry (4)',
                 path: '5'
             };
-            const parentEntry: Entry = {
+            const parentEntry: TreeNode = {
                 icon: '',
                 id: parentId,
                 isContainer: true,
@@ -154,55 +189,72 @@ describe('RepositoryBrowserDirective', () => {
                 name: 'parent entry',
                 path: ''
             };
-
-            dataServiceMock.getParentEntryAsync.and.callFake((entry: Entry) => {
+            dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
+            dataServiceMock.getParentTreeNodeAsync.and.callFake((entry: TreeNode) => {
                 if (entry.id === id) {
                     return Promise.resolve(parentEntry);
                 }
                 return Promise.resolve(undefined);
             });
 
-            directive.dataService = dataServiceMock;
+            directive.treeNodeService = dataServiceMock;
 
+            // Act
             await directive.initializeAsync(entry);
 
+            // Assert
             expect(directive.breadcrumbs[0]).toEqual(parentEntry);
-            expect(dataServiceMock.getData).toHaveBeenCalledOnceWith(parentId, undefined, false);
+            expect(directive.currentFolderChildren).toEqual(rootTreeNodeChildren);
         });
     });
 
     it('initializeWithRootOpenAsync should throw an error when no dataService is defined', async () => {
+        // Arrange
         let error;
+
+        // Act
         try {
             await directive.initializeWithRootOpenAsync();
         } catch(er) {
             error = er;
         }
+
+        // Assert
         expect(error).not.toBeUndefined();
         expect(directive.hasError).toBeTrue();
     });
 
     it('initializeWithRootOpenAsync should have an error if the dataService does not return a root entry', async () => {
-        dataServiceMock.getRootEntryAsync.and.returnValue(Promise.resolve(undefined));
-        directive.dataService = dataServiceMock;
+        // Arrange
+        dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+        directive.treeNodeService = dataServiceMock;
 
+        // Act
         await directive.initializeWithRootOpenAsync();
        
+        // Assert
         expect(directive.hasError).toBeTrue();
     });
 
     it('initializeWithRootOpenAsync should setup the repository browser with the root entry returned by the dataService', async () => {
-        directive.dataService = dataServiceMock;
+        // Arrange
+        dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
+        dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
 
+        directive.treeNodeService = dataServiceMock;
+
+        // Act
         await directive.initializeWithRootOpenAsync();
 
-        expect(directive.breadcrumbs[0]).toEqual(rootEntry);
-        expect(dataServiceMock.getData).toHaveBeenCalledOnceWith(rootEntry.id, undefined, false);
+        // Assert
+        expect(directive.breadcrumbs[0]).toEqual(rootTreeNode);
+        expect(directive.currentFolderChildren).toEqual(rootTreeNodeChildren);
     });
 
     it('onBreadcrumbSelected should update the breadcrumbs and get new data for the selected entry', async () => {
+        // Arrange
         const id = '7'
-        const entry: Entry = {
+        const entry: TreeNode = {
             icon: '',
             id,
             isContainer: true,
@@ -211,7 +263,7 @@ describe('RepositoryBrowserDirective', () => {
             name: 'test entry (7)',
             path: '8'
         };
-        const parent: Entry = {
+        const parent: TreeNode = {
             icon: '',
             id: '8',
             isContainer: true,
@@ -221,16 +273,20 @@ describe('RepositoryBrowserDirective', () => {
             path: ''
         };
         const newBreadCrumbs = [entry, parent];
-        directive.dataService = dataServiceMock;
+        dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
+        directive.treeNodeService = dataServiceMock;
 
+        // Act
         await directive.onBreadcrumbClicked({breadcrumbs: newBreadCrumbs, selected: entry});
 
+        // Assert
         expect(directive.breadcrumbs).toEqual(newBreadCrumbs);
-        expect(dataServiceMock.getData).toHaveBeenCalledOnceWith(id, undefined, false);
+        expect(directive.currentFolderChildren).toEqual(rootTreeNodeChildren);
     });
 
     it('openChildFolderAsync should update the breadcrumbs and get new data for the passed in entry', async () => {
-        const entry: Entry = {
+        // Arrange
+        const entry: TreeNode = {
             icon: '',
             id: '9',
             isContainer: true,
@@ -239,18 +295,22 @@ describe('RepositoryBrowserDirective', () => {
             name: 'test entry (9)',
             path: ''
         };
-        dataServiceMock.getData.and.returnValue(Promise.resolve([]));
+        dataServiceMock.getFolderChildrenAsync.and.returnValue(
+            Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
 
-        directive.dataService = dataServiceMock;
+        directive.treeNodeService = dataServiceMock;
 
+        // Act
         await directive.openChildFolderAsync(entry);
 
+        // Assert
         expect(directive.breadcrumbs).toEqual([entry]);
-        expect(dataServiceMock.getData).toHaveBeenCalledOnceWith(entry.id, undefined, false);
+        expect(directive.currentFolderChildren).toEqual(rootTreeNodeChildren);
     });
 
     it('openChildFolderAsync should correctly append the new entry to the breadcrumbs', async () => {
-        const parent: Entry = {
+        // Arrange
+        const parent: TreeNode = {
             icon: '',
             id: '9',
             isContainer: true,
@@ -259,7 +319,7 @@ describe('RepositoryBrowserDirective', () => {
             name: 'test entry (9)',
             path: ''
         };
-        const entry: Entry = {
+        const entry: TreeNode = {
             icon: '',
             id: '10',
             isContainer: true,
@@ -268,18 +328,21 @@ describe('RepositoryBrowserDirective', () => {
             name: 'test entry (10)',
             path: '9'
         };
-        dataServiceMock.getData.and.returnValue(Promise.resolve([]));
+        dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: []}));
 
-        directive.dataService = dataServiceMock;
+        directive.treeNodeService = dataServiceMock;
 
+        // Act
         await directive.openChildFolderAsync(parent);
         await directive.openChildFolderAsync(entry);
 
+        // Assert
         expect(directive.breadcrumbs).toEqual([entry, parent]);
     });
 
     it('openChildFolderAsync should do nothing if the entry is not a container', async () => {
-        const entry: Entry = {
+        // Arrange
+        const entry: TreeNode = {
             icon: '',
             id: '11',
             isContainer: false,
@@ -288,15 +351,18 @@ describe('RepositoryBrowserDirective', () => {
             name: 'test entry (11)',
             path: ''
         };
+        dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
+        directive.treeNodeService = dataServiceMock;
 
-        directive.dataService = dataServiceMock;
+        // Act
         await directive.openChildFolderAsync(entry);
 
-        expect(dataServiceMock.getData).not.toHaveBeenCalled();
+        // Assert
+        expect(directive.currentFolderChildren.length).toBe(0);
     });
 
     describe('setNodeAsParentAsync', () => {
-        const parent: Entry = {
+        const parent: TreeNode = {
             icon: '',
             id: '13',
             isContainer: true,
@@ -306,7 +372,7 @@ describe('RepositoryBrowserDirective', () => {
             path: ''
         };
         const entryId = '12';
-        const entry: Entry = {
+        const entry: TreeNode = {
             icon: '',
             id: entryId,
             isContainer: true,
@@ -317,38 +383,50 @@ describe('RepositoryBrowserDirective', () => {
         };
 
         it('should build the breadcrumbs from the passed in parentEntry', async () => {
-            dataServiceMock.getParentEntryAsync.and.callFake((entry: Entry) => {
+            // Arrange
+            dataServiceMock.getParentTreeNodeAsync.and.callFake((entry: TreeNode) => {
                 if (entry.id !== entryId) {
                     return Promise.resolve(undefined);
                 }
                 return Promise.resolve(parent);
             });
 
-            directive.dataService = dataServiceMock;
+            directive.treeNodeService = dataServiceMock;
 
+            // Act
             await directive.setNodeAsParentAsync(entry);
 
+            // Assert
             expect(directive.breadcrumbs).toEqual([entry, parent]);
         });
 
         it('should set the breadcrumbs to be the be the parentEntry plus the listOfAncestorEntries', async () => {
-            directive.dataService = dataServiceMock;
+            // Arrange
+            directive.treeNodeService = dataServiceMock;
 
+            // Act
             await directive.setNodeAsParentAsync(entry, [parent]);
 
+            // Assert
             expect(directive.breadcrumbs).toEqual([entry, parent]);
         });
 
         it('should get the new data when called', async () => {
-            directive.dataService = dataServiceMock;
+            // Arrange
+            dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
+            directive.treeNodeService = dataServiceMock;
+            directive.currentFolderChildren = [entry];
 
+            // Act
             await directive.setNodeAsParentAsync(parent);
 
-            expect(dataServiceMock.getData).toHaveBeenCalledOnceWith(parent.id, undefined, false);
+            // Assert
+            expect(directive.currentFolderChildren).toEqual(rootTreeNodeChildren);
         });
 
         it('should not attempt to get any new data when the parentEntry is not a container', async () => {
-            const notContainer: Entry = {
+            // Arrange
+            const notContainer: TreeNode = {
                 icon: '',
                 id: '16',
                 isContainer: false,
@@ -357,16 +435,20 @@ describe('RepositoryBrowserDirective', () => {
                 name: 'test entry (16)',
                 path: ''
             };
-            directive.dataService = dataServiceMock;
-            
+            dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
+            directive.treeNodeService = dataServiceMock;
+            directive.currentFolderChildren = [entry];
+
+            // Act
             await directive.setNodeAsParentAsync(notContainer);
 
-            expect(dataServiceMock.getData).not.toHaveBeenCalled();
+            // Assert
+            expect(directive.currentFolderChildren).toEqual([entry]);
         });
     });
 
     describe('updateAllPossibleEntriesAsync', () => {
-        let entry: Entry;
+        let entry: TreeNode;
         beforeEach(() => {
             entry = {
                 icon: '',
@@ -379,28 +461,48 @@ describe('RepositoryBrowserDirective', () => {
             };
         })
         it('should set the component to error state when dataService has an error', async () => {
-            dataServiceMock.getData.and.rejectWith(Promise.reject());
-            directive.dataService = dataServiceMock;
+            // Arrange
+            dataServiceMock.getFolderChildrenAsync.and.rejectWith(Promise.reject());
+            directive.treeNodeService = dataServiceMock;
 
+            // Act
             await directive.updateAllPossibleEntriesAsync(entry);
 
+            // Assert
             expect(directive.hasError).toBeTrue();
         });
 
         it('should not be loading or errored when the dataService returns data', async () => {
-            dataServiceMock.getData.and.returnValue(Promise.resolve([]));
-            directive.dataService = dataServiceMock;
+            // Arrange
+            dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: []}));
+            directive.treeNodeService = dataServiceMock;
 
+            // Act
             await directive.updateAllPossibleEntriesAsync(entry);
 
+            // Assert
             expect(directive.hasError).toBeFalse();
             expect(directive.isLoading).toBeFalse();
         });
 
         it('should reset the selection when call to dataService errors', async () => {
+            // Arrange
             const resetSpy = jasmine.createSpy('reset');
-            dataServiceMock.getData.and.rejectWith(Promise.reject());
-            directive.dataService = dataServiceMock;
+            dataServiceMock.getFolderChildrenAsync.and.rejectWith(Promise.reject());
+            directive.treeNodeService = dataServiceMock;
+            directive.resetSelection = resetSpy;
+
+            // Act
+            await directive.updateAllPossibleEntriesAsync(entry);
+
+            // Assert
+            expect(resetSpy).toHaveBeenCalledOnceWith();
+        });
+
+        it('should reset the selection when dataService retrives the data', async () => {
+            const resetSpy = jasmine.createSpy('reset');
+            dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: []}));
+            directive.treeNodeService = dataServiceMock;
             directive.resetSelection = resetSpy;
 
             await directive.updateAllPossibleEntriesAsync(entry);
@@ -408,15 +510,14 @@ describe('RepositoryBrowserDirective', () => {
             expect(resetSpy).toHaveBeenCalledOnceWith();
         });
 
-        it('should reset the selection when dataService retrives the data', async () => {
-            const resetSpy = jasmine.createSpy('reset');
-            dataServiceMock.getData.and.returnValue(Promise.resolve([]));
-            directive.dataService = dataServiceMock;
-            directive.resetSelection = resetSpy;
+        it('should update the nextPage when called multiple times', async () => {
+            const nextPageLink = 'test.com/nextpage';
+            dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: nextPageLink, page: []}));
+            directive.treeNodeService = dataServiceMock;
 
             await directive.updateAllPossibleEntriesAsync(entry);
 
-            expect(resetSpy).toHaveBeenCalledOnceWith();
+            expect(directive.nextPage).toBe(nextPageLink);
         });
     })
 });
