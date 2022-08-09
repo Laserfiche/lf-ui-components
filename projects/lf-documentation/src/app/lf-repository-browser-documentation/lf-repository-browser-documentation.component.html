@@ -27,6 +27,9 @@
     #repoBrowser
   ></lf-repository-browser>
 </app-card>
+<button (click)="setSelectedValue()">Set Selected</button>
+<p>Focused Node: {{focusedNode | json}}</p>
+
 <p class="documentation-text">lf-folder-browser entrySelected:</p>
 <textarea disabled cols="80" rows="10">{{ elementSelectedEntry | json }}</textarea>
 

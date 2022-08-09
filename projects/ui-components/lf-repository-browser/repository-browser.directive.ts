@@ -21,6 +21,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   currentFolderChildren: TreeNode[] = [];
   nextPage: string | undefined;
 
+  protected _focused_node: TreeNode | undefined;
   @Input()
   get breadcrumbs(): TreeNode[] {
     return this._breadcrumbs;
@@ -199,6 +200,8 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
         this.hasError = false;
         this.ref.detectChanges();
         this.currentFolderChildren = [];
+        this._focused_node = undefined;
+        /// how to reset selected nodes
         this.nextPage = undefined;
 
         const firstEntryPage: TreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry);

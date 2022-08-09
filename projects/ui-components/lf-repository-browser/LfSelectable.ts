@@ -7,132 +7,107 @@ export interface ILfSelectable {
 export class Selectable {
   multiSelectable: boolean = false;
   get selectedItems(): ILfSelectable[] {
-    // how do we get the selectedItems if we don't know the list??
-
-    return [];
+    return this._selectedItems;
   }
+
   private _selectedItems: ILfSelectable[] = [];
-  callback?: () => Promise<any[]>;
+  callback?: () => Promise<ILfSelectable[] | undefined>;
   private lastSelectedIndex: number = 0;
   private selectedItemsIndices: number[] = [];
   setSelectedValues(selected: ILfSelectable[], list: ILfSelectable[], lastCheckedIdx: number = 0) {
-    // Look through the list for the selected items
-    list.forEach((value, index) => {
+    // should it clear all the other items or just add?
+    for (let index = 0; index < list.length; index++) {
+      const value = list[index + lastCheckedIdx];
       for (let i = 0; i < selected.length; i++) {
         const toSelect = selected[i];
         if (value.id === toSelect.id) {
-          this.selectedItemsIndices.push(index + lastCheckedIdx);
-          value.isSelected = true;
-          // remove an item from selected list
+          if(value.isSelectable) {
+            // TODO if it doesn't already exist?
+            this.selectedItemsIndices.push(index + lastCheckedIdx);
+            this._selectedItems.push(toSelect);
+            value.isSelected = true;
+            selected.splice(i, 1);
+          }
         }
       }
-    });
+    }
     lastCheckedIdx = list.length - 1;
     // If not all items are found then call the callback to let provider know it needs more data
     if (selected.length > 0) {
       if (this.callback) {
-        this.callback().then((value: any[]) => {
+        this.callback().then((value: any[] | undefined) => {
           if (value == null || value.length === 0) {
             return;
           }
-          this.setSelectedValues(selected, list, lastCheckedIdx);
+          this.setSelectedValues(selected, value, lastCheckedIdx);
         });
       } else {
         // how do we get more data?
       }
     }
   }
-  onItemClicked(event: MouseEvent, item: ILfSelectable, list: ILfSelectable[], allowMultiple: boolean = false) {
+  onItemClicked(event: MouseEvent | KeyboardEvent, item: ILfSelectable, list: ILfSelectable[], allowMultiple: boolean = false) {
     const itemIndex = list.findIndex((val) => val.id === item.id);
     if (!this.multiSelectable) {
+      this.clearAllSelectedItems(list);
       const itemInList = list[itemIndex];
-      itemInList.isSelected = true;
-      this.selectedItemsIndices.forEach((val) => {
-        list[val].isSelected = false;
-      });
-      this.selectedItemsIndices = [];
-      this._selectedItems = [];
-      this._selectedItems.push(item);
-      this.selectedItemsIndices.push(itemIndex);
-
-      this.lastSelectedIndex = itemIndex;
+      if (itemInList.isSelectable) {
+        this.addSelectedItem(item, itemIndex);
+        this.lastSelectedIndex = itemIndex;
+      }
       return;
     }
-    if (event.ctrlKey || (!event.ctrlKey && !event.shiftKey && allowMultiple)) {
-      this._selectedItems.push(item);
-      this.selectedItemsIndices.push(itemIndex);
+    if (event?.ctrlKey || (!event?.ctrlKey && !event?.shiftKey && allowMultiple)) {
       const itemInList = list[itemIndex];
-      itemInList.isSelected = true;
-      this.lastSelectedIndex = itemIndex;
+      if (itemInList.isSelected) {
+        this.unselectItem(item, itemInList);
+      } else {
+        if (itemInList.isSelectable) {
+          this.addSelectedItem(item, itemIndex);
+          this.lastSelectedIndex = itemIndex;
+        }
+      }
     } else if (event.shiftKey) {
       const lower = this.lastSelectedIndex <= itemIndex ? this.lastSelectedIndex : itemIndex;
       const upper = this.lastSelectedIndex > itemIndex ? this.lastSelectedIndex : itemIndex;
-      this.selectedItemsIndices.forEach((vale) => {
-        const item = list[vale];
-        item.isSelected = false;
-      });
-      this.selectedItemsIndices = [];
-      this._selectedItems = [];
-      for(let i = lower; i<=upper; i++) {
+      this.clearAllSelectedItems(list);
+      for (let i = lower; i <= upper; i++) {
         const value = list[i];
-        this.selectedItemsIndices.push(i);
-        this._selectedItems.push(value);
-        value.isSelected = true;
-      };
-      console.log(this.selectedItemsIndices, list)
+        if (value.isSelectable) {
+          this.addSelectedItem(value, i);
+        }
+      }
     } else if (!allowMultiple) {
-      const itemInList = list[itemIndex];
-      itemInList.isSelected = true;
-      this.selectedItemsIndices.forEach((val) => {
-        list[val].isSelected = false;
+      this.clearAllSelectedItems(list);
+      setTimeout(() => {
+        const itemInList = list[itemIndex];
+        if (itemInList.isSelectable) {
+          this.addSelectedItem(itemInList, itemIndex);
+          this.lastSelectedIndex = itemIndex;
+        }
       });
-      this.selectedItemsIndices = [];
-      this._selectedItems = [];
-      this._selectedItems.push(item);
-      this.selectedItemsIndices.push(itemIndex);
-      this.lastSelectedIndex = itemIndex;
-
-      return;
     }
   }
-//   onItemClicked(event: MouseEvent, item: ILfSelectable, list: ILfSelectable[], add: boolean = false): ILfSelectable[] {
-//     const itemIndex = list.findIndex((val) => val.id === item.id);
-//     if (!this.multiSelectable) {
-//       const itemInList = list[itemIndex];
-//       itemInList.isSelected = true;
 
-//       this.lastSelectedIndex = itemIndex;
-//       return list;
-//     }
-//     if (event.ctrlKey || (!event.ctrlKey && !event.shiftKey && add)) {
-//       // this.selectedItems.push(indexOfItem);
-//       const itemInList = list[itemIndex];
-//       itemInList.isSelected = true;
-//       this.lastSelectedIndex = itemIndex;
-//     } else if (event.shiftKey) {
-//       const lower = this.lastSelectedIndex <= itemIndex ? this.lastSelectedIndex : itemIndex;
-//       const upper = this.lastSelectedIndex > itemIndex ? this.lastSelectedIndex : itemIndex;
-//       // clear all other options
-//       // select options from lower to upper (inclusive)
-//       for(let i = 0; i<list.length; i++) {
-//         const value = list[i];
-//         if(i>=lower && i<=upper) {
-//             value.isSelected = true;
-//         }
-//         else {
-//             value.isSelected = false;
-//         }
-//       };
-//       console.log(this.selectedItemsIndices, list)
-//     } else if (!add) {
-//       for(const item of list) {
-//         item.isSelected = false;
-//       }
-//       const itemInList = list[itemIndex];
-//       itemInList.isSelected = true;
-//       this.lastSelectedIndex = itemIndex;
+  private unselectItem(item: ILfSelectable, itemInList: ILfSelectable) {
+    const index = this._selectedItems.findIndex((value) => value.id === item.id);
+    this._selectedItems.splice(index, 1);
+    const indexIndex = this.selectedItemsIndices.findIndex((value) => value.toString() === item.id);
+    this.selectedItemsIndices.splice(indexIndex, 1);
+    itemInList.isSelected = false;
+  }
 
-//     }
-//     return list;
-//   }
+  private clearAllSelectedItems(list: ILfSelectable[]) {
+    this.selectedItemsIndices.forEach((val) => {
+      list[val].isSelected = false;
+    });
+    this.selectedItemsIndices = [];
+    this._selectedItems = [];
+  }
+
+  private addSelectedItem(itemInList: ILfSelectable, itemIndex: number) {
+    itemInList.isSelected = true;
+    this._selectedItems.push(itemInList);
+    this.selectedItemsIndices.push(itemIndex);
+  }
 }

@@ -10,7 +10,7 @@ class DemoRepoService implements LfTreeNodeService {
   _rootEntry: TreeNode = {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '1', isContainer: true, isLeaf: false, isSelectable: false, name: 'root', path: '', isSelected: false};
   _entries: {[key: string]: TreeNode} = {
     '2': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '2', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder2', path: '1', isSelected: false},
-    '3': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '3', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry1', path: '1', isSelected: true},
+    '3': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '3', isContainer: false, isLeaf: true, isSelectable: true, name: 'entry1', path: '1', isSelected: false},
     '4': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '4', isContainer: true, isLeaf: false, isSelectable: false, name: 'folder3', path: '1', isSelected: false},
     '5': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '5', isContainer: false, isLeaf: true, isSelectable: false, 
             name: 'LongNameToCheckHowTheComponentHandledFileLongNamesLongNameToCheckHowTheComponentHandledFileLongNames', path: '1', isSelected: false},
@@ -142,6 +142,10 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   constructor() { }
 
+  get focusedNode(): TreeNode | undefined {
+    return this.repoBrowser?.nativeElement.focused_node;
+  }
+
   ngAfterViewInit(): void {
     this.repoBrowser?.nativeElement?.initAsync(this.dataService);
   }
@@ -150,4 +154,13 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.elementSelectedEntry = event.detail;
   }
 
+  setSelectedValue() {
+    const selectedValues = [
+      { id: '2', isSelectable: true, isSelected: true },
+      { id: '3', isSelectable: true, isSelected: true },
+      { id: '7', isSelectable: true, isSelected: true },
+      { id: '60', isSelectable: true, isSelected: true },
+    ];
+    this.repoBrowser?.nativeElement.setSelectedValues(selectedValues as TreeNode[]);
+  }
 }
