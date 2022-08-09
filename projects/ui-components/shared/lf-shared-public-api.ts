@@ -8,3 +8,4 @@ export * from './app-localization.service';
 export * from './filter-utils';
 export * from './lf-breadcrumbs/lf-breadcrumbs.component';
 export * from './lf-breadcrumbs/lf-breadcrumbs.module';
+export * from './LfSelectable';

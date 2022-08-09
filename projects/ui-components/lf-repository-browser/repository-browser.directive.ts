@@ -1,18 +1,32 @@
-import { ChangeDetectorRef, Directive, Input, NgZone, OnChanges, OnDestroy, SimpleChange, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  EventEmitter,
+  Input,
+  NgZone,
+  OnChanges,
+  OnDestroy,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Subscription } from 'rxjs';
-import { LfTreeNodeService, TreeNode, TreeNodePage } from './ILfTreeNodeService';
+import { TreeNodePage, LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
 // import { ToolbarOption } from '../tree-components/flat-tree-components/lf-toolbar/lf-toolbar.component';
 // import * as TreeToolbarUtils from './tree-toolbar-utils';
 
 @Directive()
 export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy {
   @Input() filter_text: string | undefined;
+  protected _focused_node: TreeNode | undefined;
   @Input() get breadcrumbs(): TreeNode[] {
     return this._breadcrumbs;
   }
  
+  @Output() entrySelected = new EventEmitter<TreeNode[] | undefined>();
+
   currentFolderChildren: TreeNode[] = [];
   hasError: boolean = false;
   /** @internal */
@@ -28,6 +42,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   // allPossibleEntries: Entry[] | undefined = [];
 
   protected _currentEntry?: TreeNode;
+  protected selectable: Selectable = new Selectable();
 
   /** @internal */
   private _breadcrumbs: TreeNode[] = [];
@@ -55,16 +70,13 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   ) { }
 
   /** @internal */
-  abstract resetSelection(): void;
-
-  /** @internal */
   ngOnChanges(changes: SimpleChanges) {
     const filterTextChange: SimpleChange = changes['filter_text'];
-    if (filterTextChange && (filterTextChange.currentValue !== filterTextChange.previousValue)) {
-        if (this._currentEntry == null) {
-          return;
-        }
-        this.treeNodeService.getFolderChildrenAsync(this._currentEntry, undefined, {filter: filterTextChange.currentValue}).then((entryPage: TreeNodePage) => {
+    if (filterTextChange && filterTextChange.currentValue !== filterTextChange.previousValue) {
+      if (!this._currentEntry) {
+        return;
+      }
+      this.treeNodeService.getFolderChildrenAsync(this._currentEntry).then((entryPage: TreeNodePage) => {
         this.currentFolderChildren.push(...entryPage.page);
         this.nextPage = entryPage.nextPage;
       });
@@ -203,19 +215,15 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     if (parentEntry && parentEntry.id) {
       try {
         this.isLoading = true;
-        this.hasError = false;
-        this.ref.detectChanges();
-        this.currentFolderChildren = [];
-        this.nextPage = undefined;
+        this.resetFolderProperties();
 
         const firstEntryPage: TreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry);
         this.currentFolderChildren.push(...firstEntryPage.page);
         this.nextPage = firstEntryPage.nextPage;
+        this.entrySelected.emit(this.selectable.selectedItems as TreeNode[]);
 
-        this.resetSelection();
       }
       catch (error) {
-        this.resetSelection();
         console.error(error);
         this.hasError = true;
       }
@@ -228,6 +236,15 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
       console.error('updateAllPossibleEntriesAsync parentEntry undefined or missing id property');
       this.hasError = true;
     }
+  }
+
+  private resetFolderProperties() {
+    this.hasError = false;
+    this.ref.detectChanges();
+    this.selectable.clearSelectedValues(this.currentFolderChildren);
+    this.currentFolderChildren = [];
+    this._focused_node = undefined;
+    this.nextPage = undefined;
   }
 
   /** @internal */

@@ -1,9 +1,9 @@
-export interface TreeNode {
-    id: string;
+import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
+
+export interface TreeNode extends ILfSelectable {
     icon: string | string[];
     isContainer: boolean;
     isLeaf: boolean;
-    isSelectable: boolean;
     name: string;
     path: string;
 }

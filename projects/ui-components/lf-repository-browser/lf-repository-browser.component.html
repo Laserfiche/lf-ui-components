@@ -18,11 +18,9 @@
                 #displayedEntryList
                 [multiple]="multiple"
                 [disableRipple]="true"
-                (selectionChange)="onSelectionChange(displayedEntryList.selectedOptions?.selected, $event)"
-                (keydown.enter)="onPressEnterAsync()"
                 >
                 <cdk-virtual-scroll-viewport id="lf-repo-browser-viewport" itemSize="36"
-                    (scrolledIndexChange)="onScroll($event)">
+                    (scrolledIndexChange)="onScroll($event)" appendOnly>
                     <mat-list-option
                         *cdkVirtualFor="let displayedEntry of currentFolderChildren;"
                         [value]="displayedEntry"
@@ -34,6 +32,11 @@
                         checkboxPosition="before"
                         (dblclick)="openChildFolderAsync(displayedEntry)"
                         [title]="displayedEntry?.name"
+                        [selected]="displayedEntry.isSelected"
+                        (click)="onClickMatListOption($event, displayedEntry)"
+                        (keydown.enter)="onPressEnterAsync()"
+                        (focusin)="onfocus(displayedEntry)"
+                        (keyup)="onPressKeyDown($event,displayedEntry)"
                         >
                             <div *ngIf="getIcons(displayedEntry).length > 0" class="fixed-size-icon-container">
                                 <img *ngFor="let icon of getIcons(displayedEntry)" src="{{ icon }}" alt="" class="lf-entry-icon" />
