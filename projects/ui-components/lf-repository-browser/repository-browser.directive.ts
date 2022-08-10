@@ -4,61 +4,44 @@ import {
   EventEmitter,
   Input,
   NgZone,
-  OnChanges,
-  OnDestroy,
-  Output,
-  SimpleChange,
-  SimpleChanges,
+  Output
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService, ILfSelectable, Selectable } from '@laserfiche/lf-ui-components/shared';
-import { Subscription } from 'rxjs';
+import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { AppLocalizationService, Selectable, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 import { TreeNodePage, LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
-// import { ToolbarOption } from '../tree-components/flat-tree-components/lf-toolbar/lf-toolbar.component';
-// import * as TreeToolbarUtils from './tree-toolbar-utils';
 
 @Directive()
-export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy {
-  @Input() filter_text: string | undefined;
-  protected _focused_node: TreeNode | undefined;
+export abstract class RepositoryBrowserDirective {
+  // @Input() filter: (node: TreeNode) => Promise<boolean>;
   @Input() get breadcrumbs(): TreeNode[] {
     return this._breadcrumbs;
   }
-  // @Input() types // TODO
 
-  @Input() isSelectable?: (treeNode: TreeNode) => boolean;
+  @Input() isSelectable?: (treeNode: TreeNode) => Promise<boolean>;
 
   @Output() entrySelected = new EventEmitter<TreeNode[] | undefined>();
 
+  /** @internal */
   currentFolderChildren: ILfSelectable[] = [];
+  /** @internal */
   hasError: boolean = false;
   /** @internal */
   isLoading: boolean = false;
+  /** @internal */
   nextPage: string | undefined;
   /** @internal */
   treeNodeService!: LfTreeNodeService;
-  // /** @internal */
-  // toolbarOptions: ToolbarOption[] = [];
-  // /** @internal */
-  // displayedEntries: Entry[] | undefined = [];
-  // /** @internal */
-  // allPossibleEntries: Entry[] | undefined = [];
+  /** @internal */
+  protected _focused_node: TreeNode | undefined;
 
+  /** @internal */
   protected _currentEntry?: TreeNode;
+  /** @internal */
   protected selectable: Selectable = new Selectable();
 
   /** @internal */
   private _breadcrumbs: TreeNode[] = [];
-  /** @internal */
-  private REFRESH: string = 'REFRESH';
-  /** @internal */
-  // private NEW_FOLDER: string = 'NEW_FOLDER';
-  /** @internal */
-  private readonly REFRESH_LOCALIZED = this.localizationService.getStringObservable(this.REFRESH);
-  /** @internal */
-  // private readonly ADD_NEW_FOLDER_LOCALIZED = this.localizationService.getStringObservable(this.NEW_FOLDER);
-  /** @internal */
-  private readonly allSubscriptions: Subscription = new Subscription();
 
   /** @internal */
   constructor(
@@ -82,31 +65,11 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   }
 
   /** @internal */
-  ngOnChanges(changes: SimpleChanges) {
-    const filterTextChange: SimpleChange = changes['filter_text'];
-    if (filterTextChange && filterTextChange.currentValue !== filterTextChange.previousValue) {
-      if (!this._currentEntry) {
-        return;
-      }
-
-      this.updateFolderChildrenAsync(this._currentEntry);
-    }
-  }
-
-  /**
-   * @internal
-   */
-  ngOnDestroy() {
-    this.allSubscriptions?.unsubscribe();
-  }
-
-  /** @internal */
   async initializeAsync(currentIdOrEntry?: string | TreeNode): Promise<void> {
     if (this.treeNodeService == null) {
       this.hasError = true;
       throw new Error('Repository Browser cannot be initialized without a data service.');
     }
-    // this.toolbarOptions = this.getToolbarOptions();
     let currentEntry: TreeNode | undefined;
     if (currentIdOrEntry == null) {
       await this.initializeWithRootOpenAsync();
@@ -160,38 +123,10 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     await this.updateAllPossibleEntriesAsync(this._currentEntry);
   }
 
-  /** @internal */
-  // private getToolbarOptions(): ToolbarOption[] {
-  //   const toolbarOptions: ToolbarOption[] = [];
-  //   const refreshToobarOption: ToolbarOption = {
-  //     tag: this.REFRESH,
-  //     name: '',
-  //     disabled: false
-  //   };
-  //   const refreshStringSub = this.REFRESH_LOCALIZED.subscribe((value) => {
-  //     refreshToobarOption.name = value;
-  //   });
-  //   this.allSubscriptions.add(refreshStringSub);
-  //   toolbarOptions.push(refreshToobarOption);
-
-  //   // if (this.treeService?.addNewFolderAsync) {
-  //   //   const addFolderToolbarOption: ToolbarOption = {
-  //   //     tag: this.NEW_FOLDER,
-  //   //     name: '',
-  //   //     disabled: false
-  //   //   };
-  //     // const newFolderSub = this.ADD_NEW_FOLDER_LOCALIZED.subscribe((value) => {
-  //     //   addFolderToolbarOption.name = value;
-  //     // });
-  //     // this.allSubscriptions.add(newFolderSub);
-  //     // toolbarOptions.push(addFolderToolbarOption);
-  //   // }
-  //   return toolbarOptions;
-  // }
-
   async onDblClickAsync(entry: TreeNode | undefined) {
+    await CoreUtils.yieldAsync();
     this.selectable.clearSelectedValues(this.currentFolderChildren);
-    await this.openChildFolderAsync(entry)
+    await this.openChildFolderAsync(entry);
   }
 
   /** @internal */
@@ -244,21 +179,31 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     }
   }
 
+  /** @internal */
   protected async updateFolderChildrenAsync(parentEntry: TreeNode): Promise<ILfSelectable[]> {
     const firstEntryPage: TreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
     this.nextPage = firstEntryPage.nextPage;
     const page = firstEntryPage.page;
-    const selectablePage: ILfSelectable[] = page.map((value) => {
-      return {
-        value,
-        isSelectable: this.isSelectable ? this.isSelectable(value) : true,
-        isSelected: false,
-      };
-    });
+    const selectablePage: ILfSelectable[] = await this.mapTreeNodesToLfSelectableAsync(page);
+
     this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
     return selectablePage;
   }
 
+  protected async mapTreeNodesToLfSelectableAsync(page: TreeNode[]) {
+    const selectablePage: ILfSelectable[] = [];
+    for (const value of page) {
+      const selectableValue = {
+        value,
+        isSelectable: this.isSelectable ? await this.isSelectable(value) : true,
+        isSelected: false,
+      };
+      selectablePage.push(selectableValue);
+    }
+    return selectablePage;
+  }
+
+  /** @internal */
   private resetFolderProperties() {
     this.hasError = false;
     this.selectable.clearSelectedValues(this.currentFolderChildren);
@@ -267,20 +212,6 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     this._focused_node = undefined;
     this.nextPage = undefined;
   }
-
-  /** @internal */
-  // async onToolbarOptionSelectedAsync(option: ToolbarOption): Promise<void> {
-  //   switch (option.tag) {
-  //     case this.REFRESH:
-  //       await this.refreshTreeAsync();
-  //       break;
-  //     // case this.NEW_FOLDER:
-  //     //   await this.addNewFolderAsync();
-  //     //   break;
-  //     default:
-  //       break;
-  //   }
-  // }
 
   /** @internal */
   getIcons(entry: TreeNode): string[] {
@@ -311,7 +242,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
 
   /** @internal */
   get shouldShowNoMatchesMessage(): boolean {
-    return this.treeNodeService != null && this.currentFolderChildren.length === 0 && !!this.filter_text;
+    return this.treeNodeService != null && this.currentFolderChildren.length === 0;
   }
 
   /** @internal */
@@ -332,27 +263,8 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     }
   }
 
+  /** @internal */
   protected convertSelectedItemsToTreeNode(): TreeNode[] | undefined {
     return this.selectable.selectedItems.map(value => value.value) as TreeNode[];
-  }
-
-
-  /** @internal */
-  // private async addNewFolderAsync(): Promise<void> {
-  //   await this.zone.run(async () => {
-  //     const result = await TreeToolbarUtils.openNewFolderDialogAsync(this.treeService, this.breadcrumbs[0], this.popupDialog);
-  //     if (result === 'OK') { // Should not be localized
-  //       await this.refreshTreeAsync();
-  //     }
-  //   });
-  // }
-
-  /** @internal */
-  private async refreshAsync(): Promise<void> {
-    if (this._currentEntry == null) {
-      console.error('Could not find current entry on refreshAsync');
-      return;
-    }
-    await this.updateAllPossibleEntriesAsync(this._currentEntry, true);
   }
 }

@@ -155,13 +155,13 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.elementSelectedEntry = event.detail;
   }
 
-  setSelectedValue() {
+  async setSelectedValue() {
     const selectedValues = [
       this.dataService._entries['2'],
       this.dataService._entries['3'],
       this.dataService._entries['7'],
       this.dataService._entries['60']
     ];
-    this.repoBrowser?.nativeElement.setSelectedValues(selectedValues as TreeNode[]);
+    await this.repoBrowser?.nativeElement.setSelectedValuesAsync(selectedValues as TreeNode[]);
   }
 }

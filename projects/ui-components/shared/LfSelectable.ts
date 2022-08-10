@@ -25,7 +25,7 @@ export class Selectable {
     this.clearAllSelectedItems(list);
   }
 
-  setSelectedValues(selected: ILfSelectable[], list: ILfSelectable[], lastCheckedIdx: number = 0) {
+  async setSelectedValuesAsync(selected: ILfSelectable[], list: ILfSelectable[], lastCheckedIdx: number = 0) {
     // TODO should it clear all the other items or just add?
     for (let index = 0; index < list.length; index++) {
       const selectableItem = list[index];
@@ -34,7 +34,7 @@ export class Selectable {
         const toSelect = selected[i];
         if (selectableItem.value.id === toSelect.value.id) {
           if (selectableItem.isSelectable) {
-            const findValue = this.selectedItemsIndices.find((value) => value.toString() === toSelect.value.id);
+            const findValue = this._selectedItems.find((value) => value.value.id === toSelect.value.id);
             if (!findValue) {
               this.selectedItemsIndices.push(index + lastCheckedIdx);
               this._selectedItems.push(toSelect);
@@ -46,22 +46,21 @@ export class Selectable {
         }
       }
     }
-    lastCheckedIdx = list.length - 1;
+    lastCheckedIdx += list.length;
     if (selected.length > 0) {
       if (this.callback) {
-        this.callback().then((value: ILfSelectable[] | undefined) => {
-          if (value == null || value.length === 0) {
-            return;
-          }
-          this.setSelectedValues(selected, value, lastCheckedIdx);
-        });
-      } else {
-        return;
+        const value = await this.callback();
+        if (value == null || value.length === 0) {
+          return;
+        }
+        await this.setSelectedValuesAsync(selected, value, lastCheckedIdx);
       }
+    } else {
+      return;
     }
   }
 
-  async onItemClicked(
+  onItemClicked(
     event: MouseEvent | KeyboardEvent,
     item: ILfSelectable,
     list: ILfSelectable[],
@@ -79,6 +78,7 @@ export class Selectable {
     }
     if (event?.ctrlKey || (!event?.ctrlKey && !event?.shiftKey && allowMultiple)) {
       const itemInList = list[itemIndex];
+      // TODO this isn't consistent, we don't know if the default action has taken place
       if (itemInList.isSelected) {
         this.unselectItem(item, itemInList);
       } else {
@@ -90,8 +90,8 @@ export class Selectable {
     } else if (event.shiftKey) {
       const lower = this.lastSelectedIndex <= itemIndex ? this.lastSelectedIndex : itemIndex;
       const upper = this.lastSelectedIndex > itemIndex ? this.lastSelectedIndex : itemIndex;
+
       this.clearAllSelectedItems(list);
-      await CoreUtils.yieldAsync();
       for (let i = lower; i <= upper; i++) {
         const value = list[i];
         if (value.isSelectable) {
@@ -100,7 +100,6 @@ export class Selectable {
       }
     } else if (!allowMultiple) {
       this.clearAllSelectedItems(list);
-      await CoreUtils.yieldAsync();
       const itemInList = list[itemIndex];
       if (itemInList.isSelectable) {
         this.addSelectedItem(itemInList, itemIndex);

@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionList } from '@angular/material/list';
-import { AppLocalizationService, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 
 import { RepositoryBrowserDirective } from './repository-browser.directive';
-import { LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
+import { LfTreeNodeService, TreeNode, ILfSelectable } from './ILfTreeNodeService';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
@@ -21,18 +21,14 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
   @Input() multiple: boolean = false;
 
   @Input()
-  setSelectedValues: (valuesToSelect: TreeNode[]) => void = (valuesToSelect: TreeNode[]) => {
-    const selectableValues = valuesToSelect.map((value) => {
-      return {
-        value,
-        isSelectable: this.isSelectable ? this.isSelectable(value) : true,
-        isSelected: false,
-      };
+  setSelectedValuesAsync: (valuesToSelect: TreeNode[]) => Promise<void> = async (valuesToSelect: TreeNode[]) => {
+    const selectableValues = await this.mapTreeNodesToLfSelectableAsync(valuesToSelect);
+    this.selectable.setSelectedValuesAsync(selectableValues, this.currentFolderChildren).then(() => {
+      this.entrySelected.emit(this.convertSelectedItemsToTreeNode());
     });
-    this.selectable.setSelectedValues(selectableValues, this.currentFolderChildren);
-    this.entrySelected.emit(this.convertSelectedItemsToTreeNode());
   };
 
+  /** @internal */
   private scrolledIndexChanged = new Subject();
 
   /** @internal */
@@ -85,6 +81,7 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
     await this.openChildFolderAsync(this._focused_node);
   }
 
+  /** @internal */
   onScroll(event: Observable<number>) {
     if (this.viewport == null) {
       console.error('Viewport was not defined when onScroll was called');
@@ -102,28 +99,35 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
     return this._focused_node;
   }
 
+  /** @internal */
   async onClickMatListOption(event: MouseEvent, option: ILfSelectable) {
-    if ((event.target as HTMLElement).classList.contains('mat-pseudo-checkbox')) {
-      await this.selectable.onItemClicked(event, option, this.currentFolderChildren, true);
-    } else {
-      await this.selectable.onItemClicked(event, option, this.currentFolderChildren);
-    }
-    const items = this.convertSelectedItemsToTreeNode();
-    this.entrySelected.emit(items as TreeNode[]);
+    setTimeout(() => {
+      if ((event.target as HTMLElement).classList.contains('mat-pseudo-checkbox')) {
+        this.selectable.onItemClicked(event, option, this.currentFolderChildren, true);
+      } else {
+        this.selectable.onItemClicked(event, option, this.currentFolderChildren);
+      }
+      const items = this.convertSelectedItemsToTreeNode();
+      this.entrySelected.emit(items as TreeNode[]);
+    });
   }
 
+  /** @internal */
   onfocus(node: TreeNode) {
     this._focused_node = node;
   }
 
+  /** @internal */
   async onPressKeyDown(event: KeyboardEvent, node: ILfSelectable) {
     if (
       event.key === ' ' ||
-      (event.key === 'Enter' && !(node.value as TreeNode).isContainer) ||
+      event.key === 'Enter' ||
       (event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'))
     ) {
-      await this.selectable.onItemClicked(event, node, this.currentFolderChildren);
-      this.entrySelected.emit(this.convertSelectedItemsToTreeNode());
+      setTimeout(() => {
+        this.selectable.onItemClicked(event, node, this.currentFolderChildren);
+        this.entrySelected.emit(this.convertSelectedItemsToTreeNode());
+      });
     }
   }
 }

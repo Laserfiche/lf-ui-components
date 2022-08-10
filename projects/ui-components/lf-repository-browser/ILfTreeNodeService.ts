@@ -17,11 +17,9 @@ export interface LfTreeNodeService {
     /**
      * Gets entry data for the lf-repository-browser to display
      * @param folder: string that represents the ID of the folder to get data from
-     * @param nextPage: 
-     * @param params: object that can be used to pass extra parameters. Currently is only passed filter text (Example: {filter: 'test'})
-     * returns - Promise with a list of Entry items that are in the associated folder
+     * @param nextPage: string representing the next page requested
     **/
-    getFolderChildrenAsync(folder: TreeNode, nextPage?: string, params?: {filter: string, types: string[]}): Promise<TreeNodePage>;
+    getFolderChildrenAsync(folder: TreeNode, nextPage?: string): Promise<TreeNodePage>;
 
     /** 
      * Returns the root entry
