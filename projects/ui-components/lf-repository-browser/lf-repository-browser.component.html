@@ -30,19 +30,19 @@
                         }"
                         class="lf-entry-option"
                         checkboxPosition="before"
-                        (dblclick)="openChildFolderAsync(displayedEntry)"
-                        [title]="displayedEntry?.name"
+                        (dblclick)="onDblClickAsync(displayedEntry.value)"
+                        [title]="displayedEntry?.isSelected"
                         [selected]="displayedEntry.isSelected"
                         (click)="onClickMatListOption($event, displayedEntry)"
                         (keydown.enter)="onPressEnterAsync()"
-                        (focusin)="onfocus(displayedEntry)"
-                        (keyup)="onPressKeyDown($event,displayedEntry)"
+                        (focusin)="onfocus(displayedEntry.value)"
+                        (keyup)="onPressKeyDown($event, displayedEntry)"
                         >
-                            <div *ngIf="getIcons(displayedEntry).length > 0" class="fixed-size-icon-container">
-                                <img *ngFor="let icon of getIcons(displayedEntry)" src="{{ icon }}" alt="" class="lf-entry-icon" />
+                            <div *ngIf="getIcons(displayedEntry.value).length > 0" class="fixed-size-icon-container">
+                                <img *ngFor="let icon of getIcons(displayedEntry.value)" src="{{ icon }}" alt="" class="lf-entry-icon" />
                             </div>
                             <p matLine class="lf-entry-name">
-                                <span>{{ displayedEntry?.name }}</span>
+                                <span>{{ displayedEntry?.value.name }}</span>
                             </p>
                     </mat-list-option>
                 </cdk-virtual-scroll-viewport>

@@ -1,5 +1,11 @@
-export interface ILfSelectable {
+import { CoreUtils } from '@laserfiche/lf-js-utils';
+
+export interface ItemWithId {
   id: string;
+}
+
+export interface ILfSelectable {
+  value: ItemWithId;
   isSelectable: boolean;
   isSelected: boolean;
 }
@@ -22,18 +28,20 @@ export class Selectable {
   setSelectedValues(selected: ILfSelectable[], list: ILfSelectable[], lastCheckedIdx: number = 0) {
     // TODO should it clear all the other items or just add?
     for (let index = 0; index < list.length; index++) {
-      const value = list[index + lastCheckedIdx];
-      for (let i = 0; i < selected.length; i++) {
+      const selectableItem = list[index];
+      let selectedLength = selected.length;
+      for (let i = 0; i < selectedLength; i++) {
         const toSelect = selected[i];
-        if (value.id === toSelect.id) {
-          if (value.isSelectable) {
-            const findValue = this.selectedItemsIndices.find((value) => value.toString() === toSelect.id);
+        if (selectableItem.value.id === toSelect.value.id) {
+          if (selectableItem.isSelectable) {
+            const findValue = this.selectedItemsIndices.find((value) => value.toString() === toSelect.value.id);
             if (!findValue) {
               this.selectedItemsIndices.push(index + lastCheckedIdx);
               this._selectedItems.push(toSelect);
             }
-            value.isSelected = true;
+            selectableItem.isSelected = true;
             selected.splice(i, 1);
+            --selectedLength;
           }
         }
       }
@@ -41,7 +49,7 @@ export class Selectable {
     lastCheckedIdx = list.length - 1;
     if (selected.length > 0) {
       if (this.callback) {
-        this.callback().then((value: any[] | undefined) => {
+        this.callback().then((value: ILfSelectable[] | undefined) => {
           if (value == null || value.length === 0) {
             return;
           }
@@ -53,13 +61,13 @@ export class Selectable {
     }
   }
 
-  onItemClicked(
+  async onItemClicked(
     event: MouseEvent | KeyboardEvent,
     item: ILfSelectable,
     list: ILfSelectable[],
     allowMultiple: boolean = false
   ) {
-    const itemIndex = list.findIndex((val) => val.id === item.id);
+    const itemIndex = list.findIndex((selectable) => selectable.value.id === item.value.id);
     if (!this.multiSelectable) {
       this.clearAllSelectedItems(list);
       const itemInList = list[itemIndex];
@@ -83,30 +91,28 @@ export class Selectable {
       const lower = this.lastSelectedIndex <= itemIndex ? this.lastSelectedIndex : itemIndex;
       const upper = this.lastSelectedIndex > itemIndex ? this.lastSelectedIndex : itemIndex;
       this.clearAllSelectedItems(list);
-      setTimeout(() => {
-        for (let i = lower; i <= upper; i++) {
-          const value = list[i];
-          if (value.isSelectable) {
-            this.addSelectedItem(value, i);
-          }
+      await CoreUtils.yieldAsync();
+      for (let i = lower; i <= upper; i++) {
+        const value = list[i];
+        if (value.isSelectable) {
+          this.addSelectedItem(value, i);
         }
-      })
+      }
     } else if (!allowMultiple) {
       this.clearAllSelectedItems(list);
-      setTimeout(() => {
-        const itemInList = list[itemIndex];
-        if (itemInList.isSelectable) {
-          this.addSelectedItem(itemInList, itemIndex);
-          this.lastSelectedIndex = itemIndex;
-        }
-      });
+      await CoreUtils.yieldAsync();
+      const itemInList = list[itemIndex];
+      if (itemInList.isSelectable) {
+        this.addSelectedItem(itemInList, itemIndex);
+        this.lastSelectedIndex = itemIndex;
+      }
     }
   }
 
   private unselectItem(item: ILfSelectable, itemInList: ILfSelectable) {
-    const index = this._selectedItems.findIndex((value) => value.id === item.id);
+    const index = this._selectedItems.findIndex((selectable) => selectable.value.id === item.value.id);
     this._selectedItems.splice(index, 1);
-    const indexIndex = this.selectedItemsIndices.findIndex((value) => value.toString() === item.id);
+    const indexIndex = this.selectedItemsIndices.findIndex((selectable) => selectable.toString() === item.value.id);
     this.selectedItemsIndices.splice(indexIndex, 1);
     itemInList.isSelected = false;
   }

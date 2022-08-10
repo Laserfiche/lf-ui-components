@@ -1,6 +1,5 @@
-import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
-
-export interface TreeNode extends ILfSelectable {
+export interface TreeNode {
+    id: string;
     icon: string | string[];
     isContainer: boolean;
     isLeaf: boolean;
@@ -22,7 +21,7 @@ export interface LfTreeNodeService {
      * @param params: object that can be used to pass extra parameters. Currently is only passed filter text (Example: {filter: 'test'})
      * returns - Promise with a list of Entry items that are in the associated folder
     **/
-    getFolderChildrenAsync(folder: TreeNode, nextPage?: string, params?: {filter: string}): Promise<TreeNodePage>;
+    getFolderChildrenAsync(folder: TreeNode, nextPage?: string, params?: {filter: string, types: string[]}): Promise<TreeNodePage>;
 
     /** 
      * Returns the root entry

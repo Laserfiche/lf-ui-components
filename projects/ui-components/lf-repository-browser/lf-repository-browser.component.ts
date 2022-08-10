@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionList } from '@angular/material/list';
-import { AppLocalizationService} from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 
 import { RepositoryBrowserDirective } from './repository-browser.directive';
-import { TreeNodePage, LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
+import { LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
@@ -22,8 +22,15 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
 
   @Input()
   setSelectedValues: (valuesToSelect: TreeNode[]) => void = (valuesToSelect: TreeNode[]) => {
-    this.selectable.setSelectedValues(valuesToSelect, this.currentFolderChildren);
-    this.entrySelected.emit(this.selectable.selectedItems as TreeNode[]);
+    const selectableValues = valuesToSelect.map((value) => {
+      return {
+        value,
+        isSelectable: this.isSelectable ? this.isSelectable(value) : true,
+        isSelected: false,
+      };
+    });
+    this.selectable.setSelectedValues(selectableValues, this.currentFolderChildren);
+    this.entrySelected.emit(this.convertSelectedItemsToTreeNode());
   };
 
   private scrolledIndexChanged = new Subject();
@@ -40,30 +47,12 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
     public localizationService: AppLocalizationService
   ) {
     super(ref, popupDialog, zone, localizationService);
-    this.selectable.multiSelectable = true;
-    this.selectable.callback = async () => {
-      if (this._currentEntry == null) {
-        return;
-      }
-      const nextPage: TreeNodePage = await this.treeNodeService.getFolderChildrenAsync(
-        this._currentEntry,
-        this.nextPage
-      );
-      this.currentFolderChildren = this.currentFolderChildren.concat(...nextPage.page);
-      this.nextPage = nextPage.nextPage;
-      return nextPage.page;
-    };
 
     this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
       if (this._currentEntry == null) {
         return;
       }
-      const nextPage: TreeNodePage = await this.treeNodeService.getFolderChildrenAsync(
-        this._currentEntry,
-        this.nextPage
-      );
-      this.currentFolderChildren = this.currentFolderChildren.concat(...nextPage.page);
-      this.nextPage = nextPage.nextPage;
+      await this.updateFolderChildrenAsync(this._currentEntry);
     });
   }
 
@@ -113,23 +102,28 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
     return this._focused_node;
   }
 
-  onClickMatListOption(event: MouseEvent, option: TreeNode) {
+  async onClickMatListOption(event: MouseEvent, option: ILfSelectable) {
     if ((event.target as HTMLElement).classList.contains('mat-pseudo-checkbox')) {
-      this.selectable.onItemClicked(event, option, this.currentFolderChildren, true);
+      await this.selectable.onItemClicked(event, option, this.currentFolderChildren, true);
     } else {
-      this.selectable.onItemClicked(event, option, this.currentFolderChildren);
+      await this.selectable.onItemClicked(event, option, this.currentFolderChildren);
     }
-    this.entrySelected.emit(this.selectable.selectedItems as TreeNode[] | undefined);
+    const items = this.convertSelectedItemsToTreeNode();
+    this.entrySelected.emit(items as TreeNode[]);
   }
 
   onfocus(node: TreeNode) {
     this._focused_node = node;
   }
 
-  onPressKeyDown(event: KeyboardEvent, node: TreeNode) {
-    if (event.key === ' ' || (event.key === 'Enter' && !node.isContainer) || event.shiftKey) {
-      this.selectable.onItemClicked(event, node, this.currentFolderChildren);
-      this.entrySelected.emit(this.selectable.selectedItems as TreeNode[] | undefined);
+  async onPressKeyDown(event: KeyboardEvent, node: ILfSelectable) {
+    if (
+      event.key === ' ' ||
+      (event.key === 'Enter' && !(node.value as TreeNode).isContainer) ||
+      (event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'))
+    ) {
+      await this.selectable.onItemClicked(event, node, this.currentFolderChildren);
+      this.entrySelected.emit(this.convertSelectedItemsToTreeNode());
     }
   }
 }

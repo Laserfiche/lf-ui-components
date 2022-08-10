@@ -11,7 +11,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService, Selectable } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, ILfSelectable, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Subscription } from 'rxjs';
 import { TreeNodePage, LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
 // import { ToolbarOption } from '../tree-components/flat-tree-components/lf-toolbar/lf-toolbar.component';
@@ -24,10 +24,13 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   @Input() get breadcrumbs(): TreeNode[] {
     return this._breadcrumbs;
   }
- 
+  // @Input() types // TODO
+
+  @Input() isSelectable?: (treeNode: TreeNode) => boolean;
+
   @Output() entrySelected = new EventEmitter<TreeNode[] | undefined>();
 
-  currentFolderChildren: TreeNode[] = [];
+  currentFolderChildren: ILfSelectable[] = [];
   hasError: boolean = false;
   /** @internal */
   isLoading: boolean = false;
@@ -67,7 +70,16 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     public zone: NgZone,
     /** @internal */
     public localizationService: AppLocalizationService
-  ) { }
+  ) {
+    this.selectable.multiSelectable = true;
+    this.selectable.callback = async () => {
+      if (this._currentEntry == null) {
+        return;
+      }
+      const selectablePage = await this.updateFolderChildrenAsync(this._currentEntry);
+      return selectablePage;
+    };
+  }
 
   /** @internal */
   ngOnChanges(changes: SimpleChanges) {
@@ -76,10 +88,8 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
       if (!this._currentEntry) {
         return;
       }
-      this.treeNodeService.getFolderChildrenAsync(this._currentEntry).then((entryPage: TreeNodePage) => {
-        this.currentFolderChildren.push(...entryPage.page);
-        this.nextPage = entryPage.nextPage;
-      });
+
+      this.updateFolderChildrenAsync(this._currentEntry);
     }
   }
 
@@ -101,11 +111,9 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     if (currentIdOrEntry == null) {
       await this.initializeWithRootOpenAsync();
       return;
-    }
-    else if (typeof (currentIdOrEntry) === 'string') {
+    } else if (typeof currentIdOrEntry === 'string') {
       currentEntry = await this.treeNodeService.getTreeNodeByIdAsync(currentIdOrEntry);
-    }
-    else if (typeof(currentIdOrEntry) === 'object') {
+    } else if (typeof currentIdOrEntry === 'object') {
       if (currentIdOrEntry.id == null) {
         throw new Error('current entry does not contain an id property');
       }
@@ -142,7 +150,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   }
 
   /** @internal */
-  async onBreadcrumbClicked(event: {breadcrumbs: TreeNode[], selected: TreeNode}) {
+  async onBreadcrumbClicked(event: { breadcrumbs: TreeNode[]; selected: TreeNode }) {
     if (!event.breadcrumbs || !event.selected) {
       console.error('onBreadcrumbClicked event is required to have a breadcrumbs as well as a selected entry');
       return;
@@ -181,6 +189,11 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
   //   return toolbarOptions;
   // }
 
+  async onDblClickAsync(entry: TreeNode | undefined) {
+    this.selectable.clearSelectedValues(this.currentFolderChildren);
+    await this.openChildFolderAsync(entry)
+  }
+
   /** @internal */
   async openChildFolderAsync(entry: TreeNode | undefined) {
     if (entry?.isContainer === true) {
@@ -196,14 +209,13 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
       console.error('parentEntry must not be null');
       return;
     }
-    if(!parentEntry.isContainer) {
+    if (!parentEntry.isContainer) {
       console.error('parentEntry must be a container');
       return;
     }
     if (listOfAncestorEntries == null) {
       await this.initializeBreadcrumbOptionsAsync(parentEntry);
-    }
-    else {
+    } else {
       this._breadcrumbs = [parentEntry].concat(listOfAncestorEntries);
     }
     this._currentEntry = parentEntry;
@@ -217,31 +229,40 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
         this.isLoading = true;
         this.resetFolderProperties();
 
-        const firstEntryPage: TreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry);
-        this.currentFolderChildren.push(...firstEntryPage.page);
-        this.nextPage = firstEntryPage.nextPage;
-        this.entrySelected.emit(this.selectable.selectedItems as TreeNode[]);
-
-      }
-      catch (error) {
+        await this.updateFolderChildrenAsync(parentEntry);
+        this.entrySelected.emit(this.convertSelectedItemsToTreeNode());
+      } catch (error) {
         console.error(error);
         this.hasError = true;
-      }
-      finally {
+      } finally {
         this.isLoading = false;
         this.ref.detectChanges();
       }
-    }
-    else {
+    } else {
       console.error('updateAllPossibleEntriesAsync parentEntry undefined or missing id property');
       this.hasError = true;
     }
   }
 
+  protected async updateFolderChildrenAsync(parentEntry: TreeNode): Promise<ILfSelectable[]> {
+    const firstEntryPage: TreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
+    this.nextPage = firstEntryPage.nextPage;
+    const page = firstEntryPage.page;
+    const selectablePage: ILfSelectable[] = page.map((value) => {
+      return {
+        value,
+        isSelectable: this.isSelectable ? this.isSelectable(value) : true,
+        isSelected: false,
+      };
+    });
+    this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
+    return selectablePage;
+  }
+
   private resetFolderProperties() {
     this.hasError = false;
-    this.ref.detectChanges();
     this.selectable.clearSelectedValues(this.currentFolderChildren);
+    this.ref.detectChanges();
     this.currentFolderChildren = [];
     this._focused_node = undefined;
     this.nextPage = undefined;
@@ -263,7 +284,7 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
 
   /** @internal */
   getIcons(entry: TreeNode): string[] {
-    return typeof (entry.icon) === 'string' ? [entry.icon] : entry.icon;
+    return typeof entry.icon === 'string' ? [entry.icon] : entry.icon;
   }
 
   /** @internal */
@@ -304,12 +325,17 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
           this.breadcrumbs.push(nextParent);
         }
         currentNode = nextParent;
-      } catch(error) {
+      } catch (error) {
         console.error(error);
         return;
       }
     }
   }
+
+  protected convertSelectedItemsToTreeNode(): TreeNode[] | undefined {
+    return this.selectable.selectedItems.map(value => value.value) as TreeNode[];
+  }
+
 
   /** @internal */
   // private async addNewFolderAsync(): Promise<void> {
@@ -329,6 +355,4 @@ export abstract class RepositoryBrowserDirective implements OnChanges, OnDestroy
     }
     await this.updateAllPossibleEntriesAsync(this._currentEntry, true);
   }
-
 }
-
