@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionList } from '@angular/material/list';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 
 import { RepositoryBrowserDirective } from './repository-browser.directive';
-import { LfTreeNodeService, TreeNode, ILfSelectable } from './ILfTreeNodeService';
+import { LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';

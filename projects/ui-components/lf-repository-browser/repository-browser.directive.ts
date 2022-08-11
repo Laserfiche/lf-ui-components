@@ -237,13 +237,13 @@ export abstract class RepositoryBrowserDirective {
     return this.currentFolderChildren.length === 0 && !this.hasError;
   }
 
-  /** @internal */
-  readonly NO_MATCHING_ENTRIES_FOUND = this.localizationService.getStringObservable('NO_MATCHING_ENTRIES_FOUND');
+  // /** @internal */
+  // readonly NO_MATCHING_ENTRIES_FOUND = this.localizationService.getStringObservable('NO_MATCHING_ENTRIES_FOUND');
 
-  /** @internal */
-  get shouldShowNoMatchesMessage(): boolean {
-    return this.treeNodeService != null && this.currentFolderChildren.length === 0;
-  }
+  // /** @internal */
+  // get shouldShowNoMatchesMessage(): boolean {
+  //   return this.treeNodeService != null && this.currentFolderChildren.length === 0 && !this.hasError;
+  // }
 
   /** @internal */
   private async initializeBreadcrumbOptionsAsync(selectedEntry: TreeNode) {
