@@ -26,7 +26,8 @@
                         [value]="displayedEntry"
                         [ngClass]="{
                             'non-selectable-option': !displayedEntry.isSelectable,
-                            'selectable-option': displayedEntry.isSelectable
+                            'selectable-option': displayedEntry.isSelectable,
+                            'node-selected': displayedEntry.isSelected
                         }"
                         class="lf-entry-option"
                         checkboxPosition="before"
@@ -34,7 +35,6 @@
                         [title]="displayedEntry?.isSelected"
                         [selected]="displayedEntry.isSelected"
                         (click)="onClickMatListOption($event, displayedEntry)"
-                        (keydown.enter)="onPressEnterAsync()"
                         (focusin)="onfocus(displayedEntry.value)"
                         (keyup)="onPressKeyDown($event, displayedEntry)"
                         >

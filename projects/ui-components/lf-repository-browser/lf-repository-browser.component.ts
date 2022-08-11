@@ -18,7 +18,7 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
   @ViewChild(MatSelectionList) entryList: MatSelectionList | undefined;
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
 
-  @Input() multiple: boolean = false;
+  
 
   @Input()
   setSelectedValuesAsync: (valuesToSelect: TreeNode[]) => Promise<void> = async (valuesToSelect: TreeNode[]) => {
@@ -77,9 +77,16 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
   };
 
   /** @internal */
-  async onPressEnterAsync() {
-    await this.openChildFolderAsync(this._focused_node);
-  }
+  // async onPressEnterAsync(event: KeyboardEvent) {
+  //   if (this._focused_node?.isContainer) {
+  //     await this.openChildFolderAsync(this._focused_node);
+  //     return;
+  //   }
+  //   setTimeout(() => {
+  //     this.selectable.onItemClicked(event, , this.currentFolderChildren);
+  //     this.entrySelected.emit(this.convertSelectedItemsToTreeNode());
+  //   });
+  // }
 
   /** @internal */
   onScroll(event: Observable<number>) {
@@ -118,12 +125,17 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
   }
 
   /** @internal */
-  async onPressKeyDown(event: KeyboardEvent, node: ILfSelectable) {
+  async onPressKeyDown(event: KeyboardEvent, 
+    node: {value: TreeNode,isSelectable: boolean,isSelected: boolean}) {
     if (
       event.key === ' ' ||
       event.key === 'Enter' ||
       (event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'))
     ) {
+      if (event.key === 'Enter' && node.value.isContainer) {
+        await this.openChildFolderAsync(this._focused_node);
+        return;
+      }
       setTimeout(() => {
         this.selectable.onItemClicked(event, node, this.currentFolderChildren);
         this.entrySelected.emit(this.convertSelectedItemsToTreeNode());

@@ -99,11 +99,14 @@ export class Selectable {
         }
       }
     } else if (!allowMultiple) {
+      const wasSelected = item.isSelected;
       this.clearAllSelectedItems(list);
-      const itemInList = list[itemIndex];
-      if (itemInList.isSelectable) {
-        this.addSelectedItem(itemInList, itemIndex);
-        this.lastSelectedIndex = itemIndex;
+      if (!wasSelected) {
+        const itemInList = list[itemIndex];
+        if (itemInList.isSelectable) {
+          this.addSelectedItem(itemInList, itemIndex);
+          this.lastSelectedIndex = itemIndex;
+        }
       }
     }
   }

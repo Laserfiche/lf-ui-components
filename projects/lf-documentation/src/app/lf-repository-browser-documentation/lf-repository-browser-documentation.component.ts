@@ -27,7 +27,8 @@ class DemoRepoService implements LfTreeNodeService {
     '16': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '16', isContainer: true, isLeaf: false, name: 'error folder', path: '1'},
     '17': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '17', isContainer: true, isLeaf: false, name: 'folder with 10000 entries', path: '1'},
     '18': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '18', isContainer: true, isLeaf: false, name: 'dynamicly loaded entries', path: '1'},
-    '60': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '60', isContainer: false, isLeaf: true, name: 'dynamic entry 60', path: '1'}
+    '60': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '60', isContainer: false, isLeaf: true, name: 'dynamic entry 60', path: '1'},
+    '19': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '19', isContainer: true, isLeaf: true, name: 'slow loading folder', path: '1'}
   }
   _testData: {[key: string]: TreeNode[]} = {
     '1': [
@@ -37,7 +38,8 @@ class DemoRepoService implements LfTreeNodeService {
       this._entries['5'],
       this._entries['16'],
       this._entries['17'],
-      this._entries['18']
+      this._entries['18'],
+      this._entries['19']
     ],
     '2': [
       this._entries['6'],
@@ -55,7 +57,8 @@ class DemoRepoService implements LfTreeNodeService {
     '15': [],
     '16': [],
     '17': [],
-    '18': []
+    '18': [],
+    '19': []
   }
 
   private lastFolder: string | undefined;
@@ -88,6 +91,25 @@ class DemoRepoService implements LfTreeNodeService {
         return Promise.resolve({
           page: newEntries,
           nextPage: (Number.parseInt(nextPage ?? '0', 10) + 20).toString()
+        });
+      }
+      if (folderId === '19') {
+        if (this.lastFolder != null && this.lastFolder === folderId) {
+          return Promise.resolve({
+            page: [],
+            nextPage: undefined
+          });
+        }
+        this.lastFolder = folderId;
+        const newEntries: TreeNode[] = this.createDynamicItems(nextPage);
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve({
+              page: newEntries,
+              nextPage: undefined
+            })
+          }, 5000)
+          
         });
       }
 
@@ -137,8 +159,11 @@ class DemoRepoService implements LfTreeNodeService {
 })
 export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit {
   @ViewChild('repoBrowser') repoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
+  @ViewChild('singleSelectRepoBrowser') singleSelectRepoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
   
   dataService: DemoRepoService = new DemoRepoService();
+  singleSelectDataService: DemoRepoService = new DemoRepoService();
+
   elementSelectedEntry: TreeNode[] | undefined;
 
   constructor() { }
@@ -149,6 +174,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   ngAfterViewInit(): void {
     this.repoBrowser?.nativeElement?.initAsync(this.dataService);
+    this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
   }
 
   onEntrySelected(event: CustomEvent<TreeNode[] | undefined>) {

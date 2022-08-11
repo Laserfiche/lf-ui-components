@@ -4,18 +4,35 @@ import {
   EventEmitter,
   Input,
   NgZone,
-  Output
+  Output,
+  QueryList,
+  ViewChildren
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatListOption } from '@angular/material/list';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { AppLocalizationService, Selectable, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 import { TreeNodePage, LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
 
 @Directive()
 export abstract class RepositoryBrowserDirective {
+  @ViewChildren(MatListOption) options?: QueryList<MatListOption>;
+
   // @Input() filter: (node: TreeNode) => Promise<boolean>;
   @Input() get breadcrumbs(): TreeNode[] {
     return this._breadcrumbs;
+  }
+
+  @Input() set multiple(value: boolean | string) {
+    if (typeof(value) === 'string') {
+      if (value.toLowerCase() === 'true') { value = true; }
+      else { value = false; }
+    }
+    this._multipleSelectEnabled = value;
+    this.selectable.multiSelectable = value;
+  };
+  get multiple(): boolean {
+    return this._multipleSelectEnabled;
   }
 
   @Input() isSelectable?: (treeNode: TreeNode) => Promise<boolean>;
@@ -43,6 +60,8 @@ export abstract class RepositoryBrowserDirective {
   /** @internal */
   private _breadcrumbs: TreeNode[] = [];
 
+  private _multipleSelectEnabled: boolean = false;
+
   /** @internal */
   constructor(
     /** @internal */
@@ -54,7 +73,7 @@ export abstract class RepositoryBrowserDirective {
     /** @internal */
     public localizationService: AppLocalizationService
   ) {
-    this.selectable.multiSelectable = true;
+    
     this.selectable.callback = async () => {
       if (this._currentEntry == null) {
         return;
@@ -121,6 +140,11 @@ export abstract class RepositoryBrowserDirective {
     this._breadcrumbs = event.breadcrumbs;
     this._currentEntry = event.selected;
     await this.updateAllPossibleEntriesAsync(this._currentEntry);
+    setTimeout(() => {
+      if (this.options && this.options.length > 0) {
+        this.options.first.focus();
+      }
+    }, 100);
   }
 
   async onDblClickAsync(entry: TreeNode | undefined) {
@@ -135,6 +159,12 @@ export abstract class RepositoryBrowserDirective {
       this._breadcrumbs = [entry].concat(this.breadcrumbs);
       this._currentEntry = entry;
       await this.updateAllPossibleEntriesAsync(entry);
+
+      setTimeout(() => {
+        if (this.options && this.options.length > 0) {
+          this.options.first.focus();
+        }
+      }, 100);
     }
   }
 
@@ -187,6 +217,7 @@ export abstract class RepositoryBrowserDirective {
     const selectablePage: ILfSelectable[] = await this.mapTreeNodesToLfSelectableAsync(page);
 
     this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
+    
     return selectablePage;
   }
 

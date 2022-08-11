@@ -19,6 +19,33 @@
     <p>await repoBrowser.initAsync(treeProvidersObject);</p>
   </code>
 </p>
+<label>
+  <pre>
+    &lt;lf-repository-browser
+      multiple="false"
+      (entrySelected)="onEntrySelected($event)"
+      style="height: 500px"
+    &gt;&lt;/lf-repository-browser&gt;
+  </pre>
+</label>
+<app-card>
+  <lf-repository-browser
+    multiple="false"
+    (entrySelected)="onEntrySelected($event)"
+    style="height: 500px"
+    #singleSelectRepoBrowser
+  ></lf-repository-browser>
+</app-card>
+
+<label>
+  <pre>
+    &lt;lf-repository-browser
+      multiple="true"
+      (entrySelected)="onEntrySelected($event)"
+      style="height: 500px"
+    &gt;&lt;/lf-repository-browser&gt;
+  </pre>
+</label>
 <app-card>
   <lf-repository-browser
     multiple="true"

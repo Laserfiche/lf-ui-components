@@ -12,7 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
-import { LfBreadcrumbsModule } from '@laserfiche/lf-ui-components/shared';
+import { LfBreadcrumbsModule, LfLoaderModule } from '@laserfiche/lf-ui-components/shared';
 
 
 @NgModule({
@@ -30,7 +30,8 @@ import { LfBreadcrumbsModule } from '@laserfiche/lf-ui-components/shared';
     MatTooltipModule,
     MatDialogModule,
     ScrollingModule,
-    LfBreadcrumbsModule
+    LfBreadcrumbsModule,
+    LfLoaderModule
   ],
   bootstrap: [LfRepositoryBrowserComponent],
   exports: [LfRepositoryBrowserComponent],

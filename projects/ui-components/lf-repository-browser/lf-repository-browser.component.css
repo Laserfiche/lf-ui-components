@@ -126,4 +126,20 @@ lf-toolbar-component {
 ::ng-deep .selectable-option .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
     background: #6D6D6D;
 }
-  
+
+
+::ng-deep .mat-list-option:hover,
+    .mat-nav-list .mat-list-item:hover, 
+    .mat-action-list .mat-list-item:hover {
+    background-color: #F5FBFF;
+}
+
+::ng-deep .mat-list-option:focus, .mat-nav-list .mat-list-item:focus,
+    .mat-action-list .mat-list-item:focus {
+    outline: #1783D6 auto 1px !important;
+    background-color: #F5FBFF;
+}
+
+.node-selected {
+    background-color: #EAF5FF !important;
+} 
