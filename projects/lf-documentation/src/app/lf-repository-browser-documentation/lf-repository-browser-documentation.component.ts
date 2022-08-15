@@ -27,8 +27,13 @@ class DemoRepoService implements LfTreeNodeService {
     '16': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '16', isContainer: true, isLeaf: false, name: 'error folder', path: '1'},
     '17': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '17', isContainer: true, isLeaf: false, name: 'folder with 10000 entries', path: '1'},
     '18': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '18', isContainer: true, isLeaf: false, name: 'dynamicly loaded entries', path: '1'},
-    '60': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '60', isContainer: false, isLeaf: true, name: 'dynamic entry 60', path: '1'},
-    '19': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '19', isContainer: true, isLeaf: true, name: 'slow loading folder', path: '1'}
+    '60': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '60', isContainer: false, isLeaf: true, name: 'dynamic entry 60', path: '18'},
+    '19': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '19', isContainer: true, isLeaf: true, name: 'slow loading folder', path: '1'},
+    '20': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '20', isContainer: true, isLeaf: true, 
+            name: 'ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumbReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb', path: '1'},
+    '21': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '21', isContainer: true, isLeaf: true, 
+            name: 'ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumbReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb', path: '20'},
+    '1000': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '1000', isContainer: false, isLeaf: true, name: 'dynamic entry 1000', path: '18'},
   }
   _testData: {[key: string]: TreeNode[]} = {
     '1': [
@@ -39,7 +44,8 @@ class DemoRepoService implements LfTreeNodeService {
       this._entries['16'],
       this._entries['17'],
       this._entries['18'],
-      this._entries['19']
+      this._entries['19'],
+      this._entries['20']
     ],
     '2': [
       this._entries['6'],
@@ -58,7 +64,9 @@ class DemoRepoService implements LfTreeNodeService {
     '16': [],
     '17': [],
     '18': [],
-    '19': []
+    '19': [],
+    '20': [this._entries['21']],
+    '21': []
   }
 
   private lastFolder: string | undefined;
@@ -186,7 +194,8 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       this.dataService._entries['2'],
       this.dataService._entries['3'],
       this.dataService._entries['7'],
-      this.dataService._entries['60']
+      this.dataService._entries['60'],
+      this.dataService._entries['1000']
     ];
     await this.repoBrowser?.nativeElement.setSelectedValuesAsync(selectedValues as TreeNode[]);
   }

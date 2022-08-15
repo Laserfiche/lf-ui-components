@@ -13,40 +13,23 @@
             <!-- <div *ngIf="shouldShowNoMatchesMessage" class="no-entries-text">{{ NO_MATCHING_ENTRIES_FOUND | async }}</div> -->
         </div>
         <ng-template #showList>
-            <mat-selection-list id="lf-repo-select-list"
-                *ngIf="currentFolderChildren"
-                #displayedEntryList
+            <lf-selection-list
+                [listItems]="currentFolderChildren"
                 [multiple]="multiple"
-                [disableRipple]="true"
+                [listItemRef]="listOption"
+                (scrollChanged)="onScroll()"
+                (itemDoubleClicked)="onDblClickAsync($event)"
+                (itemSelected)="onItemSelected($event)"
                 >
-                <cdk-virtual-scroll-viewport id="lf-repo-browser-viewport" itemSize="36"
-                    (scrolledIndexChange)="onScroll($event)" appendOnly>
-                    <mat-list-option
-                        *cdkVirtualFor="let displayedEntry of currentFolderChildren;"
-                        [value]="displayedEntry"
-                        [ngClass]="{
-                            'non-selectable-option': !displayedEntry.isSelectable,
-                            'selectable-option': displayedEntry.isSelectable,
-                            'node-selected': displayedEntry.isSelected
-                        }"
-                        class="lf-entry-option"
-                        checkboxPosition="before"
-                        (dblclick)="onDblClickAsync(displayedEntry.value)"
-                        [title]="displayedEntry?.isSelected"
-                        [selected]="displayedEntry.isSelected"
-                        (click)="onClickMatListOption($event, displayedEntry)"
-                        (focusin)="onfocus(displayedEntry.value)"
-                        (keyup)="onPressKeyDown($event, displayedEntry)"
-                        >
-                            <div *ngIf="getIcons(displayedEntry.value).length > 0" class="fixed-size-icon-container">
-                                <img *ngFor="let icon of getIcons(displayedEntry.value)" src="{{ icon }}" alt="" class="lf-entry-icon" />
-                            </div>
-                            <p matLine class="lf-entry-name">
-                                <span>{{ displayedEntry?.value.name }}</span>
-                            </p>
-                    </mat-list-option>
-                </cdk-virtual-scroll-viewport>
-            </mat-selection-list>
+                <ng-template #listOption let-item="value">
+                    <div *ngIf="getIcons(item).length > 0" class="fixed-size-icon-container">
+                        <img *ngFor="let icon of getIcons(item)" src="{{ icon }}" alt="" class="lf-entry-icon" />
+                    </div>
+                    <p matLine class="lf-entry-name">
+                        <span>{{ item?.name }}</span>
+                    </p>
+                </ng-template>
+            </lf-selection-list>
         </ng-template>
     </ng-container>
 </div>

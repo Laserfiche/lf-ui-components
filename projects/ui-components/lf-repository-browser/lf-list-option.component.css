@@ -1,0 +1,35 @@
+#item-holder {
+    max-height: 42px;
+    min-height: 42px;
+    height: 42px;
+    padding: 0 8px;
+    margin: 6px 4px;
+    color: #333333;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+}
+
+#item-holder:not('lf-list-item-disabled') {
+    cursor: pointer;
+    outline: none;
+}
+
+#item-holder:hover{
+    background-color: #F5FBFF;
+}
+
+#item-holder:focus {
+    outline: #1783D6 auto 2px !important;
+    background-color: #F5FBFF;
+}
+
+:host.node-selected #item-holder {
+    background-color: #EAF5FF !important;
+} 
+
+::ng-deep mat-checkbox .mat-checkbox-layout .mat-checkbox-inner-container .mat-checkbox-ripple {
+    width: 0;
+    height: 0;
+}

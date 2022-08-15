@@ -5,35 +5,23 @@ import {
   Input,
   NgZone,
   Output,
-  QueryList,
-  ViewChildren
-} from '@angular/core';
+  ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatListOption } from '@angular/material/list';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import { AppLocalizationService, Selectable, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 import { TreeNodePage, LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
+import { LfListComponent } from './lf-list.component';
 
 @Directive()
 export abstract class RepositoryBrowserDirective {
-  @ViewChildren(MatListOption) options?: QueryList<MatListOption>;
+  @ViewChild(LfListComponent) entryList: LfListComponent | undefined;
 
   // @Input() filter: (node: TreeNode) => Promise<boolean>;
   @Input() get breadcrumbs(): TreeNode[] {
     return this._breadcrumbs;
   }
 
-  @Input() set multiple(value: boolean | string) {
-    if (typeof(value) === 'string') {
-      if (value.toLowerCase() === 'true') { value = true; }
-      else { value = false; }
-    }
-    this._multipleSelectEnabled = value;
-    this.selectable.multiSelectable = value;
-  };
-  get multiple(): boolean {
-    return this._multipleSelectEnabled;
-  }
+  @Input() multiple: boolean = false;
 
   @Input() isSelectable?: (treeNode: TreeNode) => Promise<boolean>;
 
@@ -55,12 +43,10 @@ export abstract class RepositoryBrowserDirective {
   /** @internal */
   protected _currentEntry?: TreeNode;
   /** @internal */
-  protected selectable: Selectable = new Selectable();
+  // protected selectable: Selectable = new Selectable();
 
   /** @internal */
   private _breadcrumbs: TreeNode[] = [];
-
-  private _multipleSelectEnabled: boolean = false;
 
   /** @internal */
   constructor(
@@ -72,15 +58,14 @@ export abstract class RepositoryBrowserDirective {
     public zone: NgZone,
     /** @internal */
     public localizationService: AppLocalizationService
-  ) {
-    
-    this.selectable.callback = async () => {
-      if (this._currentEntry == null) {
-        return;
-      }
-      const selectablePage = await this.updateFolderChildrenAsync(this._currentEntry);
-      return selectablePage;
-    };
+  ) {}
+
+  async checkForMoreDataCallback() {
+    if (this._currentEntry == null) {
+      return;
+    }
+    const selectablePage = await this.updateFolderChildrenAsync(this._currentEntry);
+    return selectablePage;
   }
 
   /** @internal */
@@ -140,16 +125,15 @@ export abstract class RepositoryBrowserDirective {
     this._breadcrumbs = event.breadcrumbs;
     this._currentEntry = event.selected;
     await this.updateAllPossibleEntriesAsync(this._currentEntry);
-    setTimeout(() => {
-      if (this.options && this.options.length > 0) {
-        this.options.first.focus();
-      }
-    }, 100);
+    this.entryList?.focus();
   }
 
   async onDblClickAsync(entry: TreeNode | undefined) {
+    if (!entry?.isContainer) {
+      return;
+    }
     await CoreUtils.yieldAsync();
-    this.selectable.clearSelectedValues(this.currentFolderChildren);
+    //this.selectable.clearSelectedValues(this.currentFolderChildren);
     await this.openChildFolderAsync(entry);
   }
 
@@ -160,11 +144,7 @@ export abstract class RepositoryBrowserDirective {
       this._currentEntry = entry;
       await this.updateAllPossibleEntriesAsync(entry);
 
-      setTimeout(() => {
-        if (this.options && this.options.length > 0) {
-          this.options.first.focus();
-        }
-      }, 100);
+      this.entryList?.focus();
     }
   }
 
@@ -195,7 +175,7 @@ export abstract class RepositoryBrowserDirective {
         this.resetFolderProperties();
 
         await this.updateFolderChildrenAsync(parentEntry);
-        this.entrySelected.emit(this.convertSelectedItemsToTreeNode());
+        this.entrySelected.emit([]);
       } catch (error) {
         console.error(error);
         this.hasError = true;
@@ -237,7 +217,7 @@ export abstract class RepositoryBrowserDirective {
   /** @internal */
   private resetFolderProperties() {
     this.hasError = false;
-    this.selectable.clearSelectedValues(this.currentFolderChildren);
+    this.entryList?.clearSelectedValues();
     this.ref.detectChanges();
     this.currentFolderChildren = [];
     this._focused_node = undefined;
@@ -295,7 +275,7 @@ export abstract class RepositoryBrowserDirective {
   }
 
   /** @internal */
-  protected convertSelectedItemsToTreeNode(): TreeNode[] | undefined {
-    return this.selectable.selectedItems.map(value => value.value) as TreeNode[];
+  protected convertSelectedItemsToTreeNode(selected: ILfSelectable[]): TreeNode[] | undefined {
+    return selected.map(value => value.value) as TreeNode[];
   }
 }

@@ -1,0 +1,27 @@
+<ng-container *ngIf="listItems" #displayedEntryList>
+    <cdk-virtual-scroll-viewport id="lf-list-viewport" itemSize="36"
+        (focus)="focusCurrentIndex()"
+        (scrolledIndexChange)="onScroll($event)"
+        (keydown)="onViewportKeyDown($event)">
+        <lf-list-option
+            *cdkVirtualFor="let item of listItems; let index = index;"
+            [attr.id]="_computeRowId(index)"
+            [item]="item"
+            [ngClass]="{
+                'non-selectable-option': !item.isSelectable,
+                'selectable-option': item.isSelectable,
+                'node-selected': item.isSelected
+            }"
+            class="lf-entry-option"
+            [focused]="_checkFocused(this.currentFocusIndex, index)"
+            [title]="item?.isSelected"
+            [selected]="item.isSelected"
+            [listItemRef]="listItemRef"
+            [multipleSelection]="multiple"
+            (click)="onClickMatListOption($event, item, index)"
+            (dblclick)="onDblClick(item.value)"
+            (keyup)="onItemKeyUp($event, item)"
+        >
+        </lf-list-option>
+    </cdk-virtual-scroll-viewport>
+</ng-container>

@@ -5,7 +5,6 @@
 
 .breadcrumb-parent {
   padding-left: 10px;
-  font: 600 14px "Open Sans";
   color: #605e5c;
   align-self: center;
   cursor: default;
@@ -22,7 +21,8 @@
 }
 
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
-  font: 600 14px "Open Sans";
+  font-weight: 600;
+  font-size: 14px;
   color: #605e5c;
   line-height: 25px;
   padding: 0 0px 0px 10px;

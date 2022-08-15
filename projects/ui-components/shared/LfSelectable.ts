@@ -64,7 +64,8 @@ export class Selectable {
     event: MouseEvent | KeyboardEvent,
     item: ILfSelectable,
     list: ILfSelectable[],
-    allowMultiple: boolean = false
+    allowMultiple: boolean = false,
+    onlyAdd: boolean = false
   ) {
     const itemIndex = list.findIndex((selectable) => selectable.value.id === item.value.id);
     if (!this.multiSelectable) {
@@ -90,8 +91,10 @@ export class Selectable {
     } else if (event.shiftKey) {
       const lower = this.lastSelectedIndex <= itemIndex ? this.lastSelectedIndex : itemIndex;
       const upper = this.lastSelectedIndex > itemIndex ? this.lastSelectedIndex : itemIndex;
-
-      this.clearAllSelectedItems(list);
+      if (!onlyAdd) { 
+        this.clearAllSelectedItems(list);
+      }
+      
       for (let i = lower; i <= upper; i++) {
         const value = list[i];
         if (value.isSelectable) {
@@ -99,14 +102,11 @@ export class Selectable {
         }
       }
     } else if (!allowMultiple) {
-      const wasSelected = item.isSelected;
       this.clearAllSelectedItems(list);
-      if (!wasSelected) {
-        const itemInList = list[itemIndex];
-        if (itemInList.isSelectable) {
-          this.addSelectedItem(itemInList, itemIndex);
-          this.lastSelectedIndex = itemIndex;
-        }
+      const itemInList = list[itemIndex];
+      if (itemInList.isSelectable) {
+        this.addSelectedItem(itemInList, itemIndex);
+        this.lastSelectedIndex = itemIndex;
       }
     }
   }
