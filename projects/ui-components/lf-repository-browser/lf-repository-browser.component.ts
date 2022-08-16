@@ -6,6 +6,7 @@ import { RepositoryBrowserDirective } from './repository-browser.directive';
 import { LfTreeNodeService, TreeNode } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { SelectedItemEvent } from './lf-list.component';
 
 @Component({
   selector: 'lf-repository-browser-component',
@@ -90,7 +91,7 @@ export class LfRepositoryBrowserComponent extends RepositoryBrowserDirective {
   }
 
   /** @internal */
-  async onItemSelected(event: {selected: {value: TreeNode}, selectedItems: {value: TreeNode}[] | undefined}) {
-    this.entrySelected.emit(event.selectedItems?.map(item => item.value));
+  async onItemSelected(event: SelectedItemEvent) {
+    this.entrySelected.emit(event.selectedItems?.map((item: ILfSelectable) => item.value as TreeNode));
   }
 }

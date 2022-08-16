@@ -4,7 +4,7 @@
     height: 42px;
     padding: 0 8px;
     margin: 6px 4px;
-    color: #333333;
+    color: var(--lf-body-text-color, #333333);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -17,19 +17,28 @@
 }
 
 #item-holder:hover{
-    background-color: #F5FBFF;
+    background-color: var(--lf-menu-item-hover-color, #F5FBFF);
 }
 
 #item-holder:focus {
-    outline: #1783D6 auto 2px !important;
-    background-color: #F5FBFF;
+    outline: var(--lf-menu-item-active-outline-color, #1783D6) auto 2px !important;
+    background-color: var(--lf-menu-item-hover-color, #F5FBFF);
 }
 
 :host.node-selected #item-holder {
-    background-color: #EAF5FF !important;
+    background-color: var(--lf-menu-item-selected-color, #EAF5FF) !important;
 } 
+
+#item-holder.fill-multiselect {
+    padding-left: 32px;
+}
 
 ::ng-deep mat-checkbox .mat-checkbox-layout .mat-checkbox-inner-container .mat-checkbox-ripple {
     width: 0;
     height: 0;
 }
+
+.multiselect-indicator {
+    padding-right: 8px;
+}
+

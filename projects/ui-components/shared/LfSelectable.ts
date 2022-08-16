@@ -67,6 +67,7 @@ export class Selectable {
     allowMultiple: boolean = false,
     onlyAdd: boolean = false
   ) {
+    if (!item.isSelectable) { return; }
     const itemIndex = list.findIndex((selectable) => selectable.value.id === item.value.id);
     if (!this.multiSelectable) {
       this.clearAllSelectedItems(list);
@@ -128,6 +129,7 @@ export class Selectable {
   }
 
   private addSelectedItem(itemInList: ILfSelectable, itemIndex: number) {
+    if (!itemInList.isSelectable) { return; }
     itemInList.isSelected = true;
     this._selectedItems.push(itemInList);
     this.selectedItemsIndices.push(itemIndex);

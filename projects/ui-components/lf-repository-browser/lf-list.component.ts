@@ -4,6 +4,11 @@ import { ILfSelectable, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
 
+export interface SelectedItemEvent {
+  selected: ILfSelectable,
+  selectedItems: ILfSelectable[] | undefined
+}
+
 @Component({
   selector: 'lf-selection-list',
   templateUrl: './lf-list.component.html',
@@ -30,7 +35,7 @@ export class LfListComponent {
 
   @Output() scrollChanged = new EventEmitter<undefined>();
   @Output() itemDoubleClicked = new EventEmitter<any>();
-  @Output() itemSelected = new EventEmitter<{selected: ILfSelectable, selectedItems: ILfSelectable[] | undefined}>();
+  @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
 
   currentFocusIndex: number = 0;
   
@@ -89,19 +94,18 @@ export class LfListComponent {
     this.itemDoubleClicked.emit(value);
   }
 
-  async onItemKeyUp(event: KeyboardEvent, item: ILfSelectable) {
+  async onItemKeyDown(event: KeyboardEvent, item: ILfSelectable) {
     if (
       event.key === ' ' ||
       event.key === 'Enter' ||
       (event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'))
     ) {
-      
       if (event.key === 'Enter') {
         this.onDblClick(item.value);
         this.selectable.onItemClicked(event, item, this.listItems);
         return;
       }
-      this.selectable.onItemClicked(event, item, this.listItems);
+      this.selectable.onItemClicked(event, item, this.listItems, false, event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'));
       this.itemSelected.emit({selected: item, selectedItems: this.selectable.selectedItems});
     }
   }

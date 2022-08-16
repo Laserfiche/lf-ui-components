@@ -169,7 +169,9 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   @ViewChild('repoBrowser') repoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
   @ViewChild('singleSelectRepoBrowser') singleSelectRepoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
   
+  allSelectable: boolean = true;
   dataService: DemoRepoService = new DemoRepoService();
+  selectable = this._selectable.bind(this);
   singleSelectDataService: DemoRepoService = new DemoRepoService();
 
   elementSelectedEntry: TreeNode[] | undefined;
@@ -187,6 +189,18 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   onEntrySelected(event: CustomEvent<TreeNode[] | undefined>) {
     this.elementSelectedEntry = event.detail;
+  }
+
+  private _selectable(node: TreeNode): Promise<boolean> {
+    if (this.allSelectable) { return Promise.resolve(true); } 
+    if (node.isContainer) { return Promise.resolve(false); }
+    return Promise.resolve(true); 
+  }
+
+  toggleSelectable() {
+    this.allSelectable = !this.allSelectable;
+    this.dataService = new DemoRepoService();
+    this.repoBrowser?.nativeElement.initAsync(this.dataService);
   }
 
   async setSelectedValue() {

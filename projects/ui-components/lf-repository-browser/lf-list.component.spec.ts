@@ -1,3 +1,5 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LfListComponent } from './lf-list.component';
@@ -8,7 +10,11 @@ describe('LfListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfListComponent ]
+      declarations: [ LfListComponent ],
+      imports: [
+        CommonModule,
+        ScrollingModule
+      ]
     })
     .compileComponents();
   });
@@ -22,4 +28,8 @@ describe('LfListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit the SelectedItemEvent when a selectable item is clicked', () => {
+    
+  })
 });

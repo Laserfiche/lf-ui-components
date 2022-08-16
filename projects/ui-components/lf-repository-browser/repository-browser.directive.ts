@@ -125,7 +125,7 @@ export abstract class RepositoryBrowserDirective {
     this._breadcrumbs = event.breadcrumbs;
     this._currentEntry = event.selected;
     await this.updateAllPossibleEntriesAsync(this._currentEntry);
-    this.entryList?.focus();
+    setTimeout(() => this.entryList?.focus());
   }
 
   async onDblClickAsync(entry: TreeNode | undefined) {

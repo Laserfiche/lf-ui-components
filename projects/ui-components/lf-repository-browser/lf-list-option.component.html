@@ -1,5 +1,7 @@
-<div id="item-holder" [attr.tabindex]="_setTabIndex(this.focused)" #focuselement>
-    <mat-checkbox *ngIf="multipleSelection" tabindex=-1 [checked]="item?.isSelected" 
+<div id="item-holder" [attr.tabindex]="_setTabIndex(this.focused)" #focuselement
+    [ngClass]="{'fill-multiselect': multipleSelection && !item?.isSelectable}">
+    <mat-checkbox class="lf-checkbox multiselect-indicator" *ngIf="multipleSelection && item?.isSelectable" tabindex=-1 [checked]="item?.isSelected" 
+        color="primary"
         (click)="onCheckboxClicked($event)" disableRipple></mat-checkbox>
     <ng-container *ngIf="item">
         <ng-container *ngTemplateOutlet="listItemRef;context:item"></ng-container> 

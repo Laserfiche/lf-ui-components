@@ -20,7 +20,7 @@
             [multipleSelection]="multiple"
             (click)="onClickMatListOption($event, item, index)"
             (dblclick)="onDblClick(item.value)"
-            (keyup)="onItemKeyUp($event, item)"
+            (keydown)="onItemKeyDown($event, item)"
         >
         </lf-list-option>
     </cdk-virtual-scroll-viewport>
