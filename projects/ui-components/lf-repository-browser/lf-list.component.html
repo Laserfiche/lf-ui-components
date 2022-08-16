@@ -3,7 +3,7 @@
         (focus)="focusCurrentIndex()"
         (scrolledIndexChange)="onScroll($event)"
         (keydown)="onViewportKeyDown($event)">
-        <lf-list-option
+        <lf-list-option-component
             *cdkVirtualFor="let item of listItems; let index = index;"
             [attr.id]="_computeRowId(index)"
             [item]="item"
@@ -22,6 +22,6 @@
             (dblclick)="onDblClick(item.value)"
             (keydown)="onItemKeyDown($event, item)"
         >
-        </lf-list-option>
+        </lf-list-option-component>
     </cdk-virtual-scroll-viewport>
 </ng-container>

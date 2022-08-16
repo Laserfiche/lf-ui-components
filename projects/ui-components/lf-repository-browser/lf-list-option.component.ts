@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, TemplateRef, ViewChild } from '@angular/c
 import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 
 @Component({
-  selector: 'lf-list-option',
+  selector: 'lf-list-option-component',
   templateUrl: './lf-list-option.component.html',
   styleUrls: ['./lf-list-option.component.css']
 })

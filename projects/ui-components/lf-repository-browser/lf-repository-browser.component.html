@@ -13,7 +13,7 @@
             <!-- <div *ngIf="shouldShowNoMatchesMessage" class="no-entries-text">{{ NO_MATCHING_ENTRIES_FOUND | async }}</div> -->
         </div>
         <ng-template #showList>
-            <lf-selection-list
+            <lf-selection-list-component
                 [listItems]="currentFolderChildren"
                 [multiple]="multiple"
                 [listItemRef]="listOption"
@@ -29,7 +29,7 @@
                         <span>{{ item?.name }}</span>
                     </p>
                 </ng-template>
-            </lf-selection-list>
+            </lf-selection-list-component>
         </ng-template>
     </ng-container>
 </div>

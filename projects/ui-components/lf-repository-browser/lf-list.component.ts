@@ -10,7 +10,7 @@ export interface SelectedItemEvent {
 };
 
 @Component({
-  selector: 'lf-selection-list',
+  selector: 'lf-selection-list-component',
   templateUrl: './lf-list.component.html',
   styleUrls: ['./lf-list.component.css']
 })

@@ -27,15 +27,10 @@ export class LfListModule {
   constructor(
     /** @internal */ injector: Injector
   ) {
-    const listElementName: string = 'lf-list';
+    const listElementName: string = 'lf-selection-list';
     if (window.customElements && !customElements.get(listElementName)) {
       const repoExplorerElement = createCustomElement(LfListComponent, { injector });
       customElements.define(listElementName, repoExplorerElement);
-    }
-    const listOptionElementName: string = 'lf-list-option';
-    if (window.customElements && !customElements.get(listOptionElementName)) {
-      const repoExplorerElement = createCustomElement(LfListOptionComponent, { injector });
-      customElements.define(listOptionElementName, repoExplorerElement);
     }
   }
 }
