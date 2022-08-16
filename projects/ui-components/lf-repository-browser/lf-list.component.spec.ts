@@ -29,7 +29,7 @@ describe('LfListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit the SelectedItemEvent when a selectable item is clicked', () => {
+  // it('should emit the SelectedItemEvent when a selectable item is clicked', () => {
     
-  })
+  // })
 });

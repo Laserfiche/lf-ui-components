@@ -18,7 +18,7 @@ const rootTreeNode: TreeNode = {
     isLeaf: false,
     name: 'root',
     path: ''
-}
+};
 const rootTreeNodeChildren: TreeNode[] = [
     {
         icon: '',
@@ -36,13 +36,13 @@ const rootTreeNodeChildren: TreeNode[] = [
         name: 'tree folder (3)',
         path: ''
     }
-]
+];
 
 describe('RepositoryBrowserDirective', () => {
     let directive: RepositoryBrowserDirective;
 
     let changeRefMock: ChangeDetectorRef;
-    let dataServiceMock: jasmine.SpyObj<LfTreeNodeService> = jasmine.createSpyObj('dataService', 
+    const dataServiceMock: jasmine.SpyObj<LfTreeNodeService> = jasmine.createSpyObj('dataService', 
         [ 'getFolderChildrenAsync', 'getRootTreeNodeAsync', 
         'getParentTreeNodeAsync', 'getTreeNodeByIdAsync']
     );
@@ -124,7 +124,7 @@ describe('RepositoryBrowserDirective', () => {
                 isLeaf: false,
                 name: 'test entry (2)',
                 path: ''
-            }
+            };
             dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
             dataServiceMock.getTreeNodeByIdAsync.and.returnValue(Promise.resolve(entryToGet));
             dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
@@ -149,7 +149,7 @@ describe('RepositoryBrowserDirective', () => {
                 isLeaf: false,
                 name: 'test entry (3)',
                 path: ''
-            }
+            };
             dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
             dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
 
@@ -247,7 +247,7 @@ describe('RepositoryBrowserDirective', () => {
 
     it('onBreadcrumbSelected should update the breadcrumbs and get new data for the selected entry', async () => {
         // Arrange
-        const id = '7'
+        const id = '7';
         const entry: TreeNode = {
             icon: '',
             id,
@@ -455,7 +455,7 @@ describe('RepositoryBrowserDirective', () => {
                 name: 'test entry (17)',
                 path: ''
             };
-        })
+        });
         it('should set the component to error state when dataService has an error', async () => {
             // Arrange
             dataServiceMock.getFolderChildrenAsync.and.rejectWith(Promise.reject());
@@ -515,5 +515,5 @@ describe('RepositoryBrowserDirective', () => {
 
             expect(directive.nextPage).toBe(nextPageLink);
         });
-    })
+    });
 });

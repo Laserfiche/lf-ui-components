@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ScrollingModule} from '@angular/cdk/scrolling'
+import {ScrollingModule} from '@angular/cdk/scrolling';
 import { createCustomElement } from '@angular/elements';
 
 import { LfListComponent } from './lf-list.component';
@@ -24,13 +24,18 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LfListModule { 
-  // constructor(
-  //   /** @internal */ injector: Injector
-  // ) {
-  //   const repositoryExplorerElementName: string = 'lf-repository-browser';
-  //   if (window.customElements && !customElements.get(repositoryExplorerElementName)) {
-  //     const repoExplorerElement = createCustomElement(LfRepositoryBrowserComponent, { injector });
-  //     customElements.define(repositoryExplorerElementName, repoExplorerElement);
-  //   }
-  // }
+  constructor(
+    /** @internal */ injector: Injector
+  ) {
+    const listElementName: string = 'lf-list';
+    if (window.customElements && !customElements.get(listElementName)) {
+      const repoExplorerElement = createCustomElement(LfListComponent, { injector });
+      customElements.define(listElementName, repoExplorerElement);
+    }
+    const listOptionElementName: string = 'lf-list-option';
+    if (window.customElements && !customElements.get(listOptionElementName)) {
+      const repoExplorerElement = createCustomElement(LfListOptionComponent, { injector });
+      customElements.define(listOptionElementName, repoExplorerElement);
+    }
+  }
 }

@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
 
 export interface SelectedItemEvent {
-  selected: ILfSelectable,
-  selectedItems: ILfSelectable[] | undefined
-}
+  selected: ILfSelectable;
+  selectedItems: ILfSelectable[] | undefined;
+};
 
 @Component({
   selector: 'lf-selection-list',

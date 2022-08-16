@@ -34,7 +34,7 @@ class DemoRepoService implements LfTreeNodeService {
     '21': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '21', isContainer: true, isLeaf: true, 
             name: 'ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumbReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb', path: '20'},
     '1000': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '1000', isContainer: false, isLeaf: true, name: 'dynamic entry 1000', path: '18'},
-  }
+  };
   _testData: {[key: string]: TreeNode[]} = {
     '1': [
       this._entries['2'],
@@ -67,7 +67,7 @@ class DemoRepoService implements LfTreeNodeService {
     '19': [],
     '20': [this._entries['21']],
     '21': []
-  }
+  };
 
   private lastFolder: string | undefined;
 
@@ -75,7 +75,7 @@ class DemoRepoService implements LfTreeNodeService {
     for(let i = 0; i < 10000; i++) {
       this._testData['17'].push(
         {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: i.toString(), isContainer: false, isLeaf: true, name: `generated entry ${i}`, path: '17' }
-      )
+      );
     }
   }
   
@@ -115,8 +115,8 @@ class DemoRepoService implements LfTreeNodeService {
             resolve({
               page: newEntries,
               nextPage: undefined
-            })
-          }, 5000)
+            });
+          }, 5000);
           
         });
       }
@@ -154,14 +154,14 @@ class DemoRepoService implements LfTreeNodeService {
         {
           icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: (i).toString(), 
         isContainer: false, isLeaf: true, isSelectable: true, name: `dynamic entry ${(i).toString()}`, path: '18', isSelected: false}
-      )
+      );
     }
     return entries;
   }
 }
 
 @Component({
-  selector: 'lf-repository-browser-documentation',
+  selector: 'app-lf-repository-browser-documentation',
   templateUrl: './lf-repository-browser-documentation.component.html',
   styleUrls: ['./lf-repository-browser-documentation.component.css']
 })

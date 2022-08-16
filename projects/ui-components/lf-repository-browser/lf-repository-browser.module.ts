@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ScrollingModule} from '@angular/cdk/scrolling'
+import {ScrollingModule} from '@angular/cdk/scrolling';
 import { createCustomElement } from '@angular/elements';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';

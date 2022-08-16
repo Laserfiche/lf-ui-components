@@ -10,7 +10,10 @@ export class LfBreadcrumbsComponent {
 
   @Input() breadcrumbs: LfBreadcrumb[] = [];
   @Output() breadcrumbSelected = new EventEmitter<LfBreadcrumb | undefined>();
-  @Output() breadcrumbClicked = new EventEmitter<{breadcrumbs: LfBreadcrumb[], selected: LfBreadcrumb}>();
+  @Output() breadcrumbClicked = new EventEmitter<{
+    selected: LfBreadcrumb;
+    breadcrumbs: LfBreadcrumb[];
+  }>();
 
   /** @internal */
   constructor() { }
