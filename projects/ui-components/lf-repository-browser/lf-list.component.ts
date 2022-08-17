@@ -74,7 +74,7 @@ export class LfListComponent {
   async onClickMatListOption(event: MouseEvent, option: ILfSelectable, index: number) {
     let target: HTMLElement | null = (event.target as HTMLElement);
     let nodeName: string | undefined;
-    while (target != null && nodeName !== 'lf-list-option' && nodeName !== 'mat-checkbox') {
+    while (target != null && nodeName !== 'lf-list-option-component' && nodeName !== 'mat-checkbox') {
       target = target.parentElement;
       nodeName = target?.nodeName.toLowerCase();
     }
@@ -128,7 +128,7 @@ export class LfListComponent {
       return;
     }
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-      if (document.activeElement?.parentNode?.nodeName.toLowerCase() !== 'lf-list-option') { return; }
+      if (document.activeElement?.parentNode?.nodeName.toLowerCase() !== 'lf-list-option-component') { return; }
       event.preventDefault();
       event.stopPropagation();
       const moveDirection = event.key === 'ArrowUp' ? -1 : 1;
