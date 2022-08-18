@@ -1,6 +1,6 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { Component, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
-import { ILfSelectable, Selectable } from '@laserfiche/lf-ui-components/shared';
+import { AfterViewInit, Component, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
 
@@ -11,10 +11,10 @@ export interface SelectedItemEvent {
 
 @Component({
   selector: 'lf-selection-list-component',
-  templateUrl: './lf-list.component.html',
-  styleUrls: ['./lf-list.component.css']
+  templateUrl: './lf-selection-list.component.html',
+  styleUrls: ['./lf-selection-list.component.css']
 })
-export class LfListComponent {
+export class LfSelectionListComponent {
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
   @ViewChildren(LfListOptionComponent) options: QueryList<LfListOptionComponent> | undefined;
 
@@ -32,9 +32,8 @@ export class LfListComponent {
     return this._multipleSelectEnabled;
   }
 
-
   @Output() scrollChanged = new EventEmitter<undefined>();
-  @Output() itemDoubleClicked = new EventEmitter<any>();
+  @Output() itemDoubleClicked = new EventEmitter<ItemWithId>();
   @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
 
   currentFocusIndex: number = 0;
@@ -86,11 +85,9 @@ export class LfListComponent {
     this.currentFocusIndex = index;
 
     this.itemSelected.emit({selected: option, selectedItems: this.selectable.selectedItems});
-
   }
   
-  onDblClick(value: any) {
-    this.selectable.clearSelectedValues(this.listItems);
+  onDblClick(value: ItemWithId) {
     this.itemDoubleClicked.emit(value);
   }
 

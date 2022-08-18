@@ -14,8 +14,7 @@ describe('LfListOptionComponent', () => {
       declarations: [ LfListOptionComponent ],
       imports: [
         CommonModule,
-        MatCheckboxModule,
-        ScrollingModule
+        MatCheckboxModule
       ]
     })
     .compileComponents();

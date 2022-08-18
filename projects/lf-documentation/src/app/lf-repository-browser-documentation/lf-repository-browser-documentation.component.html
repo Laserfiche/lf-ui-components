@@ -62,17 +62,16 @@
   </pre>
 </label>
 <app-card>
-  <lf-repository-browser
+  <lf-repository-browser-component
     multiple="true"
     [isSelectable]="selectable"
     (entrySelected)="onEntrySelected($event)"
     style="height: 500px"
     #repoBrowser
-  ></lf-repository-browser>
+  ></lf-repository-browser-component>
 </app-card>
 <button (click)="setSelectedValue()">Set Selected</button>
 <button (click)="toggleSelectable()">{{allSelectable ? 'Set Only Documents Selectable' : 'Set All Entries Selectable'}}</button>
-<p>Focused Node: {{focusedNode | json}}</p>
 
 <p class="documentation-text">lf-folder-browser entrySelected:</p>
 <textarea disabled cols="80" rows="10">{{ elementSelectedEntry | json }}</textarea>

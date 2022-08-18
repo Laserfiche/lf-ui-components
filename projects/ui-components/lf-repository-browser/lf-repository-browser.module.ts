@@ -13,7 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 import { LfBreadcrumbsModule, LfLoaderModule } from '@laserfiche/lf-ui-components/shared';
-import { LfListModule } from './lf-list.module';
+import { LfSelectionListModule } from '@laserfiche/lf-ui-components/lf-selection-list';
 
 
 @NgModule({
@@ -33,7 +33,7 @@ import { LfListModule } from './lf-list.module';
     ScrollingModule,
     LfBreadcrumbsModule,
     LfLoaderModule,
-    LfListModule
+    LfSelectionListModule
   ],
   bootstrap: [LfRepositoryBrowserComponent],
   exports: [LfRepositoryBrowserComponent],

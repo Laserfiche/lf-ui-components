@@ -166,7 +166,7 @@ class DemoRepoService implements LfTreeNodeService {
   styleUrls: ['./lf-repository-browser-documentation.component.css']
 })
 export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit {
-  @ViewChild('repoBrowser') repoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
+  @ViewChild('repoBrowser') repoBrowser?: LfRepositoryBrowserComponent;
   @ViewChild('singleSelectRepoBrowser') singleSelectRepoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
   
   allSelectable: boolean = true;
@@ -178,13 +178,17 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   constructor() { }
 
-  get focusedNode(): TreeNode | undefined {
-    return this.repoBrowser?.nativeElement.focused_node;
-  }
-
   ngAfterViewInit(): void {
-    this.repoBrowser?.nativeElement?.initAsync(this.dataService);
+    this.repoBrowser?.initAsync(this.dataService);
     this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
+
+    if (this.repoBrowser != null) {
+      const test = this.repoBrowser
+      test.focus();
+      test.onScroll();
+    }
+    
+
   }
 
   onEntrySelected(event: CustomEvent<TreeNode[] | undefined>) {
@@ -200,7 +204,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   toggleSelectable() {
     this.allSelectable = !this.allSelectable;
     this.dataService = new DemoRepoService();
-    this.repoBrowser?.nativeElement.initAsync(this.dataService);
+    this.repoBrowser?.initAsync(this.dataService);
   }
 
   async setSelectedValue() {
@@ -211,6 +215,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       this.dataService._entries['60'],
       this.dataService._entries['1000']
     ];
-    await this.repoBrowser?.nativeElement.setSelectedValuesAsync(selectedValues as TreeNode[]);
+    await this.repoBrowser?.setSelectedValuesAsync(selectedValues as TreeNode[]);
   }
 }
