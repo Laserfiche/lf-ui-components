@@ -16,7 +16,7 @@ import { LfRepositoryBrowserComponent } from './lf-repository-browser.component'
 
 import { IconUtils } from '@laserfiche/lf-js-utils';
 import { LfTreeNodeService, TreeNode, TreeNodePage } from "./ILfTreeNodeService";
-import { LfListModule } from "../projects";
+import { LfSelectionListModule } from "../projects";
 
 
 const rootTreeNode: TreeNode = {
@@ -54,7 +54,7 @@ const moduleDef: TestModuleMetadata = {
     MatMenuModule,
     MatButtonToggleModule,
     MatDialogModule,
-    LfListModule
+    LfSelectionListModule
   ],
   declarations: [
     LfRepositoryBrowserComponent,
