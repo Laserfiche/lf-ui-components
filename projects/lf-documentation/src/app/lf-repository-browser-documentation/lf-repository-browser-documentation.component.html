@@ -1,0 +1,176 @@
+<p class="documentation-title">LfRepositoryBrowser</p>
+<div style="height: 100px; overflow: auto;">
+  <ul role="listbox">
+    <li>Test 1</li>
+    <li>Test 1</li>
+    <li>Test 1</li>
+    <li>Test 1</li>
+    <li>Test 1</li>
+    <li>Test 1</li>
+    <li>Test 1</li>
+    <li>Test 1</li>
+    <li>Test 1</li>
+    <li>Test 1</li>
+    <li>Test 1</li>
+    <li>Test 1</li>
+  </ul>
+</div>
+<p class="documentation-text code-container">
+  <code>
+    <span class="code-html-tagname">&lt;lf-repository-browser </span>
+    <span class="code-html-attribute-name">description</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"Test Description for Element" </span>
+    <span class="code-html-tagname">&gt;&lt;/lf-repository-browser&gt;</span>
+  </code>
+</p>
+<p class="documentation-text code-container">
+  <code>
+    <span class="code-html-tagname">const </span>
+    <span>repoBrowser</span>
+    <span> = </span>
+    <span>document.querySelector('lf-repository-browser);</span>
+    <p>repoBrowser.addEventListener('entrySelected', onElementNodeSelected(event));</p>
+    <p>await repoBrowser.initAsync(treeProvidersObject);</p>
+  </code>
+</p>
+<label>
+  <pre>
+    &lt;lf-repository-browser
+      multiple="false"
+      (entrySelected)="onEntrySelected($event)"
+      style="height: 500px"
+    &gt;&lt;/lf-repository-browser&gt;
+  </pre>
+</label>
+<app-card>
+  <lf-repository-browser
+    multiple="false"
+    (entrySelected)="onEntrySelected($event)"
+    style="height: 500px"
+    #singleSelectRepoBrowser
+  ></lf-repository-browser>
+</app-card>
+
+<label>
+  <pre>
+    &lt;lf-repository-browser
+      multiple="true"
+      (entrySelected)="onEntrySelected($event)"
+      style="height: 500px"
+    &gt;&lt;/lf-repository-browser&gt;
+  </pre>
+</label>
+<app-card>
+  <lf-repository-browser-component
+    multiple="true"
+    [isSelectable]="selectable"
+    (entrySelected)="onEntrySelected($event)"
+    style="height: 500px"
+    #repoBrowser
+  ></lf-repository-browser-component>
+</app-card>
+<button (click)="setSelectedValue()">Set Selected</button>
+<button (click)="toggleSelectable()">{{allSelectable ? 'Set Only Documents Selectable' : 'Set All Entries Selectable'}}</button>
+
+<p class="documentation-text">lf-folder-browser entrySelected:</p>
+<textarea disabled cols="80" rows="10">{{ elementSelectedEntry | json }}</textarea>
+
+<p class="documentation-header">Overview</p>
+<p class="documentation-text">Web Component to interact with data structures such as folders/files</p>
+<p class="documentation-header">Use Case</p>
+<p class="documentation-text">Selecting folder to save document to in Laserfiche</p>
+<p class="documentation-header">HTML Element</p>
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>description</td>
+    <td>string</td>
+    <td>displayed on top</td>
+  </tr>
+  <tr>
+    <td>multiple</td>
+    <td>boolean</td>
+    <td>allows multiple entries to be selected</td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>entrySelected/td></td>
+    <td>(event: CustomEvent&lt;Entry[]&gt;) => Promise&lt;void&gt;</td>
+    <td>event raised when selectable node is selected</td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Method/Property</th>
+    <th>Signature</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>initAsync</td>
+    <td>(providers: LfRepositoryProvider, selectedEntryId?: string) => Promise&lt;void&gt;</td>
+    <td>
+      initializes the lf-repository-browser with a LfRepositoryProvider You <b>must</b> call this method. Each time this is called, the
+      state of lf-repository-browser is reset. If selectedEntryId is specified, the tree is directly opened to the node
+      with id = selectedEntryId.
+    </td>
+  </tr>
+</table>
+<p class="documentation-header">LfRepositoryProvider</p>
+<p class="documentation-sub-header">LfRepositoryService Interface</p>
+
+<ul>
+  <li>breadcrumbs : Entry[]</li>
+  <li>currentFolder : Entry | undefined</li>
+  <li>list : Entry[]</li>
+  <li>getRootEntryAsync() : Promise&lt;Entry&gt;</li>
+  <li>getData(folderId: string | null, filterText: string | undefined, refresh?: boolean): Promise&lt;Entry[]&gt;
+    <ul>
+      <li>
+        getData should update the `list` property on the service
+      </li>
+    </ul>
+  </li>
+  <li>
+    getParentEntryAsync(node: Entry): Promise&lt;Entry | undefined&gt;
+    <ul>
+      <li>
+        If an entry does not have a parent (i.e. a root node), then we expect getParentEntryAsync to return
+        Promise&lt;undefined&gt;
+      </li>
+    </ul>
+  </li>
+  <li>getNodeByIdAsync(id: string): Promise&lt;TreeNode | undefined&gt;</li>
+  <li>
+    refreshAsync?(node: TreeNode): Promise&lt;TreeNode[]&gt;
+    <ul>
+      <li>Optional. If defined, users can refresh the tree. This function should not use cached values.</li>
+    </ul>
+  </li>
+</ul>
+<p class="documentation-sub-header">LfRepositoryProviders Interface</p>
+<ul>
+  <li>repositoryService: LfRepositoryService</li>
+</ul>
+<p class="documentation-sub-header">Entry Interface</p>
+<ul>
+  <li>id : string</li>
+  <li>icon : string | string[]</li>
+  <li>isContainer : boolean</li>
+  <li>isLeaf : boolean</li>
+  <li>isSelectable: boolean</li>
+  <li>name : string</li>
+  <li>path : string</li>
+</ul>

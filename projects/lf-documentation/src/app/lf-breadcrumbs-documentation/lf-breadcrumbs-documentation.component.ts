@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NgElement, WithProperties } from '@angular/elements';
-import { LfBreadcrumbsComponent, TreeNode } from './../../../../ui-components/tree-components/lf-tree-components-public-api';
+import { LfBreadcrumbsComponent } from './../../../../ui-components/shared/lf-shared-public-api';
+import { TreeNode } from './../../../../ui-components/tree-components/lf-tree-components-public-api';
 
 @Component({
   selector: 'app-lf-breadcrumbs-documentation',

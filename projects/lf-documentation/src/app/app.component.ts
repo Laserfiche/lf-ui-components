@@ -39,6 +39,7 @@ const TREE_DATA: ComponentNode[] = [
           { name: 'lf-folder-browser', routerLink: RouterLinks.LF_FOLDER_BROWSER },
           { name: 'lf-toolbar', routerLink: RouterLinks.LF_TOOLBAR },
           { name: 'lf-tree', routerLink: RouterLinks.LF_TREE },
+          { name: 'lf-repository-browser', routerLink: RouterLinks.LF_REPOSITORY_BROWSER}
         ]
       },
       {

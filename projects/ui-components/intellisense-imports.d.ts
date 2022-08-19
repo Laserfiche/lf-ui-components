@@ -7,3 +7,4 @@ import './lf-checklist';
 import './lf-metadata';
 import './tree-components';
 import './lf-user-feedback';
+import './lf-repository-browser';
