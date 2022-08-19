@@ -24,7 +24,7 @@ class SelectionTesting {
   }
 }
 
-fdescribe('LfListComponent single select', () => {
+describe('LfListComponent single select', () => {
   let underTest: Selectable;
   const valueFactory = new SelectionTesting();
 
@@ -155,8 +155,6 @@ fdescribe('LfListComponent single select', () => {
       expect(underTest.selectedItems.length).toBe(1);
       expect(toSelect.isSelected).toBeTrue();
     });
-
-    it('should select the item when spacebar is pressed ')
   });
 
   describe('onItemClicked multi-select', () => {

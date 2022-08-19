@@ -183,12 +183,8 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
 
     if (this.repoBrowser != null) {
-      const test = this.repoBrowser
-      test.focus();
-      test.onScroll();
+      this.repoBrowser.focus();
     }
-    
-
   }
 
   onEntrySelected(event: TreeNode[] | undefined) {

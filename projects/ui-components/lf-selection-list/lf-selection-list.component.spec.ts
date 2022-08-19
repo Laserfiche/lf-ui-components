@@ -225,7 +225,7 @@ describe('LfListComponent single select', () => {
       expect(document.activeElement).toEqual(secondFocusItem);
       expect(component.list?.currentFocusIndex).toBe(0);
     }));
-  })
+  });
 });
 
 describe('LfListComponent multi select', () => {
@@ -250,6 +250,4 @@ describe('LfListComponent multi select', () => {
     fixture.autoDetectChanges();
     tick(500); // Need to add this so we can allow the list to render
   }));
-
-  it('should ')
 });
