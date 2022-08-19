@@ -15,11 +15,11 @@ import { ILfSelectable } from "../shared/LfSelectable";
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 
 import { IconUtils } from '@laserfiche/lf-js-utils';
-import { LfTreeNodeService, TreeNode, TreeNodePage } from "./ILfTreeNodeService";
+import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from "./ILfTreeNodeService";
 import { LfSelectionListModule } from "../projects";
 
 
-const rootTreeNode: TreeNode = {
+const rootTreeNode: LfTreeNode = {
     icon: '',
     id: '1',
     isContainer: true,
@@ -27,7 +27,7 @@ const rootTreeNode: TreeNode = {
     name: 'root',
     path: ''
 };
-const rootTreeNodeChildren: TreeNode[] = [
+const rootTreeNodeChildren: LfTreeNode[] = [
     {
         icon: '',
         id: '2',
@@ -65,7 +65,7 @@ const moduleDef: TestModuleMetadata = {
 // const repoService: LfTreeNodeService = new TestRepoService();
 const FILE_SVG = IconUtils.getDocumentIconUrlFromIconId('document-20');
 const FOLDER_SVG = IconUtils.getDocumentIconUrlFromIconId('folder-20');
-const rootNode: TreeNode = {
+const rootNode: LfTreeNode = {
   name: 'Repository 1',
   id: 'Repository 1',
   path: 'Repository 1',
@@ -75,7 +75,7 @@ const rootNode: TreeNode = {
   isLeaf: false,
   
 };
-const nested1Node: TreeNode = {
+const nested1Node: LfTreeNode = {
   name: 'Nested1',
   id: 'Repository 1/Nested1',
   path: 'Repository 1/Nested1',
@@ -85,7 +85,7 @@ const nested1Node: TreeNode = {
   isLeaf: false,
   
 };
-const errorNode: TreeNode = {
+const errorNode: LfTreeNode = {
   name: 'Wait 3 seconds, then throw an error!',
   id: 'Repository 1/Nested1/Wait 3 seconds, then throw an error!',
   path: 'Repository 1/Nested1/Wait 3 seconds, then throw an error!',
@@ -95,7 +95,7 @@ const errorNode: TreeNode = {
   isLeaf: false,
   
 };
-const emptyFolderNode: TreeNode = {
+const emptyFolderNode: LfTreeNode = {
   name: 'Nothing in here',
   id: 'Repository 1/Nested1/Nothing in here',
   path: 'Repository 1/Nested1/Nothing in here',
@@ -105,7 +105,7 @@ const emptyFolderNode: TreeNode = {
   isLeaf: false,
   
 };
-const nested2Node: TreeNode = {
+const nested2Node: LfTreeNode = {
   name: 'Nested2',
   id: 'Repository 1/Nested1/Nested2',
   path: 'Repository 1/Nested1/Nested2',
@@ -115,7 +115,7 @@ const nested2Node: TreeNode = {
   isLeaf: false,
   
 };
-const nested3Node: TreeNode = {
+const nested3Node: LfTreeNode = {
   name: 'Nested3',
   id: 'Repository 1/Nested1/Nested2/Nested3',
   path: 'Repository 1/Nested1/Nested2/Nested3',
@@ -125,7 +125,7 @@ const nested3Node: TreeNode = {
   isLeaf: false,
   
 };
-const nested4Node: TreeNode = {
+const nested4Node: LfTreeNode = {
   name: 'Nested4',
   id: 'Repository 1/Nested1/Nested2/Nested3/Nested4',
   path: 'Repository 1/Nested1/Nested2/Nested3/Nested4',
@@ -314,7 +314,7 @@ describe('LfRepositoryBrowserComponent', () => {
         it('should get the entry associated with the string passed to currentIdOrEntry parameter', async () => {
             // Arrange
             const id = '2';
-            const entryToGet: TreeNode = {
+            const entryToGet: LfTreeNode = {
                 icon: '',
                 id,
                 isContainer: true,
@@ -337,7 +337,7 @@ describe('LfRepositoryBrowserComponent', () => {
         it('should use the entry passed to currentIdOrEntry parameter as the root', async () => {
             // Arrange
             const id = '3';
-            const entryToGet: TreeNode = {
+            const entryToGet: LfTreeNode = {
                 icon: '',
                 id,
                 isContainer: true,
@@ -360,7 +360,7 @@ describe('LfRepositoryBrowserComponent', () => {
             // Arrange
             const id = '4';
             const parentId = '5';
-            const entry: TreeNode = {
+            const entry: LfTreeNode = {
                 icon: '',
                 id,
                 isContainer: false,
@@ -368,7 +368,7 @@ describe('LfRepositoryBrowserComponent', () => {
                 name: 'test entry (4)',
                 path: '5'
             };
-            const parentEntry: TreeNode = {
+            const parentEntry: LfTreeNode = {
                 icon: '',
                 id: parentId,
                 isContainer: true,
@@ -377,7 +377,7 @@ describe('LfRepositoryBrowserComponent', () => {
                 path: ''
             };
             dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
-            dataServiceMock.getParentTreeNodeAsync.and.callFake((entry: TreeNode) => {
+            dataServiceMock.getParentTreeNodeAsync.and.callFake((entry: LfTreeNode) => {
                 if (entry.id === id) {
                     return Promise.resolve(parentEntry);
                 }
@@ -419,7 +419,7 @@ describe('LfRepositoryBrowserComponent', () => {
         it('should update the breadcrumbs and get new data for the selected entry', async () => {
             // Arrange
             const id = '7';
-            const entry: TreeNode = {
+            const entry: LfTreeNode = {
                 icon: '',
                 id,
                 isContainer: true,
@@ -427,7 +427,7 @@ describe('LfRepositoryBrowserComponent', () => {
                 name: 'test entry (7)',
                 path: '8'
             };
-            const parent: TreeNode = {
+            const parent: LfTreeNode = {
                 icon: '',
                 id: '8',
                 isContainer: true,
@@ -437,7 +437,7 @@ describe('LfRepositoryBrowserComponent', () => {
             };
             const newBreadCrumbs = [entry, parent];
             dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
-            dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: TreeNode) => {
+            dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
                 if (treeNode.id === id) {
                     return Promise.resolve(parent);
                 }
@@ -457,7 +457,7 @@ describe('LfRepositoryBrowserComponent', () => {
 
     it('openChildFolderAsync should update the breadcrumbs and get new data for the passed in entry', async () => {
         // Arrange
-        const entry: TreeNode = {
+        const entry: LfTreeNode = {
             icon: '',
             id: '9',
             isContainer: true,
@@ -478,7 +478,7 @@ describe('LfRepositoryBrowserComponent', () => {
 
     it('openChildFolderAsync should correctly append the new entry to the breadcrumbs', async () => {
         // Arrange
-        const parent: TreeNode = {
+        const parent: LfTreeNode = {
             icon: '',
             id: '9',
             isContainer: true,
@@ -486,7 +486,7 @@ describe('LfRepositoryBrowserComponent', () => {
             name: 'test entry (9)',
             path: ''
         };
-        const entry: TreeNode = {
+        const entry: LfTreeNode = {
             icon: '',
             id: '10',
             isContainer: true,
@@ -508,7 +508,7 @@ describe('LfRepositoryBrowserComponent', () => {
 
     it('openChildFolderAsync should do nothing if the entry is not a container', async () => {
         // Arrange
-        const entry: TreeNode = {
+        const entry: LfTreeNode = {
             icon: '',
             id: '11',
             isContainer: false,

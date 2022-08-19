@@ -1,4 +1,4 @@
-export interface TreeNode {
+export interface LfTreeNode {
     id: string;
     icon: string | string[];
     isContainer: boolean;
@@ -7,8 +7,8 @@ export interface TreeNode {
     path: string;
 }
 
-export interface TreeNodePage {
-    page: TreeNode[];
+export interface LfTreeNodePage {
+    page: LfTreeNode[];
     nextPage: string | undefined;
 }
 
@@ -19,24 +19,24 @@ export interface LfTreeNodeService {
      * @param folder: string that represents the ID of the folder to get data from
      * @param nextPage: string representing the next page requested
     **/
-    getFolderChildrenAsync(folder: TreeNode, nextPage?: string): Promise<TreeNodePage>;
+    getFolderChildrenAsync(folder: LfTreeNode, nextPage?: string): Promise<LfTreeNodePage>;
 
     /** 
      * Returns the root entry
     */
-    getRootTreeNodeAsync(): Promise<TreeNode | undefined>;
+    getRootTreeNodeAsync(): Promise<LfTreeNode | undefined>;
 
     /**
      * Gets the parent Entry of the passed in node
      * @param treeNode: Entry object to get the parent of
      * returns - Promise with the parent of the parameter entry or undefined if its the root of the entry does not have a parent
     */
-    getParentTreeNodeAsync(treeNode: TreeNode): Promise<TreeNode | undefined>;
+    getParentTreeNodeAsync(treeNode: LfTreeNode): Promise<LfTreeNode | undefined>;
 
     /**
      * Gets the full Entry data of an entry id
      * @param id: string that represents the id of an Entry to get
      * returns - Entry associated with the id parameter or undefined if the entry does not exist
      */
-    getTreeNodeByIdAsync(id: string): Promise<TreeNode | undefined>;
+    getTreeNodeByIdAsync(id: string): Promise<LfTreeNode | undefined>;
 }

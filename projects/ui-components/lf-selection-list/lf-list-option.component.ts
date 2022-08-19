@@ -6,6 +6,9 @@ import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
   templateUrl: './lf-list-option.component.html',
   styleUrls: ['./lf-list-option.component.css']
 })
+/**
+ * @internal
+ */
 export class LfListOptionComponent  {
   @ViewChild('focuselement', { static: true })
     focusElement?: ElementRef;

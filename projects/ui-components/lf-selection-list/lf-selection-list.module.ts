@@ -26,11 +26,5 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 export class LfSelectionListModule { 
   constructor(
     /** @internal */ injector: Injector
-  ) {
-    // const listElementName: string = 'lf-selection-list';
-    // if (window.customElements && !customElements.get(listElementName)) {
-    //   const repoExplorerElement = createCustomElement(LfSelectionListComponent, { injector });
-    //   customElements.define(listElementName, repoExplorerElement);
-    // }
-  }
+  ) {}
 }

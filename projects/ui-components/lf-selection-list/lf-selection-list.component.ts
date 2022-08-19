@@ -36,12 +36,16 @@ export class LfSelectionListComponent {
   @Output() itemDoubleClicked = new EventEmitter<ItemWithId>();
   @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
 
+
+  /** @internal */
   currentFocusIndex: number = 0;
   
+  /** @internal */
   protected selectable: Selectable = new Selectable();
-
+  /** @internal */
   private _multipleSelectEnabled: boolean = false;
 
+  /** @internal */
   constructor() { 
     window.onkeydown = function(event): boolean | void { 
       if ((event.key === ' ' || event.key === 'ArrowUp' || event.key === 'ArrowDown') && event.target !== document.body) {
@@ -70,6 +74,7 @@ export class LfSelectionListComponent {
     }
   }
 
+  /** @internal */
   async onClickMatListOption(event: MouseEvent, option: ILfSelectable, index: number) {
     let target: HTMLElement | null = (event.target as HTMLElement);
     let nodeName: string | undefined;
@@ -87,10 +92,12 @@ export class LfSelectionListComponent {
     this.itemSelected.emit({selected: option, selectedItems: this.selectable.selectedItems});
   }
   
+  /** @internal */
   onDblClick(value: ItemWithId) {
     this.itemDoubleClicked.emit(value);
   }
 
+  /** @internal */
   async onItemKeyDown(event: KeyboardEvent, item: ILfSelectable) {
     if (
       event.key === ' ' ||
@@ -107,6 +114,7 @@ export class LfSelectionListComponent {
     }
   }
 
+  /** @internal */
   onItemKeyUp(event: KeyboardEvent, item: ILfSelectable) {
     if (event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
       this.selectable.onItemClicked(event, item, this.listItems, false, event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'));
@@ -114,6 +122,7 @@ export class LfSelectionListComponent {
     }
   }
 
+  /** @internal */
   onScroll(event: Observable<number>) {
     if (this.viewport == null) {
       console.error('Viewport was not defined when onScroll was called');
@@ -127,6 +136,7 @@ export class LfSelectionListComponent {
     }
   }
 
+  /** @internal */
   onViewportKeyDown(event: KeyboardEvent) {
     if (this.viewport == null) {
       return;
@@ -155,14 +165,17 @@ export class LfSelectionListComponent {
     });
   }
 
+  /** @internal */
   _computeRowId(index: number) {
     return 'lf-row-' + index;
   }
 
+  /** @internal */
   _checkFocused(currentFocusIndex: number, rowIndex: number) {
     return currentFocusIndex === rowIndex;
   }
 
+  /** @internal */
   private _checkRowInView(currentFocusIndex: number) {
     if (this.viewport == null) {
       return;
@@ -174,6 +187,7 @@ export class LfSelectionListComponent {
     return rowEleRect.top >= scrollRect.top && rowEleRect.bottom <= scrollRect.bottom;
   }
 
+  /** @internal */
   private _focus(tries: number = 0) {
     if (tries >= 10) { return; }
     if (this.options == null || this.options.length === 0) {

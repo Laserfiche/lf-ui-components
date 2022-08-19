@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IconUtils } from '@laserfiche/lf-js-utils';
-import { TreeNode, LfTreeNodeService, TreeNodePage } from 'projects/ui-components/lf-repository-browser/ILfTreeNodeService';
+import { LfTreeNode, LfTreeNodeService, LfTreeNodePage } from 'projects/ui-components/lf-repository-browser/ILfTreeNodeService';
 import { LfRepositoryBrowserComponent } from 'projects/ui-components/lf-repository-browser/lf-repository-browser.component';
 
 class DemoRepoService implements LfTreeNodeService {
-  breadCrumb: TreeNode[] = [];
-  currentFolder: TreeNode | undefined;
+  breadCrumb: LfTreeNode[] = [];
+  currentFolder: LfTreeNode | undefined;
 
-  _rootEntry: TreeNode = {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '1', isContainer: true, isLeaf: false, name: 'root', path: ''};
-  _entries: {[key: string]: TreeNode} = {
+  _rootEntry: LfTreeNode = {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '1', isContainer: true, isLeaf: false, name: 'root', path: ''};
+  _entries: {[key: string]: LfTreeNode} = {
     '2': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '2', isContainer: true, isLeaf: false, name: 'folder2', path: '1'},
     '3': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '3', isContainer: false, isLeaf: true, name: 'entry1', path: '1'},
     '4': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '4', isContainer: true, isLeaf: false, name: 'folder3', path: '1'},
@@ -35,7 +35,7 @@ class DemoRepoService implements LfTreeNodeService {
             name: 'ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumbReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb', path: '20'},
     '1000': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '1000', isContainer: false, isLeaf: true, name: 'dynamic entry 1000', path: '18'},
   };
-  _testData: {[key: string]: TreeNode[]} = {
+  _testData: {[key: string]: LfTreeNode[]} = {
     '1': [
       this._entries['2'],
       this._entries['3'],
@@ -79,7 +79,7 @@ class DemoRepoService implements LfTreeNodeService {
     }
   }
   
-  getFolderChildrenAsync(folder: TreeNode, nextPage?: string): Promise<TreeNodePage> {
+  getFolderChildrenAsync(folder: LfTreeNode, nextPage?: string): Promise<LfTreeNodePage> {
     const folderId: string = folder.id;
     if (folderId != null && this._testData[folderId]) {
       
@@ -95,7 +95,7 @@ class DemoRepoService implements LfTreeNodeService {
           });
         }
         this.lastFolder = folderId;
-        const newEntries: TreeNode[] = this.createDynamicItems(nextPage);
+        const newEntries: LfTreeNode[] = this.createDynamicItems(nextPage);
         return Promise.resolve({
           page: newEntries,
           nextPage: (Number.parseInt(nextPage ?? '0', 10) + 20).toString()
@@ -109,7 +109,7 @@ class DemoRepoService implements LfTreeNodeService {
           });
         }
         this.lastFolder = folderId;
-        const newEntries: TreeNode[] = this.createDynamicItems(nextPage);
+        const newEntries: LfTreeNode[] = this.createDynamicItems(nextPage);
         return new Promise((resolve, reject) => {
           setTimeout(() => {
             resolve({
@@ -136,17 +136,17 @@ class DemoRepoService implements LfTreeNodeService {
     }
     return Promise.reject();
   }
-  getRootTreeNodeAsync(): Promise<TreeNode | undefined> {
+  getRootTreeNodeAsync(): Promise<LfTreeNode | undefined> {
     return Promise.resolve(this._rootEntry);
   }
-  getParentTreeNodeAsync(entry: TreeNode): Promise<TreeNode | undefined> {
+  getParentTreeNodeAsync(entry: LfTreeNode): Promise<LfTreeNode | undefined> {
     return Promise.resolve(this._entries[entry.path]);
   }
-  getTreeNodeByIdAsync(id: string): Promise<TreeNode | undefined> {
+  getTreeNodeByIdAsync(id: string): Promise<LfTreeNode | undefined> {
     return Promise.resolve(this._entries[id]);
   }
   
-  private createDynamicItems(nextPage?: string): TreeNode[] {
+  private createDynamicItems(nextPage?: string): LfTreeNode[] {
     const entries = [];
     const pageStart = nextPage ? Number.parseInt(nextPage, 10) : 0;
     for(let i = pageStart; i < pageStart + 20; i++) {
@@ -174,7 +174,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   selectable = this._selectable.bind(this);
   singleSelectDataService: DemoRepoService = new DemoRepoService();
 
-  elementSelectedEntry: TreeNode[] | undefined;
+  elementSelectedEntry: LfTreeNode[] | undefined;
 
   constructor() { }
 
@@ -187,11 +187,11 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     }
   }
 
-  onEntrySelected(event: TreeNode[] | undefined) {
+  onEntrySelected(event: LfTreeNode[] | undefined) {
     this.elementSelectedEntry = event;
   }
 
-  private _selectable(node: TreeNode): Promise<boolean> {
+  private _selectable(node: LfTreeNode): Promise<boolean> {
     if (this.allSelectable) { return Promise.resolve(true); } 
     if (node.isContainer) { return Promise.resolve(false); }
     return Promise.resolve(true); 
@@ -211,6 +211,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       this.dataService._entries['60'],
       this.dataService._entries['1000']
     ];
-    await this.repoBrowser?.setSelectedValuesAsync(selectedValues as TreeNode[]);
+    await this.repoBrowser?.setSelectedValuesAsync(selectedValues as LfTreeNode[]);
   }
 }

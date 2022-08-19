@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AppLocalizationService, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
-import { LfTreeNodeService, TreeNode, TreeNodePage } from './ILfTreeNodeService';
+import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-components/lf-selection-list';
@@ -15,18 +15,16 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 export class LfRepositoryBrowserComponent {
   @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
 
-  @Input() get breadcrumbs(): TreeNode[] {
+  @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
   }
-  // @Input() get focused_node(): TreeNode | undefined {
-  //   return this._focused_node;
-  // }
+
   /**
    * function to initialize the lf-file-explorer component
    * @param provider LfRepositoryService service
    * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
   */
-  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: string | TreeNode): Promise<void> => {
+  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: string | LfTreeNode): Promise<void> => {
     await this.zone.run(async () => {
       try {
         this.treeNodeService = treeNodeService;
@@ -38,15 +36,10 @@ export class LfRepositoryBrowserComponent {
       await this.initializeAsync(selectedNode);
     });
   };
-  @Input() isSelectable?: (treeNode: TreeNode) => Promise<boolean>;
+  @Input() isSelectable?: (treeNode: LfTreeNode) => Promise<boolean>;
   @Input() multiple: boolean = false;
-  // @Input() openSelectedNodeAsync = async () => {
-  //   await this.zone.run(async () => {
-  //     await this.openChildFolderAsync(this.focused_node);
-  //   });
-  // };
   @Input()
-  setSelectedValuesAsync: (valuesToSelect: TreeNode[]) => Promise<void> = async (valuesToSelect: TreeNode[]) => {
+  setSelectedValuesAsync: (valuesToSelect: LfTreeNode[]) => Promise<void> = async (valuesToSelect: LfTreeNode[]) => {
     const selectableValues = await this.mapTreeNodesToLfSelectableAsync(valuesToSelect);
     if (this.entryList == null) {
       setTimeout(() => {
@@ -59,7 +52,7 @@ export class LfRepositoryBrowserComponent {
     });
   };
  
-  @Output() entrySelected = new EventEmitter<TreeNode[] | undefined>();
+  @Output() entrySelected = new EventEmitter<LfTreeNode[] | undefined>();
 
   /** @internal */
   currentFolderChildren: ILfSelectable[] = [];
@@ -86,16 +79,14 @@ export class LfRepositoryBrowserComponent {
   get shouldShowEmptyMessage(): boolean {
     return this.currentFolderChildren.length === 0 && !this.hasError;
   }
-  
+
   /** @internal */
-  //protected _focused_node: TreeNode | undefined;
-  /** @internal */
-  protected _currentEntry?: TreeNode;
+  protected _currentEntry?: LfTreeNode;
   /** @internal */
   // protected selectable: Selectable = new Selectable();
 
   /** @internal */
-  private _breadcrumbs: TreeNode[] = [];
+  private _breadcrumbs: LfTreeNode[] = [];
   /** @internal */
   private scrolledIndexChanged = new Subject();
   
@@ -119,20 +110,21 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
-   * 
+   * @internal
    * @param entry 
    * @returns list of strings that represent img src's
    */
-  getIcons(entry: TreeNode): string[] {
+  getIcons(entry: LfTreeNode): string[] {
     return typeof entry.icon === 'string' ? [entry.icon] : entry.icon;
   }
 
   /**
+   * @internal
    * Handles when a bread crumb is clicked
    * @param event 
    * @returns 
    */
-  async onBreadcrumbClicked(event: { breadcrumbs: TreeNode[]; selected: TreeNode }) {
+  async onBreadcrumbClicked(event: { breadcrumbs: LfTreeNode[]; selected: LfTreeNode }) {
     if (!event.breadcrumbs || !event.selected) {
       console.error('onBreadcrumbClicked event is required to have a breadcrumbs as well as a selected entry');
       return;
@@ -144,11 +136,12 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
+   * @internal
    * Handles when a entry in the repository browser is double clicked
    * @param entry 
    * @returns 
    */
-  async onDblClickAsync(entry: TreeNode | undefined) {
+  async onDblClickAsync(entry: LfTreeNode | undefined) {
     if (!entry?.isContainer) {
       return;
     }
@@ -166,6 +159,7 @@ export class LfRepositoryBrowserComponent {
   }
   
   /**
+   * @internal
    * Handles the scrolling event from the lf-selection-list
    */
   onScroll() {
@@ -173,11 +167,12 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
+   * @internal
    * Handles the SelectedItemEvent from the lf-selection-list
    * @param event 
    */
   async onItemSelected(event: SelectedItemEvent) {
-    this.entrySelected.emit(event.selectedItems?.map((item: ILfSelectable) => item.value as TreeNode));
+    this.entrySelected.emit(event.selectedItems?.map((item: ILfSelectable) => item.value as LfTreeNode));
   }
 
   /**
@@ -185,7 +180,7 @@ export class LfRepositoryBrowserComponent {
    * Example: This will get called when an entry is double clicked
    * @param entry 
    */
-  async openChildFolderAsync(entry: TreeNode | undefined) {
+  async openChildFolderAsync(entry: LfTreeNode | undefined) {
     if (entry?.isContainer === true) {
       this._breadcrumbs = [entry].concat(this.breadcrumbs);
       this._currentEntry = entry;
@@ -196,6 +191,7 @@ export class LfRepositoryBrowserComponent {
   }
   
   /**
+   * @internal
    * Callback that is passed to the lf-selection-list so it can continue to get more data if needed to select
    * initial values
    * @returns 
@@ -209,20 +205,22 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
+   * @internal
    * Maps ILfSelectable list to a TreeNode list
    * @param selected 
    * @returns 
    */
-  private convertSelectedItemsToTreeNode(selected: ILfSelectable[]): TreeNode[] | undefined {
-    return selected.map(value => value.value) as TreeNode[];
+  private convertSelectedItemsToTreeNode(selected: ILfSelectable[]): LfTreeNode[] | undefined {
+    return selected.map(value => value.value) as LfTreeNode[];
   }
   
   /**
+   * @internal
    * Attempts to focus the entryList component
    * @param node Not used right now but is part of the TODO for focus fuction
    * @param tries 
    */
-  private _focus(node: TreeNode | undefined = undefined, tries: number = 0): void {
+  private _focus(node: LfTreeNode | undefined = undefined, tries: number = 0): void {
     if (tries >= 10) { return; }
     if(this.entryList == null) {
       setTimeout(() => this._focus(node, tries + 1));
@@ -232,18 +230,19 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
+   * @internal
    * Attempts to initialize the repository browser
    * Will initialize with the root node if not currentIdOrEntry is provided
    * Otherwise will use the provided entry to build the breadcrumbs and pull the corresponding data
    * @param currentIdOrEntry 
    * @returns 
    */
-  private async initializeAsync(currentIdOrEntry?: string | TreeNode): Promise<void> {
+  private async initializeAsync(currentIdOrEntry?: string | LfTreeNode): Promise<void> {
     if (this.treeNodeService == null) {
       this.hasError = true;
       throw new Error('Repository Browser cannot be initialized without a data service.');
     }
-    let currentEntry: TreeNode | undefined;
+    let currentEntry: LfTreeNode | undefined;
     if (currentIdOrEntry == null) {
       await this.initializeWithRootOpenAsync();
       return;
@@ -266,16 +265,17 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
-   * USes the entry passed in to build the breadcrumbs
+   * @internal
+   * Uses the entry passed in to build the breadcrumbs
    * @param selectedEntry 
    * @returns 
    */
-  private async initializeBreadcrumbOptionsAsync(selectedEntry: TreeNode) {
+  private async initializeBreadcrumbOptionsAsync(selectedEntry: LfTreeNode) {
     this._breadcrumbs = [selectedEntry];
-    let currentNode: TreeNode | undefined = selectedEntry;
+    let currentNode: LfTreeNode | undefined = selectedEntry;
     while (currentNode) {
       try {
-        const nextParent: TreeNode | undefined = await this.treeNodeService.getParentTreeNodeAsync(currentNode);
+        const nextParent: LfTreeNode | undefined = await this.treeNodeService.getParentTreeNodeAsync(currentNode);
         if (nextParent) {
           this.breadcrumbs.push(nextParent);
         }
@@ -288,6 +288,7 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
+   * @internal
    * Finds the root node from the treeNodeService and sets it to the current parent
    * @returns 
    */
@@ -296,7 +297,7 @@ export class LfRepositoryBrowserComponent {
       this.hasError = true;
       throw new Error('Repository Browser cannot be initialized without a data service.');
     }
-    const rootEntry: TreeNode | undefined = await this.treeNodeService.getRootTreeNodeAsync();
+    const rootEntry: LfTreeNode | undefined = await this.treeNodeService.getRootTreeNodeAsync();
     if (rootEntry == null) {
       console.error(`Repository browser does not contain a root entry`);
       this.hasError = true;
@@ -307,11 +308,12 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
+   * @internal
    * Maps TreeNode list to ILfSelectable items for use in the entryList
    * @param nodes 
    * @returns 
    */
-  private async mapTreeNodesToLfSelectableAsync(nodes: TreeNode[]) {
+  private async mapTreeNodesToLfSelectableAsync(nodes: LfTreeNode[]) {
     const selectablePage: ILfSelectable[] = [];
     for (const value of nodes) {
       const selectableValue = {
@@ -325,6 +327,7 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
+   * @internal
    * Resets the errors, selected values, currentFolderChildren and nextPage
    */
   private resetFolderProperties() {
@@ -337,13 +340,14 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
+   * @internal
    * Makes the parentEntry parameter into the current parent node
    * Will setup the breadcrumbs to be the listOfAncestorEntries with the parentEntry as the last one if passed in
    * @param parentEntry 
    * @param listOfAncestorEntries 
    * @returns 
    */
-  private async setNodeAsParentAsync(parentEntry: TreeNode, listOfAncestorEntries?: TreeNode[]): Promise<void> {
+  private async setNodeAsParentAsync(parentEntry: LfTreeNode, listOfAncestorEntries?: LfTreeNode[]): Promise<void> {
     if (!parentEntry) {
       console.error('parentEntry must not be null');
       return;
@@ -362,11 +366,12 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
+   * @internal
    * Resets the list and pulls new data for the parentEntry
    * @param parentEntry 
    * @param refresh Not Used currently
    */
-  private async updateAllPossibleEntriesAsync(parentEntry: TreeNode, refresh: boolean = false) {
+  private async updateAllPossibleEntriesAsync(parentEntry: LfTreeNode, refresh: boolean = false) {
     if (parentEntry && parentEntry.id) {
       try {
         this.isLoading = true;
@@ -388,12 +393,13 @@ export class LfRepositoryBrowserComponent {
   }
 
   /**
+   * @internal
    * Does the work to call the treeNodeService and map the returned values to ILfSelectable entries
    * @param parentEntry 
    * @returns 
    */
-  private async updateFolderChildrenAsync(parentEntry: TreeNode): Promise<ILfSelectable[]> {
-    const firstEntryPage: TreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
+  private async updateFolderChildrenAsync(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
+    const firstEntryPage: LfTreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
     this.nextPage = firstEntryPage.nextPage;
     const page = firstEntryPage.page;
     const selectablePage: ILfSelectable[] = await this.mapTreeNodesToLfSelectableAsync(page);

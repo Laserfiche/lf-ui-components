@@ -112,6 +112,7 @@ export class Selectable {
     }
   }
 
+  /** @internal */
   private unselectItem(item: ILfSelectable, itemInList: ILfSelectable) {
     const index = this._selectedItems.findIndex((selectable) => selectable.value.id === item.value.id);
     this._selectedItems.splice(index, 1);
@@ -120,6 +121,7 @@ export class Selectable {
     itemInList.isSelected = false;
   }
 
+  /** @internal */
   private clearAllSelectedItems(list: ILfSelectable[]) {
     this.selectedItemsIndices.forEach((val) => {
       list[val].isSelected = false;
@@ -128,6 +130,7 @@ export class Selectable {
     this._selectedItems = [];
   }
 
+  /** @internal */
   private addSelectedItem(itemInList: ILfSelectable, itemIndex: number) {
     if (!itemInList.isSelectable) { return; }
     itemInList.isSelected = true;
