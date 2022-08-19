@@ -1,5 +1,3 @@
-import { CoreUtils } from '@laserfiche/lf-js-utils';
-
 export interface ItemWithId {
   id: string;
 }
@@ -78,9 +76,11 @@ export class Selectable {
       }
       return;
     }
-    if (event?.ctrlKey || (!event?.ctrlKey && !event?.shiftKey && allowMultiple)) {
+    if (event?.ctrlKey && event?.shiftKey) {
+      onlyAdd = true;
+    }
+    if ((event?.ctrlKey && !event.shiftKey) || (!event?.ctrlKey && !event?.shiftKey && allowMultiple)) {
       const itemInList = list[itemIndex];
-      // TODO this isn't consistent, we don't know if the default action has taken place
       if (itemInList.isSelected) {
         this.unselectItem(item, itemInList);
       } else {
@@ -98,7 +98,7 @@ export class Selectable {
       
       for (let i = lower; i <= upper; i++) {
         const value = list[i];
-        if (value.isSelectable) {
+        if (value.isSelectable && !value.isSelected) {
           this.addSelectedItem(value, i);
         }
       }

@@ -191,8 +191,8 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   }
 
-  onEntrySelected(event: CustomEvent<TreeNode[] | undefined>) {
-    this.elementSelectedEntry = event.detail;
+  onEntrySelected(event: TreeNode[] | undefined) {
+    this.elementSelectedEntry = event;
   }
 
   private _selectable(node: TreeNode): Promise<boolean> {

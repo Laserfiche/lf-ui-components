@@ -20,7 +20,8 @@
             [multipleSelection]="multiple"
             (click)="onClickMatListOption($event, item, index)"
             (dblclick)="onDblClick(item.value)"
-            (keydown)="onItemKeyDown($event, item)">
+            (keydown)="onItemKeyDown($event, item)"
+            (keyup)="onItemKeyUp($event, item)">
         </lf-list-option-component>
     </cdk-virtual-scroll-viewport>
 </ng-container>

@@ -107,6 +107,13 @@ export class LfSelectionListComponent {
     }
   }
 
+  onItemKeyUp(event: KeyboardEvent, item: ILfSelectable) {
+    if (event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
+      this.selectable.onItemClicked(event, item, this.listItems, false, event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'));
+      this.itemSelected.emit({selected: item, selectedItems: this.selectable.selectedItems});
+    }
+  }
+
   onScroll(event: Observable<number>) {
     if (this.viewport == null) {
       console.error('Viewport was not defined when onScroll was called');
