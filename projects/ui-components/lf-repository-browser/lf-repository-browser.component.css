@@ -1,0 +1,145 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    max-height: 100%;
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+#lf-repo-select-list {
+    height: 100%;
+}
+
+#lf-repo-browser-viewport {
+    height: 100%;
+}
+
+
+.lf-repo-entry-container {
+    padding-bottom: 10px;
+    overflow: auto;
+    flex: 1 1 auto;
+}
+
+.mat-list-base .mat-list-option.lf-entry-option, .mat-list-option.lf-entry-option {
+    max-height: 36px;
+    min-height: 36px;
+    height: 36px;
+    color: #333333;
+}
+
+.fixed-size-icon-container {
+    position: relative;
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    margin: 5px 10px 5px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lf-entry-icon {
+    display: block;
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+    position: absolute;
+}
+
+::ng-deep .mat-list-base .mat-list-option.mat-list-option .mat-list-text .lf-entry-name {
+    padding-left: 16px;
+}
+
+::ng-deep #lf-repo-select-list.mat-list-base .mat-list-item .mat-list-text {
+    flex-direction: row;
+    align-items: center;
+}
+
+#lf-repo-select-list.mat-list-base {
+    box-sizing: border-box;
+}
+
+::ng-deep .mat-menu-content .mat-menu-item {
+    line-height: 34px;
+    height: 34px;
+}
+
+::ng-deep .cdk-overlay-pane .mat-menu-panel {
+    min-height: 0;
+}
+
+#message-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 20px 10px 10px 10px;
+    box-sizing: border-box;
+}
+
+.no-entries-text, .error-entries-text {
+    font-size: 14px;
+}
+
+.no-entries-text {
+    color: #333333;
+}
+
+.error-entries-text {
+    color: #AB2227;
+}
+
+.lf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 32px;
+}
+
+lf-breadcrumbs-component {
+    width: 100%;
+    min-width: 50px;
+}
+
+lf-toolbar-component {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.lf-entry-name,
+.fixed-size-icon-container,
+.lf-entry-icon,
+.error-entries-text,
+.no-entries-text{
+    user-select: none;
+}
+
+::ng-deep .non-selectable-option .mat-pseudo-checkbox {
+    visibility: hidden;
+}
+  
+::ng-deep .selectable-option .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+    background: #6D6D6D;
+}
+
+
+::ng-deep .mat-list-option:hover,
+    .mat-nav-list .mat-list-item:hover, 
+    .mat-action-list .mat-list-item:hover {
+    background-color: #F5FBFF;
+}
+
+::ng-deep .mat-list-option:focus, .mat-nav-list .mat-list-item:focus,
+    .mat-action-list .mat-list-item:focus {
+    outline: #1783D6 auto 1px !important;
+    background-color: #F5FBFF;
+}
+
+.node-selected {
+    background-color: #EAF5FF !important;
+} 

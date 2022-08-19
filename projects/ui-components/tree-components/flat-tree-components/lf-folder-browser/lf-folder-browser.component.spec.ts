@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { LfBreadcrumbsModule } from '@laserfiche/lf-ui-components/shared';
 import { LfToolbarComponent } from '../lf-toolbar/lf-toolbar.component';
-import { LfBreadcrumbsComponent } from './../lf-breadcrumbs/lf-breadcrumbs.component';
 import { LfFolderBrowserComponent } from './lf-folder-browser.component';
 
 describe('LfFolderBrowserComponent', () => {
@@ -15,11 +15,11 @@ describe('LfFolderBrowserComponent', () => {
       imports: [
         MatListModule,
         MatMenuModule,
-        MatDialogModule
+        MatDialogModule,
+        LfBreadcrumbsModule
       ],
       declarations: [
         LfFolderBrowserComponent,
-        LfBreadcrumbsComponent,
         LfToolbarComponent
       ]
     })
