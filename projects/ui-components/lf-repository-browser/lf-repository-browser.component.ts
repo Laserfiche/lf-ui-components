@@ -13,6 +13,7 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
   styleUrls: ['./lf-repository-browser.component.css'],
 })
 export class LfRepositoryBrowserComponent implements OnDestroy {
+  /** @internal */
   @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
 
   @Input() get breadcrumbs(): LfTreeNode[] {

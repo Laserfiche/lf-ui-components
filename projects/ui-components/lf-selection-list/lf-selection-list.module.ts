@@ -23,8 +23,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   exports: [LfSelectionListComponent, LfListOptionComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LfSelectionListModule { 
-  constructor(
+
+/** @internal */
+export class LfSelectionListModule {
+   /** @internal */
+     constructor(
     /** @internal */ injector: Injector
   ) {}
 }
