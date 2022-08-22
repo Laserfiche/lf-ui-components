@@ -406,11 +406,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     const firstEntryPage: LfTreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
     let selectablePage: ILfSelectable[] = [];
     this.nextPage = firstEntryPage.nextPage;
+    const page = firstEntryPage.page;
+    selectablePage = await this.mapTreeNodesToLfSelectableAsync(page);
+    this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
     if (this.nextPage) {
       this.maximumChildrenReceived = false;
-      const page = firstEntryPage.page;
-      selectablePage = await this.mapTreeNodesToLfSelectableAsync(page);
-      this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
     }
     else {
       this.maximumChildrenReceived = true;

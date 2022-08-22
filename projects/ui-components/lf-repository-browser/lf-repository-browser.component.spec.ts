@@ -16,7 +16,7 @@ import { LfRepositoryBrowserComponent } from './lf-repository-browser.component'
 
 import { IconUtils } from '@laserfiche/lf-js-utils';
 import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from "./ILfTreeNodeService";
-import { LfSelectionListModule } from "../projects";
+import { LfSelectionListModule } from "../lf-selection-list/lf-selection-list.module";
 
 
 const rootTreeNode: LfTreeNode = {
@@ -71,9 +71,9 @@ const rootNode: LfTreeNode = {
   path: 'Repository 1',
   icon: FOLDER_SVG,
   isContainer: true,
-  
+
   isLeaf: false,
-  
+
 };
 const nested1Node: LfTreeNode = {
   name: 'Nested1',
@@ -81,9 +81,9 @@ const nested1Node: LfTreeNode = {
   path: 'Repository 1/Nested1',
   icon: FOLDER_SVG,
   isContainer: true,
-  
+
   isLeaf: false,
-  
+
 };
 const errorNode: LfTreeNode = {
   name: 'Wait 3 seconds, then throw an error!',
@@ -91,9 +91,9 @@ const errorNode: LfTreeNode = {
   path: 'Repository 1/Nested1/Wait 3 seconds, then throw an error!',
   icon: FOLDER_SVG,
   isContainer: true,
-  
+
   isLeaf: false,
-  
+
 };
 const emptyFolderNode: LfTreeNode = {
   name: 'Nothing in here',
@@ -101,9 +101,9 @@ const emptyFolderNode: LfTreeNode = {
   path: 'Repository 1/Nested1/Nothing in here',
   icon: FOLDER_SVG,
   isContainer: true,
-  
+
   isLeaf: false,
-  
+
 };
 const nested2Node: LfTreeNode = {
   name: 'Nested2',
@@ -111,9 +111,9 @@ const nested2Node: LfTreeNode = {
   path: 'Repository 1/Nested1/Nested2',
   icon: FOLDER_SVG,
   isContainer: true,
-  
+
   isLeaf: false,
-  
+
 };
 const nested3Node: LfTreeNode = {
   name: 'Nested3',
@@ -121,9 +121,9 @@ const nested3Node: LfTreeNode = {
   path: 'Repository 1/Nested1/Nested2/Nested3',
   icon: FOLDER_SVG,
   isContainer: true,
-  
+
   isLeaf: false,
-  
+
 };
 const nested4Node: LfTreeNode = {
   name: 'Nested4',
@@ -132,7 +132,7 @@ const nested4Node: LfTreeNode = {
   icon: FILE_SVG,
   isContainer: false,
   isLeaf: true,
-  
+
 };
 
 // describe('LfRepositoryBrowserComponent - no selected node', () => {
@@ -223,7 +223,7 @@ const nested4Node: LfTreeNode = {
 //     fixture.detectChanges();
 
 //     // Assert
-    
+
 //     const expectedBreadcrumbs: TreeNode[] = [rootNode];
 
 //     expect(component.breadcrumbs).toEqual(expectedBreadcrumbs);
@@ -283,8 +283,8 @@ describe('LfRepositoryBrowserComponent', () => {
     });
 
     let changeRefMock: ChangeDetectorRef;
-    const dataServiceMock: jasmine.SpyObj<LfTreeNodeService> = jasmine.createSpyObj('dataService', 
-        [ 'getFolderChildrenAsync', 'getRootTreeNodeAsync', 
+    const dataServiceMock: jasmine.SpyObj<LfTreeNodeService> = jasmine.createSpyObj('dataService',
+        [ 'getFolderChildrenAsync', 'getRootTreeNodeAsync',
         'getParentTreeNodeAsync', 'getTreeNodeByIdAsync']
     );
     let localizeServiceMock: AppLocalizationService;
@@ -296,7 +296,7 @@ describe('LfRepositoryBrowserComponent', () => {
     });
 
     describe('initAsync', () => {
-    
+
         it('should get the rootEntry and its folder data when no parameter is passed', async () => {
             // Arrange
             dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
@@ -305,12 +305,12 @@ describe('LfRepositoryBrowserComponent', () => {
 
             // Act
             await component.initAsync(dataServiceMock);
-    
+
             // Assert
             expect(component.breadcrumbs[0]).toEqual(rootTreeNode);
             expect(component.currentFolderChildren.map((lfSelectable: ILfSelectable) => lfSelectable.value)).toEqual(rootTreeNodeChildren);
         });
-    
+
         it('should get the entry associated with the string passed to currentIdOrEntry parameter', async () => {
             // Arrange
             const id = '2';
@@ -395,27 +395,27 @@ describe('LfRepositoryBrowserComponent', () => {
         it('should be in an erorr state when there is no root tree node found when being called without the currentIdOrEntry parameter', async () => {
             // Arrange
             dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
-    
+
             // Act
             await component.initAsync(dataServiceMock);
-    
+
             // Assert
             expect(component.hasError).toBeTrue();
         });
-    
+
         it('should setup the repository browser with the root entry returned by the dataService', async () => {
             // Arrange
             dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
             dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
-    
+
             // Act
             await component.initAsync(dataServiceMock);
-    
+
             // Assert
             expect(component.breadcrumbs[0]).toEqual(rootTreeNode);
             expect(component.currentFolderChildren.map((lfSelectable: ILfSelectable) => lfSelectable.value)).toEqual(rootTreeNodeChildren);
         });
-    
+
         it('should update the breadcrumbs and get new data for the selected entry', async () => {
             // Arrange
             const id = '7';
@@ -446,14 +446,14 @@ describe('LfRepositoryBrowserComponent', () => {
 
             // Act
             await component.initAsync(dataServiceMock, entry);
-    
+
             // Assert
             expect(component.breadcrumbs).toEqual(newBreadCrumbs);
             expect(component.currentFolderChildren.map((lfSelectable: ILfSelectable) => lfSelectable.value)).toEqual(rootTreeNodeChildren);
         });
     });
 
-    
+
 
     it('openChildFolderAsync should update the breadcrumbs and get new data for the passed in entry', async () => {
         // Arrange
