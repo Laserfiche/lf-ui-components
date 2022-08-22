@@ -1,5 +1,5 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { AfterViewInit, Component, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';

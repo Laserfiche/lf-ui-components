@@ -5,7 +5,6 @@ import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeServ
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-components/lf-selection-list';
-import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
   selector: 'lf-repository-browser-component',
@@ -149,7 +148,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     if (!entry?.isContainer) {
       return;
     }
-    await CoreUtils.yieldAsync();
     //this.selectable.clearSelectedValues(this.currentFolderChildren);
     await this.openChildFolderAsync(entry);
   }
