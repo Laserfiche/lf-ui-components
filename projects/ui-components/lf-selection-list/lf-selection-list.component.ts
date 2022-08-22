@@ -9,16 +9,19 @@ export interface SelectedItemEvent {
   selectedItems: ILfSelectable[] | undefined;
 };
 
+/** @internal */
 @Component({
   selector: 'lf-selection-list-component',
   templateUrl: './lf-selection-list.component.html',
   styleUrls: ['./lf-selection-list.component.css']
 })
 export class LfSelectionListComponent {
+  /** @internal */
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
+  /** @internal */
   @ViewChildren(LfListOptionComponent) options: QueryList<LfListOptionComponent> | undefined;
-
-  @Input() listItemRef?: TemplateRef<unknown>;
+  /** @internal */
+  @Input() listItemRef?: TemplateRef<unknown>; // TODO: figure out how to define TemplateRef for non Angular project
   @Input() listItems: ILfSelectable[] = [];
   @Input() set multiple(value: boolean | string) {
     if (typeof(value) === 'string') {
@@ -39,20 +42,20 @@ export class LfSelectionListComponent {
 
   /** @internal */
   currentFocusIndex: number = 0;
-  
+
   /** @internal */
   protected selectable: Selectable = new Selectable();
   /** @internal */
   private _multipleSelectEnabled: boolean = false;
 
   /** @internal */
-  constructor() { 
-    window.onkeydown = function(event): boolean | void { 
+  constructor() {
+    window.onkeydown = function(event): boolean | void {
       if ((event.key === ' ' || event.key === 'ArrowUp' || event.key === 'ArrowDown') && event.target !== document.body) {
         event.preventDefault();
         return false;
       }
-    }; 
+    };
   }
 
   clearSelectedValues() {
@@ -91,7 +94,7 @@ export class LfSelectionListComponent {
 
     this.itemSelected.emit({selected: option, selectedItems: this.selectable.selectedItems});
   }
-  
+
   /** @internal */
   onDblClick(value: ItemWithId) {
     this.itemDoubleClicked.emit(value);

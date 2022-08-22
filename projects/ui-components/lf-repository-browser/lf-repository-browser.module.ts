@@ -39,7 +39,8 @@ import { LfSelectionListModule } from '@laserfiche/lf-ui-components/lf-selection
   exports: [LfRepositoryBrowserComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LfRepositoryBrowserModule { 
+export class LfRepositoryBrowserModule {
+  /** @internal */
   constructor(
     /** @internal */ injector: Injector
   ) {

@@ -1,14 +1,14 @@
 import { Component, ElementRef, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'lf-list-option-component',
   templateUrl: './lf-list-option.component.html',
   styleUrls: ['./lf-list-option.component.css']
 })
-/**
- * @internal
- */
 export class LfListOptionComponent  {
   @ViewChild('focuselement', { static: true })
     focusElement?: ElementRef;
@@ -33,7 +33,7 @@ export class LfListOptionComponent  {
   @Input() item?: ILfSelectable;
   @Input() listItemRef?: TemplateRef<unknown>;
   @Input() multipleSelection: boolean = false;
-  
+
   private _focused = false;
 
   focus() {
