@@ -126,7 +126,7 @@ class DemoRepoService implements LfTreeNodeService {
       this.lastFolder = folderId;
       const testData = this._testData[folderId].filter((data: LfTreeNode) => 
       {
-        return data.name.indexOf(this.filter) >= 0
+        return data.name.indexOf(this.filter) >= 0;
       });
       return Promise.resolve({
         page: testData,
@@ -196,7 +196,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.dataService.filter = this.filter;
     this.repoBrowser?.refresh();
   }
-  
+
   onRefresh() {
     this.repoBrowser?.refresh();
   }
