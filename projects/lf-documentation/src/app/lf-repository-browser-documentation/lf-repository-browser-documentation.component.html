@@ -62,6 +62,8 @@
   </pre>
 </label>
 <app-card>
+  <input (change)="onFilterChange($event)">
+  <button (click)="onRefresh()">Refresh</button>
   <lf-repository-browser-component
     multiple="true"
     [isSelectable]="selectable"

@@ -113,6 +113,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   }
 
   /**
+   * Focuses the first item in the repository browser list
+   * TODO: Add an optional parameter to allow for focusing a sepecific node
+   */
+   focus() {
+    this._focus();
+  }
+
+  /**
    * @internal
    * @param entry
    * @returns list of strings that represent img src's
@@ -153,14 +161,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   }
 
   /**
-   * Focuses the first item in the repository browser list
-   * TODO: Add an optional parameter to allow for focusing a sepecific node
-   */
-  focus() {
-    this._focus();
-  }
-
-  /**
    * @internal
    * Handles the scrolling event from the lf-selection-list
    */
@@ -190,6 +190,19 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
       this.entryList?.focus();
     }
+  }
+
+  async refresh(): Promise<void> {
+    if (!this._currentEntry) {
+      this._currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
+    }
+    if (!this._currentEntry) {
+      throw new Error('No root was found, repository browser was unable to refresh.');
+    }
+    this.entryList?.clearSelectedValues();
+    this.nextPage = undefined;
+    this.maximumChildrenReceived = false;
+    this.updateAllPossibleEntriesAsync(this._currentEntry);
   }
 
   /**
@@ -339,6 +352,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.currentFolderChildren = [];
     //this._focused_node = undefined;
     this.nextPage = undefined;
+    this.maximumChildrenReceived = false;
   }
 
   /**

@@ -7,6 +7,8 @@ class DemoRepoService implements LfTreeNodeService {
   breadCrumb: LfTreeNode[] = [];
   currentFolder: LfTreeNode | undefined;
 
+  filter: string = '';
+
   _rootEntry: LfTreeNode = {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '1', isContainer: true, isLeaf: false, name: 'root', path: ''};
   _entries: {[key: string]: LfTreeNode} = {
     '2': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '2', isContainer: true, isLeaf: false, name: 'folder2', path: '1'},
@@ -121,14 +123,11 @@ class DemoRepoService implements LfTreeNodeService {
         });
       }
 
-      if (this.lastFolder != null && this.lastFolder === folderId) {
-        return Promise.resolve({
-          page: [],
-          nextPage: undefined
-        });
-      }
       this.lastFolder = folderId;
-      const testData = this._testData[folderId];
+      const testData = this._testData[folderId].filter((data: LfTreeNode) => 
+      {
+        return data.name.indexOf(this.filter) >= 0
+      });
       return Promise.resolve({
         page: testData,
         nextPage: undefined
@@ -173,6 +172,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   dataService: DemoRepoService = new DemoRepoService();
   selectable = this._selectable.bind(this);
   singleSelectDataService: DemoRepoService = new DemoRepoService();
+  filter: string = '';
 
   elementSelectedEntry: LfTreeNode[] | undefined;
 
@@ -189,6 +189,16 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   onEntrySelected(event: LfTreeNode[] | undefined) {
     this.elementSelectedEntry = event;
+  }
+
+  onFilterChange(event: any) {
+    this.filter = event.target.value;
+    this.dataService.filter = this.filter;
+    this.repoBrowser?.refresh();
+  }
+  
+  onRefresh() {
+    this.repoBrowser?.refresh();
   }
 
   private _selectable(node: LfTreeNode): Promise<boolean> {

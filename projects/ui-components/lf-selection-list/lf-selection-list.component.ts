@@ -160,7 +160,7 @@ export class LfSelectionListComponent {
       }
     }
   }
-
+  
   setSelectedValuesAsync(values: ILfSelectable[], checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
     return this.selectable.setSelectedValuesAsync(values, this.listItems).then(() => {
