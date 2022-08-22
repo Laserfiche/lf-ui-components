@@ -9,6 +9,7 @@
     flex-direction: row;
     align-items: center;
     align-content: center;
+    white-space: nowrap;
 }
 
 #item-holder:not('lf-list-item-disabled') {
