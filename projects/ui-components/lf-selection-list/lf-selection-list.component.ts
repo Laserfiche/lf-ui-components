@@ -20,6 +20,7 @@ export class LfSelectionListComponent {
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
   /** @internal */
   @ViewChildren(LfListOptionComponent) options: QueryList<LfListOptionComponent> | undefined;
+  @Input() itemSize: number = 42;
   /** @internal */
   @Input() listItemRef?: TemplateRef<unknown>; // TODO: figure out how to define TemplateRef for non Angular project
   @Input() listItems: ILfSelectable[] = [];
@@ -145,9 +146,15 @@ export class LfSelectionListComponent {
       return;
     }
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-      if (document.activeElement?.parentNode?.nodeName.toLowerCase() !== 'lf-list-option-component') { return; }
+      const activeElement = document.activeElement;
+      if (activeElement?.nodeName.toLowerCase() !== 'cdk-virtual-scroll-viewport' && activeElement?.parentNode?.nodeName.toLowerCase() !== 'lf-list-option-component') { return; }
       event.preventDefault();
       event.stopPropagation();
+      if (activeElement?.nodeName.toLowerCase() === 'cdk-virtual-scroll-viewport') {
+        this.focusCurrentIndex();
+        const ele = document.querySelector('#lf-row-' + this.currentFocusIndex) as HTMLElement;
+        (ele?.childNodes[0] as HTMLElement).focus();
+      }
       const moveDirection = event.key === 'ArrowUp' ? -1 : 1;
       this.currentFocusIndex = this.currentFocusIndex + moveDirection;
       // Check if currentFocusIndex is out of bounds
@@ -158,6 +165,8 @@ export class LfSelectionListComponent {
         // this way even if we scroll down we go back to the section we were
         this.viewport.scrollToIndex(this.currentFocusIndex);
       }
+
+      
     }
   }
   

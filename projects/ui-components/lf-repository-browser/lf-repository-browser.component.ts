@@ -18,7 +18,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
   }
-
+  @Input() itemSize: number = 42;
   /**
    * function to initialize the lf-file-explorer component
    * @param provider LfRepositoryService service

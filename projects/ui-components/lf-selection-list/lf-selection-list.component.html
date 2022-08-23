@@ -1,6 +1,6 @@
 <ng-container *ngIf="listItems" #displayedEntryList>
-    <cdk-virtual-scroll-viewport id="lf-list-viewport" itemSize="36"
-        (focus)="focusCurrentIndex()"
+    <cdk-virtual-scroll-viewport id="lf-list-viewport" [itemSize]="itemSize"
+        tabindex="0"
         (scrolledIndexChange)="onScroll($event)"
         (keydown)="onViewportKeyDown($event)">
         <lf-list-option-component
