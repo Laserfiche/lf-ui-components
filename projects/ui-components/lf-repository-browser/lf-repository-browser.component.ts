@@ -18,6 +18,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
   }
+
+  @Input() get currentFolder(): LfTreeNode | undefined {
+    return this._currentFolder;
+  }
+
   @Input() itemSize: number = 42;
   /**
    * function to initialize the lf-file-explorer component
@@ -57,22 +62,22 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Input()
   refreshAsync: () => Promise<void> = async () => {
-    if (!this._currentEntry) {
-      this._currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
+    if (!this._currentFolder) {
+      this._currentFolder = await this.treeNodeService.getRootTreeNodeAsync();
     }
-    if (!this._currentEntry) {
+    if (!this._currentFolder) {
       throw new Error('No root was found, repository browser was unable to refresh.');
     }
     this.entryList?.clearSelectedValues();
     this.nextPage = undefined;
     this.lastCalledPage = undefined;
     this.maximumChildrenReceived = false;
-    this.updateAllPossibleEntriesAsync(this._currentEntry);
+    this.updateAllPossibleEntriesAsync(this._currentFolder);
   }
 
   /**
    * Focuses the first item in the repository browser list
-   * TODO: Add an optional parameter to allow for focusing a sepecific node
+   * TODO: Add an optional parameter to allow for focusing a specific node
    */
   @Input() focus = () => {
     this._focus();
@@ -109,7 +114,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   }
 
   /** @internal */
-  protected _currentEntry?: LfTreeNode;
+  protected _currentFolder?: LfTreeNode;
   /** @internal */
   protected maximumChildrenReceived: boolean = false;;
 
@@ -130,7 +135,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     public localizationService: AppLocalizationService
   ) {
     this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
-      if (this._currentEntry == null) {
+      if (this._currentFolder == null) {
         return;
       }
       if (!this.maximumChildrenReceived) {
@@ -138,7 +143,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
           // do nothing. nextPage already attempted
           return;
         }
-        await this.updateFolderChildrenAsync(this._currentEntry);
+        await this.updateFolderChildrenAsync(this._currentFolder);
       }
 
     });
@@ -165,8 +170,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       return;
     }
     this._breadcrumbs = event.breadcrumbs;
-    this._currentEntry = event.selected;
-    await this.updateAllPossibleEntriesAsync(this._currentEntry);
+    this._currentFolder = event.selected;
+    await this.updateAllPossibleEntriesAsync(this._currentFolder);
     setTimeout(() => this.entryList?.focus());
   }
 
@@ -209,7 +214,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   async openChildFolderAsync(entry: LfTreeNode | undefined) {
     if (entry?.isContainer === true) {
       this._breadcrumbs = [entry].concat(this.breadcrumbs);
-      this._currentEntry = entry;
+      this._currentFolder = entry;
       await this.updateAllPossibleEntriesAsync(entry);
 
       this.entryList?.focus();
@@ -223,10 +228,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @returns
    */
   private async checkForMoreDataCallback(): Promise<ILfSelectable[] | undefined> {
-    if (this._currentEntry == null) {
+    if (this._currentFolder == null) {
       return;
     }
-    const selectablePage = await this.updateFolderChildrenAsync(this._currentEntry);
+    const selectablePage = await this.updateFolderChildrenAsync(this._currentFolder);
     return selectablePage;
   }
 
@@ -389,7 +394,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     } else {
       this._breadcrumbs = [parentEntry].concat(listOfAncestorEntries);
     }
-    this._currentEntry = parentEntry;
+    this._currentFolder = parentEntry;
     await this.updateAllPossibleEntriesAsync(parentEntry);
   }
 
