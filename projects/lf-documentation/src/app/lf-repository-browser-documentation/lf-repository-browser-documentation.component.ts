@@ -184,8 +184,8 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       if (this.repoBrowser != null) {
         this.repoBrowser.focus();
       }
-    }, 2000)
-    
+    }, 2000);
+
     this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
   }
 
