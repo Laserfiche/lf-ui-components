@@ -4,6 +4,7 @@ import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-compone
 import { Observable } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
 
+/** @internal */
 export interface SelectedItemEvent {
   selected: ILfSelectable;
   selectedItems: ILfSelectable[] | undefined;
@@ -169,7 +170,7 @@ export class LfSelectionListComponent {
       
     }
   }
-  
+
   setSelectedValuesAsync(values: ILfSelectable[], checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
     return this.selectable.setSelectedValuesAsync(values, this.listItems).then(() => {

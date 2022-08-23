@@ -36,8 +36,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       await this.initializeAsync(selectedNode);
     });
   };
+
   @Input() isSelectable?: (treeNode: LfTreeNode) => Promise<boolean>;
+
   @Input() multiple: boolean = false;
+
   @Input()
   setSelectedValuesAsync: (valuesToSelect: LfTreeNode[]) => Promise<void> = async (valuesToSelect: LfTreeNode[]) => {
     const selectableValues = await this.mapTreeNodesToLfSelectableAsync(valuesToSelect);
@@ -84,8 +87,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   protected _currentEntry?: LfTreeNode;
   /** @internal */
   protected maximumChildrenReceived: boolean = false;;
-  /** @internal */
-  // protected selectable: Selectable = new Selectable();
 
   /** @internal */
   private _breadcrumbs: LfTreeNode[] = [];
@@ -113,10 +114,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   }
 
   /**
+   * @internal
    * Focuses the first item in the repository browser list
    * TODO: Add an optional parameter to allow for focusing a sepecific node
    */
-   focus() {
+  focus() {
     this._focus();
   }
 
@@ -156,7 +158,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     if (!entry?.isContainer) {
       return;
     }
-    //this.selectable.clearSelectedValues(this.currentFolderChildren);
     await this.openChildFolderAsync(entry);
   }
 
@@ -178,6 +179,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   }
 
   /**
+   * @internal
    * Opens the entry passed as the parameter
    * Example: This will get called when an entry is double clicked
    * @param entry
@@ -192,6 +194,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
   }
 
+  /**
+   * @internal
+   */
   async refresh(): Promise<void> {
     if (!this._currentEntry) {
       this._currentEntry = await this.treeNodeService.getRootTreeNodeAsync();

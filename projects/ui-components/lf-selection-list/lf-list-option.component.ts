@@ -29,7 +29,9 @@ export class LfListOptionComponent  {
       this.focusElement?.nativeElement.focus();
     }
   };
+
   get focused(): boolean { return this._focused; }
+
   @Input() item?: ILfSelectable;
   @Input() listItemRef?: TemplateRef<unknown>;
   @Input() multipleSelection: boolean = false;

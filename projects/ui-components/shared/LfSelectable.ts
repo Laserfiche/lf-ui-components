@@ -1,13 +1,22 @@
+/**
+ * @internal
+ */
 export interface ItemWithId {
   id: string;
 }
 
+/**
+ * @internal
+ */
 export interface ILfSelectable {
   value: ItemWithId;
   isSelectable: boolean;
   isSelected: boolean;
 }
 
+/**
+ * @internal
+ */
 export class Selectable {
   multiSelectable: boolean = false;
   get selectedItems(): ILfSelectable[] {

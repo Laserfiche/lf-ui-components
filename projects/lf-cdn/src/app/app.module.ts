@@ -1,6 +1,7 @@
 import { DoBootstrap, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LfRepositoryBrowserModule } from '../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
 import { LfChecklistModule } from '../../../ui-components/lf-checklist/lf-checklist-public-api';
 import { LfLoginModule } from '../../../ui-components/lf-login/lf-login-public-api';
 import { LfMetadataModule } from '../../../ui-components/lf-metadata/lf-metadata-public-api';
@@ -15,7 +16,8 @@ import { TreeComponentsModule } from '../../../ui-components/tree-components/lf-
     LfUserFeedbackModule,
     LfChecklistModule,
     LfMetadataModule,
-    TreeComponentsModule
+    TreeComponentsModule,
+    LfRepositoryBrowserModule
   ],
   providers: [],
 })
