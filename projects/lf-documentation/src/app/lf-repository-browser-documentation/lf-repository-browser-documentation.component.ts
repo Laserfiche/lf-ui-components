@@ -14,7 +14,7 @@ class DemoRepoService implements LfTreeNodeService {
     '2': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '2', isContainer: true, isLeaf: false, name: 'folder2', path: '1'},
     '3': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '3', isContainer: false, isLeaf: true, name: 'entry1', path: '1'},
     '4': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '4', isContainer: true, isLeaf: false, name: 'folder3', path: '1'},
-    '5': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '5', isContainer: false, isLeaf: true, 
+    '5': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '5', isContainer: false, isLeaf: true,
             name: 'LongNameToCheckHowTheComponentHandledFileLongNamesLongNameToCheckHowTheComponentHandledFileLongNames', path: '1'},
     '6': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '6', isContainer: false, isLeaf: true, name: '3', path: '2'},
     '7': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '7', isContainer: false, isLeaf: true, name: 'entry4', path: '2'},
@@ -31,9 +31,9 @@ class DemoRepoService implements LfTreeNodeService {
     '18': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '18', isContainer: true, isLeaf: false, name: 'dynamicly loaded entries', path: '1'},
     '60': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '60', isContainer: false, isLeaf: true, name: 'dynamic entry 60', path: '18'},
     '19': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '19', isContainer: true, isLeaf: true, name: 'slow loading folder', path: '1'},
-    '20': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '20', isContainer: true, isLeaf: true, 
+    '20': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '20', isContainer: true, isLeaf: true,
             name: 'ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumbReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb', path: '1'},
-    '21': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '21', isContainer: true, isLeaf: true, 
+    '21': {icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'), id: '21', isContainer: true, isLeaf: true,
             name: 'ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumbReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb ReallyLongFolderNameToSeeHowItIsHandledInTheBreadcrumb', path: '20'},
     '1000': {icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: '1000', isContainer: false, isLeaf: true, name: 'dynamic entry 1000', path: '18'},
   };
@@ -80,11 +80,11 @@ class DemoRepoService implements LfTreeNodeService {
       );
     }
   }
-  
+
   getFolderChildrenAsync(folder: LfTreeNode, nextPage?: string): Promise<LfTreeNodePage> {
     const folderId: string = folder.id;
     if (folderId != null && this._testData[folderId]) {
-      
+
       if (folderId === '16') {
         this.lastFolder = folderId;
         return Promise.reject();
@@ -119,12 +119,12 @@ class DemoRepoService implements LfTreeNodeService {
               nextPage: undefined
             });
           }, 5000);
-          
+
         });
       }
 
       this.lastFolder = folderId;
-      const testData = this._testData[folderId].filter((data: LfTreeNode) => 
+      const testData = this._testData[folderId].filter((data: LfTreeNode) =>
       {
         return data.name.indexOf(this.filter) >= 0;
       });
@@ -144,14 +144,14 @@ class DemoRepoService implements LfTreeNodeService {
   getTreeNodeByIdAsync(id: string): Promise<LfTreeNode | undefined> {
     return Promise.resolve(this._entries[id]);
   }
-  
+
   private createDynamicItems(nextPage?: string): LfTreeNode[] {
     const entries = [];
     const pageStart = nextPage ? Number.parseInt(nextPage, 10) : 0;
     for(let i = pageStart; i < pageStart + 20; i++) {
       entries.push(
         {
-          icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: (i).toString(), 
+          icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), id: (i).toString(),
         isContainer: false, isLeaf: true, isSelectable: true, name: `dynamic entry ${(i).toString()}`, path: '18', isSelected: false}
       );
     }
@@ -167,7 +167,7 @@ class DemoRepoService implements LfTreeNodeService {
 export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit {
   @ViewChild('repoBrowser') repoBrowser?: LfRepositoryBrowserComponent;
   @ViewChild('singleSelectRepoBrowser') singleSelectRepoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
-  
+
   allSelectable: boolean = true;
   dataService: DemoRepoService = new DemoRepoService();
   selectable = this._selectable.bind(this);
@@ -194,17 +194,17 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   onFilterChange(event: any) {
     this.filter = event.target.value;
     this.dataService.filter = this.filter;
-    this.repoBrowser?.refresh();
+    this.repoBrowser?.refreshAsync();
   }
 
   onRefresh() {
-    this.repoBrowser?.refresh();
+    this.repoBrowser?.refreshAsync();
   }
 
   private _selectable(node: LfTreeNode): Promise<boolean> {
-    if (this.allSelectable) { return Promise.resolve(true); } 
+    if (this.allSelectable) { return Promise.resolve(true); }
     if (node.isContainer) { return Promise.resolve(false); }
-    return Promise.resolve(true); 
+    return Promise.resolve(true);
   }
 
   toggleSelectable() {

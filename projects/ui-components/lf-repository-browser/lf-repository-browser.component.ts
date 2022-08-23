@@ -55,6 +55,29 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     });
   };
 
+  @Input()
+  refreshAsync: () => Promise<void> = async () => {
+    if (!this._currentEntry) {
+      this._currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
+    }
+    if (!this._currentEntry) {
+      throw new Error('No root was found, repository browser was unable to refresh.');
+    }
+    this.entryList?.clearSelectedValues();
+    this.nextPage = undefined;
+    this.lastCalledPage = undefined;
+    this.maximumChildrenReceived = false;
+    this.updateAllPossibleEntriesAsync(this._currentEntry);
+  }
+
+  /**
+   * Focuses the first item in the repository browser list
+   * TODO: Add an optional parameter to allow for focusing a sepecific node
+   */
+  @Input() focus = () => {
+    this._focus();
+  }
+
   @Output() entrySelected = new EventEmitter<LfTreeNode[] | undefined>();
 
   /** @internal */
@@ -65,6 +88,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   isLoading: boolean = false;
   /** @internal */
   nextPage: string | undefined;
+  /** @internal */
+  lastCalledPage: string | undefined;
   /** @internal */
   treeNodeService!: LfTreeNodeService;
 
@@ -108,18 +133,15 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       if (this._currentEntry == null) {
         return;
       }
-      if (!this.maximumChildrenReceived)
+      if (!this.maximumChildrenReceived) {
+        if (this.nextPage && this.nextPage == this.lastCalledPage) {
+          // do nothing. nextPage already attempted
+          return;
+        }
         await this.updateFolderChildrenAsync(this._currentEntry);
-    });
-  }
+      }
 
-  /**
-   * @internal
-   * Focuses the first item in the repository browser list
-   * TODO: Add an optional parameter to allow for focusing a sepecific node
-   */
-  focus() {
-    this._focus();
+    });
   }
 
   /**
@@ -192,22 +214,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
       this.entryList?.focus();
     }
-  }
-
-  /**
-   * @internal
-   */
-  async refresh(): Promise<void> {
-    if (!this._currentEntry) {
-      this._currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
-    }
-    if (!this._currentEntry) {
-      throw new Error('No root was found, repository browser was unable to refresh.');
-    }
-    this.entryList?.clearSelectedValues();
-    this.nextPage = undefined;
-    this.maximumChildrenReceived = false;
-    this.updateAllPossibleEntriesAsync(this._currentEntry);
   }
 
   /**
@@ -357,6 +363,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.currentFolderChildren = [];
     //this._focused_node = undefined;
     this.nextPage = undefined;
+    this.lastCalledPage = undefined;
     this.maximumChildrenReceived = false;
   }
 
@@ -420,6 +427,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @returns
    */
   private async updateFolderChildrenAsync(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
+    this.lastCalledPage = this.nextPage;
     const firstEntryPage: LfTreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
     let selectablePage: ILfSelectable[] = [];
     this.nextPage = firstEntryPage.nextPage;
