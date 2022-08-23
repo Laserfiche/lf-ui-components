@@ -62,7 +62,13 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   hasError: boolean = false;
   /** @internal */
-  isLoading: boolean = false;
+  isLoading: boolean = true;
+  /** 
+   * @internal 
+   * TODO: Add a message for when the repository browser is not initialized
+   * When that happens default isLoading to false
+  */
+  initialized: boolean = false;
   /** @internal */
   nextPage: string | undefined;
   /** @internal */
@@ -278,6 +284,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     if (currentEntry && !currentEntry.isContainer) {
       currentEntry = await this.treeNodeService.getParentTreeNodeAsync(currentEntry);
     }
+    this.initialized = true;
     if (currentEntry) {
       await this.setNodeAsParentAsync(currentEntry);
       return;

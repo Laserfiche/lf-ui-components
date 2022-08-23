@@ -179,12 +179,14 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   constructor() { }
 
   ngAfterViewInit(): void {
-    this.repoBrowser?.initAsync(this.dataService);
+    setTimeout(() => {
+      this.repoBrowser?.initAsync(this.dataService);
+      if (this.repoBrowser != null) {
+        this.repoBrowser.focus();
+      }
+    }, 2000)
+    
     this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
-
-    if (this.repoBrowser != null) {
-      this.repoBrowser.focus();
-    }
   }
 
   onEntrySelected(event: LfTreeNode[] | undefined) {
