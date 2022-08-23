@@ -73,7 +73,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.lastCalledPage = undefined;
     this.maximumChildrenReceived = false;
     this.updateAllPossibleEntriesAsync(this._currentFolder);
-  }
+  };
 
   /**
    * Focuses the first item in the repository browser list
@@ -81,7 +81,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    */
   @Input() focus = () => {
     this._focus();
-  }
+  };
 
   @Output() entrySelected = new EventEmitter<LfTreeNode[] | undefined>();
 
@@ -91,8 +91,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   hasError: boolean = false;
   /** @internal */
   isLoading: boolean = true;
-  /** 
-   * @internal 
+  /**
+   * @internal
    * TODO: Add a message for when the repository browser is not initialized
    * When that happens default isLoading to false
   */
