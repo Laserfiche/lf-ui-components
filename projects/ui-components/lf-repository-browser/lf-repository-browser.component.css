@@ -16,7 +16,6 @@
     height: 100%;
 }
 
-
 .lf-repo-entry-container {
     padding-bottom: 10px;
     overflow: auto;
@@ -126,7 +125,6 @@ lf-toolbar-component {
 ::ng-deep .selectable-option .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
     background: #6D6D6D;
 }
-
 
 ::ng-deep .mat-list-option:hover,
     .mat-nav-list .mat-list-item:hover, 

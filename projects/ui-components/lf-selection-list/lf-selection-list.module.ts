@@ -20,7 +20,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
   ],
   bootstrap: [LfSelectionListComponent],
-  exports: [LfSelectionListComponent, LfListOptionComponent],
+  exports: [LfSelectionListComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 
