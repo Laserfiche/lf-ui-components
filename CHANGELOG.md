@@ -1,6 +1,7 @@
-## 13.x
+## 13.1.0
 
 ### Features
+- `[lf-repository-browser]`: Add `lf-repository-browser` component. This will replace `lf-file-explorer` and `lf-folder-browser` in the next major release
 
 ### Fixes
 
