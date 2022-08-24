@@ -23,7 +23,7 @@
                     <div *ngIf="getIcons(item).length > 0" class="fixed-size-icon-container">
                         <img *ngFor="let icon of getIcons(item)" src="{{ icon }}" alt="" class="lf-entry-icon" />
                     </div>
-                    <p matLine class="lf-entry-name">
+                    <p matLine class="lf-entry-name" title="{{ item?.name }}">
                         <span>{{ item?.name }}</span>
                     </p>
                 </ng-template>

@@ -14,25 +14,6 @@
     flex: 1 1 auto;
 }
 
-.fixed-size-icon-container {
-    position: relative;
-    width: 24px;
-    min-width: 24px;
-    height: 24px;
-    margin: 5px 10px 5px 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.lf-entry-icon {
-    display: block;
-    height: 24px;
-    width: 24px;
-    overflow: hidden;
-    position: absolute;
-}
-
 #message-display {
     display: flex;
     flex-direction: column;
@@ -74,4 +55,28 @@ lf-breadcrumbs-component {
 .error-entries-text,
 .no-entries-text{
     user-select: none;
+}
+
+.fixed-size-icon-container {
+    position: relative;
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    margin: 5px 10px 5px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lf-entry-icon {
+    display: block;
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+    position: absolute;
+}
+
+.lf-entry-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

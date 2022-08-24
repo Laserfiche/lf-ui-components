@@ -128,6 +128,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   private _breadcrumbs: LfTreeNode[] = [];
   /** @internal */
   private scrolledIndexChanged = new Subject();
+  /** 
+   * @internal 
+   * Used to track if data is currently being pulled
+   * */
+  private lastDataCall?: Promise<any>;
 
   /** @internal */
   constructor(
@@ -412,6 +417,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param refresh Not Used currently
    */
   private async updateAllPossibleEntriesAsync(parentEntry: LfTreeNode, refresh: boolean = false) {
+    // If we are already getting data we want to wait for that to finish before resetting and pulling new data.
+    if (this.lastDataCall) {
+      await this.lastDataCall;
+    }
     if (parentEntry && parentEntry.id) {
       try {
         this.isLoading = true;
@@ -440,10 +449,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    */
   private async updateFolderChildrenAsync(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
     this.lastCalledPage = this.nextPage;
-    const firstEntryPage: LfTreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
+    this.lastDataCall = this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
+    let dataPage = await this.lastDataCall;
+    this.lastDataCall = undefined;
     let selectablePage: ILfSelectable[] = [];
-    this.nextPage = firstEntryPage.nextPage;
-    const page = firstEntryPage.page;
+    this.nextPage = dataPage.nextPage;
+    const page = dataPage.page;
     selectablePage = await this.mapTreeNodesToLfSelectableAsync(page);
     this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
     if (this.nextPage) {

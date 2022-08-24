@@ -192,6 +192,14 @@ export class DemoRepoService implements LfTreeNodeService {
       name: 'dynamic entry 1000',
       path: '18',
     },
+    '1900': {
+      icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
+      id: '1900',
+      isContainer: true,
+      isLeaf: false,
+      name: 'folder',
+      path: '19',
+    }
   };
   _testData: { [key: string]: LfTreeNode[] } = {
     '1': [
@@ -222,9 +230,10 @@ export class DemoRepoService implements LfTreeNodeService {
     '16': [],
     '17': [],
     '18': [],
-    '19': [],
+    '19': [this._entries['1900']],
     '20': [this._entries['21']],
     '21': [],
+    '1900': []
   };
 
   private lastFolder: string | undefined;
@@ -271,11 +280,13 @@ export class DemoRepoService implements LfTreeNodeService {
           });
         }
         this.lastFolder = folderId;
-        const newEntries: LfTreeNode[] = this.createDynamicItems(nextPage);
+        const testData = this._testData['19'].filter((data: LfTreeNode) => {
+          return data.name.indexOf(this.filter) >= 0;
+        });
         return new Promise((resolve, reject) => {
           setTimeout(() => {
             resolve({
-              page: newEntries,
+              page: testData,
               nextPage: undefined,
             });
           }, 5000);
