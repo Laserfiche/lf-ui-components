@@ -7,17 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { LfBreadcrumbsComponent, LfLoaderComponent } from '../shared/lf-shared-public-api';
-
 import { MatDialog } from "@angular/material/dialog";
 import { AppLocalizationService } from "../shared/app-localization.service";
 import { ILfSelectable } from "../shared/LfSelectable";
-
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
-
-import { IconUtils } from '@laserfiche/lf-js-utils';
-import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from "./ILfTreeNodeService";
+import { LfTreeNodeService, LfTreeNode } from "./ILfTreeNodeService";
 import { LfSelectionListModule } from "../lf-selection-list/lf-selection-list.module";
-
 
 const rootTreeNode: LfTreeNode = {
     icon: '',
@@ -27,6 +22,7 @@ const rootTreeNode: LfTreeNode = {
     name: 'root',
     path: ''
 };
+
 const rootTreeNodeChildren: LfTreeNode[] = [
     {
         icon: '',
@@ -258,8 +254,6 @@ describe('LfRepositoryBrowserComponent', () => {
             expect(component.currentFolderChildren.map((lfSelectable: ILfSelectable) => lfSelectable.value)).toEqual(rootTreeNodeChildren);
         });
     });
-
-
 
     it('openChildFolderAsync should update the breadcrumbs and get new data for the passed in entry', async () => {
         // Arrange
