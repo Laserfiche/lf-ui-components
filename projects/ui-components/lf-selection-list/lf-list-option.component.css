@@ -34,7 +34,7 @@
     padding-left: 32px;
 }
 
-::ng-deep mat-checkbox .mat-checkbox-layout .mat-checkbox-inner-container .mat-checkbox-ripple {
+::ng-deep mat-checkbox.lf-no-ripple .mat-checkbox-layout .mat-checkbox-inner-container .mat-checkbox-ripple {
     width: 0;
     height: 0;
 }
