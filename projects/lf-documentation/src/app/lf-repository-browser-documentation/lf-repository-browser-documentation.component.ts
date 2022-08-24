@@ -162,10 +162,10 @@ class DemoRepoService implements LfTreeNodeService {
 @Component({
   selector: 'app-lf-repository-browser-documentation',
   templateUrl: './lf-repository-browser-documentation.component.html',
-  styleUrls: ['./lf-repository-browser-documentation.component.css']
+  styleUrls: ['./lf-repository-browser-documentation.component.css', '../app.component.css']
 })
 export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit {
-  @ViewChild('repoBrowser') repoBrowser?: LfRepositoryBrowserComponent;
+  @ViewChild('repoBrowser') repoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
   @ViewChild('singleSelectRepoBrowser') singleSelectRepoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
 
   allSelectable: boolean = true;
@@ -180,12 +180,12 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.repoBrowser?.initAsync(this.dataService);
+      this.repoBrowser?.nativeElement.initAsync(this.dataService);
       if (this.repoBrowser != null) {
-        this.repoBrowser.focus();
+        this.repoBrowser.nativeElement.focus();
       }
-    }, 2000);
-
+    }, 2000)
+    
     this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
   }
 
@@ -196,11 +196,11 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   onFilterChange(event: any) {
     this.filter = event.target.value;
     this.dataService.filter = this.filter;
-    this.repoBrowser?.refreshAsync();
+    this.repoBrowser?.nativeElement.refreshAsync();
   }
 
   onRefresh() {
-    this.repoBrowser?.refreshAsync();
+    this.repoBrowser?.nativeElement.refreshAsync();
   }
 
   private _selectable(node: LfTreeNode): Promise<boolean> {
@@ -212,7 +212,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   toggleSelectable() {
     this.allSelectable = !this.allSelectable;
     this.dataService = new DemoRepoService();
-    this.repoBrowser?.initAsync(this.dataService);
+    this.repoBrowser?.nativeElement.initAsync(this.dataService);
   }
 
   async setSelectedValue() {
@@ -223,6 +223,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       this.dataService._entries['60'],
       this.dataService._entries['1000']
     ];
-    await this.repoBrowser?.setSelectedValuesAsync(selectedValues as LfTreeNode[]);
+    await this.repoBrowser?.nativeElement.setSelectedValuesAsync(selectedValues as LfTreeNode[]);
   }
 }

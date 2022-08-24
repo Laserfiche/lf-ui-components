@@ -1,27 +1,7 @@
 <p class="documentation-title">LfRepositoryBrowser</p>
-<div style="height: 100px; overflow: auto;">
-  <ul role="listbox">
-    <li>Test 1</li>
-    <li>Test 1</li>
-    <li>Test 1</li>
-    <li>Test 1</li>
-    <li>Test 1</li>
-    <li>Test 1</li>
-    <li>Test 1</li>
-    <li>Test 1</li>
-    <li>Test 1</li>
-    <li>Test 1</li>
-    <li>Test 1</li>
-    <li>Test 1</li>
-  </ul>
-</div>
 <p class="documentation-text code-container">
   <code>
-    <span class="code-html-tagname">&lt;lf-repository-browser </span>
-    <span class="code-html-attribute-name">description</span>
-    <span>=</span>
-    <span class="code-html-attribute-value">"Test Description for Element" </span>
-    <span class="code-html-tagname">&gt;&lt;/lf-repository-browser&gt;</span>
+    <span class="code-html-tagname">&lt;lf-repository-browser&gt;&lt;/lf-repository-browser&gt;</span>
   </code>
 </p>
 <p class="documentation-text code-container">
@@ -64,18 +44,18 @@
 <app-card>
   <input (change)="onFilterChange($event)">
   <button (click)="onRefresh()">Refresh</button>
-  <lf-repository-browser-component
+  <lf-repository-browser
     multiple="true"
     [isSelectable]="selectable"
     (entrySelected)="onEntrySelected($event)"
     style="height: 500px"
     #repoBrowser
-  ></lf-repository-browser-component>
+  ></lf-repository-browser>
 </app-card>
-<button (click)="setSelectedValue()">Set Selected</button>
+<button (click)="setSelectedValue()">Set Selected Values</button>
 <button (click)="toggleSelectable()">{{allSelectable ? 'Set Only Documents Selectable' : 'Set All Entries Selectable'}}</button>
 
-<p class="documentation-text">lf-folder-browser entrySelected:</p>
+<p class="documentation-text">lf-repository-browser entrySelected:</p>
 <textarea disabled cols="80" rows="10">{{ elementSelectedEntry | json }}</textarea>
 
 <p class="documentation-header">Overview</p>
@@ -90,14 +70,14 @@
     <th>Description</th>
   </tr>
   <tr>
-    <td>description</td>
-    <td>string</td>
-    <td>displayed on top</td>
-  </tr>
-  <tr>
     <td>multiple</td>
     <td>boolean</td>
     <td>allows multiple entries to be selected</td>
+  </tr>
+  <tr>
+    <td>itemSize</td>
+    <td>number</td>
+    <td>allows user to set the itemSize for the scrollable section</td>
   </tr>
 </table>
 <br />
@@ -108,9 +88,9 @@
     <th>Description</th>
   </tr>
   <tr>
-    <td>entrySelected/td></td>
-    <td>(event: CustomEvent&lt;Entry[]&gt;) => Promise&lt;void&gt;</td>
-    <td>event raised when selectable node is selected</td>
+    <td>entrySelected</td>
+    <td>(event: CustomEvent&lt;LfTreeNode[]&gt;) => Promise&lt;void&gt;</td>
+    <td>event raised when node(s) is selected</td>
   </tr>
 </table>
 <br />
@@ -122,57 +102,89 @@
   </tr>
   <tr>
     <td>initAsync</td>
-    <td>(providers: LfRepositoryProvider, selectedEntryId?: string) => Promise&lt;void&gt;</td>
+    <td>(providers: LfTreeNodeService, selectedEntryId?: string) => Promise&lt;void&gt;</td>
     <td>
       initializes the lf-repository-browser with a LfRepositoryProvider You <b>must</b> call this method. Each time this is called, the
       state of lf-repository-browser is reset. If selectedEntryId is specified, the tree is directly opened to the node
       with id = selectedEntryId.
     </td>
   </tr>
+  <tr>
+    <td>setSelectedValuesAsync</td>
+    <td>(valuesToSelect: LfTreeNode[]) => Promise&lt;void&gt;</td>
+    <td>
+      Sets the selected values specified. Will call for more data if needed.
+    </td>
+  </tr>
+  <tr>
+    <td>refreshAsync</td>
+    <td>() => Promise&lt;void&gt;</td>
+    <td>
+      Refreshes the current folder. Calls for all of the data again.
+    </td>
+  </tr>
+  <tr>
+    <td>focus</td>
+    <td>() => void</td>
+    <td>
+      focuses the first item in the lf-repository-browser
+    </td>
+  </tr>
+  <tr>
+    <td>isSelectable</td>
+    <td>(treeNode: LfTreeNode) => Promise&lt;boolean&gt;</td>
+    <td>
+      Lambda function that can be used to specify if specific tree nodes are selectable. This is called whenever new data is added.
+    </td>
+  </tr>
+  <tr>
+    <td>breadcrumbs</td>
+    <td>LfTreeNode[] | undefined</td>
+    <td>
+      read-only property that contains the breadcrumbs of the currently opened folder
+    </td>
+  </tr>
+  <tr>
+    <td>currentFolder</td>
+    <td>LfTreeNode | undefined</td>
+    <td>
+      read-only property that allows the user to see what the currently open LfTreeNode is
+    </td>
+  </tr>
 </table>
-<p class="documentation-header">LfRepositoryProvider</p>
-<p class="documentation-sub-header">LfRepositoryService Interface</p>
 
+<p class="documentation-sub-header">LfTreeNodeService Interface</p>
 <ul>
-  <li>breadcrumbs : Entry[]</li>
-  <li>currentFolder : Entry | undefined</li>
-  <li>list : Entry[]</li>
-  <li>getRootEntryAsync() : Promise&lt;Entry&gt;</li>
-  <li>getData(folderId: string | null, filterText: string | undefined, refresh?: boolean): Promise&lt;Entry[]&gt;
+  <li>getRootTreeNodeAsync() : Promise&lt;LfTreeNode | undefined&gt;</li>
+  <li>getFolderChildrenAsync(folder: LfTreeNode, nextPage: string | undefined): Promise&lt;LfTreeNodePage&gt;
     <ul>
       <li>
-        getData should update the `list` property on the service
+        The LfTreeNodePage that this returns represents one page of data, not the cumulative data
       </li>
     </ul>
   </li>
   <li>
-    getParentEntryAsync(node: Entry): Promise&lt;Entry | undefined&gt;
+    getParentTreeNodeAsync(node: LfTreeNode): Promise&lt;LfTreeNode | undefined&gt;
     <ul>
       <li>
-        If an entry does not have a parent (i.e. a root node), then we expect getParentEntryAsync to return
+        If an entry does not have a parent (i.e. a root node), then we expect getParentTreeNodeAsync will return
         Promise&lt;undefined&gt;
       </li>
     </ul>
   </li>
-  <li>getNodeByIdAsync(id: string): Promise&lt;TreeNode | undefined&gt;</li>
-  <li>
-    refreshAsync?(node: TreeNode): Promise&lt;TreeNode[]&gt;
-    <ul>
-      <li>Optional. If defined, users can refresh the tree. This function should not use cached values.</li>
-    </ul>
-  </li>
+  <li>getTreeNodeByIdAsync(id: string): Promise&lt;TreeNode | undefined&gt;</li>
 </ul>
-<p class="documentation-sub-header">LfRepositoryProviders Interface</p>
+<p class="documentation-sub-header">LfTreeNodePage Interface</p>
 <ul>
-  <li>repositoryService: LfRepositoryService</li>
+  <li>page: LfTreeNode[]</li>
+  <li>nextPage: string | undefined</li>
 </ul>
-<p class="documentation-sub-header">Entry Interface</p>
+<p class="documentation-sub-header">LfTreeNode Interface</p>
 <ul>
   <li>id : string</li>
   <li>icon : string | string[]</li>
   <li>isContainer : boolean</li>
   <li>isLeaf : boolean</li>
-  <li>isSelectable: boolean</li>
   <li>name : string</li>
   <li>path : string</li>
 </ul>
