@@ -1,7 +1,7 @@
 @use "typography-lf";
 
 $checked-color: #6D6D6D;
-$disabled-color: #CFCFCF;
+$disabled-color: #6D6D6D;
 $border-color: #6D6D6D;
 $checkbox-size: 16px;
 
@@ -39,15 +39,18 @@ $ripple-size: 0px;
   &.mat-checkbox-disabled {
     &.mat-checkbox-checked .mat-checkbox-background{
       background-color: $disabled-color;
+      opacity: 0.33;
     }
 
     .mat-checkbox-inner-container {
       &:hover .mat-checkbox-frame {
         border-width: $border-width;
+        opacity: 0.33;
       }
 
       .mat-checkbox-frame {
         border-color: $disabled-color;
+        opacity: 0.33;
       }
     }
   }

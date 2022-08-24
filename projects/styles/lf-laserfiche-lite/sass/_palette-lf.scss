@@ -1,0 +1,28 @@
+// Menu item colors
+$lf-menu-item-hover-color: #F5FBFF;
+$lf-menu-item-selected-color: #EAF5FF;
+
+:root {
+    --lf-menu-item-hover-color: #F5FBFF;
+    --lf-menu-item-selected-color: #EAF5FF;
+    --lf-menu-item-active-outline-color: #1783D6;
+
+    --lf-primary-button-color: #00866B;
+    --lf-primary-button-border-hover-color: #005342;
+    --lf-primary-button-focus-color: #005342;
+    --lf-primary-button-active-color: #005342;
+    --lf-primary-button-active-font-color: #FFFFFF;
+
+    --lf-secondary-button-color: #E0E0E0;
+    --lf-secondary-button-border-hover-color: #CCCCCC;
+    --lf-secondary-button-focus-color: #CCCCCC;
+    --lf-secondary-button-active-color: #CCCCCC;
+    --lf-secondary-button-font-color: #333333;
+
+    --lf-primary-text-color: #333333;
+    --lf-label-text-color: #6D6D6D;
+    --lf-icon-color: #6D6D6D;
+    --lf-empty-state-text-color: #6D6D6D;
+    --lf-default-border-color: #E0E0E0;
+    --lf-link-color: #0069CF;
+}

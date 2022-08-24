@@ -43,6 +43,9 @@ import { LfMetadataModule } from '../../../ui-components/lf-metadata/lf-metadata
 import { LfUserFeedbackModule } from '../../../ui-components/lf-user-feedback/lf-user-feedback-public-api';
 import { TreeComponentsModule } from '../../../ui-components/tree-components/lf-tree-components-public-api';
 
+import { LfRepositoryBrowserModule } from '../../../ui-components/lf-repository-browser/lf-repository-browser.module';
+import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-browser-documentation/lf-repository-browser-documentation.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +64,7 @@ import { TreeComponentsModule } from '../../../ui-components/tree-components/lf-
     LfFieldAdhocContainerDocumentationComponent,
     LfBreadcrumbsDocumentationComponent,
     LfFolderBrowserDocumentationComponent,
+    LfRepositoryBrowserDocumentationComponent,
     LfToolbarDocumentationComponent,
     ConvertComponentToElementComponent,
     LfLoginDocumentationComponent,
@@ -89,7 +93,8 @@ import { TreeComponentsModule } from '../../../ui-components/tree-components/lf-
     LfUserFeedbackModule,
     LfChecklistModule,
     LfMetadataModule,
-    TreeComponentsModule
+    LfRepositoryBrowserModule,
+    TreeComponentsModule,
   ],
   providers: [
     {
