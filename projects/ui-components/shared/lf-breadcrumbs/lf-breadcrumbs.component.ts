@@ -7,8 +7,8 @@ import { LfBreadcrumb } from './lf-breadcrumbs-types';
   styleUrls: ['./lf-breadcrumbs.component.css']
 })
 export class LfBreadcrumbsComponent {
-
   @Input() breadcrumbs: LfBreadcrumb[] = [];
+
   @Output() breadcrumbSelected = new EventEmitter<LfBreadcrumb | undefined>();
   @Output() breadcrumbClicked = new EventEmitter<{
     selected: LfBreadcrumb;

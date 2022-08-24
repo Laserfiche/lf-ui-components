@@ -7,7 +7,6 @@ import { LfSelectionListComponent } from './lf-selection-list.component';
 import { LfListOptionComponent } from './lf-list-option.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-
 @NgModule({
   declarations: [
     LfSelectionListComponent,
@@ -17,7 +16,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     CommonModule,
     MatCheckboxModule,
     ScrollingModule,
-
   ],
   bootstrap: [LfSelectionListComponent],
   exports: [LfSelectionListComponent],
@@ -25,9 +23,4 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 })
 
 /** @internal */
-export class LfSelectionListModule {
-   /** @internal */
-     constructor(
-    /** @internal */ injector: Injector
-  ) {}
-}
+export class LfSelectionListModule { }
