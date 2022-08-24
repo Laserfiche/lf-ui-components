@@ -32,8 +32,8 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
   }
 
-  onEntrySelected(event: LfTreeNode[] | undefined) {
-    this.elementSelectedEntry = event;
+  onEntrySelected(event: CustomEvent<LfTreeNode[] | undefined>) {
+    this.elementSelectedEntry = event.detail;
   }
 
   onFilterChange(event: any) {
