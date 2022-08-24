@@ -75,8 +75,3 @@ lf-breadcrumbs-component {
     overflow: hidden;
     position: absolute;
 }
-
-.lf-entry-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
