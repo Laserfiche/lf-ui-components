@@ -3,7 +3,7 @@
     min-height: 42px;
     height: 42px;
     padding: 0 8px;
-    margin: 6px 4px;
+    margin: 0 4px;
     color: var(--lf-body-text-color, #333333);
     display: flex;
     flex-direction: row;

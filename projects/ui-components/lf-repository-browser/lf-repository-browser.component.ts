@@ -419,7 +419,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   private async updateAllPossibleEntriesAsync(parentEntry: LfTreeNode, refresh: boolean = false) {
     // If we are already getting data we want to wait for that to finish before resetting and pulling new data.
     if (this.lastDataCall) {
-      await this.lastDataCall;
+      // If we get an error in the last data call just throw it away.
+      await this.lastDataCall.catch((error) => undefined);
     }
     if (parentEntry && parentEntry.id) {
       try {
@@ -430,6 +431,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
         this.entrySelected.emit([]);
       } catch (error) {
         console.error(error);
+        this.lastDataCall = undefined;
         this.hasError = true;
       } finally {
         this.isLoading = false;

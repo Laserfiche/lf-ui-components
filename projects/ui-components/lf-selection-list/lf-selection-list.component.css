@@ -7,5 +7,6 @@
     height: 100%;
 }
 
-
-
+::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper {
+    padding-top: 2px;
+}
