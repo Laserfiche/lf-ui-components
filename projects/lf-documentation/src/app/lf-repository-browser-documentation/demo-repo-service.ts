@@ -304,7 +304,7 @@ export class DemoRepoService implements LfTreeNodeService {
     }
     return Promise.reject();
   }
-  getRootTreeNodeAsync(): Promise<LfTreeNode | undefined> {
+  getRootTreeNodeAsync(): Promise<LfTreeNode> {
     return Promise.resolve(this._rootEntry);
   }
   getParentTreeNodeAsync(entry: LfTreeNode): Promise<LfTreeNode | undefined> {
