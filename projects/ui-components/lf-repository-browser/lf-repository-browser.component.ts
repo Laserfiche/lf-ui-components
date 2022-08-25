@@ -450,7 +450,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   private async updateFolderChildrenAsync(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
     this.lastCalledPage = this.nextPage;
     this.lastDataCall = this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
-    let dataPage = await this.lastDataCall;
+    const dataPage = await this.lastDataCall;
     this.lastDataCall = undefined;
     let selectablePage: ILfSelectable[] = [];
     this.nextPage = dataPage.nextPage;
