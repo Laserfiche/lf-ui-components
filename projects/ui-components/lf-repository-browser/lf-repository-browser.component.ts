@@ -340,14 +340,16 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       this.hasError = true;
       throw new Error('Repository Browser cannot be initialized without a data service.');
     }
-    const rootEntry: LfTreeNode | undefined = await this.treeNodeService.getRootTreeNodeAsync();
-    if (rootEntry == null) {
-      console.error(`Repository browser does not contain a root entry`);
+    try{
+      const rootEntry: LfTreeNode = await this.treeNodeService.getRootTreeNodeAsync();
+      this.hasError = false;
+      await this.setNodeAsParentAsync(rootEntry);
+    }
+    catch(err: any) {
+      console.error(`Error retrieving root node: ` + err.message);
       this.hasError = true;
       return;
     }
-    this.hasError = false;
-    await this.setNodeAsParentAsync(rootEntry);
   }
 
   /**

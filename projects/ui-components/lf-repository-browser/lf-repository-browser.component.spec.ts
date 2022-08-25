@@ -196,7 +196,7 @@ describe('LfRepositoryBrowserComponent', () => {
 
         it('should be in an erorr state when there is no root tree node found when being called without the currentIdOrEntry parameter', async () => {
             // Arrange
-            dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+            dataServiceMock.getRootTreeNodeAsync.and.rejectWith('error');
 
             // Act
             await component.initAsync(dataServiceMock);
