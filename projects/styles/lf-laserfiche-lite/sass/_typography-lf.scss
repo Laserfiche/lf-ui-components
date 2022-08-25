@@ -27,7 +27,7 @@ $widget-stack: 600 14px  "Open Sans";
 $widget-color: #333333;
 
 $label-stack: 600 14px "Open Sans";
-$label-color: #333333;
+$label-color: #6D6D6D;
 
 $body-stack: 400 14px  "Open Sans";
 $body-color: #333333;
@@ -64,4 +64,9 @@ $kpi-states-color: #6D6D6D;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+:root {
+  --lf-body-text-color: #333333;
+  --lf-label-text-color: #6D6D6D;
 }

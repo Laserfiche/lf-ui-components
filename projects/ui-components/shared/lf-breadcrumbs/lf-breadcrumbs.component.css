@@ -5,8 +5,7 @@
 
 .breadcrumb-parent {
   padding-left: 10px;
-  font: 600 14px "Open Sans";
-  color: #605e5c;
+  color: var(--lf-label-text-color, #605e5c);
   align-self: center;
   cursor: default;
   text-overflow: ellipsis;
@@ -21,9 +20,17 @@
   font-weight: bolder;
 }
 
+::ng-deep .breadcrumb-split-button.breadcrumb-select.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  color: var(--lf-label-text-color, #605e5c);
+}
+
+::ng-deep .breadcrumb-split-button.breadcrumb-clickable-parent.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  color: var(--lf-link-color, #605e5c);
+}
+
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
-  font: 600 14px "Open Sans";
-  color: #605e5c;
+  font-weight: 600;
+  font-size: 14px;
   line-height: 25px;
   padding: 0 0px 0px 10px;
   text-align: left;
@@ -35,7 +42,7 @@
 
 ::ng-deep .breadcrumb-clickable-parent.breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
   min-width: 75px;
-  max-width: 75px;
+  max-width: 125px;
   padding: 0px;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -46,7 +53,7 @@
 
 ::ng-deep .single-selectable.breadcrumb-clickable-parent.breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
   min-width: 90px;
-  max-width: 90px;
+  max-width: 125px;
 }
 
 ::ng-deep .breadcrumb-split-button-group.mat-button-toggle-group-appearance-standard {
@@ -56,7 +63,7 @@
 }
 
 ::ng-deep .breadcrumb-split-button .breadcrumb-select {
-  color: #605e5c;
+  color: var(--lf-label-text-color, #605e5c);
 }
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard.breadcrumb-select .mat-button-toggle-label-content {
   padding-left: 5px;

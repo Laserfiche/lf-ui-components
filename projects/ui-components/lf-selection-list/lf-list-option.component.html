@@ -1,0 +1,15 @@
+<div id="item-holder" [attr.tabindex]="_setTabIndex(this.focused)" #focuselement
+    [ngClass]="{'fill-multiselect': multipleSelection && !item?.isSelectable}">
+    <mat-checkbox class="lf-checkbox multiselect-indicator lf-no-ripple" *ngIf="multipleSelection && item?.isSelectable" tabindex=-1 [checked]="item?.isSelected" 
+        color="primary"
+        (click)="onCheckboxClicked($event)" disableRipple></mat-checkbox>
+    <ng-container *ngIf="listItemRef; else defaultItem">
+        <ng-container *ngIf="item">
+            <ng-container *ngTemplateOutlet="listItemRef;context:item"></ng-container> 
+        </ng-container>
+    </ng-container>
+    <ng-template #defaultItem>
+        <div>{{item?.value.id}}</div>
+    </ng-template>
+<div>
+ 

@@ -1,0 +1,201 @@
+<p class="documentation-title">LfRepositoryBrowser</p>
+<p class="documentation-text code-container">
+  <label>Web Element</label>
+  <br>
+  <code>
+    <span class="code-html-tagname">&lt;lf-repository-browser&gt;&lt;/lf-repository-browser&gt;</span>
+  </code>
+  
+</p>
+<p class="documentation-text code-container">
+  <label>Angular Component</label>
+  <br>
+  <code>
+    <span class="code-html-tagname">&lt;lf-repository-browser-component&gt;&lt;/lf-repository-browser-component&gt;</span>
+  </code>
+</p>
+
+<p class="documentation-text code-container">
+  <code>
+    <span class="code-html-tagname">const </span>
+    <span>repoBrowser</span>
+    <span> = </span>
+    <span>document.querySelector('lf-repository-browser');</span>
+    <p>repoBrowser.addEventListener('entrySelected', onElementNodeSelected(event));</p>
+    <p>await repoBrowser.initAsync(treeProvidersObject);</p>
+  </code>
+</p>
+<label>
+  <pre>
+    &lt;lf-repository-browser
+      multiple="false"
+      (entrySelected)="onEntrySelected($event)"
+      style="height: 500px"
+    &gt;&lt;/lf-repository-browser&gt;
+  </pre>
+</label>
+<app-card>
+  <lf-repository-browser
+    multiple="false"
+    (entrySelected)="onEntrySelected($event)"
+    style="height: 500px"
+    #singleSelectRepoBrowser
+  ></lf-repository-browser>
+</app-card>
+
+<label>
+  <pre>
+    &lt;lf-repository-browser
+      multiple="true"
+      (entrySelected)="onEntrySelected($event)"
+      style="height: 500px"
+    &gt;&lt;/lf-repository-browser&gt;
+  </pre>
+</label>
+<app-card>
+  <input (change)="onFilterChange($event)">
+  <button (click)="onRefresh()">Refresh</button>
+  <lf-repository-browser
+    multiple="true"
+    [isSelectable]="selectable"
+    (entrySelected)="onEntrySelected($event)"
+    style="height: 500px"
+    #repoBrowser
+  ></lf-repository-browser>
+</app-card>
+<button (click)="setSelectedValue()">Set Selected Values</button>
+<button (click)="toggleSelectable()">{{allSelectable ? 'Set Only Documents Selectable' : 'Set All Entries Selectable'}}</button>
+
+<p class="documentation-text">lf-repository-browser entrySelected:</p>
+<textarea disabled cols="80" rows="10">{{ elementSelectedEntry | json }}</textarea>
+
+<p class="documentation-header">Overview</p>
+<p class="documentation-text">Web Component to interact with data structures such as folders/files</p>
+<p class="documentation-header">Use Case</p>
+<p class="documentation-text">Selecting folder to save document to in Laserfiche</p>
+<p class="documentation-header">HTML Element</p>
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>multiple</td>
+    <td>boolean</td>
+    <td>allows multiple entries to be selected</td>
+  </tr>
+  <tr>
+    <td>itemSize</td>
+    <td>number</td>
+    <td>allows user to set the itemSize for the scrollable section</td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>entrySelected</td>
+    <td>(event: CustomEvent&lt;LfTreeNode[]&gt;) => Promise&lt;void&gt;</td>
+    <td>event raised when node(s) is selected</td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Method/Property</th>
+    <th>Signature</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>initAsync</td>
+    <td>(providers: LfTreeNodeService, selectedEntryId?: string) => Promise&lt;void&gt;</td>
+    <td>
+      initializes the lf-repository-browser with a LfRepositoryProvider You <b>must</b> call this method. Each time this is called, the
+      state of lf-repository-browser is reset. If selectedEntryId is specified, the tree is directly opened to the node
+      with id = selectedEntryId.
+    </td>
+  </tr>
+  <tr>
+    <td>setSelectedValuesAsync</td>
+    <td>(valuesToSelect: LfTreeNode[]) => Promise&lt;void&gt;</td>
+    <td>
+      Sets the selected values specified. Will call for more data if needed.
+    </td>
+  </tr>
+  <tr>
+    <td>refreshAsync</td>
+    <td>() => Promise&lt;void&gt;</td>
+    <td>
+      Refreshes the current folder. Calls for all of the data again.
+    </td>
+  </tr>
+  <tr>
+    <td>focus</td>
+    <td>() => void</td>
+    <td>
+      focuses the first item in the lf-repository-browser
+    </td>
+  </tr>
+  <tr>
+    <td>isSelectable</td>
+    <td>(treeNode: LfTreeNode) => Promise&lt;boolean&gt;</td>
+    <td>
+      Lambda function that can be used to specify if specific tree nodes are selectable. This is called whenever new data is added.
+    </td>
+  </tr>
+  <tr>
+    <td>breadcrumbs</td>
+    <td>LfTreeNode[] | undefined</td>
+    <td>
+      read-only property that contains the breadcrumbs of the currently opened folder
+    </td>
+  </tr>
+  <tr>
+    <td>currentFolder</td>
+    <td>LfTreeNode | undefined</td>
+    <td>
+      read-only property that allows the user to see what the currently open LfTreeNode is
+    </td>
+  </tr>
+</table>
+
+<p class="documentation-sub-header">LfTreeNodeService Interface</p>
+<ul>
+  <li>getRootTreeNodeAsync() : Promise&lt;LfTreeNode | undefined&gt;</li>
+  <li>getFolderChildrenAsync(folder: LfTreeNode, nextPage: string | undefined): Promise&lt;LfTreeNodePage&gt;
+    <ul>
+      <li>
+        The LfTreeNodePage that this returns represents one page of data, not the cumulative data
+      </li>
+    </ul>
+  </li>
+  <li>
+    getParentTreeNodeAsync(node: LfTreeNode): Promise&lt;LfTreeNode | undefined&gt;
+    <ul>
+      <li>
+        If an entry does not have a parent (i.e. a root node), then we expect getParentTreeNodeAsync will return
+        Promise&lt;undefined&gt;
+      </li>
+    </ul>
+  </li>
+  <li>getTreeNodeByIdAsync(id: string): Promise&lt;TreeNode | undefined&gt;</li>
+</ul>
+<p class="documentation-sub-header">LfTreeNodePage Interface</p>
+<ul>
+  <li>page: LfTreeNode[]</li>
+  <li>nextPage: string | undefined</li>
+</ul>
+<p class="documentation-sub-header">LfTreeNode Interface</p>
+<ul>
+  <li>id : string</li>
+  <li>icon : string | string[]</li>
+  <li>isContainer : boolean</li>
+  <li>isLeaf : boolean</li>
+  <li>name : string</li>
+  <li>path : string</li>
+</ul>

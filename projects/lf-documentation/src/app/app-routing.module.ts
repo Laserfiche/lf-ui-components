@@ -22,6 +22,7 @@ import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angula
 import { ExampleUsageInAngularComponent } from './example-usage-in-angular/example-usage-in-angular.component';
 import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
 import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
+import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-browser-documentation/lf-repository-browser-documentation.component';
 
 export enum RouterLinks {
   OVERVIEW = 'overview',
@@ -47,6 +48,7 @@ export enum RouterLinks {
   LF_FIELD_TEMPLATE_CONTAINER = 'lf-field-template-container',
   LF_LOGIN = 'lf-login',
   LF_USER_FEEDBACK = 'lf-user-feedback',
+  LF_REPOSITORY_BROWSER = 'lf-repository-browser'
 }
 
 const routes: Routes = [
@@ -72,6 +74,7 @@ const routes: Routes = [
   { path: RouterLinks.OVERVIEW, component: OverviewComponent },
   { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },
   { path: RouterLinks.TROUBLESHOOTING, component: TroubleshootingComponent },
+  { path: RouterLinks.LF_REPOSITORY_BROWSER, component: LfRepositoryBrowserDocumentationComponent },
   { path: '', component: OverviewComponent },
 ];
 
