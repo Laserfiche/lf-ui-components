@@ -122,7 +122,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   protected _currentFolder?: LfTreeNode;
   /** @internal */
-  protected maximumChildrenReceived: boolean = false;;
+  protected maximumChildrenReceived: boolean = false;
 
   /** @internal */
   private _breadcrumbs: LfTreeNode[] = [];

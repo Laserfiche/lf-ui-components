@@ -113,7 +113,7 @@
   </tr>
   <tr>
     <td>initAsync</td>
-    <td>(providers: LfTreeNodeService, selectedEntryId?: string) => Promise&lt;void&gt;</td>
+    <td>(treeNodeService: LfTreeNodeService, selectedEntryId?: string) => Promise&lt;void&gt;</td>
     <td>
       initializes the lf-repository-browser with a LfRepositoryProvider You <b>must</b> call this method. Each time this is called, the
       state of lf-repository-browser is reset. If selectedEntryId is specified, the tree is directly opened to the node
@@ -166,7 +166,7 @@
 
 <p class="documentation-sub-header">LfTreeNodeService Interface</p>
 <ul>
-  <li>getRootTreeNodeAsync() : Promise&lt;LfTreeNode | undefined&gt;</li>
+  <li>getRootTreeNodeAsync() : Promise&lt;LfTreeNode&gt;</li>
   <li>getFolderChildrenAsync(folder: LfTreeNode, nextPage: string | undefined): Promise&lt;LfTreeNodePage&gt;
     <ul>
       <li>
@@ -183,7 +183,7 @@
       </li>
     </ul>
   </li>
-  <li>getTreeNodeByIdAsync(id: string): Promise&lt;TreeNode | undefined&gt;</li>
+  <li>getTreeNodeByIdAsync(id: string): Promise&lt;LfTreeNode | undefined&gt;</li>
 </ul>
 <p class="documentation-sub-header">LfTreeNodePage Interface</p>
 <ul>
