@@ -17,7 +17,7 @@ export interface LfTreeNodePage {
  */
 export interface LfTreeNodeService {
   /**
-   * Gets LfTreeNode data for the lf-repository-browser to display
+   * Returns a page containing the children or the parent tree node. The implementation may provide expose ordering and filtering functionality.
    * @param folder: string that represents the ID of the folder to get data from
    * @param nextPage: string representing the next page requested
    **/
