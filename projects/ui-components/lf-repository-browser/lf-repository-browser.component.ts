@@ -154,7 +154,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
           // do nothing. nextPage already attempted
           return;
         }
-        await this.updateFolderChildrenAsync(this._currentFolder);
+        await this.makeDataCall(this._currentFolder);
       }
 
     });
@@ -242,8 +242,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     if (this._currentFolder == null) {
       return;
     }
-    const selectablePage = await this.updateFolderChildrenAsync(this._currentFolder);
-    return selectablePage;
+    return await this.makeDataCall(this._currentFolder);
   }
 
   /**
@@ -420,14 +419,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     // If we are already getting data we want to wait for that to finish before resetting and pulling new data.
     if (this.lastDataCall) {
       // If we get an error in the last data call just throw it away.
-      await this.lastDataCall.catch((error) => undefined);
+      await this.lastDataCall.catch((error) => undefined)
     }
     if (parentEntry && parentEntry.id) {
       try {
         this.isLoading = true;
         this.resetFolderProperties();
 
-        await this.updateFolderChildrenAsync(parentEntry);
+        await this.makeDataCall(parentEntry);
         this.entrySelected.emit([]);
       } catch (error) {
         console.error(error);
@@ -443,6 +442,13 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
   }
 
+  private async makeDataCall(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
+    this.lastDataCall = this.updateFolderChildrenAsync(parentEntry);
+    const selectable = await this.lastDataCall;
+    this.lastDataCall = undefined;
+    return selectable;
+  }
+
   /**
    * @internal
    * Does the work to call the treeNodeService and map the returned values to ILfSelectable entries
@@ -451,9 +457,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    */
   private async updateFolderChildrenAsync(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
     this.lastCalledPage = this.nextPage;
-    this.lastDataCall = this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
-    const dataPage = await this.lastDataCall;
-    this.lastDataCall = undefined;
+    const dataPage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
     let selectablePage: ILfSelectable[] = [];
     this.nextPage = dataPage.nextPage;
     const page = dataPage.page;
