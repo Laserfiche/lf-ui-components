@@ -346,7 +346,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       await this.setNodeAsParentAsync(rootEntry);
     }
     catch(err: any) {
-      console.error(`Error retrieving root node: ` + err.message);
+      console.error(`Error retrieving root node`, JSON.stringify(err));
       this.hasError = true;
       return;
     }
