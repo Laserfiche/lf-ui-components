@@ -34,11 +34,4 @@ export interface LfTreeNodeService {
    * returns - Promise with the parent of the parameter LfTreeNode or undefined if its the root LfTreeNode and does not have a parent
    */
   getParentTreeNodeAsync(treeNode: LfTreeNode): Promise<LfTreeNode | undefined>;
-
-  /**
-   * Gets the full LfTreeNode data of an entry id
-   * @param id: string that represents the id of an LfTreeNode to get
-   * returns - LfTreeNode associated with the id parameter or undefined if the LfTreeNode does not exist
-   */
-  getTreeNodeByIdAsync(id: string): Promise<LfTreeNode | undefined>;
 }

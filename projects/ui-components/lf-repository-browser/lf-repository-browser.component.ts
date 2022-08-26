@@ -28,8 +28,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * function to initialize the lf-file-explorer component
    * @param provider LfRepositoryService service
    * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
-  */
-  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: string | LfTreeNode): Promise<void> => {
+   */
+  @Input() initAsync = async (
+    treeNodeService: LfTreeNodeService,
+    selectedNode?: LfTreeNode
+  ): Promise<void> => {
     await this.zone.run(async () => {
       try {
         this.treeNodeService = treeNodeService;
@@ -55,9 +58,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       });
       return;
     }
-    this.entryList.setSelectedValuesAsync(selectableValues, this.checkForMoreDataCallback.bind(this)).then((selected: ILfSelectable[]) => {
-      this.entrySelected.emit(this.convertSelectedItemsToTreeNode(selected));
-    });
+    this.entryList
+      .setSelectedValuesAsync(selectableValues, this.checkForMoreDataCallback.bind(this))
+      .then((selected: ILfSelectable[]) => {
+        this.entrySelected.emit(this.convertSelectedItemsToTreeNode(selected));
+      });
   };
 
   @Input()
@@ -95,7 +100,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @internal
    * TODO: Add a message for when the repository browser is not initialized
    * When that happens default isLoading to false
-  */
+   */
   initialized: boolean = false;
   /** @internal */
   nextPage: string | undefined;
@@ -128,8 +133,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   private _breadcrumbs: LfTreeNode[] = [];
   /** @internal */
   private scrolledIndexChanged = new Subject();
-  /** 
-   * @internal 
+  /**
+   * @internal
    * Used to track if data is currently being pulled
    * */
   private lastDataCall?: Promise<any>;
@@ -156,7 +161,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
         }
         await this.updateFolderChildrenAsync(this._currentFolder);
       }
-
     });
   }
 
@@ -253,7 +257,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @returns
    */
   private convertSelectedItemsToTreeNode(selected: ILfSelectable[]): LfTreeNode[] | undefined {
-    return selected.map(value => value.value) as LfTreeNode[];
+    return selected.map((value) => value.value) as LfTreeNode[];
   }
 
   /**
@@ -263,7 +267,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param tries
    */
   private _focus(node: LfTreeNode | undefined = undefined, tries: number = 0): void {
-    if (tries >= 10) { return; }
+    if (tries >= 10) {
+      return;
+    }
     if (this.entryList == null) {
       setTimeout(() => this._focus(node, tries + 1));
       return;
@@ -279,26 +285,21 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param currentIdOrEntry
    * @returns
    */
-  private async initializeAsync(currentIdOrEntry?: string | LfTreeNode): Promise<void> {
+  private async initializeAsync(currentEntry?: LfTreeNode): Promise<void> {
     if (this.treeNodeService == null) {
       this.hasError = true;
       throw new Error('Repository Browser cannot be initialized without a data service.');
     }
-    let currentEntry: LfTreeNode | undefined;
-    if (currentIdOrEntry == null) {
-      await this.initializeWithRootOpenAsync();
-      return;
-    } else if (typeof currentIdOrEntry === 'string') {
-      currentEntry = await this.treeNodeService.getTreeNodeByIdAsync(currentIdOrEntry);
-    } else if (typeof currentIdOrEntry === 'object') {
-      if (currentIdOrEntry.id == null) {
-        throw new Error('current entry does not contain an id property');
-      }
-      currentEntry = currentIdOrEntry;
+    if (currentEntry == null) {
+      currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
+      this.hasError = false;
     }
     // If the entry passed in is not a container we will get the parent of this by default.
     if (currentEntry && !currentEntry.isContainer) {
       currentEntry = await this.treeNodeService.getParentTreeNodeAsync(currentEntry);
+    }
+    if (currentEntry?.id == null) {
+      throw new Error('current entry does not contain an id property');
     }
     this.initialized = true;
     if (currentEntry) {
@@ -340,12 +341,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       this.hasError = true;
       throw new Error('Repository Browser cannot be initialized without a data service.');
     }
-    try{
+    try {
       const rootEntry: LfTreeNode = await this.treeNodeService.getRootTreeNodeAsync();
       this.hasError = false;
       await this.setNodeAsParentAsync(rootEntry);
-    }
-    catch(err: any) {
+    } catch (err: any) {
       console.error(`Error retrieving root node`, JSON.stringify(err));
       this.hasError = true;
       return;
@@ -394,7 +394,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param listOfAncestorEntries
    * @returns
    */
-  private async setNodeAsParentAsync(parentEntry: LfTreeNode, listOfAncestorEntries?: LfTreeNode[]): Promise<void> {
+  private async setNodeAsParentAsync(parentEntry: LfTreeNode): Promise<void> {
     if (!parentEntry) {
       console.error('parentEntry must not be null');
       return;
@@ -403,11 +403,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       console.error('parentEntry must be a container');
       return;
     }
-    if (listOfAncestorEntries == null) {
-      await this.initializeBreadcrumbOptionsAsync(parentEntry);
-    } else {
-      this._breadcrumbs = [parentEntry].concat(listOfAncestorEntries);
-    }
+    await this.initializeBreadcrumbOptionsAsync(parentEntry);
     this._currentFolder = parentEntry;
     await this.updateAllPossibleEntriesAsync(parentEntry);
   }
@@ -463,8 +459,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
     if (this.nextPage) {
       this.maximumChildrenReceived = false;
-    }
-    else {
+    } else {
       this.maximumChildrenReceived = true;
     }
 
