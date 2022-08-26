@@ -125,11 +125,10 @@ describe('LfRepositoryBrowserComponent', () => {
                 path: ''
             };
             dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
-            dataServiceMock.getTreeNodeByIdAsync.and.returnValue(Promise.resolve(entryToGet));
             dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
 
             // Act
-            await component.initAsync(dataServiceMock, id);
+            await component.initAsync(dataServiceMock, entryToGet);
 
             // Assert
             expect(component.breadcrumbs[0]).toEqual(entryToGet);
