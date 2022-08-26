@@ -113,30 +113,7 @@ describe('LfRepositoryBrowserComponent', () => {
             expect(component.currentFolderChildren.map((lfSelectable: ILfSelectable) => lfSelectable.value)).toEqual(rootTreeNodeChildren);
         });
 
-        it('should get the entry associated with the string passed to currentIdOrEntry parameter', async () => {
-            // Arrange
-            const id = '2';
-            const entryToGet: LfTreeNode = {
-                icon: '',
-                id,
-                isContainer: true,
-                isLeaf: false,
-                name: 'test entry (2)',
-                path: ''
-            };
-            dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
-            dataServiceMock.getTreeNodeByIdAsync.and.returnValue(Promise.resolve(entryToGet));
-            dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
-
-            // Act
-            await component.initAsync(dataServiceMock, id);
-
-            // Assert
-            expect(component.breadcrumbs[0]).toEqual(entryToGet);
-            expect(component.currentFolderChildren.map((lfSelectable: ILfSelectable) => lfSelectable.value)).toEqual(rootTreeNodeChildren);
-        });
-
-        it('should use the entry passed to currentIdOrEntry parameter as the root', async () => {
+        it('should use the entry passed to selectedEntry parameter as the root', async () => {
             // Arrange
             const id = '3';
             const entryToGet: LfTreeNode = {
@@ -194,9 +171,9 @@ describe('LfRepositoryBrowserComponent', () => {
             expect(component.currentFolderChildren.map((lfSelectable: ILfSelectable) => lfSelectable.value)).toEqual(rootTreeNodeChildren);
         });
 
-        it('should be in an erorr state when there is no root tree node found when being called without the currentIdOrEntry parameter', async () => {
+        it('should be in an erorr state when there is no root tree node found when being called without the selectedEntry parameter', async () => {
             // Arrange
-            dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+            dataServiceMock.getRootTreeNodeAsync.and.rejectWith('error');
 
             // Act
             await component.initAsync(dataServiceMock);
