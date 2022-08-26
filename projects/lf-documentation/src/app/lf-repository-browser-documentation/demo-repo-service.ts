@@ -313,7 +313,7 @@ export class DemoRepoService implements LfTreeNodeService {
     }
     const path = entry.path.split('//');
     path.pop(); // remove self
-    const parent = path.pop()
+    const parent = path.pop();
     const parentId = parent ? this._entries[parent] : this._rootEntry;
     return Promise.resolve(parentId ?? undefined);
   }
