@@ -49,7 +49,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   @Input()
   setSelectedValuesAsync: (valuesToSelect: LfTreeNode[]) => Promise<void> = async (valuesToSelect: LfTreeNode[]) => {
     const selectableValues = await this.mapTreeNodesToLfSelectableAsync(valuesToSelect);
-    if (this.entryList == null) {
+    if (!this.entryList) {
       setTimeout(() => {
         this.setSelectedValuesAsync(valuesToSelect);
       });
@@ -148,7 +148,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     public localizationService: AppLocalizationService
   ) {
     this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
-      if (this._currentFolder == null) {
+      if (!this._currentFolder) {
         return;
       }
       if (!this.maximumChildrenReceived) {
@@ -240,7 +240,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @returns
    */
   private async checkForMoreDataCallback(): Promise<ILfSelectable[] | undefined> {
-    if (this._currentFolder == null) {
+    if (!this._currentFolder) {
       return;
     }
     const selectablePage = await this.updateFolderChildrenAsync(this._currentFolder);
@@ -267,7 +267,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     if (tries >= 10) {
       return;
     }
-    if (this.entryList == null) {
+    if (!this.entryList) {
       setTimeout(() => this._focus(node, tries + 1));
       return;
     }
@@ -283,11 +283,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @returns
    */
   private async initializeAsync(currentEntry?: LfTreeNode): Promise<void> {
-    if (this.treeNodeService == null) {
+    if (!this.treeNodeService) {
       this.hasError = true;
       throw new Error('Repository Browser cannot be initialized without a data service.');
     }
-    if (currentEntry == null) {
+    if (!currentEntry) {
       try {
         currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
         this.hasError = false;
@@ -301,14 +301,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     if (currentEntry && !currentEntry.isContainer) {
       currentEntry = await this.treeNodeService.getParentTreeNodeAsync(currentEntry);
     }
-    if (currentEntry?.id == null) {
-      throw new Error('current entry does not contain an id property');
+    if (!currentEntry) {
+      throw new Error('currentEntry is undefined');
     }
     this.initialized = true;
-    if (currentEntry) {
-      await this.setNodeAsParentAsync(currentEntry);
-      return;
-    }
+    await this.setNodeAsParentAsync(currentEntry);
   }
 
   /**
@@ -331,27 +328,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
         console.error(error);
         return;
       }
-    }
-  }
-
-  /**
-   * @internal
-   * Finds the root node from the treeNodeService and sets it to the current parent
-   * @returns
-   */
-  private async initializeWithRootOpenAsync(): Promise<void> {
-    if (this.treeNodeService == null) {
-      this.hasError = true;
-      throw new Error('Repository Browser cannot be initialized without a data service.');
-    }
-    try {
-      const rootEntry: LfTreeNode = await this.treeNodeService.getRootTreeNodeAsync();
-      this.hasError = false;
-      await this.setNodeAsParentAsync(rootEntry);
-    } catch (err: any) {
-      console.error(`Error retrieving root node`, JSON.stringify(err));
-      this.hasError = true;
-      return;
     }
   }
 
