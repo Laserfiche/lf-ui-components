@@ -23,7 +23,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.repoBrowser?.nativeElement.initAsync(this.dataService, this.dataService._entries['19']);
+      this.repoBrowser?.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
       if (this.repoBrowser != null) {
         this.repoBrowser.nativeElement.focus();
       }

@@ -29,10 +29,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param provider LfRepositoryService service
    * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
    */
-  @Input() initAsync = async (
-    treeNodeService: LfTreeNodeService,
-    selectedNode?: LfTreeNode
-  ): Promise<void> => {
+  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode): Promise<void> => {
     await this.zone.run(async () => {
       try {
         this.treeNodeService = treeNodeService;
@@ -291,8 +288,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       throw new Error('Repository Browser cannot be initialized without a data service.');
     }
     if (currentEntry == null) {
-      currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
-      this.hasError = false;
+      try {
+        currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
+        this.hasError = false;
+      } catch (err: any) {
+        console.error(`Error retrieving root node`, JSON.stringify(err));
+        this.hasError = true;
+        return;
+      }
     }
     // If the entry passed in is not a container we will get the parent of this by default.
     if (currentEntry && !currentEntry.isContainer) {
