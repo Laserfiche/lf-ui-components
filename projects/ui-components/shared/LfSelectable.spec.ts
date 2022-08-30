@@ -152,8 +152,8 @@ describe('LfListComponent single select', () => {
       underTest.onItemClicked(new MouseEvent('click'), cannotSelect, list);
 
       //Assert
-      expect(underTest.selectedItems.length).toBe(1);
-      expect(toSelect.isSelected).toBeTrue();
+      expect(underTest.selectedItems.length).toBe(0);
+      expect(toSelect.isSelected).toBeFalse();
     });
   });
 
