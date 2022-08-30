@@ -74,7 +74,11 @@ export class Selectable {
     allowMultiple: boolean = false,
     onlyAdd: boolean = false
   ) {
-    if (!item.isSelectable) { return; }
+    if (!item.isSelectable) { 
+      this.clearAllSelectedItems(list);
+      this.lastSelectedIndex = 0;
+      return;
+    }
     const itemIndex = list.findIndex((selectable) => selectable.value.id === item.value.id);
     if (!this.multiSelectable) {
       this.clearAllSelectedItems(list);
