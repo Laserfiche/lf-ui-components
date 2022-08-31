@@ -3,7 +3,17 @@
 ### Features
 
 ### Fixes
+
 - `[lf-selection-list]` and `[lf-repository-browser]`: Fixed the lf-selection-list from hijacking the keydown events for the whole window. https://github.com/Laserfiche/lf-ui-components/issues/60
+
+### Chore & Maintenance
+
+## 13.x
+
+### Features
+
+### Fixes
+- `[lf-repository-browser]`: Fix entrySelected event when item is clicked that is not selectable. Clicking an item that is not selectable clears previous selections unless ctrl or shift are pressed.
 
 ### Chore & Maintenance
 
