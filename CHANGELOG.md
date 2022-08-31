@@ -1,3 +1,12 @@
+## 13.x
+
+### Features
+
+### Fixes
+- `[lf-repository-browser]`: Fix entrySelected event when item is clicked that is not selectable. Clicking an item that is not selectable clears previous selections unless ctrl or shift are pressed.
+
+### Chore & Maintenance
+
 ## 13.1.0
 
 ### Features
