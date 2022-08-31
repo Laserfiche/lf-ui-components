@@ -52,12 +52,7 @@ export class LfSelectionListComponent {
 
   /** @internal */
   constructor() {
-    window.onkeydown = function(event): boolean | void {
-      if ((event.key === ' ' || event.key === 'ArrowUp' || event.key === 'ArrowDown') && event.target !== document.body) {
-        event.preventDefault();
-        return false;
-      }
-    };
+    
   }
 
   clearSelectedValues() {
@@ -143,6 +138,9 @@ export class LfSelectionListComponent {
 
   /** @internal */
   onViewportKeyDown(event: KeyboardEvent) {
+    if ((event.key === ' ' || event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
+      event.preventDefault();
+    }
     if (this.viewport == null) {
       return;
     }
