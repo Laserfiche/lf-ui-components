@@ -3,7 +3,7 @@
 ### Features
 
 ### Fixes
-- `[lf-selection-list]` and `[lf-repository-browser]`: Fixed the lf-selection-list from hijacking the keydown events for the whole window.
+- `[lf-selection-list]` and `[lf-repository-browser]`: Fixed the lf-selection-list from hijacking the keydown events for the whole window. https://github.com/Laserfiche/lf-ui-components/issues/60
 
 ### Chore & Maintenance
 
