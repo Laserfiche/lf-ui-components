@@ -1,5 +1,5 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
@@ -16,7 +16,7 @@ export interface SelectedItemEvent {
   templateUrl: './lf-selection-list.component.html',
   styleUrls: ['./lf-selection-list.component.css']
 })
-export class LfSelectionListComponent implements AfterViewInit{
+export class LfSelectionListComponent {
   /** @internal */
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
   /** @internal */
@@ -53,14 +53,6 @@ export class LfSelectionListComponent implements AfterViewInit{
   /** @internal */
   constructor() {
     
-  }
-  ngAfterViewInit(): void {
-    // this.viewport.function(event): boolean | void {
-    //   if ((event.key === ' ' || event.key === 'ArrowUp' || event.key === 'ArrowDown') && event.target !== document.body) {
-    //     event.preventDefault();
-    //     return false;
-    //   }
-    // };
   }
 
   clearSelectedValues() {
