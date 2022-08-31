@@ -1,3 +1,13 @@
+## 13.1.1
+
+### Features
+
+### Fixes
+- `[lf-selection-list]` and `[lf-repository-browser]`: Fixed the lf-selection-list from hijacking the keydown events for the whole window.
+
+### Chore & Maintenance
+
+
 ## 13.1.0
 
 ### Features
