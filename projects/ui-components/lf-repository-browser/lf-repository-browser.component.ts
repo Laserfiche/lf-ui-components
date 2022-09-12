@@ -14,6 +14,8 @@ import { LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-c
 export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
+  /** @internal */
+  private selectedItems: ILfSelectable[] | undefined;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -75,6 +77,19 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.lastCalledPage = undefined;
     this.maximumChildrenReceived = false;
     this.updateAllPossibleEntriesAsync(this._currentFolder);
+  };
+
+  @Input()
+  openLastSelectedNodeAsync: () => Promise<void> = async () => {
+    if(this.selectedItems && this.selectedItems.length>0) {
+      const lastSelectedItem = this.selectedItems[this.selectedItems.length - 1];
+      if (lastSelectedItem) {
+        const treeNode = lastSelectedItem.value as LfTreeNode;
+        if(treeNode.isContainer) {
+          await this.openChildFolderAsync(lastSelectedItem.value as LfTreeNode);
+        }
+      }
+    }
   };
 
   /**
@@ -214,6 +229,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param event
    */
   async onItemSelected(event: SelectedItemEvent) {
+    this.selectedItems = event.selectedItems;
     this.entrySelected.emit(event.selectedItems?.map((item: ILfSelectable) => item.value as LfTreeNode));
   }
 
