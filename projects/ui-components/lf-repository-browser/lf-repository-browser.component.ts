@@ -15,7 +15,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
   /** @internal */
-  private selectedItems: ILfSelectable[] | undefined;
+  private lastSelectedItem: ILfSelectable | undefined;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -76,19 +76,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.nextPage = undefined;
     this.lastCalledPage = undefined;
     this.maximumChildrenReceived = false;
-    this.updateAllPossibleEntriesAsync(this._currentFolder);
+    await this.updateAllPossibleEntriesAsync(this._currentFolder);
   };
 
   @Input()
   openLastSelectedNodeAsync: () => Promise<void> = async () => {
-    if(this.selectedItems && this.selectedItems.length>0) {
-      const lastSelectedItem = this.selectedItems[this.selectedItems.length - 1];
-      if (lastSelectedItem) {
-        const treeNode = lastSelectedItem.value as LfTreeNode;
-        if(treeNode.isContainer) {
-          await this.openChildFolderAsync(lastSelectedItem.value as LfTreeNode);
-        }
-      }
+    if (this.lastSelectedItem) {
+      const treeNode = this.lastSelectedItem.value as LfTreeNode;
+      await this.openChildFolderAsync(treeNode as LfTreeNode);
     }
   };
 
@@ -100,6 +95,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this._focus();
   };
 
+  @Output() entryOpened = new EventEmitter<LfTreeNode>();
   @Output() entrySelected = new EventEmitter<LfTreeNode[] | undefined>();
 
   /** @internal */
@@ -125,6 +121,13 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   readonly OPEN = this.localizationService.getStringObservable('OPEN');
   /** @internal */
   readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
+
+  /** @internal */
+  private async openNodeAndUpdateChildrenAsync(node: LfTreeNode) {
+    this.entryOpened.emit(node);
+    await this.updateAllPossibleEntriesAsync(node);
+  }
+
   /** @internal */
   get shouldShowErrorMessage(): boolean {
     return this.hasError;
@@ -198,7 +201,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
     this._breadcrumbs = event.breadcrumbs;
     this._currentFolder = event.selected;
-    await this.updateAllPossibleEntriesAsync(this._currentFolder);
+    await this.openNodeAndUpdateChildrenAsync(this._currentFolder);
     setTimeout(() => this.entryList?.focus());
   }
 
@@ -208,11 +211,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param entry
    * @returns
    */
-  async onDblClickAsync(entry: LfTreeNode | undefined) {
-    if (!entry?.isContainer) {
-      return;
-    }
-    await this.openChildFolderAsync(entry);
+  async onDblClickAsync(treeNode: LfTreeNode | undefined) {
+    await this.openChildFolderAsync(treeNode);
   }
 
   /**
@@ -229,7 +229,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param event
    */
   async onItemSelected(event: SelectedItemEvent) {
-    this.selectedItems = event.selectedItems;
+    if (this.lastSelectedItem === event.selected) {
+      // do nothing
+      return;
+    }
+    this.lastSelectedItem = event.selected;
     this.entrySelected.emit(event.selectedItems?.map((item: ILfSelectable) => item.value as LfTreeNode));
   }
 
@@ -240,10 +244,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param entry
    */
   async openChildFolderAsync(entry: LfTreeNode | undefined) {
-    if (entry?.isContainer === true) {
+    if (!entry?.isContainer) {
+      this.entryOpened.emit(entry);
+      return;
+    }
+    else {
       this._breadcrumbs = [entry].concat(this.breadcrumbs);
       this._currentFolder = entry;
-      await this.updateAllPossibleEntriesAsync(entry);
+      await this.openNodeAndUpdateChildrenAsync(entry);
 
       this.entryList?.focus();
     }
@@ -399,7 +407,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
     await this.initializeBreadcrumbOptionsAsync(parentEntry);
     this._currentFolder = parentEntry;
-    await this.updateAllPossibleEntriesAsync(parentEntry);
+    await this.openNodeAndUpdateChildrenAsync(parentEntry);
   }
 
   /**

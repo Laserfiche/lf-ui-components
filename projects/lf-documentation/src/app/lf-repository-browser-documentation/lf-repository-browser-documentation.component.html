@@ -29,7 +29,7 @@
   <pre>
     &lt;lf-repository-browser
       multiple="false"
-      (entrySelected)="onEntrySelected($event)"
+      (nodeSelected)="onEntrySelected($event)"
       style="height: 500px"
     &gt;&lt;/lf-repository-browser&gt;
   </pre>
@@ -37,7 +37,7 @@
 <app-card>
   <lf-repository-browser
     multiple="false"
-    (entrySelected)="onEntrySelected($event)"
+    (nodeSelected)="onEntrySelected($event)"
     style="height: 500px"
     #singleSelectRepoBrowser
   ></lf-repository-browser>
