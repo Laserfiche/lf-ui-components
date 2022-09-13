@@ -105,8 +105,9 @@ export class LfSelectionListComponent {
       (event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'))
     ) {
       if (event.key === 'Enter') {
-        this.onDblClick(item.value);
         this.selectable.onItemClicked(event, item, this.listItems);
+        this.itemSelected.emit({selected: item, selectedItems: this.selectable.selectedItems});
+        this.onDblClick(item.value);
         return;
       }
       this.selectable.onItemClicked(event, item, this.listItems, false, event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'));
