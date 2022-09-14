@@ -11,7 +11,7 @@ import { LfFieldMultivalueComponent } from '../field-components/lf-field-multiva
 import { LfFieldGroupComponent } from '../field-components/lf-field-group/lf-field-group.component';
 import { FieldDefinition } from '../field-components/utils/lf-field-internal-types';
 import { isDynamicField } from '../field-components/utils/metadata-utils';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, FieldType } from '@laserfiche/lf-ui-components/shared';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
@@ -336,7 +336,13 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     }
     else {
       try {
-        this.allFieldInfos = await this.templateFieldContainerService.getTemplateFieldsAsync(this.templateSelected.id);
+        
+        const fieldInfos = await this.templateFieldContainerService.getTemplateFieldsAsync(this.templateSelected.id);
+        // TODO filter Blob field definitions
+        this.allFieldInfos = fieldInfos.filter((val) => {
+          const validFieldType: boolean = val.fieldType in FieldType && val.fieldType !== FieldType.Blob;
+          return validFieldType;
+        })
       }
       catch (err: any) {
         this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;

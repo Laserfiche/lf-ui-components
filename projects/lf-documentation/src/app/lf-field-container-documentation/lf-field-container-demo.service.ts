@@ -85,6 +85,11 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         format: FieldFormat.ShortDate,
         isRequired: true
       },
+      {
+        name: 'Test Blob',
+        id: 17,
+        fieldType: FieldType.Blob,
+      },
     ];
     return allFieldInfos;
   }
@@ -150,6 +155,11 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             currency: 'USD',
             isRequired: true,
             defaultValue: '12.95'
+          },
+          {
+            name: 'Test Blob',
+            id: 17,
+            fieldType: FieldType.Blob,
           }
         ];
         return lunchFields;
