@@ -1,3 +1,16 @@
+## 13.1.2
+
+### Features
+
+### Fixes
+
+- Reference dependency `zone.js` from `lfxstatic.com`
+  - `<script src='https://lfxstatic.com/npm/-/zone.js@0.11.4/bundles/zone.umd.min.js'></script>`
+- `[lf-documentation]` reference style sheets from `lfxstatic.com`
+- Reference language resources from `lfxstatic.com`
+
+### Chore & Maintenance
+
 ## 13.1.1
 
 ### Features
