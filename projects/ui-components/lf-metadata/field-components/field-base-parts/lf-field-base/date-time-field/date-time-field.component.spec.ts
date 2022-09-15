@@ -212,7 +212,7 @@ describe('DateTimeFieldComponent', () => {
     optionalDateTimeComponent.LOCALE_DATE_TIME.subscribe((val) => {
       value = val;
     });
-    await optionalDateTimeComponent.localizationService.setLanguageAsync('es');
+    await optionalDateTimeComponent.localizationService.setLanguageAsync('es-MX');
 
     // assert
     await CoreUtils.waitForConditionAsync(
