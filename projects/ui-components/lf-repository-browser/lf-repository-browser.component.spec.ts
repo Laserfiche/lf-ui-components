@@ -314,7 +314,7 @@ describe('LfRepositoryBrowserComponent', () => {
         isLeaf: true,
         name: 'test entry (10)',
         path: '9',
-      }}]
+      }}];
     await component.onItemSelected({
         selected: selectedItems[0],
         selectedItems
@@ -328,7 +328,7 @@ describe('LfRepositoryBrowserComponent', () => {
     });
     
     expect(component.entrySelected.emit).toHaveBeenCalledTimes(1);
-  })
+  });
 
   it('openChildFolderAsync should do nothing if the entry is not a container', async () => {
     // Arrange
