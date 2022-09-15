@@ -38,6 +38,7 @@
   <lf-repository-browser
     multiple="false"
     (entrySelected)="onEntrySelected($event)"
+    (entryOpened)="onEntryOpened($event)"
     style="height: 500px"
     #singleSelectRepoBrowser
   ></lf-repository-browser>
@@ -59,6 +60,7 @@
     multiple="true"
     [isSelectable]="selectable"
     (entrySelected)="onEntrySelected($event)"
+    (entryOpened)="onEntryOpened($event)"
     style="height: 500px"
     #repoBrowser
   ></lf-repository-browser>

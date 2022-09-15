@@ -8,13 +8,13 @@ import { LfListOptionComponent } from './lf-list-option.component';
 export interface SelectedItemEvent {
   selected: ILfSelectable;
   selectedItems: ILfSelectable[] | undefined;
-};
+}
 
 /** @internal */
 @Component({
   selector: 'lf-selection-list-component',
   templateUrl: './lf-selection-list.component.html',
-  styleUrls: ['./lf-selection-list.component.css']
+  styleUrls: ['./lf-selection-list.component.css'],
 })
 export class LfSelectionListComponent {
   /** @internal */
@@ -26,13 +26,16 @@ export class LfSelectionListComponent {
   @Input() listItemRef?: TemplateRef<unknown>; // TODO: figure out how to define TemplateRef for non Angular project
   @Input() listItems: ILfSelectable[] = [];
   @Input() set multiple(value: boolean | string) {
-    if (typeof(value) === 'string') {
-      if (value.toLowerCase() === 'true') { value = true; }
-      else { value = false; }
+    if (typeof value === 'string') {
+      if (value.toLowerCase() === 'true') {
+        value = true;
+      } else {
+        value = false;
+      }
     }
     this._multipleSelectEnabled = value;
     this.selectable.multiSelectable = value;
-  };
+  }
   get multiple(): boolean {
     return this._multipleSelectEnabled;
   }
@@ -40,7 +43,6 @@ export class LfSelectionListComponent {
   @Output() scrollChanged = new EventEmitter<undefined>();
   @Output() itemDoubleClicked = new EventEmitter<ItemWithId>();
   @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
-
 
   /** @internal */
   currentFocusIndex: number = 0;
@@ -51,9 +53,7 @@ export class LfSelectionListComponent {
   private _multipleSelectEnabled: boolean = false;
 
   /** @internal */
-  constructor() {
-    
-  }
+  constructor() {}
 
   clearSelectedValues() {
     this.selectable.clearSelectedValues(this.listItems);
@@ -76,7 +76,7 @@ export class LfSelectionListComponent {
 
   /** @internal */
   async onClickMatListOption(event: MouseEvent, option: ILfSelectable, index: number) {
-    let target: HTMLElement | null = (event.target as HTMLElement);
+    let target: HTMLElement | null = event.target as HTMLElement;
     let nodeName: string | undefined;
     while (target != null && nodeName !== 'lf-list-option-component' && nodeName !== 'mat-checkbox') {
       target = target.parentElement;
@@ -89,7 +89,7 @@ export class LfSelectionListComponent {
     }
     this.currentFocusIndex = index;
 
-    this.itemSelected.emit({selected: option, selectedItems: this.selectable.selectedItems});
+    this.itemSelected.emit({ selected: option, selectedItems: this.selectable.selectedItems });
   }
 
   /** @internal */
@@ -106,20 +106,32 @@ export class LfSelectionListComponent {
     ) {
       if (event.key === 'Enter') {
         this.selectable.onItemClicked(event, item, this.listItems);
-        this.itemSelected.emit({selected: item, selectedItems: this.selectable.selectedItems});
+        this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
         this.onDblClick(item.value);
         return;
       }
-      this.selectable.onItemClicked(event, item, this.listItems, false, event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'));
-      this.itemSelected.emit({selected: item, selectedItems: this.selectable.selectedItems});
+      this.selectable.onItemClicked(
+        event,
+        item,
+        this.listItems,
+        false,
+        event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')
+      );
+      this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
     }
   }
 
   /** @internal */
   onItemKeyUp(event: KeyboardEvent, item: ILfSelectable) {
     if (event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
-      this.selectable.onItemClicked(event, item, this.listItems, false, event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'));
-      this.itemSelected.emit({selected: item, selectedItems: this.selectable.selectedItems});
+      this.selectable.onItemClicked(
+        event,
+        item,
+        this.listItems,
+        false,
+        event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')
+      );
+      this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
     }
   }
 
@@ -139,7 +151,7 @@ export class LfSelectionListComponent {
 
   /** @internal */
   onViewportKeyDown(event: KeyboardEvent) {
-    if ((event.key === ' ' || event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
+    if (event.key === ' ' || event.key === 'ArrowUp' || event.key === 'ArrowDown') {
       event.preventDefault();
     }
     if (this.viewport == null) {
@@ -147,7 +159,12 @@ export class LfSelectionListComponent {
     }
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
       const activeElement = document.activeElement;
-      if (activeElement?.nodeName.toLowerCase() !== 'cdk-virtual-scroll-viewport' && activeElement?.parentNode?.nodeName.toLowerCase() !== 'lf-list-option-component') { return; }
+      if (
+        activeElement?.nodeName.toLowerCase() !== 'cdk-virtual-scroll-viewport' &&
+        activeElement?.parentNode?.nodeName.toLowerCase() !== 'lf-list-option-component'
+      ) {
+        return;
+      }
       event.preventDefault();
       event.stopPropagation();
       if (activeElement?.nodeName.toLowerCase() === 'cdk-virtual-scroll-viewport') {
@@ -165,12 +182,13 @@ export class LfSelectionListComponent {
         // this way even if we scroll down we go back to the section we were
         this.viewport.scrollToIndex(this.currentFocusIndex);
       }
-
-      
     }
   }
 
-  setSelectedValuesAsync(values: ILfSelectable[], checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>): Promise<ILfSelectable[]> {
+  setSelectedValuesAsync(
+    values: ILfSelectable[],
+    checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>
+  ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
     return this.selectable.setSelectedValuesAsync(values, this.listItems).then(() => {
       return this.selectable.selectedItems;
@@ -193,7 +211,9 @@ export class LfSelectionListComponent {
       return;
     }
     const rowEle = document.querySelector('#lf-row-' + currentFocusIndex);
-    if (rowEle === null) { return false; }
+    if (rowEle === null) {
+      return false;
+    }
     const rowEleRect = rowEle.getBoundingClientRect();
     const scrollRect = this.viewport.elementRef.nativeElement.getBoundingClientRect();
     return rowEleRect.top >= scrollRect.top && rowEleRect.bottom <= scrollRect.bottom;
@@ -201,7 +221,9 @@ export class LfSelectionListComponent {
 
   /** @internal */
   private _focus(tries: number = 0) {
-    if (tries >= 10) { return; }
+    if (tries >= 10) {
+      return;
+    }
     if (this.options == null || this.options.length === 0) {
       setTimeout(this._focus.bind(this, tries + 1));
       return;
@@ -209,5 +231,4 @@ export class LfSelectionListComponent {
     this.focusCurrentIndex();
     this.options?.get(this.currentFocusIndex)?.focus();
   }
-
 }
