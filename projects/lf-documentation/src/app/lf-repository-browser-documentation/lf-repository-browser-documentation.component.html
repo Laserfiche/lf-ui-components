@@ -141,6 +141,14 @@
     </td>
   </tr>
   <tr>
+    <td>openSelectedNodesAsync</td>
+    <td>() => Promise&lt;void&gt;</td>
+    <td>
+      Opens the selected nodes. If one container is selected it will open that folder in the UI, if multiple items or an item that is not a container
+      is selected, then this function will just emit the entryOpened event with the selected nodes.
+    </td>
+  </tr>
+  <tr>
     <td>focus</td>
     <td>() => void</td>
     <td>

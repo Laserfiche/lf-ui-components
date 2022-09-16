@@ -79,7 +79,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   };
 
   @Input()
-  openLastSelectedNodeAsync: () => Promise<void> = async () => {
+  openSelectedNodesAsync: () => Promise<void> = async () => {
     await this.openSelectedItemsAsync();
   };
 
