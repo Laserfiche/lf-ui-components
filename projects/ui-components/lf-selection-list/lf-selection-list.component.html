@@ -18,7 +18,7 @@
             [listItemRef]="listItemRef"
             [multipleSelection]="multiple"
             (click)="onClickMatListOption($event, item, index)"
-            (dblclick)="onDblClick(item.value)"
+            (dblclick)="onDblClick($event, item)"
             (keydown)="onItemKeyDown($event, item)"
             (keyup)="onItemKeyUp($event, item)">
         </lf-list-option-component>

@@ -93,8 +93,12 @@ export class LfSelectionListComponent {
   }
 
   /** @internal */
-  onDblClick(value: ItemWithId) {
-    this.itemDoubleClicked.emit(value);
+  onDblClick(event: MouseEvent | KeyboardEvent, item: ILfSelectable) {
+    if (item.isSelectable && !item.isSelected) {
+      this.selectable.onItemClicked(event, item, this.listItems, true);
+      this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
+    }
+    this.itemDoubleClicked.emit(item.value);
   }
 
   /** @internal */
@@ -105,9 +109,13 @@ export class LfSelectionListComponent {
       (event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'))
     ) {
       if (event.key === 'Enter') {
+        if (item.isSelectable && item.isSelected) {
+          this.onDblClick(event, item);
+          return;
+        }
         this.selectable.onItemClicked(event, item, this.listItems);
         this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
-        this.onDblClick(item.value);
+        this.onDblClick(event, item);
         return;
       }
       this.selectable.onItemClicked(

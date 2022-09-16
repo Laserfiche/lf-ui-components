@@ -203,7 +203,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @returns
    */
   async onDblClickAsync(treeNode: LfTreeNode | undefined) {
-    await this.openSelectedItemsAsync();
+    if (this.selectedItems && this.selectedItems.length > 0) {
+      await this.openSelectedItemsAsync();
+    } else {
+      await this.openChildFolderAsync(treeNode as LfTreeNode);
+    }
   }
 
   /**
@@ -224,7 +228,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       this.selectedItems && this.selectedItems.length > 0
         ? this.selectedItems[this.selectedItems.length - 1]
         : undefined;
-    if (lastSelectedItem && lastSelectedItem === event.selected.value) {
+    if (
+      (lastSelectedItem &&
+        lastSelectedItem === event.selected.value &&
+        this.selectedItems?.length === event.selectedItems?.length) ||
+      (event.selectedItems?.length === 0 && this.selectedItems?.length === 0)
+    ) {
       // do nothing
       return;
     }
@@ -248,7 +257,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
     this.entryList?.focus();
   }
-  
+
   /**
    * @internal
    */
