@@ -38,7 +38,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   }
 
   onEntryOpened(event: CustomEvent<LfTreeNode | undefined>) {
-    console.debug('entry opened', event.detail);
+    console.debug('entry double clicked', event.detail);
   }
 
   onFilterChange(event: any) {

@@ -373,10 +373,10 @@ describe('LfRepositoryBrowserComponent', () => {
         path: '',
       },
     ];
-    spyOn(component.entryOpened, 'emit');
+    spyOn(component.entryDblClicked, 'emit');
     await component.openSelectedItemsAsync();
     expect(component.currentFolder).toBe(rootTreeNode);
-    expect(component.entryOpened.emit).toHaveBeenCalled();
+    expect(component.entryDblClicked.emit).toHaveBeenCalled();
   });
 
   it('openSelectedItemsAsync should emit event if different entry types selected', async () => {
@@ -408,10 +408,10 @@ describe('LfRepositoryBrowserComponent', () => {
         path: '',
       },
     ];
-    spyOn(component.entryOpened, 'emit');
+    spyOn(component.entryDblClicked, 'emit');
     await component.openSelectedItemsAsync();
     expect(component.currentFolder).toBe(rootTreeNode);
-    expect(component.entryOpened.emit).toHaveBeenCalled();
+    expect(component.entryDblClicked.emit).toHaveBeenCalled();
   });
 
   it('openSelectedItemsAsync should emit event if multiple folders selected', async () => {
@@ -443,10 +443,10 @@ describe('LfRepositoryBrowserComponent', () => {
             path: '',
           },
         ];
-        spyOn(component.entryOpened, 'emit');
+        spyOn(component.entryDblClicked, 'emit');
         await component.openSelectedItemsAsync();
         expect(component.currentFolder).toBe(rootTreeNode);
-        expect(component.entryOpened.emit).toHaveBeenCalled();
+        expect(component.entryDblClicked.emit).toHaveBeenCalled();
   });
 
   fit('openSelectedItemsAsync should emit event and open folder if single folder selected', async () => {
@@ -461,10 +461,10 @@ describe('LfRepositoryBrowserComponent', () => {
     await component.initAsync(dataServiceMock);
     // @ts-ignore
     component.selectedItems = [rootTreeNodeChildren[1]];
-    spyOn(component.entryOpened, 'emit');
+    spyOn(component.entryDblClicked, 'emit');
     await component.openSelectedItemsAsync();
     expect(component.currentFolder).toBe(rootTreeNodeChildren[1]);
-    expect(component.entryOpened.emit).toHaveBeenCalled();
+    expect(component.entryDblClicked.emit).toHaveBeenCalled();
   });
 
   // describe('setNodeAsParentAsync', () => {
