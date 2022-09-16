@@ -38,6 +38,7 @@
   <lf-repository-browser
     multiple="false"
     (entrySelected)="onEntrySelected($event)"
+    (entryDblClicked)="onEntryOpened($event)"
     style="height: 500px"
     #singleSelectRepoBrowser
   ></lf-repository-browser>
@@ -59,6 +60,7 @@
     multiple="true"
     [isSelectable]="selectable"
     (entrySelected)="onEntrySelected($event)"
+    (entryDblClicked)="onEntryOpened($event)"
     style="height: 500px"
     #repoBrowser
   ></lf-repository-browser>
@@ -103,6 +105,11 @@
     <td>(event: CustomEvent&lt;LfTreeNode[]&gt;) => Promise&lt;void&gt;</td>
     <td>event raised when node(s) is selected</td>
   </tr>
+  <tr>
+    <td>entryDblClicked</td>
+    <td>(event: CustomEvent&lt;LfTreeNode[]&gt;) => Promise&lt;void&gt;</td>
+    <td>event raised when node(s) is opened (Ex/ when double clicked)</td>
+  </tr>
 </table>
 <br />
 <table>
@@ -131,6 +138,14 @@
     <td>() => Promise&lt;void&gt;</td>
     <td>
       Refreshes the current folder. Calls for all of the data again.
+    </td>
+  </tr>
+  <tr>
+    <td>openSelectedNodesAsync</td>
+    <td>() => Promise&lt;void&gt;</td>
+    <td>
+      Opens the selected nodes. If one container is selected it will open that folder in the UI, if multiple items or an item that is not a container
+      is selected, then this function will just emit the entryOpened event with the selected nodes.
     </td>
   </tr>
   <tr>

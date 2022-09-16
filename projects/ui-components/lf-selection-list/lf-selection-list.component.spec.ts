@@ -138,6 +138,8 @@ describe('LfListComponent single select', () => {
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
       tick();
       expect(component.doubleClickedItem).toEqual(itemList[0].value);
+      expect(component.selectedEvent?.selected).toEqual(itemList[0]);
+      expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
     }));
 
     it('should emit itemSelected when ArrowUp is pressed with shift key', fakeAsync(() => {
