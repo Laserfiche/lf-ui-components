@@ -33,12 +33,12 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   }
 
   onEntrySelected(event: CustomEvent<LfTreeNode[] | undefined>) {
-    console.log('entry selected', event.detail);
+    console.debug('entry selected', event.detail);
     this.elementSelectedEntry = event.detail;
   }
 
   onEntryOpened(event: CustomEvent<LfTreeNode | undefined>) {
-    console.log('entry opened', event.detail);
+    console.debug('entry opened', event.detail);
   }
 
   onFilterChange(event: any) {
