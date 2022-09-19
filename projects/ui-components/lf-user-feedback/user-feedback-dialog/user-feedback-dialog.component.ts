@@ -70,9 +70,9 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   get SHARE_EMAIL_CHECKBOX_TEXT(): string { return 'You may contact me about this feedback'; }
   get SUBMIT(): string { return 'Submit'; }
   get CANCEL(): string { return 'Cancel'; }
-  get THANK_YOU(): string { return 'Thank you for your submission!'; }
+  get THANK_YOU(): string { return 'Thank you for your submission!  If you\'d like to join our Customer Panel, please click <a href="https://info.laserfiche.com/laserfiche-customer-panel-signup" target="_blank">here</a>.'; }
   get SUBMISSION_ERROR(): string { return 'Something went wrong. Please try again later.'; }
-
+  get SCRIPT(): string { return '<script>window.alert(\'hi\')</script>'; }
   constructor(
     public dialogRef: MatDialogRef<UserFeedbackDialogComponent>,
     private ref: ChangeDetectorRef
