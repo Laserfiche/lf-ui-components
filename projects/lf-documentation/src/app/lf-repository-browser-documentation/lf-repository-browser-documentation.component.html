@@ -5,7 +5,7 @@
   <code>
     <span class="code-html-tagname">&lt;lf-repository-browser&gt;&lt;/lf-repository-browser&gt;</span>
   </code>
-  
+
 </p>
 <p class="documentation-text code-container">
   <label>Angular Component</label>
@@ -30,6 +30,7 @@
     &lt;lf-repository-browser
       multiple="false"
       (entrySelected)="onEntrySelected($event)"
+      (entryDblClicked)="onEntryOpened($event)"
       style="height: 500px"
     &gt;&lt;/lf-repository-browser&gt;
   </pre>
@@ -49,6 +50,7 @@
     &lt;lf-repository-browser
       multiple="true"
       (entrySelected)="onEntrySelected($event)"
+      (entryDblClicked)="onEntryOpened($event)"
       style="height: 500px"
     &gt;&lt;/lf-repository-browser&gt;
   </pre>

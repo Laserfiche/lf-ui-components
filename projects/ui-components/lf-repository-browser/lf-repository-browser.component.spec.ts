@@ -321,12 +321,12 @@ describe('LfRepositoryBrowserComponent', () => {
     });
 
     expect(component.entrySelected.emit).toHaveBeenCalledTimes(1);
-    
+
     await component.onItemSelected({
         selected: selectedItems[0],
         selectedItems
     });
-    
+
     expect(component.entrySelected.emit).toHaveBeenCalledTimes(1);
   });
 
@@ -379,13 +379,14 @@ describe('LfRepositoryBrowserComponent', () => {
     expect(component.entryDblClicked.emit).toHaveBeenCalled();
   });
 
-  it('openSelectedItemsAsync should emit event if different entry types selected', async () => {
+  it('openSelectedItemsAsync should emit event if different entry types selected without changing current folder', async () => {
     // Arrange
     dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
     dataServiceMock.getFolderChildrenAsync.and.returnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
     dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+    spyOn(component.entryDblClicked, 'emit');
 
     // Act
     await component.initAsync(dataServiceMock);
@@ -408,7 +409,7 @@ describe('LfRepositoryBrowserComponent', () => {
         path: '',
       },
     ];
-    spyOn(component.entryDblClicked, 'emit');
+    expect(component.currentFolder).toBe(rootTreeNode);
     await component.openSelectedItemsAsync();
     expect(component.currentFolder).toBe(rootTreeNode);
     expect(component.entryDblClicked.emit).toHaveBeenCalled();
@@ -421,7 +422,7 @@ describe('LfRepositoryBrowserComponent', () => {
           Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
         );
         dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
-    
+
         // Act
         await component.initAsync(dataServiceMock);
         // @ts-ignore
@@ -449,7 +450,7 @@ describe('LfRepositoryBrowserComponent', () => {
         expect(component.entryDblClicked.emit).toHaveBeenCalled();
   });
 
-  fit('openSelectedItemsAsync should emit event and open folder if single folder selected', async () => {
+  it('openSelectedItemsAsync should emit event and open folder if single folder selected', async () => {
     // Arrange
     dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
     dataServiceMock.getFolderChildrenAsync.and.returnValue(
