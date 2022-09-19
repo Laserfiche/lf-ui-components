@@ -70,7 +70,9 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   get SHARE_EMAIL_CHECKBOX_TEXT(): string { return 'You may contact me about this feedback'; }
   get SUBMIT(): string { return 'Submit'; }
   get CANCEL(): string { return 'Cancel'; }
-  get THANK_YOU(): string { return 'Thank you for your submission!'; }
+  get THANK_YOU(): string { return 'Thank you for your submission! '; }
+  get JOIN_PANEL(): string { return 'If you\'d like to join our Customer Panel, '; }
+  get CLICK_HERE(): string { return 'please click here.'; }
   get SUBMISSION_ERROR(): string { return 'Something went wrong. Please try again later.'; }
 
   constructor(

@@ -35,7 +35,9 @@
   </div>
 </div>
 <div *ngIf="isThankYou" mat-dialog-content class="user-feedback-content-container lf-dialog-content">
-    <p class="lf-text-body lf-user-feedback-thank-you">{{THANK_YOU}}</p>
+    <p class="lf-text-body lf-user-feedback-thank-you">{{THANK_YOU}}{{JOIN_PANEL}}
+      <a href="https://info.laserfiche.com/laserfiche-customer-panel-signup" target="_blank">{{CLICK_HERE}}</a>
+    </p>
 </div>
 <div *ngIf="isError" mat-dialog-content class="user-feedback-content-container lf-dialog-content">
     <p class="lf-text-body lf-user-feedback-thank-you">{{SUBMISSION_ERROR}}</p>
