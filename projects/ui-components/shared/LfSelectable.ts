@@ -98,7 +98,7 @@ export class Selectable {
     if ((event?.ctrlKey && !event.shiftKey) || (!event?.ctrlKey && !event?.shiftKey && allowMultiple)) {
       const itemInList = list[itemIndex];
       if (itemInList.isSelected) {
-        this.unselectItem(item, itemInList);
+        this.unselectItem(list, itemInList);
       } else {
         if (itemInList.isSelectable) {
           this.addSelectedItem(item, itemIndex);
@@ -129,10 +129,13 @@ export class Selectable {
   }
 
   /** @internal */
-  private unselectItem(item: ILfSelectable, itemInList: ILfSelectable) {
-    const index = this._selectedItems.findIndex((selectable) => selectable.value.id === item.value.id);
+  private unselectItem(list: ILfSelectable[], itemInList: ILfSelectable) {
+    const index = this._selectedItems.findIndex((selectable) => selectable.value.id === itemInList.value.id);
     this._selectedItems.splice(index, 1);
-    const indexIndex = this.selectedItemsIndices.findIndex((selectable) => selectable.toString() === item.value.id);
+    const indexIndex = this.selectedItemsIndices.findIndex(
+      (selectable) => list[selectable].value.id === itemInList.value.id
+    );
+
     this.selectedItemsIndices.splice(indexIndex, 1);
     itemInList.isSelected = false;
   }
