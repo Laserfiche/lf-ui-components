@@ -1,9 +1,11 @@
 ## 13.1.2
 
 ### Features
+- `[lf-repository-browser]`: Add function `openSelectedNodesAsync` to enable ability to open selected nodes, programatically
+- `[lf-repository-browser]`: Improve keyboard accessibility for multi-select
 
 ### Fixes
-
+- `[lf-repository-browser]`: Fix bug when multi select is enabled - multiselect selection was dependent on the order the entries were checked.
 - Reference dependency `zone.js` from `lfxstatic.com`
   - `<script src='https://lfxstatic.com/npm/-/zone.js@0.11.4/bundles/zone.umd.min.js'></script>`
 - `[lf-documentation]` reference style sheets from `lfxstatic.com`
