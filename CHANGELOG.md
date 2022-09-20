@@ -1,3 +1,14 @@
+## 13.x
+
+### Features
+- `[lf-repository-browser]`: Add function `openSelectedNodesAsync` to enable ability to open selected nodes, programatically
+- `[lf-repository-browser]`: Improve keyboard accessibility for multi-select
+
+### Fixes
+- `[lf-repository-browser]`: Fix bug when multi select is enabled - multiselect selection was dependent on the order the entries were checked.
+
+### Chore & Maintenance
+
 ## 13.1.1
 
 ### Features
