@@ -1,21 +1,23 @@
-<span class="lf-field-title-container">
-  <span class="lf-field-title" title="{{lfFieldInfo?.name}}">{{lfFieldInfo?.name}}</span>
-  <span class="lf-field-is-required" *ngIf="lfFieldInfo?.isRequired">*</span>
-  <lf-loader-component *ngIf="isLoading"></lf-loader-component>
-</span>
-<form class="lf-field-form" [formGroup]="multiValueFieldParentForm">
-  <span class="single-field-container"
-      *ngFor="let lfFieldValue of lfFieldValues; index as currentIndex; last as isLast; trackBy: trackByIndex">
-      <lf-field-base-component [parentForm]="multiValueFieldParentForm" [lfFieldFormControl]="getSingleField(currentIndex)"
-          [lfFieldInfo]="getLfFieldInfo(currentIndex)" [lfFieldValue]="lfFieldValue" [dynamicFieldValueOptions]="getOptions()"
-          (fieldValueChange)="onChange($event, currentIndex)">
-      </lf-field-base-component>
-      <button class="lf-multivalue-remove-button" *ngIf="!isLast && lfFieldValues?.length > 1"
-          (click)="removeField(currentIndex)">
-          <span class="material-icons" id="lf-multivalue-remove-icon" >
-            close
-          </span>
-      </button>
-      <span class="lf-multivalue-remove-span" *ngIf="isLast && lfFieldValues?.length > 1"></span>
+<ng-template *ngIf="showField">
+  <span class="lf-field-title-container">
+    <span class="lf-field-title" title="{{lfFieldInfo?.name}}">{{lfFieldInfo?.name}}</span>
+    <span class="lf-field-is-required" *ngIf="lfFieldInfo?.isRequired">*</span>
+    <lf-loader-component *ngIf="isLoading"></lf-loader-component>
   </span>
-</form>
+  <form class="lf-field-form" [formGroup]="multiValueFieldParentForm">
+    <span class="single-field-container"
+        *ngFor="let lfFieldValue of lfFieldValues; index as currentIndex; last as isLast; trackBy: trackByIndex">
+        <lf-field-base-component [parentForm]="multiValueFieldParentForm" [lfFieldFormControl]="getSingleField(currentIndex)"
+            [lfFieldInfo]="getLfFieldInfo(currentIndex)" [lfFieldValue]="lfFieldValue" [dynamicFieldValueOptions]="getOptions()"
+            (fieldValueChange)="onChange($event, currentIndex)">
+        </lf-field-base-component>
+        <button class="lf-multivalue-remove-button" *ngIf="!isLast && lfFieldValues?.length > 1"
+            (click)="removeField(currentIndex)">
+            <span class="material-icons" id="lf-multivalue-remove-icon" >
+              close
+            </span>
+        </button>
+        <span class="lf-multivalue-remove-span" *ngIf="isLast && lfFieldValues?.length > 1"></span>
+    </span>
+  </form>
+</ng-template>

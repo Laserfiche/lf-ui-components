@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { FieldValue, LfFieldInfo, LfFieldValue } from '../utils/lf-field-types';
 
 @Component({
@@ -24,6 +25,8 @@ export class LfFieldComponent {
   @Output() fieldValueChanged = new EventEmitter<string>();
   /** @internal */
   dynamicFieldValueOptions: string[] | undefined;
+  /** @internal */
+  showField: boolean = false;
 
   /** @internal */
   constructor(
@@ -65,6 +68,15 @@ export class LfFieldComponent {
   initAsync = async (field: LfFieldInfo, fieldValue: LfFieldValue = '', dynamicFieldValueOptions?: string[]): Promise<void> => {
     this.lfFieldInfo = CoreUtils.validateDefined(field, 'field');
     this.lfFieldValue = this.getInitialValue(fieldValue);
+    if(this.lfFieldInfo.fieldType === FieldType.Blob) {
+      console.warn('Blob field not supported');
+    }
+    else if(!(this.lfFieldInfo.fieldType in FieldType)) {
+      throw new Error('FieldType not supported.')
+    }
+    else {
+      this.showField = true;
+    }
     this.dynamicFieldValueOptions = dynamicFieldValueOptions;
     this.cdr.detectChanges();
     this.removeInvalidFieldValues(this.lfFieldValue);

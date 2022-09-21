@@ -206,9 +206,11 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   /** @internal */
   private async getCurrentFieldOptionsAsync(): Promise<LfFieldInfo[]> {
     const fieldInfos: AdhocFieldInfo[] = await this.adhocFieldContainerService.getAllFieldDefinitionsAsync();
-    // TODO filter Data field definitions??
     const fieldDefinitions = fieldInfos.filter((val) => {
       const validFieldType: boolean = val.fieldType in FieldType && val.fieldType !== FieldType.Blob;
+      if (!validFieldType) {
+        console.warn(`Invalid FieldType: ${val.fieldType}. Will not display field with name: ${val.name}`);
+      }
       return validFieldType;
     })
     this.updateTemplateFields(fieldDefinitions);
