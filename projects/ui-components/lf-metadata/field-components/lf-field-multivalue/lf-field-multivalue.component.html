@@ -1,4 +1,4 @@
-<ng-template *ngIf="showField">
+<ng-container *ngIf="showField">
   <span class="lf-field-title-container">
     <span class="lf-field-title" title="{{lfFieldInfo?.name}}">{{lfFieldInfo?.name}}</span>
     <span class="lf-field-is-required" *ngIf="lfFieldInfo?.isRequired">*</span>
@@ -20,4 +20,4 @@
         <span class="lf-multivalue-remove-span" *ngIf="isLast && lfFieldValues?.length > 1"></span>
     </span>
   </form>
-</ng-template>
+</ng-container>
