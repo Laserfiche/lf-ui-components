@@ -212,7 +212,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
         console.warn(`Invalid FieldType: ${val.fieldType}. Will not display field with name: ${val.name}`);
       }
       return validFieldType;
-    })
+    });
     this.updateTemplateFields(fieldDefinitions);
     this.adhocFieldConnectorService.setAllFieldInfos(fieldDefinitions);
 

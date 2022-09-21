@@ -72,7 +72,7 @@ export class LfFieldComponent {
       console.warn('Blob field not supported');
     }
     else if(!(this.lfFieldInfo.fieldType in FieldType)) {
-      throw new Error('FieldType not supported.')
+      throw new Error('FieldType not supported.');
     }
     else {
       this.showField = true;
