@@ -6,6 +6,7 @@
 
 ### Fixes
 - `[lf-repository-browser]`: Fix bug when multi select is enabled - multiselect selection was dependent on the order the entries were checked.
+- `[lf-user-feedback]`: Update 'Thank you' panel string
 - Reference dependency `zone.js` from `lfxstatic.com`
   - `<script src='https://lfxstatic.com/npm/-/zone.js@0.11.4/bundles/zone.umd.min.js'></script>`
 - `[lf-documentation]` reference style sheets from `lfxstatic.com`
