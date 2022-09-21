@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 import { LfBreadcrumbsModule, LfLoaderModule } from '@laserfiche/lf-ui-components/shared';
 import { LfSelectionListModule } from '@laserfiche/lf-ui-components/lf-selection-list';
+import { FlatTreeComponentsModule } from '../tree-components/flat-tree-components/flat-tree-components.module';
 
 @NgModule({
   declarations: [LfRepositoryBrowserComponent],
@@ -16,6 +17,7 @@ import { LfSelectionListModule } from '@laserfiche/lf-ui-components/lf-selection
     LfBreadcrumbsModule,
     LfLoaderModule,
     LfSelectionListModule,
+    FlatTreeComponentsModule
   ],
   bootstrap: [LfRepositoryBrowserComponent],
   exports: [LfRepositoryBrowserComponent],

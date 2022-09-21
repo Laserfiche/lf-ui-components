@@ -123,7 +123,8 @@ export abstract class FlatTreeDirective implements OnChanges, OnDestroy {
       const refreshToobarOption: ToolbarOption = {
         tag: this.REFRESH,
         name: '',
-        disabled: false
+        disabled: false,
+        handler: this.refreshTreeAsync.bind(this)
       };
       const refreshStringSub = this.REFRESH_LOCALIZED.subscribe((value) => {
         refreshToobarOption.name = value;
@@ -135,7 +136,8 @@ export abstract class FlatTreeDirective implements OnChanges, OnDestroy {
       const addFolderToolbarOption: ToolbarOption = {
         tag: this.NEW_FOLDER,
         name: '',
-        disabled: false
+        disabled: false,
+        handler: this.addNewFolderAsync.bind(this)
       };
       const newFolderSub = this.ADD_NEW_FOLDER_LOCALIZED.subscribe((value) => {
         addFolderToolbarOption.name = value;
@@ -221,28 +223,30 @@ export abstract class FlatTreeDirective implements OnChanges, OnDestroy {
 
   /** @internal */
   async onToolbarOptionSelectedAsync(option: ToolbarOption): Promise<void> {
-    switch (option.tag) {
-      case this.REFRESH:
-        await this.refreshTreeAsync();
-        break;
-      case this.NEW_FOLDER:
-        await this.addNewFolderAsync();
-        break;
-      default:
-        break;
-    }
+    // switch (option.tag) {
+    //   case this.REFRESH:
+    //     await this.refreshTreeAsync();
+    //     break;
+    //   case this.NEW_FOLDER:
+    //     await this.addNewFolderAsync();
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 
   /** @internal */
   private async refreshTreeAsync(): Promise<void> {
-    const parentNode = this.breadcrumbs[0];
-    await this.updateAllPossibleNodesAsync(parentNode, true);
+    await this.zone.run(async () => {
+      const parentNode = this._breadcrumbs[0];
+      await this.updateAllPossibleNodesAsync(parentNode, true);
+    });
   }
 
   /** @internal */
   private async addNewFolderAsync(): Promise<void> {
     await this.zone.run(async () => {
-      const result = await TreeToolbarUtils.openNewFolderDialogAsync(this.treeService, this.breadcrumbs[0], this.popupDialog);
+      const result = await TreeToolbarUtils.openNewFolderDialogAsync(this.treeService, this._breadcrumbs[0], this.popupDialog);
       if (result === 'OK') { // Should not be localized
         await this.refreshTreeAsync();
       }

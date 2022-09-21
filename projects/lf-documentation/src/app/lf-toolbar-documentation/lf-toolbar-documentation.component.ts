@@ -10,12 +10,12 @@ import { ToolbarOption } from './../../../../ui-components/tree-components/flat-
 export class LfToolbarDocumentationComponent {
 
   elementToolbarOptions: ToolbarOption[] = [
-    { name: 'Refresh', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
-    { name: 'New Folder', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
-    { name: 'Download', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
-    { name: 'Scan', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
-    { name: 'Rename', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
-    { name: 'Share', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'Refresh', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), handler: this.refreshSelectedHandler},
+    { name: 'New Folder', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), handler: this.refreshSelectedHandler },
+    { name: 'Download', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), handler: this.refreshSelectedHandler },
+    { name: 'Scan', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), handler: this.refreshSelectedHandler },
+    { name: 'Rename', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), handler: this.refreshSelectedHandler },
+    { name: 'Share', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20'), handler: this.refreshSelectedHandler },
   ];
   selectedElementOption?: string;
 
@@ -29,6 +29,10 @@ export class LfToolbarDocumentationComponent {
 
   onElementOptionSelected(option: CustomEvent<ToolbarOption | undefined>) {
     this.selectedElementOption = JSON.stringify(option.detail, null, 2);
+  }
+
+  async refreshSelectedHandler(event: any) {
+    this.selectedElementOption = JSON.stringify(event.detail, null, 2);
   }
 
   enableDisableElement(): void {

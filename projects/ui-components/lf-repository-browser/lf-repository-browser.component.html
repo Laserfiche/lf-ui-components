@@ -1,6 +1,8 @@
 <div class="lf-header">
   <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbClicked)="onBreadcrumbClicked($event)">
   </lf-breadcrumbs-component>
+  <lf-toolbar-component *ngIf="toolbarService" [dropdown_options]="toolbarService.getToolbarOptions()">
+  </lf-toolbar-component>
 </div>
 <div class="lf-repo-entry-container">
     <lf-loader-component *ngIf="isLoading" class="no-entries-text"></lf-loader-component>

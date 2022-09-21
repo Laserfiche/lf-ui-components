@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, Output } from '@angular/core';
 
 @Component({
   selector: 'lf-toolbar-component',
@@ -16,8 +16,9 @@ export class LfToolbarComponent {
   constructor() {}
 
   /** @internal */
-  onClickButton(option: ToolbarOption): void {
-    this.optionSelected.emit(option);
+  async onClickButton(event: Event, option: ToolbarOption): Promise<void> {
+      await option.handler(event);
+      this.optionSelected.emit(option);
   }
 
   /** @internal */
@@ -40,4 +41,5 @@ export interface ToolbarOption {
   icon?: string[] | string;
   children?: ToolbarOption[];
   tag?: any;
+  handler: (event?: any) => Promise<void>;
 }

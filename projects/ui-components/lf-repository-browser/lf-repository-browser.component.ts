@@ -5,6 +5,7 @@ import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeServ
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-components/lf-selection-list';
+import { LfToolbarService } from './lfToolbarService';
 
 @Component({
   selector: 'lf-repository-browser-component',
@@ -15,6 +16,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
   private selectedItems: LfTreeNode[] | undefined;
+  toolbarService: LfToolbarService | undefined;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -42,6 +44,23 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       await this.initializeAsync(selectedNode);
     });
   };
+
+    /**
+   * function to initialize the lf-file-explorer component
+   * @param provider LfRepositoryService service
+   * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
+   */
+     @Input() initToolbar = async (toolbarService: LfToolbarService): Promise<void> => {
+      await this.zone.run(async () => {
+        try {
+          this.toolbarService = toolbarService;
+        } catch (error) {
+          console.error(error);
+          this.hasError = true;
+          return;
+        }
+      });
+    };
 
   @Input() isSelectable?: (treeNode: LfTreeNode) => Promise<boolean>;
 
