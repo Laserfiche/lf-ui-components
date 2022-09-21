@@ -1,4 +1,4 @@
-<span class="lf-field-container" id="lf-field-container">
+<span *ngIf="showField" class="lf-field-container" id="lf-field-container">
   <span *ngIf="lfFieldInfo?.name" class="lf-field-title-container">
       <span class="lf-field-title" title="{{lfFieldInfo?.name}}">{{lfFieldInfo?.name}}</span>
       <span class="lf-field-is-required" *ngIf="lfFieldInfo?.isRequired">*</span>

@@ -1,7 +1,14 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, FieldType } from '@laserfiche/lf-ui-components/shared';
 import { FieldDefinition } from '../utils/lf-field-internal-types';
 import { FieldValue, TemplateFieldInfo } from '../utils/lf-field-types';
 import { isDynamicField } from '../utils/metadata-utils';
@@ -10,7 +17,7 @@ import { isDynamicField } from '../utils/metadata-utils';
   selector: 'lf-field-group-component',
   templateUrl: './lf-field-group.component.html',
   styleUrls: ['./lf-field-group.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LfFieldGroupComponent {
   /** @internal */
@@ -39,7 +46,8 @@ export class LfFieldGroupComponent {
     /** @internal */
     private cdr: ChangeDetectorRef,
     /** @internal */
-    public localizationService: AppLocalizationService) {
+    public localizationService: AppLocalizationService
+  ) {
     this.fieldGroups = this.fb.array([]);
   }
 
@@ -51,7 +59,10 @@ export class LfFieldGroupComponent {
 
   /** @internal */
   @Input()
-  initAsync = async (fieldDefinitions: FieldDefinition[], dynamicFieldOptions?: Map<number, string[][]>): Promise<void> => {
+  initAsync = async (
+    fieldDefinitions: FieldDefinition[],
+    dynamicFieldOptions?: Map<number, string[][]>
+  ): Promise<void> => {
     this.fieldDefinitions = fieldDefinitions ?? [];
     this.groupId = fieldDefinitions[0]?.fieldInfo?.groupId ?? 0;
     this.dynamicFieldOptions = dynamicFieldOptions;
@@ -109,12 +120,18 @@ export class LfFieldGroupComponent {
     const numGroups = fieldDefinitions[0].fieldValues?.length ?? 1;
     for (let fieldNumber = 0; fieldNumber < numGroups; fieldNumber++) {
       const formGroup: FormGroup = new FormGroup({});
-      fieldDefinitions.forEach(fieldDef => {
-        if (fieldDef.fieldValues && (fieldDef.fieldValues.length !== numGroups)) {
+      fieldDefinitions.forEach((fieldDef) => {
+        if (fieldDef.fieldValues && fieldDef.fieldValues.length !== numGroups) {
           // TODO localize
           throw new Error('Number of fieldValues is not ' + numGroups + ' for fieldId: ' + fieldDef.fieldInfo.id);
         }
-        this.addFieldFormControl(fieldDef, fieldNumber, formGroup);
+        if (fieldDef.fieldInfo.fieldType === FieldType.Blob) {
+          console.warn('Blob field not supported');
+        } else if (!(fieldDef.fieldInfo.fieldType in FieldType)) {
+          throw new Error('FieldType not supported.');
+        } else {
+          this.addFieldFormControl(fieldDef, fieldNumber, formGroup);
+        }
       });
       this.fieldGroups.push(formGroup);
     }
@@ -129,8 +146,7 @@ export class LfFieldGroupComponent {
     let initialValue: string | undefined;
     if (fieldValue && fieldValue.length > 0) {
       initialValue = fieldValue;
-    }
-    else if (fieldInfo.defaultValue) {
+    } else if (fieldInfo.defaultValue) {
       initialValue = fieldInfo.defaultValue;
     }
 
@@ -145,16 +161,13 @@ export class LfFieldGroupComponent {
     const newValue = { value: initialValue ?? '', position: (fieldNumber + 1).toString() };
     if (prevValues) {
       prevValues.values?.push(newValue);
-    }
-    else {
+    } else {
       const newConfig: FieldValue = {
         fieldName: fieldInfo.name,
         fieldId: fieldInfo.id,
         fieldType: fieldInfo.fieldType,
         groupId: fieldInfo.groupId ?? 0,
-        values: [
-          newValue
-        ]
+        values: [newValue],
       };
       this.fieldValues.set(fieldInfo.id, newConfig);
     }
@@ -252,7 +265,7 @@ export class LfFieldGroupComponent {
     for (let tracker = currentIndex + 1; tracker <= numIndices; tracker++) {
       indicesChanged.push(tracker);
     }
-    this.fieldDefinitions.forEach(fieldDef => {
+    this.fieldDefinitions.forEach((fieldDef) => {
       const fieldInfo = fieldDef.fieldInfo;
       const fieldValue = this.fieldValues.get(fieldInfo.id);
       let val: string | undefined;
@@ -260,7 +273,8 @@ export class LfFieldGroupComponent {
         val = fieldInfo.defaultValue;
       }
       const newValue = {
-        value: val ?? '', position: (currentIndex + 2).toString()
+        value: val ?? '',
+        position: (currentIndex + 2).toString(),
       };
       fieldValue?.values?.splice(currentIndex + 1, 0, newValue);
       this.resetPositionValues(fieldValue);
@@ -286,7 +300,7 @@ export class LfFieldGroupComponent {
       thisOne['position'] = (Number.parseInt(thisOne['position']) - 1).toString();
       moveItemInArray(fieldValue?.values ?? [], currentIndex, currentIndex - 1);
       if (fieldValue) {
-        this.fieldValuesChanged.emit({ fieldValue, indicesChanged: [currentIndex, (currentIndex - 1)] });
+        this.fieldValuesChanged.emit({ fieldValue, indicesChanged: [currentIndex, currentIndex - 1] });
       }
     });
   }
@@ -303,7 +317,7 @@ export class LfFieldGroupComponent {
       thisOne['position'] = (Number.parseInt(thisOne['position']) + 1).toString();
       moveItemInArray(fieldValue?.values ?? [], currentIndex, currentIndex + 1);
       if (fieldValue) {
-        this.fieldValuesChanged.emit({ fieldValue, indicesChanged: [currentIndex, (currentIndex + 1)] });
+        this.fieldValuesChanged.emit({ fieldValue, indicesChanged: [currentIndex, currentIndex + 1] });
       }
     });
   }

@@ -4,7 +4,7 @@ import { AdhocFieldConnectorService } from './lf-field-adhoc-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
 import { Subscription } from 'rxjs';
 import { LfFieldAddRemoveComponent } from './lf-field-add-remove/lf-field-add-remove.component';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, FieldType } from '@laserfiche/lf-ui-components/shared';
 import { FieldValue, FieldValues, LfFieldInfo } from '../field-components/utils/lf-field-types';
 import { LfFieldComponent } from '../field-components/lf-field/lf-field.component';
 import { LfFieldMultivalueComponent } from '../field-components/lf-field-multivalue/lf-field-multivalue.component';
@@ -205,8 +205,14 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
 
   /** @internal */
   private async getCurrentFieldOptionsAsync(): Promise<LfFieldInfo[]> {
-    const fieldDefinitions: AdhocFieldInfo[] = await this.adhocFieldContainerService.getAllFieldDefinitionsAsync();
-
+    const fieldInfos: AdhocFieldInfo[] = await this.adhocFieldContainerService.getAllFieldDefinitionsAsync();
+    const fieldDefinitions = fieldInfos.filter((val) => {
+      const validFieldType: boolean = val.fieldType in FieldType && val.fieldType !== FieldType.Blob;
+      if (!validFieldType) {
+        console.warn(`Invalid FieldType: ${val.fieldType}. Will not display field with name: ${val.name}`);
+      }
+      return validFieldType;
+    });
     this.updateTemplateFields(fieldDefinitions);
     this.adhocFieldConnectorService.setAllFieldInfos(fieldDefinitions);
 
