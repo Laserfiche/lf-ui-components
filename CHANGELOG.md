@@ -10,6 +10,7 @@
   - `<script src='https://lfxstatic.com/npm/-/zone.js@0.11.4/bundles/zone.umd.min.js'></script>`
 - `[lf-documentation]` reference style sheets from `lfxstatic.com`
 - Reference language resources from `lfxstatic.com`
+- `[lf-field-container]`, `[lf-field-template-container]`, `[lf-field-adhoc-container]`: Do not display fields of `FieldType` `Blob`.
 
 ### Chore & Maintenance
 
