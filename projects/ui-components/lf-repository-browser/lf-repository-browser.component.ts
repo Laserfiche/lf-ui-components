@@ -14,6 +14,7 @@ import { LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-c
 export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
+  private selectedItems: LfTreeNode[] | undefined;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -74,7 +75,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.nextPage = undefined;
     this.lastCalledPage = undefined;
     this.maximumChildrenReceived = false;
-    this.updateAllPossibleEntriesAsync(this._currentFolder);
+    await this.updateAllPossibleEntriesAsync(this._currentFolder);
+  };
+
+  @Input()
+  openSelectedNodesAsync: () => Promise<void> = async () => {
+    await this.openSelectedItemsAsync();
   };
 
   /**
@@ -85,6 +91,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this._focus();
   };
 
+  @Output() entryDblClicked = new EventEmitter<LfTreeNode[]>();
   @Output() entrySelected = new EventEmitter<LfTreeNode[] | undefined>();
 
   /** @internal */
@@ -110,6 +117,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   readonly OPEN = this.localizationService.getStringObservable('OPEN');
   /** @internal */
   readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
+
   /** @internal */
   get shouldShowErrorMessage(): boolean {
     return this.hasError;
@@ -183,6 +191,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
     this._breadcrumbs = event.breadcrumbs;
     this._currentFolder = event.selected;
+    this.entryDblClicked.emit([this._currentFolder]);
     await this.updateAllPossibleEntriesAsync(this._currentFolder);
     setTimeout(() => this.entryList?.focus());
   }
@@ -193,11 +202,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param entry
    * @returns
    */
-  async onDblClickAsync(entry: LfTreeNode | undefined) {
-    if (!entry?.isContainer) {
-      return;
-    }
-    await this.openChildFolderAsync(entry);
+  async onDblClickAsync(treeNode: LfTreeNode | undefined) {
+    await this.openChildFolderAsync(treeNode as LfTreeNode);
   }
 
   /**
@@ -214,7 +220,21 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param event
    */
   async onItemSelected(event: SelectedItemEvent) {
-    this.entrySelected.emit(event.selectedItems?.map((item: ILfSelectable) => item.value as LfTreeNode));
+    const lastSelectedItem =
+      this.selectedItems && this.selectedItems.length > 0
+        ? this.selectedItems[this.selectedItems.length - 1]
+        : undefined;
+    if (
+      (lastSelectedItem &&
+        lastSelectedItem === event.selected.value &&
+        this.selectedItems?.length === event.selectedItems?.length) ||
+      (event.selectedItems?.length === 0 && this.selectedItems?.length === 0)
+    ) {
+      // do nothing
+      return;
+    }
+    this.selectedItems = event.selectedItems?.map((item: ILfSelectable) => item.value as LfTreeNode);
+    this.entrySelected.emit(this.selectedItems);
   }
 
   /**
@@ -223,13 +243,25 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * Example: This will get called when an entry is double clicked
    * @param entry
    */
-  async openChildFolderAsync(entry: LfTreeNode | undefined) {
-    if (entry?.isContainer === true) {
-      this._breadcrumbs = [entry].concat(this.breadcrumbs);
-      this._currentFolder = entry;
-      await this.updateAllPossibleEntriesAsync(entry);
+  async openChildFolderAsync(entry: LfTreeNode) {
+    if (!entry?.isContainer) {
+      return;
+    }
+    this._breadcrumbs = [entry].concat(this.breadcrumbs);
+    this._currentFolder = entry;
+    await this.updateAllPossibleEntriesAsync(entry);
 
-      this.entryList?.focus();
+    this.entryList?.focus();
+  }
+
+  /**
+   * @internal
+   */
+  async openSelectedItemsAsync() {
+    const selectedNodes = this.selectedItems;
+    this.entryDblClicked.emit(selectedNodes);
+    if (selectedNodes?.length === 1 && selectedNodes[0].isContainer) {
+      await this.openChildFolderAsync(selectedNodes[0]);
     }
   }
 
