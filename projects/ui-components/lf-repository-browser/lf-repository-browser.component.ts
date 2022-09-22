@@ -35,34 +35,22 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * function to initialize the lf-file-explorer component
    * @param provider LfRepositoryService service
    * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
+   * @param toolbarService optional LfToolbarService
    */
-  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode): Promise<void> => {
+  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode, toolbarService?: LfToolbarService): Promise<void> => {
     await this.zone.run(async () => {
       try {
         this.treeNodeService = treeNodeService;
+        if (toolbarService) {
+          this.toolbarService = toolbarService;
+        }
       } catch (error) {
         console.error(error);
         this.hasError = true;
         return;
       }
       await this.initializeAsync(selectedNode);
-    });
-  };
 
-  /**
-   * function to initialize the lf-file-explorer component
-   * @param provider LfRepositoryService service
-   * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
-   */
-  @Input() initToolbar = async (toolbarService: LfToolbarService): Promise<void> => {
-    await this.zone.run(async () => {
-      try {
-        this.toolbarService = toolbarService;
-      } catch (error) {
-        console.error(error);
-        this.hasError = true;
-        return;
-      }
     });
   };
 
