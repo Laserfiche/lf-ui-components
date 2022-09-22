@@ -23,12 +23,13 @@ export class LfToolbarDemoService implements LfToolbarService {
       handler: this.addNewFolderAsync.bind(this),
     },
   ];
-  dataService: DemoRepoService;
+  // dataService: DemoRepoService;
   getToolbarOptions() {
     return this._toolbarOptions;
   }
-  constructor(private repoBrowserRef: ElementRef<LfRepositoryBrowserComponent>, public popupDialog: MatDialog) {
-    this.dataService = new DemoRepoService();
+  constructor(private repoBrowserRef: ElementRef<LfRepositoryBrowserComponent>, public popupDialog: MatDialog, public dataService: DemoRepoService) {
+    // this.dataService = this.repoBrowserRef.nativeElement.treeNodeService as DemoRepoService;
+
   }
 
   /** @internal */
@@ -36,7 +37,6 @@ export class LfToolbarDemoService implements LfToolbarService {
     // await this.zone.run(async () => {
     const result = await this.openNewFolderDialogAsync();
     if (result === 'OK') {
-      // Should not be localized
       await this.repoBrowserRef.nativeElement.refreshAsync();
     }
     // });
@@ -48,8 +48,9 @@ export class LfToolbarDemoService implements LfToolbarService {
     //     parentNode: this.repoBrowserRef.nativeElement.currentFolder!
     // };
     // TODO how to get parentNode --- do we just need it for the name?
+    const currentParentNode = this.repoBrowserRef.nativeElement.currentFolder;
     const dialogRef = this.popupDialog.open(LfRepositoryBrowserNewFolderComponent, {
-      data: { addNewFolder: async (name) => { await this.dataService.addNewFolderAsync(name) } },
+      data: { addNewFolder: async (name: string) => { await this.dataService.addNewFolderAsync(name, currentParentNode) } },
       width: '430px',
     });
     const result = await dialogRef.afterClosed().toPromise();

@@ -27,15 +27,15 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   constructor(public popupDialog: MatDialog) { }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.repoBrowser?.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
-      this.toolbarService = new LfToolbarDemoService(this.repoBrowser!, this.popupDialog)
-      this.singleToolbarService = new LfToolbarDemoService(this.singleSelectRepoBrowser!, this.popupDialog)
+    setTimeout(async () => {
+      await this.repoBrowser?.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
+      this.toolbarService = new LfToolbarDemoService(this.repoBrowser!, this.popupDialog, this.dataService)
+      this.singleToolbarService = new LfToolbarDemoService(this.singleSelectRepoBrowser!, this.popupDialog, this.singleSelectDataService)
       this.repoBrowser?.nativeElement.initToolbar(this.toolbarService);
       if (this.repoBrowser != null) {
         this.repoBrowser.nativeElement.focus();
       }
-      this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
+      await this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
       this.singleSelectRepoBrowser?.nativeElement.initToolbar(this.singleToolbarService);
     }, 1000);
   }

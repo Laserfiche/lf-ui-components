@@ -252,6 +252,7 @@ export class DemoRepoService implements LfTreeNodeService {
   }
 
   getFolderChildrenAsync(folder: LfTreeNode, nextPage?: string): Promise<LfTreeNodePage> {
+    console.log('get folder children', this._testData)
     const folderId: string = folder.id;
     if (folderId != null && this._testData[folderId]) {
       if (folderId === '16') {
@@ -335,19 +336,40 @@ export class DemoRepoService implements LfTreeNodeService {
     }
     return entries;
   }
-  async addNewFolderAsync(parentNode: LfTreeNode, folderName: string): Promise<void> {
-    if (this._entries[folderName]) {
-      const currentParentNode = await this.getParentTreeNodeAsync(this._entries[folderName]);
-      if (currentParentNode?.name == parentNode.name ) {
+  async addNewFolderAsync(folderName: string, parentNode?: LfTreeNode ): Promise<void> {
+    console.log("here")
+    if (parentNode) {
+      this._testData[parentNode.id].forEach(child => {
+        if (child.name == folderName) {
+          throw new Error('Folder exists');
+        }
+      });
+      this._testData[parentNode.id].push( {
+          name: folderName,
+          path: parentNode?.path+folderName+'/',
+          icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
+          isContainer: true,
+          isLeaf: false,
+          id: '100000'
+        })
+        this._testData['100000']= [];
+      console.log('add new folder',this._testData)
+    }
+    else {
+      for (const id in this._testData) {
+        if (this._entries[id].name == folderName) {
         throw new Error('Folder exists');
       }
-    }
-    this._entries[folderName] = {
+     }
+     this._testData['100000']= [];
+     this._entries['100000'] = {
       name: folderName,
-      path: parentNode.path+'/'+folderName,
+      path: folderName+'/',
       icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
       isContainer: true,
       isLeaf: false,
-    } as LfTreeNode;
+      id: '100000'
+    }
+      }
+    }
   }
-}

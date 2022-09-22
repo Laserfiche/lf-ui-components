@@ -10,6 +10,7 @@ export class LfFileExplorerNewFolderComponent {
 
   constructor(
     public dialogRef: MatDialogRef<any>,
+    @Inject(MAT_DIALOG_DATA) public data: {addNewFolder: (folderName: string) => Promise<void>}
   ) { }
 
   onButtonClick(event: string) {

@@ -12,7 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LfFileExplorerComponent } from './lf-file-explorer/lf-file-explorer.component';
 import { LfFolderBrowserComponent } from './lf-folder-browser/lf-folder-browser.component';
 import { LfFileExplorerNewFolderComponent } from './lf-file-explorer-new-folder/lf-file-explorer-new-folder.component';
-import { LfModalsModule, LfLoaderModule, LfBreadcrumbsModule, LfToolbarModule } from '@laserfiche/lf-ui-components/shared';
+import { LfModalsModule, LfLoaderModule, LfBreadcrumbsModule, LfToolbarModule, LfNewFolderDialogModalModule } from '@laserfiche/lf-ui-components/shared';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,8 @@ import { LfModalsModule, LfLoaderModule, LfBreadcrumbsModule, LfToolbarModule } 
     LfLoaderModule,
     LfModalsModule,
     LfBreadcrumbsModule,
-    LfToolbarModule
+    LfToolbarModule,
+    LfNewFolderDialogModalModule
   ],
   bootstrap: [
     LfFileExplorerComponent,

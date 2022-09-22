@@ -9,6 +9,16 @@ export async function openNewFolderDialogAsync(
 ): Promise<any> {
   const dialogRef = popupDialog.open(LfFileExplorerNewFolderComponent, {
     width: '430px',
+    data: {
+      addNewFolder: async (name: string) => {
+        if (treeService.addNewFolderAsync) {
+          await treeService.addNewFolderAsync(parentNode, name);
+        }
+        else {
+          throw new Error('TODO')
+        }
+      }
+    }
   });
   const result = await dialogRef.afterClosed().toPromise();
   return result;
