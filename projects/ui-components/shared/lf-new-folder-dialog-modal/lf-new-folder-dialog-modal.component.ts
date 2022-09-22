@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppLocalizationService } from '../app-localization.service';
 
 @Component({
@@ -35,13 +36,14 @@ export class LfNewFolderDialogModalComponent {
   /** @internal */
   constructor(
     /** @internal */
-    private localizationService: AppLocalizationService
+    private localizationService: AppLocalizationService,
+    @Inject(MAT_DIALOG_DATA) public data: {addNewFolder: (folderName: string) => Promise<void>}
   ) { }
 
   /** @internal */
   async onOkClickAsync(): Promise<void> {
     try {
-      // await this.data.treeService.addNewFolderAsync(this.data.parentNode, this.folderName);
+      await this.data.addNewFolder(this.folderName);
       this.errorMessage = undefined;
       this.buttonClick.emit('OK'); // Should not be localized
     }

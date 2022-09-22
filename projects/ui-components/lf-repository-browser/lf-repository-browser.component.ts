@@ -1,6 +1,11 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService, ILfSelectable, LfToolbarService, ToolbarOption } from '@laserfiche/lf-ui-components/shared';
+import {
+  AppLocalizationService,
+  ILfSelectable,
+  LfToolbarService,
+  ToolbarOption,
+} from '@laserfiche/lf-ui-components/shared';
 import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -44,22 +49,22 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     });
   };
 
-    /**
+  /**
    * function to initialize the lf-file-explorer component
    * @param provider LfRepositoryService service
    * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
    */
-     @Input() initToolbar = async (toolbarService: LfToolbarService): Promise<void> => {
-      await this.zone.run(async () => {
-        try {
-          this.toolbarService = toolbarService;
-        } catch (error) {
-          console.error(error);
-          this.hasError = true;
-          return;
-        }
-      });
-    };
+  @Input() initToolbar = async (toolbarService: LfToolbarService): Promise<void> => {
+    await this.zone.run(async () => {
+      try {
+        this.toolbarService = toolbarService;
+      } catch (error) {
+        console.error(error);
+        this.hasError = true;
+        return;
+      }
+    });
+  };
 
   @Input() isSelectable?: (treeNode: LfTreeNode) => Promise<boolean>;
 

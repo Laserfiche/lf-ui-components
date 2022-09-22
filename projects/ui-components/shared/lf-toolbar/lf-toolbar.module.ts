@@ -15,7 +15,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CommonModule,
     MatMenuModule,
     MatTooltipModule
-  ]
+  ],
+  exports: [LfToolbarComponent]
 })
 export class LfToolbarModule {
   /** @internal */

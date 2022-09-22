@@ -1,8 +1,9 @@
 import { ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LfToolbarService, ToolbarOption } from '@laserfiche/lf-ui-components/shared';
-import { LfRepositoryBrowserNewFolderComponent } from './lf-repository-browser-new-folder/lf-repository-browser-new-folder.component';
-import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
+import { LfRepositoryBrowserNewFolderComponent } from '../../../../ui-components/lf-repository-browser/lf-repository-browser-new-folder/lf-repository-browser-new-folder.component';
+import { LfRepositoryBrowserComponent } from '../../../../ui-components/lf-repository-browser/lf-repository-browser.component';
+import { DemoRepoService } from './demo-repo-service';
 
 export class LfToolbarDemoService implements LfToolbarService {
   _toolbarOptions: ToolbarOption[] = [
@@ -11,6 +12,7 @@ export class LfToolbarDemoService implements LfToolbarService {
       disabled: false,
       tag: 'REFRESH',
       handler: async () => {
+        await this.repoBrowserRef.nativeElement.refreshAsync();
         console.log('refresh');
       },
     },
@@ -21,10 +23,13 @@ export class LfToolbarDemoService implements LfToolbarService {
       handler: this.addNewFolderAsync.bind(this),
     },
   ];
+  dataService: DemoRepoService;
   getToolbarOptions() {
     return this._toolbarOptions;
   }
-  constructor(private repoBrowserRef: ElementRef<LfRepositoryBrowserComponent>, public popupDialog: MatDialog) {}
+  constructor(private repoBrowserRef: ElementRef<LfRepositoryBrowserComponent>, public popupDialog: MatDialog) {
+    this.dataService = new DemoRepoService();
+  }
 
   /** @internal */
   private async addNewFolderAsync(): Promise<void> {
@@ -42,10 +47,12 @@ export class LfToolbarDemoService implements LfToolbarService {
     //     treeService: this.repoBrowserRef.nativeElement.treeNodeService,
     //     parentNode: this.repoBrowserRef.nativeElement.currentFolder!
     // };
+    // TODO how to get parentNode --- do we just need it for the name?
     const dialogRef = this.popupDialog.open(LfRepositoryBrowserNewFolderComponent, {
-        width: '430px',
+      data: { addNewFolder: async (name) => { await this.dataService.addNewFolderAsync(name) } },
+      width: '430px',
     });
     const result = await dialogRef.afterClosed().toPromise();
-    return false;
+    return result;
   }
 }
