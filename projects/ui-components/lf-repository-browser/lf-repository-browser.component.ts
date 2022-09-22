@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-components/lf-selection-list';
 import { LfToolbarService } from './lfToolbarService';
+import { ToolbarOption } from '../tree-components/lf-tree-components-public-api';
 
 @Component({
   selector: 'lf-repository-browser-component',
@@ -96,6 +97,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.maximumChildrenReceived = false;
     await this.updateAllPossibleEntriesAsync(this._currentFolder);
   };
+
+  async onToolbarOptionSelectedAsync(option: ToolbarOption): Promise<void> {
+    await option.handler();
+  }
 
   @Input()
   openSelectedNodesAsync: () => Promise<void> = async () => {

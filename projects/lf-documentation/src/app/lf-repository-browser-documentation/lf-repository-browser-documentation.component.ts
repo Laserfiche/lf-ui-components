@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { LfToolbarDemoService, LfToolbarService } from 'projects/ui-components/lf-repository-browser/lfToolbarService';
 import { LfTreeNode, LfRepositoryBrowserComponent } from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
 import { DemoRepoService } from './demo-repo-service';
@@ -14,26 +15,28 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   allSelectable: boolean = true;
   dataService: DemoRepoService = new DemoRepoService();
-  toolbarService: LfToolbarService = new LfToolbarDemoService();
+  toolbarService: LfToolbarService | undefined;
+  singleToolbarService: LfToolbarService | undefined;
   selectable = this._selectable.bind(this);
   singleSelectDataService: DemoRepoService = new DemoRepoService();
   filter: string = '';
 
   elementSelectedEntry: LfTreeNode[] | undefined;
 
-  constructor() { }
+  constructor(public popupDialog: MatDialog) { }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.repoBrowser?.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
+      this.toolbarService = new LfToolbarDemoService(this.repoBrowser!, this.popupDialog)
+      this.singleToolbarService = new LfToolbarDemoService(this.singleSelectRepoBrowser!, this.popupDialog)
       this.repoBrowser?.nativeElement.initToolbar(this.toolbarService);
       if (this.repoBrowser != null) {
         this.repoBrowser.nativeElement.focus();
       }
+      this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
+      this.singleSelectRepoBrowser?.nativeElement.initToolbar(this.singleToolbarService);
     }, 1000);
-
-    this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
-    this.singleSelectRepoBrowser?.nativeElement.initToolbar(this.toolbarService);
   }
 
   onEntrySelected(event: CustomEvent<LfTreeNode[] | undefined>) {
@@ -65,7 +68,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.allSelectable = !this.allSelectable;
     this.dataService = new DemoRepoService();
     this.repoBrowser?.nativeElement.initAsync(this.dataService);
-    this.repoBrowser?.nativeElement.initToolbar(this.toolbarService);
   }
 
   async setSelectedValue() {

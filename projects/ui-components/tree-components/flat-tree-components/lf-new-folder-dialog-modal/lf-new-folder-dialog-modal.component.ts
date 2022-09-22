@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
+import { LfTreeNode, LfTreeNodeService } from 'projects/ui-components/lf-repository-browser/lf-repository-browser-public-api';
 import { LfTreeService, TreeNode } from '../../utils/lf-tree.service';
 
 @Component({
@@ -70,4 +71,10 @@ export class LfNewFolderDialogModalComponent {
 export interface NewFolderDialogData {
   treeService: LfTreeService;
   parentNode: TreeNode;
+}
+
+
+export interface NewFolderDialogDataTest {
+  treeService: LfTreeNodeService;
+  parentNode: LfTreeNode;
 }

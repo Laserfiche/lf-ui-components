@@ -335,4 +335,19 @@ export class DemoRepoService implements LfTreeNodeService {
     }
     return entries;
   }
+  async addNewFolderAsync(parentNode: LfTreeNode, folderName: string): Promise<void> {
+    if (this._entries[folderName]) {
+      const currentParentNode = await this.getParentTreeNodeAsync(this._entries[folderName]);
+      if (currentParentNode?.name == parentNode.name ) {
+        throw new Error('Folder exists');
+      }
+    }
+    this._entries[folderName] = {
+      name: folderName,
+      path: parentNode.path+'/'+folderName,
+      icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
+      isContainer: true,
+      isLeaf: false,
+    } as LfTreeNode;
+  }
 }
