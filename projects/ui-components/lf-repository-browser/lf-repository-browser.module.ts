@@ -6,10 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 import { LfBreadcrumbsModule, LfLoaderModule } from '@laserfiche/lf-ui-components/shared';
 import { LfSelectionListModule } from '@laserfiche/lf-ui-components/lf-selection-list';
-import { FlatTreeComponentsModule } from '../tree-components/flat-tree-components/flat-tree-components.module';
+import { LfToolbarModule } from '@laserfiche/lf-ui-components/shared';
+import { LfRepositoryBrowserNewFolderComponent } from './lf-repository-browser-new-folder/lf-repository-browser-new-folder.component';
+import { LfNewFolderDialogModalModule } from '@laserfiche/lf-ui-components/shared';
 
 @NgModule({
-  declarations: [LfRepositoryBrowserComponent],
+  declarations: [LfRepositoryBrowserComponent, LfRepositoryBrowserNewFolderComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -17,7 +19,8 @@ import { FlatTreeComponentsModule } from '../tree-components/flat-tree-component
     LfBreadcrumbsModule,
     LfLoaderModule,
     LfSelectionListModule,
-    FlatTreeComponentsModule
+    LfToolbarModule,
+    LfNewFolderDialogModalModule
   ],
   bootstrap: [LfRepositoryBrowserComponent],
   exports: [LfRepositoryBrowserComponent],

@@ -9,3 +9,8 @@ export * from './filter-utils';
 export * from './lf-breadcrumbs/lf-breadcrumbs.component';
 export * from './lf-breadcrumbs/lf-breadcrumbs.module';
 export * from './LfSelectable';
+export * from './lf-toolbar/lf-toolbar.module';
+export * from './lf-toolbar/lf-toolbar.component';
+export * from './lf-toolbar/lfToolbarService';
+export * from './lf-new-folder-dialog-modal/lf-new-folder-dialog-modal.module';
+export * from './lf-new-folder-dialog-modal/lf-new-folder-dialog-modal.component';

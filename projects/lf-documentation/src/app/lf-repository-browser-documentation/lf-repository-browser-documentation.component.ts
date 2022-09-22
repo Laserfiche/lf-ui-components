@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { LfToolbarDemoService, LfToolbarService } from 'projects/ui-components/lf-repository-browser/lfToolbarService';
+import { LfToolbarService } from '@laserfiche/lf-ui-components/shared';
+import { LfToolbarDemoService } from 'projects/ui-components/lf-repository-browser/ToolbarDemoService';
 import { LfTreeNode, LfRepositoryBrowserComponent } from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
 import { DemoRepoService } from './demo-repo-service';
 

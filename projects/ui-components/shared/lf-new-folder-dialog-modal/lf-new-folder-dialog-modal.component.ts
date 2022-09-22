@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
-import { LfTreeNode, LfTreeNodeService } from 'projects/ui-components/lf-repository-browser/lf-repository-browser-public-api';
-import { LfTreeService, TreeNode } from '../../utils/lf-tree.service';
+import { AppLocalizationService } from '../app-localization.service';
 
 @Component({
   selector: 'lf-new-folder-dialog-modal-component',
@@ -32,7 +30,6 @@ export class LfNewFolderDialogModalComponent {
   /** @internal */
   readonly CLOSE = this.localizationService.getStringObservable('CLOSE');
 
-  @Input() data?: NewFolderDialogData;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter<string>();
 
   /** @internal */
@@ -44,10 +41,7 @@ export class LfNewFolderDialogModalComponent {
   /** @internal */
   async onOkClickAsync(): Promise<void> {
     try {
-      if (!this.data?.treeService.addNewFolderAsync) {
-        throw new Error();
-      }
-      await this.data.treeService.addNewFolderAsync(this.data.parentNode, this.folderName);
+      // await this.data.treeService.addNewFolderAsync(this.data.parentNode, this.folderName);
       this.errorMessage = undefined;
       this.buttonClick.emit('OK'); // Should not be localized
     }
@@ -66,15 +60,4 @@ export class LfNewFolderDialogModalComponent {
   onClickCancel() {
     this.buttonClick.emit('CANCEL');
   }
-}
-
-export interface NewFolderDialogData {
-  treeService: LfTreeService;
-  parentNode: TreeNode;
-}
-
-
-export interface NewFolderDialogDataTest {
-  treeService: LfTreeNodeService;
-  parentNode: LfTreeNode;
 }

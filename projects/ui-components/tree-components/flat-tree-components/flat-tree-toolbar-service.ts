@@ -1,5 +1,4 @@
-import { LfToolbarService } from "projects/ui-components/lf-repository-browser/lfToolbarService";
-import { ToolbarOption } from "./lf-toolbar/lf-toolbar.component";
+import { ToolbarOption, LfToolbarService } from "@laserfiche/lf-ui-components/shared";
 
 export class FlatTreeToolBarService implements LfToolbarService {
   _toolbarOptions: ToolbarOption[] = [
