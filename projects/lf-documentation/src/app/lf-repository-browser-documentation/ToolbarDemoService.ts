@@ -50,7 +50,7 @@ export class LfToolbarDemoService implements LfToolbarService {
     // TODO how to get parentNode --- do we just need it for the name?
     const currentParentNode = this.repoBrowserRef.nativeElement.currentFolder;
     const dialogRef = this.popupDialog.open(LfRepositoryBrowserNewFolderComponent, {
-      data: { addNewFolder: async (name: string) => { await this.dataService.addNewFolderAsync(name, currentParentNode) } },
+      data: { addNewFolder: async (name: string) => { await this.dataService.addNewFolderAsync(name, currentParentNode); } },
       width: '430px',
     });
     const result = await dialogRef.afterClosed().toPromise();

@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'lf-repository-browser-new-folder-component',
+  selector: 'app-lf-repository-browser-new-folder-component',
   templateUrl: './lf-repository-browser-new-folder.component.html',
   styleUrls: ['./lf-repository-browser-new-folder.component.css']
 })

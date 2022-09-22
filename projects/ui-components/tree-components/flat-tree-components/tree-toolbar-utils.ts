@@ -15,7 +15,7 @@ export async function openNewFolderDialogAsync(
           await treeService.addNewFolderAsync(parentNode, name);
         }
         else {
-          throw new Error('TODO')
+          throw new Error('addNewFolderAsync does not exist on TreeNodeService.');
         }
       }
     }
