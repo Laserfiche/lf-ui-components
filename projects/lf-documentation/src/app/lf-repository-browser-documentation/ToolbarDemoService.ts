@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LfToolbarService, ToolbarOption } from '@laserfiche/lf-ui-components/shared';
-import { LfRepositoryBrowserNewFolderComponent } from '../../../../ui-components/lf-repository-browser/lf-repository-browser-new-folder/lf-repository-browser-new-folder.component';
+import { LfRepositoryBrowserNewFolderComponent } from './lf-repository-browser-new-folder/lf-repository-browser-new-folder.component';
 import { LfRepositoryBrowserComponent } from '../../../../ui-components/lf-repository-browser/lf-repository-browser.component';
 import { DemoRepoService } from './demo-repo-service';
 

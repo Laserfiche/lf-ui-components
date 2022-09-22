@@ -45,6 +45,8 @@ import { TreeComponentsModule } from '../../../ui-components/tree-components/lf-
 
 import { LfRepositoryBrowserModule } from '../../../ui-components/lf-repository-browser/lf-repository-browser.module';
 import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-browser-documentation/lf-repository-browser-documentation.component';
+import { LfRepositoryBrowserNewFolderComponent } from './lf-repository-browser-documentation/lf-repository-browser-new-folder/lf-repository-browser-new-folder.component';
+import { LfNewFolderDialogModalModule } from '../../../ui-components/shared/lf-shared-public-api';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-brows
     LfBreadcrumbsDocumentationComponent,
     LfFolderBrowserDocumentationComponent,
     LfRepositoryBrowserDocumentationComponent,
+    LfRepositoryBrowserNewFolderComponent,
     LfToolbarDocumentationComponent,
     ConvertComponentToElementComponent,
     LfLoginDocumentationComponent,
@@ -95,6 +98,7 @@ import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-brows
     LfMetadataModule,
     LfRepositoryBrowserModule,
     TreeComponentsModule,
+    LfNewFolderDialogModalModule
   ],
   providers: [
     {

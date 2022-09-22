@@ -7,11 +7,9 @@ import { LfRepositoryBrowserComponent } from './lf-repository-browser.component'
 import { LfBreadcrumbsModule, LfLoaderModule } from '@laserfiche/lf-ui-components/shared';
 import { LfSelectionListModule } from '@laserfiche/lf-ui-components/lf-selection-list';
 import { LfToolbarModule } from '@laserfiche/lf-ui-components/shared';
-import { LfRepositoryBrowserNewFolderComponent } from './lf-repository-browser-new-folder/lf-repository-browser-new-folder.component';
-import { LfNewFolderDialogModalModule } from '@laserfiche/lf-ui-components/shared';
 
 @NgModule({
-  declarations: [LfRepositoryBrowserComponent, LfRepositoryBrowserNewFolderComponent],
+  declarations: [LfRepositoryBrowserComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -20,7 +18,6 @@ import { LfNewFolderDialogModalModule } from '@laserfiche/lf-ui-components/share
     LfLoaderModule,
     LfSelectionListModule,
     LfToolbarModule,
-    LfNewFolderDialogModalModule
   ],
   bootstrap: [LfRepositoryBrowserComponent],
   exports: [LfRepositoryBrowserComponent],
