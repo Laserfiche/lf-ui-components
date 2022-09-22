@@ -6,8 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LfFileExplorerComponent } from './lf-file-explorer.component';
-import { LfToolbarComponent } from '../lf-toolbar/lf-toolbar.component';
-import { LfBreadcrumbsModule, LfLoaderComponent } from '@laserfiche/lf-ui-components/shared';
+import { LfBreadcrumbsModule, LfLoaderComponent, LfToolbarModule } from '@laserfiche/lf-ui-components/shared';
 import { LfTreeProviders, TreeNode } from '../../utils/lf-tree.service';
 import { LfTreeDemoFilePickerService } from './../../../../lf-documentation/src/app/lf-tree-documentation/lf-tree-demo-file-picker.service';
 import { IconUtils } from '@laserfiche/lf-js-utils';
@@ -20,11 +19,11 @@ const moduleDef: TestModuleMetadata = {
     MatMenuModule,
     MatButtonToggleModule,
     MatDialogModule,
-    LfBreadcrumbsModule
+    LfBreadcrumbsModule,
+    LfToolbarModule
   ],
   declarations: [
     LfFileExplorerComponent,
-    LfToolbarComponent,
     LfLoaderComponent
   ]
 };
