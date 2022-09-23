@@ -78,7 +78,7 @@
     "@angular/platform-browser-dynamic": "^13.3.11",
     "@angular/router": "^13.3.11",
     "@laserfiche/lf-api-client-core": "^1.0.8",
-    "@laserfiche/lf-js-utils": "^4.0.3",
+    "@laserfiche/lf-js-utils": "^4.0.4--preview-3115563768",
     "ngx-mask": "^12.0.0",
     "rxjs": "^6.6.0",
     "zone.js": "^0.11.4"
