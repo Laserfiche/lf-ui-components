@@ -1,3 +1,12 @@
+## 13.1.3
+
+### Features
+
+### Fixes
+
+### Chore & Maintenance
+- `@laserfiche/lf-js-utils` upgrade to version 4.0.4
+
 ## 13.1.2
 
 ### Features

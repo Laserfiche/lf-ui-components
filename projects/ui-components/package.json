@@ -22,7 +22,7 @@
     "@angular/router": "^13.3.11",
     "@angular-material-components/datetime-picker": "^7.0.1",
     "@laserfiche/lf-api-client-core": "^1.0.6",
-    "@laserfiche/lf-js-utils": "^4.0.4--preview-3115563768",
+    "@laserfiche/lf-js-utils": "^4.0.4",
     "moment": "^2.29.1",
     "ngx-mask": "^12.0.0",
     "rxjs": "^6.6.0",
