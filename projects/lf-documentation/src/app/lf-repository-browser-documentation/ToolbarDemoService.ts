@@ -24,7 +24,7 @@ export class LfToolbarDemoService implements LfToolbarService {
     },
   ];
   // dataService: DemoRepoService;
-  getToolbarOptions() {
+  async getToolbarOptionsAsync() {
     return this._toolbarOptions;
   }
   constructor(private repoBrowserRef: ElementRef<LfRepositoryBrowserComponent>, public popupDialog: MatDialog, public dataService: DemoRepoService) {

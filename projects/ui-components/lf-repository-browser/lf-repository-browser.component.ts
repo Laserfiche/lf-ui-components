@@ -20,7 +20,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
   private selectedItems: LfTreeNode[] | undefined;
-  toolbarService: LfToolbarService | undefined;
+  /** @internal */
+  toolbarOptions: ToolbarOption[] | undefined;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -42,7 +43,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       try {
         this.treeNodeService = treeNodeService;
         if (toolbarService) {
-          this.toolbarService = toolbarService;
+          this.toolbarOptions = await toolbarService.getToolbarOptionsAsync();
         }
       } catch (error) {
         console.error(error);

@@ -1,7 +1,7 @@
 <div class="lf-header">
   <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbClicked)="onBreadcrumbClicked($event)">
   </lf-breadcrumbs-component>
-  <lf-toolbar *ngIf="toolbarService" [dropdown_options]="toolbarService.getToolbarOptions()">
+  <lf-toolbar *ngIf="toolbarOptions" [dropdown_options]="toolbarOptions">
   </lf-toolbar>
 </div>
 <div class="lf-repo-entry-container">
