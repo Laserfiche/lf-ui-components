@@ -29,9 +29,6 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Npm tool install
-        run: npm install -g npm@8
-
       - name: npm ci
         run: npm ci
 
