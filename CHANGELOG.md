@@ -6,6 +6,7 @@
 
 ### Chore & Maintenance
 - `@laserfiche/lf-js-utils` upgrade to version 4.0.4
+- `rxjs` add compatibility with ^6.5
 
 ## 13.1.2
 
