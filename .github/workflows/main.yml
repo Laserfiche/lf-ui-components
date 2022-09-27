@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: '14'
+          node-version: '16'
 
       - name: Npm tool install
         run: npm install -g npm@8
@@ -134,11 +134,8 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: '14'
+          node-version: '16'
           registry-url: 'https://registry.npmjs.org'
-
-      - name: Npm tool install
-        run: npm install -g npm@8
 
       - name: set NpmPackageVersion environment
         run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
@@ -194,11 +191,8 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: '14'
+          node-version: '16'
           registry-url: 'https://registry.npmjs.org'
-
-      - name: Npm tool install
-        run: npm install -g npm@8
 
       - name: 'copy license'
         run: |
@@ -250,7 +244,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.1
         with:
-          node-version: '14'
+          node-version: '16'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Npm install gulp
