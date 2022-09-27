@@ -1,9 +1,17 @@
-## 13.1.3
+## 13.1.4
 
 ### Features
 
 ### Fixes
 - `[lf-login]` emits loginCompleted event if previously logged in
+### Chore & Maintenance
+
+
+## 13.1.3
+
+### Features
+
+### Fixes
 
 ### Chore & Maintenance
 - `@laserfiche/lf-js-utils` upgrade to version 4.0.4
