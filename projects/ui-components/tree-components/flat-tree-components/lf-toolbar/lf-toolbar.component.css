@@ -37,22 +37,13 @@
   width: 18px;
 }
 
-.lf-dropdown-menu {
-  right: 0;
-  left: auto;
-  display: inline;
-  z-index: 2;
-  float: right;
-  position: absolute;
-  min-width: 160px;
-  padding: 5px 0;
-  margin: 33px 0 0;
-  font-size: 14px;
+::ng-deep .mat-menu-panel.lf-dropdown-menu {
   list-style: none;
   background-color: #fff;
   border: 1px solid rgba(0,0,0,0.15);
   border-radius: 4px;
   box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+  min-height: 0px;
 }
 
 .lf-dropdown-menu-option {
