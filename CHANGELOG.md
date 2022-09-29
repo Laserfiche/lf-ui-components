@@ -1,3 +1,12 @@
+## 13.1.4
+
+### Features
+
+### Fixes
+- `[lf-login]` emits loginCompleted event if previously logged in
+### Chore & Maintenance
+
+
 ## 13.1.3
 
 ### Features
