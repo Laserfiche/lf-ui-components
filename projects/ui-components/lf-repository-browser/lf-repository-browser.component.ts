@@ -59,7 +59,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.entryList
       .setSelectedValuesAsync(selectableValues, this.checkForMoreDataCallback.bind(this))
       .then((selected: ILfSelectable[]) => {
-        this.entrySelected.emit(this.convertSelectedItemsToTreeNode(selected));
+        const selectedItems = this.convertSelectedItemsToTreeNode(selected);
+        this.entrySelected.emit(selectedItems);
       });
   };
 
@@ -444,6 +445,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
         this.resetFolderProperties();
 
         await this.makeDataCall(parentEntry);
+        this.selectedItems = [];
         this.entrySelected.emit([]);
       } catch (error) {
         console.error(error);
