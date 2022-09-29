@@ -82,12 +82,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   openSelectedNodesAsync: () => Promise<void> = async () => {
     if (this.selectedItems && this.selectedItems.length > 0) {
       await this.openSelectedItemsAsync();
-    }
-    else if (this.entryList?.currentFocusIndex) {
-      const node = this.entryList.listItems[this.entryList.currentFocusIndex].value as LfTreeNode;
-      await this.openChildFolderAsync(node);
-    }
-    else {
+    } else if (this.entryList?.currentFocusIndex) {
+      const nodeToOpen = this.entryList.listItems[this.entryList.currentFocusIndex].value as LfTreeNode;
+      this.entryDblClicked.emit([nodeToOpen]);
+      await this.openChildFolderAsync(nodeToOpen);
+    } else {
       console.debug('No node to open');
     }
   };
