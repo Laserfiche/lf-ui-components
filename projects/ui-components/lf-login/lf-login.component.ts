@@ -184,6 +184,10 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
         else {
           console.warn('Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false');
           this.loginService._state = LoginState.LoggedOut;
+          this.logoutCompleted.emit({
+            ErrorType: 'Refresh Token Error',
+            ErrorMessage: 'refreshToken is not defined'
+          });
           this.ref.detectChanges();
           this.loginService.removeFromLocalStorage();
         }
