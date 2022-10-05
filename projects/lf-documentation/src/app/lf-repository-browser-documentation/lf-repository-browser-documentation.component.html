@@ -108,12 +108,17 @@
   </tr>
   <tr>
     <td>entrySelected</td>
-    <td>(event: CustomEvent&lt;LfTreeNode[]&gt;) => Promise&lt;void&gt;</td>
+    <td>(event: CustomEvent&lt;LfTreeNode[] | undefined&gt;) => Promise&lt;void&gt;</td>
     <td>event raised when node(s) is selected</td>
   </tr>
   <tr>
+    <td>entryFocused</td>
+    <td>(event: CustomEvent&lt;LfTreeNode | undefined&gt;) => Promise&lt;void&gt;</td>
+    <td>event raised when node(s) is focused (this will display in the UI as a thick blue line surrounding the item)</td>
+  </tr>
+  <tr>
     <td>entryDblClicked</td>
-    <td>(event: CustomEvent&lt;LfTreeNode[]&gt;) => Promise&lt;void&gt;</td>
+    <td>(event: CustomEvent&lt;LfTreeNode[] | undefined&gt;) => Promise&lt;void&gt;</td>
     <td>event raised when node(s) is opened (Ex/ when double clicked)</td>
   </tr>
 </table>

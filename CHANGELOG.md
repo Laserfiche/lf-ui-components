@@ -1,3 +1,12 @@
+## 13.x
+
+### Features
+- `[lf-repository-browser]`: add `entryFocused` event
+
+### Fixes
+
+### Chore & Maintenance
+
 ## 13.1.3
 
 ### Features
