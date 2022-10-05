@@ -18,6 +18,7 @@
                 (scrollChanged)="onScroll()"
                 (itemDoubleClicked)="onDblClickAsync($event)"
                 (itemSelected)="onItemSelected($event)"
+                (itemFocused)="onEntryFocused($event)"
                 >
                 <ng-template #listOption let-item="value">
                     <div *ngIf="getIcons(item).length > 0" class="fixed-size-icon-container">

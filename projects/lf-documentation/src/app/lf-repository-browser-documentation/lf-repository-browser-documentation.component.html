@@ -31,6 +31,7 @@
       multiple="false"
       (entrySelected)="onEntrySelected($event)"
       (entryDblClicked)="onEntryOpened($event)"
+      (entryFocused)="onEntryFocused($event)"
       style="height: 500px"
     &gt;&lt;/lf-repository-browser&gt;
   </pre>
@@ -40,6 +41,7 @@
     multiple="false"
     (entrySelected)="onEntrySelected($event)"
     (entryDblClicked)="onEntryOpened($event)"
+    (entryFocused)="onEntryFocused($event)"
     style="height: 500px"
     #singleSelectRepoBrowser
   ></lf-repository-browser>
@@ -51,6 +53,7 @@
       multiple="true"
       (entrySelected)="onEntrySelected($event)"
       (entryDblClicked)="onEntryOpened($event)"
+      (entryFocused)="onEntryFocused($event)"
       style="height: 500px"
     &gt;&lt;/lf-repository-browser&gt;
   </pre>
@@ -63,6 +66,7 @@
     [isSelectable]="selectable"
     (entrySelected)="onEntrySelected($event)"
     (entryDblClicked)="onEntryOpened($event)"
+    (entryFocused)="onEntryFocused($event)"
     style="height: 500px"
     #repoBrowser
   ></lf-repository-browser>

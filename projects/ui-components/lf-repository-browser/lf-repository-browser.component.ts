@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
 import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -102,6 +102,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Output() entryDblClicked = new EventEmitter<LfTreeNode[]>();
   @Output() entrySelected = new EventEmitter<LfTreeNode[] | undefined>();
+  @Output() entryFocused = new EventEmitter<LfTreeNode | undefined>();
 
   /** @internal */
   currentFolderChildren: ILfSelectable[] = [];
@@ -244,6 +245,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
     this.selectedItems = event.selectedItems?.map((item: ILfSelectable) => item.value as LfTreeNode);
     this.entrySelected.emit(this.selectedItems);
+  }
+
+  /** @internal */
+  onEntryFocused(item: ItemWithId | undefined) {
+    this.entryFocused.emit(item ? item as LfTreeNode : undefined);
   }
 
   /**

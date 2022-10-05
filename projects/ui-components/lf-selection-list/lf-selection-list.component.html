@@ -14,6 +14,7 @@
             }"
             class="lf-entry-option"
             [focused]="_checkFocused(this.currentFocusIndex, index)"
+            (focusin)="onFocused(index)"
             [selected]="item.isSelected"
             [listItemRef]="listItemRef"
             [multipleSelection]="multiple"
