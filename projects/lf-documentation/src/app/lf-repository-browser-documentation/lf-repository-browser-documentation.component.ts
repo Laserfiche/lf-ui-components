@@ -42,7 +42,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   }
 
   onEntryFocused(event: CustomEvent<LfTreeNode | undefined>) {
-    console.log('entry focused', event.detail);
+    console.debug('entry focused', event.detail);
   }
 
   onFilterChange(event: any) {
