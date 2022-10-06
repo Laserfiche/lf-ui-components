@@ -37,9 +37,14 @@ describe('LfLoginComponent', () => {
     expect(uriParams).toBeUndefined();
   });
 
-  it('parseCallbackURI with code', () => {
-    const uriParams = component.parseCallbackURI('https://testurl.com/hi?code=auth-code&state=lf-login-redirect');
-    expect(uriParams).toEqual({ authorizationCode: 'auth-code' });
+  it('parseCallbackURI with code, domain, and customerId', () => {
+    const uriParams = component.parseCallbackURI('https://testurl.com/hi?code=auth-code&state=lf-login-redirect&domain=laserfiche.com&customerId=123456789');
+    expect(uriParams).toEqual(
+      {
+        authorizationCode: 'auth-code',
+        cloudSubDomain: 'laserfiche.com',
+        customerId: '123456789'
+      });
   });
 
   it('parseCallbackURI with error', () => {
@@ -73,7 +78,16 @@ describe('LfLoginComponent', () => {
     const testHeader = btoa('{"test": "test"}');
     const encodedJWT = btoa('{"csid": "123456789", "trid": "1"}');
     // @ts-ignore
-    component.loginService.storeInLocalStorage({ accessToken: `${testHeader}.${encodedJWT}.test`, refreshToken: 'test-refresh', expiresIn: '100', tokenType: 'bearer' });
+    component.loginService.storeInLocalStorage(
+      {
+        accessToken: `${testHeader}.${encodedJWT}.test`,
+        refreshToken: 'test-refresh',
+        expiresIn: '100',
+        tokenType: 'bearer'
+      },
+      '123456789',
+      'laserfiche.com'
+      );
 
     const currentState = component.determineCurrentState(undefined);
     expect(currentState).toEqual(LoginState.LoggedIn);
@@ -123,7 +137,15 @@ describe('LfLoginComponent', () => {
     const testHeader = btoa('{"test": "test"}');
     const encodedJWT = btoa('{"csid": "123456789", "trid": "1"}');
     // @ts-ignore
-    component.loginService.storeInLocalStorage({ accessToken: `${testHeader}.${encodedJWT}.test`, refreshToken: 'test-refresh', expiresIn: '100', tokenType: 'bearer' });
+    component.loginService.storeInLocalStorage(
+      {
+        accessToken: `${testHeader}.${encodedJWT}.test`,
+        refreshToken: 'test-refresh',
+        expiresIn: '100',
+        tokenType: 'bearer'
+      },
+      '123456789',
+      'laserfiche.com');
     component.redirect_uri = 'test-url';
     const logoutUrl = component.getFullLogoutUrl();
 

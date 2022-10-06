@@ -188,7 +188,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       }
       else {
         try {
-          const oauthRegion = this.getAccountEndpointsFromLocalStorage()?.regionalDomain;
+          const oauthRegion = this.account_endpoints?.regionalDomain;
           if (!oauthRegion) {
             throw new Error('Unable to refresh. Cannot construct tokenClient.');
           }
@@ -311,7 +311,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.loginService._state = LoginState.LoggingIn;
       this.ref.detectChanges();
 
-      this.loginService.storeAccessToken(JSON.parse(newValue));
+      this.loginService.storeAccessToken(JSON.parse(newValue)); // TODO delete?: we should not need to store access token since it is already in localstorage
       this.loginService.refreshServiceAccountProperties();
       this.loginService._state = LoginState.LoggedIn;
       this.ref.detectChanges();
@@ -320,8 +320,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     else if (newValue && oldValue && oldValue !== newValue) {
       // refreshed
       const newAccessToken: AuthorizationCredentials = JSON.parse(newValue);
-      this.loginService.storeAccessToken(newAccessToken);
-      this.loginService.refreshServiceAccountProperties();
+      this.loginService.storeAccessToken(newAccessToken); // TODO: delete?
+      this.loginService.refreshServiceAccountProperties(); // TODO: we should not need to refresh service account properties, because refresh doesn't change endpoints/accountInfo
       this.loginService._state = LoginState.LoggedIn;
       this.ref.detectChanges();
       this.loginCompleted.emit();
@@ -394,18 +394,14 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     if (state === LOGIN_REDIRECT_STATE) {
       const authorizationCode = this.extractCodeFromUrl(url);
       const domain = this.extractDomainFromUrl(url);
-      const accountId = this.extractCustomerIdFromUrl(url);
-      // if (!domain) {
-      //   throw new Error('cannot determine regional domain');
-      // }
-        // this.loginService.authorize_url_host_name = domain;
-        // this.loginService.tokenClient = new TokenClient(this.loginService.authorize_url_host_name);
+      const customerId = this.extractCustomerIdFromUrl(url);
       const error = this.extractErrorFromUrl(url);
-      if (authorizationCode && domain && accountId) {
+      if (authorizationCode && domain && customerId) {
         return {
           authorizationCode,
           cloudSubDomain: domain,
-          customerId: accountId };
+          customerId
+        };
       }
       else if (error) {
         return { error };
@@ -432,7 +428,22 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   }
 
   /** @internal */
-  determineCurrentState(callBackURIParams: { error?: { name: string; description: string } | undefined; authorizationCode?: string | undefined } | undefined): LoginState {
+  extractCodeFromUrl(url: URL): string | undefined {
+    return url.searchParams.get('code') ?? undefined;
+  }
+
+  /** @internal */
+  extractDomainFromUrl(url: URL): string | undefined {
+    return url.searchParams.get('domain') ?? undefined;
+  }
+
+  /** @internal */
+  extractCustomerIdFromUrl(url: URL): string | undefined {
+    return url.searchParams.get('customerId') ?? undefined;
+  }
+
+  /** @internal */
+  determineCurrentState(callBackURIParams: RedirectUriQueryParams | undefined): LoginState {
     const storedAccessToken = localStorage.getItem(this.loginService.accessTokenStorageKey!);
     const storedAccountEndpoints = localStorage.getItem(this.loginService.accountEndpointsStorageKey);
     const storedAccountId = localStorage.getItem(this.loginService.accountIdStorageKey);
@@ -471,21 +482,6 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     else {
       throw new Error('RefreshToken is not defined');
     }
-  }
-
-  /** @internal */
-  extractCodeFromUrl(url: URL): string | undefined {
-    return url.searchParams.get('code') ?? undefined;
-  }
-
-  /** @internal */
-  extractDomainFromUrl(url: URL): string | undefined {
-    return url.searchParams.get('domain') ?? undefined;
-  }
-
-  /** @internal */
-  extractCustomerIdFromUrl(url: URL): string | undefined {
-    return url.searchParams.get('customerId') ?? undefined;
   }
 
   /** @internal */
@@ -556,10 +552,10 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
   /** @internal */
   getAuthorizeUrl(): string {
-    const lastOAuthRegionUrl = this.getAccountEndpointsFromLocalStorage()?.oauthAuthorizeUrl;
+    const lastOAuthAuthorizeUrl = this.account_endpoints?.oauthAuthorizeUrl;
     let baseUrl: URL;
-    if (lastOAuthRegionUrl) {
-      baseUrl = new URL(lastOAuthRegionUrl);
+    if (lastOAuthAuthorizeUrl) {
+      baseUrl = new URL(lastOAuthAuthorizeUrl);
     }
     else {
       baseUrl = new URL(`https://signin.${this.loginService.authorize_url_host_name}/oauth/Authorize`);
@@ -573,17 +569,6 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     baseUrl.searchParams.set('code_challenge', this.code_challenge!);
     baseUrl.searchParams.set('code_challenge_method', CODE_CHALLENGE_METHOD);
     return baseUrl.toString();
-  }
-
-  /** @internal */
-  getAccountEndpointsFromLocalStorage(): AccountEndpoints | undefined {
-    const lastAccountEndpoints = localStorage.getItem(this.loginService.accountEndpointsStorageKey);
-    if (lastAccountEndpoints) {
-      return JSON.parse(lastAccountEndpoints);
-    }
-    else {
-      return undefined;
-    }
   }
 
   /** @internal */

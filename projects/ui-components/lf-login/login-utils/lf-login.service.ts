@@ -1,8 +1,8 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { AccountInfo, OAuthAccessTokenData, RedirectUriQueryParams } from './lf-login-internal-types';
+import { AccountInfo, RedirectUriQueryParams } from './lf-login-internal-types';
 import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';
 import { LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
-import { GetAccessTokenResponse, HTTPError, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
+import { DomainUtils, GetAccessTokenResponse, HTTPError, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
 @Injectable({
@@ -30,8 +30,6 @@ export class LfLoginService {
   authorize_url_host_name: string = 'a.clouddev.laserfiche.com';
   /** @internal */
   code_verifier?: string;
-  /** @internal */
-  tokenClient: TokenClient = new TokenClient(this.authorize_url_host_name);
 
   /** @internal */
   @Output() logoutCompletedInService: EventEmitter<AbortedLoginError | undefined> = new EventEmitter<AbortedLoginError | undefined>();
@@ -198,6 +196,7 @@ export class LfLoginService {
 
   /** @internal */
   storeAccessToken(responseBody: AuthorizationCredentials) {
+    console.log('store access token', localStorage.getItem(this.accessTokenStorageKey) === JSON.stringify(responseBody))
     localStorage.setItem(this.accessTokenStorageKey!, JSON.stringify(responseBody));
     this._accessToken = responseBody;
   }
@@ -210,7 +209,7 @@ export class LfLoginService {
   /** @internal */
   storeInLocalStorage(accessTokenCredentials: AuthorizationCredentials, accountId: string, regionalDomain: string) {
     const trusteeId: string = this.parseAccessToken(accessTokenCredentials.accessToken);
-    const endpoints = JwtUtils.getLfEndpoints(regionalDomain);
+    const endpoints = DomainUtils.getLfEndpoints(regionalDomain);
     this.storeAccountInfo(accountId, trusteeId);
     this.storeAccountEndpoints(endpoints);
     this.storeAccessToken(accessTokenCredentials);

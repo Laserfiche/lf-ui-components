@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { LoginState } from '@laserfiche/lf-ui-components/shared';
 import { LfLoginService } from './lf-login.service';
 
-fdescribe('LfLoginService', () => {
+describe('LfLoginService', () => {
   let service: LfLoginService;
 
   beforeEach(() => {
