@@ -65,7 +65,7 @@ export class LfListTestComponent {
 }
 
 
-fdescribe('LfListComponent single select', () => {
+describe('LfListComponent single select', () => {
   let component: LfListTestComponent;
   let fixture: ComponentFixture<LfListTestComponent>;
 
