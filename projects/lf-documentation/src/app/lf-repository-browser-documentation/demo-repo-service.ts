@@ -327,7 +327,6 @@ export class DemoRepoService implements LfTreeNodeService {
         id: i.toString(),
         isContainer: false,
         isLeaf: true,
-        isSelectable: true,
         name: `dynamic entry ${i.toString()}`,
         path: `/18/${i}`,
         isSelected: false,

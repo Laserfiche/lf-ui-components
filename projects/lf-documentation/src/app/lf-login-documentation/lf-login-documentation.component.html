@@ -87,7 +87,7 @@ sign_in_text and sign_out_text.
 <app-card>
 
       <lf-login *ngIf="client_id" [client_id]="client_id" [redirect_uri]="redirect_uri" [scope]="scope"
-            [redirect_behavior]="redirect_behavior" [authorize_url_host_name]="authorizeUrlHostName"
+            [redirect_behavior]="redirect_behavior"
             (loginInitiated)="loginInitHandler($event)" (logoutInitiated)="logoutInitHandler($event)"
             (loginCompleted)="loginCompleteHandler($event)" (logoutCompleted)="logoutCompleteHandler($event)">
       </lf-login>
@@ -130,7 +130,7 @@ sign_in_text and sign_out_text.
 </p>
 <app-card>
       <lf-login [mode]="menuMode" #loginMenu *ngIf="client_id" [client_id]="client_id" [redirect_uri]="redirect_uri"
-            [scope]="scope" [redirect_behavior]="redirect_behavior" [authorize_url_host_name]="authorizeUrlHostName"
+            [scope]="scope" [redirect_behavior]="redirect_behavior"
             (loginInitiated)="loginInitHandler($event)" (logoutInitiated)="logoutInitHandler($event)"
             (loginCompleted)="loginCompleteHandler($event)" (logoutCompleted)="logoutCompleteHandler($event)">
       </lf-login>

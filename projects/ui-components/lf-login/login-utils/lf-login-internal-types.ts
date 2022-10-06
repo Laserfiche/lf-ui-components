@@ -22,3 +22,11 @@ export interface AccountInfo {
     accountId: string;
     trusteeId: string;
 }
+
+/** @internal */
+export interface RedirectUriQueryParams {
+  error?: { name: string; description: string };
+  authorizationCode?: string;
+  cloudSubDomain?: string;
+  customerId?: string;
+}
