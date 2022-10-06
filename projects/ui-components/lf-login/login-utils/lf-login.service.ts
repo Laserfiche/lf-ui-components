@@ -27,7 +27,7 @@ export class LfLoginService {
   /** @internal */
   redirect_behavior: RedirectBehavior = RedirectBehavior.Replace;
   /** @internal */
-  authorize_url_host_name: string = 'a.clouddev.laserfiche.com';
+  authorize_url_host_name: string = 'laserfiche.com';
   /** @internal */
   code_verifier?: string;
 

@@ -55,6 +55,10 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     return this.loginService.redirect_behavior;
   }
 
+  @Input() set authorize_url_host_name(val: string) {
+    this.loginService.authorize_url_host_name = val;
+  };
+
   get authorize_url_host_name(): string {
     return this.loginService.authorize_url_host_name;
   }

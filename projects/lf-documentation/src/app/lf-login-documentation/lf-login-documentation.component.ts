@@ -18,6 +18,7 @@ export class LfLoginDocumentationComponent {
   scope = "All";
   redirect_behavior = RedirectBehavior.Replace;
   menuMode = LoginMode.Menu;
+  authorizeUrlHostName = 'a.clouddev.laserfiche.com'; // TODO this is hardcoded to clouddev for now
 
   @ViewChild('loginMenu') loginElem?: ElementRef<LfLoginComponent>;
 
