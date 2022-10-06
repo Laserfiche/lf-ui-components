@@ -196,7 +196,6 @@ export class LfLoginService {
 
   /** @internal */
   storeAccessToken(responseBody: AuthorizationCredentials) {
-    console.log('store access token', localStorage.getItem(this.accessTokenStorageKey) === JSON.stringify(responseBody))
     localStorage.setItem(this.accessTokenStorageKey!, JSON.stringify(responseBody));
     this._accessToken = responseBody;
   }
