@@ -83,14 +83,21 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   openSelectedNodesAsync: () => Promise<void> = async () => {
     if (this.selectedItems && this.selectedItems.length > 0) {
       await this.openSelectedItemsAsync();
-    } else if (this.entryList?.currentFocusIndex) {
+    } else {
+      console.debug('No selected nodes to open');
+    }
+  };
+
+  @Input()
+  openFocusedNodeAsync: () => Promise<void> = async () => {
+    if (this.entryList?.currentFocusIndex) {
       const nodeToOpen = this.entryList.listItems[this.entryList.currentFocusIndex].value as LfTreeNode;
       this.entryDblClicked.emit([nodeToOpen]);
       await this.openChildFolderAsync(nodeToOpen);
     } else {
-      console.debug('No node to open');
+      console.debug('No focused node to open');
     }
-  };
+  }
 
   /**
    * Focuses the first item in the repository browser list

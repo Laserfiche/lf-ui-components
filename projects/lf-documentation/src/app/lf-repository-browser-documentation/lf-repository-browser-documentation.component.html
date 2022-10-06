@@ -160,6 +160,14 @@
     </td>
   </tr>
   <tr>
+    <td>openFocusedNodeAsync</td>
+    <td>() => Promise&lt;void&gt;</td>
+    <td>
+      Opens the focused node (the one with a thick blue line around it in the UI). If a container is focused it will open that folder in the UI, if an item that is not a container
+      is selected, then this function will just emit the entryOpened event with the focused node.
+    </td>
+  </tr>
+  <tr>
     <td>focus</td>
     <td>() => void</td>
     <td>

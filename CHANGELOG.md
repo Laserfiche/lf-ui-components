@@ -1,7 +1,7 @@
 ## 13.x
 
 ### Features
-- `[lf-repository-browser]`: add `entryFocused` event
+- `[lf-repository-browser]`: add `entryFocused` event, add `openFocusedNodeAsync` function to open currently focused node
 
 ### Fixes
 
