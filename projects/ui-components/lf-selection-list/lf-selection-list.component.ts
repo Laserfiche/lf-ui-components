@@ -68,7 +68,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         if (!origin) {
           this.itemFocused.emit(undefined);
         }
-      })
+      });
     }
   }
 

@@ -97,7 +97,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     } else {
       console.debug('No focused node to open');
     }
-  }
+  };
 
   /**
    * Focuses the first item in the repository browser list
