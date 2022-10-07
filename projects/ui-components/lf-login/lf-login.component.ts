@@ -200,6 +200,9 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
           const response = await tokenClient.refreshAccessToken(refreshToken, this.client_id);
           const newAccessToken = await this.loginService.parseTokenResponseAsync(response);
           this.loginService.storeAccessToken(newAccessToken!);
+          this.loginService._state = LoginState.LoggedIn;
+          console.info('state changed to LoggedIn');
+          this.loginCompleted.emit();
           return newAccessToken?.accessToken;
         }
         catch (e) {
@@ -315,7 +318,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.loginService._state = LoginState.LoggingIn;
       this.ref.detectChanges();
 
-      this.loginService.storeAccessToken(JSON.parse(newValue)); // TODO delete?: we should not need to store access token since it is already in localstorage
+      this.loginService.storeAccessToken(JSON.parse(newValue));
       this.loginService.refreshServiceAccountProperties();
       this.loginService._state = LoginState.LoggedIn;
       this.ref.detectChanges();
@@ -324,8 +327,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     else if (newValue && oldValue && oldValue !== newValue) {
       // refreshed
       const newAccessToken: AuthorizationCredentials = JSON.parse(newValue);
-      this.loginService.storeAccessToken(newAccessToken); // TODO: delete?
-      this.loginService.refreshServiceAccountProperties(); // TODO: we should not need to refresh service account properties, because refresh doesn't change endpoints/accountInfo
+      this.loginService.storeAccessToken(newAccessToken);
+      this.loginService.refreshServiceAccountProperties();
       this.loginService._state = LoginState.LoggedIn;
       this.ref.detectChanges();
       this.loginCompleted.emit();

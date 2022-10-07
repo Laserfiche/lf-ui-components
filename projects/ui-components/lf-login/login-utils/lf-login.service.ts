@@ -81,6 +81,9 @@ export class LfLoginService {
           const response = await tokenClient.getAccessTokenFromCode(callBackURIParams.authorizationCode, this.redirect_uri, this.client_id, undefined, this.code_verifier);
           const accessToken = await this.parseTokenResponseAsync(response);
           this.storeInLocalStorage(accessToken!, callBackURIParams.customerId!, callBackURIParams.cloudSubDomain!);
+          this._state = LoginState.LoggedIn;
+          console.info('state changed to LoggedIn');
+          this.loginCompletedInService.emit();
         }
         catch (e) {
           const status = (<HTTPError>e).status ?? 0;
@@ -128,9 +131,6 @@ export class LfLoginService {
   async parseTokenResponseAsync(response: GetAccessTokenResponse): Promise<AuthorizationCredentials | undefined> {
     try {
       const authorizationCredentials: AuthorizationCredentials = this.getExchangeCodeSuccessResponse(response);
-      this._state = LoginState.LoggedIn;
-      console.info('state changed to LoggedIn');
-      this.loginCompletedInService.emit();
       return authorizationCredentials;
     }
     catch {
@@ -247,7 +247,7 @@ export class LfLoginService {
 
   /** @internal */
   private storeAccountInfo(accountId: string, trusteeId: string) {
-    const accountInfo = {
+    const accountInfo: AccountInfo = {
       accountId,
       trusteeId
     };
