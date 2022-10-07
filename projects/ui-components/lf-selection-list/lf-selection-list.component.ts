@@ -65,7 +65,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     // this is to keep track of when the viewport is unfocused
     if(this.viewport?.elementRef.nativeElement) {
       this.focusMonitor.monitor(this.viewport?.elementRef.nativeElement, true).subscribe((origin: FocusOrigin) => {
-        if (!origin) {
+        // this doesn't trigger if you click on blank space... 
+        // check if !origin of if currentActive element is the viewport?
+        if (!origin || document.activeElement?.nodeName.toLowerCase() === 'cdk-virtual-scroll-viewport') {
           this.itemFocused.emit(undefined);
         }
       });
