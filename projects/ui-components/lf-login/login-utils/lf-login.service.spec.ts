@@ -98,7 +98,7 @@ describe('LfLoginService', () => {
     };
     service.storeInLocalStorage(credentials, '123456789', 'laserfiche.com');
     expect(localStorage.getItem(service.accessTokenStorageKey)).toEqual(JSON.stringify(credentials));
-    expect(localStorage.getItem(service.accountEndpointsStorageKey)).toEqual('{"webClientUrl":"https://app.laserfiche.com/laserfiche","repositoryApiBaseUrl":"https://api.laserfiche.com/repository/","wsignoutUrl":"https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0","regionalDomain":"laserfiche.com","oauthAuthorizeUrl":"https://signin.laserfiche.com/oauth/Authorize","oauthTokenUrl":"https://signin.laserfiche.com/oauth/Token"}');
+    expect(localStorage.getItem(service.accountEndpointsStorageKey)).toEqual('{"webClientUrl":"https://app.laserfiche.com/laserfiche","wsignoutUrl":"https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0","regionalDomain":"laserfiche.com","oauthAuthorizeUrl":"https://signin.laserfiche.com/oauth/Authorize"}');
     expect(localStorage.getItem(service.accountIdStorageKey)).toEqual('{"accountId":"123456789","trusteeId":"1"}');
   });
 
