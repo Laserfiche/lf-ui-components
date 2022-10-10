@@ -219,12 +219,14 @@ describe('LfListComponent single select', () => {
       listElement.dispatchEvent(downEvent);
       flush();
       expect(document.activeElement).toEqual(firstFocusItem);
+      // @ts-ignore
       expect(component.list?.currentFocusIndex).toBe(1);
 
       // Act again
       listElement.dispatchEvent(upEvent);
       flush();
       expect(document.activeElement).toEqual(secondFocusItem);
+      // @ts-ignore
       expect(component.list?.currentFocusIndex).toBe(0);
     }));
   });
