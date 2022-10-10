@@ -2,6 +2,7 @@
 
 ### Features
 - `[lf-repository-browser]`: add `entryFocused` event, add `openFocusedNodeAsync` function to open currently focused node
+- `[lf-login]` emits loginCompleted event if previously logged in
 
 ### Fixes
 
