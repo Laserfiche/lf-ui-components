@@ -14,7 +14,10 @@ import { LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-c
 export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
+  /** @internal */
   private selectedItems: LfTreeNode[] | undefined;
+  /** @internal */
+  private focusedEntry: ItemWithId | undefined;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -90,8 +93,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Input()
   openFocusedNodeAsync: () => Promise<void> = async () => {
-    if (this.entryList?.currentFocusIndex !== undefined) {
-      const nodeToOpen = this.entryList.listItems[this.entryList.currentFocusIndex].value as LfTreeNode;
+    if (this.focusedEntry) {
+      const nodeToOpen = this.focusedEntry as LfTreeNode;
       this.entryDblClicked.emit([nodeToOpen]);
       await this.openChildFolderAsync(nodeToOpen);
     } else {
@@ -256,6 +259,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   /** @internal */
   onEntryFocused(item: ItemWithId | undefined) {
+    this.focusedEntry = item;
     this.entryFocused.emit(item ? item as LfTreeNode : undefined);
   }
 
