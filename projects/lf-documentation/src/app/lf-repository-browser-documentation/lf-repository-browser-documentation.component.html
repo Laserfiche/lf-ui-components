@@ -31,6 +31,7 @@
       multiple="false"
       (entrySelected)="onEntrySelected($event)"
       (entryDblClicked)="onEntryOpened($event)"
+      (entryFocused)="onEntryFocused($event)"
       style="height: 500px"
     &gt;&lt;/lf-repository-browser&gt;
   </pre>
@@ -40,6 +41,7 @@
     multiple="false"
     (entrySelected)="onEntrySelected($event)"
     (entryDblClicked)="onEntryOpened($event)"
+    (entryFocused)="onEntryFocused($event)"
     style="height: 500px"
     #singleSelectRepoBrowser
   ></lf-repository-browser>
@@ -51,6 +53,7 @@
       multiple="true"
       (entrySelected)="onEntrySelected($event)"
       (entryDblClicked)="onEntryOpened($event)"
+      (entryFocused)="onEntryFocused($event)"
       style="height: 500px"
     &gt;&lt;/lf-repository-browser&gt;
   </pre>
@@ -63,6 +66,7 @@
     [isSelectable]="selectable"
     (entrySelected)="onEntrySelected($event)"
     (entryDblClicked)="onEntryOpened($event)"
+    (entryFocused)="onEntryFocused($event)"
     style="height: 500px"
     #repoBrowser
   ></lf-repository-browser>
@@ -104,12 +108,17 @@
   </tr>
   <tr>
     <td>entrySelected</td>
-    <td>(event: CustomEvent&lt;LfTreeNode[]&gt;) => Promise&lt;void&gt;</td>
+    <td>(event: CustomEvent&lt;LfTreeNode[] | undefined&gt;) => Promise&lt;void&gt;</td>
     <td>event raised when node(s) is selected</td>
   </tr>
   <tr>
+    <td>entryFocused</td>
+    <td>(event: CustomEvent&lt;LfTreeNode | undefined&gt;) => Promise&lt;void&gt;</td>
+    <td>event raised when node(s) is focused (this will display in the UI as a thick blue line surrounding the item)</td>
+  </tr>
+  <tr>
     <td>entryDblClicked</td>
-    <td>(event: CustomEvent&lt;LfTreeNode[]&gt;) => Promise&lt;void&gt;</td>
+    <td>(event: CustomEvent&lt;LfTreeNode[] | undefined&gt;) => Promise&lt;void&gt;</td>
     <td>event raised when node(s) is opened (Ex/ when double clicked)</td>
   </tr>
 </table>
@@ -148,6 +157,14 @@
     <td>
       Opens the selected nodes. If one container is selected it will open that folder in the UI, if multiple items or an item that is not a container
       is selected, then this function will just emit the entryOpened event with the selected nodes.
+    </td>
+  </tr>
+  <tr>
+    <td>openFocusedNodeAsync</td>
+    <td>() => Promise&lt;void&gt;</td>
+    <td>
+      Opens the focused node (the one with a thick blue line around it in the UI). If a container is focused it will open that folder in the UI, if an item that is not a container
+      is selected, then this function will just emit the entryOpened event with the focused node.
     </td>
   </tr>
   <tr>
