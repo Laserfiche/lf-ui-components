@@ -1,7 +1,7 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ILfSelectable, ItemWithId } from '../shared/LfSelectable';
 import { LfListOptionComponent } from './lf-list-option.component';
 
@@ -85,7 +85,7 @@ describe('LfListComponent single select', () => {
     component = fixture.componentInstance;
     component.items = itemList;
     fixture.autoDetectChanges();
-    tick(500); // Need to add this so we can allow the list to render
+    flush(); // Need to add this so we can allow the list to render
   }));
 
   it('should create', () => {
@@ -95,7 +95,7 @@ describe('LfListComponent single select', () => {
   it('should emit the itemSelected event when a selectable list item is clicked', fakeAsync(() => {
     const element = fixture.nativeElement;
     element.querySelector('#lf-row-0').click();
-    tick();
+    flush();
     expect(component.selectedEvent?.selected).toEqual(itemList[0]);
     expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
   }));
@@ -108,7 +108,7 @@ describe('LfListComponent single select', () => {
       'cancelable': true
     });
     element.querySelector('#lf-row-0').dispatchEvent(clickEvent);
-    tick();
+    flush();
     expect(component.doubleClickedItem).toEqual(itemList[0].value);
   }));
 
@@ -122,7 +122,7 @@ describe('LfListComponent single select', () => {
         'cancelable': true
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
-      tick();
+      flush();
       expect(component.selectedEvent?.selected).toEqual(itemList[0]);
       expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
     }));
@@ -136,7 +136,7 @@ describe('LfListComponent single select', () => {
         'cancelable': true
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
-      tick();
+      flush();
       expect(component.doubleClickedItem).toEqual(itemList[0].value);
       expect(component.selectedEvent?.selected).toEqual(itemList[0]);
       expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
@@ -152,7 +152,7 @@ describe('LfListComponent single select', () => {
         'cancelable': true
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
-      tick();
+      flush();
       expect(component.selectedEvent?.selected).toEqual(itemList[0]);
       expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
     }));
@@ -167,7 +167,7 @@ describe('LfListComponent single select', () => {
         'cancelable': true
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
-      tick();
+      flush();
       expect(component.selectedEvent?.selected).toEqual(itemList[0]);
       expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
     }));
@@ -187,7 +187,7 @@ describe('LfListComponent single select', () => {
       
       // Act
       component.list?.focus();
-      tick();
+      flush();
 
       // Assert
       expect(document.activeElement).toEqual(focusItem);
@@ -213,18 +213,20 @@ describe('LfListComponent single select', () => {
         'cancelable': true
       });
       component.list?.focus();
-      tick();
+      flush();
 
       // Act
       listElement.dispatchEvent(downEvent);
-      tick();
+      flush();
       expect(document.activeElement).toEqual(firstFocusItem);
+      // @ts-ignore
       expect(component.list?.currentFocusIndex).toBe(1);
 
       // Act again
       listElement.dispatchEvent(upEvent);
-      tick();
+      flush();
       expect(document.activeElement).toEqual(secondFocusItem);
+      // @ts-ignore
       expect(component.list?.currentFocusIndex).toBe(0);
     }));
   });
@@ -250,6 +252,6 @@ describe('LfListComponent multi select', () => {
     component = fixture.componentInstance;
     component.items = itemList;
     fixture.autoDetectChanges();
-    tick(500); // Need to add this so we can allow the list to render
+    flush(); // Need to add this so we can allow the list to render
   }));
 });

@@ -1,5 +1,17 @@
+import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { Component, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  QueryList,
+  TemplateRef,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
@@ -16,7 +28,7 @@ export interface SelectedItemEvent {
   templateUrl: './lf-selection-list.component.html',
   styleUrls: ['./lf-selection-list.component.css'],
 })
-export class LfSelectionListComponent {
+export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
   /** @internal */
@@ -43,9 +55,10 @@ export class LfSelectionListComponent {
   @Output() scrollChanged = new EventEmitter<undefined>();
   @Output() itemDoubleClicked = new EventEmitter<ItemWithId>();
   @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
+  @Output() itemFocused = new EventEmitter<ItemWithId>();
 
   /** @internal */
-  currentFocusIndex: number = 0;
+  private currentFocusIndex: number = 0;
 
   /** @internal */
   protected selectable: Selectable = new Selectable();
@@ -53,7 +66,26 @@ export class LfSelectionListComponent {
   private _multipleSelectEnabled: boolean = false;
 
   /** @internal */
-  constructor() {}
+  constructor(
+    /** @internal */
+    private focusMonitor: FocusMonitor
+  ) {}
+
+  /** @internal */
+  ngAfterViewInit(): void {
+    // this is to keep track of when the viewport is unfocused
+    if (this.viewport?.elementRef.nativeElement) {
+      this.focusMonitor.monitor(this.viewport?.elementRef.nativeElement, true).subscribe((origin: FocusOrigin) => {
+        if (!origin || document.activeElement?.nodeName.toLowerCase() === 'cdk-virtual-scroll-viewport') {
+          this.itemFocused.emit(undefined);
+        }
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
+  }
 
   clearSelectedValues() {
     this.selectable.clearSelectedValues(this.listItems);
@@ -154,6 +186,11 @@ export class LfSelectionListComponent {
   }
 
   /** @internal */
+  onFocused(index: number) {
+    this.itemFocused.emit(this.listItems[index].value);
+  }
+
+  /** @internal */
   onViewportKeyDown(event: KeyboardEvent) {
     if (event.key === ' ' || event.key === 'ArrowUp' || event.key === 'ArrowDown') {
       event.preventDefault();
@@ -175,12 +212,13 @@ export class LfSelectionListComponent {
         this.focusCurrentIndex();
         const ele = document.querySelector('#lf-row-' + this.currentFocusIndex) as HTMLElement;
         (ele?.childNodes[0] as HTMLElement).focus();
-      }
-      const moveDirection = event.key === 'ArrowUp' ? -1 : 1;
-      this.currentFocusIndex = this.currentFocusIndex + moveDirection;
-      // Check if currentFocusIndex is out of bounds
-      if (this.currentFocusIndex < 0 || this.currentFocusIndex >= this.listItems.length) {
-        this.currentFocusIndex = this.currentFocusIndex - moveDirection;
+      } else {
+        const moveDirection = event.key === 'ArrowUp' ? -1 : 1;
+        this.currentFocusIndex = this.currentFocusIndex + moveDirection;
+        // Check if currentFocusIndex is out of bounds
+        if (this.currentFocusIndex < 0 || this.currentFocusIndex >= this.listItems.length) {
+          this.currentFocusIndex = this.currentFocusIndex - moveDirection;
+        }
       }
       if (!this._checkRowInView(this.currentFocusIndex)) {
         // this way even if we scroll down we go back to the section we were
@@ -205,8 +243,8 @@ export class LfSelectionListComponent {
   }
 
   /** @internal */
-  _checkFocused(currentFocusIndex: number, rowIndex: number) {
-    return currentFocusIndex === rowIndex;
+  _checkFocused(rowIndex: number) {
+    return this.currentFocusIndex === rowIndex;
   }
 
   /** @internal */
