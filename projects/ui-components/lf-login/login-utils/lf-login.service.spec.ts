@@ -96,9 +96,9 @@ describe('LfLoginService', () => {
       expiresIn: '100',
       tokenType: 'bearer'
     };
-    service.storeInLocalStorage(credentials);
+    service.storeInLocalStorage(credentials, '123456789', 'laserfiche.com');
     expect(localStorage.getItem(service.accessTokenStorageKey)).toEqual(JSON.stringify(credentials));
-    expect(localStorage.getItem(service.accountEndpointsStorageKey)).toEqual('{"webClientUrl":"https://app.laserfiche.com/laserfiche","repositoryApiBaseUrl":"https://api.laserfiche.com/repository/","wsignoutUrl":"https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0"}');
+    expect(localStorage.getItem(service.accountEndpointsStorageKey)).toEqual('{"webClientUrl":"https://app.laserfiche.com/laserfiche","wsignoutUrl":"https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0","regionalDomain":"laserfiche.com","oauthAuthorizeUrl":"https://signin.laserfiche.com/oauth/Authorize"}');
     expect(localStorage.getItem(service.accountIdStorageKey)).toEqual('{"accountId":"123456789","trusteeId":"1"}');
   });
 
@@ -112,13 +112,7 @@ describe('LfLoginService', () => {
     const JWT = {csid: '123456789', trid: '1'};
     const encodedJWT = btoa(JSON.stringify(JWT));
     const parsedToken = service.parseAccessToken(`${testHeader}.${encodedJWT}.hello`);
-    expect(parsedToken).toEqual({
-      accountId: '123456789',
-      webClientUrl: 'https://app.laserfiche.com/laserfiche',
-      wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
-      repositoryApiBaseUrl: 'https://api.laserfiche.com/repository/',
-      trusteeId: '1'
-    });
+    expect(parsedToken).toEqual('1');
   });
 
   it('parseAccessToken should parse data from jwt with different environment/region', () => {
@@ -127,12 +121,6 @@ describe('LfLoginService', () => {
     const JWT = {csid: '1123456789', trid: '1'};
     const encodedJWT = btoa(JSON.stringify(JWT));
     const parsedToken = service.parseAccessToken(`${testHeader}.${encodedJWT}.hello`);
-    expect(parsedToken).toEqual({
-      accountId: '1123456789',
-      webClientUrl: 'https://app.a.clouddev.laserfiche.ca/laserfiche',
-      wsignoutUrl: 'https://accounts.a.clouddev.laserfiche.ca/WebSTS/?wa=wsignout1.0',
-      repositoryApiBaseUrl: 'https://api.a.clouddev.laserfiche.ca/repository/',
-      trusteeId: '1'
-    });
+    expect(parsedToken).toEqual('1');
   });
 });

@@ -3,6 +3,7 @@
 ### Features
 - `[lf-repository-browser]`: add `entryFocused` event, add `openFocusedNodeAsync` function to open currently focused node
 - `[lf-login]` emits loginCompleted event if previously logged in
+- `[lf-login]` utilizes domain provided in redirect url queryString, and remembers last app login region
 
 ### Fixes
 

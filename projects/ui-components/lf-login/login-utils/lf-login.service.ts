@@ -1,8 +1,8 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { AccountInfo, OAuthAccessTokenData } from './lf-login-internal-types';
+import { AccountInfo, RedirectUriQueryParams } from './lf-login-internal-types';
 import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';
 import { LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
-import { GetAccessTokenResponse, HTTPError, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
+import { DomainUtils, GetAccessTokenResponse, HTTPError, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
 @Injectable({
@@ -17,8 +17,6 @@ export class LfLoginService {
   _accountEndpoints?: AccountEndpoints;
   /** @internal */
   _state?: LoginState;
-  /** @internal */
-  regionSpecificHostName?: string;
 
   /** @internal */
   client_id!: string;
@@ -32,8 +30,6 @@ export class LfLoginService {
   authorize_url_host_name: string = 'laserfiche.com';
   /** @internal */
   code_verifier?: string;
-  /** @internal */
-  tokenClient: TokenClient = new TokenClient(this.authorize_url_host_name);
 
   /** @internal */
   @Output() logoutCompletedInService: EventEmitter<AbortedLoginError | undefined> = new EventEmitter<AbortedLoginError | undefined>();
@@ -69,7 +65,7 @@ export class LfLoginService {
   private exchangeCodeForToken_lock: boolean = false;
 
   /** @internal */
-  async exchangeCodeForTokenAsync(callBackURIParams: { error?: { name: string; description: string } | undefined; authorizationCode?: string | undefined }) {
+  async exchangeCodeForTokenAsync(callBackURIParams: RedirectUriQueryParams) {
     let concurrentCallsDetected: boolean = false;
     try {
       if (this.exchangeCodeForToken_lock) {
@@ -81,8 +77,13 @@ export class LfLoginService {
       this.code_verifier = localStorage.getItem(this.codeVerifierStorageKey)!;
       if (callBackURIParams.authorizationCode && this.code_verifier) {
         try {
-          const response = await this.tokenClient.getAccessTokenFromCode(callBackURIParams.authorizationCode, this.redirect_uri, this.client_id, undefined, this.code_verifier);
-          await this.parseTokenResponseAsync(response);
+          const tokenClient = new TokenClient(callBackURIParams.cloudSubDomain!);
+          const response = await tokenClient.getAccessTokenFromCode(callBackURIParams.authorizationCode, this.redirect_uri, this.client_id, undefined, this.code_verifier);
+          const accessToken = await this.parseTokenResponseAsync(response);
+          this.storeInLocalStorage(accessToken!, callBackURIParams.customerId!, callBackURIParams.cloudSubDomain!);
+          this._state = LoginState.LoggedIn;
+          console.info('state changed to LoggedIn');
+          this.loginCompletedInService.emit();
         }
         catch (e) {
           const status = (<HTTPError>e).status ?? 0;
@@ -127,14 +128,10 @@ export class LfLoginService {
   }
 
   /** @internal */
-  async parseTokenResponseAsync(response: GetAccessTokenResponse): Promise<string | undefined> {
+  async parseTokenResponseAsync(response: GetAccessTokenResponse): Promise<AuthorizationCredentials | undefined> {
     try {
       const authorizationCredentials: AuthorizationCredentials = this.getExchangeCodeSuccessResponse(response);
-      this.storeInLocalStorage(authorizationCredentials);
-      this._state = LoginState.LoggedIn;
-      console.info('state changed to LoggedIn');
-      this.loginCompletedInService.emit();
-      return authorizationCredentials.accessToken;
+      return authorizationCredentials;
     }
     catch {
       throw Error('Parse token response error.');
@@ -146,14 +143,12 @@ export class LfLoginService {
     this.removeCodeVerifierFromLocalStorage();
     localStorage.removeItem(this.accessTokenStorageKey!);
     localStorage.removeItem(this.accountIdStorageKey!);
-    localStorage.removeItem(this.accountEndpointsStorageKey!);
     this.removeFromCache();
   }
 
   removeFromCache() {
     this._accessToken = undefined;
     this._accountInfo = undefined;
-    this._accountEndpoints = undefined;
   }
 
   /** @internal */
@@ -200,7 +195,7 @@ export class LfLoginService {
   }
 
   /** @internal */
-  private storeAccessToken(responseBody: AuthorizationCredentials) {
+  storeAccessToken(responseBody: AuthorizationCredentials) {
     localStorage.setItem(this.accessTokenStorageKey!, JSON.stringify(responseBody));
     this._accessToken = responseBody;
   }
@@ -211,10 +206,11 @@ export class LfLoginService {
   }
 
   /** @internal */
-  storeInLocalStorage(accessTokenCredentials: AuthorizationCredentials) {
-    const parsedAccessToken: OAuthAccessTokenData = this.parseAccessToken(accessTokenCredentials.accessToken);
-    this.storeAccountInfo(parsedAccessToken);
-    this.storeAccountEndpoints(parsedAccessToken);
+  storeInLocalStorage(accessTokenCredentials: AuthorizationCredentials, accountId: string, regionalDomain: string) {
+    const trusteeId: string = this.parseAccessToken(accessTokenCredentials.accessToken);
+    const endpoints = DomainUtils.getLfEndpoints(regionalDomain);
+    this.storeAccountInfo(accountId, trusteeId);
+    this.storeAccountEndpoints(endpoints);
     this.storeAccessToken(accessTokenCredentials);
   }
 
@@ -237,41 +233,32 @@ export class LfLoginService {
   }
 
   /** @internal */
-  parseAccessToken(accessToken: string): OAuthAccessTokenData {
+  parseAccessToken(accessToken: string): string {
     const decodedAccessToken = JwtUtils.parseAccessToken(accessToken);
-    const accountId = JwtUtils.getAccountIdFromLfJWT(decodedAccessToken);
     const trusteeId = JwtUtils.getTrusteeIdFromLfJWT(decodedAccessToken);
-    this.regionSpecificHostName = JwtUtils.getLfRegionalDomainFromAccountId(accountId);
-    const devEnvironment = JwtUtils.getLfDevEnvironmentSubDomain(this.authorize_url_host_name);
-    const endpoints = JwtUtils.getLfEndpoints(accountId, devEnvironment);
-    const parsedAccessToken: OAuthAccessTokenData = {
-      accountId,
-      trusteeId,
-      webClientUrl: endpoints.webClientUrl,
-      repositoryApiBaseUrl: endpoints.repositoryApiBaseUrl,
-      wsignoutUrl: endpoints.wsignoutUrl,
-    };
-    return parsedAccessToken;
+    return trusteeId;
   }
 
   /** @internal */
-  private storeAccountEndpoints(accessToken: OAuthAccessTokenData) {
-    const accountEndpoints: AccountEndpoints = {
-      webClientUrl: accessToken.webClientUrl,
-      repositoryApiBaseUrl: accessToken.repositoryApiBaseUrl,
-      wsignoutUrl: accessToken.wsignoutUrl
-    };
+  private storeAccountEndpoints(accountEndpoints: AccountEndpoints) {
     localStorage.setItem(this.accountEndpointsStorageKey!, JSON.stringify(accountEndpoints));
     this._accountEndpoints = accountEndpoints;
   }
 
   /** @internal */
-  private storeAccountInfo(accessToken: OAuthAccessTokenData) {
-    const accountInfo = {
-      accountId: accessToken.accountId,
-      trusteeId: accessToken.trusteeId
+  private storeAccountInfo(accountId: string, trusteeId: string) {
+    const accountInfo: AccountInfo = {
+      accountId,
+      trusteeId
     };
     localStorage.setItem(this.accountIdStorageKey!, JSON.stringify(accountInfo));
     this._accountInfo = accountInfo;
+  }
+
+  refreshServiceAccountProperties() {
+    const accountInfo = localStorage.getItem(this.accountIdStorageKey);
+    const accountEndpoints = localStorage.getItem(this.accountEndpointsStorageKey);
+    this._accountInfo = JSON.parse(accountInfo!);
+    this._accountEndpoints = JSON.parse(accountEndpoints!);
   }
 }

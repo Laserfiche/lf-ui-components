@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AccountInfo } from './login-utils/lf-login-internal-types';
+import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
 import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from './login-utils/lf-login-types';
 import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { LfLoginService } from './login-utils/lf-login.service';
@@ -57,11 +57,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
   @Input() set authorize_url_host_name(val: string) {
     this.loginService.authorize_url_host_name = val;
-    // TODO: tokenClient regional Domain should be provided by the directed query string from the authorize url
-    // because tokenClient regional domain can be different from authorize_url_host_name which is supposed to
-    // be region-agnostic
-    this.loginService.tokenClient = new TokenClient(this.loginService.authorize_url_host_name);
   };
+
   get authorize_url_host_name(): string {
     return this.loginService.authorize_url_host_name;
   }
@@ -195,9 +192,18 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       }
       else {
         try {
-          const response = await this.loginService.tokenClient.refreshAccessToken(refreshToken, this.client_id);
+          const oauthRegion = this.account_endpoints?.regionalDomain;
+          if (!oauthRegion) {
+            throw new Error('Unable to refresh. Cannot construct tokenClient.');
+          }
+          const tokenClient = new TokenClient(oauthRegion);
+          const response = await tokenClient.refreshAccessToken(refreshToken, this.client_id);
           const newAccessToken = await this.loginService.parseTokenResponseAsync(response);
-          return newAccessToken;
+          this.loginService.storeAccessToken(newAccessToken!);
+          this.loginService._state = LoginState.LoggedIn;
+          console.info('state changed to LoggedIn');
+          this.loginCompleted.emit();
+          return newAccessToken?.accessToken;
         }
         catch (e) {
           const status = (<HTTPError>e).status ?? 0;
@@ -312,8 +318,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.loginService._state = LoginState.LoggingIn;
       this.ref.detectChanges();
 
-      this.loginService.storeInLocalStorage(JSON.parse(newValue));
-
+      this.loginService.storeAccessToken(JSON.parse(newValue));
+      this.loginService.refreshServiceAccountProperties();
       this.loginService._state = LoginState.LoggedIn;
       this.ref.detectChanges();
       this.loginCompleted.emit();
@@ -321,8 +327,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     else if (newValue && oldValue && oldValue !== newValue) {
       // refreshed
       const newAccessToken: AuthorizationCredentials = JSON.parse(newValue);
-      this.loginService.storeInLocalStorage(newAccessToken);
-
+      this.loginService.storeAccessToken(newAccessToken);
+      this.loginService.refreshServiceAccountProperties();
       this.loginService._state = LoginState.LoggedIn;
       this.ref.detectChanges();
       this.loginCompleted.emit();
@@ -388,15 +394,21 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   }
 
   /** @internal */
-  parseCallbackURI(urlString: string): { error?: { name: string; description: string }; authorizationCode?: string } | undefined {
+  parseCallbackURI(urlString: string): RedirectUriQueryParams | undefined {
     const url = new URL(urlString);
 
     const state = url.searchParams.get('state');
     if (state === LOGIN_REDIRECT_STATE) {
       const authorizationCode = this.extractCodeFromUrl(url);
+      const domain = this.extractDomainFromUrl(url);
+      const customerId = this.extractCustomerIdFromUrl(url);
       const error = this.extractErrorFromUrl(url);
-      if (authorizationCode) {
-        return { authorizationCode };
+      if (authorizationCode && domain && customerId) {
+        return {
+          authorizationCode,
+          cloudSubDomain: domain,
+          customerId
+        };
       }
       else if (error) {
         return { error };
@@ -423,7 +435,22 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   }
 
   /** @internal */
-  determineCurrentState(callBackURIParams: { error?: { name: string; description: string } | undefined; authorizationCode?: string | undefined } | undefined): LoginState {
+  extractCodeFromUrl(url: URL): string | undefined {
+    return url.searchParams.get('code') ?? undefined;
+  }
+
+  /** @internal */
+  extractDomainFromUrl(url: URL): string | undefined {
+    return url.searchParams.get('domain') ?? undefined;
+  }
+
+  /** @internal */
+  extractCustomerIdFromUrl(url: URL): string | undefined {
+    return url.searchParams.get('customerId') ?? undefined;
+  }
+
+  /** @internal */
+  determineCurrentState(callBackURIParams: RedirectUriQueryParams | undefined): LoginState {
     const storedAccessToken = localStorage.getItem(this.loginService.accessTokenStorageKey!);
     const storedAccountEndpoints = localStorage.getItem(this.loginService.accountEndpointsStorageKey);
     const storedAccountId = localStorage.getItem(this.loginService.accountIdStorageKey);
@@ -462,11 +489,6 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     else {
       throw new Error('RefreshToken is not defined');
     }
-  }
-
-  /** @internal */
-  extractCodeFromUrl(url: URL): string | undefined {
-    return url.searchParams.get('code') ?? undefined;
   }
 
   /** @internal */
@@ -537,7 +559,14 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
   /** @internal */
   getAuthorizeUrl(): string {
-    const baseUrl = new URL(`https://signin.${this.authorize_url_host_name}/oauth/Authorize`);
+    const lastOAuthAuthorizeUrl = this.account_endpoints?.oauthAuthorizeUrl;
+    let baseUrl: URL;
+    if (lastOAuthAuthorizeUrl) {
+      baseUrl = new URL(lastOAuthAuthorizeUrl);
+    }
+    else {
+      baseUrl = new URL(`https://signin.${this.loginService.authorize_url_host_name}/oauth/Authorize`);
+    }
     baseUrl.searchParams.set('client_id', this.client_id);
     baseUrl.searchParams.set('redirect_uri', this.redirect_uri);
     baseUrl.searchParams.set('scope', this.scope);
