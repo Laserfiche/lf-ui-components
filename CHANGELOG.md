@@ -1,11 +1,12 @@
-## 13.1.4
+## 13.x
 
 ### Features
+- `[lf-repository-browser]`: add `entryFocused` event, add `openFocusedNodeAsync` function to open currently focused node
+- `[lf-login]` emits loginCompleted event if previously logged in
 
 ### Fixes
-- `[lf-login]` emits loginCompleted event if previously logged in
-### Chore & Maintenance
 
+### Chore & Maintenance
 
 ## 13.1.3
 

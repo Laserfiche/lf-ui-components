@@ -13,7 +13,8 @@
                 'node-selected': item.isSelected
             }"
             class="lf-entry-option"
-            [focused]="_checkFocused(this.currentFocusIndex, index)"
+            [focused]="_checkFocused(index)"
+            (focusin)="onFocused(index)"
             [selected]="item.isSelected"
             [listItemRef]="listItemRef"
             [multipleSelection]="multiple"

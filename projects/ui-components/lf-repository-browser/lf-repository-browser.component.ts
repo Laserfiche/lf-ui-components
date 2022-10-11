@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
 import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -14,7 +14,10 @@ import { LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-c
 export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
+  /** @internal */
   private selectedItems: LfTreeNode[] | undefined;
+  /** @internal */
+  private focusedEntry: ItemWithId | undefined;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -59,7 +62,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.entryList
       .setSelectedValuesAsync(selectableValues, this.checkForMoreDataCallback.bind(this))
       .then((selected: ILfSelectable[]) => {
-        this.entrySelected.emit(this.convertSelectedItemsToTreeNode(selected));
+        const selectedItems = this.convertSelectedItemsToTreeNode(selected);
+        this.entrySelected.emit(selectedItems);
       });
   };
 
@@ -80,7 +84,22 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Input()
   openSelectedNodesAsync: () => Promise<void> = async () => {
-    await this.openSelectedItemsAsync();
+    if (this.selectedItems && this.selectedItems.length > 0) {
+      await this.openSelectedItemsAsync();
+    } else {
+      console.debug('No selected nodes to open');
+    }
+  };
+
+  @Input()
+  openFocusedNodeAsync: () => Promise<void> = async () => {
+    if (this.focusedEntry) {
+      const nodeToOpen = this.focusedEntry as LfTreeNode;
+      this.entryDblClicked.emit([nodeToOpen]);
+      await this.openChildFolderAsync(nodeToOpen);
+    } else {
+      console.debug('No focused node to open');
+    }
   };
 
   /**
@@ -93,6 +112,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Output() entryDblClicked = new EventEmitter<LfTreeNode[]>();
   @Output() entrySelected = new EventEmitter<LfTreeNode[] | undefined>();
+  @Output() entryFocused = new EventEmitter<LfTreeNode | undefined>();
 
   /** @internal */
   currentFolderChildren: ILfSelectable[] = [];
@@ -235,6 +255,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
     this.selectedItems = event.selectedItems?.map((item: ILfSelectable) => item.value as LfTreeNode);
     this.entrySelected.emit(this.selectedItems);
+  }
+
+  /** @internal */
+  onEntryFocused(item: ItemWithId | undefined) {
+    this.focusedEntry = item;
+    this.entryFocused.emit(item ? item as LfTreeNode : undefined);
   }
 
   /**
@@ -436,6 +462,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
         this.resetFolderProperties();
 
         await this.makeDataCall(parentEntry);
+        this.selectedItems = [];
         this.entrySelected.emit([]);
       } catch (error) {
         console.error(error);
