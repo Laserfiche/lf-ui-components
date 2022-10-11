@@ -114,7 +114,7 @@
   <tr>
     <td>entryFocused</td>
     <td>(event: CustomEvent&lt;LfTreeNode | undefined&gt;) => Promise&lt;void&gt;</td>
-    <td>event raised when node(s) is focused (this will display in the UI as a thick blue line surrounding the item)</td>
+    <td>event raised when node is focused (this will display in the UI as a thick blue line surrounding the item)</td>
   </tr>
   <tr>
     <td>entryDblClicked</td>
@@ -164,7 +164,8 @@
     <td>() => Promise&lt;void&gt;</td>
     <td>
       Opens the focused node (the one with a thick blue line around it in the UI). If a container is focused it will open that folder in the UI, if an item that is not a container
-      is selected, then this function will just emit the entryOpened event with the focused node.
+      is selected, then this function will just emit the entryOpened event with the focused node. Note: Be sure to call this when the focus is still on the item. This may require adding
+      preventDefault on a click event to stop the item from losing focus
     </td>
   </tr>
   <tr>
