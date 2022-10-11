@@ -193,7 +193,7 @@ describe('LfListComponent single select', () => {
       expect(document.activeElement).toEqual(focusItem);
     }));
 
-    it('should be able to move the focus with the arrow keys', fakeAsync(async () => {
+    it('should be able to move the focus with the arrow keys', fakeAsync(() => {
       // Arrange
       const firstFocusItem = fixture.nativeElement.querySelector('#lf-row-1 #item-holder');
       const secondFocusItem = fixture.nativeElement.querySelector('#lf-row-0 #item-holder');
