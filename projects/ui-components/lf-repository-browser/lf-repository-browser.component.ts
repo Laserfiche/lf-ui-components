@@ -36,6 +36,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode): Promise<void> => {
     await this.zone.run(async () => {
       try {
+        this.isLoading = true;
         this.treeNodeService = treeNodeService;
       }
       catch (error) {
@@ -73,6 +74,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   @Input()
   refreshAsync: () => Promise<void> = async () => {
     if (!this._currentFolder) {
+      this.isLoading = true;
       this._currentFolder = await this.treeNodeService.getRootTreeNodeAsync();
     }
     if (!this._currentFolder) {
