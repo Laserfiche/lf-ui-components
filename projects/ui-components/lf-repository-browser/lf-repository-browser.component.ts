@@ -37,9 +37,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     await this.zone.run(async () => {
       try {
         this.treeNodeService = treeNodeService;
-      } catch (error) {
+      }
+      catch (error) {
         console.error(error);
         this.hasError = true;
+        this.isLoading = false;
+        this.ref.detectChanges();
         return;
       }
       await this.initializeAsync(selectedNode);
@@ -351,12 +354,23 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       } catch (err: any) {
         console.error(`Error retrieving root node`, JSON.stringify(err));
         this.hasError = true;
+        this.isLoading = false;
+        this.ref.detectChanges();
         return;
       }
     }
     // If the entry passed in is not a container we will get the parent of this by default.
     if (currentEntry && !currentEntry.isContainer) {
-      currentEntry = await this.treeNodeService.getParentTreeNodeAsync(currentEntry);
+      try {
+        currentEntry = await this.treeNodeService.getParentTreeNodeAsync(currentEntry);
+        this.hasError = false;
+      } catch (err: any) {
+        console.error(`Error retrieving parent node`, JSON.stringify(err));
+        this.hasError = true;
+        this.isLoading = false;
+        this.ref.detectChanges();
+        return;
+      }
     }
     if (!currentEntry) {
       throw new Error('currentEntry is undefined');
@@ -377,12 +391,16 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     while (currentNode) {
       try {
         const nextParent: LfTreeNode | undefined = await this.treeNodeService.getParentTreeNodeAsync(currentNode);
+        this.hasError = false;
         if (nextParent) {
           this.breadcrumbs.push(nextParent);
         }
         currentNode = nextParent;
       } catch (error) {
         console.error(error);
+        this.hasError = true;
+        this.isLoading = false;
+        this.ref.detectChanges();
         return;
       }
     }
