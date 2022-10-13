@@ -84,6 +84,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.nextPage = undefined;
     this.lastCalledPage = undefined;
     this.maximumChildrenReceived = false;
+    await this.initializeBreadcrumbOptionsAsync(this._currentFolder);
     await this.updateAllPossibleEntriesAsync(this._currentFolder);
   };
 
