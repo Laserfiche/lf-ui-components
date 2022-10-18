@@ -79,6 +79,15 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       try {
         this.hasError = false;
         this._currentFolder = await this.treeNodeService.getRootTreeNodeAsync();
+        if (!this._currentFolder) {
+          throw new Error('No root was found, repository browser was unable to refresh.');
+        }
+        this.entryList?.clearSelectedValues();
+        this.nextPage = undefined;
+        this.lastCalledPage = undefined;
+        this.maximumChildrenReceived = false;
+        await this.initializeBreadcrumbOptionsAsync(this._currentFolder);
+        await this.updateAllPossibleEntriesAsync(this._currentFolder);
       }
       catch {
         this.hasError = true;
@@ -87,17 +96,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
         this.isLoading = false;
         this.ref.detectChanges();
       }
-
     }
-    if (!this._currentFolder) {
-      throw new Error('No root was found, repository browser was unable to refresh.');
-    }
-    this.entryList?.clearSelectedValues();
-    this.nextPage = undefined;
-    this.lastCalledPage = undefined;
-    this.maximumChildrenReceived = false;
-    await this.initializeBreadcrumbOptionsAsync(this._currentFolder);
-    await this.updateAllPossibleEntriesAsync(this._currentFolder);
   };
 
   @Input()
