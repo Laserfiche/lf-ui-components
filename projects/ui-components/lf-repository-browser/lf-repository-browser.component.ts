@@ -75,27 +75,25 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Input()
   refreshAsync: () => Promise<void> = async () => {
-    if (!this._currentFolder) {
-      try {
-        this.hasError = false;
-        this._currentFolder = await this.treeNodeService.getRootTreeNodeAsync();
-        if (!this._currentFolder) {
-          throw new Error('No root was found, repository browser was unable to refresh.');
-        }
-        this.entryList?.clearSelectedValues();
-        this.nextPage = undefined;
-        this.lastCalledPage = undefined;
-        this.maximumChildrenReceived = false;
-        await this.initializeBreadcrumbOptionsAsync(this._currentFolder);
-        await this.updateAllPossibleEntriesAsync(this._currentFolder);
+    try {
+      this.hasError = false;
+      this._currentFolder = await this.treeNodeService.getRootTreeNodeAsync();
+      if (!this._currentFolder) {
+        throw new Error('No root was found, repository browser was unable to refresh.');
       }
-      catch {
-        this.hasError = true;
-      }
-      finally {
-        this.isLoading = false;
-        this.ref.detectChanges();
-      }
+      this.entryList?.clearSelectedValues();
+      this.nextPage = undefined;
+      this.lastCalledPage = undefined;
+      this.maximumChildrenReceived = false;
+      await this.initializeBreadcrumbOptionsAsync(this._currentFolder);
+      await this.updateAllPossibleEntriesAsync(this._currentFolder);
+    }
+    catch {
+      this.hasError = true;
+    }
+    finally {
+      this.isLoading = false;
+      this.ref.detectChanges();
     }
   };
 
