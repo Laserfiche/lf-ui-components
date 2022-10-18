@@ -8,7 +8,8 @@ export interface AuthorizationCredentials {
 export interface AccountEndpoints {
     webClientUrl: string;
     wsignoutUrl: string;
-    repositoryApiBaseUrl: string;
+    regionalDomain: string;
+    oauthAuthorizeUrl: string;
 }
 
 export interface AbortedLoginError {

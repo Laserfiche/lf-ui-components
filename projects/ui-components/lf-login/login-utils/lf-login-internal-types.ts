@@ -9,16 +9,15 @@ export interface AccessTokenError {
 }
 
 /** @internal */
-export interface OAuthAccessTokenData {
+export interface AccountInfo {
     accountId: string;
-    webClientUrl: string;
-    wsignoutUrl: string;
-    repositoryApiBaseUrl: string;
     trusteeId: string;
 }
 
 /** @internal */
-export interface AccountInfo {
-    accountId: string;
-    trusteeId: string;
+export interface RedirectUriQueryParams {
+  error?: { name: string; description: string };
+  authorizationCode?: string;
+  cloudSubDomain?: string;
+  customerId?: string;
 }
