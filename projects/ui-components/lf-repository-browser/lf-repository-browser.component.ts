@@ -113,8 +113,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   openFocusedNodeAsync: () => Promise<void> = async () => {
     if (this.focusedEntry) {
       const nodeToOpen = this.focusedEntry as LfTreeNode;
-      this.entryDblClicked.emit([nodeToOpen]);
       await this.openChildFolderAsync(nodeToOpen);
+      this.entryDblClicked.emit([nodeToOpen]);
     } else {
       console.debug('No focused node to open');
     }
@@ -229,8 +229,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
     this._breadcrumbs = event.breadcrumbs;
     this._currentFolder = event.selected;
-    this.entryDblClicked.emit([this._currentFolder]);
     await this.updateAllPossibleEntriesAsync(this._currentFolder);
+    this.entryDblClicked.emit([this._currentFolder]);
     setTimeout(() => this.entryList?.focus());
   }
 
@@ -242,6 +242,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    */
   async onDblClickAsync(treeNode: LfTreeNode | undefined) {
     await this.openChildFolderAsync(treeNode as LfTreeNode);
+    this.entryDblClicked.emit([treeNode as LfTreeNode]);
   }
 
   /**
@@ -303,10 +304,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    */
   async openSelectedItemsAsync() {
     const selectedNodes = this.selectedItems;
-    this.entryDblClicked.emit(selectedNodes);
     if (selectedNodes?.length === 1 && selectedNodes[0].isContainer) {
       await this.openChildFolderAsync(selectedNodes[0]);
     }
+    this.entryDblClicked.emit(selectedNodes);
   }
 
   /**
