@@ -320,7 +320,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     if (!this._currentFolder) {
       return;
     }
-    return await this.makeDataCall(this._currentFolder);
+    if (!this.maximumChildrenReceived) {
+      const data = await this.makeDataCall(this._currentFolder);
+      return data;
+    }
+    return;
   }
 
   /**
@@ -486,7 +490,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
   }
 
-  private async makeDataCall(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
+  private async makeDataCall(parentEntry: LfTreeNode): Promise<ILfSelectable[] | undefined> {
     try {
       this.hasError = false;
       this.lastDataCall = this.updateFolderChildrenAsync(parentEntry);
@@ -498,7 +502,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       this.hasError = true;
       this.isLoading = false;
       this.ref.detectChanges();
-      throw error;
+      return undefined;
     }
   }
 
