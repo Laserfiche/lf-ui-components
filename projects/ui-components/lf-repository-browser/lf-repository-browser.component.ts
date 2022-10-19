@@ -364,11 +364,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       throw new Error('Repository Browser cannot be initialized without a data service.');
     }
     if (!currentEntry) {
-        currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
+      currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
     }
     // If the entry passed in is not a container we will get the parent of this by default.
     if (currentEntry && !currentEntry.isContainer) {
-        currentEntry = await this.treeNodeService.getParentTreeNodeAsync(currentEntry);
+      currentEntry = await this.treeNodeService.getParentTreeNodeAsync(currentEntry);
     }
     if (!currentEntry) {
       throw new Error('currentEntry is undefined');
@@ -387,11 +387,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this._breadcrumbs = [selectedEntry];
     let currentNode: LfTreeNode | undefined = selectedEntry;
     while (currentNode) {
-        const nextParent: LfTreeNode | undefined = await this.treeNodeService.getParentTreeNodeAsync(currentNode);
-        if (nextParent) {
-          this.breadcrumbs.push(nextParent);
-        }
-        currentNode = nextParent;
+      const nextParent: LfTreeNode | undefined = await this.treeNodeService.getParentTreeNodeAsync(currentNode);
+      if (nextParent) {
+        this.breadcrumbs.push(nextParent);
+      }
+      currentNode = nextParent;
     }
   }
 
