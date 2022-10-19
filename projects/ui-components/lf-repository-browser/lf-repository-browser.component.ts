@@ -78,7 +78,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     try {
       this.hasError = false;
       this.isLoading = true;
-      this._currentFolder = await this.treeNodeService.getRootTreeNodeAsync();
+      if (!this._currentFolder) {
+        this._currentFolder = await this.treeNodeService.getRootTreeNodeAsync();
+      }
       if (!this._currentFolder) {
         throw new Error('No root was found, repository browser was unable to refresh.');
       }
