@@ -84,6 +84,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.itemFocused.emit(undefined);
     this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
   }
 
