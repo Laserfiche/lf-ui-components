@@ -59,18 +59,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   @Input()
   setSelectedValuesAsync: (valuesToSelect: LfTreeNode[]) => Promise<void> = async (valuesToSelect: LfTreeNode[]) => {
     const selectableValues = await this.mapTreeNodesToLfSelectableAsync(valuesToSelect);
-    if ((this.shouldShowEmptyMessage || this.hasError) && !this.isLoading) {
-      console.error('current folder is empty or has error, setSelectedValuesAsync requires current folder to have at least one entry.');
-      return;
-    }
-    if (!this.entryList) {
+    if (!this.entryList && this.isLoading) {
       setTimeout(() => {
         this.setSelectedValuesAsync(valuesToSelect);
       });
       return;
     }
     this.entryList
-      .setSelectedValuesAsync(selectableValues, this.checkForMoreDataCallback.bind(this))
+      ?.setSelectedValuesAsync(selectableValues, this.checkForMoreDataCallback.bind(this))
       .then((selected: ILfSelectable[]) => {
         const selectedItems = this.convertSelectedItemsToTreeNode(selected);
         this.entrySelected.emit(selectedItems);
