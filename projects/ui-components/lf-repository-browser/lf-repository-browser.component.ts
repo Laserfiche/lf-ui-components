@@ -36,13 +36,19 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode): Promise<void> => {
     await this.zone.run(async () => {
       try {
+        this.hasError = false;
+        this.isLoading = true;
         this.treeNodeService = treeNodeService;
-      } catch (error) {
+        await this.initializeAsync(selectedNode);
+      }
+      catch (error) {
         console.error(error);
         this.hasError = true;
-        return;
       }
-      await this.initializeAsync(selectedNode);
+      finally {
+        this.isLoading = false;
+        this.ref.detectChanges();
+      }
     });
   };
 
@@ -53,14 +59,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   @Input()
   setSelectedValuesAsync: (valuesToSelect: LfTreeNode[]) => Promise<void> = async (valuesToSelect: LfTreeNode[]) => {
     const selectableValues = await this.mapTreeNodesToLfSelectableAsync(valuesToSelect);
-    if (!this.entryList) {
+    if (!this.entryList && this.isLoading) {
       setTimeout(() => {
         this.setSelectedValuesAsync(valuesToSelect);
       });
       return;
     }
     this.entryList
-      .setSelectedValuesAsync(selectableValues, this.checkForMoreDataCallback.bind(this))
+      ?.setSelectedValuesAsync(selectableValues, this.checkForMoreDataCallback.bind(this))
       .then((selected: ILfSelectable[]) => {
         const selectedItems = this.convertSelectedItemsToTreeNode(selected);
         this.entrySelected.emit(selectedItems);
@@ -69,17 +75,29 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Input()
   refreshAsync: () => Promise<void> = async () => {
-    if (!this._currentFolder) {
-      this._currentFolder = await this.treeNodeService.getRootTreeNodeAsync();
+    try {
+      this.hasError = false;
+      this.isLoading = true;
+      if (!this._currentFolder) {
+        this._currentFolder = await this.treeNodeService.getRootTreeNodeAsync();
+      }
+      if (!this._currentFolder) {
+        throw new Error('No root was found, repository browser was unable to refresh.');
+      }
+      this.entryList?.clearSelectedValues();
+      this.nextPage = undefined;
+      this.lastCalledPage = undefined;
+      this.maximumChildrenReceived = false;
+      await this.initializeBreadcrumbOptionsAsync(this._currentFolder);
+      await this.updateAllPossibleEntriesAsync(this._currentFolder);
     }
-    if (!this._currentFolder) {
-      throw new Error('No root was found, repository browser was unable to refresh.');
+    catch {
+      this.hasError = true;
     }
-    this.entryList?.clearSelectedValues();
-    this.nextPage = undefined;
-    this.lastCalledPage = undefined;
-    this.maximumChildrenReceived = false;
-    await this.updateAllPossibleEntriesAsync(this._currentFolder);
+    finally {
+      this.isLoading = false;
+      this.ref.detectChanges();
+    }
   };
 
   @Input()
@@ -302,7 +320,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     if (!this._currentFolder) {
       return;
     }
-    return await this.makeDataCall(this._currentFolder);
+    if (!this.maximumChildrenReceived) {
+      const data = await this.makeDataCall(this._currentFolder);
+      return data;
+    }
+    return;
   }
 
   /**
@@ -346,14 +368,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       throw new Error('Repository Browser cannot be initialized without a data service.');
     }
     if (!currentEntry) {
-      try {
-        currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
-        this.hasError = false;
-      } catch (err: any) {
-        console.error(`Error retrieving root node`, JSON.stringify(err));
-        this.hasError = true;
-        return;
-      }
+      currentEntry = await this.treeNodeService.getRootTreeNodeAsync();
     }
     // If the entry passed in is not a container we will get the parent of this by default.
     if (currentEntry && !currentEntry.isContainer) {
@@ -376,16 +391,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this._breadcrumbs = [selectedEntry];
     let currentNode: LfTreeNode | undefined = selectedEntry;
     while (currentNode) {
-      try {
-        const nextParent: LfTreeNode | undefined = await this.treeNodeService.getParentTreeNodeAsync(currentNode);
-        if (nextParent) {
-          this.breadcrumbs.push(nextParent);
-        }
-        currentNode = nextParent;
-      } catch (error) {
-        console.error(error);
-        return;
+      const nextParent: LfTreeNode | undefined = await this.treeNodeService.getParentTreeNodeAsync(currentNode);
+      if (nextParent) {
+        this.breadcrumbs.push(nextParent);
       }
+      currentNode = nextParent;
     }
   }
 
@@ -460,8 +470,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     if (parentEntry && parentEntry.id) {
       try {
         this.isLoading = true;
+        this.hasError = false;
         this.resetFolderProperties();
-
         await this.makeDataCall(parentEntry);
         this.selectedItems = [];
         this.entrySelected.emit([]);
@@ -469,7 +479,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
         console.error(error);
         this.lastDataCall = undefined;
         this.hasError = true;
-      } finally {
+      }
+      finally {
         this.isLoading = false;
         this.ref.detectChanges();
       }
@@ -479,11 +490,20 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
   }
 
-  private async makeDataCall(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
-    this.lastDataCall = this.updateFolderChildrenAsync(parentEntry);
-    const selectable = await this.lastDataCall;
-    this.lastDataCall = undefined;
-    return selectable;
+  private async makeDataCall(parentEntry: LfTreeNode): Promise<ILfSelectable[] | undefined> {
+    try {
+      this.hasError = false;
+      this.lastDataCall = this.updateFolderChildrenAsync(parentEntry);
+      const selectable = await this.lastDataCall;
+      this.lastDataCall = undefined;
+      return selectable;
+    }
+    catch (error) {
+      this.hasError = true;
+      this.isLoading = false;
+      this.ref.detectChanges();
+      return undefined;
+    }
   }
 
   /**

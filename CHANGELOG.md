@@ -1,3 +1,14 @@
+## 13.1.5
+
+### Features
+- `[lf-repository-browser]`: fix `entryDblClicked` event firing timing
+- `[lf-repository-browser]`: add error handling when `getParentTreeNodeAsync` throws
+- `[lf-checklist]`: update style
+
+### Fixes
+
+### Chore & Maintenance
+
 ## 13.1.4
 
 ### Features

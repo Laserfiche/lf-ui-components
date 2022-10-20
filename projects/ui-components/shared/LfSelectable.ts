@@ -57,7 +57,7 @@ export class Selectable {
     if (selected.length > 0) {
       if (this.callback) {
         const value = await this.callback();
-        if (value == null || value.length === 0) {
+        if (!value || value.length === 0) {
           return;
         }
         await this.setSelectedValuesAsync(selected, value, lastCheckedIdx);
