@@ -57,21 +57,25 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   @Input() multiple: boolean = false;
 
   @Input()
-  setSelectedValuesAsync: (valuesToSelect: LfTreeNode[]) => Promise<void> = async (valuesToSelect: LfTreeNode[]) => {
-    const selectableValues = await this.mapTreeNodesToLfSelectableAsync(valuesToSelect);
+  setSelectedNodesAsync: (nodesToSelect: LfTreeNode[], maxFetchIterations?: number) => Promise<void> = async (
+    nodesToSelect: LfTreeNode[],
+    maxFetchIterations: number = 5
+  ) => {
+    const selectableValues = await this.mapTreeNodesToLfSelectableAsync(nodesToSelect);
     if (!this.entryList && this.isLoading) {
       setTimeout(() => {
-        this.setSelectedValuesAsync(valuesToSelect);
+        this.setSelectedNodesAsync(nodesToSelect, maxFetchIterations);
       });
       return;
     }
     this.entryList?.clearSelectedValues();
     this.entryList
-      ?.setSelectedValuesAsync(selectableValues, this.checkForMoreDataCallback.bind(this))
+      ?.setSelectedNodesAsync(selectableValues, this.checkForMoreDataCallback.bind(this), maxFetchIterations)
       .then((selected: ILfSelectable[]) => {
         const selectedItems = this.convertSelectedItemsToTreeNode(selected);
         this.entrySelected.emit(selectedItems);
       });
+    this.entrySelected.emit(this.selectedItems);
   };
 
   @Input()

@@ -138,10 +138,10 @@
     </td>
   </tr>
   <tr>
-    <td>setSelectedValuesAsync</td>
-    <td>(valuesToSelect: LfTreeNode[]) => Promise&lt;void&gt;</td>
+    <td>setSelectedNodesAsync</td>
+    <td>(nodesToSelect: LfTreeNode[], maxFetchIterations = 5: number) => Promise&lt;void&gt;</td>
     <td>
-      Sets the selected values specified. Will call for more data if needed.
+      Sets the selected nodes specified. Will call maxFetchIterations of data if needed.
     </td>
   </tr>
   <tr>

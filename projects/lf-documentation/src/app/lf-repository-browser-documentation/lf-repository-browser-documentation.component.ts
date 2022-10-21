@@ -28,7 +28,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
         this.repoBrowser.nativeElement.focus();
       }
     }, 1000);
-    
     this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
   }
 
@@ -75,6 +74,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       this.dataService._entries['60'],
       this.dataService._entries['1000']
     ];
-    await this.repoBrowser?.nativeElement.setSelectedValuesAsync(selectedValues as LfTreeNode[]);
+    await this.repoBrowser?.nativeElement.setSelectedNodesAsync(selectedValues as LfTreeNode[]);
   }
 }

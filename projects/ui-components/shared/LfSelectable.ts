@@ -32,8 +32,12 @@ export class Selectable {
     this.clearAllSelectedItems(list);
   }
 
-  async setSelectedValuesAsync(selected: ILfSelectable[], list: ILfSelectable[], lastCheckedIdx: number = 0) {
-    // TODO should it clear all the other items or just add?
+  async setSelectedNodesAsync(
+    selected: ILfSelectable[],
+    list: ILfSelectable[],
+    maxFetchIterations: number,
+    lastCheckedIdx: number = 0
+  ) {
     for (let index = 0; index < list.length; index++) {
       const selectableItem = list[index];
       let selectedLength = selected.length;
@@ -55,12 +59,13 @@ export class Selectable {
     }
     lastCheckedIdx += list.length;
     if (selected.length > 0) {
-      if (this.callback) {
+      if (this.callback && maxFetchIterations > 0) {
+        --maxFetchIterations;
         const value = await this.callback();
         if (!value || value.length === 0) {
           return;
         }
-        await this.setSelectedValuesAsync(selected, value, lastCheckedIdx);
+        await this.setSelectedNodesAsync(selected, value, maxFetchIterations, lastCheckedIdx);
       }
     } else {
       return;
