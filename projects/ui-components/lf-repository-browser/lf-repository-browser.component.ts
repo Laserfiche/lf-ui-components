@@ -65,6 +65,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       });
       return;
     }
+    this.entryList?.clearSelectedValues();
     this.entryList
       ?.setSelectedValuesAsync(selectableValues, this.checkForMoreDataCallback.bind(this))
       .then((selected: ILfSelectable[]) => {
