@@ -73,7 +73,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       ?.setSelectedNodesAsync(selectableValues, this.checkForMoreDataCallback.bind(this), maxFetchIterations)
       .then((selected: ILfSelectable[]) => {
         const selectedItems = this.convertSelectedItemsToTreeNode(selected);
-        console.log('here!!!!!', selectedItems)
         this.selectedItems = selectedItems;
         this.entrySelected.emit(this.selectedItems);
       });
