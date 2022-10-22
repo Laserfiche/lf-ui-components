@@ -487,8 +487,16 @@ describe('LfRepositoryBrowserComponent', () => {
       name: 'test entry (8)',
       path: '',
     };
-    // @ts-ignore
-   component.selectedItems = [entry, parent];
+    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
+    );
+    dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
+      if (treeNode.id === id) {
+        return Promise.resolve(parent);
+      }
+      return Promise.resolve(undefined);
+    });
+    await component.initAsync(dataServiceMock, entry);
 
     // Act
     await component.setSelectedNodesAsync([]);
@@ -496,8 +504,8 @@ describe('LfRepositoryBrowserComponent', () => {
     // Assert
     // @ts-ignore
     expect(component.selectedItems).toEqual([]);
-  });
 
+  });
   // describe('setNodeAsParentAsync', () => {
   //     const parent: TreeNode = {
   //         icon: '',

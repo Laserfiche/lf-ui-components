@@ -69,12 +69,13 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       return;
     }
     this.entryList?.clearSelectedValues();
-    this.entryList
+    await this.entryList
       ?.setSelectedNodesAsync(selectableValues, this.checkForMoreDataCallback.bind(this), maxFetchIterations)
       .then((selected: ILfSelectable[]) => {
         const selectedItems = this.convertSelectedItemsToTreeNode(selected);
+        console.log('here!!!!!', selectedItems)
         this.selectedItems = selectedItems;
-        this.entrySelected.emit(this.selectedItems );
+        this.entrySelected.emit(this.selectedItems);
       });
   };
 
