@@ -8,7 +8,6 @@
     setSelectedNodesAsync: (nodesToSelect: LfTreeNode[], maxFetchIterations: number) => Promise<void>;
     ```
   - clears previously selected items that are not included in `nodesToSelect` argument
-  - emits `entrySelected` event for event selected
 
 ### Fixes
 - `[lf-repository-browser]`: fix `entryDblClicked` event firing timing
