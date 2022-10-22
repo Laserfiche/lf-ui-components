@@ -496,7 +496,8 @@ describe('LfRepositoryBrowserComponent', () => {
     // Assert
     // @ts-ignore
     expect(component.selectedItems).toEqual([]);
-  })
+  });
+
   // describe('setNodeAsParentAsync', () => {
   //     const parent: TreeNode = {
   //         icon: '',
