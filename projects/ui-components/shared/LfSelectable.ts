@@ -68,7 +68,7 @@ export class Selectable {
           }
           await this.setSelectedNodesAsync(selected, value, maxFetchIterations, lastCheckedIdx);
         } else {
-          console.debug('maxFetchIterations reached. Not all node selected');
+          console.debug('MaxFetchIterations reached. Not all nodes selected');
           }
       }
     } else {
