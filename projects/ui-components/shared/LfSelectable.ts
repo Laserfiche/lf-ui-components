@@ -59,13 +59,17 @@ export class Selectable {
     }
     lastCheckedIdx += list.length;
     if (selected.length > 0) {
-      if (this.callback && maxFetchIterations > 0) {
-        --maxFetchIterations;
-        const value = await this.callback();
-        if (!value || value.length === 0) {
-          return;
-        }
-        await this.setSelectedNodesAsync(selected, value, maxFetchIterations, lastCheckedIdx);
+      if (this.callback) {
+        if (maxFetchIterations > 0) {
+          --maxFetchIterations;
+          const value = await this.callback();
+          if (!value || value.length === 0) {
+            return;
+          }
+          await this.setSelectedNodesAsync(selected, value, maxFetchIterations, lastCheckedIdx);
+        } else {
+          console.debug('maxFetchIterations reached. Not all node selected');
+          }
       }
     } else {
       return;
