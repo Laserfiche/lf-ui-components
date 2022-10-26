@@ -1,11 +1,17 @@
 ## 13.1.5
 
 ### Features
-- `[lf-repository-browser]`: fix `entryDblClicked` event firing timing
 - `[lf-repository-browser]`: add error handling when `getParentTreeNodeAsync` throws
-- `[lf-checklist]`: update style
+- **[BREAKING]** `[lf-repository-browser]` method `setSelectedValuesAsync`: 
+  - change interface to 
+    ```
+    setSelectedNodesAsync: (nodesToSelect: LfTreeNode[], maxFetchIterations: number) => Promise<void>;
+    ```
+  - clears previously selected items that are not included in `nodesToSelect` argument
 
 ### Fixes
+- `[lf-repository-browser]`: fix `entryDblClicked` event firing timing
+- `[lf-checklist]`: update style
 
 ### Chore & Maintenance
 

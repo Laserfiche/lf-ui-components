@@ -227,14 +227,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  setSelectedValuesAsync(
+  async setSelectedNodesAsync(
     values: ILfSelectable[],
-    checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>
+    checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>,
+    maxFetchIterations: number
   ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
-    return this.selectable.setSelectedValuesAsync(values, this.listItems).then(() => {
-      return this.selectable.selectedItems;
-    });
+    await this.selectable.setSelectedNodesAsync(values, this.listItems, maxFetchIterations);
+    return this.selectable.selectedItems;
   }
 
   /** @internal */

@@ -468,6 +468,44 @@ describe('LfRepositoryBrowserComponent', () => {
     expect(component.entryDblClicked.emit).toHaveBeenCalled();
   });
 
+  it('setSelectedNodesAsync should clear previous selected nodes that are not in the nodesToSelect param', async () => {
+    // Arrange
+    const id = '7';
+    const entry: LfTreeNode = {
+      icon: '',
+      id,
+      isContainer: true,
+      isLeaf: true,
+      name: 'test entry (7)',
+      path: '8',
+    };
+    const parent: LfTreeNode = {
+      icon: '',
+      id: '8',
+      isContainer: true,
+      isLeaf: false,
+      name: 'test entry (8)',
+      path: '',
+    };
+    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
+    );
+    dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
+      if (treeNode.id === id) {
+        return Promise.resolve(parent);
+      }
+      return Promise.resolve(undefined);
+    });
+    await component.initAsync(dataServiceMock, entry);
+
+    // Act
+    await component.setSelectedNodesAsync([]);
+
+    // Assert
+    // @ts-ignore
+    expect(component.selectedItems).toEqual([]);
+
+  });
   // describe('setNodeAsParentAsync', () => {
   //     const parent: TreeNode = {
   //         icon: '',
