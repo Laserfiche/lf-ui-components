@@ -33,6 +33,8 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   /** @internal */
   showAdhocModal: boolean = false;
   /** @internal */
+  isLoading: boolean = false;
+  /** @internal */
   adhocFieldContainerService!: LfFieldAdhocContainerService;
   /** @internal */
   templateFields: number[] = [];
@@ -205,7 +207,9 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
 
   /** @internal */
   private async getCurrentFieldOptionsAsync(): Promise<LfFieldInfo[]> {
+    this.isLoading = true;
     const fieldInfos: AdhocFieldInfo[] = await this.adhocFieldContainerService.getAllFieldDefinitionsAsync();
+    this.isLoading = false;
     const fieldDefinitions = fieldInfos.filter((val) => {
       const validFieldType: boolean = val.fieldType in FieldType && val.fieldType !== FieldType.Blob;
       if (!validFieldType) {

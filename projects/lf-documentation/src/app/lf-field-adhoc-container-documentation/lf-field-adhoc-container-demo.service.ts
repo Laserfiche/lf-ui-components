@@ -143,6 +143,10 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
   mappedFields = [{ value: this.values[0], definition: this.fieldInfos[0] }];
 
   async getAllFieldDefinitionsAsync(): Promise<LfFieldInfo[]> {
-    return this.fieldInfos;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+       return resolve(this.fieldInfos);
+    }, 3000);
+  })
   }
 }
