@@ -8,33 +8,38 @@
       <div class="ms-font-m back-button-text">{{ADD_REMOVE_FIELDS | async}}</div>
   </div>
   <div class="back-button-padding"></div>
-  <div class="field-picker-container" [ngClass]="{'has-changes': areCheckboxChanges}">
-      <div class="search">
-          <input [value]="fieldFilterText" [formControl]="filterFieldsControl" placeholder="{{SEARCH_FIELDS | async}}"
-              class="searchBox">
-          <div class="icon icon-search"></div>
-          <div *ngIf="fieldFilterText && fieldFilterText.length > 0" (click)="onClearFields()"
-              class="icon icon-clear">
-          </div>
-      </div>
-      <div *ngFor="let field of displayFieldInfos, let i = index" class="pick-field">
-          <mat-checkbox color="primary" class="lf-checkbox" (change)="onUpdateCheckbox($event, field)" id=`add-remove-checkbox-{{i}}`
-              [checked]="isFieldSelected(field)" title="{{field.name}}" [disabled]="field.inTemplateSelected">
-              {{field.name}} ({{field | getFieldType: LOCALIZED_FIELD_TYPES | async}})
-          </mat-checkbox>
-      </div>
-      <div class="fields-empty" *ngIf="!displayFieldInfos || displayFieldInfos.length===0">
-          {{NO_MATCHING_FIELDS_FOUND | async}}
-      </div>
+  <div class="add-remove-content">
+    <lf-loader-component *ngIf="isLoading" class="lf-adhoc-loader"></lf-loader-component>
+    <div *ngIf="shouldShowErrorMessage" class="lf-adhoc-loader error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
+    <div class="field-picker-container" *ngIf="!isLoading && !shouldShowErrorMessage" [ngClass]="{'has-changes': areCheckboxChanges}">
+        <div class="search">
+            <input [value]="fieldFilterText" [formControl]="filterFieldsControl" placeholder="{{SEARCH_FIELDS | async}}"
+                class="searchBox">
+            <div class="icon icon-search"></div>
+            <div *ngIf="fieldFilterText && fieldFilterText.length > 0" (click)="onClearFields()"
+                class="icon icon-clear">
+            </div>
+        </div>
+        <div *ngFor="let field of displayFieldInfos, let i = index" class="pick-field">
+            <mat-checkbox color="primary" class="lf-checkbox" (change)="onUpdateCheckbox($event, field)" id=`add-remove-checkbox-{{i}}`
+                [checked]="isFieldSelected(field)" title="{{field.name}}" [disabled]="field.inTemplateSelected">
+                {{field.name}} ({{field | getFieldType: LOCALIZED_FIELD_TYPES | async}})
+            </mat-checkbox>
+        </div>
+        <div class="fields-empty" *ngIf="!displayFieldInfos || displayFieldInfos.length===0">
+            {{NO_MATCHING_FIELDS_FOUND | async}}
+        </div>
+    </div>
+    <div class="button-container" *ngIf="areCheckboxChanges">
+        <div class="button-padding-container">
+            <button id="adhoc-apply-button" class="primary-button lf-button adhoc-field-button"
+                (click)="onClickApply()">{{APPLY | async}}</button>
+            <button id="adhoc-cancel-button" class="sec-button lf-button adhoc-field-button"
+                (click)="onClickCancel()">{{CANCEL | async}}</button>
+        </div>
+    </div>
   </div>
-  <div class="button-container" *ngIf="areCheckboxChanges">
-      <div class="button-padding-container">
-          <button id="adhoc-apply-button" class="primary-button lf-button adhoc-field-button"
-              (click)="onClickApply()">{{APPLY | async}}</button>
-          <button id="adhoc-cancel-button" class="sec-button lf-button adhoc-field-button"
-              (click)="onClickCancel()">{{CANCEL | async}}</button>
-      </div>
-  </div>
+
 </div>
 
 <ng-template #addRemoveConfirmModal let-data>

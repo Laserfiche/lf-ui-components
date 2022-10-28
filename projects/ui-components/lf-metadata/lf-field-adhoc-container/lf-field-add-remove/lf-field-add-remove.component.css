@@ -150,3 +150,33 @@ i.loader {
 .icon-clear:hover {
   background-position: -76px -224px;
 }
+
+.lf-adhoc-loader {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.add-remove-content {
+  position: absolute;
+  top: 42px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.lf-adhoc-loader-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+
+.error-entries-text {
+  color: #AB2227;
+}

@@ -145,6 +145,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
   async getAllFieldDefinitionsAsync(): Promise<LfFieldInfo[]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
+        return reject();
        return resolve(this.fieldInfos);
     }, 3000);
   })
