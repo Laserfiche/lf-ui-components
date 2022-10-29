@@ -1,5 +1,6 @@
 .add-remove-container {
-  display: block;
+  display: flex;
+  flex-direction: column;
   position: absolute;
   bottom: 0px;
   top: 0px;
@@ -8,10 +9,9 @@
 }
 
 .pick-field {
-  display: block;
-  word-wrap: none;
-  overflow: ellipsis;
-  position: relative;
+  overflow: auto;
+  flex: 1 1 auto;
+  overflow-x: hidden;
 }
 
 .adhoc-field-button {
@@ -51,6 +51,9 @@ i.loader {
 }
 
 .field-picker-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   padding: 15px;
 }
 
@@ -58,13 +61,17 @@ i.loader {
   bottom: 52px;
 }
 
+.lf-checkbox {
+  height: 25px;
+}
+
 .button-container {
   max-height: 52px;
   min-height: 52px;
   width: 100%;
   bottom: 0px;
-  position: absolute;
   border-top: 1px solid #ddd;
+  background-color: white;
 }
 
 .button-padding-container {
@@ -154,14 +161,8 @@ i.loader {
 }
 
 .add-remove-content {
-  position: absolute;
-  top: 43px;
-  left: 0;
-  background-color: white;
-  bottom: 0px;
-  right: 0px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  padding-bottom: 10px;
+  flex-grow: 1;
 }
 
 .error-entries-text {

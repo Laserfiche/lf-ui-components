@@ -48,7 +48,6 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   allFieldInfos: AdhocFieldInfo[] = [];
   displayFieldInfos: AdhocFieldInfo[] = [];
   selectedFieldIds: Set<number> = new Set<number>();
-
   areCheckboxChanges: boolean = false;
   filterFieldsControl: FormControl = new FormControl();
   fieldFilterText: string = '';

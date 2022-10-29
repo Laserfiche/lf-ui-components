@@ -20,26 +20,27 @@
                 class="icon icon-clear">
             </div>
         </div>
-        <div *ngFor="let field of displayFieldInfos, let i = index" class="pick-field">
-            <mat-checkbox color="primary" class="lf-checkbox" (change)="onUpdateCheckbox($event, field)" id=`add-remove-checkbox-{{i}}`
-                [checked]="isFieldSelected(field)" title="{{field.name}}" [disabled]="field.inTemplateSelected">
-                {{field.name}} ({{field | getFieldType: LOCALIZED_FIELD_TYPES | async}})
-            </mat-checkbox>
-        </div>
+        <cdk-virtual-scroll-viewport itemSize="25" class="pick-field">
+          <div *cdkVirtualFor="let field of displayFieldInfos, let i = index">
+              <mat-checkbox color="primary" class="lf-checkbox" (change)="onUpdateCheckbox($event, field)" id=`add-remove-checkbox-{{i}}`
+                  [checked]="isFieldSelected(field)" title="{{field.name}}" [disabled]="field.inTemplateSelected">
+                  {{field.name}} ({{field | getFieldType: LOCALIZED_FIELD_TYPES | async}})
+              </mat-checkbox>
+          </div>
+      </cdk-virtual-scroll-viewport>
         <div class="fields-empty" *ngIf="!displayFieldInfos || displayFieldInfos.length===0">
             {{NO_MATCHING_FIELDS_FOUND | async}}
         </div>
     </div>
-    <div class="button-container" *ngIf="areCheckboxChanges">
-        <div class="button-padding-container">
-            <button id="adhoc-apply-button" class="primary-button lf-button adhoc-field-button"
-                (click)="onClickApply()">{{APPLY | async}}</button>
-            <button id="adhoc-cancel-button" class="sec-button lf-button adhoc-field-button"
-                (click)="onClickCancel()">{{CANCEL | async}}</button>
-        </div>
-    </div>
   </div>
-
+  <div class="button-container" *ngIf="areCheckboxChanges">
+    <div class="button-padding-container">
+        <button id="adhoc-apply-button" class="primary-button lf-button adhoc-field-button"
+            (click)="onClickApply()">{{APPLY | async}}</button>
+        <button id="adhoc-cancel-button" class="sec-button lf-button adhoc-field-button"
+            (click)="onClickCancel()">{{CANCEL | async}}</button>
+    </div>
+</div>
 </div>
 
 <ng-template #addRemoveConfirmModal let-data>

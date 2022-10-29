@@ -118,6 +118,118 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       format: FieldFormat.LongDateTime,
     },
     {
+      name: 'Attendance List',
+      id: 100,
+      fieldType: FieldType.String,
+      isMultiValue: true
+    },
+    {
+      name: 'Full Name',
+      id: 200,
+      fieldType: FieldType.String,
+      isRequired: true
+    },
+    {
+
+      name: 'Birthdays',
+      id: 300,
+      fieldType: FieldType.Date,
+      format: FieldFormat.LongDate,
+      isMultiValue: true,
+    },
+    {
+
+      name: 'Birthdays w/ Time',
+      id: 400,
+      fieldType: FieldType.DateTime,
+      format: FieldFormat.LongDateTime,
+      isMultiValue: true,
+    },
+    {
+
+      name: 'Start Times',
+      id: 500,
+      fieldType: FieldType.Time,
+      format: FieldFormat.ShortTime,
+      isMultiValue: true,
+    },
+    {
+
+      name: 'Number (no format)',
+      id: 600,
+      fieldType: FieldType.Number,
+      format: FieldFormat.GeneralNumber,
+    },
+    {
+
+      name: 'Amount (AUD)',
+      id: 6100,
+      fieldType: FieldType.Number,
+      format: FieldFormat.Currency,
+      currency: 'AUD',
+    },
+    {
+
+      name: 'Test Scores',
+      id: 6200,
+      fieldType: FieldType.Number,
+      format: FieldFormat.Percent,
+      isMultiValue: true,
+      constraint: '>=0&<=100',
+      constraintError: 'Must be between 0-100.',
+    },
+    {
+
+      name: 'Calories Per Serving',
+      id: 6300,
+      fieldType: FieldType.Number,
+      format: FieldFormat.Scientific,
+    },
+    {
+
+      name: 'General Number',
+      id: 6400,
+      fieldType: FieldType.Number,
+      format: FieldFormat.GeneralNumber,
+    },
+    {
+
+      name: 'Int',
+      id: 700,
+      fieldType: FieldType.ShortInteger,
+      format: FieldFormat.GeneralNumber,
+    },
+    {
+
+      name: 'LongInt',
+      id: 800,
+      fieldType: FieldType.LongInteger,
+      format: FieldFormat.GeneralNumber,
+    },
+    {
+
+      name: 'Additional Comments',
+      id: 900,
+      fieldType: FieldType.String,
+      format: FieldFormat.None,
+      isRequired: true,
+      length: 200,
+    },
+    {
+
+      name: 'Date',
+      id: 1100,
+      fieldType: FieldType.Date,
+      format: FieldFormat.LongDate,
+    },
+    {
+
+      name: 'DateTime',
+      id: 1200,
+      fieldType: FieldType.DateTime,
+      format: FieldFormat.LongDateTime,
+    },
+    {
 
       name: 'Time',
       id: 13,
@@ -145,9 +257,8 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
   async getAllFieldDefinitionsAsync(): Promise<LfFieldInfo[]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        return reject();
        return resolve(this.fieldInfos);
-    }, 3000);
+    });
   })
   }
 }

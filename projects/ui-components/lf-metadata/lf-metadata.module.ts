@@ -14,6 +14,7 @@ import { LfLoaderModule, LfModalsModule } from '@laserfiche/lf-ui-components/sha
 import { FieldComponentsModule } from './field-components/field-components.module';
 import { GetFieldTypePipe } from './lf-field-adhoc-container/lf-field-add-remove/get-field-type.pipe';
 import { LfFieldViewDirective } from './lf-field-view.directive';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { LfFieldViewDirective } from './lf-field-view.directive';
     ReactiveFormsModule,
     LfModalsModule,
     LfLoaderModule,
+    ScrollingModule,
   ],
   bootstrap: [
     LfFieldAdhocContainerComponent,
