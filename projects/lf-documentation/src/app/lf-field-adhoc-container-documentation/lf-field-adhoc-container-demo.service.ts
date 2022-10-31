@@ -258,7 +258,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
     return new Promise((resolve, reject) => {
       setTimeout(() => {
        return resolve(this.fieldInfos);
-    });
-  })
+    }, 100);
+  });
   }
 }
