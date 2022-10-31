@@ -9,7 +9,7 @@ import { LfFieldAdhocContainerService } from '../lf-field-adhoc-container.servic
 import { FieldType, PopupModalData } from '@laserfiche/lf-ui-components/shared';
 import { LfFieldInfo } from '../../field-components/utils/lf-field-types';
 import { AppLocalizationService, filterObjectsByName } from '@laserfiche/lf-ui-components/shared';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PopupModalResult } from '@laserfiche/lf-ui-components/shared';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
@@ -78,7 +78,6 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
 
   @Input()
   initAsync = async (adhocContainerService: LfFieldAdhocContainerService): Promise<void> => {
-    console.log('initAsync', this.isLoading)
     this.adhocFieldContainerService = CoreUtils.validateDefined(adhocContainerService, 'adhocContainerService');
     try {
       this.isLoading = true;

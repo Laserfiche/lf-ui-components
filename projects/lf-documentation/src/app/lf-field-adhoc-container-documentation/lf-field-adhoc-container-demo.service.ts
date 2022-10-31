@@ -63,8 +63,8 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Number,
       format: FieldFormat.Percent,
       isMultiValue: true,
-      constraint: '>=0&<=100',
-      constraintError: 'Must be between 0-100.',
+      constraint: '>=0&<=1',
+      constraintError: 'Must be between 0-1.',
     },
     {
 
@@ -101,7 +101,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.String,
       format: FieldFormat.None,
       isRequired: true,
-      length: 200,
+      length: 2,
     },
     {
 
@@ -118,114 +118,114 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       format: FieldFormat.LongDateTime,
     },
     {
-      name: 'Attendance List',
-      id: 100,
+      name: 'Attendance List (1)',
+      id: 101,
       fieldType: FieldType.String,
       isMultiValue: true
     },
     {
-      name: 'Full Name',
-      id: 200,
+      name: 'Full Name (1)',
+      id: 102,
       fieldType: FieldType.String,
       isRequired: true
     },
     {
 
-      name: 'Birthdays',
-      id: 300,
+      name: 'Birthdays (1)',
+      id: 103,
       fieldType: FieldType.Date,
       format: FieldFormat.LongDate,
       isMultiValue: true,
     },
     {
 
-      name: 'Birthdays w/ Time',
-      id: 400,
+      name: 'Birthdays w/ Time (1)',
+      id: 104,
       fieldType: FieldType.DateTime,
       format: FieldFormat.LongDateTime,
       isMultiValue: true,
     },
     {
 
-      name: 'Start Times',
-      id: 500,
+      name: 'Start Times (1)',
+      id: 105,
       fieldType: FieldType.Time,
       format: FieldFormat.ShortTime,
       isMultiValue: true,
     },
     {
 
-      name: 'Number (no format)',
-      id: 600,
+      name: 'Number (no format) (1)',
+      id: 106,
       fieldType: FieldType.Number,
       format: FieldFormat.GeneralNumber,
     },
     {
 
-      name: 'Amount (AUD)',
-      id: 6100,
+      name: 'Amount (AUD) (1)',
+      id: 161,
       fieldType: FieldType.Number,
       format: FieldFormat.Currency,
       currency: 'AUD',
     },
     {
 
-      name: 'Test Scores',
-      id: 6200,
+      name: 'Test Scores (1)',
+      id: 162,
       fieldType: FieldType.Number,
       format: FieldFormat.Percent,
       isMultiValue: true,
-      constraint: '>=0&<=100',
-      constraintError: 'Must be between 0-100.',
+      constraint: '>=0&<=1',
+      constraintError: 'Must be between 0-1.',
     },
     {
 
-      name: 'Calories Per Serving',
-      id: 6300,
+      name: 'Calories Per Serving (1)',
+      id: 163,
       fieldType: FieldType.Number,
       format: FieldFormat.Scientific,
     },
     {
 
-      name: 'General Number',
-      id: 6400,
+      name: 'General Number (1)',
+      id: 164,
       fieldType: FieldType.Number,
       format: FieldFormat.GeneralNumber,
     },
     {
 
-      name: 'Int',
-      id: 700,
+      name: 'Int (1)',
+      id: 107,
       fieldType: FieldType.ShortInteger,
       format: FieldFormat.GeneralNumber,
     },
     {
 
-      name: 'LongInt',
-      id: 800,
+      name: 'LongInt (1)',
+      id: 108,
       fieldType: FieldType.LongInteger,
       format: FieldFormat.GeneralNumber,
     },
     {
 
-      name: 'Additional Comments',
-      id: 900,
+      name: 'Additional Comments (1)',
+      id: 109,
       fieldType: FieldType.String,
       format: FieldFormat.None,
       isRequired: true,
-      length: 200,
+      length: 2,
     },
     {
 
-      name: 'Date',
-      id: 1100,
+      name: 'Date (1)',
+      id: 110,
       fieldType: FieldType.Date,
       format: FieldFormat.LongDate,
     },
     {
 
-      name: 'DateTime',
-      id: 1200,
+      name: 'DateTime (1)',
+      id: 120,
       fieldType: FieldType.DateTime,
       format: FieldFormat.LongDateTime,
     },
