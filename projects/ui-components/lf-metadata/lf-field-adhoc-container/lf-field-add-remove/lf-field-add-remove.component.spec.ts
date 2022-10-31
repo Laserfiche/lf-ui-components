@@ -10,6 +10,7 @@ import { LfFieldAddRemoveComponent } from './lf-field-add-remove.component';
 import { LfFieldAdhocContainerDemoService } from '../lf-field-adhoc-container-demo.service';
 import { FieldType, LfPopupModalComponent } from '@laserfiche/lf-ui-components/shared';
 import { GetFieldTypePipe } from './get-field-type.pipe';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 describe('LfFieldAddRemoveComponent', () => {
   let component: LfFieldAddRemoveComponent;
@@ -28,7 +29,8 @@ describe('LfFieldAddRemoveComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         MatCheckboxModule,
-        MatDialogModule
+        MatDialogModule,
+        ScrollingModule
       ],
       providers: [{provide: AdhocFieldConnectorService, useValue: adHocConnectorTestService}]
     })
