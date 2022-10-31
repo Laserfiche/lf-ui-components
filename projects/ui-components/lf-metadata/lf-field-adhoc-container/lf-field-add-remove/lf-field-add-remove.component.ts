@@ -64,7 +64,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
 
   constructor(
     private adHocConnectorService: AdhocFieldConnectorService,
-    private ref: ChangeDetectorRef,
+    public ref: ChangeDetectorRef,
     public popupDialog: MatDialog,
     private localizationService: AppLocalizationService,
   ) { }

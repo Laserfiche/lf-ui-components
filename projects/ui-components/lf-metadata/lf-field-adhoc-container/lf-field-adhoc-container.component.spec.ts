@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FieldType, LfLoaderModule, LfModalsModule } from '@laserfiche/lf-ui-components/shared';
@@ -21,7 +21,12 @@ describe('LfFieldAdhocContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LfFieldAdhocContainerComponent, LfFieldAddRemoveComponent, LfFieldViewDirective, GetFieldTypePipe],
+      declarations: [
+        LfFieldAdhocContainerComponent,
+        LfFieldAddRemoveComponent,
+        LfFieldViewDirective,
+        GetFieldTypePipe
+      ],
       imports: [
         FormsModule,
         ReactiveFormsModule,
@@ -84,22 +89,22 @@ describe('LfFieldAdhocContainerComponent', () => {
     expect(expected).toEqual([initialFieldInfo]);
   });
 
-  it('should update selectedFieldValues when checkbox changed', async () => {
+  it('should update selectedFieldValues when checkbox changed',  fakeAsync( async () => {
     // Arrange
     const addRemoveButton = element.querySelector('#adhoc-add-remove-button') as HTMLButtonElement;
     addRemoveButton.click();
-    fixture.detectChanges();
-    await fixture.whenStable();
+    flush();
+    component.addRemoveComponent.ref.detectChanges();
 
     // Act
     const attendanceListField = (element.querySelectorAll('.mat-checkbox-input') as any)[2];
     attendanceListField.click();
-    fixture.detectChanges();
+     fixture.detectChanges();
     const applyButton = element.querySelector('#adhoc-apply-button') as HTMLButtonElement;
-    applyButton.click();
+     applyButton.click();
+    flush();
 
     // Assert
-    await fixture.whenStable();
     expect(component.getFieldValues()).toEqual({
       'Amount (AUD)': { fieldName: 'Amount (AUD)', fieldId: 61, fieldType: FieldType.Number, values: [{ value: '', position: '1' }] },
       'Attendance List': {
@@ -116,28 +121,28 @@ describe('LfFieldAdhocContainerComponent', () => {
         ],
       },
     });
-  });
+  }));
 
-  it('should be invalid when one of fields is invalid', async () => {
+  it('should be invalid when one of fields is invalid', fakeAsync( async () => {
     // Arrange
     const addRemoveButton = element.querySelector('#adhoc-add-remove-button') as HTMLButtonElement;
     addRemoveButton.click();
-    fixture.detectChanges();
-    await fixture.whenStable();
+    flush();
+    component.addRemoveComponent.ref.detectChanges();
 
     // Act
     const fieldCheckboxes = element.querySelectorAll('.mat-checkbox-input') as any;
     const requiredField = fieldCheckboxes[1];
     requiredField.click();
-    fixture.detectChanges();
+    flush();
+    component.addRemoveComponent.ref.detectChanges();
 
     component.onClickBackAsync();
     component.addRemoveComponent.onClickApply();
 
     // Assert (required field is blank)
-    await fixture.whenStable();
     expect(component.forceValidation()).toBeFalse();
-  });
+  }));
 
   it('should getMappedFieldValues with valid input', async () => {
     // Arrange
