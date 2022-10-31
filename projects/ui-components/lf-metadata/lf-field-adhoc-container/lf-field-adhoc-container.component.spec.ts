@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FieldType, LfModalsModule } from '@laserfiche/lf-ui-components/shared';
+import { FieldType, LfLoaderModule, LfModalsModule } from '@laserfiche/lf-ui-components/shared';
 import { LfFieldViewDirective } from '../lf-field-view.directive';
 import { FieldValue } from '../field-components/utils/lf-field-types';
 import { LfFieldAddRemoveComponent } from './lf-field-add-remove/lf-field-add-remove.component';
@@ -11,6 +11,8 @@ import { LfFieldAdhocContainerComponent } from './lf-field-adhoc-container.compo
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { LfFieldBaseModule } from '../field-components/field-base-parts/lf-field-base/lf-field-base.module';
 import { GetFieldTypePipe } from './lf-field-add-remove/get-field-type.pipe';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('LfFieldAdhocContainerComponent', () => {
   let component: LfFieldAdhocContainerComponent;
@@ -26,7 +28,10 @@ describe('LfFieldAdhocContainerComponent', () => {
         BrowserAnimationsModule,
         LfModalsModule,
         LfFieldBaseModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        ScrollingModule,
+        LfLoaderModule,
+        MatDialogModule,
       ],
     }).compileComponents();
 
