@@ -63,8 +63,8 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Number,
       format: FieldFormat.Percent,
       isMultiValue: true,
-      constraint: '>=0&<=1',
-      constraintError: 'Must be between 0-1.',
+      constraint: '>=0&<=100',
+      constraintError: 'Must be between 0-100.',
     },
     {
 
@@ -101,7 +101,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.String,
       format: FieldFormat.None,
       isRequired: true,
-      length: 2,
+      length: 200,
     },
     {
 
