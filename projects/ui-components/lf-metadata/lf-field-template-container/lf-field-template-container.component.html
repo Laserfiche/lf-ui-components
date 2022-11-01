@@ -1,15 +1,23 @@
 <div [hidden]="hideTemplate">
   <mat-form-field floatLabel="never" class="lf-field lf-template-picker lf-dropdown">
-    <mat-label class="lf-dropdown-label">{{emptyTemplateName | async}}</mat-label>
+    <mat-label *ngIf="!isLoading" class="lf-dropdown-label">
+      {{emptyTemplateName | async}}
+      </mat-label>
+    <mat-label *ngIf="isLoading" class="lf-dropdown-label">
+      <lf-loader-component></lf-loader-component>
+    </mat-label>
     <mat-select name="template-dropdown" id="template-dropdown" class="lf-dropdown"
         (selectionChange)="onTemplateChangedAsync($event)"
         (openedChange)="onToggleDropdownAsync($event)"
         [(value)]="templateSelected" [compareWith]="compareTemplateInfoFunc">
-        <mat-option selected>{{emptyTemplateName | async}}</mat-option>
-        <mat-option *ngFor="let template of availableTemplates" [value]="template">{{template.name}}
+        <mat-option selected *ngIf="!isLoading">{{emptyTemplateName | async}}</mat-option>
+        <mat-option hidden="!isLoading" *ngFor="let template of availableTemplates" [value]="template">{{template.name}}
         </mat-option>
     </mat-select>
   </mat-form-field>
   <div class="error-message" *ngIf="templateErrorMessage">{{templateErrorMessage | async}}</div>
-  <ng-template lfFieldView></ng-template>
+  <div *ngIf="isTemplateLoading">
+    <lf-loader-component></lf-loader-component>
+  </div>
+  <ng-template *ngIf="!isTemplateLoading" lfFieldView></ng-template>
 </div>
