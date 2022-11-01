@@ -8,7 +8,7 @@
   right: 0px;
 }
 
-.pick-field {
+.add-remove-container .field-picker-container cdk-virtual-scroll-viewport.pick-field {
   overflow: auto;
   flex: 1 1 auto;
   overflow-x: hidden;
@@ -65,7 +65,7 @@ i.loader {
   height: 25px;
 }
 
-.button-container {
+.add-remove-container .button-container {
   max-height: 52px;
   min-height: 52px;
   width: 100%;

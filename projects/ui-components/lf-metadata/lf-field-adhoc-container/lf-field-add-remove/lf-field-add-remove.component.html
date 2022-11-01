@@ -28,9 +28,9 @@
               </mat-checkbox>
           </div>
       </cdk-virtual-scroll-viewport>
-        <div class="fields-empty" *ngIf="!displayFieldInfos || displayFieldInfos.length===0">
-            {{NO_MATCHING_FIELDS_FOUND | async}}
-        </div>
+      <div class="lf-adhoc-loader fields-empty" *ngIf="!displayFieldInfos || displayFieldInfos.length===0">
+        {{NO_MATCHING_FIELDS_FOUND | async}}
+      </div>
     </div>
   </div>
   <div class="button-container" *ngIf="areCheckboxChanges">
