@@ -1,48 +1,73 @@
 <div id="add-remove-container" class="add-remove-container">
-  <div id="adhoc-back-button" class='back-button-overlay' (click)='onClickBack()'>
-      <div class="adhoc-back-button-container">
-          <span class="material-icons lf-button adhoc-back-button" id="arrow-left-18">
-            arrow_back_ios_new
-            </span>
-      </div>
-      <div class="ms-font-m back-button-text">{{ADD_REMOVE_FIELDS | async}}</div>
+  <div id="adhoc-back-button" class="back-button-overlay" (click)="onClickBack()">
+    <div class="adhoc-back-button-container">
+      <span class="material-icons lf-button adhoc-back-button" id="arrow-left-18"> arrow_back_ios_new </span>
+    </div>
+    <div class="ms-font-m back-button-text">{{ ADD_REMOVE_FIELDS | async }}</div>
   </div>
   <div class="back-button-padding"></div>
   <div class="add-remove-content">
-    <lf-loader-component *ngIf="isLoading" class="lf-adhoc-state-message"></lf-loader-component>
-    <div *ngIf="shouldShowErrorMessage" class="lf-adhoc-state-message error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
-    <div class="field-picker-container" *ngIf="!isLoading && !shouldShowErrorMessage" [ngClass]="{'has-changes': areCheckboxChanges}">
+    <ng-container *ngIf="isLoading; else checkIfError">
+      <lf-loader-component class="lf-adhoc-state-message"></lf-loader-component>
+    </ng-container>
+    <ng-template #checkIfError>
+      <ng-container *ngIf="shouldShowErrorMessage; else showFieldPicker">
+        <div class="lf-adhoc-state-message error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
+      </ng-container>
+    </ng-template>
+    <ng-template #showFieldPicker>
+      <div class="field-picker-container" [ngClass]="{ 'has-changes': areCheckboxChanges }">
         <div class="search">
-            <input [value]="fieldFilterText" [formControl]="filterFieldsControl" placeholder="{{SEARCH_FIELDS | async}}"
-                class="searchBox">
-            <div class="icon icon-search"></div>
-            <div *ngIf="fieldFilterText && fieldFilterText.length > 0" (click)="onClearFields()"
-                class="icon icon-clear">
-            </div>
+          <input
+            [value]="fieldFilterText"
+            [formControl]="filterFieldsControl"
+            placeholder="{{ SEARCH_FIELDS | async }}"
+            class="searchBox"
+          />
+          <div class="icon icon-search"></div>
+          <div
+            *ngIf="fieldFilterText && fieldFilterText.length > 0"
+            (click)="onClearFields()"
+            class="icon icon-clear"
+          ></div>
         </div>
-        <cdk-virtual-scroll-viewport *ngIf="displayFieldInfos && displayFieldInfos.length > 0" itemSize="25" class="pick-field">
-          <div *cdkVirtualFor="let field of displayFieldInfos, let i = index">
-              <mat-checkbox color="primary" class="lf-checkbox" (change)="onUpdateCheckbox($event, field)" id=`add-remove-checkbox-{{i}}`
-                  [checked]="isFieldSelected(field)" title="{{field.name}}" [disabled]="field.inTemplateSelected">
-                  {{field.name}} ({{field | getFieldType: LOCALIZED_FIELD_TYPES | async}})
+        <ng-container *ngIf="displayFieldInfos && displayFieldInfos.length > 0; else noField">
+          <cdk-virtual-scroll-viewport itemSize="25" class="pick-field">
+            <div *cdkVirtualFor="let field of displayFieldInfos; let i = index">
+              <mat-checkbox
+                color="primary"
+                class="lf-checkbox"
+                (change)="onUpdateCheckbox($event, field)"
+                id="`add-remove-checkbox-{{ i }}`"
+                [checked]="isFieldSelected(field)"
+                title="{{ field.name }}"
+                [disabled]="field.inTemplateSelected"
+              >
+                {{ field.name }} ({{ field | getFieldType: LOCALIZED_FIELD_TYPES | async }})
               </mat-checkbox>
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </ng-container>
+        <ng-template #noField>
+          <div class="lf-adhoc-state-message fields-empty">
+            {{ NO_MATCHING_FIELDS_FOUND | async }}
           </div>
-      </cdk-virtual-scroll-viewport>
-      <div class="lf-adhoc-state-message fields-empty" *ngIf="!displayFieldInfos || displayFieldInfos.length===0">
-        {{NO_MATCHING_FIELDS_FOUND | async}}
+        </ng-template>
       </div>
-    </div>
+    </ng-template>
   </div>
   <div class="button-container" *ngIf="areCheckboxChanges">
     <div class="button-padding-container">
-        <button id="adhoc-apply-button" class="primary-button lf-button adhoc-field-button"
-            (click)="onClickApply()">{{APPLY | async}}</button>
-        <button id="adhoc-cancel-button" class="sec-button lf-button adhoc-field-button"
-            (click)="onClickCancel()">{{CANCEL | async}}</button>
+      <button id="adhoc-apply-button" class="primary-button lf-button adhoc-field-button" (click)="onClickApply()">
+        {{ APPLY | async }}
+      </button>
+      <button id="adhoc-cancel-button" class="sec-button lf-button adhoc-field-button" (click)="onClickCancel()">
+        {{ CANCEL | async }}
+      </button>
     </div>
-</div>
+  </div>
 </div>
 
 <ng-template #addRemoveConfirmModal let-data>
-    <lf-popup-modal-component [data]="data" (buttonClick)="onModalButtonClick($event)"></lf-popup-modal-component>
+  <lf-popup-modal-component [data]="data" (buttonClick)="onModalButtonClick($event)"></lf-popup-modal-component>
 </ng-template>
