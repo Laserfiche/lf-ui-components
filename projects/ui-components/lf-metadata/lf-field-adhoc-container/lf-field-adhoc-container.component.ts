@@ -174,7 +174,6 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   /** @internal */
   private loadSelectedFieldValues(fields: { value: FieldValue; definition: LfFieldInfo }[]): void {
     this.getInitialSelectedOptions(fields);
-
     this.adhocFieldConnectorService.setSelectedFieldIds(this.selectedFieldIds);
   }
 
@@ -196,31 +195,6 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     return fieldsSet;
   }
 
-  /** @internal */
-  private async loadFieldDefinitionsInOrderAsync(): Promise<void> {
-    const fieldInfos: LfFieldInfo[] = await this.getCurrentFieldOptionsAsync();
-    this.allFieldInfos = this.orderFieldInfosByName(fieldInfos);
-    this.adhocFieldConnectorService.setAllFieldInfos(this.allFieldInfos);
-  }
-
-  /** @internal */
-  private async getCurrentFieldOptionsAsync(): Promise<LfFieldInfo[]> {
-    const fieldInfos: AdhocFieldInfo[] = await this.adhocFieldContainerService.getAllFieldDefinitionsAsync();
-    const fieldDefinitions = fieldInfos.filter((val) => {
-      const validFieldType: boolean = val.fieldType in FieldType && val.fieldType !== FieldType.Blob;
-      if (!validFieldType) {
-        console.warn(`Invalid FieldType: ${val.fieldType}. Will not display field with name: ${val.name}`);
-      }
-      return validFieldType;
-    });
-    this.updateTemplateFields(fieldDefinitions);
-    this.adhocFieldConnectorService.setAllFieldInfos(fieldDefinitions);
-
-    if (fieldDefinitions?.length === 0) {
-      console.warn('getAllFieldDefinitionsAsync returned no definitions');
-    }
-    return fieldDefinitions;
-  }
 
   /** @internal */
   private getInitialSelectedOptions(fields: { value: FieldValue; definition: LfFieldInfo }[]): void {
@@ -240,6 +214,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
 
     this.allFieldInfos = fieldInfos;
     this.allFieldValues = this.getMappedFieldValues(fieldValues);
+    this.adhocFieldConnectorService.setAllFieldInfos(this.allFieldInfos);
     this.selectedFieldIds = this.getFieldIds(fieldValues);
     this.metadataFieldConnectorService.setAllFieldValues(this.allFieldValues);
   }
@@ -252,9 +227,10 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
 
   /** @internal */
   async addRemoveFieldsAsync(): Promise<void> {
-    await this.loadFieldDefinitionsInOrderAsync();
     this.toggleAdhocModal(true);
     await this.addRemoveComponent.initAsync(this.adhocFieldContainerService);
+    const fieldDefinitions = this.adhocFieldConnectorService.getAllFieldInfos();
+    this.updateTemplateFields(fieldDefinitions);
     await this.addRemoveComponent.updateSortedFieldInfos();
   }
 
@@ -287,8 +263,8 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
 
   /** @internal */
   getSelectedFieldInfos(): LfFieldInfo[] {
+    this.allFieldInfos = this.adhocFieldConnectorService.getAllFieldInfos();
     this.updateTemplateFields(this.allFieldInfos);
-    this.adhocFieldConnectorService.setAllFieldInfos(this.allFieldInfos);
     const fieldInfos: LfFieldInfo[] = this.allFieldInfos?.filter((fieldInfo) =>
       (this.selectedFieldIds.has(fieldInfo.id) && !(fieldInfo as AdhocFieldInfo).inTemplateSelected)
     );
@@ -307,20 +283,6 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     });
   }
 
-  /** @internal */
-  private orderFieldInfosByName(fieldInfos: LfFieldInfo[]): LfFieldInfo[] {
-    if (fieldInfos) {
-      const sortSelectedFieldInfosAlphabetically = fieldInfos?.sort((a, b) => {
-        const aName = a.name?.toLowerCase() ?? '';
-        const bName = b.name?.toLowerCase() ?? '';
-        return aName < bName ? -1 : 1;
-      });
-      return sortSelectedFieldInfosAlphabetically;
-    }
-    else {
-      return [];
-    }
-  }
 
   /** @internal */
   async onFieldValueChangedAsync(values: string[], fieldInfo: LfFieldInfo): Promise<void> {
