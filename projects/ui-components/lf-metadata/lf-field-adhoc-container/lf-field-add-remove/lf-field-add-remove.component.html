@@ -14,46 +14,46 @@
       <ng-container *ngIf="shouldShowErrorMessage; else showFieldPicker">
         <div class="lf-adhoc-state-message error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
       </ng-container>
-    </ng-template>
-    <ng-template #showFieldPicker>
-      <div class="field-picker-container" [ngClass]="{ 'has-changes': areCheckboxChanges }">
-        <div class="search">
-          <input
-            [value]="fieldFilterText"
-            [formControl]="filterFieldsControl"
-            placeholder="{{ SEARCH_FIELDS | async }}"
-            class="searchBox"
-          />
-          <div class="icon icon-search"></div>
-          <div
-            *ngIf="fieldFilterText && fieldFilterText.length > 0"
-            (click)="onClearFields()"
-            class="icon icon-clear"
-          ></div>
-        </div>
-        <ng-container *ngIf="displayFieldInfos && displayFieldInfos.length > 0; else noField">
-          <cdk-virtual-scroll-viewport itemSize="25" class="pick-field">
-            <div *cdkVirtualFor="let field of displayFieldInfos; let i = index">
-              <mat-checkbox
-                color="primary"
-                class="lf-checkbox"
-                (change)="onUpdateCheckbox($event, field)"
-                id="`add-remove-checkbox-{{ i }}`"
-                [checked]="isFieldSelected(field)"
-                title="{{ field.name }}"
-                [disabled]="field.inTemplateSelected"
-              >
-                {{ field.name }} ({{ field | getFieldType: LOCALIZED_FIELD_TYPES | async }})
-              </mat-checkbox>
-            </div>
-          </cdk-virtual-scroll-viewport>
-        </ng-container>
-        <ng-template #noField>
-          <div class="lf-adhoc-state-message fields-empty">
-            {{ NO_MATCHING_FIELDS_FOUND | async }}
+      <ng-template #showFieldPicker>
+        <div class="field-picker-container" [ngClass]="{ 'has-changes': areCheckboxChanges }">
+          <div class="search">
+            <input
+              [value]="fieldFilterText"
+              [formControl]="filterFieldsControl"
+              placeholder="{{ SEARCH_FIELDS | async }}"
+              class="searchBox"
+            />
+            <div class="icon icon-search"></div>
+            <div
+              *ngIf="fieldFilterText && fieldFilterText.length > 0"
+              (click)="onClearFields()"
+              class="icon icon-clear"
+            ></div>
           </div>
-        </ng-template>
-      </div>
+          <ng-container *ngIf="displayFieldInfos && displayFieldInfos.length > 0; else noField">
+            <cdk-virtual-scroll-viewport itemSize="25" class="pick-field">
+              <div *cdkVirtualFor="let field of displayFieldInfos; let i = index">
+                <mat-checkbox
+                  color="primary"
+                  class="lf-checkbox"
+                  (change)="onUpdateCheckbox($event, field)"
+                  id="`add-remove-checkbox-{{ i }}`"
+                  [checked]="isFieldSelected(field)"
+                  title="{{ field.name }}"
+                  [disabled]="field.inTemplateSelected"
+                >
+                  {{ field.name }} ({{ field | getFieldType: LOCALIZED_FIELD_TYPES | async }})
+                </mat-checkbox>
+              </div>
+            </cdk-virtual-scroll-viewport>
+          </ng-container>
+          <ng-template #noField>
+            <div class="lf-adhoc-state-message fields-empty">
+              {{ NO_MATCHING_FIELDS_FOUND | async }}
+            </div>
+          </ng-template>
+        </div>
+      </ng-template>
     </ng-template>
   </div>
   <div class="button-container" *ngIf="areCheckboxChanges">
