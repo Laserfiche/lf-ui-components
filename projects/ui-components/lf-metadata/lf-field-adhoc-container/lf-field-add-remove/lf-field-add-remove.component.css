@@ -1,5 +1,6 @@
 .add-remove-container {
-  display: block;
+  display: flex;
+  flex-direction: column;
   position: absolute;
   bottom: 0px;
   top: 0px;
@@ -7,11 +8,10 @@
   right: 0px;
 }
 
-.pick-field {
-  display: block;
-  word-wrap: none;
-  overflow: ellipsis;
-  position: relative;
+.add-remove-container .field-picker-container cdk-virtual-scroll-viewport.pick-field {
+  overflow: auto;
+  flex: 1 1 auto;
+  overflow-x: hidden;
 }
 
 .adhoc-field-button {
@@ -51,13 +51,9 @@ i.loader {
 }
 
 .field-picker-container {
-  position: absolute;
-  top: 43px;
-  bottom: 0px;
-  left: 0;
-  right: 0px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   padding: 15px;
 }
 
@@ -65,13 +61,17 @@ i.loader {
   bottom: 52px;
 }
 
-.button-container {
+.lf-checkbox {
+  height: 25px;
+}
+
+.add-remove-container .button-container {
   max-height: 52px;
   min-height: 52px;
   width: 100%;
   bottom: 0px;
-  position: absolute;
   border-top: 1px solid #ddd;
+  background-color: white;
 }
 
 .button-padding-container {
@@ -149,4 +149,22 @@ i.loader {
 
 .icon-clear:hover {
   background-position: -76px -224px;
+}
+
+.lf-adhoc-state-message {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.add-remove-content {
+  padding-bottom: 10px;
+  flex-grow: 1;
+}
+
+.error-entries-text {
+  color: #AB2227;
 }

@@ -31,6 +31,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   readonly ADD_REMOVE_FIELDS: Observable<string> = this.localizationService.getStringObservable('ADD_REMOVE_FIELDS');
   readonly NO_MATCHING_FIELDS_FOUND: Observable<string> = this.localizationService.getStringObservable('NO_MATCHING_FIELDS_FOUND');
   readonly SEARCH_FIELDS: Observable<string> = this.localizationService.getStringObservable('SEARCH_FIELDS');
+  readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
 
   readonly LOCALIZED_FIELD_TYPES: Map<string, Observable<string>> = new Map<string, Observable<string>>([
     ['DATA', this.localizationService.getStringObservable('DATA')],
@@ -47,11 +48,12 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   allFieldInfos: AdhocFieldInfo[] = [];
   displayFieldInfos: AdhocFieldInfo[] = [];
   selectedFieldIds: Set<number> = new Set<number>();
-
   areCheckboxChanges: boolean = false;
   filterFieldsControl: FormControl = new FormControl();
   fieldFilterText: string = '';
 
+  hasError: boolean = false;
+  isLoading: boolean = true;
   adhocFieldContainerService!: LfFieldAdhocContainerService;
 
   dialogRef?: MatDialogRef<any>;
@@ -62,9 +64,9 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
 
   constructor(
     private adHocConnectorService: AdhocFieldConnectorService,
-    private ref: ChangeDetectorRef,
+    public ref: ChangeDetectorRef,
     public popupDialog: MatDialog,
-    private localizationService: AppLocalizationService
+    private localizationService: AppLocalizationService,
   ) { }
 
   ngAfterViewInit() {
@@ -77,8 +79,23 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   @Input()
   initAsync = async (adhocContainerService: LfFieldAdhocContainerService): Promise<void> => {
     this.adhocFieldContainerService = CoreUtils.validateDefined(adhocContainerService, 'adhocContainerService');
-    this.allFieldInfos = this.adHocConnectorService.getAllFieldInfos();
+    try {
+      this.isLoading = true;
+      this.hasError = false;
+      await this.loadFieldDefinitionsInOrderAsync();
+    }
+    catch (error) {
+      this.hasError = true;
+    }
+    finally {
+      this.isLoading = false;
+    }
   };
+
+  /** @internal */
+  get shouldShowErrorMessage(): boolean {
+    return this.hasError;
+  }
 
   async onClickBack() {
     if (this.areCheckboxChanges) {
@@ -186,4 +203,43 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   getAppliedFields() {
     this.selectedFieldIds = this.adHocConnectorService.getSelectedFieldIds();
   }
+
+  private async loadFieldDefinitionsInOrderAsync(): Promise<void> {
+  const fieldInfos: LfFieldInfo[] = await this.getCurrentFieldOptionsAsync();
+  this.allFieldInfos = this.orderFieldInfosByName(fieldInfos);
+  this.adHocConnectorService.setAllFieldInfos(this.allFieldInfos);
+}
+
+  private async getCurrentFieldOptionsAsync(): Promise<LfFieldInfo[]> {
+      const fieldInfos: AdhocFieldInfo[] = await this.adhocFieldContainerService.getAllFieldDefinitionsAsync();
+      const fieldDefinitions = fieldInfos.filter((val) => {
+        const validFieldType: boolean = val.fieldType in FieldType && val.fieldType !== FieldType.Blob;
+        if (!validFieldType) {
+          console.warn(`Invalid FieldType: ${val.fieldType}. Will not display field with name: ${val.name}`);
+        }
+        return validFieldType;
+      });
+      this.adHocConnectorService.setAllFieldInfos(fieldDefinitions);
+
+      if (fieldDefinitions?.length === 0) {
+        console.warn('getAllFieldDefinitionsAsync returned no definitions');
+      }
+      return fieldDefinitions;
+  }
+
+    /** @internal */
+    private orderFieldInfosByName(fieldInfos: LfFieldInfo[]): LfFieldInfo[] {
+      if (fieldInfos) {
+        const sortSelectedFieldInfosAlphabetically = fieldInfos?.sort((a, b) => {
+          const aName = a.name?.toLowerCase() ?? '';
+          const bName = b.name?.toLowerCase() ?? '';
+          return aName < bName ? -1 : 1;
+        });
+        return sortSelectedFieldInfosAlphabetically;
+      }
+      else {
+        return [];
+      }
+    }
+
 }
