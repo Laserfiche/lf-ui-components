@@ -5,7 +5,7 @@
     </mat-label>
     <ng-template #checkDropdownError>
       <mat-label  *ngIf="isDropdownError; else showDefaultEmptyTemplate" class="lf-dropdown-label">
-        an error has occurred in trying to get more template
+        {{ emptyTemplateName | async }}
       </mat-label>
       <ng-template #showDefaultEmptyTemplate>
         <mat-label class="lf-dropdown-label">
@@ -23,7 +23,7 @@
       [compareWith]="compareTemplateInfoFunc"
     >
       <mat-option selected *ngIf="isDropdownDefault">{{ emptyTemplateName | async }}</mat-option>
-      <mat-option selected *ngIf="isDropdownError">an error has occurred in trying to get more template</mat-option>
+      <mat-option selected *ngIf="isDropdownError" class="dropdown-error-message">{{ AN_ERROR_OCCURED | async }}</mat-option>
       <mat-option hidden="!isDropdownDefault" *ngFor="let template of availableTemplates" [value]="template"
         >{{ template.name }}
       </mat-option>

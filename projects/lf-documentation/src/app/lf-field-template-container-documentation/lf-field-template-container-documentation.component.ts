@@ -20,7 +20,7 @@ export class LfFieldTemplateContainerDocumentationComponent implements AfterView
   constructor() { }
 
   async ngAfterViewInit() : Promise<void> {
-    await this.elementTemplateContainer.nativeElement.initAsync(this.templateProviders, 2);
+    await this.elementTemplateContainer.nativeElement.initAsync(this.templateProviders, 6);
   }
 
   logElementInfo() {

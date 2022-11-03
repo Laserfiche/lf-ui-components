@@ -82,7 +82,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   private adhocDialogOpenedSub: Subscription | undefined;
   /** @internal */
-  private readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
+  readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
   /** @internal */
   dropdownLabelState: DropDownLabelState = DropDownLabelState.DEFAULT;
   /** @internal */
@@ -342,7 +342,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   async onToggleDropdownAsync(open: boolean): Promise<void> {
     this.templateErrorMessage = undefined;
-    if (open && !this.loadedTemplates) {
+    if (open) {
       try {
         this.availableTemplates = [];
         this.dropdownLabelState = DropDownLabelState.LOADING;
@@ -429,8 +429,9 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
             await this.updateDynamicFieldsAsync(fieldInfo, values, index);
           }
         } catch (err: any) {
+          this.templateState = TemplateState.HAS_ERROR;
           this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
-          console.error('getDynamicFieldValueOptionsAsync failed: ' + err.message);
+          console.error('getDynamicFieldValueOptionsAsync failed: ' + err?.message ?? err?.title ?? '');
           throw err;
         }
       }
@@ -465,7 +466,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       }
       catch (err: any) {
         this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
-        console.error('getTemplateFieldsAsync failed: ' + err.message);
+        console.error('getTemplateFieldsAsync failed: ' + err?.message ?? err?.title ?? '');
         this.templateState = TemplateState.HAS_ERROR;
         throw err;
       }
@@ -526,12 +527,18 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     fieldInfoOptions: string[][],
     lfFieldInfo: TemplateFieldInfo
   ) {
-    const dynamicFieldValueOptions = await this.getDynamicFieldValueOptionsAsync(indexChanged);
-    fieldInfoOptions[indexChanged] = dynamicFieldValueOptions[lfFieldInfo.id];
-    if (fieldInfoOptions[indexChanged] === undefined) {
-      console.warn(
-        `Could not get dynamic field options of field ${lfFieldInfo.name} id ${lfFieldInfo.id}, index ${indexChanged}`
-      );
+    try {
+      const dynamicFieldValueOptions = await this.getDynamicFieldValueOptionsAsync(indexChanged);
+      fieldInfoOptions[indexChanged] = dynamicFieldValueOptions[lfFieldInfo.id];
+      if (fieldInfoOptions[indexChanged] === undefined) {
+        console.warn(
+          `Could not get dynamic field options of field ${lfFieldInfo.name} id ${lfFieldInfo.id}, index ${indexChanged}`
+        );
+      }
+    }
+    catch (error) {
+      this.templateState = TemplateState.HAS_ERROR;
+      console.error('getDynamicFieldValueOptionsAsync failed:', error);
     }
   }
 
@@ -558,21 +565,26 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     if (!children || children.length === 0) {
       return;
     }
+    try {
+      const dynamicFieldValueOptions = await this.getDynamicFieldValueOptionsAsync(indexChanged);
+      for (const childFieldInfo of children) {
+        const childId = childFieldInfo.id;
+        if (!(childId in dynamicFieldValueOptions)) {
+          console.warn(`Could not get dynamic field options of field ${childFieldInfo.name} id ${childFieldInfo.id}`);
+          continue;
+        }
 
-    const dynamicFieldValueOptions = await this.getDynamicFieldValueOptionsAsync(indexChanged);
-    for (const childFieldInfo of children) {
-      const childId = childFieldInfo.id;
-      if (!(childId in dynamicFieldValueOptions)) {
-        console.warn(`Could not get dynamic field options of field ${childFieldInfo.name} id ${childFieldInfo.id}`);
-        continue;
+        const dynamicFieldOptions = this.getOrCreateDynamicOptions(childFieldInfo);
+        dynamicFieldOptions[indexChanged] = dynamicFieldValueOptions[childId] ?? [];
+
+        const childFieldValue: FieldValue = this.getUpdatedChildValue(childFieldInfo, dynamicFieldOptions, indexChanged);
+        const stringValues = childFieldValue.values?.map((val) => val['value']) ?? [''];
+        await this.updateDynamicFieldsAsync(childFieldInfo, stringValues, indexChanged);
       }
-
-      const dynamicFieldOptions = this.getOrCreateDynamicOptions(childFieldInfo);
-      dynamicFieldOptions[indexChanged] = dynamicFieldValueOptions[childId] ?? [];
-
-      const childFieldValue: FieldValue = this.getUpdatedChildValue(childFieldInfo, dynamicFieldOptions, indexChanged);
-      const stringValues = childFieldValue.values?.map((val) => val['value']) ?? [''];
-      await this.updateDynamicFieldsAsync(childFieldInfo, stringValues, indexChanged);
+    }
+    catch (error) {
+      this.templateState = TemplateState.HAS_ERROR;
+      console.error('getDynamicFieldValueOptionsAsync:', error);
     }
   }
 
@@ -611,7 +623,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       this.templateSelected.id,
       relevantValues
     );
-    this.templateState = TemplateState.SHOW_TEMPLATE; // TODO????
+    this.templateState = TemplateState.SHOW_TEMPLATE;
     this.ref.detectChanges();
     return dynamicFieldValueOptions;
   }
