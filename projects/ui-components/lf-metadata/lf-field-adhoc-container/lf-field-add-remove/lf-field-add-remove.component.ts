@@ -16,6 +16,16 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 /**
  * @internal
  */
+export enum AddRemoveState {
+  INITIAL = 'initial',
+  LOADING = 'isLoading',
+  HAS_ERROR = 'hasError',
+  DISPLAY_FIELD = 'displayField'
+}
+
+/**
+ * @internal
+ */
 @Component({
   selector: 'lf-field-add-remove-component',
   templateUrl: './lf-field-add-remove.component.html',
@@ -52,8 +62,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   filterFieldsControl: FormControl = new FormControl();
   fieldFilterText: string = '';
 
-  hasError: boolean = false;
-  isLoading: boolean = true;
+  state: AddRemoveState = AddRemoveState.INITIAL;
   adhocFieldContainerService!: LfFieldAdhocContainerService;
 
   dialogRef?: MatDialogRef<any>;
@@ -80,21 +89,25 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   initAsync = async (adhocContainerService: LfFieldAdhocContainerService): Promise<void> => {
     this.adhocFieldContainerService = CoreUtils.validateDefined(adhocContainerService, 'adhocContainerService');
     try {
-      this.isLoading = true;
-      this.hasError = false;
+      this.state = AddRemoveState.LOADING;
       await this.loadFieldDefinitionsInOrderAsync();
     }
     catch (error) {
-      this.hasError = true;
+      this.state = AddRemoveState.HAS_ERROR;
     }
     finally {
-      this.isLoading = false;
+      this.state = AddRemoveState.DISPLAY_FIELD;
     }
   };
 
   /** @internal */
   get shouldShowErrorMessage(): boolean {
-    return this.hasError;
+    return this.state === AddRemoveState.HAS_ERROR;
+  }
+
+  /** @internal */
+  get isLoading(): boolean {
+    return this.state === AddRemoveState.LOADING;
   }
 
   async onClickBack() {
@@ -124,6 +137,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
       }
     }
     else {
+      this.state = AddRemoveState.INITIAL;
       this.clickBack.emit();
     }
   }

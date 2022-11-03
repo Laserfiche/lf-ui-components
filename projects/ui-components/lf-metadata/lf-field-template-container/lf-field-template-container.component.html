@@ -1,12 +1,17 @@
 <div [hidden]="hideTemplate">
   <mat-form-field floatLabel="never" class="lf-field lf-template-picker lf-dropdown">
-      <mat-label *ngIf="isLoading; else showDefaultEmptyTemplate" class="lf-dropdown-label">
-        <lf-loader-component></lf-loader-component>
+    <mat-label *ngIf="isDropdownLoading; else checkDropdownError" class="lf-dropdown-label">
+      <lf-loader-component></lf-loader-component>
+    </mat-label>
+    <ng-template #checkDropdownError>
+      <mat-label  *ngIf="isDropdownError; else showDefaultEmptyTemplate" class="lf-dropdown-label">
+        an error has occurred in trying to get more template
       </mat-label>
-    <ng-template #showDefaultEmptyTemplate>
-      <mat-label class="lf-dropdown-label">
-        {{ emptyTemplateName | async }}
-      </mat-label>
+      <ng-template #showDefaultEmptyTemplate>
+        <mat-label class="lf-dropdown-label">
+          {{ emptyTemplateName | async }}
+        </mat-label>
+      </ng-template>
     </ng-template>
     <mat-select
       name="template-dropdown"
@@ -17,26 +22,25 @@
       [(value)]="templateSelected"
       [compareWith]="compareTemplateInfoFunc"
     >
-      <mat-option selected *ngIf="!isLoading">{{ emptyTemplateName | async }}</mat-option>
-      <mat-option hidden="!isLoading" *ngFor="let template of availableTemplates" [value]="template"
+      <mat-option selected *ngIf="isDropdownDefault">{{ emptyTemplateName | async }}</mat-option>
+      <mat-option selected *ngIf="isDropdownError">an error has occurred in trying to get more template</mat-option>
+      <mat-option hidden="!isDropdownDefault" *ngFor="let template of availableTemplates" [value]="template"
         >{{ template.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <ng-container *ngIf="isTemplateLoading;else checkIfHasError">
-    <lf-loader-component></lf-loader-component>
-  </ng-container>
-<ng-template #checkIfHasError>
-    <ng-container *ngIf="templateErrorMessage;else displayFieldView">
-      <div class="error-message">{{ templateErrorMessage | async }}</div>
+  <ng-container *ngIf="isTemplateDefault; else displayTemplateContainer"></ng-container>
+  <ng-template #displayTemplateContainer>
+    <ng-container *ngIf="isTemplateLoading; else checkIfHasError">
+      <lf-loader-component></lf-loader-component>
     </ng-container>
-</ng-template>
-<ng-template #displayFieldView>
-  <ng-template lfFieldView></ng-template>
-</ng-template>
-  <!-- <div class="error-message" *ngIf="templateErrorMessage">{{ templateErrorMessage | async }}</div>
-  <div *ngIf="isTemplateLoading">
-
-  </div>
-  <ng-template *ngIf="!isTemplateLoading" lfFieldView></ng-template> -->
+    <ng-template #checkIfHasError>
+      <ng-container *ngIf="isTemplateError; else displayFieldView">
+        <div class="error-message">{{ templateErrorMessage | async }}</div>
+      </ng-container>
+      <ng-template #displayFieldView>
+        <ng-template lfFieldView></ng-template>
+      </ng-template>
+    </ng-template>
+  </ng-template>
 </div>

@@ -34,6 +34,25 @@ import { isDynamicField } from '../field-components/utils/metadata-utils';
 import { AppLocalizationService, FieldType } from '@laserfiche/lf-ui-components/shared';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
+/**
+ * @internal
+ */
+ export enum DropDownLabelState {
+  DEFAULT = 'default',
+  LOADING = 'isLoading',
+  HAS_ERROR = 'hasError',
+}
+
+/**
+ * @internal
+ */
+ export enum TemplateState {
+  DEFAULT = 'default',
+  LOADING = 'isLoading',
+  HAS_ERROR = 'hasError',
+  SHOW_TEMPLATE = 'showTemplate'
+}
+
 @Component({
   selector: 'lf-field-template-container-component',
   templateUrl: './lf-field-template-container.component.html',
@@ -65,9 +84,9 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   private readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
   /** @internal */
-  isLoading: boolean = false;
+  dropdownLabelState: DropDownLabelState = DropDownLabelState.DEFAULT;
   /** @internal */
-  isTemplateLoading: boolean = false;
+  templateState: TemplateState = TemplateState.DEFAULT;
   /** @internal */
   private readonly TEMPLATE_HAS_FAILED_TO_LOAD =
     this.localizationService.getStringObservable('TEMPLATE_HAS_FAILED_TO_LOAD');
@@ -155,6 +174,36 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       return { name: this.templateSelected.name as string, id: this.templateSelected.id, fieldValues };
     });
   };
+
+  /** @internal */
+  get isDropdownError(): boolean {
+    return this.dropdownLabelState === DropDownLabelState.HAS_ERROR;
+  }
+
+  /** @internal */
+  get isDropdownLoading(): boolean {
+    return this.dropdownLabelState === DropDownLabelState.LOADING;
+  }
+
+  /** @internal */
+  get isDropdownDefault(): boolean {
+    return this.dropdownLabelState === DropDownLabelState.DEFAULT;
+  }
+
+  /** @internal */
+  get isTemplateLoading(): boolean {
+    return this.templateState === TemplateState.LOADING;
+  }
+
+  /** @internal */
+  get isTemplateError(): boolean {
+    return this.templateState === TemplateState.HAS_ERROR;
+  }
+
+  /** @internal */
+  get isTemplateDefault(): boolean {
+    return this.templateState === TemplateState.DEFAULT;
+  }
 
   /** @internal */
   private resetComponentValues() {
@@ -294,18 +343,22 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     if (open && !this.loadedTemplates) {
       try {
         this.availableTemplates = [];
-        this.isLoading = true;
+        this.dropdownLabelState = DropDownLabelState.LOADING;
         this.availableTemplates = await this.templateFieldContainerService.getAvailableTemplatesAsync();
+        this.dropdownLabelState = DropDownLabelState.DEFAULT;
         this.loadedTemplates = true;
+        if (this.availableTemplates.length === 0) {
+          this.templateState = TemplateState.DEFAULT;
+        }
       }
       catch (err) {
         if (this.availableTemplates.length === 0) {
-          this.templateErrorMessage = this.AN_ERROR_OCCURED;
+          this.dropdownLabelState = DropDownLabelState.HAS_ERROR;
+          this.templateSelected = undefined;
+          this.templateState = TemplateState.DEFAULT;
+          this.ref.detectChanges();
         }
         console.error('getAvailableTemplatesAsync', err);
-      }
-      finally {
-        this.isLoading = false;
       }
     }
   }
@@ -323,18 +376,19 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       this.templateSelected = undefined;
     } else {
       try {
-        this.isLoading = true;
+        this.dropdownLabelState = DropDownLabelState.LOADING;
+        this.templateState = TemplateState.LOADING;
         this.templateSelected = (await this.templateFieldContainerService.getTemplateDefinitionAsync(id)) as TemplateInfo;
         if (!this.loadedTemplates && this.templateSelected) {
           this.availableTemplates = [this.templateSelected];
         }
+        this.dropdownLabelState = DropDownLabelState.DEFAULT;
+        this.templateState = TemplateState.SHOW_TEMPLATE;
       }
       catch (error: any) {
         this.templateErrorMessage = this.AN_ERROR_OCCURED;
         console.error('getTemplateDefinitionAsync failed: ' + error.message);
-      }
-      finally {
-        this.isLoading = false;
+        this.templateState = TemplateState.HAS_ERROR;
       }
     }
   }
@@ -394,7 +448,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       this.allFieldInfos = [];
     } else {
       try {
-        this.isTemplateLoading = true;
+        this.templateState = TemplateState.LOADING;
         const fieldInfos = await this.templateFieldContainerService.getTemplateFieldsAsync(this.templateSelected.id);
         this.allFieldInfos = fieldInfos.filter((val) => {
           const validFieldType: boolean = val.fieldType in FieldType && val.fieldType !== FieldType.Blob;
@@ -403,14 +457,15 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           }
           return validFieldType;
         });
+        this.templateState = TemplateState.SHOW_TEMPLATE;
       }
       catch (err: any) {
         this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
         console.error('getTemplateFieldsAsync failed: ' + err.message);
+        this.templateState = TemplateState.HAS_ERROR;
         throw err;
       }
       finally {
-        this.isTemplateLoading = false;
         this.ref.detectChanges();
       }
     }
@@ -545,12 +600,12 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     if (!this.templateSelected?.id) {
       throw new Error('Unexpected: templateSelected is undefined');
     }
-    this.isTemplateLoading = true;
+    this.templateState = TemplateState.LOADING;
     const dynamicFieldValueOptions = await this.templateFieldContainerService.getDynamicFieldValueOptionsAsync(
       this.templateSelected.id,
       relevantValues
     );
-    this.isTemplateLoading = false;
+    this.templateState = TemplateState.SHOW_TEMPLATE; // TODO????
     this.ref.detectChanges();
     return dynamicFieldValueOptions;
   }
