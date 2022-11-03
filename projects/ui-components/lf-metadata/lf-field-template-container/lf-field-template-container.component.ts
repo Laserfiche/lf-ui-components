@@ -147,7 +147,9 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     await this.zone.run(async () => {
       this.resetComponentValues();
       this.metadataConnectorService.clearAllFieldValues();
-      await this.renderFieldsAsync(this.allFieldInfos);
+      if (this.templateState === TemplateState.SHOW_TEMPLATE) {
+        await this.renderFieldsAsync(this.allFieldInfos);
+      }
     });
   };
 
@@ -399,7 +401,9 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     this.allFieldValues = this.metadataConnectorService.getAllFieldValues() ?? {};
     const newFieldIds: number[] = this.allFieldInfos.map((fieldInfo) => fieldInfo.id);
     this.metadataConnectorService.selectTemplateFields(newFieldIds);
-    await this.renderFieldsAsync(this.allFieldInfos);
+    if (this.templateState === TemplateState.SHOW_TEMPLATE) {
+      await this.renderFieldsAsync(this.allFieldInfos);
+    }
   }
 
   /** @internal */
@@ -508,7 +512,9 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         }
         await this.updateDynamicFieldsAsync(lfFieldInfo, fieldValues, indexChanged);
       }
-      await this.renderFieldsAsync(this.allFieldInfos);
+      if (this.templateState === TemplateState.SHOW_TEMPLATE) {
+        await this.renderFieldsAsync(this.allFieldInfos);
+      }
     } else {
       this.setFieldValue(lfFieldInfo.id, fieldValues);
     }
