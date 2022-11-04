@@ -94,6 +94,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
     }
     catch (error) {
       this.state = AddRemoveState.HAS_ERROR;
+      console.error(error);
     }
     finally {
       this.state = AddRemoveState.DISPLAY_FIELD;
@@ -150,6 +151,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   onClickApply() {
     this.areCheckboxChanges = false;
     this.adHocConnectorService.setSelectedFieldIds(this.selectedFieldIds);
+    this.state = AddRemoveState.INITIAL;
     this.clickBack.emit();
   }
 
@@ -160,6 +162,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
 
   onConfirmNo() {
     this.areCheckboxChanges = false;
+    this.state = AddRemoveState.INITIAL;
     this.clickBack.emit();
   }
 

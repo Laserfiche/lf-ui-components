@@ -37,7 +37,7 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 /**
  * @internal
  */
- export enum DropDownLabelState {
+ export enum DropDownState {
   DEFAULT = 'default',
   LOADING = 'isLoading',
   HAS_ERROR = 'hasError',
@@ -84,7 +84,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
   /** @internal */
-  dropdownLabelState: DropDownLabelState = DropDownLabelState.DEFAULT;
+  dropdownLabelState: DropDownState = DropDownState.DEFAULT;
   /** @internal */
   templateState: TemplateState = TemplateState.DEFAULT;
   /** @internal */
@@ -179,17 +179,17 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
   /** @internal */
   get isDropdownError(): boolean {
-    return this.dropdownLabelState === DropDownLabelState.HAS_ERROR;
+    return this.dropdownLabelState === DropDownState.HAS_ERROR;
   }
 
   /** @internal */
   get isDropdownLoading(): boolean {
-    return this.dropdownLabelState === DropDownLabelState.LOADING;
+    return this.dropdownLabelState === DropDownState.LOADING;
   }
 
   /** @internal */
   get isDropdownDefault(): boolean {
-    return this.dropdownLabelState === DropDownLabelState.DEFAULT;
+    return this.dropdownLabelState === DropDownState.DEFAULT;
   }
 
   /** @internal */
@@ -345,9 +345,9 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     if (open) {
       try {
         this.availableTemplates = [];
-        this.dropdownLabelState = DropDownLabelState.LOADING;
+        this.dropdownLabelState = DropDownState.LOADING;
         this.availableTemplates = await this.templateFieldContainerService.getAvailableTemplatesAsync();
-        this.dropdownLabelState = DropDownLabelState.DEFAULT;
+        this.dropdownLabelState = DropDownState.DEFAULT;
         this.loadedTemplates = true;
         if (this.availableTemplates.length === 0) {
           this.templateState = TemplateState.DEFAULT;
@@ -355,7 +355,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       }
       catch (err) {
         if (this.availableTemplates.length === 0) {
-          this.dropdownLabelState = DropDownLabelState.HAS_ERROR;
+          this.dropdownLabelState = DropDownState.HAS_ERROR;
           this.templateSelected = undefined;
           this.templateState = TemplateState.DEFAULT;
           this.ref.detectChanges();
@@ -378,13 +378,13 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       this.templateSelected = undefined;
     } else {
       try {
-        this.dropdownLabelState = DropDownLabelState.LOADING;
+        this.dropdownLabelState = DropDownState.LOADING;
         this.templateState = TemplateState.LOADING;
         this.templateSelected = (await this.templateFieldContainerService.getTemplateDefinitionAsync(id)) as TemplateInfo;
         if (!this.loadedTemplates && this.templateSelected) {
           this.availableTemplates = [this.templateSelected];
         }
-        this.dropdownLabelState = DropDownLabelState.DEFAULT;
+        this.dropdownLabelState = DropDownState.DEFAULT;
         this.templateState = TemplateState.SHOW_TEMPLATE;
       }
       catch (error: any) {

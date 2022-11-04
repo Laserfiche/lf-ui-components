@@ -1,17 +1,12 @@
 <div [hidden]="hideTemplate">
   <mat-form-field floatLabel="never" class="lf-field lf-template-picker lf-dropdown">
-    <mat-label *ngIf="isDropdownLoading; else checkDropdownError" class="lf-dropdown-label">
+    <mat-label *ngIf="isDropdownLoading; else showDefaultEmptyTemplate" class="lf-dropdown-label">
       <lf-loader-component></lf-loader-component>
     </mat-label>
-    <ng-template #checkDropdownError>
-      <mat-label  *ngIf="isDropdownError; else showDefaultEmptyTemplate" class="lf-dropdown-label">
+    <ng-template #showDefaultEmptyTemplate>
+      <mat-label class="lf-dropdown-label">
         {{ emptyTemplateName | async }}
       </mat-label>
-      <ng-template #showDefaultEmptyTemplate>
-        <mat-label class="lf-dropdown-label">
-          {{ emptyTemplateName | async }}
-        </mat-label>
-      </ng-template>
     </ng-template>
     <mat-select
       name="template-dropdown"
@@ -29,18 +24,15 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <ng-container *ngIf="isTemplateDefault; else displayTemplateContainer"></ng-container>
-  <ng-template #displayTemplateContainer>
-    <ng-container *ngIf="isTemplateLoading; else checkIfHasError">
-      <lf-loader-component></lf-loader-component>
+  <ng-container *ngIf="isTemplateLoading; else checkIfHasError">
+    <lf-loader-component></lf-loader-component>
+  </ng-container>
+  <ng-template #checkIfHasError>
+    <ng-container *ngIf="isTemplateError; else displayFieldView">
+      <div class="error-message">{{ templateErrorMessage | async }}</div>
     </ng-container>
-    <ng-template #checkIfHasError>
-      <ng-container *ngIf="isTemplateError; else displayFieldView">
-        <div class="error-message">{{ templateErrorMessage | async }}</div>
-      </ng-container>
-      <ng-template #displayFieldView>
-        <ng-template lfFieldView></ng-template>
-      </ng-template>
+    <ng-template #displayFieldView>
+      <ng-template lfFieldView></ng-template>
     </ng-template>
   </ng-template>
 </div>
