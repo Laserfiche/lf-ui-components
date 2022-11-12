@@ -32,7 +32,10 @@
       <div class="error-message">{{ templateErrorMessage | async }}</div>
     </ng-container>
     <ng-template #displayFieldView>
-      <ng-template lfFieldView></ng-template>
+      <ng-container *ngIf="isTemplateDisplay; else notDisplayFieldView">
+        <ng-template lfFieldView></ng-template>
+      </ng-container>
+    <ng-template #notDisplayFieldView></ng-template>
     </ng-template>
   </ng-template>
 </div>

@@ -203,8 +203,8 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   }
 
   /** @internal */
-  get isTemplateDefault(): boolean {
-    return this.templateState === TemplateState.DEFAULT;
+  get isTemplateDisplay(): boolean {
+    return this.templateState === TemplateState.SHOW_TEMPLATE;
   }
 
   /** @internal */
@@ -216,46 +216,49 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     this.availableTemplates = [];
     this.allFieldValues = {};
     this.metadataConnectorService.setAllFieldValues({});
+    this.templateState = TemplateState.DEFAULT;
   }
 
   /** @internal */
   async renderFieldsAsync(fieldInfos: (TemplateFieldInfo | LfFieldInfo)[]): Promise<void> {
-    const vf = this.lfFieldView.viewContainerRef;
-    vf.clear();
-    this.componentRefs = [];
-    this.groupComponentRefs = [];
+    if (this.templateState === TemplateState.SHOW_TEMPLATE) {
+      const vf = this.lfFieldView.viewContainerRef;
+      vf.clear();
+      this.componentRefs = [];
+      this.groupComponentRefs = [];
 
-    const fieldFactory = this.resolver.resolveComponentFactory(LfFieldComponent);
-    const multivalueFieldFactory = this.resolver.resolveComponentFactory(LfFieldMultivalueComponent);
-    const fieldGroupFactory = this.resolver.resolveComponentFactory(LfFieldGroupComponent);
+      const fieldFactory = this.resolver.resolveComponentFactory(LfFieldComponent);
+      const multivalueFieldFactory = this.resolver.resolveComponentFactory(LfFieldMultivalueComponent);
+      const fieldGroupFactory = this.resolver.resolveComponentFactory(LfFieldGroupComponent);
 
-    const fieldGroups: Map<number, FieldDefinition[]> = new Map<number, FieldDefinition[]>();
-    for (const fieldInfo of fieldInfos) {
-      const values = this.getValuesById(fieldInfo.id) ?? [];
-      const templateFieldInfo: TemplateFieldInfo = fieldInfo as TemplateFieldInfo;
-      if (templateFieldInfo?.groupId && fieldInfo.isMultiValue) {
-        const groupCurrentFieldDefinitions = fieldGroups.get(templateFieldInfo.groupId);
-        const newDef: FieldDefinition = {
-          fieldInfo: templateFieldInfo,
-          fieldValues: values.length > 0 ? values : [''],
-        };
-        if (groupCurrentFieldDefinitions) {
-          this.addDefinitionToExistingGroup(groupCurrentFieldDefinitions, newDef);
+      const fieldGroups: Map<number, FieldDefinition[]> = new Map<number, FieldDefinition[]>();
+      for (const fieldInfo of fieldInfos) {
+        const values = this.getValuesById(fieldInfo.id) ?? [];
+        const templateFieldInfo: TemplateFieldInfo = fieldInfo as TemplateFieldInfo;
+        if (templateFieldInfo?.groupId && fieldInfo.isMultiValue) {
+          const groupCurrentFieldDefinitions = fieldGroups.get(templateFieldInfo.groupId);
+          const newDef: FieldDefinition = {
+            fieldInfo: templateFieldInfo,
+            fieldValues: values.length > 0 ? values : [''],
+          };
+          if (groupCurrentFieldDefinitions) {
+            this.addDefinitionToExistingGroup(groupCurrentFieldDefinitions, newDef);
+          } else {
+            this.createAndAddNewGroupRef(vf, fieldGroupFactory, templateFieldInfo.groupId, fieldGroups, newDef);
+          }
+        } else if (fieldInfo.isMultiValue) {
+          const multivalueComponentRef = vf.createComponent(multivalueFieldFactory);
+          this.componentRefs.push(multivalueComponentRef);
+          await this.initializeMultivalueComponentAsync(multivalueComponentRef, fieldInfo, values);
         } else {
-          this.createAndAddNewGroupRef(vf, fieldGroupFactory, templateFieldInfo.groupId, fieldGroups, newDef);
+          const fieldComponentRef = vf.createComponent(fieldFactory);
+          this.componentRefs.push(fieldComponentRef);
+          await this.initializeFieldComponentAsync(fieldComponentRef, fieldInfo, values?.length > 0 ? values[0] : '');
         }
-      } else if (fieldInfo.isMultiValue) {
-        const multivalueComponentRef = vf.createComponent(multivalueFieldFactory);
-        this.componentRefs.push(multivalueComponentRef);
-        await this.initializeMultivalueComponentAsync(multivalueComponentRef, fieldInfo, values);
-      } else {
-        const fieldComponentRef = vf.createComponent(fieldFactory);
-        this.componentRefs.push(fieldComponentRef);
-        await this.initializeFieldComponentAsync(fieldComponentRef, fieldInfo, values?.length > 0 ? values[0] : '');
       }
-    }
-    for (const mapItem of fieldGroups) {
-      await this.initializeFieldGroupAsync(mapItem);
+      for (const mapItem of fieldGroups) {
+        await this.initializeFieldGroupAsync(mapItem);
+      }
     }
   }
 
@@ -342,7 +345,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   async onToggleDropdownAsync(open: boolean): Promise<void> {
     this.templateErrorMessage = undefined;
-    if (open) {
+    if (open && !this.loadedTemplates) {
       try {
         this.availableTemplates = [];
         this.dropdownLabelState = DropDownState.LOADING;
@@ -378,13 +381,11 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       this.templateSelected = undefined;
     } else {
       try {
-        this.dropdownLabelState = DropDownState.LOADING;
         this.templateState = TemplateState.LOADING;
         this.templateSelected = (await this.templateFieldContainerService.getTemplateDefinitionAsync(id)) as TemplateInfo;
         if (!this.loadedTemplates && this.templateSelected) {
           this.availableTemplates = [this.templateSelected];
         }
-        this.dropdownLabelState = DropDownState.DEFAULT;
         this.templateState = TemplateState.SHOW_TEMPLATE;
       }
       catch (error: any) {
