@@ -20,8 +20,12 @@ export class AppLocalizationService {
           const langObj = JSON.parse(langData);
           if (langObj) {
             const language = langObj['lf-localization-service-set-language'];
+            const debug = langObj['lf-localization-service-debug-mode'];
             if (language) {
               await this.setLanguageAsync(language);
+            }
+            if (debug) {
+              this.localizationService.debugMode = debug;
             }
           }
         }
