@@ -538,25 +538,29 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
   /** @internal */
   getAuthorizeUrl(): string {
-    let lastOAuthAuthorizeUrl = this.account_endpoints?.oauthAuthorizeUrl;
+    const lastOAuthAuthorizeUrl = this.account_endpoints?.oauthAuthorizeUrl;
+    const configuredHostName = this.loginService.authorize_url_host_name;
 
-    const urlChangedToClouddev =
-      this.loginService.authorize_url_host_name.includes(this.CLOUDDEV) &&
-      !lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV);
-    const urlChangedToCloudtest =
-      this.loginService.authorize_url_host_name.includes(this.CLOUDTEST) &&
+    const bothClouddev = configuredHostName.includes(this.CLOUDDEV) && lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV);
+    const bothCloudtest =
+      configuredHostName.includes(this.CLOUDTEST) && lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
+    const bothCloudprod =
+      lastOAuthAuthorizeUrl &&
+      !configuredHostName.includes(this.CLOUDDEV) &&
+      !configuredHostName.includes(this.CLOUDTEST) &&
+      !lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV) &&
       !lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
-    const urlChangedToProduction =
-      !this.loginService.authorize_url_host_name.includes(this.CLOUDDEV) &&
-      !this.loginService.authorize_url_host_name.includes(this.CLOUDTEST) &&
-      ((lastOAuthAuthorizeUrl && lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV)) ||
-        lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST));
 
-    if (!lastOAuthAuthorizeUrl || urlChangedToClouddev || urlChangedToCloudtest || urlChangedToProduction) {
-      lastOAuthAuthorizeUrl = this.getAuthorizeUrlFromLoginService();
+    const sameEnvironment = bothClouddev || bothCloudtest || bothCloudprod;
+
+    let currentAuthorizeUrl: string;
+    if (sameEnvironment && lastOAuthAuthorizeUrl) {
+      currentAuthorizeUrl = lastOAuthAuthorizeUrl;
+    } else {
+      currentAuthorizeUrl = this.getAuthorizeUrlWithConfiguredHostName();
     }
 
-    const baseUrl: URL = new URL(lastOAuthAuthorizeUrl);
+    const baseUrl: URL = new URL(currentAuthorizeUrl);
     baseUrl.searchParams.set('client_id', this.client_id);
     baseUrl.searchParams.set('redirect_uri', this.redirect_uri);
     baseUrl.searchParams.set('scope', this.scope);
@@ -567,9 +571,9 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     baseUrl.searchParams.set('code_challenge_method', CODE_CHALLENGE_METHOD);
     return baseUrl.toString();
   }
-  
+
   /** @internal */
-  private getAuthorizeUrlFromLoginService(): string {
+  private getAuthorizeUrlWithConfiguredHostName(): string {
     return `https://signin.${this.loginService.authorize_url_host_name}/oauth/Authorize`;
   }
 
