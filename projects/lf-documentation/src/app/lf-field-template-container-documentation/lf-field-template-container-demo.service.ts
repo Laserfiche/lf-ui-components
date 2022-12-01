@@ -350,7 +350,7 @@ export class LfFieldTemplateContainerDemoService implements LfFieldTemplateConta
     return new Promise((resolve, reject) => {
       setTimeout(() => {
        return resolve(this.testTemplateInfos);
-    }, 1000);
+    }, 200);
   });
   }
 
@@ -361,7 +361,7 @@ export class LfFieldTemplateContainerDemoService implements LfFieldTemplateConta
     return new Promise((resolve, reject) => {
       setTimeout(() => {
        return resolve(fieldInfosPerTemplate[templateId]);
-    }, 1000);
+    }, 200);
   });
   }
 
@@ -369,7 +369,7 @@ export class LfFieldTemplateContainerDemoService implements LfFieldTemplateConta
     return new Promise((resolve, reject) => {
       setTimeout(() => {
        return resolve(this.testTemplateInfos.find((info) => info.id === id));
-    }, 1000);
+    }, 200);
   });
   }
 

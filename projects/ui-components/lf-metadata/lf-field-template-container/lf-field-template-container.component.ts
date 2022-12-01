@@ -147,9 +147,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     await this.zone.run(async () => {
       this.resetComponentValues();
       this.metadataConnectorService.clearAllFieldValues();
-      if (this.templateState === TemplateState.SHOW_TEMPLATE) {
-        await this.renderFieldsAsync(this.allFieldInfos);
-      }
+      await this.renderFieldsAsync(this.allFieldInfos);
     });
   };
 
@@ -402,9 +400,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     this.allFieldValues = this.metadataConnectorService.getAllFieldValues() ?? {};
     const newFieldIds: number[] = this.allFieldInfos.map((fieldInfo) => fieldInfo.id);
     this.metadataConnectorService.selectTemplateFields(newFieldIds);
-    if (this.templateState === TemplateState.SHOW_TEMPLATE) {
-      await this.renderFieldsAsync(this.allFieldInfos);
-    }
+    await this.renderFieldsAsync(this.allFieldInfos);
   }
 
   /** @internal */
@@ -469,7 +465,6 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
         console.error('getTemplateFieldsAsync failed: ' + err?.message ?? err?.title ?? '');
         this.templateState = TemplateState.HAS_ERROR;
-        throw err;
       }
       finally {
         this.ref.detectChanges();
@@ -514,9 +509,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         }
         await this.updateDynamicFieldsAsync(lfFieldInfo, fieldValues, indexChanged);
       }
-      if (this.templateState === TemplateState.SHOW_TEMPLATE) {
-        await this.renderFieldsAsync(this.allFieldInfos);
-      }
+      await this.renderFieldsAsync(this.allFieldInfos);
     } else {
       this.setFieldValue(lfFieldInfo.id, fieldValues);
     }

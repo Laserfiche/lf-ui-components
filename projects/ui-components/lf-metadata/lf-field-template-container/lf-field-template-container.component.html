@@ -28,14 +28,14 @@
     <lf-loader-component></lf-loader-component>
   </ng-container>
   <ng-template #checkIfHasError>
-    <ng-container *ngIf="isTemplateError; else displayFieldView">
+    <ng-container *ngIf="isTemplateError; else checkIfDisplay">
       <div class="error-message">{{ templateErrorMessage | async }}</div>
     </ng-container>
-    <ng-template #displayFieldView>
-      <ng-container *ngIf="isTemplateDisplay; else notDisplayFieldView">
+    <ng-template #checkIfDisplay>
+      <ng-container *ngIf="isTemplateDisplay; else emptyFieldView">
         <ng-template lfFieldView></ng-template>
       </ng-container>
-    <ng-template #notDisplayFieldView></ng-template>
+    <ng-template #emptyFieldView></ng-template>
     </ng-template>
   </ng-template>
 </div>
