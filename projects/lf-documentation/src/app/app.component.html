@@ -21,6 +21,9 @@
             <option value="zh-Hans">中文</option>
             <option value="zh-Hant">中文（繁體）</option>
         </select>
+        <mat-checkbox class="lf-checkbox debug-mode-checkbox" color="primary" (change)="onCheckboxChange($event)">
+            Debug Mode
+        </mat-checkbox>
       </div>
       <span class="spacer"></span>
       <div class="theme-selector-container">
