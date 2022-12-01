@@ -17,7 +17,7 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
  * @internal
  */
 export enum AddRemoveState {
-  INITIAL = 'initial',
+  DEFAULT = 'default',
   LOADING = 'isLoading',
   HAS_ERROR = 'hasError',
   DISPLAY_FIELD = 'displayField'
@@ -62,7 +62,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   filterFieldsControl: FormControl = new FormControl();
   fieldFilterText: string = '';
 
-  state: AddRemoveState = AddRemoveState.INITIAL;
+  state: AddRemoveState = AddRemoveState.DEFAULT;
   adhocFieldContainerService!: LfFieldAdhocContainerService;
 
   dialogRef?: MatDialogRef<any>;
@@ -91,13 +91,11 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
     try {
       this.state = AddRemoveState.LOADING;
       await this.loadFieldDefinitionsInOrderAsync();
+      this.state = AddRemoveState.DISPLAY_FIELD;
     }
     catch (error) {
       this.state = AddRemoveState.HAS_ERROR;
       console.error(error);
-    }
-    finally {
-      this.state = AddRemoveState.DISPLAY_FIELD;
     }
   };
 
@@ -138,7 +136,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
       }
     }
     else {
-      this.state = AddRemoveState.INITIAL;
+      this.state = AddRemoveState.DEFAULT;
       this.clickBack.emit();
     }
   }
@@ -151,7 +149,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   onClickApply() {
     this.areCheckboxChanges = false;
     this.adHocConnectorService.setSelectedFieldIds(this.selectedFieldIds);
-    this.state = AddRemoveState.INITIAL;
+    this.state = AddRemoveState.DEFAULT;
     this.clickBack.emit();
   }
 
@@ -162,7 +160,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
 
   onConfirmNo() {
     this.areCheckboxChanges = false;
-    this.state = AddRemoveState.INITIAL;
+    this.state = AddRemoveState.DEFAULT;
     this.clickBack.emit();
   }
 

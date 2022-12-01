@@ -33,25 +33,7 @@ import { FieldDefinition } from '../field-components/utils/lf-field-internal-typ
 import { isDynamicField } from '../field-components/utils/metadata-utils';
 import { AppLocalizationService, FieldType } from '@laserfiche/lf-ui-components/shared';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-
-/**
- * @internal
- */
- export enum DropDownState {
-  DEFAULT = 'default',
-  LOADING = 'isLoading',
-  HAS_ERROR = 'hasError',
-}
-
-/**
- * @internal
- */
- export enum TemplateState {
-  DEFAULT = 'default',
-  LOADING = 'isLoading',
-  HAS_ERROR = 'hasError',
-  SHOW_TEMPLATE = 'showTemplate'
-}
+import { DropDownState, TemplateState } from './lf-field-template-container-states';
 
 @Component({
   selector: 'lf-field-template-container-component',
@@ -84,7 +66,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
   /** @internal */
-  dropdownLabelState: DropDownState = DropDownState.DEFAULT;
+  dropdownState: DropDownState = DropDownState.DEFAULT;
   /** @internal */
   templateState: TemplateState = TemplateState.DEFAULT;
   /** @internal */
@@ -177,17 +159,17 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
   /** @internal */
   get isDropdownError(): boolean {
-    return this.dropdownLabelState === DropDownState.HAS_ERROR;
+    return this.dropdownState === DropDownState.HAS_ERROR;
   }
 
   /** @internal */
   get isDropdownLoading(): boolean {
-    return this.dropdownLabelState === DropDownState.LOADING;
+    return this.dropdownState === DropDownState.LOADING;
   }
 
   /** @internal */
   get isDropdownDefault(): boolean {
-    return this.dropdownLabelState === DropDownState.DEFAULT;
+    return this.dropdownState === DropDownState.DEFAULT;
   }
 
   /** @internal */
@@ -257,6 +239,9 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       for (const mapItem of fieldGroups) {
         await this.initializeFieldGroupAsync(mapItem);
       }
+    }
+    else {
+      console.warn(`Fields not displayed in current template state: ${this.templateState}.`);
     }
   }
 
@@ -346,9 +331,9 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     if (open && !this.loadedTemplates) {
       try {
         this.availableTemplates = [];
-        this.dropdownLabelState = DropDownState.LOADING;
+        this.dropdownState = DropDownState.LOADING;
         this.availableTemplates = await this.templateFieldContainerService.getAvailableTemplatesAsync();
-        this.dropdownLabelState = DropDownState.DEFAULT;
+        this.dropdownState = DropDownState.DEFAULT;
         this.loadedTemplates = true;
         if (this.availableTemplates.length === 0) {
           this.templateState = TemplateState.DEFAULT;
@@ -356,7 +341,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       }
       catch (err) {
         if (this.availableTemplates.length === 0) {
-          this.dropdownLabelState = DropDownState.HAS_ERROR;
+          this.dropdownState = DropDownState.HAS_ERROR;
           this.templateSelected = undefined;
           this.templateState = TemplateState.DEFAULT;
           this.ref.detectChanges();
