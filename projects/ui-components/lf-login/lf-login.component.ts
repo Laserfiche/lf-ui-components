@@ -23,13 +23,13 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   };
 
   /** @internal */
-  _sign_in_text: Observable<string> = this.localizationService.getStringObservable('SIGN_IN');
+  _sign_in_text: Observable<string> = this.localizationService.getStringLaserficheObservable('SIGN_IN');
   /** @internal */
-  _sign_out_text: Observable<string> = this.localizationService.getStringObservable('SIGN_OUT');
+  _sign_out_text: Observable<string> = this.localizationService.getStringLaserficheObservable('SIGN_OUT');
   /** @internal */
-  _signing_in_text: Observable<string> = this.localizationService.getStringObservable('SIGNING_IN');
+  _signing_in_text: Observable<string> = this.localizationService.getStringLaserficheObservable('SIGNING_IN');
   /** @internal */
-  _signing_out_text: Observable<string> = this.localizationService.getStringObservable('SIGNING_OUT');
+  _signing_out_text: Observable<string> = this.localizationService.getStringLaserficheObservable('SIGNING_OUT');
 
   @Input() set sign_in_text(text: string) {
     this._sign_in_text = of(text);

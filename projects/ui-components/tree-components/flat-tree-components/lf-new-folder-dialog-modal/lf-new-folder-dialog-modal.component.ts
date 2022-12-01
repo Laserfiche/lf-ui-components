@@ -14,22 +14,22 @@ export class LfNewFolderDialogModalComponent {
   errorMessage?: string;
 
   /** @internal */
-  readonly NEW_FOLDER = this.localizationService.getStringObservable('NEW_FOLDER');
+  readonly NEW_FOLDER = this.localizationService.getStringLaserficheObservable('NEW_FOLDER');
 
   /** @internal */
-  readonly UNKNOWN_ERROR = this.localizationService.getStringObservable('UNKNOWN_ERROR');
+  readonly UNKNOWN_ERROR = this.localizationService.getStringLaserficheObservable('UNKNOWN_ERROR');
 
   /** @internal */
-  readonly NAME = this.localizationService.getStringObservable('NAME');
+  readonly NAME = this.localizationService.getStringLaserficheObservable('NAME');
 
   /** @internal */
-  readonly OK = this.localizationService.getStringObservable('OK');
+  readonly OK = this.localizationService.getStringLaserficheObservable('OK');
 
   /** @internal */
-  readonly CANCEL = this.localizationService.getStringObservable('CANCEL');
+  readonly CANCEL = this.localizationService.getStringLaserficheObservable('CANCEL');
 
   /** @internal */
-  readonly CLOSE = this.localizationService.getStringObservable('CLOSE');
+  readonly CLOSE = this.localizationService.getStringLaserficheObservable('CLOSE');
 
   @Input() data?: NewFolderDialogData;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter<string>();

@@ -1,27 +1,27 @@
 <div mat-dialog-title class="user-feedback-title">
-  <span mat-dialog-title class="lf-popup-dialog-title">{{USER_FEEDBACK_TITLE}}</span>
-  <button class="lf-close-button" mat-dialog-close [title]="CLOSE">
+  <span mat-dialog-title class="lf-popup-dialog-title">{{USER_FEEDBACK_TITLE | async}}</span>
+  <button class="lf-close-button" mat-dialog-close [title]="CLOSE | async">
       <span id="pop-up-dialog-close"  class="material-icons-outlined">
         close
       </span>
   </button>
 </div>
 <div *ngIf="isFirstPane" mat-dialog-content class="lf-dialog-content">
-    <p class="lf-text-body lf-user-feedback-description">{{USER_FEEDBACK_DESCRIPTION}}</p>
-    <p class="lf-text-body lf-user-feedback-description">{{SUPPORT_COMMENT}}</p>
+    <p class="lf-text-body lf-user-feedback-description">{{YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT | async}}</p>
+    <p class="lf-text-body lf-user-feedback-description">{{TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP | async}}</p>
     <button id="lf-user-feedback-feedback-mode-button" class="lf-button feedback-suggestion-button"
-        (click)="onClickFeedback()">{{FEEDBACK_BUTTON_TEXT}}</button>
+        (click)="onClickFeedback()">{{I_HAVE_FEEDBACK | async}}</button>
     <button id="lf-user-feedback-suggestion-mode-button" class="lf-button feedback-suggestion-button"
-        (click)="onClickSuggestion()">{{SUGGESTION_BUTTON_TEXT}}</button>
+        (click)="onClickSuggestion()">{{I_HAVE_SUGGESTION | async}}</button>
 </div>
 <div *ngIf="isFeedback || isSuggestion" mat-dialog-content class="user-feedback-content-container lf-dialog-content">
   <div class="lf-text-body lf-user-feedback-description">
-      {{isFeedback ? FEEDBACK_DESCRIPTION : SUGGESTION_DESCRIPTION}}
+      {{isFeedback ? (FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW | async) : (DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING | async)}}
   </div>
-  <label for="feedback-suggestion-textbox" class="lf-text-label">{{isFeedback ? FEEDBACK_TEXBOX_LABEL :
-      SUGGESTION_TEXBOX_LABEL}}</label>
+  <label for="feedback-suggestion-textbox" class="lf-text-label">{{isFeedback ? (TELL_US_ABOUT_EXPERIENCE | async) :
+    (TELL_US_ABOUT_IDEA | async)}}</label>
   <textarea id="feedback-suggestion-textbox" rows="12" [maxlength]="maxFeedbackLength" [(ngModel)]="feedbackTextBox"
-      class="lf-textarea lf-text-body feedback-suggestion-textbox" [placeholder]="FEEDBACK_SUGGESTION_TEXTBOX_PLACEHOLDER"></textarea>
+      class="lf-textarea lf-text-body feedback-suggestion-textbox" [placeholder]="PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK | async"></textarea>
   <span class="lf-text-body character-count">
       <span>{{feedbackTextBox?.length ? feedbackTextBox.length : '0'}}</span>
       <span> / </span>
@@ -30,23 +30,23 @@
   <div class="email-checkbox-container">
       <mat-checkbox color="primary" class="lf-user-feedback-checkbox lf-checkbox"
           [disableRipple]="true" ngDefaultControl [(ngModel)]="feedbackEmailCheckbox">
-          {{SHARE_EMAIL_CHECKBOX_TEXT}}
+          {{YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK | async}}
       </mat-checkbox>
   </div>
 </div>
 <div *ngIf="isThankYou" mat-dialog-content class="user-feedback-content-container lf-dialog-content">
-    <p class="lf-text-body lf-user-feedback-thank-you">{{THANK_YOU}}{{JOIN_PANEL}}
-      <a href="https://info.laserfiche.com/laserfiche-customer-panel-signup" target="_blank">{{CLICK_HERE}}</a>
+    <p class="lf-text-body lf-user-feedback-thank-you">{{THANK_YOU_FOR_SUBMISSION | async}}{{IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL | async}}
+      <a href="https://info.laserfiche.com/laserfiche-customer-panel-signup" target="_blank">{{PLEASE_CLICK_HERE | async}}</a>
     </p>
 </div>
 <div *ngIf="isError" mat-dialog-content class="user-feedback-content-container lf-dialog-content">
-    <p class="lf-text-body lf-user-feedback-thank-you">{{SUBMISSION_ERROR}}</p>
+    <p class="lf-text-body lf-user-feedback-thank-you">{{SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER | async}}</p>
 </div>
 <mat-dialog-actions align="end" class="lf-dialog-footer">
   <button *ngIf="isFeedback || isSuggestion" id="lf-user-feedback-submit-feedback-button"
       class="lf-button primary-button dialog-button lf-user-feedback-submit-feedback-button" [disabled]="isSubmitDisabled"
-      (click)="onClickSubmitAsync()">{{SUBMIT}}</button>
+      (click)="onClickSubmitAsync()">{{SUBMIT | async}}</button>
   <button class="lf-button sec-button dialog-button lf-user-feedback-close-feedback-button" mat-dialog-close>
-      {{(isThankYou || isError) ? CLOSE : CANCEL}}
+      {{(isThankYou || isError) ? (CLOSE | async) : (CANCEL | async)}}
   </button>
 </mat-dialog-actions>

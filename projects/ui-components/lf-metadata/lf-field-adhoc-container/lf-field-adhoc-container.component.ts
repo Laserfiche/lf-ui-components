@@ -25,10 +25,10 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   @Output() dialogClosed = new EventEmitter<void>();
 
   /** @internal */
-  readonly ADD_REMOVE_FIELDS = this.localizationService.getStringObservable('ADD_REMOVE_FIELDS');
+  readonly ADD_REMOVE_FIELDS = this.localizationService.getStringLaserficheObservable('ADD_REMOVE_FIELDS');
 
   /** @internal */
-  readonly NO_ADDITIONAL_FIELDS_ASSIGNED = this.localizationService.getStringObservable('NO_ADDITIONAL_FIELDS_ASSIGNED');
+  readonly NO_ADDITIONAL_FIELDS_ASSIGNED = this.localizationService.getStringLaserficheObservable('NO_ADDITIONAL_FIELDS_ASSIGNED');
 
   /** @internal */
   showAdhocModal: boolean = false;

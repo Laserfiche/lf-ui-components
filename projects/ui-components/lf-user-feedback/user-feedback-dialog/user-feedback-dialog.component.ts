@@ -1,5 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
+import { Observable } from 'rxjs';
 import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-user-feedback-types';
 
 /** @internal */
@@ -38,46 +40,37 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   get isThankYou(): boolean { return this.dialogState === FeedbackDialogState.THANK_YOU; }
   get isError(): boolean { return this.dialogState === FeedbackDialogState.ERROR; }
 
-  get USER_FEEDBACK_TITLE(): string {
-    if (this.isSuggestion) {
-      return 'Suggestion';
-    }
-    return 'Feedback';
-  }
-  get USER_SUGGESTION_TITLE(): string { return 'Suggestion'; }
-  get CLOSE(): string { return 'Close'; }
-  get USER_FEEDBACK_DESCRIPTION(): string {
-    return 'Your feedback and suggestions will help us improve our product and services.';
-  }
-  get SUPPORT_COMMENT(): string {
-    return 'If you have a technical or support issue, or require immediate assistance,' +
-      ' please contact your Laserfiche Administrator or Solution Provider as indicated' +
-      ' in your service agreement.';
-  }
-  get FEEDBACK_DESCRIPTION(): string {
-    return 'Found something you like or dislike? Let us know about it.';
-  }
-  get SUGGESTION_DESCRIPTION(): string {
-    return 'Do you have an idea for a new feature or an improvement? We look forward to hearing about it.';
-  }
-  get FEEDBACK_SUGGESTION_TEXTBOX_PLACEHOLDER(): string {
-    return 'Please do not include any confidential or personal information in your feedback';
-  }
-  get FEEDBACK_TEXBOX_LABEL(): string { return 'Tell us about your experience'; }
-  get SUGGESTION_TEXBOX_LABEL(): string { return 'Tell us about your idea'; }
-  get FEEDBACK_BUTTON_TEXT(): string { return 'I have feedback'; }
-  get SUGGESTION_BUTTON_TEXT(): string { return 'I have a suggestion'; }
-  get SHARE_EMAIL_CHECKBOX_TEXT(): string { return 'You may contact me about this feedback'; }
-  get SUBMIT(): string { return 'Submit'; }
-  get CANCEL(): string { return 'Cancel'; }
-  get THANK_YOU(): string { return 'Thank you for your submission! '; }
-  get JOIN_PANEL(): string { return 'If you\'d like to join our Customer Panel, '; }
-  get CLICK_HERE(): string { return 'please click here.'; }
-  get SUBMISSION_ERROR(): string { return 'Something went wrong. Please try again later.'; }
+  private SUGGESTION = this.localizationService.getStringLaserficheObservable('SUGGESTION');
+  private FEEDBACK = this.localizationService.getStringLaserficheObservable('FEEDBACK');
+
+  USER_FEEDBACK_TITLE: Observable<string> = this.FEEDBACK;
+  CLOSE: Observable<string> = this.localizationService.getStringLaserficheObservable('CLOSE');
+
+  YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT: Observable<string> = this.localizationService.getStringComponentsObservable('YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT')
+
+  TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP: Observable<string> = this.localizationService.getStringComponentsObservable('TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP');
+  FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW: Observable<string> = this.localizationService.getStringComponentsObservable('FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW');
+
+  DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING: Observable<string> = this.localizationService.getStringComponentsObservable('DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING');
+  
+  PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK: Observable<string> = this.localizationService.getStringComponentsObservable('PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK');
+
+  TELL_US_ABOUT_EXPERIENCE: Observable<string> = this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_EXPERIENCE');
+  TELL_US_ABOUT_IDEA: Observable<string> = this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_IDEA');
+  I_HAVE_FEEDBACK: Observable<string> = this.localizationService.getStringComponentsObservable('I_HAVE_FEEDBACK');
+  I_HAVE_SUGGESTION: Observable<string> = this.localizationService.getStringComponentsObservable('I_HAVE_SUGGESTION');
+  THANK_YOU_FOR_SUBMISSION: Observable<string> = this.localizationService.getStringComponentsObservable('THANK_YOU_FOR_SUBMISSION');
+  YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK: Observable<string> = this.localizationService.getStringComponentsObservable('YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK');
+  IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL: Observable<string> = this.localizationService.getStringComponentsObservable('IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL');
+  PLEASE_CLICK_HERE: Observable<string> = this.localizationService.getStringComponentsObservable('PLEASE_CLICK_HERE');
+  SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER: Observable<string> = this.localizationService.getStringComponentsObservable('SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER');
+  SUBMIT: Observable<string> = this.localizationService.getStringLaserficheObservable('SUBMIT');
+  CANCEL: Observable<string> = this.localizationService.getStringLaserficheObservable('CANCEL');
 
   constructor(
     public dialogRef: MatDialogRef<UserFeedbackDialogComponent>,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private localizationService: AppLocalizationService
   ) { }
 
   ngAfterViewInit() {
@@ -91,12 +84,14 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
 
   onClickFeedback(): void {
     this.dialogState = FeedbackDialogState.FEEDBACK;
+    this.USER_FEEDBACK_TITLE = this.FEEDBACK;
     this.ref.detectChanges();
     document.getElementById('feedback-suggestion-textbox')?.focus();
   }
 
   onClickSuggestion(): void {
     this.dialogState = FeedbackDialogState.SUGGESTION;
+    this.USER_FEEDBACK_TITLE = this.SUGGESTION;
     this.ref.detectChanges();
     document.getElementById('feedback-suggestion-textbox')?.focus();
   }

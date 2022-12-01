@@ -37,9 +37,9 @@ export abstract class FlatTreeDirective implements OnChanges, OnDestroy {
   /** @internal */
   private NEW_FOLDER: string = 'NEW_FOLDER';
   /** @internal */
-  private readonly REFRESH_LOCALIZED = this.localizationService.getStringObservable(this.REFRESH);
+  private readonly REFRESH_LOCALIZED = this.localizationService.getStringLaserficheObservable(this.REFRESH);
   /** @internal */
-  private readonly ADD_NEW_FOLDER_LOCALIZED = this.localizationService.getStringObservable(this.NEW_FOLDER);
+  private readonly ADD_NEW_FOLDER_LOCALIZED = this.localizationService.getStringLaserficheObservable(this.NEW_FOLDER);
   /** @internal */
   private readonly allSubscriptions: Subscription = new Subscription();
 
@@ -265,10 +265,10 @@ export abstract class FlatTreeDirective implements OnChanges, OnDestroy {
   }
 
   /** @internal */
-  readonly OPEN = this.localizationService.getStringObservable('OPEN');
+  readonly OPEN = this.localizationService.getStringLaserficheObservable('OPEN');
 
   /** @internal */
-  readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
+  readonly AN_ERROR_OCCURED = this.localizationService.getStringLaserficheObservable('AN_ERROR_OCCURED');
 
   /** @internal */
   get shouldShowErrorMessage(): boolean {
@@ -276,7 +276,7 @@ export abstract class FlatTreeDirective implements OnChanges, OnDestroy {
   }
 
   /** @internal */
-  readonly THIS_FOLDER_IS_EMPTY = this.localizationService.getStringObservable('THIS_FOLDER_IS_EMPTY');
+  readonly THIS_FOLDER_IS_EMPTY = this.localizationService.getStringLaserficheObservable('THIS_FOLDER_IS_EMPTY');
 
   /** @internal */
   get shouldShowEmptyMessage(): boolean {
@@ -284,7 +284,7 @@ export abstract class FlatTreeDirective implements OnChanges, OnDestroy {
   }
 
   /** @internal */
-  readonly NO_MATCHING_ENTRIES_FOUND = this.localizationService.getStringObservable('NO_MATCHING_ENTRIES_FOUND');
+  readonly NO_MATCHING_ENTRIES_FOUND = this.localizationService.getStringLaserficheObservable('NO_MATCHING_ENTRIES_FOUND');
 
   /** @internal */
   get shouldShowNoMatchesMessage(): boolean {

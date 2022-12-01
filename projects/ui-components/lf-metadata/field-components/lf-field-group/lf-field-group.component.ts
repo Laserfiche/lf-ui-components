@@ -37,7 +37,7 @@ export class LfFieldGroupComponent {
   showLoaderIndex: number | undefined = undefined;
 
   /** @internal */
-  readonly res_0_of_1 = this.localizationService.getStringObservable('0_OF_1', ['{0}', '{1}']);
+  readonly res_0_of_1 = this.localizationService.getStringLaserficheObservable('0_OF_1', ['{0}', '{1}']);
 
   /** @internal */
   constructor(
