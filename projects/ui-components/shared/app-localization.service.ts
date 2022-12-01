@@ -24,8 +24,9 @@ export class AppLocalizationService {
             if (language) {
               await this.setLanguageAsync(language);
             }
-            if (debug) {
+            if (debug !== undefined) {
               this.localizationService.debugMode = debug;
+              this.internalGetString.next();
             }
           }
         }

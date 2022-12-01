@@ -1,5 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { RouterLinks } from './app-routing.module';
 import { ThemeService } from './theme.service';
@@ -21,7 +22,7 @@ const TREE_DATA: ComponentNode[] = [
       { name: 'Using UI Components from CDN in Angular', routerLink: RouterLinks.EXAMPLE_USAGE_ANGULAR },
       { name: 'Using UI Components from CDN in React', routerLink: RouterLinks.EXAMPLE_USAGE_REACT },
       { name: 'Using UI Components from CDN in HTML5', routerLink: RouterLinks.EXAMPLE_USAGE_HTML },
-    ]
+    ],
   },
   // { name: 'Localization', routerLink: RouterLinks.LOCALIZATION },
   { name: 'Styling', routerLink: RouterLinks.STYLING },
@@ -39,8 +40,8 @@ const TREE_DATA: ComponentNode[] = [
           { name: 'lf-folder-browser', routerLink: RouterLinks.LF_FOLDER_BROWSER },
           { name: 'lf-toolbar', routerLink: RouterLinks.LF_TOOLBAR },
           { name: 'lf-tree', routerLink: RouterLinks.LF_TREE },
-          { name: 'lf-repository-browser', routerLink: RouterLinks.LF_REPOSITORY_BROWSER}
-        ]
+          { name: 'lf-repository-browser', routerLink: RouterLinks.LF_REPOSITORY_BROWSER },
+        ],
       },
       {
         name: 'Metadata',
@@ -51,24 +52,24 @@ const TREE_DATA: ComponentNode[] = [
             children: [
               { name: 'lf-field-adhoc-container', routerLink: RouterLinks.LF_FIELD_ADHOC_CONTAINER },
               { name: 'lf-field-template-container', routerLink: RouterLinks.LF_FIELD_TEMPLATE_CONTAINER },
-            ]
+            ],
           },
           { name: 'Field Types and Interfaces', routerLink: RouterLinks.LF_FIELD_TYPES },
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
   {
     name: 'Tips and Tricks',
     children: [
       { name: 'Troubleshooting', routerLink: RouterLinks.TROUBLESHOOTING },
-      { name: 'Converting Angular Component to Element', routerLink: RouterLinks.CONVERT_COMPONENT }
-    ]
+      { name: 'Converting Angular Component to Element', routerLink: RouterLinks.CONVERT_COMPONENT },
+    ],
   },
   {
     name: 'Release Notes',
-    hyperLink: 'https://github.com/Laserfiche/lf-ui-components/blob/13.x/CHANGELOG.md'
-  }
+    hyperLink: 'https://github.com/Laserfiche/lf-ui-components/blob/13.x/CHANGELOG.md',
+  },
 ];
 
 @Component({
@@ -76,11 +77,9 @@ const TREE_DATA: ComponentNode[] = [
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-
 export class AppComponent implements OnInit {
-
   title = 'lf-documentation';
-  treeControl = new NestedTreeControl<ComponentNode>(node => node.children);
+  treeControl = new NestedTreeControl<ComponentNode>((node) => node.children);
   dataSource = new MatTreeNestedDataSource<ComponentNode>();
   landingPageUrl = 'https://developer.laserfiche.com'; // TODO: update this URL once we have the landing page
 
@@ -107,7 +106,15 @@ export class AppComponent implements OnInit {
       language = navigator.language;
     }
     const langObj = {
-      'lf-localization-service-set-language': language
+      'lf-localization-service-set-language': language,
+    };
+    window.postMessage(JSON.stringify(langObj), window.origin);
+  }
+
+  onCheckboxChange(ev: MatCheckboxChange) {
+    const value = ev.checked;
+    const langObj = {
+      'lf-localization-service-debug-mode': value,
     };
     window.postMessage(JSON.stringify(langObj), window.origin);
   }
@@ -115,11 +122,10 @@ export class AppComponent implements OnInit {
   private expandToNode(data: ComponentNode[], routerLink: string | undefined): boolean {
     for (let i = 0; i < data.length; i++) {
       const node: ComponentNode = data[i];
-      if (node.children && node.children.find(c => c.routerLink === routerLink)) {
+      if (node.children && node.children.find((c) => c.routerLink === routerLink)) {
         this.treeControl.expand(node);
         return true;
-      }
-      else if (node.children && node.children.find(c => c.children)) {
+      } else if (node.children && node.children.find((c) => c.children)) {
         const found: boolean = this.expandToNode(node.children, routerLink);
         if (found) {
           this.treeControl.expand(node);
