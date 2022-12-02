@@ -22,7 +22,7 @@ export class ItemsComponent implements OnInit {
 
   /** @internal */
   readonly LOCALIZED_STRINGS: Map<string, Observable<string>> = new Map<string, Observable<string>>([
-    ['REQUIRED', this.localizationService.getStringObservable('REQUIRED')]
+    ['REQUIRED', this.localizationService.getStringLaserficheObservable('REQUIRED')]
   ]);
 
   constructor(private fb: FormBuilder, private ref: ChangeDetectorRef, private localizationService: AppLocalizationService) {

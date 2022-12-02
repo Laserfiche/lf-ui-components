@@ -52,7 +52,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   templateErrorMessage: Observable<string> | undefined;
   /** @internal */
-  readonly emptyTemplateName: Observable<string> = this.localizationService.getStringObservable('NO_TEMPLATE_ASSIGNED');
+  readonly emptyTemplateName: Observable<string> = this.localizationService.getStringLaserficheObservable('NO_TEMPLATE_ASSIGNED');
   /** @internal */
   templateSelected: TemplateInfo | undefined;
   /** @internal */
@@ -62,10 +62,10 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   private adhocDialogOpenedSub: Subscription | undefined;
   /** @internal */
-  private readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
+  private readonly AN_ERROR_OCCURED = this.localizationService.getStringLaserficheObservable('AN_ERROR_OCCURED');
   /** @internal */
   private readonly TEMPLATE_HAS_FAILED_TO_LOAD =
-    this.localizationService.getStringObservable('TEMPLATE_HAS_FAILED_TO_LOAD');
+    this.localizationService.getStringLaserficheObservable('TEMPLATE_HAS_FAILED_TO_LOAD');
 
   /** @internal */
   constructor(

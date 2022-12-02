@@ -17,9 +17,9 @@ import { LfFieldTokenService } from '../lf-field-token.service';
   ]
 })
 export class NumberFieldComponent extends BaseFieldDirective implements OnInit, AfterViewInit {
-  private readonly NUMBER_FIELD_MUST_BE_VALID_NUMBER = this.localizationService.getStringObservable('NUMBER_FIELD_MUST_BE_VALID_NUMBER');
-  private readonly SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999 = this.localizationService.getStringObservable('SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999');
-  private readonly LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999 = this.localizationService.getStringObservable('LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999');
+  private readonly NUMBER_FIELD_MUST_BE_VALID_NUMBER = this.localizationService.getStringLaserficheObservable('NUMBER_FIELD_MUST_BE_VALID_NUMBER');
+  private readonly SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999 = this.localizationService.getStringLaserficheObservable('SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999');
+  private readonly LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999 = this.localizationService.getStringLaserficheObservable('LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999');
 
   prefix: string | undefined;
   suffix: string | undefined;

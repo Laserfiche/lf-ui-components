@@ -1,17 +1,8 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-import { Subscription } from 'rxjs';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
 import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from './login-utils/lf-login-types';
-import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { LfLoginService } from './login-utils/lf-login.service';
 import { HTTPError, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-core';
 
@@ -33,12 +24,32 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   /** @internal */
   get isMenuMode(): boolean {
     return this.mode === LoginMode.Menu;
+  };
+
+  /** @internal */
+  _sign_in_text: Observable<string> = this.localizationService.getStringLaserficheObservable('SIGN_IN');
+  /** @internal */
+  _sign_out_text: Observable<string> = this.localizationService.getStringLaserficheObservable('SIGN_OUT');
+  /** @internal */
+  _signing_in_text: Observable<string> = this.localizationService.getStringLaserficheObservable('SIGNING_IN');
+  /** @internal */
+  _signing_out_text: Observable<string> = this.localizationService.getStringLaserficheObservable('SIGNING_OUT');
+
+  @Input() set sign_in_text(text: string) {
+    this._sign_in_text = of(text);
   }
-  // TODO localize
-  @Input() sign_in_text: string = 'Sign in';
-  @Input() sign_out_text: string = 'Sign out';
-  @Input() signing_in_text: string = 'Signing in...';
-  @Input() signing_out_text: string = 'Signing out...';
+  @Input() set sign_out_text(text: string) {
+    this._sign_in_text = of(text);
+  }
+  @Input() set signing_in_text(text: string) {
+    this._sign_in_text = of(text);
+  }
+  @Input() set signing_out_text(text: string) {
+    this._sign_in_text = of(text);
+  }
+
+  /** @internal */
+  buttonText: Observable<string> = this._sign_in_text;
 
   @Input() set client_id(val: string) {
     this.loginService.client_id = val;
@@ -161,6 +172,11 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     return this.loginService._state ?? LoginState.LoggedOut;
   }
 
+  private set _state(state: LoginState) {
+    this.loginService._state = state;
+    this.setButtonText();
+  }
+
   @Output() loginInitiated = new EventEmitter<string>();
   @Output() logoutInitiated = new EventEmitter<string>();
 
@@ -179,11 +195,10 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
           await this.startOAuthLoginFlowAsync();
         } else if (this.state === LoginState.LoggingIn) {
           console.log('Logging in. Will not attempt to refresh');
-        } else {
-          console.warn(
-            'Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false'
-          );
-          this.loginService._state = LoginState.LoggedOut;
+        }
+        else {
+          console.warn('Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false');
+          this._state = LoginState.LoggedOut;
           this.logoutCompleted.emit({
             ErrorType: 'Refresh Token Error',
             ErrorMessage: 'refreshToken is not defined',
@@ -202,7 +217,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
           const response = await tokenClient.refreshAccessToken(refreshToken, this.client_id);
           const newAccessToken = await this.loginService.parseTokenResponseAsync(response);
           this.loginService.storeAccessToken(newAccessToken!);
-          this.loginService._state = LoginState.LoggedIn;
+          this._state = LoginState.LoggedIn;
           console.info('state changed to LoggedIn');
           this.loginCompleted.emit();
           return newAccessToken?.accessToken;
@@ -212,11 +227,10 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
             if (initiateLoginFlowOnRefreshFailure && !this.hasLoginError && this.state === LoginState.LoggedOut) {
               console.warn('Unable to refresh. Will attempt to start the OAuth login flow');
               await this.startOAuthLoginFlowAsync();
-            } else {
-              console.warn(
-                `Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`
-              );
-              this.loginService._state = LoginState.LoggedOut;
+            }
+            else {
+              console.warn(`Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`);
+              this._state = LoginState.LoggedOut;
               this.ref.detectChanges();
               this.loginService.removeFromLocalStorage();
             }
@@ -224,8 +238,9 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
           throw e;
         }
       }
-    } catch (err: any) {
-      this.loginService._state = LoginState.LoggedOut;
+    }
+    catch (err: any) {
+      this._state = LoginState.LoggedOut;
       this.ref.detectChanges();
       this.loginService.removeFromLocalStorage();
       this.logoutCompleted.emit({
@@ -247,8 +262,9 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       } else {
         return accessToken;
       }
-    } catch (err: any) {
-      this.loginService._state = LoginState.LoggedOut;
+    }
+    catch (err: any) {
+      this._state = LoginState.LoggedOut;
       this.ref.detectChanges();
       this.loginService.removeFromLocalStorage();
       this.logoutCompleted.emit({
@@ -286,11 +302,28 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     /** @internal */
     private ref: ChangeDetectorRef,
     /** @internal */
-    private loginService: LfLoginService
+    private loginService: LfLoginService,
+    /** @internal */
+    private localizationService: AppLocalizationService
   ) {
     window.addEventListener('storage', (ev) => {
       this.onStorageChanged(ev);
     });
+  }
+
+  private setButtonText() {
+    if (this.state === LoginState.LoggedIn) {
+      this.buttonText = this._sign_out_text;
+    }
+    else if (this.state === LoginState.LoggingIn) {
+      this.buttonText = this._signing_in_text;
+    }
+    else if (this.state === LoginState.LoggingOut) {
+      this.buttonText = this._signing_out_text;
+    }
+    else {
+      this.buttonText = this._sign_in_text;
+    }
   }
 
   private onStorageChanged(ev: StorageEvent) {
@@ -306,17 +339,17 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     if (oldValue && !newValue) {
       // newly logged out
       this.loginService.removeFromCache();
-      this.loginService._state = LoginState.LoggedOut;
+      this._state = LoginState.LoggedOut;
       this.ref.detectChanges();
       this.logoutCompleted.emit();
     } else if (!oldValue && newValue) {
       // newly logged in
-      this.loginService._state = LoginState.LoggingIn;
+      this._state = LoginState.LoggingIn;
       this.ref.detectChanges();
 
       this.loginService.storeAccessToken(JSON.parse(newValue));
       this.loginService.refreshServiceAccountProperties();
-      this.loginService._state = LoginState.LoggedIn;
+      this._state = LoginState.LoggedIn;
       this.ref.detectChanges();
       this.loginCompleted.emit();
     } else if (newValue && oldValue && oldValue !== newValue) {
@@ -324,7 +357,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       const newAccessToken: AuthorizationCredentials = JSON.parse(newValue);
       this.loginService.storeAccessToken(newAccessToken);
       this.loginService.refreshServiceAccountProperties();
-      this.loginService._state = LoginState.LoggedIn;
+      this._state = LoginState.LoggedIn;
       this.ref.detectChanges();
       this.loginCompleted.emit();
     } else {
@@ -351,9 +384,11 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     if (currentClientId?.currentValue && currentClientId?.isFirstChange()) {
       this.logoutCompleteSub = this.loginService.logoutCompletedInService.subscribe((error) => {
         this.hasLoginError = true;
+        this.setButtonText();
         this.logoutCompleted.emit(error);
       });
       this.loginCompleteSub = this.loginService.loginCompletedInService.subscribe(() => {
+        this.setButtonText();
         this.loginCompleted.emit();
       });
       await this.initializeLoginAsync();
@@ -370,7 +405,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   private async initializeLoginAsync() {
     try {
       const callBackURIParams = this.parseCallbackURI(window.location.href);
-      this.loginService._state = this.determineCurrentState(callBackURIParams);
+      this._state = this.determineCurrentState(callBackURIParams);
       if (this.loginService._state === LoginState.LoggingIn) {
         await this.loginService.exchangeCodeForTokenAsync(callBackURIParams!);
       }
@@ -380,7 +415,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
         ErrorMessage: err.message,
       });
       this.loginService.removeFromLocalStorage();
-      this.loginService._state = LoginState.LoggedOut;
+      this._state = LoginState.LoggedOut;
       console.warn('Login Error: ' + err.message);
       this.ref.detectChanges();
     }
@@ -479,19 +514,6 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   }
 
   /** @internal */
-  get buttonText(): string {
-    if (this.state === LoginState.LoggedIn) {
-      return this.sign_out_text;
-    } else if (this.state === LoginState.LoggingIn) {
-      return this.signing_in_text;
-    } else if (this.state === LoginState.LoggingOut) {
-      return this.signing_out_text;
-    } else {
-      return this.sign_in_text;
-    }
-  }
-
-  /** @internal */
   async onLoginButtonClickAsync() {
     if (this.state === LoginState.LoggedIn) {
       this.startLogout();
@@ -509,7 +531,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       await this.startOAuthLoginFlowAsync();
     } catch (err: any) {
       if (this.loginService._state !== LoginState.LoggedOut) {
-        this.loginService._state = LoginState.LoggedOut;
+        this._state = LoginState.LoggedOut;
         this.ref.detectChanges();
         this.loginService.removeFromLocalStorage();
         this.logoutCompleted.emit({
@@ -530,7 +552,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
     const fullAuthorizeUrl = this.getAuthorizeUrl();
     this.loginInitiated.emit(fullAuthorizeUrl);
-    this.loginService._state = LoginState.LoggingIn;
+    this._state = LoginState.LoggingIn;
     this.ref.detectChanges();
     console.info('state changed to LoggingIn');
     this.handleRedirectBehavior(fullAuthorizeUrl, 'Log in button clicked.');
@@ -580,7 +602,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   /** @internal */
   startLogout() {
     try {
-      this.loginService._state = LoginState.LoggingOut;
+      this._state = LoginState.LoggingOut;
       this.ref.detectChanges();
       console.info('state changed to LoggingOut');
 
@@ -588,7 +610,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.logoutInitiated.emit(logoutUrl);
 
       this.loginService.removeFromLocalStorage();
-      this.loginService._state = LoginState.LoggedOut;
+      this._state = LoginState.LoggedOut;
       this.ref.detectChanges();
       console.info('state changed to LoggedOut');
 
@@ -599,7 +621,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     } catch (err: any) {
       if (this.loginService._state !== LoginState.LoggedOut) {
         this.loginService.removeFromLocalStorage();
-        this.loginService._state = LoginState.LoggedOut;
+        this._state = LoginState.LoggedOut;
         this.ref.detectChanges();
 
         console.error('Logout error (state changed to LoggedOut): ' + err.message);

@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
+import { Observable } from 'rxjs';
 import { LfAnalyticsService } from './lf-analytics.service';
 import {
   UserFeedbackDialogData,
@@ -10,7 +12,7 @@ import { UserFeedbackDialogComponent } from './user-feedback-dialog/user-feedbac
 @Component({
   selector: 'lf-user-feedback-component',
   template: `<button id="lf-user-feedback-button" [disabled]="disableFeedbackButton" (click)="handleDialogAsync()">
-    {{ feedbackText }}
+    {{ feedbackText | async }}
   </button>`,
   styleUrls: ['./lf-user-feedback.component.css'],
 })
@@ -21,7 +23,7 @@ export class LfUserFeedbackComponent {
   @Input() account_id: string = '';
 
   /** @internal */
-  feedbackText: string = 'Feedback'; // TODO: localize
+  feedbackText: Observable<string> = this.localizationService.getStringLaserficheObservable('FEEDBACK');
 
   /** @internal */
   dialogRef: MatDialogRef<UserFeedbackDialogComponent> | undefined;
@@ -31,7 +33,9 @@ export class LfUserFeedbackComponent {
     /** @internal */
     public dialog: MatDialog,
     /** @internal */
-    public analyticsService: LfAnalyticsService
+    public analyticsService: LfAnalyticsService,
+    /** @internal */
+    private localizationService: AppLocalizationService
   ) { }
 
   /** @internal */
