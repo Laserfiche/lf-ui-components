@@ -11,9 +11,13 @@ const CODE_CHALLENGE_METHOD = 'S256';
 @Component({
   selector: 'lf-login-component',
   templateUrl: './lf-login.component.html',
-  styleUrls: ['./lf-login.component.css']
+  styleUrls: ['./lf-login.component.css'],
 })
 export class LfLoginComponent implements OnChanges, OnDestroy {
+  /** @internal */
+  private readonly CLOUDDEV = 'clouddev';
+  /** @internal */
+  private readonly CLOUDTEST = 'cloudtest';
 
   @Input() mode: LoginMode = LoginMode.Button;
 
@@ -49,35 +53,35 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
   @Input() set client_id(val: string) {
     this.loginService.client_id = val;
-  };
+  }
   get client_id(): string {
     return this.loginService.client_id;
   }
 
   @Input() set redirect_uri(val: string) {
     this.loginService.redirect_uri = val;
-  };
+  }
   get redirect_uri(): string {
     return this.loginService.redirect_uri;
   }
 
   @Input() set scope(val: string) {
     this.loginService.scope = val;
-  };
+  }
   get scope(): string {
     return this.loginService.scope;
   }
 
   @Input() set redirect_behavior(val: RedirectBehavior) {
     this.loginService.redirect_behavior = val;
-  };
+  }
   get redirect_behavior(): RedirectBehavior {
     return this.loginService.redirect_behavior;
   }
 
   @Input() set authorize_url_host_name(val: string) {
     this.loginService.authorize_url_host_name = val;
-  };
+  }
 
   get authorize_url_host_name(): string {
     return this.loginService.authorize_url_host_name;
@@ -88,19 +92,16 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     try {
       if (this.loginService._accessToken) {
         return this.loginService._accessToken;
-      }
-      else {
+      } else {
         const accessTokenFromStorage = localStorage.getItem(this.loginService.accessTokenStorageKey);
         if (accessTokenFromStorage) {
           const accessTokenCredentials: AuthorizationCredentials = JSON.parse(accessTokenFromStorage);
           return accessTokenCredentials;
-        }
-        else {
+        } else {
           return undefined;
         }
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       console.warn('Unable to retrieve accessToken: ' + err.message);
       return undefined;
     }
@@ -111,19 +112,16 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     try {
       if (this.loginService._accountEndpoints) {
         return this.loginService._accountEndpoints;
-      }
-      else {
+      } else {
         const accountEndpointsFromStorage = localStorage.getItem(this.loginService.accountEndpointsStorageKey);
         if (accountEndpointsFromStorage) {
           const accountEndpoints: AccountEndpoints = JSON.parse(accountEndpointsFromStorage);
           return accountEndpoints;
-        }
-        else {
+        } else {
           return undefined;
         }
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       console.warn('Unable to retrieve accountEndpoints: ' + err.message);
       return undefined;
     }
@@ -134,19 +132,16 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     try {
       if (this.loginService._accountInfo) {
         return this.loginService._accountInfo.accountId;
-      }
-      else {
+      } else {
         const accountInfoFromStorage = localStorage.getItem(this.loginService.accountIdStorageKey);
         if (accountInfoFromStorage) {
           const accountInfo: AccountInfo = JSON.parse(accountInfoFromStorage);
           return accountInfo.accountId;
-        }
-        else {
+        } else {
           return undefined;
         }
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       console.warn('Unable to retrieve accountId: ' + err.message);
       return undefined;
     }
@@ -157,19 +152,16 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     try {
       if (this.loginService._accountInfo) {
         return this.loginService._accountInfo.trusteeId;
-      }
-      else {
+      } else {
         const accountInfoFromStorage = localStorage.getItem(this.loginService.accountIdStorageKey);
         if (accountInfoFromStorage) {
           const accountInfo: AccountInfo = JSON.parse(accountInfoFromStorage);
           return accountInfo.trusteeId;
-        }
-        else {
+        } else {
           return undefined;
         }
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       console.warn('Unable to retrieve trusteeId: ' + err.message);
       return undefined;
     }
@@ -192,15 +184,16 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   @Output() logoutCompleted = new EventEmitter<AbortedLoginError | void>();
 
   @Input()
-  refreshTokenAsync: (initiateLoginFlowOnRefreshFailure: boolean) => Promise<string | undefined> = async (initiateLoginFlowOnRefreshFailure: boolean = true) => {
+  refreshTokenAsync: (initiateLoginFlowOnRefreshFailure: boolean) => Promise<string | undefined> = async (
+    initiateLoginFlowOnRefreshFailure: boolean = true
+  ) => {
     try {
       const refreshToken: string | undefined = this.authorization_credentials?.refreshToken;
       if (!refreshToken) {
-        if (initiateLoginFlowOnRefreshFailure && !this.hasLoginError && (this.state === LoginState.LoggedOut)) {
+        if (initiateLoginFlowOnRefreshFailure && !this.hasLoginError && this.state === LoginState.LoggedOut) {
           console.warn('Unable to refresh, refreshToken is not defined. Will attempt to start the OAuth login flow');
           await this.startOAuthLoginFlowAsync();
-        }
-        else if (this.state === LoginState.LoggingIn) {
+        } else if (this.state === LoginState.LoggingIn) {
           console.log('Logging in. Will not attempt to refresh');
         }
         else {
@@ -208,14 +201,13 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
           this.intState = LoginState.LoggedOut;
           this.logoutCompleted.emit({
             ErrorType: 'Refresh Token Error',
-            ErrorMessage: 'refreshToken is not defined'
+            ErrorMessage: 'refreshToken is not defined',
           });
           this.ref.detectChanges();
           this.loginService.removeFromLocalStorage();
         }
         return undefined;
-      }
-      else {
+      } else {
         try {
           const oauthRegion = this.account_endpoints?.regionalDomain;
           if (!oauthRegion) {
@@ -229,11 +221,10 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
           console.info('state changed to LoggedIn');
           this.loginCompleted.emit();
           return newAccessToken?.accessToken;
-        }
-        catch (e) {
+        } catch (e) {
           const status = (<HTTPError>e).status ?? 0;
           if (status === 401 || status === 403) {
-            if (initiateLoginFlowOnRefreshFailure && !this.hasLoginError && (this.state === LoginState.LoggedOut)) {
+            if (initiateLoginFlowOnRefreshFailure && !this.hasLoginError && this.state === LoginState.LoggedOut) {
               console.warn('Unable to refresh. Will attempt to start the OAuth login flow');
               await this.startOAuthLoginFlowAsync();
             }
@@ -254,12 +245,11 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.loginService.removeFromLocalStorage();
       this.logoutCompleted.emit({
         ErrorType: 'Refresh Token Error',
-        ErrorMessage: err.message
+        ErrorMessage: err.message,
       });
       console.error('Unable to refresh, logged out: ' + err.message);
       return undefined;
     }
-
   };
 
   @Input()
@@ -269,8 +259,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       if (this.state === LoginState.LoggedOut && !this.hasLoginError) {
         await this.startOAuthLoginFlowAsync();
         return undefined;
-      }
-      else {
+      } else {
         return accessToken;
       }
     }
@@ -280,7 +269,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.loginService.removeFromLocalStorage();
       this.logoutCompleted.emit({
         ErrorType: 'Login Error',
-        ErrorMessage: err.message
+        ErrorMessage: err.message,
       });
       console.error('Unable to login, logged out: ' + err.message);
       return undefined;
@@ -293,8 +282,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       if (callbackURIParams) {
         await this.loginService.exchangeCodeForTokenAsync(callbackURIParams);
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       console.error('handleRedirectURICallbackAsync error, unable to exchange token: ', err.message);
       throw err;
     }
@@ -354,8 +342,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.intState = LoginState.LoggedOut;
       this.ref.detectChanges();
       this.logoutCompleted.emit();
-    }
-    else if (!oldValue && newValue) {
+    } else if (!oldValue && newValue) {
       // newly logged in
       this.intState = LoginState.LoggingIn;
       this.ref.detectChanges();
@@ -365,8 +352,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.intState = LoginState.LoggedIn;
       this.ref.detectChanges();
       this.loginCompleted.emit();
-    }
-    else if (newValue && oldValue && oldValue !== newValue) {
+    } else if (newValue && oldValue && oldValue !== newValue) {
       // refreshed
       const newAccessToken: AuthorizationCredentials = JSON.parse(newValue);
       this.loginService.storeAccessToken(newAccessToken);
@@ -374,8 +360,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.intState = LoginState.LoggedIn;
       this.ref.detectChanges();
       this.loginCompleted.emit();
-    }
-    else {
+    } else {
       // accessToken didn't change
       // do nothing
     }
@@ -424,11 +409,10 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       if (this.loginService._state === LoginState.LoggingIn) {
         await this.loginService.exchangeCodeForTokenAsync(callBackURIParams!);
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       this.logoutCompleted.emit({
         ErrorType: 'Login Error',
-        ErrorMessage: err.message
+        ErrorMessage: err.message,
       });
       this.loginService.removeFromLocalStorage();
       this.intState = LoginState.LoggedOut;
@@ -451,17 +435,14 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
         return {
           authorizationCode,
           cloudSubDomain: domain,
-          customerId
+          customerId,
         };
-      }
-      else if (error) {
+      } else if (error) {
         return { error };
-      }
-      else {
+      } else {
         throw new Error('Unable to parse callback');
       }
-    }
-    else {
+    } else {
       return undefined;
     }
   }
@@ -472,8 +453,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     if (error) {
       const description = url.searchParams.get('description') ?? 'unknown';
       return { name: error, description };
-    }
-    else {
+    } else {
       return undefined;
     }
   }
@@ -505,8 +485,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.loginService._accountInfo = accountInfo;
       this.loginCompleted.emit();
       return LoginState.LoggedIn;
-    }
-    else if (callBackURIParams?.authorizationCode || callBackURIParams?.error) {
+    } else if (callBackURIParams?.authorizationCode || callBackURIParams?.error) {
       return LoginState.LoggingIn;
     } else {
       this.logoutCompleted.emit();
@@ -523,27 +502,25 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       const body = {
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
-        client_id: this.client_id
+        client_id: this.client_id,
       };
       const requestBody = this.loginService.objToWWWFormUrlEncodedBody(body);
       request.headers = headers;
       request.body = requestBody;
       return request;
-    }
-    else {
+    } else {
       throw new Error('RefreshToken is not defined');
     }
   }
 
   /** @internal */
+>>>>>>> 30525e2e5222088964fa6b515116be6a4c2e8d2d
   async onLoginButtonClickAsync() {
     if (this.state === LoginState.LoggedIn) {
       this.startLogout();
-    }
-    else if (this.state === LoginState.LoggedOut) {
+    } else if (this.state === LoginState.LoggedOut) {
       await this.startLoginAsync();
-    }
-    else {
+    } else {
       // Do not expect to get here as the button should be disabled.
       console.warn('Intermediate state. Should not attempt to login.');
     }
@@ -553,18 +530,15 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   async startLoginAsync() {
     try {
       await this.startOAuthLoginFlowAsync();
-    }
-    catch (err: any) {
+    } catch (err: any) {
       if (this.loginService._state !== LoginState.LoggedOut) {
         this.intState = LoginState.LoggedOut;
         this.ref.detectChanges();
         this.loginService.removeFromLocalStorage();
-        this.logoutCompleted.emit(
-          {
-            ErrorType: 'Login Error',
-            ErrorMessage: err.message
-          }
-        );
+        this.logoutCompleted.emit({
+          ErrorType: 'Login Error',
+          ErrorMessage: err.message,
+        });
         console.error('Login Error: ' + err.message);
       }
     }
@@ -588,13 +562,28 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   /** @internal */
   getAuthorizeUrl(): string {
     const lastOAuthAuthorizeUrl = this.account_endpoints?.oauthAuthorizeUrl;
-    let baseUrl: URL;
-    if (lastOAuthAuthorizeUrl) {
-      baseUrl = new URL(lastOAuthAuthorizeUrl);
+    const configuredHostName = this.loginService.authorize_url_host_name;
+
+    const bothClouddev = configuredHostName.includes(this.CLOUDDEV) && lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV);
+    const bothCloudtest =
+      configuredHostName.includes(this.CLOUDTEST) && lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
+    const bothCloudprod =
+      lastOAuthAuthorizeUrl &&
+      !configuredHostName.includes(this.CLOUDDEV) &&
+      !configuredHostName.includes(this.CLOUDTEST) &&
+      !lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV) &&
+      !lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
+
+    const sameEnvironment = bothClouddev || bothCloudtest || bothCloudprod;
+
+    let currentAuthorizeUrl: string;
+    if (sameEnvironment && lastOAuthAuthorizeUrl) {
+      currentAuthorizeUrl = lastOAuthAuthorizeUrl;
+    } else {
+      currentAuthorizeUrl = this.getAuthorizeUrlWithConfiguredHostName();
     }
-    else {
-      baseUrl = new URL(`https://signin.${this.loginService.authorize_url_host_name}/oauth/Authorize`);
-    }
+
+    const baseUrl: URL = new URL(currentAuthorizeUrl);
     baseUrl.searchParams.set('client_id', this.client_id);
     baseUrl.searchParams.set('redirect_uri', this.redirect_uri);
     baseUrl.searchParams.set('scope', this.scope);
@@ -604,6 +593,11 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     baseUrl.searchParams.set('code_challenge', this.code_challenge!);
     baseUrl.searchParams.set('code_challenge_method', CODE_CHALLENGE_METHOD);
     return baseUrl.toString();
+  }
+
+  /** @internal */
+  private getAuthorizeUrlWithConfiguredHostName(): string {
+    return `https://signin.${this.loginService.authorize_url_host_name}/oauth/Authorize`;
   }
 
   /** @internal */
@@ -625,20 +619,17 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       if (logoutUrl) {
         this.handleRedirectBehavior(logoutUrl, 'Logout button clicked.');
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       if (this.loginService._state !== LoginState.LoggedOut) {
         this.loginService.removeFromLocalStorage();
         this.intState = LoginState.LoggedOut;
         this.ref.detectChanges();
 
         console.error('Logout error (state changed to LoggedOut): ' + err.message);
-        this.logoutCompleted.emit(
-          {
-            ErrorType: 'Logout Error',
-            ErrorMessage: err.message
-          }
-        );
+        this.logoutCompleted.emit({
+          ErrorType: 'Logout Error',
+          ErrorMessage: err.message,
+        });
       }
     }
   }
@@ -652,8 +643,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       acsToLfLogout.searchParams.set('wreply', this.redirect_uri);
       const stringUrl = acsToLfLogout.toString();
       return stringUrl;
-    }
-    else {
+    } else {
       console.warn('No account endpoint available. Did not redirect');
       return undefined;
     }
@@ -663,12 +653,13 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   private handleRedirectBehavior(stringUrl: string, additionalContext?: string) {
     if (this.redirect_behavior === RedirectBehavior.Replace) {
       window.location.replace(stringUrl);
-    }
-    else if (this.redirect_behavior === RedirectBehavior.Popup) {
+    } else if (this.redirect_behavior === RedirectBehavior.Popup) {
       throw new Error('Not implemented');
-    }
-    else {
-      const concatStrings = this.concatStrings(additionalContext, 'Redirect behavior none. Redirect must be implemented by container in event initiated handler');
+    } else {
+      const concatStrings = this.concatStrings(
+        additionalContext,
+        'Redirect behavior none. Redirect must be implemented by container in event initiated handler'
+      );
       console.log(concatStrings);
     }
   }
@@ -681,16 +672,12 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       const firstCharOfSecondString = secondString.charAt(0);
       if (lastCharOfFirstString !== ' ' && firstCharOfSecondString !== ' ') {
         return firstString + ' ' + secondString;
-      }
-      else if (lastCharOfFirstString === ' ' && firstCharOfSecondString === ' ') {
+      } else if (lastCharOfFirstString === ' ' && firstCharOfSecondString === ' ') {
         return firstString + secondString.substring(1);
       }
       return firstString + secondString;
-    }
-    else {
+    } else {
       return secondString;
     }
   }
-
-
 }
