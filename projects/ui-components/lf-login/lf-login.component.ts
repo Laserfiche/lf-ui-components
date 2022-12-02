@@ -514,7 +514,6 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   }
 
   /** @internal */
->>>>>>> 30525e2e5222088964fa6b515116be6a4c2e8d2d
   async onLoginButtonClickAsync() {
     if (this.state === LoginState.LoggedIn) {
       this.startLogout();

@@ -46,7 +46,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   USER_FEEDBACK_TITLE: Observable<string> = this.FEEDBACK;
   CLOSE: Observable<string> = this.localizationService.getStringLaserficheObservable('CLOSE');
 
-  YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT: Observable<string> = this.localizationService.getStringComponentsObservable('YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT')
+  YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT: Observable<string> = this.localizationService.getStringComponentsObservable('YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT');
 
   TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP: Observable<string> = this.localizationService.getStringComponentsObservable('TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP');
   FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW: Observable<string> = this.localizationService.getStringComponentsObservable('FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW');
