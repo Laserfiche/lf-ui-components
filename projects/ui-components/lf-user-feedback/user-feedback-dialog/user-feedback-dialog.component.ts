@@ -60,7 +60,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER: this.localizationService.getStringComponentsObservable('SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER'),
     SUBMIT: this.localizationService.getStringLaserficheObservable('SUBMIT'),
     CANCEL: this.localizationService.getStringLaserficheObservable('CANCEL')
-  }
+  };
 
   USER_FEEDBACK_TITLE: Observable<string> = this.localizedStrings.FEEDBACK;
   
