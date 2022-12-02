@@ -172,7 +172,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     return this.loginService._state ?? LoginState.LoggedOut;
   }
 
-  private set intState(state: LoginState) {
+  private set _state(state: LoginState) {
     this.loginService._state = state;
     this.setButtonText();
   }
@@ -198,7 +198,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
         }
         else {
           console.warn('Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false');
-          this.intState = LoginState.LoggedOut;
+          this._state = LoginState.LoggedOut;
           this.logoutCompleted.emit({
             ErrorType: 'Refresh Token Error',
             ErrorMessage: 'refreshToken is not defined',
@@ -217,7 +217,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
           const response = await tokenClient.refreshAccessToken(refreshToken, this.client_id);
           const newAccessToken = await this.loginService.parseTokenResponseAsync(response);
           this.loginService.storeAccessToken(newAccessToken!);
-          this.intState = LoginState.LoggedIn;
+          this._state = LoginState.LoggedIn;
           console.info('state changed to LoggedIn');
           this.loginCompleted.emit();
           return newAccessToken?.accessToken;
@@ -230,7 +230,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
             }
             else {
               console.warn(`Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`);
-              this.intState = LoginState.LoggedOut;
+              this._state = LoginState.LoggedOut;
               this.ref.detectChanges();
               this.loginService.removeFromLocalStorage();
             }
@@ -240,7 +240,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       }
     }
     catch (err: any) {
-      this.intState = LoginState.LoggedOut;
+      this._state = LoginState.LoggedOut;
       this.ref.detectChanges();
       this.loginService.removeFromLocalStorage();
       this.logoutCompleted.emit({
@@ -264,7 +264,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       }
     }
     catch (err: any) {
-      this.intState = LoginState.LoggedOut;
+      this._state = LoginState.LoggedOut;
       this.ref.detectChanges();
       this.loginService.removeFromLocalStorage();
       this.logoutCompleted.emit({
@@ -339,17 +339,17 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     if (oldValue && !newValue) {
       // newly logged out
       this.loginService.removeFromCache();
-      this.intState = LoginState.LoggedOut;
+      this._state = LoginState.LoggedOut;
       this.ref.detectChanges();
       this.logoutCompleted.emit();
     } else if (!oldValue && newValue) {
       // newly logged in
-      this.intState = LoginState.LoggingIn;
+      this._state = LoginState.LoggingIn;
       this.ref.detectChanges();
 
       this.loginService.storeAccessToken(JSON.parse(newValue));
       this.loginService.refreshServiceAccountProperties();
-      this.intState = LoginState.LoggedIn;
+      this._state = LoginState.LoggedIn;
       this.ref.detectChanges();
       this.loginCompleted.emit();
     } else if (newValue && oldValue && oldValue !== newValue) {
@@ -357,7 +357,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       const newAccessToken: AuthorizationCredentials = JSON.parse(newValue);
       this.loginService.storeAccessToken(newAccessToken);
       this.loginService.refreshServiceAccountProperties();
-      this.intState = LoginState.LoggedIn;
+      this._state = LoginState.LoggedIn;
       this.ref.detectChanges();
       this.loginCompleted.emit();
     } else {
@@ -405,7 +405,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   private async initializeLoginAsync() {
     try {
       const callBackURIParams = this.parseCallbackURI(window.location.href);
-      this.intState = this.determineCurrentState(callBackURIParams);
+      this._state = this.determineCurrentState(callBackURIParams);
       if (this.loginService._state === LoginState.LoggingIn) {
         await this.loginService.exchangeCodeForTokenAsync(callBackURIParams!);
       }
@@ -415,7 +415,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
         ErrorMessage: err.message,
       });
       this.loginService.removeFromLocalStorage();
-      this.intState = LoginState.LoggedOut;
+      this._state = LoginState.LoggedOut;
       console.warn('Login Error: ' + err.message);
       this.ref.detectChanges();
     }
@@ -531,7 +531,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       await this.startOAuthLoginFlowAsync();
     } catch (err: any) {
       if (this.loginService._state !== LoginState.LoggedOut) {
-        this.intState = LoginState.LoggedOut;
+        this._state = LoginState.LoggedOut;
         this.ref.detectChanges();
         this.loginService.removeFromLocalStorage();
         this.logoutCompleted.emit({
@@ -552,7 +552,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
     const fullAuthorizeUrl = this.getAuthorizeUrl();
     this.loginInitiated.emit(fullAuthorizeUrl);
-    this.intState = LoginState.LoggingIn;
+    this._state = LoginState.LoggingIn;
     this.ref.detectChanges();
     console.info('state changed to LoggingIn');
     this.handleRedirectBehavior(fullAuthorizeUrl, 'Log in button clicked.');
@@ -602,7 +602,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   /** @internal */
   startLogout() {
     try {
-      this.intState = LoginState.LoggingOut;
+      this._state = LoginState.LoggingOut;
       this.ref.detectChanges();
       console.info('state changed to LoggingOut');
 
@@ -610,7 +610,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       this.logoutInitiated.emit(logoutUrl);
 
       this.loginService.removeFromLocalStorage();
-      this.intState = LoginState.LoggedOut;
+      this._state = LoginState.LoggedOut;
       this.ref.detectChanges();
       console.info('state changed to LoggedOut');
 
@@ -621,7 +621,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     } catch (err: any) {
       if (this.loginService._state !== LoginState.LoggedOut) {
         this.loginService.removeFromLocalStorage();
-        this.intState = LoginState.LoggedOut;
+        this._state = LoginState.LoggedOut;
         this.ref.detectChanges();
 
         console.error('Logout error (state changed to LoggedOut): ' + err.message);
