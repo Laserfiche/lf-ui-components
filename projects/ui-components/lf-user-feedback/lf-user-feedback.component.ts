@@ -23,7 +23,7 @@ export class LfUserFeedbackComponent {
   @Input() account_id: string = '';
 
   /** @internal */
-  feedbackText: Observable<string> = this.localizationService.getStringLaserficheObservable('FEEDBACK'); // TODO: localize
+  feedbackText: Observable<string> = this.localizationService.getStringLaserficheObservable('FEEDBACK');
 
   /** @internal */
   dialogRef: MatDialogRef<UserFeedbackDialogComponent> | undefined;
