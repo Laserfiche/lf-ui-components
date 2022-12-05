@@ -39,10 +39,10 @@ export class LfFieldContainerComponent {
   /** @internal */
   panelOpenState: boolean = this.start_collapsed;
   /** @internal */
-  readonly FIELDS = this.localizationService.getStringObservable('FIELDS');
+  readonly FIELDS = this.localizationService.getStringLaserficheObservable('FIELDS');
 
   /** @internal */
-  readonly TEMPLATE = this.localizationService.getStringObservable('TEMPLATE');
+  readonly TEMPLATE = this.localizationService.getStringLaserficheObservable('TEMPLATE');
 
   /** @internal */
   SELECTED_TEMPLATE_NAME = this.getSelectedTemplateName();

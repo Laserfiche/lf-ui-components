@@ -114,9 +114,9 @@
     <p class="documentation-text">
       This installs Angular components. You can use the strictly Angular components or the Angular elements by importing
       the relevant module into your app.module.ts.
-    </p><p class="documentation-text">
-     For example to use <code>&lt;lf-tree&gt;</code> or
-      <code >&lt;lf-tree-component&gt;</code> you would do <br />
+    </p>
+    <p class="documentation-text">
+      For example to use <code>&lt;lf-tree&gt;</code> or <code>&lt;lf-tree-component&gt;</code> you would do <br />
       <code class="code-container">import LfTreeModule} from '@laserfiche/lf-ui-components/tree-components'</code>;
     </p>
   </li>
@@ -181,9 +181,17 @@
   <pre class="code-container">
 <span class="code-ts-import">const</span> langObj = &#123;
   'lf-localization-service-set-language': language
-  }
+}
 window.<span class="code-ts-function">postMessage</span>(JSON.<span class="code-ts-function">stringify</span>(langObj), window.<span class="code-ts-key-name">origin</span>);
       </pre>
+
+  <li>To explicitly set debug mode for the UI Components post a message as follows:</li>
+  <pre class="code-container">
+    <span class="code-ts-import">const</span> langObj = &#123;
+      'lf-localization-service-debug-mode': language
+    }
+    window.<span class="code-ts-function">postMessage</span>(JSON.<span class="code-ts-function">stringify</span>(langObj), window.<span class="code-ts-key-name">origin</span>);
+          </pre>
   <li>
     <a href="https://github.com/Laserfiche/lf-resource-library/tree/3.x/resources/laserfiche-base" rel="nofollow"
       >Supported Languages</a

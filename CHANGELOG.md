@@ -1,3 +1,14 @@
+## 13.1.6
+
+### Features
+- `[LfLocalizationService]`: add ability to set debug mode on localization service via window.postMessage
+
+### Fixes
+
+### Chore & Maintenance
+- `[lf-user-feedback]`: add support for localized strings
+- `[lf-login]`: add support for localized string
+
 ## 13.1.5
 
 ### Features

@@ -2,7 +2,7 @@
   <button [disabled]="isIntermediateState"
     [ngClass]="{'primary-button': !isLoggedIn,'sec-button': isLoggedIn, 'lf-button': true, 'login-button': true}"
     (click)="onLoginButtonClickAsync()">
-    {{buttonText}}
+    {{buttonText | async}}
   </button>
 </div>
 
@@ -19,7 +19,7 @@
     <div mat-menu-item>
       <div class="lf-login-menu-button" (click)="onLoginButtonClickAsync()">
         <button [disabled]="isIntermediateState" class="lf-login-menu-internal-button">
-          {{buttonText}}
+          {{buttonText | async}}
         </button>
       </div>
     </div>

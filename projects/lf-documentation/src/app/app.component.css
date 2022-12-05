@@ -67,6 +67,11 @@ mat-toolbar, mat-toolbar-row {
     background-color: rgb(242, 246, 249);
 }
 
+.debug-mode-checkbox {
+  color: black;
+  padding-left: 10px;
+}
+
 .documentation-font {
     font-family: 'Open Sans', sans-serif;
 }

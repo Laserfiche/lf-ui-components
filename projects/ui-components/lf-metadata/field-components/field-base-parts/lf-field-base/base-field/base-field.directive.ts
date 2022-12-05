@@ -25,10 +25,10 @@ export abstract class BaseFieldDirective implements OnInit {
 
   showTokenTextBox: boolean = false;
 
-  private readonly CHARACTER_COUNT = this.localizationService.getStringObservable('CHARACTER_COUNT');
-  private readonly NOT_AVAILABLE_WITH_TOKENS = this.localizationService.getStringObservable('NOT_AVAILABLE_WITH_TOKENS');
+  private readonly CHARACTER_COUNT = this.localizationService.getStringLaserficheObservable('CHARACTER_COUNT');
+  private readonly NOT_AVAILABLE_WITH_TOKENS = this.localizationService.getStringLaserficheObservable('NOT_AVAILABLE_WITH_TOKENS');
 
-  private readonly REQUIRED_FIELD_IS_EMPTY = this.localizationService.getStringObservable('REQUIRED_FIELD_IS_EMPTY');
+  private readonly REQUIRED_FIELD_IS_EMPTY = this.localizationService.getStringLaserficheObservable('REQUIRED_FIELD_IS_EMPTY');
   private THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS?: Observable<string>;
 
   get containsToken(): boolean {
@@ -89,7 +89,7 @@ export abstract class BaseFieldDirective implements OnInit {
     this.lf_field_form_control = CoreUtils.validateDefined(this.lf_field_form_control, 'lfFieldFormControl');
     this.setLfFieldFormControlValue(this.lf_field_value);
 
-    this.THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS = this.localizationService.getStringObservable('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', [this.lf_field_info?.length?.toString() ?? '0']);
+    this.THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS = this.localizationService.getStringLaserficheObservable('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', [this.lf_field_info?.length?.toString() ?? '0']);
 
     this.fieldValidationErrorMsg = this.lf_field_form_control.valueChanges.pipe(mergeMap((value) => {
       const validationRuleName = this.getBrokenValidationRule();
