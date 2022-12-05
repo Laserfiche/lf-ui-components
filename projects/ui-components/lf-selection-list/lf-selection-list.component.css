@@ -8,5 +8,5 @@
 }
 
 ::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper {
-    padding-top: 2px;
+    padding: 2px 0;
 }
