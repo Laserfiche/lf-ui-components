@@ -108,6 +108,7 @@ export abstract class BaseFieldDirective implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.nameToDisplay = this.lf_field_info.displayName ?? this.lf_field_info.name;
+    this.ref.detectChanges();
   }
 
   abstract deserializeLfFieldValue(): string;
