@@ -19,7 +19,8 @@ import { createCustomElement } from '@angular/elements';
   ]
 })
 export class LfBreadcrumbsModule {
-  constructor(private injector: Injector) {
+  /** @internal */
+  constructor(/** @internal */ injector: Injector) {
     const breadcrumbsElementName: string = 'lf-breadcrumbs';
     if (window.customElements && !customElements.get(breadcrumbsElementName)) {
       const breadcrumbsElement = createCustomElement(LfBreadcrumbsComponent, { injector });

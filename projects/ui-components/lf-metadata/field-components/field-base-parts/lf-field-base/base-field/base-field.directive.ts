@@ -1,4 +1,4 @@
-import { OnInit, Output, EventEmitter, Input, Directive, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { OnInit, Output, EventEmitter, Input, Directive, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { LfFieldInfo, LfFieldValue } from '../../../utils/lf-field-types';
 import { FormControl, ValidatorFn, FormGroup } from '@angular/forms';
 import { LfFieldTokenData, LfFieldTokenService } from '../lf-field-token.service';
@@ -12,7 +12,7 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 /** @internal */
 @Directive()
-export abstract class BaseFieldDirective implements OnInit {
+export abstract class BaseFieldDirective implements OnInit, AfterViewInit {
 
   @Input() lf_field_info!: LfFieldInfo;
   @Input() lf_field_form_control!: FormControl;
@@ -24,6 +24,8 @@ export abstract class BaseFieldDirective implements OnInit {
   @Input() dynamic_field_value_options: string[] | undefined;
 
   showTokenTextBox: boolean = false;
+
+  nameToDisplay: string | undefined;
 
   private readonly CHARACTER_COUNT = this.localizationService.getStringLaserficheObservable('CHARACTER_COUNT');
   private readonly NOT_AVAILABLE_WITH_TOKENS = this.localizationService.getStringLaserficheObservable('NOT_AVAILABLE_WITH_TOKENS');
@@ -102,6 +104,10 @@ export abstract class BaseFieldDirective implements OnInit {
     else {
       this.resetToDefaultValidators();
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.nameToDisplay = this.lf_field_info.displayName ?? this.lf_field_info.name;
   }
 
   abstract deserializeLfFieldValue(): string;
