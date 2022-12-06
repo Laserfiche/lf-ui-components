@@ -32,27 +32,27 @@ export enum AddRemoveState {
   styleUrls: ['./lf-field-add-remove.component.css']
 })
 export class LfFieldAddRemoveComponent implements AfterViewInit {
-  private readonly APPLY_CHANGES = this.localizationService.getStringObservable('APPLY_CHANGES');
-  private readonly DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES = this.localizationService.getStringObservable('DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES');
-  private readonly YES = this.localizationService.getStringObservable('YES');
-  private readonly NO = this.localizationService.getStringObservable('NO');
-  readonly CANCEL: Observable<string> = this.localizationService.getStringObservable('CANCEL');
-  readonly APPLY: Observable<string> = this.localizationService.getStringObservable('APPLY');
-  readonly ADD_REMOVE_FIELDS: Observable<string> = this.localizationService.getStringObservable('ADD_REMOVE_FIELDS');
-  readonly NO_MATCHING_FIELDS_FOUND: Observable<string> = this.localizationService.getStringObservable('NO_MATCHING_FIELDS_FOUND');
-  readonly SEARCH_FIELDS: Observable<string> = this.localizationService.getStringObservable('SEARCH_FIELDS');
-  readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
+  private readonly APPLY_CHANGES = this.localizationService.getStringLaserficheObservable('APPLY_CHANGES');
+  private readonly DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES = this.localizationService.getStringLaserficheObservable('DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES');
+  private readonly YES = this.localizationService.getStringLaserficheObservable('YES');
+  private readonly NO = this.localizationService.getStringLaserficheObservable('NO');
+  readonly CANCEL: Observable<string> = this.localizationService.getStringLaserficheObservable('CANCEL');
+  readonly APPLY: Observable<string> = this.localizationService.getStringLaserficheObservable('APPLY');
+  readonly ADD_REMOVE_FIELDS: Observable<string> = this.localizationService.getStringLaserficheObservable('ADD_REMOVE_FIELDS');
+  readonly NO_MATCHING_FIELDS_FOUND: Observable<string> = this.localizationService.getStringLaserficheObservable('NO_MATCHING_FIELDS_FOUND');
+  readonly SEARCH_FIELDS: Observable<string> = this.localizationService.getStringLaserficheObservable('SEARCH_FIELDS');
+  readonly AN_ERROR_OCCURED = this.localizationService.getStringLaserficheObservable('AN_ERROR_OCCURED');
 
   readonly LOCALIZED_FIELD_TYPES: Map<string, Observable<string>> = new Map<string, Observable<string>>([
-    ['DATA', this.localizationService.getStringObservable('DATA')],
-    ['DATE', this.localizationService.getStringObservable('DATE')],
-    ['DATE_TIME', this.localizationService.getStringObservable('DATE_TIME')],
-    ['LIST', this.localizationService.getStringObservable('LIST')],
-    ['LONG_INTEGER', this.localizationService.getStringObservable('LONG_INTEGER')],
-    ['NUMBER', this.localizationService.getStringObservable('NUMBER')],
-    ['INTEGER', this.localizationService.getStringObservable('INTEGER')],
-    ['TEXT', this.localizationService.getStringObservable('TEXT')],
-    ['TIME', this.localizationService.getStringObservable('TIME')],
+    ['DATA', this.localizationService.getStringLaserficheObservable('DATA')],
+    ['DATE', this.localizationService.getStringLaserficheObservable('DATE')],
+    ['DATE_TIME', this.localizationService.getStringLaserficheObservable('DATE_TIME')],
+    ['LIST', this.localizationService.getStringLaserficheObservable('LIST')],
+    ['LONG_INTEGER', this.localizationService.getStringLaserficheObservable('LONG_INTEGER')],
+    ['NUMBER', this.localizationService.getStringLaserficheObservable('NUMBER')],
+    ['INTEGER', this.localizationService.getStringLaserficheObservable('INTEGER')],
+    ['TEXT', this.localizationService.getStringLaserficheObservable('TEXT')],
+    ['TIME', this.localizationService.getStringLaserficheObservable('TIME')],
   ]);
 
   allFieldInfos: AdhocFieldInfo[] = [];

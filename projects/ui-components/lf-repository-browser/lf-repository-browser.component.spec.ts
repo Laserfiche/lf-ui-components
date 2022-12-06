@@ -66,7 +66,7 @@ describe('LfRepositoryBrowserComponent', () => {
   beforeEach(async () => {
     changeRefMock = jasmine.createSpyObj('changeDetectorRef', ['detectChanges']);
     localizeServiceMock = jasmine.createSpyObj('localizeion', {
-      getStringObservable: (value: string) => value,
+      getStringLaserficheObservable: (value: string) => value,
     });
     matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
     ngZoneMock = jasmine.createSpyObj('ngZone', {

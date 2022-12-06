@@ -20,6 +20,6 @@ export class LfLoaderComponent {
   ) {
   }
 
-  readonly LOADING: Observable<string> = this.localizationService.getStringObservable('LOADING');
+  readonly LOADING: Observable<string> = this.localizationService.getStringLaserficheObservable('LOADING');
 
 }

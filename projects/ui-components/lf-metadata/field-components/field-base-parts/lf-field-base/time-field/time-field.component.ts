@@ -20,7 +20,7 @@ export class TimeFieldComponent extends BaseFieldDirective {
   private readonly LOCALE_TIME = this.localizationService.languageChanged().pipe(map((language) => {
     return LocaleDatetimeUtils.getLocaleTimePattern(language);
   }));
-  private readonly TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringWithObservableParams('TIME_FIELDS_MUST_BE_IN_FORMAT_0', [this.LOCALE_TIME]);
+  private readonly TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringLaserficheWithObservableParams('TIME_FIELDS_MUST_BE_IN_FORMAT_0', [this.LOCALE_TIME]);
 
   step: string | undefined = '1'; // hh:mm:ss by default
 

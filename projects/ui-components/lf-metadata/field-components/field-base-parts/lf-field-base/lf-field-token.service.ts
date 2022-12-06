@@ -32,20 +32,20 @@ export class LfFieldTokenService implements LfTokenService {
     LfFieldTokenId.PARENT_FIELD
   ];
 
-  private readonly DATE = this.localizationService.getStringObservable('DATE');
-  private readonly TIME = this.localizationService.getStringObservable('TIME');
-  private readonly DATE_TIME = this.localizationService.getStringObservable('DATE_TIME');
-  private readonly SESSION_COUNT = this.localizationService.getStringObservable('SESSION_COUNT');
-  private readonly REPOSITORY_COUNT = this.localizationService.getStringObservable('REPOSITORY_COUNT');
-  private readonly USER_NAME = this.localizationService.getStringObservable('USER_NAME');
-  private readonly ENTRY_NAME = this.localizationService.getStringObservable('ENTRY_NAME');
-  private readonly PARENT_NAME = this.localizationService.getStringObservable('PARENT_NAME');
-  private readonly ENTRY_ID = this.localizationService.getStringObservable('ENTRY_ID');
-  private readonly PARENT_ID = this.localizationService.getStringObservable('PARENT_ID');
-  private readonly PARENT_FIELD = this.localizationService.getStringObservable('PARENT_FIELD');
-  private readonly FILE_NAME = this.localizationService.getStringObservable('FILE_NAME');
-  private readonly FILE_EXTENSION = this.localizationService.getStringObservable('FILE_EXTENSION');
-  private readonly FILE_MODIFIED = this.localizationService.getStringObservable('FILE_MODIFIED');
+  private readonly DATE = this.localizationService.getStringLaserficheObservable('DATE');
+  private readonly TIME = this.localizationService.getStringLaserficheObservable('TIME');
+  private readonly DATE_TIME = this.localizationService.getStringLaserficheObservable('DATE_TIME');
+  private readonly SESSION_COUNT = this.localizationService.getStringLaserficheObservable('SESSION_COUNT');
+  private readonly REPOSITORY_COUNT = this.localizationService.getStringLaserficheObservable('REPOSITORY_COUNT');
+  private readonly USER_NAME = this.localizationService.getStringLaserficheObservable('USER_NAME');
+  private readonly ENTRY_NAME = this.localizationService.getStringLaserficheObservable('ENTRY_NAME');
+  private readonly PARENT_NAME = this.localizationService.getStringLaserficheObservable('PARENT_NAME');
+  private readonly ENTRY_ID = this.localizationService.getStringLaserficheObservable('ENTRY_ID');
+  private readonly PARENT_ID = this.localizationService.getStringLaserficheObservable('PARENT_ID');
+  private readonly PARENT_FIELD = this.localizationService.getStringLaserficheObservable('PARENT_FIELD');
+  private readonly FILE_NAME = this.localizationService.getStringLaserficheObservable('FILE_NAME');
+  private readonly FILE_EXTENSION = this.localizationService.getStringLaserficheObservable('FILE_EXTENSION');
+  private readonly FILE_MODIFIED = this.localizationService.getStringLaserficheObservable('FILE_MODIFIED');
 
   private readonly defaultDateTokens: LfFieldTokenId[] = [LfFieldTokenId.DATE];
 

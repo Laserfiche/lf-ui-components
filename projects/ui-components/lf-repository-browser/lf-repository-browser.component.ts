@@ -157,16 +157,16 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   treeNodeService!: LfTreeNodeService;
 
   /** @internal */
-  readonly OPEN = this.localizationService.getStringObservable('OPEN');
+  readonly OPEN = this.localizationService.getStringLaserficheObservable('OPEN');
   /** @internal */
-  readonly AN_ERROR_OCCURED = this.localizationService.getStringObservable('AN_ERROR_OCCURED');
+  readonly AN_ERROR_OCCURED = this.localizationService.getStringLaserficheObservable('AN_ERROR_OCCURED');
 
   /** @internal */
   get shouldShowErrorMessage(): boolean {
     return this.hasError;
   }
   /** @internal */
-  readonly THIS_FOLDER_IS_EMPTY = this.localizationService.getStringObservable('THIS_FOLDER_IS_EMPTY');
+  readonly THIS_FOLDER_IS_EMPTY = this.localizationService.getStringLaserficheObservable('THIS_FOLDER_IS_EMPTY');
   /** @internal */
   get shouldShowEmptyMessage(): boolean {
     return this.currentFolderChildren.length === 0 && !this.hasError;
