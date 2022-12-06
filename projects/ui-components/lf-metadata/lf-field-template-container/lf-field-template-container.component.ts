@@ -428,9 +428,8 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
   /** @internal */
   private async updateAllFieldInfosFromServiceAsync() {
-    if (!this.templateSelected) {
-      this.allFieldInfos = [];
-    } else {
+    this.allFieldInfos = [];
+    if (this.templateSelected) {
       try {
         this.templateState = TemplateState.LOADING;
         const fieldInfos = await this.templateFieldContainerService.getTemplateFieldsAsync(this.templateSelected.id);
@@ -447,7 +446,6 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
         console.error('getTemplateFieldsAsync failed: ' + err?.message ?? err?.title ?? '');
         this.templateState = TemplateState.HAS_ERROR;
-        this.allFieldInfos = [];
       }
       finally {
         this.ref.detectChanges();
