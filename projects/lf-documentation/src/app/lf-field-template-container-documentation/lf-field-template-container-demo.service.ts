@@ -68,7 +68,7 @@ export enum City {
 }
 export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] } = {
   [TemplateIds.String]: [
-    { id: 1, name: 'multivalue string', fieldType: FieldType.String, isMultiValue: true },
+    { id: 1, name: 'multivalue string', fieldType: FieldType.String, isMultiValue: true , displayName: 'multivalue string displayName'},
     { id: 2, name: 'plain string', fieldType: FieldType.String },
   ],
   [TemplateIds.DateTime]: [
@@ -77,7 +77,7 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
     { id: 5, name: 'multivalue time', fieldType: FieldType.Time, isMultiValue: true },
   ],
   [TemplateIds.Number]: [
-    { id: 6, name: 'number', fieldType: FieldType.Number },
+    { id: 6, name: 'number', fieldType: FieldType.Number, displayName: 'number display name' },
     { id: 7, name: 'short integer 1', fieldType: FieldType.ShortInteger },
     { id: 8, name: 'long interger', fieldType: FieldType.LongInteger },
     { id: 9, name: 'short integer 2', fieldType: FieldType.ShortInteger },
@@ -89,7 +89,8 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
       fieldType: FieldType.String,
       rule: { ancestors: [] },
       groupId: 1,
-      isMultiValue: true
+      isMultiValue: true,
+      displayName: 'dynamic state display name'
     },
     {
       id: DynamicFieldIds.County,
@@ -97,7 +98,8 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
       fieldType: FieldType.String,
       rule: { ancestors: [DynamicFieldIds.State] },
       groupId: 1,
-      isMultiValue: true
+      isMultiValue: true,
+      displayName: 'dynamic county display name'
     },
     {
       id: DynamicFieldIds.City,
@@ -110,7 +112,8 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
     {
       id: 1000,
       name: 'Weather',
-      fieldType: FieldType.String
+      fieldType: FieldType.String,
+      displayName: 'weather display name'
     },
   ],
   [TemplateIds.DynamicOneLocation]: [
@@ -119,6 +122,7 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
       name: 'State',
       fieldType: FieldType.String,
       rule: { ancestors: [] },
+      displayName: 'dynamic state display name'
     },
     {
       id: DynamicFieldIds.County,
@@ -139,6 +143,7 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
       name: 'Grandparent Date',
       fieldType: FieldType.Date,
       rule: { ancestors: [] },
+      displayName: 'dynamic grandparent date display name'
     },
     {
       id: DynamicFieldIds.ParentDate,
@@ -195,6 +200,7 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
       name: 'Parent Number',
       fieldType: FieldType.Number,
       rule: { ancestors: [] },
+      displayName: 'dynamic parent num display name'
     },
     {
       id: DynamicFieldIds.ChildNumber,
@@ -210,7 +216,8 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
       fieldType: FieldType.String,
       groupId: 1,
       isMultiValue: true,
-      isRequired: true
+      isRequired: true,
+      displayName: 'group breakfast display name'
     },
     {
       id: 11,
@@ -218,7 +225,8 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
       fieldType: FieldType.String,
       groupId: 1,
       isMultiValue: true,
-      defaultValue: 'hamburger'
+      defaultValue: 'hamburger',
+      displayName: 'group lunch display name'
     },
     {
       id: 12,
@@ -243,7 +251,7 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
 
 export class LfFieldTemplateContainerDemoService implements LfFieldTemplateContainerService {
   readonly testTemplateInfos: TemplateInfo[] = [
-    { id: TemplateIds.String, name: 'Strings' },
+    { id: TemplateIds.String, name: 'Strings', displayName: 'strings template display name' },
     { id: TemplateIds.DateTime, name: 'Dates and Times' },
     { id: TemplateIds.Number, name: 'Numbers' },
     { id: TemplateIds.DynamicLocation, name: 'Location (Dynamic)' },
