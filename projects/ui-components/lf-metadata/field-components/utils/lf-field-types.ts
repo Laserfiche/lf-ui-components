@@ -3,6 +3,7 @@ import { FieldFormat, FieldType } from '@laserfiche/lf-ui-components/shared';
 export interface LfFieldInfo {
   name: string;
   id: number;
+  displayName?: string;
   description?: string;
   fieldType: FieldType;
   length?: number;
@@ -36,6 +37,7 @@ export interface FieldValues {
 export interface TemplateInfo {
   id: number;
   name?: string;
+  displayName?: string;
   description?: string;
   fieldCount?: number;
   color?: LfColor;
