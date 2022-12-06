@@ -328,7 +328,6 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
   /** @internal */
   async onToggleDropdownAsync(open: boolean): Promise<void> {
-    this.templateErrorMessage = undefined;
     if (open && !this.loadedTemplates) {
       try {
         this.dropdownState = DropDownState.LOADING;
@@ -339,7 +338,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           this.templateState = TemplateState.DEFAULT;
         }
       }
-    catch (err) {
+      catch (err) {
         this.dropdownState = DropDownState.HAS_ERROR;
         this.templateSelected = undefined;
         this.templateState = TemplateState.DEFAULT;
@@ -448,6 +447,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
         console.error('getTemplateFieldsAsync failed: ' + err?.message ?? err?.title ?? '');
         this.templateState = TemplateState.HAS_ERROR;
+        this.allFieldInfos = [];
       }
       finally {
         this.ref.detectChanges();

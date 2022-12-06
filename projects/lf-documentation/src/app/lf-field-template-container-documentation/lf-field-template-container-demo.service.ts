@@ -247,12 +247,12 @@ export class LfFieldTemplateContainerDemoService implements LfFieldTemplateConta
     { id: TemplateIds.String, name: 'Strings' },
     { id: TemplateIds.DateTime, name: 'Dates and Times' },
     { id: TemplateIds.Number, name: 'Numbers' },
+    { id: TemplateIds.Error, name: 'Template with Error' },
     { id: TemplateIds.DynamicLocation, name: 'Location (Dynamic)' },
     { id: TemplateIds.DynamicOneLocation, name: 'One Location (Dynamic)' },
     { id: TemplateIds.DynamicDateTimes, name: 'Dates and Times (Dynamic)' },
     { id: TemplateIds.DynamicNumbers, name: 'One Row of Numbers (Dynamic)' },
     { id: TemplateIds.Groups, name: 'Template with Groups' },
-    { id: TemplateIds.Error, name: 'Template with Error' }
   ];
 
   readonly lookupTableByTemplateId = new Map<TemplateIds, LookupTable>([
