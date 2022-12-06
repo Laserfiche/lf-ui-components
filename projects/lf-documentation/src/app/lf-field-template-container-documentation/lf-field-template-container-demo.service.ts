@@ -357,7 +357,6 @@ export class LfFieldTemplateContainerDemoService implements LfFieldTemplateConta
   }
 
   async getTemplateFieldsAsync(templateId: number): Promise<TemplateFieldInfo[]> {
-    console.log(templateId)
     if (templateId === TemplateIds.Error) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
