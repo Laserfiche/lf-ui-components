@@ -330,7 +330,6 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     this.templateErrorMessage = undefined;
     if (open && !this.loadedTemplates) {
       try {
-        this.availableTemplates = [];
         this.dropdownState = DropDownState.LOADING;
         this.availableTemplates = await this.templateFieldContainerService.getAvailableTemplatesAsync();
         this.dropdownState = DropDownState.DEFAULT;
@@ -339,13 +338,11 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           this.templateState = TemplateState.DEFAULT;
         }
       }
-      catch (err) {
-        if (this.availableTemplates.length === 0) {
-          this.dropdownState = DropDownState.HAS_ERROR;
-          this.templateSelected = undefined;
-          this.templateState = TemplateState.DEFAULT;
-          this.ref.detectChanges();
-        }
+    catch (err) {
+        this.dropdownState = DropDownState.HAS_ERROR;
+        this.templateSelected = undefined;
+        this.templateState = TemplateState.DEFAULT;
+        this.ref.detectChanges();
         console.error('getAvailableTemplatesAsync', err);
       }
     }

@@ -19,9 +19,11 @@
     >
       <mat-option selected *ngIf="isDropdownDefault">{{ emptyTemplateName | async }}</mat-option>
       <mat-option selected *ngIf="isDropdownError" class="dropdown-error-message">{{ AN_ERROR_OCCURED | async }}</mat-option>
-      <mat-option hidden="!isDropdownDefault" *ngFor="let template of availableTemplates" [value]="template"
-        >{{ template.name }}
-      </mat-option>
+      <div *ngIf="isDropdownDefault">
+        <mat-option *ngFor="let template of availableTemplates" [value]="template"
+          >{{ template.name }}
+        </mat-option>
+      </div>
     </mat-select>
   </mat-form-field>
   <ng-container *ngIf="isTemplateLoading; else checkIfHasError">
