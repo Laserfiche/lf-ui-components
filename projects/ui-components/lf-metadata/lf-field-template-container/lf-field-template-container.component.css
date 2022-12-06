@@ -7,3 +7,7 @@
 .lf-template-picker {
   margin-bottom: 20px;
 }
+
+.dropdown-error-message {
+  color: red;
+}

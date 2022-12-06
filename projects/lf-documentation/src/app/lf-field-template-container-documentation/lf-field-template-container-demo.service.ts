@@ -355,18 +355,30 @@ export class LfFieldTemplateContainerDemoService implements LfFieldTemplateConta
   ]);
 
   async getAvailableTemplatesAsync(): Promise<TemplateInfo[]> {
-    return this.testTemplateInfos;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+       return resolve(this.testTemplateInfos);
+    }, 200);
+  });
   }
 
   async getTemplateFieldsAsync(templateId: number): Promise<TemplateFieldInfo[]> {
     if (templateId === 0 || !(templateId in fieldInfosPerTemplate)) {
       return [];
     }
-    return fieldInfosPerTemplate[templateId];
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+       return resolve(fieldInfosPerTemplate[templateId]);
+    }, 200);
+  });
   }
 
   async getTemplateDefinitionAsync(id: string | number): Promise<TemplateInfo | undefined> {
-    return this.testTemplateInfos.find((info) => info.id === id);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+       return resolve(this.testTemplateInfos.find((info) => info.id === id));
+    }, 200);
+  });
   }
 
   async getDynamicFieldValueOptionsAsync(
