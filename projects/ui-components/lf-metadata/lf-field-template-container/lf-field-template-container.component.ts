@@ -64,7 +64,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   private adhocDialogOpenedSub: Subscription | undefined;
   /** @internal */
-  readonly readonly AN_ERROR_OCCURED = this.localizationService.getStringLaserficheObservable('AN_ERROR_OCCURED');
+  readonly AN_ERROR_OCCURED = this.localizationService.getStringLaserficheObservable('AN_ERROR_OCCURED');
   /** @internal */
   dropdownState: DropDownState = DropDownState.DEFAULT;
   /** @internal */
