@@ -1,6 +1,6 @@
-import { FieldValues, LfFieldInfo, TemplateFieldInfo, TemplateInfo } from './../../../../ui-components/lf-metadata/field-components/utils/lf-field-types';
-import { LfFieldTemplateContainerService } from './../../../../ui-components/lf-metadata/lf-field-template-container/public-api';
-import { FieldType } from './../../../../ui-components/shared/lf-shared-public-api';
+import { FieldValues, LfFieldInfo, TemplateFieldInfo, TemplateInfo } from './../field-components/utils/lf-field-types';
+import { LfFieldTemplateContainerService } from './lf-field-template-container.service';
+import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { DatetimeUtils } from './lf-field-template-container-datetime-utils';
 
 
