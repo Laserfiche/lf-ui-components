@@ -2,7 +2,7 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AccountInfo, RedirectUriQueryParams } from './lf-login-internal-types';
 import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';
 import { LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
-import { DomainUtils, GetAccessTokenResponse, HTTPError, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
+import { GetAccessTokenResponse, HTTPError, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
 @Injectable({
@@ -208,17 +208,22 @@ export class LfLoginService {
   /** @internal */
   storeInLocalStorage(accessTokenCredentials: AuthorizationCredentials, accountId: string, regionalDomain: string) {
     const trusteeId: string = this.parseAccessToken(accessTokenCredentials.accessToken);
-    // const lfEndpoints = DomainUtils.getLfEndpoints(regionalDomain);
-    const endpoints: AccountEndpoints = {
-      oauthAuthorizeUrl: 'https://oauthAuthorizeUrl.com',
-      webClientUrl: 'https://webClientUrl.com',
-      wsignoutUrl: 'https://wsignoutUrl.com',
-      regionalDomain: 'https://regionalDomain.com'
-    };
+    const endpoints = this.getTestLfEndpoints(regionalDomain);
     this.storeAccountInfo(accountId, trusteeId);
     this.storeAccountEndpoints(endpoints);
     this.storeAccessToken(accessTokenCredentials);
   }
+
+  getTestLfEndpoints(regionalDomain: string) {
+    if (!regionalDomain)
+        throw new Error('regionalDomain is undefined.');
+    return {
+        webClientUrl: `https://app.${regionalDomain}/laserfiche`,
+        wsignoutUrl: `https://accounts.${regionalDomain}/WebSTS/?wa=wsignout1.0`,
+        regionalDomain,
+        oauthAuthorizeUrl: `https://signin.${regionalDomain}/oauth/Authorize`,
+    };
+}
 
   /** @internal */
   getPostRequestHeaders() {
