@@ -208,7 +208,13 @@ export class LfLoginService {
   /** @internal */
   storeInLocalStorage(accessTokenCredentials: AuthorizationCredentials, accountId: string, regionalDomain: string) {
     const trusteeId: string = this.parseAccessToken(accessTokenCredentials.accessToken);
-    const endpoints = DomainUtils.getLfEndpoints(regionalDomain);
+    // const lfEndpoints = DomainUtils.getLfEndpoints(regionalDomain);
+    const endpoints: AccountEndpoints = {
+      oauthAuthorizeUrl: 'lfEndpoints.oauthAuthorizeUrl',
+      webClientUrl: 'lfEndpoints.webClientUrl',
+      wsignoutUrl: 'lfEndpoints.wsignoutUrl',
+      regionalDomain: 'lfEndpoints.regionalDomain'
+    };
     this.storeAccountInfo(accountId, trusteeId);
     this.storeAccountEndpoints(endpoints);
     this.storeAccessToken(accessTokenCredentials);
