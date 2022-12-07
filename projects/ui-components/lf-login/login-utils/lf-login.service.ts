@@ -210,10 +210,10 @@ export class LfLoginService {
     const trusteeId: string = this.parseAccessToken(accessTokenCredentials.accessToken);
     // const lfEndpoints = DomainUtils.getLfEndpoints(regionalDomain);
     const endpoints: AccountEndpoints = {
-      oauthAuthorizeUrl: 'lfEndpoints.oauthAuthorizeUrl',
-      webClientUrl: 'lfEndpoints.webClientUrl',
-      wsignoutUrl: 'lfEndpoints.wsignoutUrl',
-      regionalDomain: 'lfEndpoints.regionalDomain'
+      oauthAuthorizeUrl: 'https://oauthAuthorizeUrl.com',
+      webClientUrl: 'https://webClientUrl.com',
+      wsignoutUrl: 'https://wsignoutUrl.com',
+      regionalDomain: 'https://regionalDomain.com'
     };
     this.storeAccountInfo(accountId, trusteeId);
     this.storeAccountEndpoints(endpoints);
