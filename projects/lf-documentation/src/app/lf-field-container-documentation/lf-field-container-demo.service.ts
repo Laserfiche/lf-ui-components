@@ -16,14 +16,16 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         fieldType: FieldType.List,
         listValues: ['Burrito', 'Taco', 'Quesadilla', 'Bowl'],
         isRequired: true,
-        defaultValue: 'Bowl'
+        defaultValue: 'Bowl',
+        displayName: 'Order Type Display Name'
       },
       {
         name: 'Proteins',
         id: 2,
         fieldType: FieldType.String,
         isMultiValue: true,
-        defaultValue: 'Tofu'
+        defaultValue: 'Tofu',
+        displayName: 'Proteins Display Name'
       },
       {
         name: 'Veggies',
@@ -96,8 +98,8 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
 
   async getTemplateDefinitionAsync(id: string | number): Promise<TemplateInfo | undefined> {
     const allTemplates: TemplateInfo[] = [
-      { id: 1, name: 'Lunch Orders' },
-      { id: 2, name: 'Email' }
+      { id: 1, name: 'Lunch Orders', displayName: 'Lunch Orders Display Name'},
+      { id: 2, name: 'Email', displayName: 'Email Display Name' }
     ];
     if (typeof (id) === 'string') {
       return allTemplates.find((info) => info.name === id);
@@ -125,7 +127,8 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             fieldType: FieldType.List,
             listValues: ['Burrito', 'Taco', 'Quesadilla', 'Bowl'],
             isRequired: true,
-            defaultValue: 'Bowl'
+            defaultValue: 'Bowl',
+            displayName: 'OrderType Display Name'
           },
           {
             name: 'Proteins',
@@ -169,7 +172,8 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             name: 'Subject',
             id: 11,
             fieldType: FieldType.String,
-            isRequired: true
+            isRequired: true,
+            displayName: "Subject Display Name"
           },
           {
             name: 'Sender',
