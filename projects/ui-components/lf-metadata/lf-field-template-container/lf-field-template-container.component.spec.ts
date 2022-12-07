@@ -70,6 +70,7 @@ describe('LfFieldTemplateContainerComponent', () => {
         name: 'test field',
         id: 1,
         fieldType: FieldType.String,
+        displayName: 'test field'
       },
     ];
 

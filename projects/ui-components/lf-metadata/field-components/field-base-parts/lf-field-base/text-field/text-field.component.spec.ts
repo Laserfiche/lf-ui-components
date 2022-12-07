@@ -32,7 +32,8 @@ describe('TextFieldComponent', () => {
     description: 'This field has a max length of 40',
     fieldType: FieldType.String,
     isRequired: true,
-    length: 40
+    length: 40,
+    displayName: 'Short String'
   };
 
   const longStringTextInfo: LfFieldInfo = {
@@ -40,14 +41,16 @@ describe('TextFieldComponent', () => {
     id: 2,
     description: 'This field has a max length of 200',
     fieldType: FieldType.String,
-    length: 200
+    length: 200,
+    displayName: 'Long String'
   };
 
   const textWithNoLengthInfo: LfFieldInfo = {
     name: 'No Length Text',
     id: 3,
     description: 'This field has no max length specified',
-    fieldType: FieldType.String
+    fieldType: FieldType.String,
+    displayName: 'No Length Text'
   };
 
   beforeEach(waitForAsync(async () => {

@@ -1,12 +1,12 @@
-<p class="documentation-header">
-  LfFieldProvider
-</p>
+
+<p class="documentation-header">Field Types</p>
 <p class="documentation-sub-header">
   LfFieldInfo Interface
 </p>
 <ul>
+  <li>id: number</li>
   <li>name: string</li>
-  <li>id?: number</li>
+  <li>displayName: string</li>
   <li>description?: string</li>
   <li>fieldType?: FieldType</li>
   <li>length?: number</li>
@@ -62,4 +62,59 @@
   <li>groupId?: number</li>
   <li>flags?: number</li>
 </ul>
+<p class="documentation-sub-header">
+  type LfFieldValue = string;
+</p>
+<p class="documentation-sub-header">
+  FieldValues Interface
+</p>
+<ul>
+  <li>[fieldId: number]: FieldValue</li>
+</ul>
 
+<p class="documentation-header">Template Specific Types</p>
+<p class="documentation-sub-header">
+  TemplateInfo Interface
+</p>
+<ul>
+  <li>id: number</li>
+  <li>name: string</li>
+  <li>displayName: string</li>
+  <li>description?: string</li>
+  <li>fieldCount?: number</li>
+  <li>color?: LfColor</li>
+</ul>
+<p class="documentation-sub-header">
+  TemplateValue Interface
+</p>
+<ul>
+  <li>id: number</li>
+  <li>name: string</li>
+  <li>fieldValues: &#123; [key: string]: FieldValue &#125;</li>
+</ul>
+
+<p class="documentation-sub-header">
+  LfColor Interface
+</p>
+<ul>
+  <li>a: number</li>
+  <li>r: number</li>
+  <li>b: number</li>
+  <li>g: number</li>
+</ul>
+<p class="documentation-sub-header">
+  TemplateFieldInfo Interface
+</p>
+<ul>
+  <li>extends LfFieldInfo</li>
+  <li>rule?: Rule</li>
+  <li>groupId?: number</li>
+  <li>groupName?: string</li>
+</ul>
+
+<p class="documentation-sub-header">
+  Rule Interface
+</p>
+<ul>
+  <li>ancestors: number[]</li>
+</ul>

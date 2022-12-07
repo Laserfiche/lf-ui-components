@@ -28,14 +28,16 @@ describe('DateTimeFieldComponent', () => {
     id: 1,
     description: 'requiredDateTimeDescription',
     isRequired: true,
-    fieldType: FieldType.DateTime
+    fieldType: FieldType.DateTime,
+    displayName: 'requiredDateTimeName'
   };
 
   const optionalDateTime: LfFieldInfo = {
     name: 'optionalDateTimeName',
     id: 2,
     description: 'optionalDateTimeDescription',
-    fieldType: FieldType.DateTime
+    fieldType: FieldType.DateTime,
+    displayName: 'optionalDateTimeName'
   };
 
   beforeEach(waitForAsync(async () => {

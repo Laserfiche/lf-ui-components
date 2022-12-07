@@ -28,7 +28,8 @@ describe('TimeFieldComponent', () => {
     description: 'requiredTimeDescription',
     isRequired: true,
     fieldType: FieldType.Time,
-    format: FieldFormat.ShortTime
+    format: FieldFormat.ShortTime,
+    displayName: 'requiredTimeName'
   };
 
   const optionalTime: LfFieldInfo = {
@@ -36,7 +37,8 @@ describe('TimeFieldComponent', () => {
     id: 2,
     description: 'optionalTimeDescription',
     fieldType: FieldType.Time,
-    format: FieldFormat.LongTime
+    format: FieldFormat.LongTime,
+    displayName: 'optionalTimeName'
   };
 
   beforeEach(waitForAsync(async () => {

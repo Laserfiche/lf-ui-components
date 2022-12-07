@@ -51,7 +51,7 @@ describe('LfFieldAddRemoveComponent', () => {
   });
 
   it('should have initial field checked', () => {
-    const initialFieldInfo: LfFieldInfo = { name: 'test field 1', id: 1, description: '', fieldType: FieldType.String, isMultiValue: true };
+    const initialFieldInfo: LfFieldInfo = { name: 'test field 1', id: 1, description: '', fieldType: FieldType.String, isMultiValue: true, displayName: 'test field 1' };
     expect(component.isFieldSelected(initialFieldInfo)).toBeTruthy();
   });
 
@@ -60,7 +60,7 @@ describe('LfFieldAddRemoveComponent', () => {
     const matCheckboxUpdate = new MatCheckboxChange();
     matCheckboxUpdate.checked = true;
     const fieldInfoToCheck: LfFieldInfo = {
-      name: 'test field 3', id: 3, description: '', fieldType: FieldType.DateTime, isMultiValue: true
+      name: 'test field 3', id: 3, description: '', fieldType: FieldType.DateTime, isMultiValue: true, displayName: 'test field 3'
     };
 
     // Act
@@ -77,7 +77,7 @@ describe('LfFieldAddRemoveComponent', () => {
     const matCheckboxUpdate = new MatCheckboxChange();
     matCheckboxUpdate.checked = false;
     const fieldInfoToUncheck: LfFieldInfo = {
-      name: 'test field 1', id: 1, description: '', fieldType: FieldType.String, isMultiValue: true
+      name: 'test field 1', id: 1, description: '', fieldType: FieldType.String, isMultiValue: true, displayName: 'test field 1'
     };
 
     // Act
@@ -204,22 +204,22 @@ describe('LfFieldAddRemoveComponent', () => {
 
 const adHocConnectorTestService =  {
   fieldInfos: [
-    { name: 'test field 1', id: 1, description: '', fieldType: FieldType.String, isMultiValue: true },
-    { name: 'test field 2', id: 2, description: '', fieldType: FieldType.String, isRequired: true },
-    { name: 'test field 3', id: 3, description: '', fieldType: FieldType.Date, isMultiValue: true },
-    { name: 'test field 4', id: 4, description: '', fieldType: FieldType.DateTime, isMultiValue: true },
-    { name: 'test field 5', id: 5, description: '', fieldType: FieldType.Time, isMultiValue: true },
-    { name: 'test field 6', id: 6, description: '', fieldType: FieldType.Number },
-    { name: 'test field 7', id: 7, description: '', fieldType: FieldType.ShortInteger },
-    { name: 'test field 8', id: 8, description: '', fieldType: FieldType.LongInteger },
-    { name: 'test field 9', id: 9, description: '', fieldType: FieldType.String },
-    { name: 'test field 10', id: 10, description: '', fieldType: FieldType.String, isRequired: true },
-    { name: 'test field 11', id: 11, description: '', fieldType: FieldType.Date },
-    { name: 'test field 12', id: 12, description: '', fieldType: FieldType.DateTime },
-    { name: 'test field 13', id: 13, description: '', fieldType: FieldType.Time },
-    { name: 'test field 14', id: 14, description: '', fieldType: FieldType.String },
-    { name: 'test field 15', id: 15, description: '', fieldType: FieldType.String },
-    { name: 'test field 16', id: 16, description: '', fieldType: FieldType.String },
+    { name: 'test field 1', id: 1, description: '', fieldType: FieldType.String, isMultiValue: true, displayName: 'test field 1' },
+    { name: 'test field 2', id: 2, description: '', fieldType: FieldType.String, isRequired: true, displayName: 'test field 2' },
+    { name: 'test field 3', id: 3, description: '', fieldType: FieldType.Date, isMultiValue: true, displayName: 'test field 3' },
+    { name: 'test field 4', id: 4, description: '', fieldType: FieldType.DateTime, isMultiValue: true, displayName: 'test field 4' },
+    { name: 'test field 5', id: 5, description: '', fieldType: FieldType.Time, isMultiValue: true, displayName: 'test field 5' },
+    { name: 'test field 6', id: 6, description: '', fieldType: FieldType.Number, displayName: 'test field 6' },
+    { name: 'test field 7', id: 7, description: '', fieldType: FieldType.ShortInteger, displayName: 'test field 7' },
+    { name: 'test field 8', id: 8, description: '', fieldType: FieldType.LongInteger, displayName: 'test field 8' },
+    { name: 'test field 9', id: 9, description: '', fieldType: FieldType.String, displayName: 'test field 9' },
+    { name: 'test field 10', id: 10, description: '', fieldType: FieldType.String, isRequired: true, displayName: 'test field 10' },
+    { name: 'test field 11', id: 11, description: '', fieldType: FieldType.Date, displayName: 'test field 11' },
+    { name: 'test field 12', id: 12, description: '', fieldType: FieldType.DateTime, displayName: 'test field 12' },
+    { name: 'test field 13', id: 13, description: '', fieldType: FieldType.Time, displayName: 'test field 13' },
+    { name: 'test field 14', id: 14, description: '', fieldType: FieldType.String, displayName: 'test field 14' },
+    { name: 'test field 15', id: 15, description: '', fieldType: FieldType.String, displayName: 'test field 15' },
+    { name: 'test field 16', id: 16, description: '', fieldType: FieldType.String, displayName: 'test field 16' },
   ],
   fieldValues: {
     1: {

@@ -48,7 +48,8 @@ describe('LfFieldGroupComponent', () => {
       fieldInfo: {
         id: 1,
         name: 'hi',
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'hi'
       },
       fieldValues: ['test', 'hello']
     }]);
@@ -57,7 +58,8 @@ describe('LfFieldGroupComponent', () => {
       fieldInfo: {
         id: 1,
         name: 'hi',
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'hi'
       },
       fieldValues: ['test', 'hello']
     }]);
@@ -76,7 +78,8 @@ describe('LfFieldGroupComponent', () => {
       fieldInfo: {
         id: 1,
         name: 'hi',
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'hi'
       },
       fieldValues: ['test']
     }]);
@@ -86,7 +89,8 @@ describe('LfFieldGroupComponent', () => {
       fieldInfo: {
         id: 1,
         name: 'hi',
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'hi'
       },
       fieldValues: ['test']
     }]);
@@ -111,7 +115,8 @@ describe('LfFieldGroupComponent', () => {
       fieldInfo: {
         id: 1,
         name: 'hi',
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'hi'
       },
       fieldValues: ['test']
     }]);
@@ -122,7 +127,8 @@ describe('LfFieldGroupComponent', () => {
       fieldInfo: {
         id: 1,
         name: 'hi',
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'hi'
       },
       fieldValues: ['test']
     }]);
@@ -146,7 +152,8 @@ describe('LfFieldGroupComponent', () => {
       fieldInfo: {
         id: 1,
         name: 'hi',
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'hi'
       },
       fieldValues: ['test']
     }]);
@@ -157,7 +164,8 @@ describe('LfFieldGroupComponent', () => {
       fieldInfo: {
         id: 1,
         name: 'hi',
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'hi'
       },
       fieldValues: ['test']
     }]);
@@ -182,7 +190,8 @@ describe('LfFieldGroupComponent', () => {
       fieldInfo: {
         id: 1,
         name: 'hi',
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'hi'
       },
       fieldValues: ['test']
     }]);
@@ -193,7 +202,8 @@ describe('LfFieldGroupComponent', () => {
       fieldInfo: {
         id: 1,
         name: 'hi',
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'hi'
       },
       fieldValues: ['test']
     }]);
