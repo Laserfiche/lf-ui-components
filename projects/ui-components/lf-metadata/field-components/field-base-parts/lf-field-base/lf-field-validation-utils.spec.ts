@@ -10,7 +10,8 @@ describe('LfFieldValidationUtils', () => {
             id: 1,
             description: 'this field is required',
             fieldType: FieldType.String,
-            isRequired: true
+            isRequired: true,
+            displayName: 'requiredField'
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(requiredFieldInfo);
         const fc: FormControl = new FormControl('', validators);
@@ -23,7 +24,8 @@ describe('LfFieldValidationUtils', () => {
             id: 1,
             description: 'this field is optional',
             fieldType: FieldType.String,
-            isRequired: false
+            isRequired: false,
+            displayName: 'optionalField'
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(optionalFieldInfo);
         const fc: FormControl = new FormControl('', validators);
@@ -36,7 +38,8 @@ describe('LfFieldValidationUtils', () => {
             id: 1,
             description: 'this field has a max length',
             fieldType: FieldType.String,
-            length: 4
+            length: 4,
+            displayName: 'maxLengthField'
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(maxLengthFieldInfo);
         const fc: FormControl = new FormControl('12345', validators);
@@ -48,7 +51,8 @@ describe('LfFieldValidationUtils', () => {
             name: 'noMaxLengthField',
             id: 1,
             description: 'this field has no max length',
-            fieldType: FieldType.String
+            fieldType: FieldType.String,
+            displayName: 'noMaxLengthField'
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(noMaxLengthFieldInfo);
         const fc: FormControl = new FormControl('12345', validators);
@@ -62,7 +66,8 @@ describe('LfFieldValidationUtils', () => {
             description: 'this field only accepts 2 numbers',
             fieldType: FieldType.String,
             constraint: '^[0-9]{2}[:.,-]?$',
-            constraintError: 'Two digit number only.'
+            constraintError: 'Two digit number only.',
+            displayName: 'twoNumberField'
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(twoNumberFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
@@ -76,7 +81,8 @@ describe('LfFieldValidationUtils', () => {
             description: 'this field only accepts 2 numbers',
             fieldType: FieldType.Number,
             constraint: '>=10 AND <=99',
-            constraintError: 'Must be between 10 and 99, inclusive.'
+            constraintError: 'Must be between 10 and 99, inclusive.',
+            displayName: 'twoNumberField'
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(twoNumberFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
@@ -90,7 +96,8 @@ describe('LfFieldValidationUtils', () => {
             description: 'this field only accepts 2 numbers',
             fieldType: FieldType.LongInteger,
             constraint: '>=10 AND <=99',
-            constraintError: 'Must be between 10 and 99, inclusive.'
+            constraintError: 'Must be between 10 and 99, inclusive.',
+            displayName: 'twoNumberField'
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(twoNumberFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
@@ -104,7 +111,8 @@ describe('LfFieldValidationUtils', () => {
             description: 'this field only accepts 2 numbers',
             fieldType: FieldType.ShortInteger,
             constraint: '>=10 AND <=99',
-            constraintError: 'Must be between 10 and 99, inclusive.'
+            constraintError: 'Must be between 10 and 99, inclusive.',
+            displayName: 'twoNumberField'
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(twoNumberFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
@@ -116,7 +124,8 @@ describe('LfFieldValidationUtils', () => {
             name: 'noConstraintField',
             id: 1,
             description: 'this field has no constraint',
-            fieldType: FieldType.String
+            fieldType: FieldType.String,
+            displayName: 'noConstraintField'
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(noConstraintFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
@@ -128,7 +137,8 @@ describe('LfFieldValidationUtils', () => {
             name: 'noConstraintField',
             id: 1,
             description: 'this field has no constraint',
-            fieldType: FieldType.Number
+            fieldType: FieldType.Number,
+            displayName: 'noConstraintField'
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(noConstraintFieldInfo);
         const fc: FormControl = new FormControl('123', validators);

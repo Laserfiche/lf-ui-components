@@ -18,7 +18,8 @@ describe('LfFieldMultivalueComponent', () => {
     fieldType: FieldType.ShortInteger,
     length: 10,
     isMultiValue: true,
-    isRequired: true
+    isRequired: true,
+    displayName: 'element text 1'
   };
   const values: LfFieldValue[] = ['1', '2', '3'];
 

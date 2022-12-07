@@ -28,7 +28,8 @@ describe('DateFieldComponent', () => {
     id: 1,
     description: 'requiredDateDescription',
     isRequired: true,
-    fieldType: FieldType.Date
+    fieldType: FieldType.Date,
+    displayName: 'requiredDateName'
   };
 
   const optionalDate: LfFieldInfo = {
@@ -36,7 +37,8 @@ describe('DateFieldComponent', () => {
     id: 2,
     description: 'optionalDateDescription',
     isRequired: false,
-    fieldType: FieldType.Date
+    fieldType: FieldType.Date,
+    displayName: 'optionalDateName'
   };
 
   beforeEach(waitForAsync(() => {
