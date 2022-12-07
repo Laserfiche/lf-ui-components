@@ -19,7 +19,8 @@ export enum TemplateIds {
   DynamicOneLocation,
   DynamicDateTimes,
   DynamicNumbers,
-  Groups
+  Groups,
+  Error
 }
 
 export enum DynamicFieldIds {
@@ -269,6 +270,7 @@ export class LfFieldTemplateContainerDemoService implements LfFieldTemplateConta
     { id: TemplateIds.String, name: 'Strings', displayName: 'strings template' },
     { id: TemplateIds.DateTime, name: 'Dates and Times', displayName: 'dates and times template' },
     { id: TemplateIds.Number, name: 'Numbers', displayName: 'numbers template' },
+    { id: TemplateIds.Error, name: 'Template with Error', displayName: 'Template With Error' },
     { id: TemplateIds.DynamicLocation, name: 'Location (Dynamic)', displayName: 'Location (Dynamic)' },
     { id: TemplateIds.DynamicOneLocation, name: 'One Location (Dynamic)', displayName: 'One Location (Dynamic)' },
     { id: TemplateIds.DynamicDateTimes, name: 'Dates and Times (Dynamic)', displayName: 'Dates and Times (Dynamic)' },
@@ -378,6 +380,13 @@ export class LfFieldTemplateContainerDemoService implements LfFieldTemplateConta
   }
 
   async getTemplateFieldsAsync(templateId: number): Promise<TemplateFieldInfo[]> {
+    if (templateId === TemplateIds.Error) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+         return reject();
+        }, 200);
+      });
+      }
     if (templateId === 0 || !(templateId in fieldInfosPerTemplate)) {
       return [];
     }
