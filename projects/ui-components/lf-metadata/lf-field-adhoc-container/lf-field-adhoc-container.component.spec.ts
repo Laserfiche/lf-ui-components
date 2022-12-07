@@ -84,6 +84,7 @@ describe('LfFieldAdhocContainerComponent', () => {
       fieldType: FieldType.String,
       isMultiValue: true,
       inTemplateSelected: false,
+      displayName: 'Attendance List'
     };
     const expected = component.getSelectedFieldInfos();
     expect(expected).toEqual([initialFieldInfo]);
