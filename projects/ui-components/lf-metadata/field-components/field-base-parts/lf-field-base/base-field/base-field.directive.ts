@@ -12,7 +12,7 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 /** @internal */
 @Directive()
-export abstract class BaseFieldDirective implements OnInit, AfterViewInit {
+export abstract class BaseFieldDirective {
 
   @Input() lf_field_info!: LfFieldInfo;
   @Input() lf_field_form_control!: FormControl;
@@ -104,11 +104,6 @@ export abstract class BaseFieldDirective implements OnInit, AfterViewInit {
     else {
       this.resetToDefaultValidators();
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.nameToDisplay = this.lf_field_info.displayName ?? this.lf_field_info.name;
-    this.ref.detectChanges();
   }
 
   abstract deserializeLfFieldValue(): string;

@@ -17,7 +17,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         listValues: ['Burrito', 'Taco', 'Quesadilla', 'Bowl'],
         isRequired: true,
         defaultValue: 'Bowl',
-        displayName: 'Order Type Display Name'
+        displayName: 'Order Type'
       },
       {
         name: 'Proteins',
@@ -25,20 +25,22 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         fieldType: FieldType.String,
         isMultiValue: true,
         defaultValue: 'Tofu',
-        displayName: 'Proteins Display Name'
+        displayName: 'Proteins'
       },
       {
         name: 'Veggies',
         id: 3,
         fieldType: FieldType.String,
         isMultiValue: true,
-        defaultValue: 'Kale'
+        defaultValue: 'Kale',
+        displayName: 'Veggies'
       },
       {
         name: 'Drink',
         id: 4,
         fieldType: FieldType.String,
-        defaultValue: 'Water'
+        defaultValue: 'Water',
+        displayName: 'Drink'
       },
       {
         name: 'Order Total',
@@ -47,50 +49,58 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         format: FieldFormat.Currency,
         currency: 'USD',
         isRequired: true,
-        defaultValue: '12.95'
+        defaultValue: '12.95',
+        displayName: 'Order Total'
       },
       {
         name: 'Subject',
         id: 11,
         fieldType: FieldType.String,
-        isRequired: true
+        isRequired: true,
+        displayName: 'Subject'
       },
       {
         name: 'Sender',
         id: 12,
         fieldType: FieldType.String,
-        isRequired: true
+        isRequired: true,
+        displayName: 'Sender'
       },
       {
         name: 'Time Received',
         id: 13,
         fieldType: FieldType.DateTime,
         format: FieldFormat.ShortDateTime,
-        isRequired: true
+        isRequired: true,
+        displayName: 'Time Received'
       },
       {
         name: 'Recipients',
         id: 14,
         fieldType: FieldType.String,
         isMultiValue: true,
-        isRequired: true
+        isRequired: true,
+        displayName: 'Recipients'
       },
       {
         name: 'Comments',
         id: 15,
-        fieldType: FieldType.String
+        fieldType: FieldType.String,
+        displayName: 'Comments'
       },
       {
         name: 'Date Sent',
         id: 16,
         fieldType: FieldType.Date,
         format: FieldFormat.ShortDate,
-        isRequired: true
+        isRequired: true,
+        displayName: 'Date Sent'
       },
       {
         name: 'Test Blob',
         id: 17,
         fieldType: FieldType.Blob,
+        displayName: 'Test Blob'
       },
     ];
     return allFieldInfos;
@@ -111,8 +121,8 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
 
   async getAvailableTemplatesAsync(): Promise<TemplateInfo[]> {
     const allTemplates: TemplateInfo[] = [
-      { id: 1, name: 'Lunch Orders' },
-      { id: 2, name: 'Email' }
+      { id: 1, name: 'Lunch Orders', displayName: 'Lunch Orders' },
+      { id: 2, name: 'Email', displayName: 'Email' }
     ];
     return allTemplates;
   }
@@ -128,27 +138,30 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             listValues: ['Burrito', 'Taco', 'Quesadilla', 'Bowl'],
             isRequired: true,
             defaultValue: 'Bowl',
-            displayName: 'OrderType Display Name'
+            displayName: 'Order Type'
           },
           {
             name: 'Proteins',
             id: 2,
             fieldType: FieldType.String,
             isMultiValue: true,
-            defaultValue: 'Tofu'
+            defaultValue: 'Tofu',
+            displayName: 'Proteins  '
           },
           {
             name: 'Veggies',
             id: 3,
             fieldType: FieldType.String,
             isMultiValue: true,
-            defaultValue: 'Kale'
+            defaultValue: 'Kale',
+            displayName: 'Veggies'
           },
           {
             name: 'Drink',
             id: 4,
             fieldType: FieldType.String,
-            defaultValue: 'Water'
+            defaultValue: 'Water',
+            displayName: 'Drink'
           },
           {
             name: 'Order Total',
@@ -157,12 +170,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             format: FieldFormat.Currency,
             currency: 'USD',
             isRequired: true,
-            defaultValue: '12.95'
+            defaultValue: '12.95',
+            displayName: 'Order Total'
           },
           {
             name: 'Test Blob',
             id: 17,
             fieldType: FieldType.Blob,
+            displayName: 'Test Blob'
           }
         ];
         return lunchFields;
@@ -173,39 +188,44 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             id: 11,
             fieldType: FieldType.String,
             isRequired: true,
-            displayName: "Subject Display Name"
+            displayName: "Subject"
           },
           {
             name: 'Sender',
             id: 12,
             fieldType: FieldType.String,
-            isRequired: true
+            isRequired: true,
+            displayName: 'Sender'
           },
           {
             name: 'Time Received',
             id: 13,
             fieldType: FieldType.DateTime,
             format: FieldFormat.ShortDateTime,
-            isRequired: true
+            isRequired: true,
+            displayName: 'Time Received'
           },
           {
             name: 'Recipients',
             id: 14,
             fieldType: FieldType.String,
             isMultiValue: true,
-            isRequired: true
+            isRequired: true,
+            displayName: 'Recipients'
           },
           {
             name: 'Comments',
             id: 15,
-            fieldType: FieldType.String
+            fieldType: FieldType.String,
+            displayName: 'Comments'
           },
           {
             name: 'Date Sent',
             id: 16,
             fieldType: FieldType.Date,
             format: FieldFormat.ShortDate,
-            isRequired: true
+            isRequired: true,
+            displayName: 'Date Sent'
           },
         ];
         return emailFields;

@@ -21,7 +21,7 @@
       <mat-option selected *ngIf="isDropdownError" class="dropdown-error-message">{{ AN_ERROR_OCCURED | async }}</mat-option>
       <div *ngIf="isDropdownDefault">
         <mat-option *ngFor="let template of availableTemplates" [value]="template"
-          >{{template.displayName ?? template.name}}
+          >{{template.displayName}}
         </mat-option>
       </div>
     </mat-select>
