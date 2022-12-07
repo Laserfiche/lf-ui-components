@@ -1,5 +1,5 @@
 <span class="token-picker-field-box" *ngIf="!isDynamic else dynamic">
-  <mat-form-field *ngIf="!containsToken" title="{{nameToDisplay}}" appearance="outline" class="lf-field">
+  <mat-form-field *ngIf="!containsToken" title="{{lf_field_info.displayName}}" appearance="outline" class="lf-field">
     <input #tokenTarget mask="{{mask}}" thousandSeparator="{{thousandSeparator}}" decimalMarker="{{decimalMarker}}"
       prefix="{{prefix}}" suffix="{{suffix}}" [allowNegativeNumbers]="true" separatorLimit="{{separatorLimit}}" matInput
       type="text" [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
@@ -13,7 +13,7 @@
 </span>
 <ng-template #dynamic>
   <lf-dynamic-field-component ngDefaultControl [options]="dynamic_field_value_options"
-    [formControl]="lf_field_form_control" [title]="nameToDisplay" [fieldValidationErrorMsg]="fieldValidationErrorMsg"
+    [formControl]="lf_field_form_control" [title]="lf_field_info.displayName" [fieldValidationErrorMsg]="fieldValidationErrorMsg"
     [getBrokenValidationRule]="getBrokenValidationRule.bind(this)" (valueChange)="onValueChanged()">
   </lf-dynamic-field-component>
 </ng-template>

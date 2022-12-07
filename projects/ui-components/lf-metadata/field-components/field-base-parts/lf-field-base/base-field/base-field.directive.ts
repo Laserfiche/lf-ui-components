@@ -12,7 +12,7 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 /** @internal */
 @Directive()
-export abstract class BaseFieldDirective {
+export abstract class BaseFieldDirective implements OnInit {
 
   @Input() lf_field_info!: LfFieldInfo;
   @Input() lf_field_form_control!: FormControl;
@@ -24,8 +24,6 @@ export abstract class BaseFieldDirective {
   @Input() dynamic_field_value_options: string[] | undefined;
 
   showTokenTextBox: boolean = false;
-
-  nameToDisplay: string | undefined;
 
   private readonly CHARACTER_COUNT = this.localizationService.getStringLaserficheObservable('CHARACTER_COUNT');
   private readonly NOT_AVAILABLE_WITH_TOKENS = this.localizationService.getStringLaserficheObservable('NOT_AVAILABLE_WITH_TOKENS');

@@ -146,7 +146,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             fieldType: FieldType.String,
             isMultiValue: true,
             defaultValue: 'Tofu',
-            displayName: 'Proteins  '
+            displayName: 'Proteins'
           },
           {
             name: 'Veggies',
