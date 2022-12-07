@@ -9,13 +9,15 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       name: 'Attendance List',
       id: 1,
       fieldType: FieldType.String,
-      isMultiValue: true
+      isMultiValue: true,
+      displayName: 'Attendance List'
     },
     {
       name: 'Full Name',
       id: 2,
       fieldType: FieldType.String,
-      isRequired: true
+      isRequired: true,
+      displayName: 'Full Name'
     },
     {
 
@@ -24,6 +26,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Date,
       format: FieldFormat.LongDate,
       isMultiValue: true,
+      displayName: 'Birthdays'
     },
     {
 
@@ -32,6 +35,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.DateTime,
       format: FieldFormat.LongDateTime,
       isMultiValue: true,
+      displayName: 'Birthdays w/ Time'
     },
     {
 
@@ -40,6 +44,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Time,
       format: FieldFormat.ShortTime,
       isMultiValue: true,
+      displayName: 'Start Times'
     },
     {
 
@@ -47,6 +52,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       id: 6,
       fieldType: FieldType.Number,
       format: FieldFormat.GeneralNumber,
+      displayName: 'Number (no format)'
     },
     {
 
@@ -55,6 +61,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Number,
       format: FieldFormat.Currency,
       currency: 'AUD',
+      displayName: 'Amount (AUD)'
     },
     {
 
@@ -65,6 +72,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       isMultiValue: true,
       constraint: '>=0&<=100',
       constraintError: 'Must be between 0-100.',
+      displayName: 'Test Scores'
     },
     {
 
@@ -72,6 +80,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       id: 63,
       fieldType: FieldType.Number,
       format: FieldFormat.Scientific,
+      displayName: 'Calories Per Serving'
     },
     {
 
@@ -79,6 +88,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       id: 64,
       fieldType: FieldType.Number,
       format: FieldFormat.GeneralNumber,
+      displayName: 'General Number'
     },
     {
 
@@ -86,6 +96,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       id: 7,
       fieldType: FieldType.ShortInteger,
       format: FieldFormat.GeneralNumber,
+      displayName: 'Int'
     },
     {
 
@@ -93,6 +104,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       id: 8,
       fieldType: FieldType.LongInteger,
       format: FieldFormat.GeneralNumber,
+      displayName: 'LongInt'
     },
     {
 
@@ -102,6 +114,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       format: FieldFormat.None,
       isRequired: true,
       length: 200,
+      displayName: 'Additional Comments'
     },
     {
 
@@ -109,6 +122,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       id: 11,
       fieldType: FieldType.Date,
       format: FieldFormat.LongDate,
+      displayName: 'Date'
     },
     {
 
@@ -116,6 +130,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       id: 12,
       fieldType: FieldType.DateTime,
       format: FieldFormat.LongDateTime,
+      displayName: 'DateTime'
     },
     {
 
@@ -123,6 +138,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       id: 13,
       fieldType: FieldType.Time,
       format: FieldFormat.LongTime,
+      displayName: 'Time'
     },
   ];
   values: FieldValue[] = [
