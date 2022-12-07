@@ -1,6 +1,6 @@
 <ng-container *ngIf="showField">
   <span class="lf-field-title-container">
-    <span class="lf-field-title" title="{{lfFieldInfo?.name}}">{{lfFieldInfo?.name}}</span>
+    <span class="lf-field-title" title="{{lfFieldInfo?.displayName ?? lfFieldInfo?.name}}">{{lfFieldInfo?.displayName ?? lfFieldInfo?.name}}</span>
     <span class="lf-field-is-required" *ngIf="lfFieldInfo?.isRequired">*</span>
     <lf-loader-component *ngIf="isLoading"></lf-loader-component>
   </span>
