@@ -36,7 +36,7 @@
         <div *ngFor="let fieldDef of fieldDefinitions">
             <span class="lf-field-container" id="lf-field-container">
                 <span *ngIf="fieldDef?.fieldInfo.name" class="lf-field-title-container">
-                    <span class="lf-field-title">{{fieldDef?.fieldInfo.displayName }}</span>
+                    <span class="lf-field-title" title="{{fieldDef?.fieldInfo.displayName}}">{{fieldDef?.fieldInfo.displayName }}</span>
                     <span class="lf-field-is-required" *ngIf="fieldDef?.fieldInfo.isRequired">*</span>
                     <lf-loader-component *ngIf="isLoading(fieldDef.fieldInfo, currentIndex)"></lf-loader-component>
                 </span>
