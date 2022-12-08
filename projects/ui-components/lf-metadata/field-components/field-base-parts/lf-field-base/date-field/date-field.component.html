@@ -1,5 +1,5 @@
 <span class="token-picker-field-box" *ngIf="!isDynamic else dynamic">
-  <mat-form-field *ngIf="!showTokenTextBox" title="{{lf_field_info.name}}" appearance="outline"
+  <mat-form-field *ngIf="!showTokenTextBox" title="{{lf_field_info.displayName}}" appearance="outline"
     class="lf-field lf-date-field">
     <input #tokenTarget matInput [matDatepicker]="picker" [formControl]="lf_field_form_control"
       title="{{lf_field_form_control.value}}" (dateChange)="onDateOrTimeChanged()" (dateInput)="onDateOrTimeChanged(false)">
@@ -7,7 +7,7 @@
     <mat-datepicker #picker panelClass="lf-date-picker-overlay"></mat-datepicker>
     <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
   </mat-form-field>
-  <mat-form-field *ngIf="showTokenTextBox" title="{{lf_field_info.name}}" appearance="outline"
+  <mat-form-field *ngIf="showTokenTextBox" title="{{lf_field_info.displayName}}" appearance="outline"
     class="lf-field lf-date-field">
     <input #tokenTarget matInput [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
       (change)="onDateOrTimeTokenValueChanged()">
@@ -18,7 +18,7 @@
 </span>
 <ng-template #dynamic>
   <lf-dynamic-field-component ngDefaultControl [options]="dynamic_field_value_options" [formControl]="lf_field_form_control"
-    [title]="lf_field_info.name" [fieldValidationErrorMsg]="fieldValidationErrorMsg"
+    [title]="lf_field_info.displayName" [fieldValidationErrorMsg]="fieldValidationErrorMsg"
     [getBrokenValidationRule]="getBrokenValidationRule.bind(this)" (valueChange)="onValueChanged()"
     [compareWith]="compareDateStrings">
   </lf-dynamic-field-component>

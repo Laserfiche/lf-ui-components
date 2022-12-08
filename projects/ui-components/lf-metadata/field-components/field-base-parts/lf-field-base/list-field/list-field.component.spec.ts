@@ -18,7 +18,8 @@ describe('ListFieldComponent', () => {
     id: 1,
     description: 'List Description',
     fieldType: FieldType.List,
-    isRequired: true
+    isRequired: true,
+    displayName: 'List Name'
   };
 
   beforeEach(waitForAsync(() => {

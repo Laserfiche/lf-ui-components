@@ -49,8 +49,9 @@ export class LfFieldContainerComponent {
 
   /** @internal */
   getSelectedTemplateName(): Observable<string> {
-    if (this.templateContainer?.templateSelected) {
-      return of(this.templateContainer?.templateSelected.name!);
+    const templateSelected = this.templateContainer?.templateSelected;
+    if (templateSelected) {
+      return of(templateSelected.displayName);
     }
     else {
       return this.templateContainer?.emptyTemplateName;

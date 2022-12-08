@@ -17,7 +17,8 @@ describe('GetFieldTypePipe', () => {
     const item: LfFieldInfo = {
       id: 1,
       name: 'test name',
-      fieldType: FieldType.String
+      fieldType: FieldType.String,
+      displayName: 'test name'
     };
     let value: string | undefined;
     pipe.transform(item, mappedObservables)?.subscribe((val) => {
@@ -36,7 +37,8 @@ describe('GetFieldTypePipe', () => {
     const item: LfFieldInfo = {
       id: 1,
       name: 'test name',
-      fieldType: FieldType.List
+      fieldType: FieldType.List,
+      displayName: 'test name'
     };
     const value = pipe.transform(item, mappedObservables);
 
