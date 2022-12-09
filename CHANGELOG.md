@@ -2,6 +2,9 @@
 
 ### Features
 - `[LfLocalizationService]`: add ability to set debug mode on localization service via window.postMessage
+- `[lf-field-container]`, `[lf-field-template-container]`, `[lf-field-adhoc-container]`: add displayName property to field and template definitions to allow for different changing displayName based on locale
+- `[lf-field-template-container]`: add loading and error UIs
+- `[lf-field-adhoc-container]`: add loading and error UIs and client-side paging to field selection for more responsive UI
 
 ### Fixes
 

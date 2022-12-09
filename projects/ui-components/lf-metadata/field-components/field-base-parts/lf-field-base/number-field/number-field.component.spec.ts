@@ -31,7 +31,8 @@ describe('NumberFieldComponent', () => {
     description: 'testNumberDescription',
     isRequired: true,
     isMultiValue: false,
-    fieldType: FieldType.Number
+    fieldType: FieldType.Number,
+    displayName: 'testNumberName'
   };
 
   const testShortInt: LfFieldInfo = {
@@ -41,7 +42,8 @@ describe('NumberFieldComponent', () => {
     isRequired: true,
     isMultiValue: false,
     fieldType: FieldType.ShortInteger,
-    length: 3
+    length: 3,
+    displayName: 'testShortIntName'
   };
 
   const testLongInt: LfFieldInfo = {
@@ -50,7 +52,8 @@ describe('NumberFieldComponent', () => {
     description: 'testLongIntDescription',
     isRequired: true,
     isMultiValue: false,
-    fieldType: FieldType.LongInteger
+    fieldType: FieldType.LongInteger,
+    displayName: 'testLongIntName'
   };
 
   beforeEach(waitForAsync(async () => {

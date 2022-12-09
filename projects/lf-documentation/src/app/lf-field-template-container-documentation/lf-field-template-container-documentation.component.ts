@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { LfFieldTemplateContainerComponent, LfFieldTemplateProviders } from './../../../../ui-components/lf-metadata/lf-field-template-container/public-api';
-import { LfFieldTemplateContainerDemoService, TemplateIds } from './lf-field-template-container-demo.service';
+import { LfFieldTemplateContainerDemoService, TemplateIds } from './../../../../ui-components/lf-metadata/lf-field-template-container/lf-field-template-container-demo.service';
 
 @Component({
   selector: 'app-lf-field-template-container-documentation',
