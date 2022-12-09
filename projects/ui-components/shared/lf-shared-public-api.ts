@@ -6,6 +6,6 @@ export * from './lf-loader/lf-loader.module';
 export * from './lf-loader/lf-loader.component';
 export * from './app-localization.service';
 export * from './filter-utils';
-export * from './lf-breadcrumbs/lf-breadcrumbs.component';
-export * from './lf-breadcrumbs/lf-breadcrumbs.module';
+export * from './lf-breadcrumbs/lf-breadcrumbs-public-api';
+export * from './lf-toolbar/lf-toolbar-public-api';
 export * from './LfSelectable';
