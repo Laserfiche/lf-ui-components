@@ -29,7 +29,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Input() itemSize: number = 42;
   /**
-   * function to initialize the lf-file-explorer component
+   * function to initialize the lf-repository-browser component
    * @param provider LfRepositoryService service
    * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
    */
