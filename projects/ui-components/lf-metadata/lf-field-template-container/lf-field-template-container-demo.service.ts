@@ -168,7 +168,7 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
       name: 'Grandparent Time',
       fieldType: FieldType.Time,
       rule: { ancestors: [] },
-      displayName: 'dynamic grandparenttime'
+      displayName: 'dynamic grandparent time'
     },
     {
       id: DynamicFieldIds.ParentTime,
@@ -189,21 +189,21 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
       name: 'Grandparent DateTime',
       fieldType: FieldType.DateTime,
       rule: { ancestors: [] },
-      displayName: 'grandparent datetime'
+      displayName: 'dynamic grandparent datetime'
     },
     {
       id: DynamicFieldIds.ParentDateTime,
       name: 'Parent DateTime',
       fieldType: FieldType.DateTime,
       rule: { ancestors: [DynamicFieldIds.GrandparentDateTime] },
-      displayName: 'parent datetime'
+      displayName: 'dynamic parent datetime'
     },
     {
       id: DynamicFieldIds.ChildDateTime,
       name: 'Child DateTime',
       fieldType: FieldType.DateTime,
       rule: { ancestors: [DynamicFieldIds.ParentDateTime] },
-      displayName: 'child datetime'
+      displayName: 'dynamic child datetime'
     },
   ],
   [TemplateIds.DynamicNumbers]: [
@@ -219,7 +219,7 @@ export const fieldInfosPerTemplate: { [templateId: number]: TemplateFieldInfo[] 
       name: 'Child Number',
       fieldType: FieldType.Number,
       rule: { ancestors: [DynamicFieldIds.ParentNumber] },
-      displayName: 'child number'
+      displayName: 'dynamic child number'
     },
   ],
   [TemplateIds.Groups]: [

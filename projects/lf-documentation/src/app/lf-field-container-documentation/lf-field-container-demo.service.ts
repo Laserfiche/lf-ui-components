@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
-import { FieldValues, LfFieldInfo, TemplateFieldInfo, TemplateInfo } from './../../../../ui-components/lf-metadata/field-components/utils/lf-field-types';
+import {
+  FieldValues,
+  LfFieldInfo,
+  TemplateFieldInfo,
+  TemplateInfo,
+} from './../../../../ui-components/lf-metadata/field-components/utils/lf-field-types';
 import { LfFieldContainerService } from './../../../../ui-components/lf-metadata/lf-field-container/public-api';
 import { FieldFormat, FieldType } from './../../../../ui-components/shared/lf-shared-public-api';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LfFieldContainerDemoService implements LfFieldContainerService {
-
+  allTemplates: TemplateInfo[] = [
+    { id: 1, name: 'Lunch Orders', displayName: 'Lunch Orders Display Name' },
+    { id: 2, name: 'Email', displayName: 'Email Display Name' },
+  ];
   async getAllFieldDefinitionsAsync(): Promise<LfFieldInfo[]> {
     const allFieldInfos: LfFieldInfo[] = [
       {
@@ -17,7 +25,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         listValues: ['Burrito', 'Taco', 'Quesadilla', 'Bowl'],
         isRequired: true,
         defaultValue: 'Bowl',
-        displayName: 'Order Type'
+        displayName: 'Order Type',
       },
       {
         name: 'Proteins',
@@ -25,7 +33,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         fieldType: FieldType.String,
         isMultiValue: true,
         defaultValue: 'Tofu',
-        displayName: 'Proteins'
+        displayName: 'Proteins',
       },
       {
         name: 'Veggies',
@@ -33,14 +41,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         fieldType: FieldType.String,
         isMultiValue: true,
         defaultValue: 'Kale',
-        displayName: 'Veggies'
+        displayName: 'Veggies',
       },
       {
         name: 'Drink',
         id: 4,
         fieldType: FieldType.String,
         defaultValue: 'Water',
-        displayName: 'Drink'
+        displayName: 'Drink',
       },
       {
         name: 'Order Total',
@@ -50,21 +58,21 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         currency: 'USD',
         isRequired: true,
         defaultValue: '12.95',
-        displayName: 'Order Total'
+        displayName: 'Order Total',
       },
       {
         name: 'Subject',
         id: 11,
         fieldType: FieldType.String,
         isRequired: true,
-        displayName: 'Subject'
+        displayName: 'Subject',
       },
       {
         name: 'Sender',
         id: 12,
         fieldType: FieldType.String,
         isRequired: true,
-        displayName: 'Sender'
+        displayName: 'Sender',
       },
       {
         name: 'Time Received',
@@ -72,7 +80,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         fieldType: FieldType.DateTime,
         format: FieldFormat.ShortDateTime,
         isRequired: true,
-        displayName: 'Time Received'
+        displayName: 'Time Received',
       },
       {
         name: 'Recipients',
@@ -80,13 +88,13 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         fieldType: FieldType.String,
         isMultiValue: true,
         isRequired: true,
-        displayName: 'Recipients'
+        displayName: 'Recipients',
       },
       {
         name: 'Comments',
         id: 15,
         fieldType: FieldType.String,
-        displayName: 'Comments'
+        displayName: 'Comments',
       },
       {
         name: 'Date Sent',
@@ -94,37 +102,28 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         fieldType: FieldType.Date,
         format: FieldFormat.ShortDate,
         isRequired: true,
-        displayName: 'Date Sent'
+        displayName: 'Date Sent',
       },
       {
         name: 'Test Blob',
         id: 17,
         fieldType: FieldType.Blob,
-        displayName: 'Test Blob'
+        displayName: 'Test Blob',
       },
     ];
     return allFieldInfos;
   }
 
   async getTemplateDefinitionAsync(id: string | number): Promise<TemplateInfo | undefined> {
-    const allTemplates: TemplateInfo[] = [
-      { id: 1, name: 'Lunch Orders', displayName: 'Lunch Orders Display Name'},
-      { id: 2, name: 'Email', displayName: 'Email Display Name' }
-    ];
-    if (typeof (id) === 'string') {
-      return allTemplates.find((info) => info.name === id);
-    }
-    else {
-      return allTemplates.find((info) => info.id === id);
+    if (typeof id === 'string') {
+      return this.allTemplates.find((info) => info.name === id);
+    } else {
+      return this.allTemplates.find((info) => info.id === id);
     }
   }
 
   async getAvailableTemplatesAsync(): Promise<TemplateInfo[]> {
-    const allTemplates: TemplateInfo[] = [
-      { id: 1, name: 'Lunch Orders', displayName: 'Lunch Orders' },
-      { id: 2, name: 'Email', displayName: 'Email' }
-    ];
-    return allTemplates;
+    return this.allTemplates;
   }
 
   async getTemplateFieldsAsync(templateId: number): Promise<TemplateFieldInfo[]> {
@@ -138,7 +137,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             listValues: ['Burrito', 'Taco', 'Quesadilla', 'Bowl'],
             isRequired: true,
             defaultValue: 'Bowl',
-            displayName: 'Order Type'
+            displayName: 'Order Type',
           },
           {
             name: 'Proteins',
@@ -146,7 +145,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             fieldType: FieldType.String,
             isMultiValue: true,
             defaultValue: 'Tofu',
-            displayName: 'Proteins'
+            displayName: 'Proteins',
           },
           {
             name: 'Veggies',
@@ -154,14 +153,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             fieldType: FieldType.String,
             isMultiValue: true,
             defaultValue: 'Kale',
-            displayName: 'Veggies'
+            displayName: 'Veggies',
           },
           {
             name: 'Drink',
             id: 4,
             fieldType: FieldType.String,
             defaultValue: 'Water',
-            displayName: 'Drink'
+            displayName: 'Drink',
           },
           {
             name: 'Order Total',
@@ -171,14 +170,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             currency: 'USD',
             isRequired: true,
             defaultValue: '12.95',
-            displayName: 'Order Total'
+            displayName: 'Order Total',
           },
           {
             name: 'Test Blob',
             id: 17,
             fieldType: FieldType.Blob,
-            displayName: 'Test Blob'
-          }
+            displayName: 'Test Blob',
+          },
         ];
         return lunchFields;
       case 2:
@@ -188,14 +187,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             id: 11,
             fieldType: FieldType.String,
             isRequired: true,
-            displayName: "Subject"
+            displayName: 'Subject',
           },
           {
             name: 'Sender',
             id: 12,
             fieldType: FieldType.String,
             isRequired: true,
-            displayName: 'Sender'
+            displayName: 'Sender',
           },
           {
             name: 'Time Received',
@@ -203,7 +202,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             fieldType: FieldType.DateTime,
             format: FieldFormat.ShortDateTime,
             isRequired: true,
-            displayName: 'Time Received'
+            displayName: 'Time Received',
           },
           {
             name: 'Recipients',
@@ -211,13 +210,13 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             fieldType: FieldType.String,
             isMultiValue: true,
             isRequired: true,
-            displayName: 'Recipients'
+            displayName: 'Recipients',
           },
           {
             name: 'Comments',
             id: 15,
             fieldType: FieldType.String,
-            displayName: 'Comments'
+            displayName: 'Comments',
           },
           {
             name: 'Date Sent',
@@ -225,7 +224,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             fieldType: FieldType.Date,
             format: FieldFormat.ShortDate,
             isRequired: true,
-            displayName: 'Date Sent'
+            displayName: 'Date Sent',
           },
         ];
         return emailFields;
@@ -234,8 +233,10 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
     }
   }
 
-  async getDynamicFieldValueOptionsAsync(templateId: number, currentValues: FieldValues): Promise<{ [fieldId: number]: string[] }> {
+  async getDynamicFieldValueOptionsAsync(
+    templateId: number,
+    currentValues: FieldValues
+  ): Promise<{ [fieldId: number]: string[] }> {
     return {};
   }
-
 }
