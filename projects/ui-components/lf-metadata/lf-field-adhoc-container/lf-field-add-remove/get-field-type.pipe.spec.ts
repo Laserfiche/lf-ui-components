@@ -1,5 +1,5 @@
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from './../../../shared/lf-shared-public-api';
 import { Observable, of } from 'rxjs';
 import { LfFieldInfo } from '../../field-components/utils/lf-field-types';
 import { GetFieldTypePipe } from './get-field-type.pipe';

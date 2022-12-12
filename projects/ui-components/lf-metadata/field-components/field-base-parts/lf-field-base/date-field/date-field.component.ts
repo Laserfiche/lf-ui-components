@@ -15,7 +15,7 @@ import {
 } from '@angular/material-moment-adapter';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { MatDatepicker } from '@angular/material/datepicker';
-import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, ValidationRule } from './../../../../../shared/lf-shared-public-api';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable } from 'rxjs';
 import { LocaleDatetimeUtils } from '../locale-datetime-utils';

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatMenuModule } from '@angular/material/menu';
 import { LfLoginComponent } from './lf-login.component';
-import { LoginState } from '@laserfiche/lf-ui-components/shared';
+import { LoginState } from './../shared/lf-shared-public-api';
 
 describe('LfLoginComponent', () => {
   let component: LfLoginComponent;

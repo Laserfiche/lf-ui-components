@@ -31,7 +31,7 @@ import { LfFieldMultivalueComponent } from '../field-components/lf-field-multiva
 import { LfFieldGroupComponent } from '../field-components/lf-field-group/lf-field-group.component';
 import { FieldDefinition } from '../field-components/utils/lf-field-internal-types';
 import { isDynamicField } from '../field-components/utils/metadata-utils';
-import { AppLocalizationService, FieldType } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, FieldType } from './../../shared/lf-shared-public-api';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { DropDownState, TemplateState } from './lf-field-template-container-states';
 

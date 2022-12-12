@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from './../../../../../shared/lf-shared-public-api';
 import { LfFieldInfo, LfFieldValue } from '../../../utils/lf-field-types';
 
 @Component({

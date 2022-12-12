@@ -12,7 +12,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
+import { ILfSelectable, ItemWithId, Selectable } from './../shared/lf-shared-public-api';
 import { Observable } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
 

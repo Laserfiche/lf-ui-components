@@ -8,7 +8,7 @@ import {
   Output
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { AppLocalizationService, FieldType } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService, FieldType } from './../../../shared/lf-shared-public-api';
 import { FieldDefinition } from '../utils/lf-field-internal-types';
 import { FieldValue, TemplateFieldInfo } from '../utils/lf-field-types';
 import { isDynamicField } from '../utils/metadata-utils';

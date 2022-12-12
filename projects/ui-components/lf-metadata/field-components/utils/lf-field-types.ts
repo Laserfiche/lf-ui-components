@@ -1,4 +1,4 @@
-import { FieldFormat, FieldType } from '@laserfiche/lf-ui-components/shared';
+import { FieldFormat, FieldType } from './../../../shared/lf-shared-public-api';
 
 export interface LfFieldInfo {
   name: string;

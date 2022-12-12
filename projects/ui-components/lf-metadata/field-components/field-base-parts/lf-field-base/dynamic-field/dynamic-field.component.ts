@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ValidationRule } from '@laserfiche/lf-ui-components/shared';
+import { ValidationRule } from './../../../../../shared/lf-shared-public-api';
 import { Observable } from 'rxjs';
 
 @Component({

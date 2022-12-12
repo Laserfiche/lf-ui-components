@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import { FieldFormat, ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/shared';
+import { FieldFormat, ValidationRule, ValidationUtils } from './../../../../../shared/lf-shared-public-api';
 import { Observable } from 'rxjs';
 import { LocaleDatetimeUtils } from '../locale-datetime-utils';
 import { map } from 'rxjs/operators';

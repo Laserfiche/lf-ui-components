@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatMenuModule } from '@angular/material/menu';
-import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from './../../../../shared/lf-shared-public-api';
 import { LfFieldTokenData, LfFieldTokenService } from '../lf-field-base/lf-field-token.service';
 import { LfTokenPickerComponent } from './lf-token-picker.component';
 import { LfTokenService } from './lf-token.service';
