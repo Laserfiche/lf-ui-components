@@ -8,5 +8,4 @@ export * from './lf-metadata/lf-metadata-public-api';
 export * from './lf-user-feedback/lf-user-feedback-public-api';
 export * from './lf-selection-list/lf-selection-list-public-api';
 export * from './lf-repository-browser/lf-repository-browser-public-api';
-export * from './shared/lf-breadcrumbs/lf-breadcrumbs-public-api';
-export * from './shared/lf-toolbar/lf-toolbar-public-api';
+export * from './shared/lf-shared-public-api';
