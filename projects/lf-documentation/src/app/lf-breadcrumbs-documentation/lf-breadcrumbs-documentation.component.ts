@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NgElement, WithProperties } from '@angular/elements';
-import { LfBreadcrumbsComponent } from './../../../../ui-components/shared/lf-shared-public-api';
-import { TreeNode } from './../../../../ui-components/tree-components/lf-tree-components-public-api';
+import { LfBreadcrumb, LfBreadcrumbsComponent } from './../../../../ui-components/shared/lf-breadcrumbs/lf-breadcrumbs-public-api';
 
 @Component({
   selector: 'app-lf-breadcrumbs-documentation',
@@ -14,7 +13,7 @@ export class LfBreadcrumbsDocumentationComponent implements AfterViewInit {
 
   selectedElementBreadcrumb: string | undefined;
 
-  elementBreadcrumbOptions: TreeNode[] = [
+  elementBreadcrumbOptions = [
     {
       id: 'E',
       icon: '',
@@ -67,11 +66,11 @@ export class LfBreadcrumbsDocumentationComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.elementBreadcrumbs.nativeElement.breadcrumbs = this.elementBreadcrumbOptions;
     this.elementBreadcrumbs.nativeElement.addEventListener('breadcrumbSelected', (event) => {
-      this.onElementBreadcrumbSelected(event as CustomEvent<TreeNode>);
+      this.onElementBreadcrumbSelected(event as CustomEvent<LfBreadcrumb>);
     });
   }
 
-  onElementBreadcrumbSelected(event: CustomEvent<TreeNode>) {
+  onElementBreadcrumbSelected(event: CustomEvent<LfBreadcrumb>) {
     this.selectedElementBreadcrumb = JSON.stringify(event.detail, null, 2);
   }
 

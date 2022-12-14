@@ -1,3 +1,13 @@
+## 14.x
+
+### Features
+
+### Fixes
+
+### Chore & Maintenance
+**[BREAKING]**: Remove `lf-tree`, `lf-folder-browser`, `lf-file-explorer`
+**[BREAKING]**: Breaking change if using the npm package. Move `lf-toolbar` to `@laserfiche/lf-ui-components/shared`, and created it's own module `LfToolbarModule`
+
 ## 13.1.6
 
 ### Features

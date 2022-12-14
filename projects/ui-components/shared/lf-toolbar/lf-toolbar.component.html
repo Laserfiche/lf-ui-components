@@ -1,0 +1,35 @@
+<div class="lf-toolbar-container">
+  <span
+    [matTooltip]="displayedOption.name"
+    matTooltipClass="lf-web-client-tooltip"
+    class="lf-toolbar-expanded-button-span"
+    *ngFor="let displayedOption of displayed_options"
+  >
+    <button class="lf-toolbar-button" [disabled]="displayedOption.disabled" (click)="onClickButton(displayedOption)">
+      <img
+        *ngFor="let icon of getIcons(displayedOption)"
+        [src]="icon"
+        [alt]="displayedOption.name"
+        class="lf-toolbar-button-icon"
+      />
+    </button>
+  </span>
+  <button
+    *ngIf="dropdown_options && dropdown_options.length > 0"
+    class="lf-toolbar-button"
+    [matMenuTriggerFor]="compactButtonMenu"
+  >
+    <span class="material-icons lf-toolbar-dropdown-button-icon"> more_vert </span>
+  </button>
+  <mat-menu #compactButtonMenu="matMenu" class="lf-dropdown-menu">
+    <button
+      [disabled]="dropdownOption.disabled"
+      class="lf-dropdown-menu-option"
+      *ngFor="let dropdownOption of dropdown_options"
+      mat-menu-item
+      (click)="onClickButton(dropdownOption)"
+    >
+      {{ dropdownOption.name }}
+    </button>
+  </mat-menu>
+</div>
