@@ -36,10 +36,7 @@ const TREE_DATA: ComponentNode[] = [
         children: [
           { name: 'lf-breadcrumbs', routerLink: RouterLinks.LF_BREADCRUMBS },
           { name: 'lf-checklist', routerLink: RouterLinks.LF_CHECKLIST },
-          { name: 'lf-file-explorer', routerLink: RouterLinks.LF_FILE_EXPLORER },
-          { name: 'lf-folder-browser', routerLink: RouterLinks.LF_FOLDER_BROWSER },
           { name: 'lf-toolbar', routerLink: RouterLinks.LF_TOOLBAR },
-          { name: 'lf-tree', routerLink: RouterLinks.LF_TREE },
           { name: 'lf-repository-browser', routerLink: RouterLinks.LF_REPOSITORY_BROWSER },
         ],
       },

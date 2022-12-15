@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';import { LfTreeDocumentationComponent } from './lf-tree-documentation/lf-tree-documentation.component';
 import { LfChecklistDocumentationComponent } from './lf-checklist-documentation/lf-checklist-documentation.component';
 import { GettingStartedComponent } from './getting-started/getting-started.component';
 import { StylingDocumentationComponent } from './styling-documentation/styling-documentation.component';
@@ -8,12 +7,10 @@ import { LfFieldDocumentationComponent } from './lf-field-documentation/lf-field
 import { OverviewComponent } from './overview/overview.component';
 // import { LocalizationDocumentationComponent } from './localization-documentation/localization-documentation.component';
 import { LfUserFeedbackDocumentationComponent } from './lf-user-feedback-documentation/lf-user-feedback-documentation.component';
-import { LfFileExplorerDocumentationComponent } from './lf-file-explorer-documentation/lf-file-explorer-documentation.component';
 import { LfFieldAdhocContainerDocumentationComponent } from './lf-field-adhoc-container-documentation/lf-field-adhoc-container-documentation.component';
 import { LfFieldContainerDocumentationComponent } from './lf-field-container-documentation/lf-field-container-documentation.component';
 import { LfFieldTemplateContainerDocumentationComponent } from './lf-field-template-container-documentation/lf-field-template-container-documentation.component';
 import { LfBreadcrumbsDocumentationComponent } from './lf-breadcrumbs-documentation/lf-breadcrumbs-documentation.component';
-import { LfFolderBrowserDocumentationComponent } from './lf-folder-browser-documentation/lf-folder-browser-documentation.component';
 import { LfToolbarDocumentationComponent } from './lf-toolbar-documentation/lf-toolbar-documentation.component';
 import { ConvertComponentToElementComponent } from './convert-component-to-element/convert-component-to-element.component';
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
@@ -23,6 +20,7 @@ import { ExampleUsageInAngularComponent } from './example-usage-in-angular/examp
 import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
 import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
 import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-browser-documentation/lf-repository-browser-documentation.component';
+import { RouterModule, Routes } from '@angular/router';
 
 export enum RouterLinks {
   OVERVIEW = 'overview',
@@ -38,10 +36,7 @@ export enum RouterLinks {
   RELEASE_NOTES = 'release-notes',
   LF_BREADCRUMBS = 'lf-breadcrumbs',
   LF_CHECKLIST = 'lf-checklist',
-  LF_FILE_EXPLORER = 'lf-file-explorer',
-  LF_FOLDER_BROWSER = 'lf-folder-browser',
   LF_TOOLBAR = 'lf-toolbar',
-  LF_TREE = 'lf-tree',
   LF_FIELD_CONTAINER = 'lf-field-container',
   LF_FIELD_TYPES = 'lf-field-types',
   LF_FIELD_ADHOC_CONTAINER = 'lf-field-adhoc-container',
@@ -52,9 +47,6 @@ export enum RouterLinks {
 }
 
 const routes: Routes = [
-  { path: RouterLinks.LF_TREE, component: LfTreeDocumentationComponent },
-  { path: RouterLinks.LF_FILE_EXPLORER, component: LfFileExplorerDocumentationComponent },
-  { path: RouterLinks.LF_FOLDER_BROWSER, component: LfFolderBrowserDocumentationComponent },
   { path: RouterLinks.LF_TOOLBAR, component: LfToolbarDocumentationComponent },
   { path: RouterLinks.LF_BREADCRUMBS, component: LfBreadcrumbsDocumentationComponent },
   { path: RouterLinks.LF_CHECKLIST, component: LfChecklistDocumentationComponent },
