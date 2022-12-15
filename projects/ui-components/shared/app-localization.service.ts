@@ -11,13 +11,22 @@ import * as strings_ptBR from './strings/pt-BR.json';
 import * as strings_th from './strings/th.json';
 import * as strings_zhHans from './strings/zh-Hans.json';
 import * as strings_zhHant from './strings/zh-Hant.json';
+import * as strings_ar_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/ar-EG.json';
+import * as strings_en_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/en-US.json';
+import * as strings_es_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/es-MX.json';
+import * as strings_fr_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/fr-FR.json';
+import * as strings_it_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/it-IT.json';
+import * as strings_ptBR_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/pt-BR.json';
+import * as strings_th_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/th-TH.json';
+import * as strings_zhHans_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/zh-Hans.json';
+import * as strings_zhHant_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/zh-Hant.json';
+
 
 /** @internal */
 @Injectable({
   providedIn: 'root',
 })
 export class AppLocalizationService {
-  resourceUrl = 'https://lfxstatic.com/npm/@laserfiche/lf-resource-library@4/resources/laserfiche-base';
 
   localResources: Map<string, object> = new Map<string, object>([
     ['ar-EG', (strings_ar as any).default],
@@ -31,8 +40,20 @@ export class AppLocalizationService {
     ['zh-Hant', (strings_zhHant as any).default],
   ]);
 
+  resourceLibraryResources: Map<string, object> = new Map<string, object>([
+    ['ar-EG', (strings_ar_common as any).default],
+    ['en-US', (strings_en_common as any).default],
+    ['es-MX', (strings_es_common as any).default],
+    ['fr-FR', (strings_fr_common as any).default],
+    ['it-IT', (strings_it_common as any).default],
+    ['pt-BR', (strings_ptBR_common as any).default],
+    ['th-TH', (strings_th_common as any).default],
+    ['zh-Hans', (strings_zhHans_common as any).default],
+    ['zh-Hant', (strings_zhHant_common as any).default],
+  ]);
+
   localLocalizationService = new LfLocalizationService(this.localResources);
-  remoteLocalizationService = new LfLocalizationService();
+  lfCommonLocalizationService = new LfLocalizationService(this.resourceLibraryResources);
   internalGetString: Subject<void> = new Subject<void>();
 
   constructor() {
@@ -48,7 +69,7 @@ export class AppLocalizationService {
               await this.setLanguageAsync(language);
             }
             if (debug !== undefined) {
-              this.remoteLocalizationService.debugMode = debug;
+              this.lfCommonLocalizationService.debugMode = debug;
               this.localLocalizationService.debugMode = debug;
               this.internalGetString.next();
             }
@@ -62,23 +83,17 @@ export class AppLocalizationService {
         console.warn(`Origin does not match: event origin: ${ev.origin}, window origin: ${window.origin}`);
       }
     });
-    this.remoteLocalizationService.initResourcesFromUrlAsync(this.resourceUrl).then(() => {
-      this.internalGetString.next();
-    }).catch((err: any) => {
-      console.error(err.message);
-    });
   }
 
   async setLanguageAsync(language: string) {
-    this.remoteLocalizationService.setLanguage(language);
+    this.lfCommonLocalizationService.setLanguage(language);
     this.localLocalizationService.setLanguage(language);
-    await this.remoteLocalizationService.initResourcesFromUrlAsync(this.resourceUrl);
     this.internalGetString.next();
   }
 
   languageChanged(): Observable<string | undefined> {
-    const currentLanguage = this.remoteLocalizationService.currentResource?.language;
-    return this.internalGetString.pipe(startWith(currentLanguage), map(() => { return this.remoteLocalizationService.currentResource?.language; }));
+    const currentLanguage = this.lfCommonLocalizationService.currentResource?.language;
+    return this.internalGetString.pipe(startWith(currentLanguage), map(() => { return this.lfCommonLocalizationService.currentResource?.language; }));
   }
 
   getStringLaserficheObservable(key: string, params?: string[]): Observable<string> {
@@ -122,7 +137,7 @@ export class AppLocalizationService {
   }
 
   getResourceStringLaserfiche(key: string, params?: string[]): string {
-    return this.remoteLocalizationService.getString(key, params);
+    return this.lfCommonLocalizationService.getString(key, params);
   }
 
   getResourceStringComponents(key: string, params?: string[]): string {
@@ -158,7 +173,7 @@ export class AppLocalizationService {
   }
 
   getString(key: string, params?: string[]): string {
-    return this.remoteLocalizationService.getString(key, params);
+    return this.lfCommonLocalizationService.getString(key, params);
   }
 
 }
