@@ -1,6 +1,15 @@
 ## 13.1.6
 
 ### Features
+
+### Fixes
+- `[LfLocalizationService]`: get resources locally rather than CDN so there is no delay in loading translations
+
+### Chore & Maintenance
+
+## 13.1.6
+
+### Features
 - `[LfLocalizationService]`: add ability to set debug mode on localization service via window.postMessage
 - `[lf-field-container]`, `[lf-field-template-container]`, `[lf-field-adhoc-container]`: add displayName property to field and template definitions to allow for different changing displayName based on locale
 - `[lf-field-template-container]`: add loading and error UIs
