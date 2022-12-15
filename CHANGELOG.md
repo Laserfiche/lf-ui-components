@@ -1,3 +1,12 @@
+## 13.1.7
+
+### Features
+
+### Fixes
+- `[LfLocalizationService]`: get resources locally rather than CDN so there is no delay in loading translations
+
+### Chore & Maintenance
+
 ## 13.1.6
 
 ### Features
