@@ -15,11 +15,11 @@ import {
 } from '@angular/material-moment-adapter';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { MatDatepicker } from '@angular/material/datepicker';
-import { AppLocalizationService, ValidationRule } from './../../../../../shared/lf-shared-public-api';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable } from 'rxjs';
 import { LocaleDatetimeUtils } from '../locale-datetime-utils';
 import { map } from 'rxjs/operators';
+import { AppLocalizationService, ValidationRule } from './../../../../../internal-shared/internal-shared-public-api';
 
 @Component({
   selector: 'lf-date-field-component',

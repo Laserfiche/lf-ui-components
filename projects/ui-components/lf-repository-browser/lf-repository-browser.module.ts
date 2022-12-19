@@ -4,8 +4,9 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { createCustomElement } from '@angular/elements';
 import { FormsModule } from '@angular/forms';
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
-import { LfBreadcrumbsModule, LfLoaderModule } from './../shared/lf-shared-public-api';
+import { LfBreadcrumbsModule } from './../shared/lf-shared-public-api';
 import { LfSelectionListModule } from './../lf-selection-list/lf-selection-list-public-api';
+import { LfLoaderModule } from '../internal-shared/internal-shared-public-api';
 
 @NgModule({
   declarations: [LfRepositoryBrowserComponent],

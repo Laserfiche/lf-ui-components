@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService, ILfSelectable, ItemWithId } from './../shared/lf-shared-public-api';
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { LfSelectionListComponent, SelectedItemEvent } from './../lf-selection-list/lf-selection-list-public-api';
+import { AppLocalizationService, ILfSelectable, ItemWithId } from '../internal-shared/internal-shared-public-api';
 
 @Component({
   selector: 'lf-repository-browser-component',

@@ -12,8 +12,8 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { ILfSelectable, ItemWithId, Selectable } from './../shared/lf-shared-public-api';
 import { Observable } from 'rxjs';
+import { ILfSelectable, ItemWithId, Selectable } from '../internal-shared/internal-shared-public-api';
 import { LfListOptionComponent } from './lf-list-option.component';
 
 /** @internal */

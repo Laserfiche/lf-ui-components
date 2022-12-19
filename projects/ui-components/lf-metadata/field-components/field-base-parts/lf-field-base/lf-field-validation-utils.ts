@@ -1,7 +1,8 @@
 import { ValidatorFn, Validators } from '@angular/forms';
-import { FieldType, ValidationUtils } from './../../../../shared/lf-shared-public-api';
+import { FieldType } from './../../../../shared/lf-shared-public-api';
 import { LfMetadataValidationUtils } from '@laserfiche/lf-js-utils';
 import { LfFieldInfo } from '../../utils/lf-field-types';
+import { ValidationUtils } from './../../../../internal-shared/internal-shared-public-api';
 
 export class LfFieldValidationUtils extends ValidationUtils {
     static getDefaultValidators(lfFieldInfo: LfFieldInfo): ValidatorFn[] {

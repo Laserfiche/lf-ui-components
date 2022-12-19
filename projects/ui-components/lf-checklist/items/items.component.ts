@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { AppLocalizationService, ValidationUtils } from './../../shared/lf-shared-public-api';
+import { AppLocalizationService, ValidationUtils } from './../../internal-shared/internal-shared-public-api';
 import { Observable } from 'rxjs';
 import { ChecklistItem } from './checklist-item';
 

@@ -4,7 +4,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldInfo } from '../../../utils/lf-field-types';
 import moment from 'moment';
 import { LfFieldTokenService } from '../lf-field-token.service';
-import { FieldType, ValidationRule, AppLocalizationService } from './../../../../../shared/lf-shared-public-api';
+import { FieldType } from './../../../../../shared/lf-shared-public-api';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { AppLocalizationService, ValidationRule } from './../../../../../internal-shared/internal-shared-public-api';
 
 describe('DateFieldComponent', () => {
   let requiredDateComponent: DateFieldComponent;

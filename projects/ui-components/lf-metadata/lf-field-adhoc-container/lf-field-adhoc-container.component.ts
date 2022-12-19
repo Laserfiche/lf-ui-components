@@ -4,13 +4,13 @@ import { AdhocFieldConnectorService } from './lf-field-adhoc-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
 import { Subscription } from 'rxjs';
 import { LfFieldAddRemoveComponent } from './lf-field-add-remove/lf-field-add-remove.component';
-import { AppLocalizationService, FieldType } from './../../shared/lf-shared-public-api';
 import { FieldValue, FieldValues, LfFieldInfo } from '../field-components/utils/lf-field-types';
 import { LfFieldComponent } from '../field-components/lf-field/lf-field.component';
 import { LfFieldMultivalueComponent } from '../field-components/lf-field-multivalue/lf-field-multivalue.component';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldContainerDirective } from '../lf-field-container.directive';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { AppLocalizationService } from './../../internal-shared/internal-shared-public-api';
 
 @Component({
   selector: 'lf-field-adhoc-container-component',

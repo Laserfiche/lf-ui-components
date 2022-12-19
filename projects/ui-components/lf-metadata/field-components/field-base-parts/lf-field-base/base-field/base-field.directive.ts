@@ -3,11 +3,11 @@ import { LfFieldInfo, LfFieldValue } from '../../../utils/lf-field-types';
 import { FormControl, ValidatorFn, FormGroup } from '@angular/forms';
 import { LfFieldTokenData, LfFieldTokenService } from '../lf-field-token.service';
 import { LfFieldValidationUtils } from '../lf-field-validation-utils';
-import { AppLocalizationService, ValidationRule } from './../../../../../shared/lf-shared-public-api';
 import { isDynamicField } from '../../../utils/metadata-utils';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { AppLocalizationService, ValidationRule } from './../../../../../internal-shared/internal-shared-public-api';
 
 /** @internal */
 @Directive()

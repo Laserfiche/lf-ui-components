@@ -10,11 +10,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { createCustomElement } from '@angular/elements';
-import { LfLoaderModule, LfModalsModule } from './../shared/lf-shared-public-api';
 import { FieldComponentsModule } from './field-components/field-components.module';
 import { GetFieldTypePipe } from './lf-field-adhoc-container/lf-field-add-remove/get-field-type.pipe';
 import { LfFieldViewDirective } from './lf-field-view.directive';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import { LfLoaderModule, LfModalsModule } from '../internal-shared/internal-shared-public-api';
 
 @NgModule({
   declarations: [

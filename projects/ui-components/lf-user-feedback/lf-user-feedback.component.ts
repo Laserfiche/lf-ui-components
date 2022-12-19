@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AppLocalizationService } from './../shared/lf-shared-public-api';
 import { Observable } from 'rxjs';
+import { AppLocalizationService } from '../internal-shared/internal-shared-public-api';
 import { LfAnalyticsService } from './lf-analytics.service';
 import {
   UserFeedbackDialogData,

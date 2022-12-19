@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { FieldType, LfLoaderModule } from './../../../shared/lf-shared-public-api';
+import { FieldType } from './../../../shared/lf-shared-public-api';
 import { LfFieldBaseModule } from '../field-base-parts/lf-field-base/lf-field-base.module';
 import { FieldValue } from '../utils/lf-field-types';
 import { LfFieldGroupIndexDisplayPipe } from './lf-field-group-index-display.pipe';
 import { LfFieldGroupComponent } from './lf-field-group.component';
+import { LfLoaderModule } from './../../../internal-shared/internal-shared-public-api';
 
 describe('LfFieldGroupComponent', () => {
   let component: LfFieldGroupComponent;
