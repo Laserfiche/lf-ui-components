@@ -13,6 +13,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { createCustomElement } from '@angular/elements';
 import { ItemsValidationTextPipe } from './items/items-validation-text.pipe';
 
+/** @internal */
 @NgModule({
   declarations: [
     LfChecklistComponent,

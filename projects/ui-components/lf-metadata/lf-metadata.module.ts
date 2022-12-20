@@ -16,6 +16,7 @@ import { LfFieldViewDirective } from './lf-field-view.directive';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { LfLoaderModule, LfModalsModule } from '../internal-shared/internal-shared-public-api';
 
+/** @internal */
 @NgModule({
   declarations: [
     LfFieldAdhocContainerComponent,

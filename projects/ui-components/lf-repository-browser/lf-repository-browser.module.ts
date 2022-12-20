@@ -8,6 +8,7 @@ import { LfBreadcrumbsModule } from './../shared/lf-shared-public-api';
 import { LfSelectionListModule } from './../lf-selection-list/lf-selection-list-public-api';
 import { LfLoaderModule } from '../internal-shared/internal-shared-public-api';
 
+/** @internal */
 @NgModule({
   declarations: [LfRepositoryBrowserComponent],
   imports: [
