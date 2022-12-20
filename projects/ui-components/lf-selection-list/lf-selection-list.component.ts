@@ -13,7 +13,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ILfSelectable, ItemWithId, Selectable } from '../internal-shared/internal-shared-public-api';
+import { ILfSelectable, ItemWithId, Selectable } from '../shared/lf-shared-public-api';
 import { LfListOptionComponent } from './lf-list-option.component';
 
 /** @internal */

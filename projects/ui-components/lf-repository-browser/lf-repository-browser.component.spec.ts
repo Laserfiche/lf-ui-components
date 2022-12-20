@@ -12,7 +12,7 @@ import { LfRepositoryBrowserComponent } from './lf-repository-browser.component'
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { LfSelectionListModule } from '../lf-selection-list/lf-selection-list.module';
 import { AppLocalizationService, LfLoaderComponent } from '../internal-shared/internal-shared-public-api';
-import { ILfSelectable } from '../internal-shared/LfSelectable';
+import { ILfSelectable } from '../shared/LfSelectable';
 
 const rootTreeNode: LfTreeNode = {
   icon: '',

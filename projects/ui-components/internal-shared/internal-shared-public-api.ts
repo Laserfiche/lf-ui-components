@@ -5,4 +5,3 @@ export * from './lf-loader/lf-loader.module';
 export * from './lf-modals/lf-popup-modal/lf-popup-modal.component';
 export * from './filter-utils';
 export * from './lf-loader/lf-loader.component';
-export * from './LfSelectable';
