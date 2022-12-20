@@ -2,9 +2,10 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy
 import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
 import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from './login-utils/lf-login-types';
-import { AppLocalizationService, LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
+import { LoginMode, LoginState, RedirectBehavior } from './../shared/lf-shared-public-api';
 import { LfLoginService } from './login-utils/lf-login.service';
 import { HTTPError, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-core';
+import { AppLocalizationService } from '../internal-shared/internal-shared-public-api';
 
 const LOGIN_REDIRECT_STATE = 'lf-login-redirect';
 const CODE_CHALLENGE_METHOD = 'S256';

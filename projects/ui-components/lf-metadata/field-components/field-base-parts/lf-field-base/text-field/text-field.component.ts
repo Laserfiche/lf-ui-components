@@ -3,8 +3,8 @@ import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { LfFieldTokenService } from '../lf-field-token.service';
-import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
+import { AppLocalizationService, ValidationRule } from './../../../../../internal-shared/internal-shared-public-api';
 
 @Component({
   selector: 'lf-text-field-component',

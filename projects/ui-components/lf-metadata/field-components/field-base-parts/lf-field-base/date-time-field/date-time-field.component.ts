@@ -4,12 +4,12 @@ import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import moment from 'moment';
 import { NgxMatDateAdapter, NgxMatDatetimePicker } from '@angular-material-components/datetime-picker';
-import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable } from 'rxjs';
 import { LocaleDatetimeUtils } from '../locale-datetime-utils';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { map } from 'rxjs/operators';
+import { AppLocalizationService, ValidationRule } from './../../../../../internal-shared/internal-shared-public-api';
 
 @Component({
   selector: 'lf-date-time-field-component',

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import { ValidationRule } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
+import { ValidationRule } from './../../../../../internal-shared/internal-shared-public-api';
 
 @Component({
   selector: 'lf-list-field-component',

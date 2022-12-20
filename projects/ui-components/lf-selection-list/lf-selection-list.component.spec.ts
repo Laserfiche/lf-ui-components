@@ -2,7 +2,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { ILfSelectable, ItemWithId } from '../shared/LfSelectable';
+import { ILfSelectable, ItemWithId } from '../internal-shared/internal-shared-public-api';
 import { LfListOptionComponent } from './lf-list-option.component';
 
 import { LfSelectionListComponent, SelectedItemEvent } from './lf-selection-list.component';

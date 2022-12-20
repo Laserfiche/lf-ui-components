@@ -5,6 +5,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { createCustomElement } from '@angular/elements';
 
+/** @internal */
 @NgModule({
   declarations: [
     LfBreadcrumbsComponent

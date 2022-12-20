@@ -7,7 +7,7 @@ import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.
 import { LfFieldTemplateContainerComponent } from './lf-field-template-container.component';
 import { LfFieldTemplateContainerService } from './lf-field-template-container.service';
 import { City, County, DynamicFieldIds, fieldInfosPerTemplate, LfFieldTemplateContainerDemoService, State, TemplateIds } from './lf-field-template-container-demo.service';
-import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from './../../shared/lf-shared-public-api';
 import { LfFieldViewDirective } from '../lf-field-view.directive';
 import { FieldComponentsModule } from '../field-components/field-components.module';
 import { TemplateFieldInfo } from '../field-components/utils/lf-field-types';

@@ -4,9 +4,8 @@ import { LfFieldInfo } from '../../../utils/lf-field-types';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldTokenService } from '../lf-field-token.service';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
 import { LfTokenService } from '../../lf-token-picker/lf-token.service';
-import { FieldType, ValidationRule } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from './../../../../../shared/lf-shared-public-api';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { AppLocalizationService, ValidationRule } from './../../../../../internal-shared/internal-shared-public-api';
 
 describe('TextFieldComponent', () => {
   let shortComponent: TextFieldComponent;

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
-import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from './../../../../shared/lf-shared-public-api';
 import { Observable } from 'rxjs';
 import { LfToken, LfTokenService } from '../lf-token-picker/lf-token.service';
+import { AppLocalizationService } from './../../../../internal-shared/internal-shared-public-api';
 
 /** @internal */
 @Injectable({

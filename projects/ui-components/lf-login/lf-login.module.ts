@@ -5,6 +5,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { createCustomElement } from '@angular/elements';
 
 
+/** @internal */
 @NgModule({
   declarations: [
     LfLoginComponent
