@@ -4,14 +4,14 @@ import { LfFieldInfo } from '../../../utils/lf-field-types';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { LfFieldTokenService } from '../lf-field-token.service';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
-import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from './../../../../../shared/lf-shared-public-api';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMaskModule } from 'ngx-mask';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { AppLocalizationService } from './../../../../../internal-shared/internal-shared-public-api';
 
 describe('NumberFieldComponent', () => {
   let numberComponent: NumberFieldComponent;

@@ -5,6 +5,7 @@ import { createCustomElement } from '@angular/elements';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+/** @internal */
 @NgModule({
   declarations: [
     LfToolbarComponent

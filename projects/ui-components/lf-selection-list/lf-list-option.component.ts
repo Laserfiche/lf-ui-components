@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, TemplateRef, ViewChild } from '@angular/core';
-import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
+import { ILfSelectable } from '../shared/lf-shared-public-api';
 
 /**
  * @internal

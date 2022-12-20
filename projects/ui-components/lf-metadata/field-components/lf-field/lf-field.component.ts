@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from './../../../shared/lf-shared-public-api';
 import { FieldValue, LfFieldInfo, LfFieldValue } from '../utils/lf-field-types';
 
 @Component({

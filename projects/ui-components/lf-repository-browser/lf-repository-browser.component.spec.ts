@@ -6,13 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { LfBreadcrumbsComponent, LfLoaderComponent } from '../shared/lf-shared-public-api';
+import { LfBreadcrumbsComponent } from '../shared/lf-shared-public-api';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService } from '../shared/app-localization.service';
-import { ILfSelectable } from '../shared/LfSelectable';
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { LfSelectionListModule } from '../lf-selection-list/lf-selection-list.module';
+import { AppLocalizationService, LfLoaderComponent } from '../internal-shared/internal-shared-public-api';
+import { ILfSelectable } from '../shared/LfSelectable';
 
 const rootTreeNode: LfTreeNode = {
   icon: '',

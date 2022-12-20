@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldMultivalueComponent } from './lf-field-multivalue.component';
 import { LfFieldInfo, LfFieldValue } from '../../field-components/utils/lf-field-types';
-import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from './../../../shared/lf-shared-public-api';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LfFieldBaseModule } from '../field-base-parts/lf-field-base/lf-field-base.module';
