@@ -5,8 +5,10 @@
 ### Fixes
 
 ### Chore & Maintenance
-**[BREAKING]**: Remove `lf-tree`, `lf-folder-browser`, `lf-file-explorer`
-**[BREAKING]**: Breaking change if using the npm package. Move `lf-toolbar` to `@laserfiche/lf-ui-components/shared`, and created it's own module `LfToolbarModule`
+- **[BREAKING]**: Remove `lf-tree`, `lf-folder-browser`, `lf-file-explorer`
+- **[BREAKING]**: Breaking change if using the npm package. Move `lf-toolbar` is exposed through it's own module `LfToolbarModule`
+- **[BREAKING]**: Breaking change if using the npm package. All modules are now available via root npm package, not secondary entry-points.
+    - For example, you now get `LfRepositoryBrowserModule` from `@laserfiche/lf-ui-components` NOT `@laserfiche\lf-ui-components\lf-repository-browser`
 
 ## 13.1.7
 

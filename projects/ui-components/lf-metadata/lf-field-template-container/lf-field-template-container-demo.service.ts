@@ -1,6 +1,6 @@
 import { FieldValues, LfFieldInfo, TemplateFieldInfo, TemplateInfo } from './../field-components/utils/lf-field-types';
 import { LfFieldTemplateContainerService } from './lf-field-template-container.service';
-import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from './../../shared/lf-shared-public-api';
 import { DatetimeUtils } from './lf-field-template-container-datetime-utils';
 
 
@@ -11,16 +11,16 @@ export function isDynamicField(fieldInfo: LfFieldInfo): boolean {
 
 
 export enum TemplateIds {
-  String,
-  Blank,
-  Number,
-  DateTime,
-  DynamicLocation,
-  DynamicOneLocation,
-  DynamicDateTimes,
-  DynamicNumbers,
-  Groups,
-  Error
+  String = 1,
+  Blank = 2,
+  Number = 3,
+  DateTime = 4,
+  DynamicLocation = 5,
+  DynamicOneLocation = 6,
+  DynamicDateTimes = 7,
+  DynamicNumbers = 8,
+  Groups = 9,
+  Error = 10
 }
 
 export enum DynamicFieldIds {

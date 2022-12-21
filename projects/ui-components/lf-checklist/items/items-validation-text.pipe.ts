@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { ValidationRule } from '@laserfiche/lf-ui-components/shared';
+import { ValidationRule } from './../../internal-shared/internal-shared-public-api';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { ChecklistItem } from './checklist-item';
