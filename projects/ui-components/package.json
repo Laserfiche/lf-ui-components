@@ -6,9 +6,6 @@
     "type": "git",
     "url": "https://github.com/Laserfiche/lf-ui-components"
   },
-  "exports": {
-    "./internal-shared/*": null
-  },
   "peerDependencies": {
     "@angular-material-components/moment-adapter": "^7.0.0",
     "@angular/animations": "^13.3.11",
