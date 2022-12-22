@@ -1,7 +1,8 @@
 import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FieldType, LfLoaderModule, LfModalsModule } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { LfLoaderModule, LfModalsModule } from '@laserfiche/lf-ui-components/internal-shared'; 
 import { LfFieldViewDirective } from '../lf-field-view.directive';
 import { FieldValue } from '../field-components/utils/lf-field-types';
 import { LfFieldAddRemoveComponent } from './lf-field-add-remove/lf-field-add-remove.component';

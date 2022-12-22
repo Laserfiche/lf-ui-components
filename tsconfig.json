@@ -16,6 +16,10 @@
         "dist/ui-components/shared",
         "projects/ui-components/shared"
       ],
+      "@laserfiche/lf-ui-components/internal-shared": [
+        "dist/ui-components/internal-shared",
+        "projects/ui-components/internal-shared"
+      ],
       "@laserfiche/lf-ui-components/lf-selection-list": [
         "dist/ui-components/lf-selection-list",
         "projects/ui-components/lf-selection-list"
