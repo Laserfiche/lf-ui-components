@@ -5,6 +5,6 @@
 import './lf-login';
 import './lf-checklist';
 import './lf-metadata';
-import './tree-components';
+import './shared';
 import './lf-user-feedback';
 import './lf-repository-browser';

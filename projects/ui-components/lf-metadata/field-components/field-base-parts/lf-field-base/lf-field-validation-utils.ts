@@ -1,5 +1,6 @@
 import { ValidatorFn, Validators } from '@angular/forms';
-import { FieldType, ValidationUtils } from '@laserfiche/lf-ui-components/shared';
+import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataValidationUtils } from '@laserfiche/lf-js-utils';
 import { LfFieldInfo } from '../../utils/lf-field-types';
 
