@@ -4,7 +4,7 @@ import { AdhocFieldConnectorService } from './lf-field-adhoc-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
 import { Subscription } from 'rxjs';
 import { LfFieldAddRemoveComponent } from './lf-field-add-remove/lf-field-add-remove.component';
-import { AppLocalizationService, FieldType } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldValue, FieldValues, LfFieldInfo } from '../field-components/utils/lf-field-types';
 import { LfFieldComponent } from '../field-components/lf-field/lf-field.component';
 import { LfFieldMultivalueComponent } from '../field-components/lf-field-multivalue/lf-field-multivalue.component';

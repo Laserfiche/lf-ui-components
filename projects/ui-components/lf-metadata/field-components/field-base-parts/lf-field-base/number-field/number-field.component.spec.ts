@@ -4,7 +4,7 @@ import { LfFieldInfo } from '../../../utils/lf-field-types';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { LfFieldTokenService } from '../lf-field-token.service';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
