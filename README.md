@@ -68,8 +68,8 @@ This allows you to see changes you make to the ui components quickly. You can ru
 
 ```sh
 cd repo-root-folder
-npm run build-ui-components-prod --watch
-npm run build-lf-documentation-dev --watch
+npm run build-ui-components-dev-watch
+npm run build-lf-documentation-dev-watch
 ```
 
 to create `./dist/lf-documentation`.

@@ -12,4 +12,4 @@ Generates `dist/ui-components` that can be published as an NPM package and be us
 
 ## Build using watch
 
-In order to get immediate changes, you can run `npm run build-ui-components-prod --watch`. This is particularly useful when building the lf-documentation project.
+In order to get immediate changes, you can run `npm run build-ui-components-dev-watch`. This is particularly useful when building the lf-documentation project.
