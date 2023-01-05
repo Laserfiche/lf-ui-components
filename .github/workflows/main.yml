@@ -17,7 +17,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.sha }}
 
@@ -25,7 +25,7 @@ jobs:
         run: echo ${{github.run_id}}
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
 
@@ -97,7 +97,7 @@ jobs:
         run: mv -t ./dist/ui-components README.md
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: npm-publish-artifact
           # A file, directory or wildcard pattern that describes what to upload
@@ -121,12 +121,12 @@ jobs:
           ref: ${{ github.sha }}
 
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v2.1.0
+        uses: actions/download-artifact@v3
         with:
           name: npm-publish-artifact
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
@@ -173,17 +173,17 @@ jobs:
     if: ${{ github.run_attempt != 1 }}
     needs: [ build ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.sha }}
 
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v2.1.0
+        uses: actions/download-artifact@v3
         with:
           name: npm-publish-artifact
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
@@ -226,17 +226,17 @@ jobs:
     if: ${{ github.run_attempt != 1 }}
     needs: [ build ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.sha }}
 
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v2.1.0
+        uses: actions/download-artifact@v3
         with:
           name: npm-publish-artifact
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
@@ -251,7 +251,7 @@ jobs:
         run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
