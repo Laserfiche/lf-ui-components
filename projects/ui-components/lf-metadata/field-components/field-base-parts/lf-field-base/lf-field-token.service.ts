@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
 import { LfToken, LfTokenService } from '../lf-token-picker/lf-token.service';

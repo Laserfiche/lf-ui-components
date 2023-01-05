@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService, ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
+import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';

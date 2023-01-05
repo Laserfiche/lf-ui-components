@@ -7,6 +7,7 @@
 ### Chore & Maintenance
 **[BREAKING]**: Remove `lf-tree`, `lf-folder-browser`, `lf-file-explorer`
 **[BREAKING]**: Breaking change if using the npm package. Move `lf-toolbar` to `@laserfiche/lf-ui-components/shared`, and created it's own module `LfToolbarModule`
+**[BREAKING]**: Moved some internal utilities to `@laserfiche/lf-ui-components/internal-shared`. You should NOT import from this sub-entry-point. Everything in `@laserfiche/lf-ui-components/shared` is now reviewed and available for public use.
 
 ## 13.1.7
 
