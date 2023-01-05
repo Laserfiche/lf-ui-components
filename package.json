@@ -61,8 +61,6 @@
     "yargs": "^17.1.0"
   },
   "peerDependencies": {
-    "@angular-material-components/datetime-picker": "^7.0.1",
-    "@angular-material-components/moment-adapter": "^7.0.0",
     "@angular/animations": "^14.2.12",
     "@angular/cdk": "^13.3.9",
     "@angular/cli": "^14.2.10",
