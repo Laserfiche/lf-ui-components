@@ -6,15 +6,15 @@ UI Components are compatible with many web frameworks including Angular, React, 
 
 ## Using @laserfiche/lf-ui-components
 
-See documentation [here](https://developer.laserfiche.com/client_reference/lf-ui-components/docs/13.x/index.html#/).
+See documentation [here](https://developer.laserfiche.com/client_reference/lf-ui-components/docs/14.x/index.html#/).
 
 ## Change Log
 
-See CHANGELOG [here](https://github.com/Laserfiche/lf-ui-components/blob/13.x/CHANGELOG.md).
+See CHANGELOG [here](https://github.com/Laserfiche/lf-ui-components/blob/14.x/CHANGELOG.md).
 
 ## Contribution
 
-We welcome contributions and feedback. Please follow our [contributing guidelines](https://github.com/Laserfiche/lf-ui-components/blob/13.x/CONTRIBUTING.md).
+We welcome contributions and feedback. Please follow our [contributing guidelines](https://github.com/Laserfiche/lf-ui-components/blob/14.x/CONTRIBUTING.md).
 
 ## Development Setup
 
@@ -32,14 +32,14 @@ See .github/workflows/main.yml for Node and NPM version used.
 
 ### Build types-lf-ui-components NPM
 
-This will create a package with version 13.0.0. If you would like to update the version, change the version at `./types-lf-ui-components-publish/package.json`.
+This will create a package with version 14.0.0. If you would like to update the version, change the version at `./types-lf-ui-components-publish/package.json`.
 
 ```sh
 npm install ./projects/ui-components # if you haven't already
 npm run create-types-lf-ui-components
 ```
 
-The command above will output: `./types-lf-ui-components-publish/laserfiche-types-lf-ui-components-13.0.0.tgz`.
+The command above will output: `./types-lf-ui-components-publish/laserfiche-types-lf-ui-components-14.0.0.tgz`.
 
 ### Build lf-documentation
 

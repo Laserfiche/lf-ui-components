@@ -65,7 +65,7 @@ const TREE_DATA: ComponentNode[] = [
   },
   {
     name: 'Release Notes',
-    hyperLink: 'https://github.com/Laserfiche/lf-ui-components/blob/13.x/CHANGELOG.md',
+    hyperLink: 'https://github.com/Laserfiche/lf-ui-components/blob/14.x/CHANGELOG.md',
   },
 ];
 
