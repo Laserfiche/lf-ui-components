@@ -181,7 +181,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   private _breadcrumbs: LfTreeNode[] = [];
   /** @internal */
-  private scrolledIndexChanged = new Subject();
+  private scrolledIndexChanged = new Subject<void>();
   /**
    * @internal
    * Used to track if data is currently being pulled
