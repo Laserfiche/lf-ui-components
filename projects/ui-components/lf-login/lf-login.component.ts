@@ -5,7 +5,7 @@ import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from '.
 import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfLoginService } from './login-utils/lf-login.service';
-import { HTTPError, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-core';
+import { ApiException, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-core';
 
 const LOGIN_REDIRECT_STATE = 'lf-login-redirect';
 const CODE_CHALLENGE_METHOD = 'S256';
@@ -223,7 +223,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
           this.loginCompleted.emit();
           return newAccessToken?.accessToken;
         } catch (e) {
-          const status = (<HTTPError>e).status ?? 0;
+          const status = (<ApiException>e).status ?? 0;
           if (status === 401 || status === 403) {
             if (initiateLoginFlowOnRefreshFailure && !this.hasLoginError && this.state === LoginState.LoggedOut) {
               console.warn('Unable to refresh. Will attempt to start the OAuth login flow');

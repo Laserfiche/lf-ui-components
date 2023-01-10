@@ -2,7 +2,7 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AccountInfo, RedirectUriQueryParams } from './lf-login-internal-types';
 import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';
 import { LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
-import { DomainUtils, GetAccessTokenResponse, HTTPError, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
+import { DomainUtils, GetAccessTokenResponse, ApiException, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
 @Injectable({
@@ -86,8 +86,8 @@ export class LfLoginService {
           this.loginCompletedInService.emit();
         }
         catch (e) {
-          const status = (<HTTPError>e).status ?? 0;
-          const message = (<HTTPError>e).message;
+          const status = (<ApiException>e).status ?? 0;
+          const message = (<ApiException>e).message;
           this.removeFromLocalStorage();
           this._state = LoginState.LoggedOut;
           console.error('Login Error (state changed to LoggedOut): ' + message);
