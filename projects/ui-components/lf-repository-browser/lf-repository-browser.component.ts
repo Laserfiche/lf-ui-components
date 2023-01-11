@@ -34,7 +34,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param provider LfRepositoryService service
    * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
    */
-  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode): Promise<void> => {
+  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode, columnsToDisplay?: string[]): Promise<void> => {
+    // for each column key, a colum will exist, the data for which will be node.props[key]
+    // if props[key] doesn't exist it will just be empty 
     await this.zone.run(async () => {
       try {
         this.hasError = false;

@@ -5,6 +5,7 @@ export interface LfTreeNode {
   isLeaf: boolean;
   name: string;
   path: string;
+  props?: Map<string, string>;
 }
 
 export interface LfTreeNodePage {
