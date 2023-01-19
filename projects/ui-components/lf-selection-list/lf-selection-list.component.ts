@@ -48,6 +48,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
     this.allData.next(items);
+    this.viewport?.checkViewportSize();
   }
   // - sorting messes with selected indices
   // - sorting when not all the data is there
@@ -55,8 +56,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   // - formatting
   // - resizing columns
   // - accessibility when two repository browsers are on page
-  // - error node
-  // - loading dialog
   // - no name column when no other colums -- what about select? -- keep old implementation?
   // - update columns -- btton in documentation
   private additionalColumnDefs: ColumnDef[] = [];
@@ -88,7 +87,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   currentFocusIndex: number = 0;
 
-  gridHeight = 400;
   /** @internal */
   protected selectable: Selectable = new Selectable();
   /** @internal */
@@ -98,25 +96,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   constructor(
     /** @internal */
-    private focusMonitor: FocusMonitor,
-    private ref: ChangeDetectorRef
-  ) {
-    this.allData.subscribe(() => {
-      console.log('allData updated');
-    });
-  }
+    private focusMonitor: FocusMonitor
+    ) { }
 
   private compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   /** @internal */
   ngAfterViewInit(): void {
-    // this is to keep track of when the viewport is unfocused
-    console.log('ids', this.allColumnHeaders);
-
-    this.viewport!.renderedRangeStream.subscribe(() => {
-      console.log('renderedRange updated');
-    });
     this.dataSource = this.allData.pipe(
       combineLatestWith(this.viewport!.renderedRangeStream),
       map((value: any) => {

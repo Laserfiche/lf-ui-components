@@ -1,7 +1,7 @@
 <ng-container #displayedEntryList>
   <cdk-virtual-scroll-viewport #viewport 
     id="lf-list-viewport"
-    itemSize="50" (scrolledIndexChange)="onScroll($event)"
+    [itemSize]="itemSize" (scrolledIndexChange)="onScroll($event)"
     (keydown)="onViewportKeyDown($event)"
   >
     <table role="grid" mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortData($event)">
