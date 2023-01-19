@@ -1,7 +1,9 @@
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
+import { SelectionModel } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -12,10 +14,16 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { MatSort, Sort } from '@angular/material/sort';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, of, Subject, combineLatestWith, startWith } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
 
+/** @internal */
+export interface ColumnDef {
+  id: string;
+  displayName: string;
+}
 /** @internal */
 export interface SelectedItemEvent {
   selected: ILfSelectable;
@@ -36,44 +44,91 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Input() itemSize: number = 42;
   /** @internal */
   @Input() listItemRef?: TemplateRef<unknown>; // TODO: figure out how to define TemplateRef for non Angular project
-  @Input() listItems: ILfSelectable[] = [];
-  @Input() set multiple(value: boolean | string) {
-    if (typeof value === 'string') {
-      if (value.toLowerCase() === 'true') {
-        value = true;
-      } else {
-        value = false;
-      }
-    }
+  items: ILfSelectable[] = [];
+  @Input() set listItems(items: ILfSelectable[]) {
+    this.items = items;
+    this.allData.next(items);
+  }
+  // - sorting messes with selected indices
+  // - sorting when not all the data is there
+  // - checkbox in header to select all/remove all
+  // - formatting
+  // - resizing columns
+  // - accessibility when two repository browsers are on page
+  // - error node
+  // - loading dialog
+  // - no name column when no other colums -- what about select? -- keep old implementation?
+  // - update columns -- btton in documentation
+  private additionalColumnDefs: ColumnDef[] = [];
+  allColumnHeaders?: string[] = [];
+  allData: Subject<ILfSelectable[]> = new Subject<ILfSelectable[]>();
+
+  @Input() set multipleSelection(value: boolean) {
     this._multipleSelectEnabled = value;
     this.selectable.multiSelectable = value;
   }
-  get multiple(): boolean {
+  get multipleSelection(): boolean {
     return this._multipleSelectEnabled;
   }
+  @Input() set columns(cols: ColumnDef[]) {
+    let toAdd: string[] = this.multipleSelection ? ['select', 'name'] : ['name'];
+    this.allColumnHeaders = toAdd.concat(cols.map((col) => col.id));
+    this.additionalColumnDefs = cols;
+  }
+  get columns(): ColumnDef[] {
+    return this.additionalColumnDefs;
+  }
 
+  dataSource: Observable<Array<ILfSelectable>> = of([]);
   @Output() scrollChanged = new EventEmitter<undefined>();
   @Output() itemDoubleClicked = new EventEmitter<ItemWithId>();
   @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
   @Output() itemFocused = new EventEmitter<ItemWithId>();
 
   /** @internal */
-  private currentFocusIndex: number = 0;
+  currentFocusIndex: number = 0;
 
+  gridHeight = 400;
   /** @internal */
   protected selectable: Selectable = new Selectable();
   /** @internal */
   private _multipleSelectEnabled: boolean = false;
+  @ViewChild(MatSort) sort?: MatSort;
 
   /** @internal */
   constructor(
     /** @internal */
-    private focusMonitor: FocusMonitor
-  ) {}
+    private focusMonitor: FocusMonitor,
+    private ref: ChangeDetectorRef
+  ) {
+    this.allData.subscribe(() => {
+      console.log('allData updated');
+    });
+  }
 
+  private compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
   /** @internal */
   ngAfterViewInit(): void {
     // this is to keep track of when the viewport is unfocused
+    console.log('ids', this.allColumnHeaders);
+
+    this.viewport!.renderedRangeStream.subscribe(() => {
+      console.log('renderedRange updated');
+    });
+    this.dataSource = this.allData.pipe(
+      combineLatestWith(this.viewport!.renderedRangeStream),
+      map((value: any) => {
+        console.log(value[1]);
+        // Update the datasource for the rendered range of data
+        return value[0].slice(value[1].start, value[1].end);
+      })
+    );
+
+    // this.dataSource.sort = this.sort;
+    // // somehow don't sort until we have all the data
+
     if (this.viewport?.elementRef.nativeElement) {
       this.focusMonitor.monitor(this.viewport?.elementRef.nativeElement, true).subscribe((origin: FocusOrigin) => {
         if (!origin || document.activeElement?.nodeName.toLowerCase() === 'cdk-virtual-scroll-viewport') {
@@ -83,25 +138,60 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  onCheckboxClicked(event: MouseEvent) {
+    event.preventDefault();
+  }
   ngOnDestroy() {
     this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
   }
 
   clearSelectedValues() {
-    this.selectable.clearSelectedValues(this.listItems);
+    this.selectable.clearSelectedValues(this.items);
   }
 
   focus() {
     this._focus();
   }
+  sortData(sort: Sort) {
+    const data = this.items;
+    if (!sort.active || sort.direction === '') {
+      return;
+    }
 
+    const sortedData = data?.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      if (sort.active === 'name') {
+        return this.compare((a?.value as any)['name'].toLowerCase(), (b?.value as any)['name'].toLowerCase(), isAsc);
+      } else if (sort.active !== undefined) {
+        const aVal = (a.value as any)?.properties?.get(sort.active).value;
+        const bVal = (b.value as any)?.properties?.get(sort.active).value;
+        // hp tp sort if undefined..
+        if (Object.prototype.toString.call(aVal) === '[object Date]') {
+          return this.compare((aVal as Date).getTime(), (bVal as Date)?.getTime(), isAsc);
+        } else if (typeof aVal === 'number') {
+          return this.compare(aVal, bVal as number, isAsc);
+        } else if (typeof aVal === 'string') {
+          return this.compare(aVal.toLowerCase(), bVal.toLowerCase(), isAsc);
+        } else {
+          // err -- not valid?
+          // or just do straight comparison?
+        }
+        // sort based on a.value.properties[{{sort.active}}].value
+        // if Date sort by date, if number sort by number etc.
+        return 0;
+      } else {
+        return 0;
+      }
+    });
+    this.allData.next(sortedData);
+  }
   // When the table content gets focused we check to see if we need to reset the currentFocusIndex
   // we do this by checking to see if it is larger than the list
   focusCurrentIndex() {
-    if (this.currentFocusIndex >= this.listItems.length) {
+    if (this.currentFocusIndex >= this.items.length) {
       this.currentFocusIndex = 0;
     }
-    if (!this.listItems[this.currentFocusIndex] || !this.listItems[this.currentFocusIndex]) {
+    if (!this.items[this.currentFocusIndex] || !this.items[this.currentFocusIndex]) {
       this.viewport?.scrollToIndex(this.currentFocusIndex);
     }
   }
@@ -115,9 +205,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       nodeName = target?.nodeName.toLowerCase();
     }
     if (nodeName === 'mat-checkbox') {
-      this.selectable.onItemClicked(event, option, this.listItems, true);
+      this.selectable.onItemClicked(event, option, this.items, true);
     } else {
-      this.selectable.onItemClicked(event, option, this.listItems);
+      this.selectable.onItemClicked(event, option, this.items);
     }
     this.currentFocusIndex = index;
 
@@ -127,7 +217,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   onDblClick(event: MouseEvent | KeyboardEvent, item: ILfSelectable) {
     if (item.isSelectable && !item.isSelected) {
-      this.selectable.onItemClicked(event, item, this.listItems, true);
+      this.selectable.onItemClicked(event, item, this.items, true);
       this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
     }
     this.itemDoubleClicked.emit(item.value);
@@ -141,7 +231,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       (event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'))
     ) {
       if (event.key === 'Enter') {
-        this.selectable.onItemClicked(event, item, this.listItems);
+        this.selectable.onItemClicked(event, item, this.items);
         this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
         this.onDblClick(event, item);
         return;
@@ -149,7 +239,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.selectable.onItemClicked(
         event,
         item,
-        this.listItems,
+        this.items,
         false,
         event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')
       );
@@ -163,7 +253,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.selectable.onItemClicked(
         event,
         item,
-        this.listItems,
+        this.items,
         false,
         event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')
       );
@@ -187,7 +277,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   /** @internal */
   onFocused(index: number) {
-    this.itemFocused.emit(this.listItems[index].value);
+    this.currentFocusIndex = index;
+    this.itemFocused.emit(this.items[index].value);
   }
 
   /** @internal */
@@ -202,7 +293,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       const activeElement = document.activeElement;
       if (
         activeElement?.nodeName.toLowerCase() !== 'cdk-virtual-scroll-viewport' &&
-        activeElement?.parentNode?.nodeName.toLowerCase() !== 'lf-list-option-component'
+        activeElement?.nodeName.toLowerCase() !== 'tr'
       ) {
         return;
       }
@@ -216,9 +307,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         const moveDirection = event.key === 'ArrowUp' ? -1 : 1;
         this.currentFocusIndex = this.currentFocusIndex + moveDirection;
         // Check if currentFocusIndex is out of bounds
-        if (this.currentFocusIndex < 0 || this.currentFocusIndex >= this.listItems.length) {
+        if (this.currentFocusIndex < 0 || this.currentFocusIndex >= this.items.length) {
           this.currentFocusIndex = this.currentFocusIndex - moveDirection;
         }
+        // TODO this dorsn't work  whrn multiple components on page
+        const ele = document.querySelector('#lf-row-' + this.currentFocusIndex) as HTMLElement;
+        ele?.focus();
       }
       if (!this._checkRowInView(this.currentFocusIndex)) {
         // this way even if we scroll down we go back to the section we were
@@ -233,7 +327,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     maxFetchIterations: number
   ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
-    await this.selectable.setSelectedNodesAsync(values, this.listItems, maxFetchIterations);
+    await this.selectable.setSelectedNodesAsync(values, this.items, maxFetchIterations);
     return this.selectable.selectedItems;
   }
 
@@ -272,5 +366,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     this.focusCurrentIndex();
     this.options?.get(this.currentFocusIndex)?.focus();
+  }
+
+  /**
+   * @internal
+   * @param entry
+   * @returns list of strings that represent img src's
+   */
+  getIcons(entry: any): string[] {
+    return typeof entry.icon === 'string' ? [entry.icon] : entry.icon;
   }
 }

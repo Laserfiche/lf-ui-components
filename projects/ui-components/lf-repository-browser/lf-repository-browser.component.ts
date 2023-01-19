@@ -2,10 +2,11 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, O
 import { MatDialog } from '@angular/material/dialog';
 import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
-import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
+import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-components/lf-selection-list';
+import { ColumnDef, LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-components/lf-selection-list';
+
 
 @Component({
   selector: 'lf-repository-browser-component',
@@ -19,6 +20,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   private selectedItems: LfTreeNode[] | undefined;
   /** @internal */
   private focusedEntry: ItemWithId | undefined;
+  columns: ColumnDef[] = [];
+  private _multipleSelectEnabled: boolean = false;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -29,12 +32,24 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   }
 
   @Input() itemSize: number = 42;
+
+
+  /**
+   * 
+   */
+  @Input() 
+  set columnsToDisplay(cols: ColumnDef[]) {
+    this.columns = cols;
+  }
+  // re-render columns/etc. if this is updated
+  // be able to set columns before initAsync
+
   /**
    * function to initialize the lf-repository-browser component
    * @param provider LfRepositoryService service
    * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
    */
-  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode, columnsToDisplay?: string[]): Promise<void> => {
+  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode): Promise<void> => {
     // for each column key, a colum will exist, the data for which will be node.props[key]
     // if props[key] doesn't exist it will just be empty 
     await this.zone.run(async () => {
@@ -57,7 +72,19 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Input() isSelectable?: (treeNode: LfTreeNode) => Promise<boolean>;
 
-  @Input() multiple: boolean = false;
+ @Input() set multiple(value: boolean | string) {
+    if (typeof value === 'string') {
+      if (value.toLowerCase() === 'true') {
+        value = true;
+      } else {
+        value = false;
+      }
+    }
+    this._multipleSelectEnabled = value;
+  }
+  get multiple(): boolean {
+    return this._multipleSelectEnabled;
+  }
 
   @Input()
   setSelectedNodesAsync: (nodesToSelect: LfTreeNode[], maxFetchIterations?: number) => Promise<void> = async (
@@ -159,6 +186,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   treeNodeService!: LfTreeNodeService;
 
+
   /** @internal */
   readonly OPEN = this.localizationService.getStringLaserficheObservable('OPEN');
   /** @internal */
@@ -215,14 +243,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     });
   }
 
-  /**
-   * @internal
-   * @param entry
-   * @returns list of strings that represent img src's
-   */
-  getIcons(entry: LfTreeNode): string[] {
-    return typeof entry.icon === 'string' ? [entry.icon] : entry.icon;
-  }
 
   /**
    * @internal

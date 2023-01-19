@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { LfTreeNode, LfRepositoryBrowserComponent } from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
-import { DemoRepoService } from './demo-repo-service';
+import { DemoRepoService, propIdCreateDate } from './demo-repo-service';
 
 @Component({
   selector: 'app-lf-repository-browser-documentation',
@@ -23,12 +23,20 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.repoBrowser?.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
+      if (!this.repoBrowser) {
+        throw new Error('repoBrowser is undefined');
+      }
+      this.repoBrowser.nativeElement.columnsToDisplay = [{id: propIdCreateDate, displayName: 'Creation Date'}]
+      this.repoBrowser.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
       if (this.repoBrowser != null) {
         this.repoBrowser.nativeElement.focus();
       }
     }, 1000);
-    this.singleSelectRepoBrowser?.nativeElement?.initAsync(this.singleSelectDataService);
+    if (!this.singleSelectRepoBrowser) {
+      throw new Error('repoBrowser is undefined');
+    }
+    this.singleSelectRepoBrowser.nativeElement.columnsToDisplay = [{id: propIdCreateDate, displayName: 'Creation Date'}]
+    this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
   }
 
   onEntrySelected(event: CustomEvent<LfTreeNode[] | undefined>) {

@@ -93,6 +93,7 @@ export class Selectable {
     }
     const itemIndex = list.findIndex((selectable) => selectable.value.id === item.value.id);
     if (!this.multiSelectable) {
+      // clear all selectedItems doesn't work if list has been reordered
       this.clearAllSelectedItems(list);
       const itemInList = list[itemIndex];
       if (itemInList.isSelectable) {

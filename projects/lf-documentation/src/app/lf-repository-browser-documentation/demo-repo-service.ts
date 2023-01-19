@@ -1,5 +1,12 @@
 import { IconUtils } from '@laserfiche/lf-js-utils';
-import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
+import {
+  LfTreeNodeService,
+  LfTreeNode,
+  LfTreeNodePage,
+  PropertyValue,
+} from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
+
+export const propIdCreateDate: string = 'create_date';
 
 export class DemoRepoService implements LfTreeNodeService {
   breadCrumb: LfTreeNode[] = [];
@@ -15,6 +22,7 @@ export class DemoRepoService implements LfTreeNodeService {
     name: 'root',
     path: '/',
   };
+  currentDate = Date.now();
   _entries: { [key: string]: LfTreeNode } = {
     '2': {
       icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
@@ -23,6 +31,9 @@ export class DemoRepoService implements LfTreeNodeService {
       isLeaf: false,
       name: 'folder2',
       path: '/2',
+      properties: new Map<string, PropertyValue>([
+        [propIdCreateDate, { value: this.currentDate, displayValue: this.currentDate.toLocaleString() }],
+      ]),
     },
     '3': {
       icon: IconUtils.getDocumentIconUrlFromIconId('document-20'),
@@ -199,7 +210,7 @@ export class DemoRepoService implements LfTreeNodeService {
       isLeaf: false,
       name: 'folder',
       path: '/',
-    }
+    },
   };
   _testData: { [key: string]: LfTreeNode[] } = {
     '1': [
@@ -233,7 +244,7 @@ export class DemoRepoService implements LfTreeNodeService {
     '19': [this._entries['1900']],
     '20': [this._entries['21']],
     '21': [],
-    '1900': []
+    '1900': [],
   };
 
   private lastFolder: string | undefined;
@@ -308,7 +319,7 @@ export class DemoRepoService implements LfTreeNodeService {
     return Promise.resolve(this._rootEntry);
   }
   async getParentTreeNodeAsync(entry: LfTreeNode): Promise<LfTreeNode | undefined> {
-    if(entry.path === '/') {
+    if (entry.path === '/') {
       return undefined;
     }
     const path = entry.path.split('/');

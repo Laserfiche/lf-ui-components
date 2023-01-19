@@ -1,3 +1,9 @@
+export interface PropertyValue {
+  value: string | Date | number;
+  displayValue: string;
+}
+
+
 export interface LfTreeNode {
   id: string;
   icon: string | string[];
@@ -5,7 +11,7 @@ export interface LfTreeNode {
   isLeaf: boolean;
   name: string;
   path: string;
-  props?: Map<string, string>;
+  properties?: Map<string, PropertyValue>;
 }
 
 export interface LfTreeNodePage {

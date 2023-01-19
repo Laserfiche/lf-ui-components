@@ -6,6 +6,8 @@ import { createCustomElement } from '@angular/elements';
 import { LfSelectionListComponent } from './lf-selection-list.component';
 import { LfListOptionComponent } from './lf-list-option.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     CommonModule,
     MatCheckboxModule,
     ScrollingModule,
+    MatTableModule,
+    MatSortModule
   ],
   bootstrap: [LfSelectionListComponent],
   exports: [LfSelectionListComponent],
