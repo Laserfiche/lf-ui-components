@@ -15,6 +15,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
+import { MatTable } from '@angular/material/table';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { combineLatest, map, Observable, of, Subject, combineLatestWith, startWith } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
@@ -56,11 +57,11 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   // - formatting
   // - resizing columns
   // - accessibility when two repository browsers are on page
-  // - no name column when no other colums -- what about select? -- keep old implementation?
   // - update columns -- btton in documentation
   private additionalColumnDefs: ColumnDef[] = [];
   allColumnHeaders?: string[] = [];
   allData: Subject<ILfSelectable[]> = new Subject<ILfSelectable[]>();
+
 
   @Input() set multipleSelection(value: boolean) {
     this._multipleSelectEnabled = value;
@@ -73,6 +74,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     let toAdd: string[] = this.multipleSelection ? ['select', 'name'] : ['name'];
     this.allColumnHeaders = toAdd.concat(cols.map((col) => col.id));
     this.additionalColumnDefs = cols;
+    this.ref.detectChanges();
   }
   get columns(): ColumnDef[] {
     return this.additionalColumnDefs;
@@ -96,8 +98,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   constructor(
     /** @internal */
-    private focusMonitor: FocusMonitor
-    ) { }
+    private focusMonitor: FocusMonitor,
+    private ref: ChangeDetectorRef
+  ) {}
 
   private compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);

@@ -26,7 +26,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       if (!this.repoBrowser) {
         throw new Error('repoBrowser is undefined');
       }
-      this.repoBrowser.nativeElement.columnsToDisplay = [{id: propIdCreateDate, displayName: 'Creation Date'}]
+      // this.repoBrowser.nativeElement.columnsToDisplay = [{id: propIdCreateDate, displayName: 'Creation Date'}]
       this.repoBrowser.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
       if (this.repoBrowser != null) {
         this.repoBrowser.nativeElement.focus();
