@@ -32,6 +32,21 @@ export class Selectable {
     this.clearAllSelectedItems(list);
   }
 
+  resetSelectedValues(list: ILfSelectable[]) {
+    this.selectedItemsIndices = [];
+    this.lastSelectedIndex = 0;
+    this._selectedItems = [];
+    list.forEach((element: ILfSelectable, index: number) => {
+      if(element.isSelected && element.isSelectable) {
+        this._selectedItems.push(element);
+        this.selectedItemsIndices.push(index);
+      }
+      else if (element.isSelected && !element.isSelectable) {
+        console.debug(`iSelected is true, but isSelectable is false for item with id: ${element.value.id}. Will not select item`);
+      }
+    });
+  }
+
   async setSelectedNodesAsync(
     selected: ILfSelectable[],
     list: ILfSelectable[],

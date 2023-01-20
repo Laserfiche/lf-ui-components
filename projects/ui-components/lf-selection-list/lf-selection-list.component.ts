@@ -52,13 +52,11 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.allData.next();
     this.viewport?.checkViewportSize();
   }
-  // - sorting messes with selected indices
   // - sorting when not all the data is there
   // - checkbox in header to select all/remove all
   // - formatting
   // - resizing columns
   // - accessibility when two repository browsers are on page
-  // - update columns -- btton in documentation
 
 
   @Input() set multipleSelection(value: boolean) {
@@ -140,6 +138,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   focus() {
     this._focus();
   }
+
   sortData(sort: Sort) {
     const data = this.items;
     if (!sort.active || sort.direction === '') {
@@ -173,6 +172,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     });
     this.items = sortedData;
     this.allData.next();
+    this.selectable.resetSelectedValues(this.items);
   }
   // When the table content gets focused we check to see if we need to reset the currentFocusIndex
   // we do this by checking to see if it is larger than the list
