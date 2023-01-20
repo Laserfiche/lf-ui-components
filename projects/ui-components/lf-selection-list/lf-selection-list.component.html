@@ -67,6 +67,11 @@
           mat-row
           tabindex="0"
           class="test-class-help item-holder"
+          [ngClass]="{
+            'non-selectable-option': !row.isSelectable,
+            'selectable-option': row.isSelectable,
+            'node-selected': row.isSelected
+          }"
           [attr.id]="_computeRowId(i)"
           (click)="onClickMatListOption($event, row, i)"
           (dblclick)="onDblClick($event, row)"

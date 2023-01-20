@@ -50,6 +50,10 @@ table {
   outline: none;
 }
 
+.node-selected.item-holder {
+  background-color: var(--lf-menu-item-selected-color, #EAF5FF) !important;
+}
+
 .item-holder:hover {
   background-color: var(--lf-menu-item-hover-color, #f5fbff);
 }
