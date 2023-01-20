@@ -37,6 +37,8 @@
   </pre>
 </label>
 <app-card>
+  <button (click)="addSecondColumn()">Add Column</button>
+  <button (click)="removeSecondColumn()">Remove Column</button>
   <lf-repository-browser
     multiple="false"
     (entrySelected)="onEntrySelected($event)"
@@ -61,6 +63,8 @@
 <app-card>
   <input (change)="onFilterChange($event)">
   <button (click)="onRefresh()">Refresh</button>
+  <button (click)="addFirstColumn()">Add Column</button>
+  <button (click)="removeAllColumns()">Remove Column</button>
   <lf-repository-browser
     multiple="true"
     [isSelectable]="selectable"

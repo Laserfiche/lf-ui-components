@@ -62,6 +62,22 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.repoBrowser?.nativeElement.refreshAsync();
   }
 
+  addSecondColumn() {
+    this.singleSelectRepoBrowser!.nativeElement.columnsToDisplay = [{id: 'create_date', displayName: 'Creation Date'}, {id: 'test_column', displayName: 'Test Column'}]
+  }
+
+  removeSecondColumn() {
+    this.singleSelectRepoBrowser!.nativeElement.columnsToDisplay = [{id: 'create_date', displayName: 'Creation Date'}];
+  }
+
+  addFirstColumn() {
+    this.repoBrowser!.nativeElement.columnsToDisplay = [{id: 'create_date', displayName: 'Creation Date'}];
+  }
+
+  removeAllColumns() {
+    this.repoBrowser!.nativeElement.columnsToDisplay = [];
+  }
+
   private _selectable(node: LfTreeNode): Promise<boolean> {
     if (this.allSelectable) { return Promise.resolve(true); }
     if (node.isContainer) { return Promise.resolve(false); }
