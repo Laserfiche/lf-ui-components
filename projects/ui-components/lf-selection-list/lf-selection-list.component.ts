@@ -1,5 +1,4 @@
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
-import { SelectionModel } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
@@ -15,9 +14,8 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTable } from '@angular/material/table';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
-import { combineLatest, map, Observable, of, Subject, combineLatestWith, startWith } from 'rxjs';
+import { map, Observable, of, Subject, combineLatestWith } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
 
 /** @internal */
@@ -43,12 +41,15 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   @ViewChildren(LfListOptionComponent) options: QueryList<LfListOptionComponent> | undefined;
   @Input() itemSize: number = 42;
+  private additionalColumnDefs: ColumnDef[] = [];
+  allColumnHeaders?: string[] = [];
+  allData: Subject<void> = new Subject<void>();
   /** @internal */
   @Input() listItemRef?: TemplateRef<unknown>; // TODO: figure out how to define TemplateRef for non Angular project
   items: ILfSelectable[] = [];
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
-    this.allData.next(items);
+    this.allData.next();
     this.viewport?.checkViewportSize();
   }
   // - sorting messes with selected indices
@@ -58,9 +59,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   // - resizing columns
   // - accessibility when two repository browsers are on page
   // - update columns -- btton in documentation
-  private additionalColumnDefs: ColumnDef[] = [];
-  allColumnHeaders?: string[] = [];
-  allData: Subject<ILfSelectable[]> = new Subject<ILfSelectable[]>();
 
 
   @Input() set multipleSelection(value: boolean) {
@@ -112,7 +110,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       map((value: any) => {
         console.log(value[1]);
         // Update the datasource for the rendered range of data
-        return value[0].slice(value[1].start, value[1].end);
+        return this.items.slice(value[1].start, value[1].end);
       })
     );
 
@@ -173,7 +171,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         return 0;
       }
     });
-    this.allData.next(sortedData);
+    this.items = sortedData;
+    this.allData.next();
   }
   // When the table content gets focused we check to see if we need to reset the currentFocusIndex
   // we do this by checking to see if it is larger than the list
