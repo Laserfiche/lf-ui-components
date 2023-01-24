@@ -18,7 +18,12 @@ import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-compone
 import { map, Observable, of, Subject, combineLatestWith } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
 
-/** @internal */
+
+export interface ColumnOrderBy {
+  columnId: string;
+  isDesc: boolean;
+}
+
 export interface ColumnDef {
   id: string;
   displayName: string;
@@ -47,17 +52,17 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   @Input() listItemRef?: TemplateRef<unknown>; // TODO: figure out how to define TemplateRef for non Angular project
   items: ILfSelectable[] = [];
+  columnOrderBy?: ColumnOrderBy;
+  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
     this.allData.next();
     this.viewport?.checkViewportSize();
   }
-  // - sorting when not all the data is there
-  // - checkbox in header to select all/remove all
+  // - checkbox in header to select all/remove all -- same thing would need to select all data even data that isn't hthere
   // - formatting
   // - resizing columns
-  // - accessibility when two repository browsers are on page
-
+  // - allow passing in ng-template for name "column"
 
   @Input() set multipleSelection(value: boolean) {
     this._multipleSelectEnabled = value;
@@ -98,9 +103,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     private ref: ChangeDetectorRef
   ) {}
 
-  private compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
   /** @internal */
   ngAfterViewInit(): void {
     this.dataSource = this.allData.pipe(
@@ -140,39 +142,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   sortData(sort: Sort) {
-    const data = this.items;
     if (!sort.active || sort.direction === '') {
       return;
     }
-
-    const sortedData = data?.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      if (sort.active === 'name') {
-        return this.compare((a?.value as any)['name'].toLowerCase(), (b?.value as any)['name'].toLowerCase(), isAsc);
-      } else if (sort.active !== undefined) {
-        const aVal = (a.value as any)?.properties?.get(sort.active).value;
-        const bVal = (b.value as any)?.properties?.get(sort.active).value;
-        // hp tp sort if undefined..
-        if (Object.prototype.toString.call(aVal) === '[object Date]') {
-          return this.compare((aVal as Date).getTime(), (bVal as Date)?.getTime(), isAsc);
-        } else if (typeof aVal === 'number') {
-          return this.compare(aVal, bVal as number, isAsc);
-        } else if (typeof aVal === 'string') {
-          return this.compare(aVal.toLowerCase(), bVal.toLowerCase(), isAsc);
-        } else {
-          // err -- not valid?
-          // or just do straight comparison?
-        }
-        // sort based on a.value.properties[{{sort.active}}].value
-        // if Date sort by date, if number sort by number etc.
-        return 0;
-      } else {
-        return 0;
-      }
-    });
-    this.items = sortedData;
-    this.allData.next();
-    this.selectable.resetSelectedValues(this.items);
+    const sortState: ColumnOrderBy = {columnId: sort.active, isDesc: sort.direction === 'desc'} 
+    this.columnOrderBy = sortState;
+    this.refreshData.emit();
   }
   // When the table content gets focused we check to see if we need to reset the currentFocusIndex
   // we do this by checking to see if it is larger than the list
@@ -290,7 +265,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       event.stopPropagation();
       if (activeElement?.nodeName.toLowerCase() === 'cdk-virtual-scroll-viewport') {
         this.focusCurrentIndex();
-        const ele = document.querySelector('#lf-row-' + this.currentFocusIndex) as HTMLElement;
+        const ele = this.viewport.elementRef.nativeElement.querySelector('#lf-row-' + this.currentFocusIndex) as HTMLElement;
         (ele?.childNodes[0] as HTMLElement).focus();
       } else {
         const moveDirection = event.key === 'ArrowUp' ? -1 : 1;
@@ -300,7 +275,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
           this.currentFocusIndex = this.currentFocusIndex - moveDirection;
         }
         // TODO this dorsn't work  whrn multiple components on page
-        const ele = document.querySelector('#lf-row-' + this.currentFocusIndex) as HTMLElement;
+        const ele = this.viewport.elementRef.nativeElement.querySelector('#lf-row-' + this.currentFocusIndex) as HTMLElement;
         ele?.focus();
       }
       if (!this._checkRowInView(this.currentFocusIndex)) {

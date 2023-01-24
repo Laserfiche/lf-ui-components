@@ -1,8 +1,8 @@
+import { ColumnOrderBy } from '@laserfiche/lf-ui-components/lf-selection-list';
 export interface PropertyValue {
   value: string | Date | number;
   displayValue: string;
 }
-
 
 export interface LfTreeNode {
   id: string;
@@ -28,7 +28,7 @@ export interface LfTreeNodeService {
    * @param folder: string that represents the ID of the folder to get data from
    * @param nextPage: string representing the next page requested. If undefined, the first page is returned
    **/
-  getFolderChildrenAsync(folder: LfTreeNode, nextPage?: string): Promise<LfTreeNodePage>;
+  getFolderChildrenAsync(folder: LfTreeNode, nextPage?: string, orderBy?: ColumnOrderBy): Promise<LfTreeNodePage>;
 
   /**
    * Returns the root LfTreeNode

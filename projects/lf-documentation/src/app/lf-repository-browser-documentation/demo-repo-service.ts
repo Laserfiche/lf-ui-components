@@ -1,4 +1,5 @@
 import { IconUtils } from '@laserfiche/lf-js-utils';
+import { ColumnOrderBy } from './../../../../ui-components/lf-selection-list/lf-selection-list-public-api';
 import {
   LfTreeNodeService,
   LfTreeNode,
@@ -262,7 +263,7 @@ export class DemoRepoService implements LfTreeNodeService {
     }
   }
 
-  getFolderChildrenAsync(folder: LfTreeNode, nextPage?: string): Promise<LfTreeNodePage> {
+  getFolderChildrenAsync(folder: LfTreeNode, nextPage?: string, sort?: ColumnOrderBy): Promise<LfTreeNodePage> {
     const folderId: string = folder.id;
     if (folderId != null && this._testData[folderId]) {
       if (folderId === '16') {
@@ -278,8 +279,9 @@ export class DemoRepoService implements LfTreeNodeService {
         }
         this.lastFolder = folderId;
         const newEntries: LfTreeNode[] = this.createDynamicItems(nextPage);
+        const sorted = this.sortItems(newEntries, sort)
         return Promise.resolve({
-          page: newEntries,
+          page: sorted,
           nextPage: (Number.parseInt(nextPage ?? '0', 10) + 20).toString(),
         });
       }
@@ -308,8 +310,9 @@ export class DemoRepoService implements LfTreeNodeService {
       const testData = this._testData[folderId].filter((data: LfTreeNode) => {
         return data.name.indexOf(this.filter) >= 0;
       });
+      const sortData = this.sortItems(testData, sort);
       return Promise.resolve({
-        page: testData,
+        page: sortData,
         nextPage: undefined,
       });
     }
@@ -318,6 +321,43 @@ export class DemoRepoService implements LfTreeNodeService {
   getRootTreeNodeAsync(): Promise<LfTreeNode> {
     return Promise.resolve(this._rootEntry);
   }
+
+  private compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  sortItems(data: LfTreeNode[], sortState: ColumnOrderBy | undefined) {
+    if (!sortState) {
+      return data;
+    }
+    const sortedData = data?.sort((a, b) => {
+      const isAsc = !sortState.isDesc;
+      if (sortState.columnId === 'name') {
+        return this.compare((a.name.toLowerCase()), (b.name.toLowerCase()), isAsc);
+      } else if (sortState.columnId !== undefined) {
+        const aVal = a.properties?.get(sortState?.columnId)?.value;
+        const bVal = b.properties?.get(sortState?.columnId)?.value;
+        // hp tp sort if undefined..
+        if (Object.prototype.toString.call(aVal) === '[object Date]') {
+          return this.compare((aVal as Date).getTime(), (bVal as Date)?.getTime(), isAsc);
+        } else if (typeof aVal === 'number') {
+          return this.compare(aVal, bVal as number, isAsc);
+        } else if (typeof aVal === 'string') {
+          return this.compare(aVal.toLowerCase(), (bVal as string).toLowerCase(), isAsc);
+        } else {
+          // err -- not valid?
+          // or just do straight comparison?
+        }
+        // sort based on a.value.properties[{{sort.active}}].value
+        // if Date sort by date, if number sort by number etc.
+        return 0;
+      } else {
+        return 0;
+      }
+    });
+    return sortedData;
+  }
+
   async getParentTreeNodeAsync(entry: LfTreeNode): Promise<LfTreeNode | undefined> {
     if (entry.path === '/') {
       return undefined;

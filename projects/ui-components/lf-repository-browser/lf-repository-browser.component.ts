@@ -7,7 +7,6 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { ColumnDef, LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-components/lf-selection-list';
 
-
 @Component({
   selector: 'lf-repository-browser-component',
   templateUrl: './lf-repository-browser.component.html',
@@ -33,11 +32,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Input() itemSize: number = 42;
 
-
   /**
-   * 
+   *
    */
-  @Input() 
+  @Input()
   set columnsToDisplay(cols: ColumnDef[]) {
     this.columns = cols;
   }
@@ -50,20 +48,16 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
    */
   @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode): Promise<void> => {
-    // for each column key, a colum will exist, the data for which will be node.props[key]
-    // if props[key] doesn't exist it will just be empty 
     await this.zone.run(async () => {
       try {
         this.hasError = false;
         this.isLoading = true;
         this.treeNodeService = treeNodeService;
         await this.initializeAsync(selectedNode);
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
         this.hasError = true;
-      }
-      finally {
+      } finally {
         this.isLoading = false;
         this.ref.detectChanges();
       }
@@ -72,7 +66,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
 
   @Input() isSelectable?: (treeNode: LfTreeNode) => Promise<boolean>;
 
- @Input() set multiple(value: boolean | string) {
+  @Input() set multiple(value: boolean | string) {
     if (typeof value === 'string') {
       if (value.toLowerCase() === 'true') {
         value = true;
@@ -100,8 +94,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     }
     if (this.entryList) {
       this.entryList.clearSelectedValues();
-      const selectedNodes: ILfSelectable[] = await this.entryList
-        .setSelectedNodesAsync(selectableValues, this.checkForMoreDataCallback.bind(this), maxFetchIterations);
+      const selectedNodes: ILfSelectable[] = await this.entryList.setSelectedNodesAsync(
+        selectableValues,
+        this.checkForMoreDataCallback.bind(this),
+        maxFetchIterations
+      );
       const selectedItems = this.convertSelectedItemsToTreeNode(selectedNodes);
       this.selectedItems = selectedItems;
       this.entrySelected.emit(this.selectedItems);
@@ -109,7 +106,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   };
 
   @Input()
-  refreshAsync: () => Promise<void> = async () => {
+  refreshAsync: (clearSelectedValues?: boolean) => Promise<void> = async (clearSelectedValues: boolean = true) => {
     try {
       this.hasError = false;
       this.isLoading = true;
@@ -119,17 +116,15 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       if (!this._currentFolder) {
         throw new Error('No root was found, repository browser was unable to refresh.');
       }
-      this.entryList?.clearSelectedValues();
       this.nextPage = undefined;
       this.lastCalledPage = undefined;
       this.maximumChildrenReceived = false;
+      this.currentFolderChildren = [];
       await this.initializeBreadcrumbOptionsAsync(this._currentFolder);
-      await this.updateAllPossibleEntriesAsync(this._currentFolder);
-    }
-    catch {
+      await this.updateAllPossibleEntriesAsync(this._currentFolder, clearSelectedValues);
+    } catch {
       this.hasError = true;
-    }
-    finally {
+    } finally {
       this.isLoading = false;
       this.ref.detectChanges();
     }
@@ -186,7 +181,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   treeNodeService!: LfTreeNodeService;
 
-
   /** @internal */
   readonly OPEN = this.localizationService.getStringLaserficheObservable('OPEN');
   /** @internal */
@@ -242,7 +236,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       }
     });
   }
-
 
   /**
    * @internal
@@ -307,7 +300,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   onEntryFocused(item: ItemWithId | undefined) {
     this.focusedEntry = item;
-    this.entryFocused.emit(item ? item as LfTreeNode : undefined);
+    this.entryFocused.emit(item ? (item as LfTreeNode) : undefined);
   }
 
   /**
@@ -489,7 +482,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    * @param parentEntry
    * @param refresh Not Used currently
    */
-  private async updateAllPossibleEntriesAsync(parentEntry: LfTreeNode, refresh: boolean = false) {
+  private async updateAllPossibleEntriesAsync(parentEntry: LfTreeNode, clearSelected: boolean = true) {
     // If we are already getting data we want to wait for that to finish before resetting and pulling new data.
     if (this.lastDataCall) {
       // If we get an error in the last data call just throw it away.
@@ -499,16 +492,33 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       try {
         this.isLoading = true;
         this.hasError = false;
-        this.resetFolderProperties();
+        if (clearSelected) {
+          this.resetFolderProperties();
+        }
         await this.makeDataCall(parentEntry);
-        this.selectedItems = [];
-        this.entrySelected.emit([]);
+        if (clearSelected) {
+          this.entryList?.clearSelectedValues();
+          this.selectedItems = [];
+          this.entrySelected.emit([]);
+        } else {
+          this.ref.detectChanges();
+          const selected = this.selectedItems;
+          this.entryList?.clearSelectedValues();
+          const selectableValues = await this.mapTreeNodesToLfSelectableAsync(selected ?? []);
+          const selectedNodes: ILfSelectable[] = await this.entryList!.setSelectedNodesAsync(
+            selectableValues,
+            this.checkForMoreDataCallback.bind(this),
+            0
+          );
+          const selectedItems = this.convertSelectedItemsToTreeNode(selectedNodes);
+          this.selectedItems = selectedItems;
+          this.entrySelected.emit(this.selectedItems);
+        }
       } catch (error) {
         console.error(error);
         this.lastDataCall = undefined;
         this.hasError = true;
-      }
-      finally {
+      } finally {
         this.isLoading = false;
         this.ref.detectChanges();
       }
@@ -525,8 +535,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       const selectable = await this.lastDataCall;
       this.lastDataCall = undefined;
       return selectable;
-    }
-    catch (error) {
+    } catch (error) {
       this.hasError = true;
       this.isLoading = false;
       this.ref.detectChanges();
@@ -542,7 +551,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
    */
   private async updateFolderChildrenAsync(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
     this.lastCalledPage = this.nextPage;
-    const dataPage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage);
+    const sortState = this.entryList?.columnOrderBy;
+    const dataPage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage, sortState);
     let selectablePage: ILfSelectable[] = [];
     this.nextPage = dataPage.nextPage;
     const page = dataPage.page;
