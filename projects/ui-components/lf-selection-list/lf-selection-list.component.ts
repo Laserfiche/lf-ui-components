@@ -16,14 +16,13 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { map, Observable, of, Subject, combineLatestWith } from 'rxjs';
-import { LfListOptionComponent } from './lf-list-option.component';
 
-
+/** @internal */
 export interface ColumnOrderBy {
   columnId: string;
   isDesc: boolean;
 }
-
+/** @internal */
 export interface ColumnDef {
   id: string;
   displayName: string;
@@ -43,8 +42,6 @@ export interface SelectedItemEvent {
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
-  /** @internal */
-  @ViewChildren(LfListOptionComponent) options: QueryList<LfListOptionComponent> | undefined;
   @Input() itemSize: number = 42;
   private additionalColumnDefs: ColumnDef[] = [];
   allColumnHeaders?: string[] = [];
@@ -72,7 +69,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     return this._multipleSelectEnabled;
   }
   @Input() set columns(cols: ColumnDef[]) {
-    let toAdd: string[] = this.multipleSelection ? ['select', 'name'] : ['name'];
+    const toAdd: string[] = this.multipleSelection ? ['select', 'name'] : ['name'];
     this.allColumnHeaders = toAdd.concat(cols.map((col) => col.id));
     this.additionalColumnDefs = cols;
     this.ref.detectChanges();
@@ -145,7 +142,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (!sort.active || sort.direction === '') {
       return;
     }
-    const sortState: ColumnOrderBy = {columnId: sort.active, isDesc: sort.direction === 'desc'} 
+    const sortState: ColumnOrderBy = {columnId: sort.active, isDesc: sort.direction === 'desc'};
     this.columnOrderBy = sortState;
     this.refreshData.emit();
   }
@@ -324,12 +321,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (tries >= 10) {
       return;
     }
-    if (this.options == null || this.options.length === 0) {
-      setTimeout(this._focus.bind(this, tries + 1));
-      return;
-    }
     this.focusCurrentIndex();
-    this.options?.get(this.currentFocusIndex)?.focus();
   }
 
   /**
