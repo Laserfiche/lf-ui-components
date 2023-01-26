@@ -279,7 +279,7 @@ export class DemoRepoService implements LfTreeNodeService {
         }
         this.lastFolder = folderId;
         const newEntries: LfTreeNode[] = this.createDynamicItems(nextPage);
-        const sorted = this.sortItems(newEntries, sort)
+        const sorted = this.sortItems(newEntries, sort);
         return Promise.resolve({
           page: sorted,
           nextPage: (Number.parseInt(nextPage ?? '0', 10) + 20).toString(),

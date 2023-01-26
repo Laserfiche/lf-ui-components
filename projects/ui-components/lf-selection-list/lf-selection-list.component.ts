@@ -104,8 +104,6 @@ export class CustomVirtualScrollStrategy extends FixedSizeVirtualScrollStrategy 
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
-  /** @internal */
-  @ViewChildren(LfListOptionComponent) options: QueryList<LfListOptionComponent> | undefined;
   @Input() itemSize: number = 42;
   private additionalColumnDefs: ColumnDef[] = [];
   allColumnHeaders?: string[] = [];
@@ -153,7 +151,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     return this._multipleSelectEnabled;
   }
   @Input() set columns(cols: ColumnDef[]) {
-    let toAdd: string[] = this.multipleSelection ? ['select', 'name'] : ['name'];
+    const toAdd: string[] = this.multipleSelection ? ['select', 'name'] : ['name'];
     this.allColumnHeaders = toAdd.concat(cols.map((col) => col.id));
     this.additionalColumnDefs = cols;
     this.ref.detectChanges();

@@ -35,7 +35,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     if (!this.singleSelectRepoBrowser) {
       throw new Error('repoBrowser is undefined');
     }
-    this.singleSelectRepoBrowser.nativeElement.columnsToDisplay = [{id: propIdCreateDate, displayName: 'Creation Date'}]
+    this.singleSelectRepoBrowser.nativeElement.columnsToDisplay = [{id: propIdCreateDate, displayName: 'Creation Date'}];
     this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
   }
 
@@ -63,7 +63,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   }
 
   addSecondColumn() {
-    this.singleSelectRepoBrowser!.nativeElement.columnsToDisplay = [{id: 'create_date', displayName: 'Creation Date'}, {id: 'test_column', displayName: 'Test Column'}]
+    this.singleSelectRepoBrowser!.nativeElement.columnsToDisplay = [{id: 'create_date', displayName: 'Creation Date'}, {id: 'test_column', displayName: 'Test Column'}];
   }
 
   removeSecondColumn() {
