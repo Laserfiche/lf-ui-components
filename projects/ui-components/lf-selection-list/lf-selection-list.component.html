@@ -13,6 +13,7 @@
       class="mat-elevation-z8 lf-table-selection-list"
       matSort
       (matSortChange)="sortData($event)"
+      [multiTemplateDataRows]="true"
     >
       <ng-container *ngIf="multipleSelection" matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
@@ -54,32 +55,35 @@
         <td mat-cell *matCellDef="let element">{{ element.value.properties?.get(column.id)?.displayValue }}</td>
       </ng-container>
 
-      <tr class="lf-selection-list-header-row" [hidden]="!(columns?.length > 0)" mat-header-row *matHeaderRowDef="allColumnHeaders"></tr>
-      <ng-template
-        let-row
-        let-i="index"
-        matRowDef
-        cdkVirtualFor
-        [matRowDefColumns]="allColumnHeaders"
-        [cdkVirtualForOf]="items"
-      >
-        <tr
-          mat-row
-          tabindex="0"
-          class="item-holder"
-          [ngClass]="{
-            'non-selectable-option': !row.isSelectable,
-            'selectable-option': row.isSelectable,
-            'node-selected': row.isSelected
-          }"
-          [attr.id]="_computeRowId(i)"
-          (click)="onClickMatListOption($event, row, i)"
-          (dblclick)="onDblClick($event, row)"
-          (focusin)="onFocused(i)"
-          (keydown)="onItemKeyDown($event, row)"
-          (keyup)="onItemKeyUp($event, row)"
-        ></tr>
-      </ng-template>
+      <tr
+        class="lf-selection-list-header-row"
+        [hidden]="!(columns?.length > 0)"
+        mat-header-row
+        *matHeaderRowDef="allColumnHeaders"
+      ></tr>
+      <tr
+        [style.height.px]="placeholderHeight"
+        mat-row
+        *matRowDef="let row; let index = index; columns: []; when: placeholderWhen"
+      ></tr>
+
+      <tr
+        mat-row
+        *matRowDef="let row; let i = dataIndex; columns: allColumnHeaders"
+        tabindex="0"
+        class="item-holder"
+        [ngClass]="{
+          'non-selectable-option': !row.isSelectable,
+          'selectable-option': row.isSelectable,
+          'node-selected': row.isSelected
+        }"
+        [attr.id]="_computeRowId(i)"
+        (click)="onClickMatListOption($event, row, i)"
+        (dblclick)="onDblClick($event, row)"
+        (focusin)="onFocused(i)"
+        (keydown)="onItemKeyDown($event, row)"
+        (keyup)="onItemKeyUp($event, row)"
+      ></tr>
     </table>
     <!-- <lf-list-option-component
             *cdkVirtualFor="let item of listItems; let index = index;"

@@ -89,3 +89,7 @@ tr.mat-header-row.lf-selection-list-header-row {
   border-top-color: rgb(0,0,0,0.12);
   border-top-width: 1px;
 }
+
+::ng-deep .cdk-virtual-scroll-content-wrapper {
+  transform: translateY(0px) !important;
+}

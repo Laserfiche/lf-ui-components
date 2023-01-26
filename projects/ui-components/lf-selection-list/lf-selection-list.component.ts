@@ -1,5 +1,6 @@
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { CdkVirtualScrollViewport, FixedSizeVirtualScrollStrategy } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -15,9 +16,8 @@ import {
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
-import { map, Observable, of, Subject, combineLatestWith } from 'rxjs';
+import { map, Observable, of, Subject, combineLatestWith, BehaviorSubject } from 'rxjs';
 import { LfListOptionComponent } from './lf-list-option.component';
-
 
 export interface ColumnOrderBy {
   columnId: string;
@@ -34,6 +34,67 @@ export interface SelectedItemEvent {
   selectedItems: ILfSelectable[] | undefined;
 }
 
+const PAGESIZE = 20;
+const ROW_HEIGHT = 48;
+
+export class GridTableDataSource extends DataSource<any> {
+  private _data: any[];
+
+  get allData(): ILfSelectable[] {
+    return this._data.slice();
+  }
+
+  set allData(data: ILfSelectable[]) {
+    this._data = data;
+  }
+
+  set firstSetData(data: ILfSelectable[]) {
+    this._data = data;
+    this.viewport.setTotalContentSize(this.itemSize * data.length);
+    this.visibleData.next(this._data.slice(0, PAGESIZE));
+  }
+
+  offset = 0;
+  offsetChange = new BehaviorSubject(0);
+  constructor(initialData: ILfSelectable[], private viewport: CdkVirtualScrollViewport, private itemSize: number) {
+    super();
+    this._data = initialData;
+    this.viewport.setTotalContentSize(this.itemSize * initialData.length);
+    this.visibleData.next(this._data.slice(0, PAGESIZE));
+    this.viewport.elementScrolled().subscribe((ev: any) => {
+      const start = Math.floor(ev.currentTarget.scrollTop / ROW_HEIGHT);
+      const prevExtraData = start > 5 ? 5 : 0;
+      // const prevExtraData = 0;
+      const slicedData = this._data.slice(start - prevExtraData, start + (PAGESIZE - prevExtraData));
+      this.offset = ROW_HEIGHT * (start - prevExtraData);
+      this.viewport.setRenderedContentOffset(this.offset);
+      this.offsetChange.next(this.offset);
+      this.visibleData.next(slicedData);
+    });
+  }
+
+  private readonly visibleData: BehaviorSubject<ILfSelectable[]> = new BehaviorSubject<ILfSelectable[]>([]);
+
+  connect(collectionViewer: CollectionViewer): Observable<any[] | ReadonlyArray<any>> {
+    return this.visibleData;
+  }
+
+  disconnect(collectionViewer: CollectionViewer): void {}
+}
+
+/**
+ * Virtual Scroll Strategy
+ */
+export class CustomVirtualScrollStrategy extends FixedSizeVirtualScrollStrategy {
+  constructor() {
+    super(ROW_HEIGHT, 1000, 2000);
+  }
+
+  attach(viewport: CdkVirtualScrollViewport): void {
+    this.onDataLengthChanged();
+  }
+}
+
 /** @internal */
 @Component({
   selector: 'lf-selection-list-component',
@@ -48,16 +109,36 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Input() itemSize: number = 42;
   private additionalColumnDefs: ColumnDef[] = [];
   allColumnHeaders?: string[] = [];
-  allData: Subject<void> = new Subject<void>();
   /** @internal */
-  @Input() listItemRef?: TemplateRef<unknown>; // TODO: figure out how to define TemplateRef for non Angular project
   items: ILfSelectable[] = [];
   columnOrderBy?: ColumnOrderBy;
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
+  placeholderHeight: number = 0;
+
+  // need to update data on scroll
+  // need to update viewable data on scroll
+  // need to update viewable data on adding data? (or removing data) -- need to not start
+  // maybe srotre the previous start?? and if we are just adding data, use previous value
+  // if setting data, set start to 0
+  // how to know if setting vs updating??
+
   @Input() set listItems(items: ILfSelectable[]) {
-    this.items = items;
-    this.allData.next();
-    this.viewport?.checkViewportSize();
+    if (!this.items || this.items.length === 0) {
+      if (this.dataSource) {
+        this.items = items;
+        this.dataSource!.firstSetData = this.items;
+      }
+    } else {
+      this.items = items;
+      if (this.dataSource) {
+        this.dataSource.allData = items;
+      }
+    }
+    // this.viewport?.checkViewportSize();
+  }
+
+  placeholderWhen(index: number, _: any) {
+    return index == 0;
   }
   // - checkbox in header to select all/remove all -- same thing would need to select all data even data that isn't hthere
   // - formatting
@@ -81,7 +162,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     return this.additionalColumnDefs;
   }
 
-  dataSource: Observable<Array<ILfSelectable>> = of([]);
+  dataSource?: GridTableDataSource;
   @Output() scrollChanged = new EventEmitter<undefined>();
   @Output() itemDoubleClicked = new EventEmitter<ItemWithId>();
   @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
@@ -105,14 +186,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   /** @internal */
   ngAfterViewInit(): void {
-    this.dataSource = this.allData.pipe(
-      combineLatestWith(this.viewport!.renderedRangeStream),
-      map((value: any) => {
-        console.log(value[1]);
-        // Update the datasource for the rendered range of data
-        return this.items.slice(value[1].start, value[1].end);
-      })
-    );
+    this.dataSource = new GridTableDataSource(this.items, this.viewport!, this.itemSize);
+    this.dataSource.offsetChange.subscribe((offset) => {
+      this.placeholderHeight = offset;
+    });
 
     // this.dataSource.sort = this.sort;
     // // somehow don't sort until we have all the data
@@ -145,7 +222,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (!sort.active || sort.direction === '') {
       return;
     }
-    const sortState: ColumnOrderBy = {columnId: sort.active, isDesc: sort.direction === 'desc'} 
+    const sortState: ColumnOrderBy = { columnId: sort.active, isDesc: sort.direction === 'desc' };
     this.columnOrderBy = sortState;
     this.refreshData.emit();
   }
@@ -242,7 +319,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   onFocused(index: number) {
     this.currentFocusIndex = index;
-    this.itemFocused.emit(this.items[index].value);
+    // TODO this is
+    this.itemFocused.emit(this.items[index]?.value);
   }
 
   /** @internal */
@@ -265,7 +343,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       event.stopPropagation();
       if (activeElement?.nodeName.toLowerCase() === 'cdk-virtual-scroll-viewport') {
         this.focusCurrentIndex();
-        const ele = this.viewport.elementRef.nativeElement.querySelector('#lf-row-' + this.currentFocusIndex) as HTMLElement;
+        const ele = this.viewport.elementRef.nativeElement.querySelector(
+          '#lf-row-' + this.currentFocusIndex
+        ) as HTMLElement;
         (ele?.childNodes[0] as HTMLElement).focus();
       } else {
         const moveDirection = event.key === 'ArrowUp' ? -1 : 1;
@@ -275,7 +355,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
           this.currentFocusIndex = this.currentFocusIndex - moveDirection;
         }
         // TODO this dorsn't work  whrn multiple components on page
-        const ele = this.viewport.elementRef.nativeElement.querySelector('#lf-row-' + this.currentFocusIndex) as HTMLElement;
+        const ele = this.viewport.elementRef.nativeElement.querySelector(
+          '#lf-row-' + this.currentFocusIndex
+        ) as HTMLElement;
         ele?.focus();
       }
       if (!this._checkRowInView(this.currentFocusIndex)) {
@@ -324,12 +406,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (tries >= 10) {
       return;
     }
-    if (this.options == null || this.options.length === 0) {
-      setTimeout(this._focus.bind(this, tries + 1));
-      return;
-    }
     this.focusCurrentIndex();
-    this.options?.get(this.currentFocusIndex)?.focus();
   }
 
   /**
