@@ -32,7 +32,7 @@ export class DemoRepoService implements LfTreeNodeService {
       isLeaf: false,
       name: 'folder2',
       path: '/2',
-      properties: new Map<string, PropertyValue>([
+      attributes: new Map<string, PropertyValue>([
         [propIdCreateDate, { value: this.currentDate, displayValue: this.currentDate.toLocaleString() }],
       ]),
     },
@@ -335,8 +335,8 @@ export class DemoRepoService implements LfTreeNodeService {
       if (sortState.columnId === 'name') {
         return this.compare((a.name.toLowerCase()), (b.name.toLowerCase()), isAsc);
       } else if (sortState.columnId !== undefined) {
-        const aVal = a.properties?.get(sortState?.columnId)?.value;
-        const bVal = b.properties?.get(sortState?.columnId)?.value;
+        const aVal = a.attributes?.get(sortState?.columnId)?.value;
+        const bVal = b.attributes?.get(sortState?.columnId)?.value;
         // hp tp sort if undefined..
         if (Object.prototype.toString.call(aVal) === '[object Date]') {
           return this.compare((aVal as Date).getTime(), (bVal as Date)?.getTime(), isAsc);

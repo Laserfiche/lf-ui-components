@@ -11,7 +11,7 @@ export interface LfTreeNode {
   isLeaf: boolean;
   name: string;
   path: string;
-  properties?: Map<string, PropertyValue>;
+  attributes?: Map<string, PropertyValue>;
 }
 
 export interface LfTreeNodePage {
