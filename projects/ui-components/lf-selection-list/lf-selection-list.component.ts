@@ -9,15 +9,11 @@ import {
   Input,
   OnDestroy,
   Output,
-  QueryList,
-  TemplateRef,
   ViewChild,
-  ViewChildren,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
-import { map, Observable, of, Subject, combineLatestWith, BehaviorSubject } from 'rxjs';
-import { LfListOptionComponent } from './lf-list-option.component';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 export interface ColumnOrderBy {
   columnId: string;
@@ -45,13 +41,17 @@ export class GridTableDataSource extends DataSource<any> {
   }
 
   set allData(data: ILfSelectable[]) {
+    const existingData = this._data;
     this._data = data;
+    this.viewport.setTotalContentSize(this.itemSize * this._data.length);
+    if (!existingData || existingData.length === 0) {
+      this.resetView();
+    }
   }
 
-  set firstSetData(data: ILfSelectable[]) {
-    this._data = data;
-    this.viewport.setTotalContentSize(this.itemSize * data.length);
+  private resetView() {
     this.visibleData.next(this._data.slice(0, PAGESIZE));
+    this.viewport.scrollTo({ top: 0 });
   }
 
   offset = 0;
@@ -113,35 +113,16 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
   placeholderHeight: number = 0;
 
-  // need to update data on scroll
-  // need to update viewable data on scroll
-  // need to update viewable data on adding data? (or removing data) -- need to not start
-  // maybe srotre the previous start?? and if we are just adding data, use previous value
-  // if setting data, set start to 0
-  // how to know if setting vs updating??
-
   @Input() set listItems(items: ILfSelectable[]) {
-    if (!this.items || this.items.length === 0) {
-      if (this.dataSource) {
-        this.items = items;
-        this.dataSource!.firstSetData = this.items;
-      }
-    } else {
+    if (this.dataSource) {
       this.items = items;
-      if (this.dataSource) {
-        this.dataSource.allData = items;
-      }
+      this.dataSource.allData = this.items;
     }
-    // this.viewport?.checkViewportSize();
   }
 
   placeholderWhen(index: number, _: any) {
     return index == 0;
   }
-  // - checkbox in header to select all/remove all -- same thing would need to select all data even data that isn't hthere
-  // - formatting
-  // - resizing columns
-  // - allow passing in ng-template for name "column"
 
   @Input() set multipleSelection(value: boolean) {
     this._multipleSelectEnabled = value;
@@ -188,9 +169,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.dataSource.offsetChange.subscribe((offset) => {
       this.placeholderHeight = offset;
     });
-
-    // this.dataSource.sort = this.sort;
-    // // somehow don't sort until we have all the data
 
     if (this.viewport?.elementRef.nativeElement) {
       this.focusMonitor.monitor(this.viewport?.elementRef.nativeElement, true).subscribe((origin: FocusOrigin) => {
@@ -301,15 +279,15 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   /** @internal */
-  onScroll(event: Observable<number>) {
+  onScroll(event: number) {
     if (this.viewport == null) {
       console.error('Viewport was not defined when onScroll was called');
       return;
     }
     // If the viewport is at the end we should try and pull more data
-    const end = this.viewport.getRenderedRange().end;
-    const total = this.viewport.getDataLength();
-    if (end === total) {
+    const end = event + 10;
+    const total = this.items.length ? this.items.length - 1 : 0;
+    if ((total > 0 && end === total) || end > total) {
       this.scrollChanged.emit();
     }
   }

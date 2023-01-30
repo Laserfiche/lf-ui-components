@@ -59,7 +59,7 @@
         class="lf-selection-list-header-row"
         [hidden]="!(columns?.length > 0)"
         mat-header-row
-        *matHeaderRowDef="allColumnHeaders"
+        *matHeaderRowDef="allColumnHeaders; sticky: true"
       ></tr>
       <tr
         [style.height.px]="placeholderHeight"

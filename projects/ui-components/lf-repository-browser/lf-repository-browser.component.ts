@@ -120,6 +120,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
       this.lastCalledPage = undefined;
       this.maximumChildrenReceived = false;
       this.currentFolderChildren = [];
+      this.ref.detectChanges();
       await this.initializeBreadcrumbOptionsAsync(this._currentFolder);
       await this.updateAllPossibleEntriesAsync(this._currentFolder, clearSelectedValues);
     } catch {
@@ -446,8 +447,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   private resetFolderProperties() {
     this.hasError = false;
     this.entryList?.clearSelectedValues();
-    this.ref.detectChanges();
     this.currentFolderChildren = [];
+    this.ref.detectChanges();
+    
     //this._focused_node = undefined;
     this.nextPage = undefined;
     this.lastCalledPage = undefined;
@@ -557,6 +559,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.nextPage = dataPage.nextPage;
     const page = dataPage.page;
     selectablePage = await this.mapTreeNodesToLfSelectableAsync(page);
+    // if this was getting the first page, need to now refresh the data size....
+    this.isLoading = false; // this is required because the view won't update if isLoading is true...
     this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
     if (this.nextPage) {
       this.maximumChildrenReceived = false;
