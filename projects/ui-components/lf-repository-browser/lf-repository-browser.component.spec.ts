@@ -12,6 +12,7 @@ import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-com
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { LfSelectionListModule } from '../lf-selection-list/lf-selection-list.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const rootTreeNode: LfTreeNode = {
   icon: '',
@@ -43,6 +44,7 @@ const rootTreeNodeChildren: LfTreeNode[] = [
 
 const moduleDef: TestModuleMetadata = {
   imports: [
+    BrowserAnimationsModule,
     MatListModule,
     MatIconModule,
     FormsModule,
@@ -63,12 +65,12 @@ describe('LfRepositoryBrowserComponent', () => {
   }));
 
   beforeEach(async () => {
-    changeRefMock = jasmine.createSpyObj('changeDetectorRef', ['detectChanges']);
-    localizeServiceMock = jasmine.createSpyObj('localizeion', {
+    changeRefMock = jasmine.createSpyObj('ref', ['detectChanges']);
+    localizeServiceMock = jasmine.createSpyObj('localizationService', {
       getStringLaserficheObservable: (value: string) => value,
     });
-    matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
-    ngZoneMock = jasmine.createSpyObj('ngZone', {
+    matDialogMock = jasmine.createSpyObj('popupDialog', ['open']);
+    ngZoneMock = jasmine.createSpyObj('zone', {
       run: (cb: Function) => cb(),
     });
 

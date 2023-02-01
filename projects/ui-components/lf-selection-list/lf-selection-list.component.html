@@ -1,109 +1,87 @@
-<ng-container #displayedEntryList>
-  <cdk-virtual-scroll-viewport
-    #viewport
-    id="lf-list-viewport"
-    [itemSize]="itemSize"
-    (scrolledIndexChange)="onScroll($event)"
-    (keydown)="onViewportKeyDown($event)"
+<cdk-virtual-scroll-viewport
+  #viewport
+  id="lf-list-viewport"
+  [itemSize]="itemSize"
+  (scrolledIndexChange)="onScroll($event)"
+  (keydown)="onViewportKeyDown($event)"
+>
+  <table
+    role="grid"
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z8 lf-table-selection-list"
+    matSort
+    (matSortChange)="sortData($event)"
+    [multiTemplateDataRows]="true"
   >
-    <table
-      role="grid"
-      mat-table
-      [dataSource]="dataSource"
-      class="mat-elevation-z8 lf-table-selection-list"
-      matSort
-      (matSortChange)="sortData($event)"
-      [multiTemplateDataRows]="true"
-    >
-      <ng-container *ngIf="multipleSelection" matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
-          <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+    <ng-container *ngIf="multipleSelection" matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
                             [checked]="selection.hasValue() && isAllSelected()"
                             [indeterminate]="selection.hasValue() && !isAllSelected()">
               </mat-checkbox> -->
-        </th>
-        <td mat-cell class="multiselect-column" *matCellDef="let row">
-          <mat-checkbox
-            class="lf-checkbox multiselect-indicator lf-no-ripple"
-            *ngIf="multipleSelection && row?.isSelectable"
-            tabindex="-1"
-            [checked]="row?.isSelected"
-            color="primary"
-            (click)="onCheckboxClicked($event)"
-            disableRipple
-            [checked]="row.isSelected"
-          >
-          </mat-checkbox>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-        <td mat-cell *matCellDef="let element">
-          <div class="icon-name-container">
-            <div *ngIf="getIcons(element.value).length > 0" class="fixed-size-icon-container">
-              <img *ngFor="let icon of getIcons(element.value)" src="{{ icon }}" alt="" class="lf-entry-icon" />
-            </div>
-            <span title="{{ element.value?.name }}">
-              <span>{{ element.value?.name }}</span>
-            </span>
+      </th>
+      <td mat-cell class="multiselect-column" *matCellDef="let row">
+        <mat-checkbox
+          class="lf-checkbox multiselect-indicator lf-no-ripple"
+          *ngIf="multipleSelection && row?.isSelectable"
+          tabindex="-1"
+          [checked]="row?.isSelected"
+          color="primary"
+          (click)="onCheckboxClicked($event)"
+          disableRipple
+          [checked]="row.isSelected"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element">
+        <div class="icon-name-container">
+          <div *ngIf="getIcons(element.value).length > 0" class="fixed-size-icon-container">
+            <img *ngFor="let icon of getIcons(element.value)" src="{{ icon }}" alt="" class="lf-entry-icon" />
           </div>
-        </td></ng-container
-      >
+          <span title="{{ element.value?.name }}">
+            <span>{{ element.value?.name }}</span>
+          </span>
+        </div>
+      </td></ng-container
+    >
 
-      <ng-container [matColumnDef]="column.id" *ngFor="let column of columns">
-        <th mat-sort-header mat-header-cell *matHeaderCellDef>{{ column.displayName }}</th>
-        <td mat-cell *matCellDef="let element">{{ element.value.properties?.get(column.id)?.displayValue }}</td>
-      </ng-container>
+    <ng-container [matColumnDef]="column.id" *ngFor="let column of columns">
+      <th mat-sort-header mat-header-cell *matHeaderCellDef>{{ column.displayName }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.value.attributes?.get(column.id)?.displayValue }}</td>
+    </ng-container>
 
-      <tr
-        class="lf-selection-list-header-row"
-        [hidden]="!(columns?.length > 0)"
-        mat-header-row
-        *matHeaderRowDef="allColumnHeaders; sticky: true"
-      ></tr>
-      <tr
-        [style.height.px]="placeholderHeight"
-        mat-row
-        *matRowDef="let row; let index = index; columns: []; when: placeholderWhen"
-      ></tr>
+    <tr
+      class="lf-selection-list-header-row"
+      [hidden]="!(columns?.length > 0)"
+      mat-header-row
+      *matHeaderRowDef="allColumnHeaders; sticky: true"
+    ></tr>
+    <tr
+      [style.height.px]="placeholderHeight"
+      mat-row
+      *matRowDef="let row; let index = index; columns: []; when: placeholderWhen"
+    ></tr>
 
-      <tr
-        mat-row
-        *matRowDef="let row; let i = dataIndex; columns: allColumnHeaders"
-        tabindex="0"
-        class="item-holder"
-        [ngClass]="{
-          'non-selectable-option': !row.isSelectable,
-          'selectable-option': row.isSelectable,
-          'node-selected': row.isSelected
-        }"
-        [attr.id]="_computeRowId(i)"
-        (click)="onClickMatListOption($event, row, i)"
-        (dblclick)="onDblClick($event, row)"
-        (focusin)="onFocused(i)"
-        (keydown)="onItemKeyDown($event, row)"
-        (keyup)="onItemKeyUp($event, row)"
-      ></tr>
-    </table>
-    <!-- <lf-list-option-component
-            *cdkVirtualFor="let item of listItems; let index = index;"
-            [attr.id]="_computeRowId(index)"
-            [item]="item"
-            [ngClass]="{
-                'non-selectable-option': !item.isSelectable,
-                'selectable-option': item.isSelectable,
-                'node-selected': item.isSelected
-            }"
-            class="lf-entry-option"
-            [focused]="_checkFocused(index)"
-            (focusin)="onFocused(index)"
-            [selected]="item.isSelected"
-            [listItemRef]="listItemRef"
-            [multipleSelection]="multiple"
-            (click)="onClickMatListOption($event, item, index)"
-            (dblclick)="onDblClick($event, item)"
-            (keydown)="onItemKeyDown($event, item)"
-            (keyup)="onItemKeyUp($event, item)">
-        </lf-list-option-component> -->
-  </cdk-virtual-scroll-viewport>
-</ng-container>
+    <tr
+      mat-row
+      *matRowDef="let row; let i = dataIndex; columns: allColumnHeaders"
+      tabindex="0"
+      class="item-holder"
+      [ngClass]="{
+        'non-selectable-option': !row.isSelectable,
+        'selectable-option': row.isSelectable,
+        'node-selected': row.isSelected
+      }"
+      [attr.id]="_computeRowId(i)"
+      (click)="onClickMatListOption($event, row, i)"
+      (dblclick)="onDblClick($event, row)"
+      (focusin)="onFocused(i)"
+      (keydown)="onItemKeyDown($event, row)"
+      (keyup)="onItemKeyUp($event, row)"
+    ></tr>
+  </table>
+</cdk-virtual-scroll-viewport>

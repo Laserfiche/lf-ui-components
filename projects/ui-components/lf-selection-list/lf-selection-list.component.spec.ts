@@ -1,10 +1,12 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { NgElement, WithProperties } from '@angular/elements';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
-import { LfListOptionComponent } from './lf-list-option.component';
-
 import { LfSelectionListComponent, SelectedItemEvent } from './lf-selection-list.component';
 
 const itemList: ILfSelectable[] = [
@@ -36,7 +38,7 @@ const itemList: ILfSelectable[] = [
   template: `<div style="width: 100%; height: 250px;">
     <lf-selection-list-component id="lf-selection-list"
       style="height: 100%;"
-      [listItems]="items" [multiple]="multiple"
+      [listItems]="items" [multipleSelection]="multiple"
       (scrollChanged)="onScroll($event)"
       (itemSelected)="onitemSelected($event)"
       (itemDoubleClicked)="onItemDoubleClicked($event)"
@@ -64,17 +66,19 @@ export class LfListTestComponent {
   }
 }
 
-
 describe('LfListComponent single select', () => {
   let component: LfListTestComponent;
   let fixture: ComponentFixture<LfListTestComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfListTestComponent, LfSelectionListComponent, LfListOptionComponent ],
+      declarations: [ LfListTestComponent, LfSelectionListComponent ],
       imports: [
         CommonModule,
-        ScrollingModule
+        ScrollingModule,
+        MatCheckboxModule,
+        MatTableModule,
+        MatSortModule
       ]
     })
     .compileComponents();
@@ -183,8 +187,7 @@ describe('LfListComponent single select', () => {
   describe('focus', () => {
     it('should focus the first list time when focus is called', fakeAsync(() => {
       // Arrange
-      const focusItem = fixture.nativeElement.querySelector('#lf-row-0 #item-holder');
-      
+      const focusItem = fixture.nativeElement.querySelector('#lf-row-0.item-holder');
       // Act
       component.list?.focus();
       flush();
@@ -195,8 +198,8 @@ describe('LfListComponent single select', () => {
 
     it('should be able to move the focus with the arrow keys', fakeAsync(() => {
       // Arrange
-      const firstFocusItem = fixture.nativeElement.querySelector('#lf-row-1 #item-holder');
-      const secondFocusItem = fixture.nativeElement.querySelector('#lf-row-0 #item-holder');
+      const firstFocusItem = fixture.nativeElement.querySelector('#lf-row-1.item-holder');
+      const secondFocusItem = fixture.nativeElement.querySelector('#lf-row-0.item-holder');
       const listElement = fixture.nativeElement.querySelector('#lf-list-viewport');
       const downEvent = new KeyboardEvent('keydown', {
         'key': 'ArrowDown',
@@ -238,7 +241,7 @@ describe('LfListComponent multi select', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfListTestComponent, LfSelectionListComponent, LfListOptionComponent ],
+      declarations: [ LfListTestComponent, LfSelectionListComponent ],
       imports: [
         CommonModule,
         ScrollingModule

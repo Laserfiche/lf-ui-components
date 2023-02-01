@@ -39,8 +39,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   set columnsToDisplay(cols: ColumnDef[]) {
     this.columns = cols;
   }
-  // re-render columns/etc. if this is updated
-  // be able to set columns before initAsync
 
   /**
    * function to initialize the lf-repository-browser component

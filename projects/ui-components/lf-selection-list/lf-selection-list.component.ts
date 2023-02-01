@@ -103,10 +103,10 @@ export class CustomVirtualScrollStrategy extends FixedSizeVirtualScrollStrategy 
 })
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
-  @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport | undefined;
+  @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
   @Input() itemSize: number = 42;
   private additionalColumnDefs: ColumnDef[] = [];
-  allColumnHeaders?: string[] = [];
+  allColumnHeaders?: string[];
   /** @internal */
   items: ILfSelectable[] = [];
   columnOrderBy?: ColumnOrderBy;
@@ -114,8 +114,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   placeholderHeight: number = 0;
 
   @Input() set listItems(items: ILfSelectable[]) {
+    this.items = items;
     if (this.dataSource) {
-      this.items = items;
       this.dataSource.allData = this.items;
     }
   }
@@ -166,6 +166,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   ngAfterViewInit(): void {
     this.dataSource = new GridTableDataSource(this.items, this.viewport!, this.itemSize);
+    this.ref.detectChanges();
     this.dataSource.offsetChange.subscribe((offset) => {
       this.placeholderHeight = offset;
     });
@@ -383,6 +384,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       return;
     }
     this.focusCurrentIndex();
+    const ele = this.viewport?.elementRef.nativeElement.querySelector(
+      '#lf-row-' + this.currentFocusIndex
+    ) as HTMLElement;
+    ele?.focus();
   }
 
   /**
