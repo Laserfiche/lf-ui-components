@@ -8,6 +8,7 @@ import {
 } from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
 
 export const propIdCreateDate: string = 'create_date';
+export const propIdNumberCol: string = 'number_col';
 
 export class DemoRepoService implements LfTreeNodeService {
   breadCrumb: LfTreeNode[] = [];
@@ -33,7 +34,7 @@ export class DemoRepoService implements LfTreeNodeService {
       name: 'folder2',
       path: '/2',
       attributes: new Map<string, PropertyValue>([
-        [propIdCreateDate, { value: this.currentDate, displayValue: this.currentDate.toLocaleString() }],
+        [propIdCreateDate, { value: this.currentDate, displayValue: Intl.DateTimeFormat().format(this.currentDate) }],
       ]),
     },
     '3': {
@@ -252,6 +253,7 @@ export class DemoRepoService implements LfTreeNodeService {
 
   constructor() {
     for (let i = 0; i < 10000; i++) {
+      const number = i%1000;
       this._testData['17'].push({
         icon: IconUtils.getDocumentIconUrlFromIconId('document-20'),
         id: i.toString(),
@@ -259,6 +261,9 @@ export class DemoRepoService implements LfTreeNodeService {
         isLeaf: true,
         name: `generated entry ${i}`,
         path: `/17/${i}`,
+        attributes: new Map<string, PropertyValue>([
+          [propIdNumberCol, { value: number, displayValue: `${number}` }],
+        ]),
       });
     }
   }
@@ -333,7 +338,7 @@ export class DemoRepoService implements LfTreeNodeService {
     const sortedData = data?.sort((a, b) => {
       const isAsc = !sortState.isDesc;
       if (sortState.columnId === 'name') {
-        return this.compare((a.name.toLowerCase()), (b.name.toLowerCase()), isAsc);
+        return this.compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc);
       } else if (sortState.columnId !== undefined) {
         const aVal = a.attributes?.get(sortState?.columnId)?.value;
         const bVal = b.attributes?.get(sortState?.columnId)?.value;
