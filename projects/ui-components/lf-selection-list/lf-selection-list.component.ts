@@ -5,13 +5,17 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
   Output,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
+import { MatTable } from '@angular/material/table';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Observable, BehaviorSubject } from 'rxjs';
 
@@ -23,6 +27,7 @@ export interface ColumnOrderBy {
 export interface ColumnDef {
   id: string;
   displayName: string;
+  width: number;
 }
 /** @internal */
 export interface SelectedItemEvent {
@@ -111,7 +116,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   items: ILfSelectable[] = [];
   columnOrderBy?: ColumnOrderBy;
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
-  placeholderHeight: number = 0;
+  selectColumnDef: ColumnDef = { id: 'select', displayName: '', width: 50 };
+  nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', width: 50 };
+  allColumnDefs: ColumnDef[] = [];
+  @ViewChild(MatTable, { read: ElementRef }) private matTableRef?: ElementRef;
 
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
@@ -131,11 +139,16 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   get multipleSelection(): boolean {
     return this._multipleSelectEnabled;
   }
+
   @Input() set columns(cols: ColumnDef[]) {
-    const toAdd: string[] = this.multipleSelection ? ['select', 'name'] : ['name'];
-    this.allColumnHeaders = toAdd.concat(cols.map((col) => col.id));
+    const toAdd: ColumnDef[] = this.multipleSelection
+      ? [this.selectColumnDef, this.nameColumnDef]
+      : [this.nameColumnDef];
+    this.allColumnDefs = toAdd.concat(cols);
+    this.allColumnHeaders = this.allColumnDefs.map((col) => col.id);
     this.additionalColumnDefs = cols;
     this.ref.detectChanges();
+    setTimeout(() => this.setTableResize(this.matTableRef!.nativeElement.clientWidth));
   }
   get columns(): ColumnDef[] {
     return this.additionalColumnDefs;
@@ -160,7 +173,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   constructor(
     /** @internal */
     private focusMonitor: FocusMonitor,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private renderer: Renderer2
   ) {}
 
   /** @internal */
@@ -178,6 +192,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         }
       });
     }
+    // this.setTableResize(this.matTableRef!.nativeElement.clientWidth);
   }
 
   onCheckboxClicked(event: MouseEvent) {
@@ -397,5 +412,111 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
    */
   getIcons(entry: any): string[] {
     return typeof entry.icon === 'string' ? [entry.icon] : entry.icon;
+  }
+
+  // column resizing
+
+  placeholderHeight: number = 0;
+  isResizingRight?: boolean;
+  currentResizeIndex: number = -1;
+  pressed: boolean = false;
+  startWidth?: number;
+  startX?: number;
+  resizableMousemove?: () => void;
+  resizableMouseup?: () => void;
+
+  onResizeColumn(ev: MouseEvent, index: number) {
+    this.checkResizing(ev, index);
+    this.currentResizeIndex = index;
+    this.pressed = true;
+    this.startX = ev.pageX;
+    this.startWidth = (ev.target as any)?.parentElement.clientWidth;
+    ev.preventDefault();
+    this.mouseMove(index);
+  }
+
+  private checkResizing(ev: MouseEvent, index: number) {
+    const cellRect = this.getCellDimensions(index);
+    if (
+      index === 0 ||
+      (cellRect && Math.abs(ev.pageX - cellRect.right) < cellRect.width / 2 && index !== this.allColumnDefs.length - 1)
+    ) {
+      this.isResizingRight = true;
+    } else {
+      this.isResizingRight = false;
+    }
+  }
+
+  private getCellDimensions(index: number): DOMRect | undefined {
+    // const headerRow = this.matTableRef?.nativeElement.children[0]
+    const headerRow = this.matTableRef?.nativeElement.children[0].querySelector('tr');
+    const cell = headerRow?.children[index];
+    return cell?.getBoundingClientRect();
+  }
+
+  mouseMove(index: number) {
+    this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event) => {
+      if (this.pressed && event.buttons) {
+        const dx = this.isResizingRight ? event.pageX - this.startX! : -event.pageX + this.startX!;
+        const width = this.startWidth! + dx;
+        if (this.currentResizeIndex === index && width > 50) {
+          this.setColumnWidthChanges(index, width);
+        }
+      }
+    });
+    this.resizableMouseup = this.renderer.listen('document', 'mouseup', (event) => {
+      if (this.pressed) {
+        this.pressed = false;
+        this.currentResizeIndex = -1;
+        if (this.resizableMousemove) this.resizableMousemove();
+        if (this.resizableMouseup) this.resizableMouseup();
+      }
+    });
+  }
+
+  setColumnWidthChanges(index: number, width: number) {
+    const orgWidth = this.allColumnDefs[index].width;
+    const dx = width - orgWidth;
+    if (dx !== 0) {
+      const j = this.isResizingRight ? index + 1 : index - 1;
+      const newWidth = this.allColumnDefs[j].width - dx;
+      if (newWidth > 50) {
+        this.allColumnDefs[index].width = width;
+        this.setColumnWidth(this.allColumnDefs[index]);
+        this.allColumnDefs[j].width = newWidth;
+        this.setColumnWidth(this.allColumnDefs[j]);
+      }
+    }
+  }
+
+  setColumnWidth(column: ColumnDef) {
+    const columnEls = Array.from(document.getElementsByClassName('mat-column-' + column.id));
+    columnEls.forEach((el: Element) => {
+      (el as HTMLDivElement).style.width = column.width + 'px';
+    });
+  }
+
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: UIEvent) {
+  //   // wedon't want this on window resize but maybe on parent resize
+  //   this.setTableResize(this.matTableRef?.nativeElement.clientWidth);
+  // }
+
+  // ngAfterViewInit() {
+  //   this.setTableResize(this.matTableRef.nativeElement.clientWidth);
+  // }
+
+  setTableResize(tableWidth: number) {
+    let totWidth = 0;
+    this.allColumnDefs.forEach((column) => {
+      totWidth += column.width;
+    });
+    if (tableWidth > 0) {
+      const scale = (tableWidth - 5) / totWidth;
+      this.allColumnDefs.forEach((column) => {
+        column.width *= scale;
+        this.setColumnWidth(column);
+      });
+    }
   }
 }

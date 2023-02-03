@@ -32,7 +32,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       if (!this.repoBrowser) {
         throw new Error('repoBrowser is undefined');
       }
-      // this.repoBrowser.nativeElement.columnsToDisplay = [{id: propIdCreateDate, displayName: 'Creation Date'}]
+      this.repoBrowser.nativeElement.columnsToDisplay = [{id: propIdCreateDate, displayName: 'Creation Date', width: 50}]
       this.repoBrowser.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
       if (this.repoBrowser != null) {
         this.repoBrowser.nativeElement.focus();
@@ -42,7 +42,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       throw new Error('repoBrowser is undefined');
     }
     this.singleSelectRepoBrowser.nativeElement.columnsToDisplay = [
-      { id: propIdCreateDate, displayName: 'Creation Date' }
+      { id: propIdCreateDate, displayName: 'Creation Date', width: 50 }
     ];
     this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
   }
@@ -70,8 +70,8 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.repoBrowser?.nativeElement.refreshAsync();
   }
 
-  create = { id: propIdCreateDate, displayName: 'Creation Date' };
-  test = { id: propIdNumberCol, displayName: 'Number Column' };
+  create = { id: propIdCreateDate, displayName: 'Creation Date', width: 50 };
+  test = { id: propIdNumberCol, displayName: 'Number Column', width: 50 };
 
   singleColChange() {
     const columns = [];

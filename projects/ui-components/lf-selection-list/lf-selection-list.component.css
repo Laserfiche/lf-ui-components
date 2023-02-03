@@ -80,11 +80,24 @@ tr.mat-header-row.lf-selection-list-header-row {
 }
 
 :host .lf-table-selection-list th.mat-header-cell, :host .lf-table-selection-list td.mat-cell, :host .lf-table-selection-list td.mat-footer-cell {
-  border-bottom-color: rgb(0,0,0,0,0.12);
+  border-bottom-color: rgb(0,0,0,0.12);
+  border-left-color: rgb(0,0,0,0.12);
+  border-left-width: 1px;
+  border-left-style: solid;
+  padding: 0px 15px;
+}
+
+:host .lf-table-selection-list th.mat-header-cell {
+  background-color: rgb(0,0,0,0.05);
+}
+
+:host .lf-table-selection-list th.mat-header-cell:last-of-type, :host .lf-table-selection-list td.mat-cell:last-of-type, :host .lf-table-selection-list td.mat-footer-cell:last-of-type {
+  border-right-color: rgb(0,0,0,0.12);
+  border-right-width: 1px;
+  border-right-style: solid;
 }
 
 ::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list{
-
   border-top: 1px solid;
   border-top-color: rgb(0,0,0,0.12);
   border-top-width: 1px;
@@ -92,4 +105,24 @@ tr.mat-header-row.lf-selection-list-header-row {
 
 ::ng-deep .cdk-virtual-scroll-content-wrapper {
   transform: translateY(0px) !important;
+}
+
+table th:hover .resize-handle {
+  opacity: 1;
+  transition: .3s ease-in-out;
+}
+
+.resize-handle {
+  display: inline-block;
+  border-right: 2px solid lightgray;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: col-resize;
+  opacity: 0;
+}
+
+.resize-handle:hover {
+  width: 20px;
 }
