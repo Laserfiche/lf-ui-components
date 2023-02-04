@@ -85,6 +85,7 @@ tr.mat-header-row.lf-selection-list-header-row {
   border-left-width: 1px;
   border-left-style: solid;
   padding: 0px 15px;
+  box-sizing:border-box;
 }
 
 :host .lf-table-selection-list th.mat-header-cell {
@@ -114,7 +115,7 @@ table th:hover .resize-handle {
 
 .resize-handle {
   display: inline-block;
-  border-right: 2px solid lightgray;
+  border-left: 2px solid lightgray;
   position: absolute;
   top: 0;
   left: 0;

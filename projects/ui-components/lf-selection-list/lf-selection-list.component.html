@@ -39,7 +39,7 @@
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <span class="resize-handle" (mousedown)="onResizeColumn($event, 1)"></span>Name
-        
+
       </th>
       <td mat-cell *matCellDef="let element">
         <div class="icon-name-container">
@@ -54,7 +54,10 @@
     >
 
     <ng-container [matColumnDef]="column.id" *ngFor="let column of columns; let i = index">
-      <th mat-sort-header  mat-header-cell *matHeaderCellDef>{{ column.displayName }}</th>
+      <th mat-sort-header  mat-header-cell *matHeaderCellDef>
+        <span class="resize-handle" (mousedown)="onResizeColumn($event, i+2)"></span>
+        {{ column.displayName }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.value.attributes?.get(column.id)?.displayValue }}</td>
     </ng-container>
 
