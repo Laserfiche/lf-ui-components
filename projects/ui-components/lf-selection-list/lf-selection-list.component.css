@@ -118,12 +118,20 @@ table th:hover .resize-handle {
   border-left: 2px solid lightgray;
   position: absolute;
   top: 0;
-  left: 0;
   height: 100%;
   cursor: col-resize;
   opacity: 0;
 }
 
 .resize-handle:hover {
-  width: 20px;
+  width: 15px;
 }
+
+.resize-handle-left {
+  left: -15px;
+}
+
+.resize-handle-right {
+  right: -15px;
+}
+

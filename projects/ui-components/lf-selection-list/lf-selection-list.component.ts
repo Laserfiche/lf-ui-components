@@ -9,6 +9,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  NgZone,
   OnDestroy,
   Output,
   Renderer2,
@@ -148,7 +149,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.allColumnHeaders = this.allColumnDefs.map((col) => col.id);
     this.additionalColumnDefs = cols;
     this.ref.detectChanges();
-    this.setTableResize(this.matTableRef!.nativeElement.clientWidth);
+    // hack: wait just long enough for columns to render correctly (data was being duplicated with scroll bar)
+    setTimeout(() => {
+      this.setTableResize(this.matTableRef!.nativeElement.clientWidth);
+    });
   }
   get columns(): ColumnDef[] {
     return this.additionalColumnDefs;
@@ -481,7 +485,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (dx !== 0) {
       const j = this.isResizingRight ? index + 1 : index - 1;
       const newWidth = this.allColumnDefs[j].width - dx;
-      console.log(`newWidth is ${newWidth}, i is ${index}, j is ${j}, width ${width}, origWidth ${origWidth}, dx ${dx}`);
+      console.log(
+        `newWidth is ${newWidth}, i is ${index}, j is ${j}, width ${width}, origWidth ${origWidth}, dx ${dx}`
+      );
       if (newWidth > 50) {
         this.allColumnDefs[index].width = width;
         this.setColumnWidth(this.allColumnDefs[index]);
