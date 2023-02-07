@@ -88,7 +88,7 @@ tr.mat-header-row.lf-selection-list-header-row {
   box-sizing:border-box;
 }
 
-:host .lf-table-selection-list td.mat-cell:not(.cdk-column-select), :host .lf-table-selection-list td.mat-cell span, :host .lf-table-selection-list th.mat-sort-header .mat-sort-header-content {
+:host .lf-table-selection-list td.mat-cell:not(.cdk-column-select), :host .lf-table-selection-list td.mat-cell span, :host .lf-table-selection-list th.mat-header-cell {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
