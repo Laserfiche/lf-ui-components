@@ -115,7 +115,6 @@ table th:hover .resize-handle {
 
 .resize-handle {
   display: inline-block;
-  border-left: 2px solid lightgray;
   position: absolute;
   top: 0;
   height: 100%;
@@ -123,15 +122,17 @@ table th:hover .resize-handle {
   opacity: 0;
 }
 
-.resize-handle:hover {
+.resize-handle {
   width: 15px;
 }
 
 .resize-handle-left {
   left: -15px;
+  border-left: 2px solid lightgray;
 }
 
 .resize-handle-right {
   right: -15px;
+  border-right: 2px solid lightgray;
 }
 
