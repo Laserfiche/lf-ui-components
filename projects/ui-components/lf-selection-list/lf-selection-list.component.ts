@@ -535,11 +535,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.allColumnDefs.forEach((column) => {
         if (column.id === 'select') {
           column.width = this.selectWidth;
+          // TODO setting the width (specifically of select column doesn't work when there is no header)
+          this.setColumnWidth(column);
         } else {
           let newWidth = column.width * scale;
           if (newWidth < this.columnMinWidth) {
             newWidth = this.columnMinWidth;
             column.width = this.columnMinWidth;
+            this.setColumnWidth(column);
             widthMinusFixed -= newWidth;
           } else {
             columnsToScaleWidth += column.width;
@@ -550,10 +553,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       const newScale = widthMinusFixed / columnsToScaleWidth;
       columnsToScale.forEach((column) => {
         column.width *= newScale;
-      });
-
-      this.allColumnDefs.forEach((column) => {
-        // TODO setting the width (specifically of select column doesn't work when there is no header)
         this.setColumnWidth(column);
       });
     }
