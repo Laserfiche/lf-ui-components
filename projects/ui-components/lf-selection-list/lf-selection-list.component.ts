@@ -117,10 +117,13 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   items: ILfSelectable[] = [];
   columnOrderBy?: ColumnOrderBy;
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
-  selectColumnDef: ColumnDef = { id: 'select', displayName: '', width: 50 };
-  nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', width: 50 };
+  columnMinWidth: number = 100;
+  selectWidth: number = 50;
+  selectColumnDef: ColumnDef = { id: 'select', displayName: '', width: this.columnMinWidth };
+  nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', width: this.columnMinWidth };
   allColumnDefs: ColumnDef[] = [];
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef?: ElementRef;
+  tableWidth: number = 0;
 
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
@@ -431,6 +434,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   onResizeColumn(ev: MouseEvent, index: number) {
     this.checkResizing(ev, index);
+    const tableWidth = this.matTableRef!.nativeElement.clientWidth;
+    if (this.tableWidth !== tableWidth) {
+      this.setTableResize(tableWidth);
+    }
     this.currentResizeIndex = index;
     this.pressed = true;
     this.startX = ev.pageX;
@@ -464,7 +471,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       if (this.pressed && event.buttons) {
         const dx = this.isResizingRight ? event.pageX - this.startX! : -event.pageX + this.startX!;
         const width = this.startWidth! + dx;
-        if (this.currentResizeIndex === index && width > 50) {
+        if (this.currentResizeIndex === index) {
           this.setColumnWidthChanges(index, width);
         }
       }
@@ -485,10 +492,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (dx !== 0) {
       const j = this.isResizingRight ? index + 1 : index - 1;
       const newWidth = this.allColumnDefs[j].width - dx;
-      console.log(
-        `newWidth is ${newWidth}, i is ${index}, j is ${j}, width ${width}, origWidth ${origWidth}, dx ${dx}`
-      );
-      if (newWidth > 50) {
+      if (newWidth > this.columnMinWidth && width > this.columnMinWidth) {
         this.allColumnDefs[index].width = width;
         this.setColumnWidth(this.allColumnDefs[index]);
         this.allColumnDefs[j].width = newWidth;
@@ -515,6 +519,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   // }
 
   setTableResize(tableWidth: number) {
+    this.tableWidth = tableWidth;
     let totWidth = 0;
     this.allColumnDefs.forEach((column) => {
       totWidth += column.width;
@@ -523,6 +528,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       const scale = (tableWidth - 5) / totWidth;
       this.allColumnDefs.forEach((column) => {
         column.width *= scale;
+        if (column.width < this.columnMinWidth) {
+          column.width = this.columnMinWidth;
+        }
         this.setColumnWidth(column);
       });
     }
