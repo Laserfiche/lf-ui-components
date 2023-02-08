@@ -519,18 +519,41 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   // }
 
   setTableResize(tableWidth: number) {
+    // TODO unit test for this that if you add a column that will scale to less than 100, it will scale to 100 and select will stay at 50
+    // TODO clean up, try to limit forEach if possible
     this.tableWidth = tableWidth;
     let totWidth = 0;
     this.allColumnDefs.forEach((column) => {
       totWidth += column.width;
     });
     if (tableWidth > 0) {
-      const scale = (tableWidth - 5) / totWidth;
+      let widthMinusFixed = tableWidth - this.selectWidth;
+      const scale = widthMinusFixed / totWidth;
+      const columnsToScale: ColumnDef[] = [];
+      let columnsToScaleWidth = 0;
+
       this.allColumnDefs.forEach((column) => {
-        column.width *= scale;
-        if (column.width < this.columnMinWidth) {
-          column.width = this.columnMinWidth;
+        if (column.id === 'select') {
+          column.width = this.selectWidth;
+        } else {
+          let newWidth = column.width * scale;
+          if (newWidth < this.columnMinWidth) {
+            newWidth = this.columnMinWidth;
+            column.width = this.columnMinWidth;
+            widthMinusFixed -= newWidth;
+          } else {
+            columnsToScaleWidth += column.width;
+            columnsToScale.push(column);
+          }
         }
+      });
+      const newScale = widthMinusFixed / columnsToScaleWidth;
+      columnsToScale.forEach((column) => {
+        column.width *= newScale;
+      });
+
+      this.allColumnDefs.forEach((column) => {
+        // TODO setting the width (specifically of select column doesn't work when there is no header)
         this.setColumnWidth(column);
       });
     }
