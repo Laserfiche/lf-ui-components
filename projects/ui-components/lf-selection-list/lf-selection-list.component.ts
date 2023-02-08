@@ -540,6 +540,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         } else {
           let newWidth = column.width * scale;
           if (newWidth < this.columnMinWidth) {
+            // TODO if there is no second column, (i.e. no select column, the minimum width should scale to the rest of the table size?)
             newWidth = this.columnMinWidth;
             column.width = this.columnMinWidth;
             this.setColumnWidth(column);
