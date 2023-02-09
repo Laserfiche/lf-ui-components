@@ -131,7 +131,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.dataSource.allData = this.items;
     }
     if (this.matTableRef?.nativeElement.clientWidth !== 0) {
-      this.setTableResize();
+      this.setTableResize(this.matTableRef?.nativeElement.clientWidth);
     }
   }
 
@@ -158,7 +158,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     // hack: wait just long enough for columns to render correctly (data was being duplicated with scroll bar)
     setTimeout(() => {
       if (this.matTableRef?.nativeElement.clientWidth !== 0) {
-        this.setTableResize();
+        this.setTableResize(this.matTableRef?.nativeElement.clientWidth);
       }
     });
   }
@@ -441,7 +441,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.checkResizing(ev, index);
     const tableWidth = this.matTableRef!.nativeElement.clientWidth;
     if (this.tableWidth !== tableWidth) {
-      this.setTableResize();
+      this.setTableResize(this.matTableRef?.nativeElement.clientWidth);
     }
     this.currentResizeIndex = index;
     this.pressed = true;
@@ -507,7 +507,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   setColumnWidth(column: ColumnDef) {
-    const columnEls = Array.from(document.getElementsByClassName('mat-column-' + column.id));
+    if (this.viewport == null) {
+      return;
+    }
+    const columnEls = Array.from(this.viewport.elementRef.nativeElement.getElementsByClassName('mat-column-' + column.id));
     columnEls.forEach((el: Element) => {
       (el as HTMLDivElement).style.width = column.width + 'px';
     });
@@ -529,10 +532,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   //   this.setTableResize(this.matTableRef.nativeElement.clientWidth);
   // }
 
-  setTableResize() {
+  setTableResize(width: number) {
     // TODO unit test for this that if you add a column that will scale to less than 100, it will scale to 100 and select will stay at 50
     // TODO clean up, try to limit forEach if possible
-    const tableWidth = this.matTableRef?.nativeElement.clientWidth;
+    const tableWidth = width;
     this.tableWidth = tableWidth;
     this.setTableWidth();
     let totWidth = 0;
