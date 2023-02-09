@@ -130,6 +130,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (this.dataSource) {
       this.dataSource.allData = this.items;
     }
+    if (this.matTableRef?.nativeElement.clientWidth !== 0) {
+      this.setTableResize();
+    }
   }
 
   placeholderWhen(index: number, _: any) {
@@ -154,7 +157,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.ref.detectChanges();
     // hack: wait just long enough for columns to render correctly (data was being duplicated with scroll bar)
     setTimeout(() => {
-      this.setTableResize();
+      if (this.matTableRef?.nativeElement.clientWidth !== 0) {
+        this.setTableResize();
+      }
     });
   }
   get columns(): ColumnDef[] {
@@ -200,7 +205,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       });
     }
     // this.setTableResize(this.matTableRef!.nativeElement.clientWidth);
-    this.matTableRef?.nativeElement.addEventListener('resize', this.setTableResize.bind(this));
   }
 
   onCheckboxClicked(event: MouseEvent) {
@@ -528,7 +532,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   setTableResize() {
     // TODO unit test for this that if you add a column that will scale to less than 100, it will scale to 100 and select will stay at 50
     // TODO clean up, try to limit forEach if possible
-    const tableWidth = this.matTableRef!.nativeElement.clientWidth;
+    const tableWidth = this.matTableRef?.nativeElement.clientWidth;
     this.tableWidth = tableWidth;
     this.setTableWidth();
     let totWidth = 0;

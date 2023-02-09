@@ -32,7 +32,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       if (!this.repoBrowser) {
         throw new Error('repoBrowser is undefined');
       }
-      await this.repoBrowser.nativeElement.initAsync(this.dataService);
+      await this.repoBrowser.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
       this.multiColChange() ;
       if (this.repoBrowser != null) {
         this.repoBrowser.nativeElement.focus();
