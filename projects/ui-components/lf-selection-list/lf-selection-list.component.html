@@ -38,7 +38,7 @@
     </ng-container>
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="lf-ellipsis-overflow">
-        <span class="resize-handle resize-handle-left" (mousedown)="onResizeColumn($event, 1)"></span>
+        <!-- <span class="resize-handle resize-handle-left" (mousedown)="onResizeColumn($event, 1)"></span> -->
         <span>Name</span>
         <span class="resize-handle resize-handle-right" (mousedown)="onResizeColumn($event, 1)"></span>
       </th>
@@ -54,7 +54,7 @@
 
     <ng-container [matColumnDef]="column.id" *ngFor="let column of columns; let i = index">
       <th mat-sort-header  mat-header-cell *matHeaderCellDef class="lf-ellipsis-overflow">
-        <span class="resize-handle resize-handle-left" (mousedown)="onResizeColumn($event, i+2)"></span>
+        <!-- <span class="resize-handle resize-handle-left" (mousedown)="onResizeColumn($event, i+2)"></span> -->
         {{ column.displayName }}
         <span class="resize-handle resize-handle-right" (mousedown)="onResizeColumn($event, i+2)"></span>
       </th>

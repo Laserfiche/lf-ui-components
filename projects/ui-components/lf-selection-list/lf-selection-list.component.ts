@@ -154,7 +154,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.ref.detectChanges();
     // hack: wait just long enough for columns to render correctly (data was being duplicated with scroll bar)
     setTimeout(() => {
-      this.setTableResize(this.matTableRef!.nativeElement.clientWidth);
+      this.setTableResize();
     });
   }
   get columns(): ColumnDef[] {
@@ -200,6 +200,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       });
     }
     // this.setTableResize(this.matTableRef!.nativeElement.clientWidth);
+    this.matTableRef?.nativeElement.addEventListener('resize', this.setTableResize.bind(this));
   }
 
   onCheckboxClicked(event: MouseEvent) {
@@ -436,7 +437,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.checkResizing(ev, index);
     const tableWidth = this.matTableRef!.nativeElement.clientWidth;
     if (this.tableWidth !== tableWidth) {
-      this.setTableResize(tableWidth);
+      this.setTableResize();
     }
     this.currentResizeIndex = index;
     this.pressed = true;
@@ -457,6 +458,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     } else {
       this.isResizingRight = false;
     }
+    // todo: delete should always resize right
+    // this.isResizingRight = true;
   }
 
   private getCellDimensions(index: number): DOMRect | undefined {
@@ -469,7 +472,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   mouseMove(index: number) {
     this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event) => {
       if (this.pressed && event.buttons) {
-        const dx = this.isResizingRight ? event.pageX - this.startX! : -event.pageX + this.startX!;
+        const dx = event.pageX - this.startX!;
         const width = this.startWidth! + dx;
         if (this.currentResizeIndex === index) {
           this.setColumnWidthChanges(index, width);
@@ -490,14 +493,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     const origWidth = this.allColumnDefs[index].width;
     const dx = width - origWidth;
     if (dx !== 0) {
-      const j = this.isResizingRight ? index + 1 : index - 1;
-      const newWidth = this.allColumnDefs[j].width - dx;
-      if (newWidth > this.columnMinWidth && width > this.columnMinWidth) {
-        this.allColumnDefs[index].width = width;
-        this.setColumnWidth(this.allColumnDefs[index]);
-        this.allColumnDefs[j].width = newWidth;
-        this.setColumnWidth(this.allColumnDefs[j]);
-      }
+        if ( width > this.columnMinWidth) {
+          this.tableWidth += dx;
+          this.setTableWidth();
+          this.allColumnDefs[index].width = width;
+          this.setColumnWidth(this.allColumnDefs[index]);
+        }
     }
   }
 
@@ -506,6 +507,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     columnEls.forEach((el: Element) => {
       (el as HTMLDivElement).style.width = column.width + 'px';
     });
+  }
+
+  setTableWidth() {
+    if (this.matTableRef) {
+      (this.matTableRef?.nativeElement as HTMLDivElement).style.width = this.tableWidth.toString() + 'px';
+    }
   }
 
   // @HostListener('window:resize', ['$event'])
@@ -518,10 +525,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   //   this.setTableResize(this.matTableRef.nativeElement.clientWidth);
   // }
 
-  setTableResize(tableWidth: number) {
+  setTableResize() {
     // TODO unit test for this that if you add a column that will scale to less than 100, it will scale to 100 and select will stay at 50
     // TODO clean up, try to limit forEach if possible
+    const tableWidth = this.matTableRef!.nativeElement.clientWidth;
     this.tableWidth = tableWidth;
+    this.setTableWidth();
     let totWidth = 0;
     this.allColumnDefs.forEach((column) => {
       totWidth += column.width;
@@ -535,7 +544,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.allColumnDefs.forEach((column) => {
         if (column.id === 'select') {
           column.width = this.selectWidth;
-          // TODO setting the width (specifically of select column doesn't work when there is no header)
           this.setColumnWidth(column);
         } else {
           let newWidth = column.width * scale;
