@@ -94,6 +94,10 @@ tr.mat-header-row.lf-selection-list-header-row {
   text-overflow: ellipsis;
 }
 
+::ng-deep th.mat-sort-header {
+  overflow: visible !important;
+}
+
 ::ng-deep .lf-ellipsis-overflow .mat-sort-header-content {
   display: block;
 }
@@ -136,13 +140,20 @@ table th:hover .resize-handle {
   width: 15px;
 }
 
-.resize-handle-left {
-  left: -15px;
-  border-left: 2px solid lightgray;
-}
-
 .resize-handle-right {
-  right: -15px;
-  border-right: 2px solid lightgray;
+  right: -17px;
+  border-right: 3px solid lightgray;
 }
 
+.lf-hidden-column-header {
+  height: 0px !important;
+}
+
+.lf-hidden-column-header .mat-header-cell {
+  font-size: 0;
+  border-bottom-style: hidden;
+}
+
+.lf-hidden-column-header .mat-sort-header {
+  display: none;
+}

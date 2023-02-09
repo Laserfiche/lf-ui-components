@@ -63,7 +63,7 @@
 
     <tr
       class="lf-selection-list-header-row"
-      [hidden]="!(columns?.length > 0)"
+      [ngClass]="{'lf-hidden-column-header': (columns?.length < 1)}"
       mat-header-row
       *matHeaderRowDef="allColumnHeaders; sticky: true"
     ></tr>
