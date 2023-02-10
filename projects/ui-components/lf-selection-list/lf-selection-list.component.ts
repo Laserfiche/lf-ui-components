@@ -147,7 +147,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Input() set multipleSelection(value: boolean) {
     this._multipleSelectEnabled = value;
     this.selectable.multiSelectable = value;
-    this.selectWidth = 50;
+    this.selectWidth = value ? 50: 0;
   }
   get multipleSelection(): boolean {
     return this._multipleSelectEnabled;
@@ -169,6 +169,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     });
   }
   get columns(): ColumnDef[] {
+    // be able to get all column defs with calculated columns
     return this.additionalColumnDefs;
   }
 
