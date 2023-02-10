@@ -120,7 +120,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   columnMinWidth: number = 100;
   selectWidth: number = 0;
   selectColumnDef: ColumnDef = { id: 'select', displayName: '', width: 0 };
-  nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', width: 30 };
+  fullNameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', width: 100 };
+  thirdNameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', width: 30 };
   allColumnDefs: ColumnDef[] = [];
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef?: ElementRef;
   tableWidth: number = 0;
@@ -132,9 +133,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (this.dataSource) {
       this.dataSource.allData = this.items;
     }
-    if (this.matTableRef?.nativeElement.clientWidth !== 0) {
-      this.setTableResize(this.matTableRef?.nativeElement.clientWidth);
-    }
+    this.setTableResize();
   }
 
   placeholderWhen(index: number, _: any) {
@@ -147,26 +146,21 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Input() set multipleSelection(value: boolean) {
     this._multipleSelectEnabled = value;
     this.selectable.multiSelectable = value;
-    this.selectWidth = value ? 50: 0;
+    this.selectWidth = value ? 50 : 0;
   }
   get multipleSelection(): boolean {
     return this._multipleSelectEnabled;
   }
 
   @Input() set columns(cols: ColumnDef[]) {
-    const toAdd: ColumnDef[] = this.multipleSelection
-      ? [this.selectColumnDef, this.nameColumnDef]
-      : [this.nameColumnDef];
+    const nameColumnDef = cols.length > 0 ? this.thirdNameColumnDef : this.fullNameColumnDef;
+    const toAdd: ColumnDef[] = this.multipleSelection ? [this.selectColumnDef, nameColumnDef] : [nameColumnDef];
+    // only add name column if it's not in there??
     this.allColumnDefs = toAdd.concat(cols);
     this.allColumnHeaders = this.allColumnDefs.map((col) => col.id);
     this.additionalColumnDefs = cols;
     this.ref.detectChanges();
-    // hack: wait just long enough for columns to render correctly (data was being duplicated with scroll bar)
-    setTimeout(() => {
-      if (this.matTableRef?.nativeElement.clientWidth !== 0) {
-        this.setTableResize(this.matTableRef?.nativeElement.clientWidth);
-      }
-    });
+    this.setTableResize();
   }
   get columns(): ColumnDef[] {
     // be able to get all column defs with calculated columns
@@ -451,7 +445,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.currentResizeIndex = index;
     this.pressed = true;
     this.startX = ev.pageX;
-    const columnElement = this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + this.allColumnDefs[index].id)
+    const columnElement = this.viewport!.elementRef.nativeElement.getElementsByClassName(
+      'mat-column-' + this.allColumnDefs[index].id
+    );
     this.startWidth = columnElement![0].clientWidth;
     this.previousWidth = this.startWidth;
     this.mouseMove(index);
@@ -502,13 +498,13 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     const origWidth = this.previousWidth;
     const dx = width - origWidth;
     if (dx !== 0) {
-        if ( width > this.columnMinWidth) {
-          this.tableWidth += dx;
-          this.setTableWidth();
-          this.previousWidth = width;
-          // this.allColumnDefs[index].width = width;
-          this.setColumnWidth(this.allColumnDefs[index], width);
-        }
+      if (width > this.columnMinWidth) {
+        this.tableWidth += dx;
+        this.setTableWidth();
+        this.previousWidth = width;
+        // this.allColumnDefs[index].width = width;
+        this.setColumnWidth(this.allColumnDefs[index], width);
+      }
     }
   }
 
@@ -516,10 +512,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (this.viewport == null) {
       return;
     }
-    const widthInPercentage = width / (this._containerWidth - this.selectWidth) * 100;
+    const widthInPercentage = (width / (this._containerWidth - this.selectWidth)) * 100;
     column.width = widthInPercentage;
-    console.log('set column width', width)
-    const columnEls = Array.from(this.viewport.elementRef.nativeElement.getElementsByClassName('mat-column-' + column.id));
+    console.log('set column width', width);
+    const columnEls = Array.from(
+      this.viewport.elementRef.nativeElement.getElementsByClassName('mat-column-' + column.id)
+    );
     columnEls.forEach((el: Element) => {
       (el as HTMLDivElement).style.width = width + 'px';
     });
@@ -531,7 +529,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-
   // @HostListener('window:resize', ['$event'])
   // onResize(event: UIEvent) {
   //   // wedon't want this on window resize but maybe on parent resize
@@ -542,31 +539,31 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   //   this.setTableResize(this.matTableRef.nativeElement.clientWidth);
   // }
 
-  setTableResize(width: number) {
+  setTableResize() {
     // TODO unit test for this that if you add a column that will scale to less than 100, it will scale to 100 and select will stay at 50
     // TODO clean up, try to limit forEach if possible
 
-      console.log('setTableResize', this.allColumnDefs.toString());
-      if (!this.viewport) {
-        return;
-      }
-      // this.containerWidth = this.viewport?.elementRef.nativeElement.clientWidth;
-      let widthMinusFixed = this._containerWidth - this.selectWidth;
-      let totalWidth = this.selectWidth;
-      this.allColumnDefs.forEach((column) => {
-        if (column.id === 'select') {
-          this.setColumnWidth(column, this.selectWidth);
-        } else {
-          let newWidth = column.width * widthMinusFixed * 0.01;
-          if (newWidth < this.columnMinWidth) {
-            // TODO if there is no second column, (i.e. no select column, the minimum width should scale to the rest of the table size?)
-            newWidth = this.columnMinWidth;
-          }
-          this.setColumnWidth(column, newWidth);
-          totalWidth += newWidth;
+    console.log('setTableResize', this.allColumnDefs.toString());
+    if (!this.viewport) {
+      return;
+    }
+    // this.containerWidth = this.viewport?.elementRef.nativeElement.clientWidth;
+    let widthMinusFixed = this._containerWidth - this.selectWidth;
+    let totalWidth = this.selectWidth;
+    this.allColumnDefs.forEach((column) => {
+      if (column.id === 'select') {
+        this.setColumnWidth(column, this.selectWidth);
+      } else {
+        let newWidth = column.width * widthMinusFixed * 0.01;
+        if (newWidth < this.columnMinWidth) {
+          // TODO if there is no second column, (i.e. no select column, the minimum width should scale to the rest of the table size?)
+          newWidth = this.columnMinWidth;
         }
-      });
-      this.tableWidth = totalWidth;
-      this.setTableWidth();
+        this.setColumnWidth(column, newWidth);
+        totalWidth += newWidth;
+      }
+    });
+    this.tableWidth = totalWidth;
+    this.setTableWidth();
   }
 }
