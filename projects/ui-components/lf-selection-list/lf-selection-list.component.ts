@@ -118,14 +118,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   columnOrderBy?: ColumnOrderBy;
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
   columnMinWidth: number = 100;
-  selectWidth: number = 50;
+  selectWidth: number = 0;
   selectColumnDef: ColumnDef = { id: 'select', displayName: '', width: 0 };
   nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', width: 30 };
   allColumnDefs: ColumnDef[] = [];
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef?: ElementRef;
   tableWidth: number = 0;
-  containerWidth: number = 0;
   previousWidth: number = 0;
+  _containerWidth: number = 0;
 
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
@@ -141,9 +141,13 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     return index == 0;
   }
 
+  @Input() set containerWidth(value: number) {
+    this._containerWidth = value;
+  }
   @Input() set multipleSelection(value: boolean) {
     this._multipleSelectEnabled = value;
     this.selectable.multiSelectable = value;
+    this.selectWidth = 50;
   }
   get multipleSelection(): boolean {
     return this._multipleSelectEnabled;
@@ -440,6 +444,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   resizableMouseup?: () => void;
 
   onResizeColumn(ev: MouseEvent, index: number) {
+    ev.preventDefault();
+    ev.stopPropagation();
     this.checkResizing(ev, index);
     const tableWidth = this.matTableRef!.nativeElement.clientWidth;
     if (this.tableWidth !== tableWidth) {
@@ -451,7 +457,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     const columnElement = (ev.target as HTMLSpanElement)?.closest('th');
     this.startWidth = columnElement!.clientWidth;
     this.previousWidth = this.startWidth;
-    ev.preventDefault();
     this.mouseMove(index);
   }
 
@@ -514,6 +519,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (this.viewport == null) {
       return;
     }
+    const widthInPercentage = width / (this._containerWidth - this.selectWidth) * 100;
+    column.width = widthInPercentage;
+    console.log('set column width', width)
     const columnEls = Array.from(this.viewport.elementRef.nativeElement.getElementsByClassName('mat-column-' + column.id));
     columnEls.forEach((el: Element) => {
       (el as HTMLDivElement).style.width = width + 'px';
@@ -525,6 +533,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       (this.matTableRef?.nativeElement as HTMLDivElement).style.width = this.tableWidth.toString() + 'px';
     }
   }
+
 
   // @HostListener('window:resize', ['$event'])
   // onResize(event: UIEvent) {
@@ -540,16 +549,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     // TODO unit test for this that if you add a column that will scale to less than 100, it will scale to 100 and select will stay at 50
     // TODO clean up, try to limit forEach if possible
 
-    // let totWidth = 0;
-    // this.allColumnDefs.forEach((column) => {
-    //   totWidth += column.width;
-    // });
-    // if (tableWidth > 0) {
+      console.log('setTableResize', this.allColumnDefs.toString());
       if (!this.viewport) {
         return;
       }
-      this.containerWidth = this.viewport?.elementRef.nativeElement.clientWidth;
-      let widthMinusFixed = this.containerWidth - this.selectWidth;
+      // this.containerWidth = this.viewport?.elementRef.nativeElement.clientWidth;
+      let widthMinusFixed = this._containerWidth - this.selectWidth;
       let totalWidth = this.selectWidth;
       this.allColumnDefs.forEach((column) => {
         if (column.id === 'select') {

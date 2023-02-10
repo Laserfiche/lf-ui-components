@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
@@ -220,7 +220,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     /** @internal */
     public zone: NgZone,
     /** @internal */
-    public localizationService: AppLocalizationService
+    public localizationService: AppLocalizationService,
+    /** @internal */
+    public el: ElementRef
   ) {
     this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
       if (!this._currentFolder) {
@@ -447,7 +449,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.entryList?.clearSelectedValues();
     this.currentFolderChildren = [];
     this.ref.detectChanges();
-    
+
     //this._focused_node = undefined;
     this.nextPage = undefined;
     this.lastCalledPage = undefined;
