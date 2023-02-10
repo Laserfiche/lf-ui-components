@@ -94,9 +94,9 @@ tr.mat-header-row.lf-selection-list-header-row {
   text-overflow: ellipsis;
 }
 
-::ng-deep th.mat-sort-header {
+/* ::ng-deep th.mat-sort-header {
   overflow: visible !important;
-}
+} */
 
 ::ng-deep .lf-ellipsis-overflow .mat-sort-header-content {
   display: block;
@@ -110,6 +110,10 @@ tr.mat-header-row.lf-selection-list-header-row {
   border-right-color: rgb(0,0,0,0.12);
   border-right-width: 1px;
   border-right-style: solid;
+}
+
+:host .lf-table-selection-list th.mat-header-cell {
+  overflow: visible !important;
 }
 
 ::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list{
@@ -143,6 +147,10 @@ table th .resize-handle:hover {
 
 .resize-handle-right {
   right: -7.5px;
+}
+
+.resize-handle-left {
+  left: -7.5px;
 }
 
 .lf-hidden-column-header {

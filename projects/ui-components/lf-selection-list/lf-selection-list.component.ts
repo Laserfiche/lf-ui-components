@@ -450,8 +450,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.currentResizeIndex = index;
     this.pressed = true;
     this.startX = ev.pageX;
-    const columnElement = (ev.target as HTMLSpanElement)?.closest('th');
-    this.startWidth = columnElement!.clientWidth;
+    const columnElement = this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + this.allColumnDefs[index].id)
+    this.startWidth = columnElement![0].clientWidth;
     this.previousWidth = this.startWidth;
     this.mouseMove(index);
   }
