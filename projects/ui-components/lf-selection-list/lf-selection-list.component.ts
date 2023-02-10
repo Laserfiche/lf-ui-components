@@ -215,6 +215,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
   }
 
+  recalculateWidths() {
+    const currentContainerWidth = this._containerWidth;
+    this.allColumnDefs.forEach((column) => {
+      // TODO a better way to find the width...
+      const currentWidthPixels = Number.parseInt((this.viewport?.elementRef.nativeElement.querySelector(`.mat-column-${column.id}`) as HTMLElement)?.style.width, 10) ?? 0;
+      column.width = currentWidthPixels/currentContainerWidth * 100
+    })
+  }
   clearSelectedValues() {
     this.selectable.clearSelectedValues(this.items);
   }
@@ -394,6 +402,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   /** @internal */
   private _checkRowInView(currentFocusIndex: number) {
+    // is there an easier way to do this? -- check if currentFocusIndex is in viewport indices (rendered might be greater than viewable?)
     if (this.viewport == null) {
       return;
     }
@@ -430,7 +439,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   // column resizing
 
   placeholderHeight: number = 0;
-  isResizingRight?: boolean;
   currentResizeIndex: number = -1;
   pressed: boolean = false;
   startWidth?: number;
@@ -441,7 +449,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   onResizeColumn(ev: MouseEvent, index: number) {
     ev.preventDefault();
     ev.stopPropagation();
-    this.checkResizing(ev, index);
     this.currentResizeIndex = index;
     this.pressed = true;
     this.startX = ev.pageX;
@@ -453,26 +460,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.mouseMove(index);
   }
 
-  private checkResizing(ev: MouseEvent, index: number) {
-    const cellRect = this.getCellDimensions(index);
-    if (
-      index === 0 ||
-      (cellRect && Math.abs(ev.pageX - cellRect.right) < cellRect.width / 2 && index !== this.allColumnDefs.length - 1)
-    ) {
-      this.isResizingRight = true;
-    } else {
-      this.isResizingRight = false;
-    }
-    // todo: delete should always resize right
-    // this.isResizingRight = true;
-  }
-
-  private getCellDimensions(index: number): DOMRect | undefined {
-    // const headerRow = this.matTableRef?.nativeElement.children[0]
-    const headerRow = this.matTableRef?.nativeElement.children[0].querySelector('tr');
-    const cell = headerRow?.children[index];
-    return cell?.getBoundingClientRect();
-  }
 
   mouseMove(index: number) {
     this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event) => {
@@ -514,7 +501,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     const widthInPercentage = (width / (this._containerWidth - this.selectWidth)) * 100;
     column.width = widthInPercentage;
-    console.log('set column width', width);
+    console.log('set column width', width, column.width, this._containerWidth);
     const columnEls = Array.from(
       this.viewport.elementRef.nativeElement.getElementsByClassName('mat-column-' + column.id)
     );
@@ -528,16 +515,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       (this.matTableRef?.nativeElement as HTMLDivElement).style.width = this.tableWidth.toString() + 'px';
     }
   }
-
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: UIEvent) {
-  //   // wedon't want this on window resize but maybe on parent resize
-  //   this.setTableResize(this.matTableRef?.nativeElement.clientWidth);
-  // }
-
-  // ngAfterViewInit() {
-  //   this.setTableResize(this.matTableRef.nativeElement.clientWidth);
-  // }
 
   setTableResize() {
     // TODO unit test for this that if you add a column that will scale to less than 100, it will scale to 100 and select will stay at 50
