@@ -447,10 +447,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     ev.preventDefault();
     ev.stopPropagation();
     this.checkResizing(ev, index);
-    const tableWidth = this.matTableRef!.nativeElement.clientWidth;
-    if (this.tableWidth !== tableWidth) {
-      this.setTableResize(this.matTableRef?.nativeElement.clientWidth);
-    }
     this.currentResizeIndex = index;
     this.pressed = true;
     this.startX = ev.pageX;

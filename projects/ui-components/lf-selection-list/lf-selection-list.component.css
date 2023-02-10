@@ -122,9 +122,10 @@ tr.mat-header-row.lf-selection-list-header-row {
   transform: translateY(0px) !important;
 }
 
-table th:hover .resize-handle {
+table th .resize-handle:hover {
   opacity: 1;
-  transition: .3s ease-in-out;
+  /* transition: .3s ease-in-out; */
+  background: linear-gradient(#000, #000) no-repeat center/2px 100%;
 }
 
 .resize-handle {
@@ -141,8 +142,7 @@ table th:hover .resize-handle {
 }
 
 .resize-handle-right {
-  right: -17px;
-  border-right: 3px solid lightgray;
+  right: -7.5px;
 }
 
 .lf-hidden-column-header {

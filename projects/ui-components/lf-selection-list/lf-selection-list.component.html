@@ -19,9 +19,9 @@
       <ng-container [ngSwitch]="column.id">
         <!-- the same view can be shown in more than one case -->
         <ng-container *ngSwitchCase="'name'">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="lf-ellipsis-overflow">
+          <th mat-header-cell *matHeaderCellDef  class="lf-ellipsis-overflow">
             <!-- <span class="resize-handle resize-handle-left" (mousedown)="onResizeColumn($event, 1)"></span> -->
-            <span>Name</span>
+            <span mat-sort-header>Name</span>
             <span
               class="resize-handle resize-handle-right"
               (mousedown)="onResizeColumn($event, multipleSelection ? 1 : 0)"
@@ -59,9 +59,9 @@
         </ng-container>
         <!--default case when there are no matches -->
         <ng-container *ngSwitchDefault>
-          <th mat-sort-header mat-header-cell *matHeaderCellDef class="lf-ellipsis-overflow">
+          <th  mat-header-cell *matHeaderCellDef class="lf-ellipsis-overflow">
             <!-- <span class="resize-handle resize-handle-left" (mousedown)="onResizeColumn($event, i+2)"></span> -->
-            {{ column.displayName }}
+            <span mat-sort-header>{{ column.displayName }}</span>
             <span class="resize-handle resize-handle-right" (mousedown)="onResizeColumn($event, i)"></span>
           </th>
           <td mat-cell class="lf-ellipsis-overflow" *matCellDef="let element">
