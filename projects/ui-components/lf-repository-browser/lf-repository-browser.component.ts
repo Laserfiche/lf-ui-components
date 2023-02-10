@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
@@ -12,7 +12,7 @@ import { ColumnDef, LfSelectionListComponent, SelectedItemEvent } from '@laserfi
   templateUrl: './lf-repository-browser.component.html',
   styleUrls: ['./lf-repository-browser.component.css'],
 })
-export class LfRepositoryBrowserComponent implements OnDestroy {
+export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   /** @internal */
   @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
   /** @internal */
@@ -21,6 +21,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   private focusedEntry: ItemWithId | undefined;
   columns: ColumnDef[] = [];
   private _multipleSelectEnabled: boolean = false;
+  private resizeObserver: ResizeObserver;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -220,7 +221,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     /** @internal */
     public zone: NgZone,
     /** @internal */
-    public localizationService: AppLocalizationService
+    public localizationService: AppLocalizationService,
+    /** @internal */
+    public el: ElementRef
   ) {
     this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
       if (!this._currentFolder) {
@@ -234,6 +237,19 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
         await this.makeDataCall(this._currentFolder);
       }
     });
+    this.resizeObserver = new ResizeObserver((entries) => {
+      if (this.entryList) {
+        // TODO is there a better way to set this, using the offset width was not resizing
+        // also should all the "el" logic be in the selection list?
+        // maybe the recalculation should actually be in a container size setter
+        this.entryList.containerWidth = entries[0].borderBoxSize[0].inlineSize;
+        this.entryList.recalculateWidths();
+      }
+    });
+  }
+  ngAfterViewInit(): void {
+    this.entryList!.containerWidth = this.el.nativeElement.offsetWidth;
+    this.resizeObserver.observe(this.el.nativeElement);
   }
 
   /**
@@ -447,7 +463,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
     this.entryList?.clearSelectedValues();
     this.currentFolderChildren = [];
     this.ref.detectChanges();
-    
+
     //this._focused_node = undefined;
     this.nextPage = undefined;
     this.lastCalledPage = undefined;
@@ -572,5 +588,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy {
   /** @internal */
   ngOnDestroy() {
     this.scrolledIndexChanged.unsubscribe();
+    this.resizeObserver.unobserve(this.el.nativeElement);
   }
 }
