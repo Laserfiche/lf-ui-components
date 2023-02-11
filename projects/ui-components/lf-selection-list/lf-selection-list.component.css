@@ -120,6 +120,7 @@ tr.mat-header-row.lf-selection-list-header-row {
   border-top: 1px solid;
   border-top-color: rgb(0,0,0,0.12);
   border-top-width: 1px;
+  width: fit-content;
 }
 
 ::ng-deep .cdk-virtual-scroll-content-wrapper {
