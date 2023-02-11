@@ -28,12 +28,16 @@ export interface ColumnOrderBy {
 export interface ColumnDef {
   id: string;
   displayName: string;
-  width: number;
+  defaultWidth: string;
 }
 /** @internal */
 export interface SelectedItemEvent {
   selected: ILfSelectable;
   selectedItems: ILfSelectable[] | undefined;
+}
+
+export interface RepositoryBrowserData {
+  columns: Map<string, string>;
 }
 
 const PAGESIZE = 20;
@@ -119,21 +123,26 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
   columnMinWidth: number = 100;
   selectWidth: number = 0;
-  selectColumnDef: ColumnDef = { id: 'select', displayName: '', width: 0 };
-  fullNameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', width: 100 };
-  thirdNameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', width: 30 };
+  selectColumnDef: ColumnDef = { id: 'select', displayName: '', defaultWidth: '50px' };
+  fullNameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '100px' };
+  thirdNameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '100px' };
   allColumnDefs: ColumnDef[] = [];
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef?: ElementRef;
   tableWidth: number = 0;
   previousWidth: number = 0;
   _containerWidth: number = 0;
+  _localStorageKey: string = '';
 
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
     if (this.dataSource) {
       this.dataSource.allData = this.items;
     }
-    this.setTableResize();
+    this.setInitialWidth();
+  }
+
+  @Input() set localStorageKey(key: string) {
+    this._localStorageKey = key;
   }
 
   placeholderWhen(index: number, _: any) {
@@ -160,7 +169,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.allColumnHeaders = this.allColumnDefs.map((col) => col.id);
     this.additionalColumnDefs = cols;
     this.ref.detectChanges();
-    this.setTableResize();
+    this.setInitialWidth();
   }
   get columns(): ColumnDef[] {
     // be able to get all column defs with calculated columns
@@ -205,7 +214,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         }
       });
     }
-    // this.setTableResize(this.matTableRef!.nativeElement.clientWidth);
   }
 
   onCheckboxClicked(event: MouseEvent) {
@@ -215,14 +223,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
   }
 
-  recalculateWidths() {
-    const currentContainerWidth = this._containerWidth;
-    this.allColumnDefs.forEach((column) => {
-      // TODO a better way to find the width...
-      const currentWidthPixels = Number.parseInt((this.viewport?.elementRef.nativeElement.querySelector(`.mat-column-${column.id}`) as HTMLElement)?.style.width, 10) ?? 0;
-      column.width = currentWidthPixels/currentContainerWidth * 100
-    })
-  }
+  // recalculateWidths() {
+  //   const currentContainerWidth = this._containerWidth;
+  //   this.allColumnDefs.forEach((column) => {
+  //     // TODO a better way to find the width...
+  //     const currentWidthPixels = Number.parseInt((this.viewport?.elementRef.nativeElement.querySelector(`.mat-column-${column.id}`) as HTMLElement)?.style.width, 10) ?? 0;
+  //     column.width = currentWidthPixels/currentContainerWidth * 100
+  //   })
+  // }
   clearSelectedValues() {
     this.selectable.clearSelectedValues(this.items);
   }
@@ -380,6 +388,36 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  setInitialWidth() {
+    // Check the local store based on ids
+    let asJSON = this.getLocalStorageData();
+    this.allColumnDefs.forEach((col) => {
+      let width: string;
+      if (asJSON[col.id]) {
+        let s = col.id.toString();
+        width = asJSON[s] as string;
+      } else {
+        width = col.defaultWidth;
+      }
+
+      const columnEls = Array.from(
+        this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
+      );
+      columnEls.forEach((el: Element) => {
+        (el as HTMLDivElement).style.width = width;
+      });
+    });
+  }
+
+  private getLocalStorageData() {
+    const repositoryBrowserData = window.localStorage.getItem(this._localStorageKey);
+    let asJSON = Object.create(null);
+    if (repositoryBrowserData) {
+      asJSON = JSON.parse(repositoryBrowserData);
+    }
+    return asJSON;
+  }
+
   async setSelectedNodesAsync(
     values: ILfSelectable[],
     checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>,
@@ -460,7 +498,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.mouseMove(index);
   }
 
-
   mouseMove(index: number) {
     this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event) => {
       if (this.pressed && event.buttons) {
@@ -475,6 +512,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       if (this.pressed) {
         this.pressed = false;
         this.currentResizeIndex = -1;
+        const displacementX = event.pageX - this.startX!;
+        const width = this.startWidth! + displacementX;
+        let asJSON = this.getLocalStorageData();
+        const key = this.allColumnDefs[index].id.toString();
+        asJSON[key] = width.toString() + 'px';
+        localStorage.setItem(this._localStorageKey, JSON.stringify(asJSON));
         if (this.resizableMousemove) this.resizableMousemove();
         if (this.resizableMouseup) this.resizableMouseup();
       }
@@ -499,9 +542,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (this.viewport == null) {
       return;
     }
-    const widthInPercentage = (width / (this._containerWidth - this.selectWidth)) * 100;
-    column.width = widthInPercentage;
-    console.log('set column width', width, column.width, this._containerWidth);
     const columnEls = Array.from(
       this.viewport.elementRef.nativeElement.getElementsByClassName('mat-column-' + column.id)
     );
@@ -516,31 +556,31 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  setTableResize() {
-    // TODO unit test for this that if you add a column that will scale to less than 100, it will scale to 100 and select will stay at 50
-    // TODO clean up, try to limit forEach if possible
+  //   setTableResize() {
+  //     // TODO unit test for this that if you add a column that will scale to less than 100, it will scale to 100 and select will stay at 50
+  //     // TODO clean up, try to limit forEach if possible
 
-    console.log('setTableResize', this.allColumnDefs.toString());
-    if (!this.viewport) {
-      return;
-    }
-    // this.containerWidth = this.viewport?.elementRef.nativeElement.clientWidth;
-    let widthMinusFixed = this._containerWidth - this.selectWidth;
-    let totalWidth = this.selectWidth;
-    this.allColumnDefs.forEach((column) => {
-      if (column.id === 'select') {
-        this.setColumnWidth(column, this.selectWidth);
-      } else {
-        let newWidth = column.width * widthMinusFixed * 0.01;
-        if (newWidth < this.columnMinWidth) {
-          // TODO if there is no second column, (i.e. no select column, the minimum width should scale to the rest of the table size?)
-          newWidth = this.columnMinWidth;
-        }
-        this.setColumnWidth(column, newWidth);
-        totalWidth += newWidth;
-      }
-    });
-    this.tableWidth = totalWidth;
-    this.setTableWidth();
-  }
+  //     console.log('setInitialWidth', this.allColumnDefs.toString());
+  //     if (!this.viewport) {
+  //       return;
+  //     }
+  //     // this.containerWidth = this.viewport?.elementRef.nativeElement.clientWidth;
+  //     let widthMinusFixed = this._containerWidth - this.selectWidth;
+  //     let totalWidth = this.selectWidth;
+  //     this.allColumnDefs.forEach((column) => {
+  //       if (column.id === 'select') {
+  //         this.setColumnWidth(column, this.selectWidth);
+  //       } else {
+  //         let newWidth = column.width * widthMinusFixed * 0.01;
+  //         if (newWidth < this.columnMinWidth) {
+  //           // TODO if there is no second column, (i.e. no select column, the minimum width should scale to the rest of the table size?)
+  //           newWidth = this.columnMinWidth;
+  //         }
+  //         this.setColumnWidth(column, newWidth);
+  //         totalWidth += newWidth;
+  //       }
+  //     });
+  //     this.tableWidth = totalWidth;
+  //     this.setTableWidth();
+  //   }
 }

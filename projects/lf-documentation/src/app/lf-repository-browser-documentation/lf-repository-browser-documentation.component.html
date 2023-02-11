@@ -48,6 +48,7 @@
 <app-card>
   <lf-repository-browser
     multiple="false"
+    id="single-select-repo-browser"
     (entrySelected)="onEntrySelected($event)"
     (entryDblClicked)="onEntryOpened($event)"
     (entryFocused)="onEntryFocused($event)"
@@ -81,6 +82,7 @@
 <app-card>
   <lf-repository-browser
     multiple="true"
+    id="repo-browser"
     [isSelectable]="selectable"
     (entrySelected)="onEntrySelected($event)"
     (entryDblClicked)="onEntryOpened($event)"
