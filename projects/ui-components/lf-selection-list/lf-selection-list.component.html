@@ -14,6 +14,9 @@
     (matSortChange)="sortData($event)"
     [multiTemplateDataRows]="true"
     fixedLayout="true"
+    [ngClass]="{
+      'table-width-auto': !(columns?.length > 0)
+    }"
   >
     <ng-container [matColumnDef]="column.id" *ngFor="let column of allColumnDefs; let i = index">
       <ng-container [ngSwitch]="column.id">

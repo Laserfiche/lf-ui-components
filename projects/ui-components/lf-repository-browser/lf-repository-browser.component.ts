@@ -22,7 +22,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   columns: ColumnDef[] = [];
   private _multipleSelectEnabled: boolean = false;
   private resizeObserver: ResizeObserver;
-  repoBrowserLocalStorageKey: string = '';
+  repoBrowserUniqueId: string = '';
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -253,7 +253,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     this.resizeObserver.observe(this.el.nativeElement);
 
     const path = window.location.pathname;
-    this.repoBrowserLocalStorageKey = `lf-repository-browser_${path}_${this.el.nativeElement.id}`;
+    this.repoBrowserUniqueId = `lf-repository-browser_${path}_${this.el.nativeElement.id}`;
   }
 
   /**

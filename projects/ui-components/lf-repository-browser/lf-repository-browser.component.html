@@ -11,7 +11,7 @@
 
   <lf-selection-list-component
     [hidden]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage"
-    [localStorageKey]="repoBrowserLocalStorageKey"
+    [uniqueIdentifier]="repoBrowserUniqueId"
     [listItems]="currentFolderChildren"
     [multipleSelection]="multiple"
     [itemSize]="itemSize"

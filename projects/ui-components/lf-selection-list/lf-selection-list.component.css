@@ -123,6 +123,10 @@ tr.mat-header-row.lf-selection-list-header-row {
   width: fit-content;
 }
 
+::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list.table-width-auto {
+  width: auto;
+}
+
 ::ng-deep .cdk-virtual-scroll-content-wrapper {
   transform: translateY(0px) !important;
 }
