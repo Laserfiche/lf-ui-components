@@ -23,6 +23,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   private _multipleSelectEnabled: boolean = false;
   private resizeObserver: ResizeObserver;
   repoBrowserLocalStorageKey: string = '';
+  repositoryBrowserWidth: number = 0;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -249,11 +250,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     });
   }
   ngAfterViewInit(): void {
-    this.entryList!.containerWidth = this.el.nativeElement.offsetWidth;
+    this.repositoryBrowserWidth = this.el.nativeElement.offsetWidth;
     this.resizeObserver.observe(this.el.nativeElement);
 
     const path = window.location.pathname;
     this.repoBrowserLocalStorageKey = `lf-repository-browser_${path}_${this.el.nativeElement.id}`;
+    this.ref.detectChanges();
   }
 
   /**
