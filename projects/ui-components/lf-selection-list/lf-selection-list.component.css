@@ -115,12 +115,26 @@ tr.mat-header-row.lf-selection-list-header-row {
 :host .lf-table-selection-list th.mat-header-cell {
   overflow: visible !important;
 }
+/* this would make it so the percentage is out of 100, but make it so scroll would  */
+/* ::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper,
+::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-spacer {
+  display: contents;
+} */
 
 ::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list{
   border-top: 1px solid;
   border-top-color: rgb(0,0,0,0.12);
   border-top-width: 1px;
-  width: fit-content;
+  display: grid;
+}
+::ng-deep .lf-table-selection-list thead, ::ng-deep .lf-table-selection-list tbody, ::ng-deep .lf-table-selection-list tr {
+  display: contents;
+}
+
+.column-text-div {
+  display: flex;
+  height: 42px;
+  align-items: center;
 }
 
 ::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list.table-width-auto {
