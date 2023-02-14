@@ -18,7 +18,7 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 
 export interface ColumnOrderBy {
   columnId: string;
@@ -29,6 +29,10 @@ export interface ColumnDef {
   id: string;
   displayName: string;
   defaultWidth: string;
+}
+
+interface ColumnDefEx extends ColumnDef {
+  currentWidth?: string;
 }
 /** @internal */
 export interface SelectedItemEvent {
@@ -41,10 +45,11 @@ export interface RepositoryBrowserData {
 }
 
 const PAGESIZE = 20;
-const ROW_HEIGHT = 48;
+const ROW_HEIGHT = 42;
 
 export class GridTableDataSource extends DataSource<any> {
   private _data: any[];
+  scrollSub: Subscription;
 
   get allData(): ILfSelectable[] {
     return this._data.slice();
@@ -71,11 +76,11 @@ export class GridTableDataSource extends DataSource<any> {
     this._data = initialData;
     this.viewport.setTotalContentSize(this.itemSize * initialData.length);
     this.visibleData.next(this._data.slice(0, PAGESIZE));
-    this.viewport.elementScrolled().subscribe((ev: any) => {
+    this.scrollSub = this.viewport.elementScrolled().subscribe((ev: any) => {
       const start = Math.floor(ev.currentTarget.scrollTop / ROW_HEIGHT);
       const prevExtraData = start > 5 ? 5 : 0;
       // const prevExtraData = 0;
-      const slicedData = this._data.slice(start - prevExtraData, start + (PAGESIZE - prevExtraData));
+      const slicedData = this._data.slice(0, start + (PAGESIZE - prevExtraData));
       this.offset = ROW_HEIGHT * (start - prevExtraData);
       this.viewport.setRenderedContentOffset(this.offset);
       this.offsetChange.next(this.offset);
@@ -83,6 +88,9 @@ export class GridTableDataSource extends DataSource<any> {
     });
   }
 
+  destroy() {
+    this.scrollSub.unsubscribe();
+  }
   private readonly visibleData: BehaviorSubject<ILfSelectable[]> = new BehaviorSubject<ILfSelectable[]>([]);
 
   connect(collectionViewer: CollectionViewer): Observable<any[] | ReadonlyArray<any>> {
@@ -114,8 +122,9 @@ export class CustomVirtualScrollStrategy extends FixedSizeVirtualScrollStrategy 
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
+  @ViewChild('matTable', { read: ElementRef }) matTable?: ElementRef;
   @Input() itemSize: number = 42;
-  private additionalColumnDefs: ColumnDef[] = [];
+  private additionalColumnDefs: ColumnDefEx[] = [];
   allColumnHeaders?: string[];
   /** @internal */
   items: ILfSelectable[] = [];
@@ -123,18 +132,20 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
   columnMinWidth: number = 100;
   selectWidth: number = 0;
-  selectColumnDef: ColumnDef = { id: 'select', displayName: '', defaultWidth: '50px' };
-  nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '100px' };
-  allColumnDefs: ColumnDef[] = [];
+  selectColumnDef: ColumnDefEx = { id: 'select', displayName: '', defaultWidth: '50px' };
+  nameColumnDef: ColumnDefEx = { id: 'name', displayName: 'Name', defaultWidth: '30%' };
+  allColumnDefs: ColumnDefEx[] = [];
   previousWidth: number = 0;
   _containerWidth: number = 0;
   _localStorageKey: string = '';
+  firstResize: boolean = true;
 
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
     if (this.dataSource) {
       this.dataSource.allData = this.items;
     }
+    this.setInitialWidth();
   }
 
   @Input() set uniqueIdentifier(key: string) {
@@ -158,7 +169,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   @Input() set columns(cols: ColumnDef[]) {
-    const toAdd: ColumnDef[] = this.multipleSelection ? [this.selectColumnDef, this.nameColumnDef] : [this.nameColumnDef];
+    const toAdd: ColumnDef[] = this.multipleSelection
+      ? [this.selectColumnDef, this.nameColumnDef]
+      : [this.nameColumnDef];
     // only add name column if it's not in there??
     this.allColumnDefs = toAdd.concat(cols);
     this.allColumnHeaders = this.allColumnDefs.map((col) => col.id);
@@ -215,6 +228,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
   }
   ngOnDestroy() {
+    this.dataSource?.destroy();
     this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
   }
 
@@ -379,21 +393,21 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     // Check the local store based on ids
     let asJSON = this.getLocalStorageData();
     this.allColumnDefs.forEach((col) => {
-      let width: string;
       const columnWidth = asJSON?.columns[col.id];
       if (columnWidth) {
-        width = columnWidth;
+        col.currentWidth = columnWidth;
       } else {
-        width = col.defaultWidth;
+        col.currentWidth = col.defaultWidth;
       }
 
       const columnEls = Array.from(
         this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
       );
-      columnEls.forEach((el: Element) => {
-        (el as HTMLDivElement).style.width = width;
-      });
     });
+    if (this.matTable) {
+      const templateCOls = this.allColumnDefs.map((c) => c.currentWidth).join(' ');
+      (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns = templateCOls;
+    }
   }
 
   private getLocalStorageData(): RepositoryBrowserData | undefined {
@@ -472,6 +486,29 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   resizableMouseup?: () => void;
 
   onResizeColumn(ev: MouseEvent, index: number) {
+    if (this.firstResize) {
+      this.allColumnDefs.forEach((colDef, i) => {
+        const columnElements = this.viewport!.elementRef.nativeElement.getElementsByClassName(
+          'mat-column-' + this.allColumnDefs[i].id
+        );
+
+        const currentWidth = columnElements![0].clientWidth;
+        colDef.currentWidth = currentWidth + 'px';
+      });
+      const colWidths = this.allColumnDefs
+      .map((c) => c.currentWidth)
+      .join(' ');
+      (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns = colWidths;
+      let repoData: RepositoryBrowserData | undefined = this.getLocalStorageData();
+      if(!repoData) {
+        repoData = {columns: {}};
+      }
+      this.allColumnDefs.forEach(col => {
+        repoData!.columns[col.id] = col.currentWidth ?? col.defaultWidth;
+      })
+      localStorage.setItem(this._localStorageKey, JSON.stringify(repoData));
+    }
+    this.firstResize = false;
     ev.preventDefault();
     ev.stopPropagation();
     this.currentResizeIndex = index;
@@ -503,13 +540,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         const width = this.startWidth! + displacementX;
         let repoData: RepositoryBrowserData | undefined = this.getLocalStorageData();
         const key = this.allColumnDefs[index].id;
-        if(repoData) {
+        if (repoData) {
           repoData.columns[key] = (width < this.columnMinWidth ? this.columnMinWidth : width).toString() + 'px';
-        }
-        else {
+        } else {
           repoData = {
-            columns: {}
-          }
+            columns: {},
+          };
           repoData.columns[key] = (width < this.columnMinWidth ? this.columnMinWidth : width).toString() + 'px';
         }
         localStorage.setItem(this._localStorageKey, JSON.stringify(repoData));
@@ -526,20 +562,20 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       if (width > this.columnMinWidth) {
         this.previousWidth = width;
         // this.allColumnDefs[index].width = width;
-        this.setColumnWidth(this.allColumnDefs[index], width);
+        this.allColumnDefs[index].currentWidth = width + 'px';
+        (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns = this.allColumnDefs
+          .map((c) => c.currentWidth)
+          .join(' ');
       }
     }
   }
 
-  setColumnWidth(column: ColumnDef, width: number) {
-    if (this.viewport == null) {
-      return;
-    }
-    const columnEls = Array.from(
-      this.viewport.elementRef.nativeElement.getElementsByClassName('mat-column-' + column.id)
-    );
-    columnEls.forEach((el: Element) => {
-      (el as HTMLDivElement).style.width = width + 'px';
-    });
-  }
+  // setColumnWidth(column: ColumnDef, width: number) {
+  //   if (this.viewport == null) {
+  //     return;
+  //   }
+  //   const columnEls = Array.from(
+  //     this.viewport.elementRef.nativeElement.getElementsByClassName('mat-column-' + column.id)
+  //   );
+  // }
 }

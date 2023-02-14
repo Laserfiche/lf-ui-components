@@ -42,7 +42,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       throw new Error('repoBrowser is undefined');
     }
     this.singleSelectRepoBrowser.nativeElement.columnsToDisplay = [
-      { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '50em' }
+      { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%' }
     ];
     this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
     this.singleColChange();
@@ -71,8 +71,8 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.repoBrowser?.nativeElement.refreshAsync();
   }
 
-  create = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '50em' };
-  test = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '50em' };
+  create = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%' };
+  test = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '15em' };
 
   singleColChange() {
     const columns = [];

@@ -1,11 +1,12 @@
 <cdk-virtual-scroll-viewport
   #viewport
   id="lf-list-viewport"
+  appendOnly
   [itemSize]="itemSize"
   (scrolledIndexChange)="onScroll($event)"
   (keydown)="onViewportKeyDown($event)"
 >
-  <table
+  <table #matTable
     role="grid"
     mat-table
     [dataSource]="dataSource"
@@ -13,7 +14,6 @@
     matSort
     (matSortChange)="sortData($event)"
     [multiTemplateDataRows]="true"
-    fixedLayout="true"
     [ngClass]="{
       'table-width-auto': !(columns?.length > 0)
     }"
@@ -24,7 +24,7 @@
         <ng-container *ngSwitchCase="'name'">
           <th mat-header-cell *matHeaderCellDef  class="lf-ellipsis-overflow">
             <!-- <span class="resize-handle resize-handle-left" (mousedown)="onResizeColumn($event, multipleSelection ? 0 : 0)"></span> -->
-            <span mat-sort-header>Name</span>
+            <div class="column-text-div" mat-sort-header>Name</div>
             <span
               class="resize-handle resize-handle-right"
               (mousedown)="onResizeColumn($event, i)"
@@ -35,7 +35,7 @@
               <div *ngIf="getIcons(element.value).length > 0" class="fixed-size-icon-container">
                 <img *ngFor="let icon of getIcons(element.value)" src="{{ icon }}" alt="" class="lf-entry-icon" />
               </div>
-              <span title="{{ element.value?.name }}" class="lf-ellipsis-overflow">{{ element.value?.name }} </span>
+              <div title="{{ element.value?.name }}" class="lf-ellipsis-overflow">{{ element.value?.name }} </div>
             </div>
           </td></ng-container
         >
@@ -62,13 +62,15 @@
         </ng-container>
         <!--default case when there are no matches -->
         <ng-container *ngSwitchDefault>
-          <th  mat-header-cell *matHeaderCellDef class="lf-ellipsis-overflow">
+          <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-overflow">
             <span class="resize-handle resize-handle-left" (mousedown)="onResizeColumn($event, i-1)"></span>
-            <span mat-sort-header>{{ column.displayName }}</span>
+            <div class="column-text-div" mat-sort-header>{{ column.displayName }}</div>
             <span *ngIf="i === allColumnDefs.length-1" class="resize-handle resize-handle-right" (mousedown)="onResizeColumn($event, i)"></span>
           </th>
           <td mat-cell class="lf-ellipsis-overflow" *matCellDef="let element">
-            {{ element.value.attributes?.get(column.id)?.displayValue }}
+            <div class="column-text-div">
+              {{ element.value.attributes?.get(column.id)?.displayValue }}
+            </div>
           </td>
         </ng-container>
       </ng-container>
