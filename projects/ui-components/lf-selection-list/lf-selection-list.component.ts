@@ -31,9 +31,6 @@ export interface ColumnDef {
   defaultWidth: string;
 }
 
-interface ColumnDefEx extends ColumnDef {
-  currentWidth?: string;
-}
 /** @internal */
 export interface SelectedItemEvent {
   selected: ILfSelectable;
@@ -124,7 +121,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
   @ViewChild('matTable', { read: ElementRef }) matTable?: ElementRef;
   @Input() itemSize: number = 42;
-  private additionalColumnDefs: ColumnDefEx[] = [];
+  private additionalColumnDefs: ColumnDef[] = [];
   allColumnHeaders?: string[];
   /** @internal */
   items: ILfSelectable[] = [];
@@ -132,9 +129,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
   columnMinWidth: number = 100;
   selectWidth: number = 0;
-  selectColumnDef: ColumnDefEx = { id: 'select', displayName: '', defaultWidth: '50px' };
-  nameColumnDef: ColumnDefEx = { id: 'name', displayName: 'Name', defaultWidth: '30%' };
-  allColumnDefs: ColumnDefEx[] = [];
+  selectColumnDef: ColumnDef = { id: 'select', displayName: '', defaultWidth: '50px' };
+  nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '30%' };
+  allColumnDefs: ColumnDef[] = [];
   previousWidth: number = 0;
   _containerWidth: number = 0;
   _localStorageKey: string = '';
@@ -169,6 +166,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   @Input() set columns(cols: ColumnDef[]) {
+    this.firstResize = true;
     const toAdd: ColumnDef[] = this.multipleSelection
       ? [this.selectColumnDef, this.nameColumnDef]
       : [this.nameColumnDef];
@@ -392,12 +390,13 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   setInitialWidth() {
     // Check the local store based on ids
     let asJSON = this.getLocalStorageData();
+    const widths: string[] = [];
     this.allColumnDefs.forEach((col) => {
       const columnWidth = asJSON?.columns[col.id];
       if (columnWidth) {
-        col.currentWidth = columnWidth;
+        widths.push(columnWidth);
       } else {
-        col.currentWidth = col.defaultWidth;
+        widths.push(col.defaultWidth);
       }
 
       const columnEls = Array.from(
@@ -405,7 +404,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       );
     });
     if (this.matTable) {
-      const templateCOls = this.allColumnDefs.map((c) => c.currentWidth).join(' ');
+      const templateCOls = widths.join(' ');
       (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns = templateCOls;
     }
   }
@@ -487,25 +486,24 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   onResizeColumn(ev: MouseEvent, index: number) {
     if (this.firstResize) {
+      const currentStyle = (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns;
+      const currentWidths: string[] = currentStyle.split(' ');
+      let repoData: RepositoryBrowserData | undefined = this.getLocalStorageData();
+      if (!repoData) {
+        repoData = { columns: {} };
+      }
       this.allColumnDefs.forEach((colDef, i) => {
         const columnElements = this.viewport!.elementRef.nativeElement.getElementsByClassName(
           'mat-column-' + this.allColumnDefs[i].id
         );
 
         const currentWidth = columnElements![0].clientWidth;
-        colDef.currentWidth = currentWidth + 'px';
+        currentWidths[i] = currentWidth + 'px';
+        repoData!.columns[colDef.id] = currentWidth + 'px';
       });
-      const colWidths = this.allColumnDefs
-      .map((c) => c.currentWidth)
-      .join(' ');
+      const colWidths = currentWidths.join(' ');
       (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns = colWidths;
-      let repoData: RepositoryBrowserData | undefined = this.getLocalStorageData();
-      if(!repoData) {
-        repoData = {columns: {}};
-      }
-      this.allColumnDefs.forEach(col => {
-        repoData!.columns[col.id] = col.currentWidth ?? col.defaultWidth;
-      })
+
       localStorage.setItem(this._localStorageKey, JSON.stringify(repoData));
     }
     this.firstResize = false;
@@ -559,13 +557,13 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     const origWidth = this.previousWidth;
     const dx = width - origWidth;
     if (dx !== 0) {
+      const widths = (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns;
+      const widthsA = widths.split(' ');
       if (width > this.columnMinWidth) {
         this.previousWidth = width;
         // this.allColumnDefs[index].width = width;
-        this.allColumnDefs[index].currentWidth = width + 'px';
-        (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns = this.allColumnDefs
-          .map((c) => c.currentWidth)
-          .join(' ');
+        widthsA[index] = width + 'px';
+        (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns = widthsA.join(' ');
       }
     }
   }

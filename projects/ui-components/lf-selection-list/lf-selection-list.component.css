@@ -102,6 +102,10 @@ tr.mat-header-row.lf-selection-list-header-row {
   display: block;
 }
 
+::ng-deep .lf-ellipsis-overflow .mat-sort-header-container {
+  width: 100%;
+}
+
 :host .lf-table-selection-list th.mat-header-cell {
   background-color: rgb(0,0,0,0.05);
 }
@@ -149,6 +153,14 @@ table th .resize-handle:hover {
   opacity: 1;
   /* transition: .3s ease-in-out; */
   background: linear-gradient(#000, #000) no-repeat center/2px 100%;
+}
+
+::ng-deep .mat-sort-header .mat-sort-header-arrow {
+  display: none;
+}
+
+::ng-deep .mat-sort-header:hover .mat-sort-header-arrow {
+  display: flex;
 }
 
 .resize-handle {
