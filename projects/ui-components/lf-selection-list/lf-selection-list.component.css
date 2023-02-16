@@ -126,10 +126,8 @@ tr.mat-header-row.lf-selection-list-header-row {
 } */
 
 ::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list{
-  border-top: 1px solid;
-  border-top-color: rgb(0,0,0,0.12);
-  border-top-width: 1px;
   display: grid;
+  width: 100%;
 }
 ::ng-deep .lf-table-selection-list thead, ::ng-deep .lf-table-selection-list tbody, ::ng-deep .lf-table-selection-list tr {
   display: contents;
@@ -145,8 +143,11 @@ tr.mat-header-row.lf-selection-list-header-row {
   width: auto;
 }
 
+
 ::ng-deep .cdk-virtual-scroll-content-wrapper {
   transform: translateY(0px) !important;
+  width: 100%;
+  overflow-x: auto;
 }
 
 table th .resize-handle:hover {
