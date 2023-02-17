@@ -1,22 +1,21 @@
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { CdkVirtualScrollViewport, FixedSizeVirtualScrollStrategy } from '@angular/cdk/scrolling';
+import {
+  CdkVirtualScrollViewport
+} from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
-  NgZone,
   OnDestroy,
   Output,
   Renderer2,
   ViewChild,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTable } from '@angular/material/table';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 
@@ -46,7 +45,7 @@ const ROW_HEIGHT = 42;
 
 export class GridTableDataSource extends DataSource<any> {
   private _data: any[];
-  scrollSub: Subscription;
+  indexChangeSub: Subscription;
 
   get allData(): ILfSelectable[] {
     return this._data.slice();
@@ -68,45 +67,33 @@ export class GridTableDataSource extends DataSource<any> {
 
   offset = 0;
   offsetChange = new BehaviorSubject(0);
-  constructor(initialData: ILfSelectable[], private viewport: CdkVirtualScrollViewport, private itemSize: number) {
+
+  constructor(
+    initialData: ILfSelectable[],
+    private viewport: CdkVirtualScrollViewport,
+    private itemSize: number
+  ) {
     super();
     this._data = initialData;
     this.viewport.setTotalContentSize(this.itemSize * initialData.length);
     this.visibleData.next(this._data.slice(0, PAGESIZE));
-    this.scrollSub = this.viewport.elementScrolled().subscribe((ev: any) => {
-      const start = Math.floor(ev.currentTarget.scrollTop / ROW_HEIGHT);
-      const prevExtraData = start > 5 ? 5 : 0;
-      // const prevExtraData = 0;
-      const slicedData = this._data.slice(0, start + (PAGESIZE - prevExtraData));
-      this.offset = ROW_HEIGHT * (start - prevExtraData);
-      this.viewport.setRenderedContentOffset(this.offset);
-      this.offsetChange.next(this.offset);
+
+
+    this.indexChangeSub = this.viewport.scrolledIndexChange.subscribe((li) => {
+      const slicedData = this._data.slice(li, li + PAGESIZE);
       this.visibleData.next(slicedData);
+      this.offsetChange.next(li*ROW_HEIGHT);
     });
   }
 
-  destroy() {
-    this.scrollSub.unsubscribe();
-  }
   private readonly visibleData: BehaviorSubject<ILfSelectable[]> = new BehaviorSubject<ILfSelectable[]>([]);
 
   connect(collectionViewer: CollectionViewer): Observable<any[] | ReadonlyArray<any>> {
     return this.visibleData;
   }
 
-  disconnect(collectionViewer: CollectionViewer): void {}
-}
-
-/**
- * Virtual Scroll Strategy
- */
-export class CustomVirtualScrollStrategy extends FixedSizeVirtualScrollStrategy {
-  constructor() {
-    super(ROW_HEIGHT, 1000, 2000);
-  }
-
-  attach(viewport: CdkVirtualScrollViewport): void {
-    this.onDataLengthChanged();
+  disconnect(collectionViewer: CollectionViewer): void {
+    this.indexChangeSub.unsubscribe();
   }
 }
 
@@ -136,6 +123,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   _containerWidth: number = 0;
   _localStorageKey: string = '';
   firstResize: boolean = true;
+  offSetSub?: Subscription;
 
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
@@ -209,7 +197,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.dataSource = new GridTableDataSource(this.items, this.viewport!, this.itemSize);
     this.ref.detectChanges();
-    this.dataSource.offsetChange.subscribe((offset) => {
+    this.offSetSub = this.dataSource.offsetChange.subscribe((offset) => {
       this.placeholderHeight = offset;
     });
 
@@ -226,7 +214,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
   }
   ngOnDestroy() {
-    this.dataSource?.destroy();
+    this.offSetSub?.unsubscribe();
     this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
   }
 
@@ -271,6 +259,11 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.selectable.onItemClicked(event, option, this.items);
     }
     this.currentFocusIndex = index;
+    // TODO not focusing
+    const ele = this.viewport?.elementRef.nativeElement.querySelector(
+      '#lf-row-' + this.currentFocusIndex
+    ) as HTMLElement;
+    ele?.focus();
 
     this.itemSelected.emit({ selected: option, selectedItems: this.selectable.selectedItems });
   }

@@ -47,15 +47,15 @@ table {
   outline: none;
 }
 
-.node-selected.item-holder {
+.node-selected {
   background-color: var(--lf-menu-item-selected-color, #EAF5FF) !important;
 }
 
-.item-holder:hover {
+.item-holder:hover td {
   background-color: var(--lf-menu-item-hover-color, #f5fbff);
 }
 
-.item-holder:focus {
+.item-holder:focus td {
   outline: var(--lf-menu-item-active-outline-color, #1783d6) auto 2px !important;
   background-color: var(--lf-menu-item-hover-color, #f5fbff);
 }
@@ -147,13 +147,17 @@ tr.mat-header-row.lf-selection-list-header-row {
 ::ng-deep .cdk-virtual-scroll-content-wrapper {
   transform: translateY(0px) !important;
   width: 100%;
-  overflow-x: auto;
+  /* overflow-x: auto; */
 }
 
 table th .resize-handle:hover {
   opacity: 1;
   /* transition: .3s ease-in-out; */
   background: linear-gradient(#000, #000) no-repeat center/2px 100%;
+}
+
+::ng-deep .lf-table-selection-list th.placeholder {
+  height: 20px;
 }
 
 ::ng-deep .mat-sort-header .mat-sort-header-arrow {
