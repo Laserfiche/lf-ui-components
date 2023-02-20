@@ -45,6 +45,7 @@ const ROW_HEIGHT = 42;
 export class GridTableDataSource extends DataSource<any> {
   private _data: any[];
   indexChangeSub: Subscription;
+  curStart: number = 0;
 
   get allData(): ILfSelectable[] {
     return this._data.slice();
@@ -75,6 +76,7 @@ export class GridTableDataSource extends DataSource<any> {
 
     this.indexChangeSub = this.viewport.scrolledIndexChange.subscribe((li) => {
       const slicedData = this._data.slice(li, li + PAGESIZE);
+      this.curStart = li;
       this.visibleData.next(slicedData);
       this.offsetChange.next(li*ROW_HEIGHT);
     });
@@ -257,10 +259,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     this.currentFocusIndex = index;
     // TODO not focusing
-    const ele = this.viewport?.elementRef.nativeElement.querySelector(
-      '#lf-row-' + this.currentFocusIndex
-    ) as HTMLElement;
-    ele?.focus();
 
     this.itemSelected.emit({ selected: option, selectedItems: this.selectable.selectedItems });
   }
@@ -440,7 +438,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     const rowEleRect = rowEle.getBoundingClientRect();
     const scrollRect = this.viewport.elementRef.nativeElement.getBoundingClientRect();
-    return rowEleRect.top >= scrollRect.top && rowEleRect.bottom <= scrollRect.bottom;
+    const belowTop = rowEleRect.top >= (scrollRect.top + ROW_HEIGHT); // need to include header row in height
+    const aboveBottom = rowEleRect.bottom <= scrollRect.bottom;
+    return belowTop && aboveBottom;
   }
 
   /** @internal */
