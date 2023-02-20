@@ -16,6 +16,7 @@
     [ngClass]="{
       'table-width-auto': !(columns?.length > 0)
     }"
+    multiTemplateDataRows="true"
   >
     <ng-container [matColumnDef]="column.id" *ngFor="let column of allColumnDefs; let i = index">
       <ng-container [ngSwitch]="column.id">
@@ -107,7 +108,6 @@
       <th mat-header-cell *matHeaderCellDef></th>
     </ng-container>
 
-    <!-- <tr mat-header-row [style.height.px]="placeholderHeight" [style.gridTemplateColumns]="columnsWidth" *matHeaderRowDef="['item-description', 'item-description']"></tr> -->
 
     <tr
       class="lf-selection-list-header-row"
@@ -121,9 +121,9 @@
       mat-row
       *matRowDef="let row; let index = index; columns: []; when: placeholderWhen"
     ></tr>
-    <!-- <tr
+    <tr
       mat-row
-      *matRowDef="let row; let i = index; columns: allColumnHeaders"
+      *matRowDef="let row; let i = dataIndex; columns: allColumnHeaders"
       tabindex="0"
       class="item-holder"
       [attr.id]="_computeRowId(i)"
@@ -132,9 +132,10 @@
       (focusin)="onFocused(i)"
       (keydown)="onItemKeyDown($event, row)"
       (keyup)="onItemKeyUp($event, row)"
-    ></tr> -->
+      [style.gridTemplateColumns]="columnsWidth"
+    ></tr>
 
-    <ng-template
+    <!-- <ng-template
       let-row
       let-i="index"
       matRowDef
@@ -153,6 +154,6 @@
         (keydown)="onItemKeyDown($event, row)"
         (keyup)="onItemKeyUp($event, row)"
       ></tr>
-    </ng-template>
+    </ng-template> -->
   </table>
 </cdk-virtual-scroll-viewport>

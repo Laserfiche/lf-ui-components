@@ -130,8 +130,13 @@ tr.mat-header-row.lf-selection-list-header-row {
   flex-direction: column;
   width: 100%;
 }
-::ng-deep .lf-table-selection-list thead, ::ng-deep .lf-table-selection-list tbody, ::ng-deep .lf-table-selection-list tr {
+::ng-deep .lf-table-selection-list tr {
   display: grid;
+}
+
+::ng-deep .lf-table-selection-list thead {
+  position: sticky;
+  top: 0;
 }
 
 .column-text-div {
