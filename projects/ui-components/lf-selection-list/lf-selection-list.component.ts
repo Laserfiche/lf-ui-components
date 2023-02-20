@@ -1,10 +1,9 @@
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import {
-  CdkVirtualScrollViewport
-} from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -68,22 +67,18 @@ export class GridTableDataSource extends DataSource<any> {
   offset = 0;
   offsetChange = new BehaviorSubject(0);
 
-  constructor(
-    initialData: ILfSelectable[],
-    private viewport: CdkVirtualScrollViewport,
-    private itemSize: number
-  ) {
+  constructor(initialData: ILfSelectable[], private viewport: CdkVirtualScrollViewport, private itemSize: number) {
     super();
     this._data = initialData;
     this.viewport.setTotalContentSize(this.itemSize * initialData.length);
     this.visibleData.next(this._data.slice(0, PAGESIZE));
-
 
     this.indexChangeSub = this.viewport.scrolledIndexChange.subscribe((li) => {
       const slicedData = this._data.slice(li, li + PAGESIZE);
       this.visibleData.next(slicedData);
       this.offsetChange.next(li*ROW_HEIGHT);
     });
+    
   }
 
   private readonly visibleData: BehaviorSubject<ILfSelectable[]> = new BehaviorSubject<ILfSelectable[]>([]);
@@ -102,6 +97,7 @@ export class GridTableDataSource extends DataSource<any> {
   selector: 'lf-selection-list-component',
   templateUrl: './lf-selection-list.component.html',
   styleUrls: ['./lf-selection-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
@@ -124,6 +120,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   _localStorageKey: string = '';
   firstResize: boolean = true;
   offSetSub?: Subscription;
+  columnsWidth: string | undefined
 
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
@@ -398,7 +395,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     });
     if (this.matTable) {
       const templateCOls = widths.join(' ');
-      (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns = templateCOls;
+      this.columnsWidth = templateCOls;
     }
   }
 
@@ -479,8 +476,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   onResizeColumn(ev: MouseEvent, index: number) {
     if (this.firstResize) {
-      const currentStyle = (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns;
-      const currentWidths: string[] = currentStyle.split(' ');
+      const currentStyle = this.columnsWidth;
+      const currentWidths: string[] = currentStyle!.split(' ');
       let repoData: RepositoryBrowserData | undefined = this.getLocalStorageData();
       if (!repoData) {
         repoData = { columns: {} };
@@ -495,7 +492,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         repoData!.columns[colDef.id] = currentWidth + 'px';
       });
       const colWidths = currentWidths.join(' ');
-      (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns = colWidths;
+      this.columnsWidth = colWidths;
 
       localStorage.setItem(this._localStorageKey, JSON.stringify(repoData));
     }
@@ -550,13 +547,17 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     const origWidth = this.previousWidth;
     const dx = width - origWidth;
     if (dx !== 0) {
-      const widths = (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns;
+      const trs = (this.matTable!.nativeElement as HTMLElement).querySelectorAll('tr');
+      const widths = this.columnsWidth ?? '';
       const widthsA = widths.split(' ');
       if (width > this.columnMinWidth) {
         this.previousWidth = width;
         // this.allColumnDefs[index].width = width;
         widthsA[index] = width + 'px';
-        (this.matTable!.nativeElement as HTMLElement).style.gridTemplateColumns = widthsA.join(' ');
+        const stringWidths = widthsA.join(' ');
+        // trs.forEach((el) => (el.style.gridTemplateColumns = stringWidths));
+        this.columnsWidth = stringWidths;
+        this.ref.detectChanges();
       }
     }
   }

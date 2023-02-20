@@ -47,15 +47,15 @@ table {
   outline: none;
 }
 
-.node-selected {
+.node-selected.item-holder {
   background-color: var(--lf-menu-item-selected-color, #EAF5FF) !important;
 }
 
-.item-holder:hover td {
+.item-holder:hover {
   background-color: var(--lf-menu-item-hover-color, #f5fbff);
 }
 
-.item-holder:focus td {
+.item-holder:focus {
   outline: var(--lf-menu-item-active-outline-color, #1783d6) auto 2px !important;
   background-color: var(--lf-menu-item-hover-color, #f5fbff);
 }
@@ -126,11 +126,12 @@ tr.mat-header-row.lf-selection-list-header-row {
 } */
 
 ::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list{
-  display: grid;
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 ::ng-deep .lf-table-selection-list thead, ::ng-deep .lf-table-selection-list tbody, ::ng-deep .lf-table-selection-list tr {
-  display: contents;
+  display: grid;
 }
 
 .column-text-div {
@@ -143,11 +144,11 @@ tr.mat-header-row.lf-selection-list-header-row {
   width: auto;
 }
 
-
-::ng-deep .cdk-virtual-scroll-content-wrapper {
+::ng-deep #lf-list-viewport.cdk-virtual-scroll-orientation-vertical .cdk-virtual-scroll-content-wrapper {
+  min-width: auto;
   transform: translateY(0px) !important;
-  width: 100%;
-  /* overflow-x: auto; */
+  width: fit-content;
+
 }
 
 table th .resize-handle:hover {

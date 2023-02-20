@@ -104,18 +104,23 @@
       </ng-container>
     </ng-container>
     <ng-container matColumnDef="item-description">
-      <th [style.height.px]="placeholderHeight" class="placeholder" mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef></th>
     </ng-container>
 
+    <!-- <tr mat-header-row [style.height.px]="placeholderHeight" [style.gridTemplateColumns]="columnsWidth" *matHeaderRowDef="['item-description', 'item-description']"></tr> -->
 
     <tr
       class="lf-selection-list-header-row"
       [ngClass]="{ 'lf-hidden-column-header': columns?.length < 1 }"
-      mat-header-row
+      mat-header-row [style.gridTemplateColumns]="columnsWidth"
       *matHeaderRowDef="allColumnHeaders; sticky: true"
     ></tr>
 
-    <tr mat-header-row *matHeaderRowDef="['item-description', 'item-description']"></tr>
+    <tr
+      [style.height.px]="placeholderHeight"
+      mat-row
+      *matRowDef="let row; let index = index; columns: []; when: placeholderWhen"
+    ></tr>
     <!-- <tr
       mat-row
       *matRowDef="let row; let i = index; columns: allColumnHeaders"
@@ -137,7 +142,7 @@
       [matRowDefColumns]="allColumnHeaders"
       [cdkVirtualForOf]="items"
     >
-      <tr
+      <tr [style.gridTemplateColumns]="columnsWidth"
         mat-row
         tabindex="0"
         class="test-class-help item-holder"
