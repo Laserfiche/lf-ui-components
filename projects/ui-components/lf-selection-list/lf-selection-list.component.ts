@@ -474,7 +474,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   resizableMousemove?: () => void;
   resizableMouseup?: () => void;
 
-  onResizeColumn(ev: MouseEvent, index: number, rightSizer: boolean = false) {
+  onResizeColumn(ev: MouseEvent, index: number) {
     if (this.firstResize) {
       const currentStyle = this.columnsWidth;
       const currentWidths: string[] = currentStyle!.split(' ');
@@ -502,11 +502,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.currentResizeIndex = index;
     this.pressed = true;
     this.startX = ev.pageX;
-    if (rightSizer) {
-      this.resizePosition = (ev.target as any)?.offsetParent.offsetLeft + (ev.target as any)?.offsetParent.offsetWidth;
-    } else {
-      this.resizePosition = (ev.target as any)?.offsetParent.offsetLeft;
-    }
+    // hack: add 15 for padding
+    this.resizePosition =
+      (ev.target as any)?.offsetParent.offsetLeft + (ev.target as any)?.offsetParent.offsetWidth + 15;
     this.ref.detectChanges();
     const columnElement = this.viewport!.elementRef.nativeElement.getElementsByClassName(
       'mat-column-' + this.allColumnDefs[index].id
@@ -521,7 +519,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       if (this.pressed && event.buttons) {
         // TODO if I move too fast this doesn't take into account
         const resizePos = this.resizePosition + event?.movementX;
-        if(event.movementX > 0 || (resizePos - (event.target as any).offsetParent.offsetLeft) > this.columnMinWidth){
+        // don't move resizer closer than minimum width
+        if (event.movementX > 0 || resizePos - (event.target as any).offsetParent.offsetLeft > this.columnMinWidth) {
           this.resizePosition = resizePos;
           this.ref.detectChanges();
         }

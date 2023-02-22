@@ -131,6 +131,11 @@ tr.mat-header-row.lf-selection-list-header-row {
   height: 100%;
 }
 
+.lf-resize-wrapper-div {
+  width: 100%;
+  position: relative;
+}
+
 ::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list{
   display: flex;
   flex-direction: column;
@@ -194,11 +199,11 @@ table th .resize-handle:hover {
 }
 
 .resize-handle-right {
-  right: -7.5px;
+  right: -22.5px;
 }
 
 .resize-handle-left {
-  left: -7.5px;
+  left: -22.5px;
 }
 
 .lf-hidden-column-header {
