@@ -11,15 +11,7 @@ import * as strings_ptBR from './strings/pt-BR.json';
 import * as strings_th from './strings/th.json';
 import * as strings_zhHans from './strings/zh-Hans.json';
 import * as strings_zhHant from './strings/zh-Hant.json';
-import * as strings_ar_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/ar-EG.json';
-import * as strings_en_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/en-US.json';
-import * as strings_es_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/es-MX.json';
-import * as strings_fr_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/fr-FR.json';
-import * as strings_it_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/it-IT.json';
-import * as strings_ptBR_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/pt-BR.json';
-import * as strings_th_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/th-TH.json';
-import * as strings_zhHans_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/zh-Hans.json';
-import * as strings_zhHant_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/zh-Hant.json';
+import { strings_ar_common, strings_en_common, strings_es_common, strings_fr_common, strings_it_common, strings_ptBR_common, strings_th_common, strings_zhHans_common, strings_zhHant_common } from '@laserfiche/lf-resource-library';
 
 
 /** @internal */
