@@ -1,4 +1,6 @@
-<cdk-virtual-scroll-viewport
+
+<div class="lf-viewport-wrapper">
+  <cdk-virtual-scroll-viewport
   #viewport
   id="lf-list-viewport"
   [itemSize]="itemSize"
@@ -74,7 +76,7 @@
             <span
               *ngIf="i === allColumnDefs.length - 1"
               class="resize-handle resize-handle-right"
-              (mousedown)="onResizeColumn($event, i)"
+              (mousedown)="onResizeColumn($event, i, true)"
             ></span>
           </th>
           <td
@@ -146,4 +148,7 @@
       ></tr>
     </ng-template> -->
   </table>
+  <div *ngIf="pressed" class="ui-grid-resize-overlay" [style.left.px]="resizePosition"></div>
 </cdk-virtual-scroll-viewport>
+
+</div>

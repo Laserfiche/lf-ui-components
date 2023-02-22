@@ -78,9 +78,8 @@ export class GridTableDataSource extends DataSource<any> {
       const slicedData = this._data.slice(li, li + PAGESIZE);
       this.curStart = li;
       this.visibleData.next(slicedData);
-      this.offsetChange.next(li*ROW_HEIGHT);
+      this.offsetChange.next(li * ROW_HEIGHT);
     });
-    
   }
 
   private readonly visibleData: BehaviorSubject<ILfSelectable[]> = new BehaviorSubject<ILfSelectable[]>([]);
@@ -99,7 +98,7 @@ export class GridTableDataSource extends DataSource<any> {
   selector: 'lf-selection-list-component',
   templateUrl: './lf-selection-list.component.html',
   styleUrls: ['./lf-selection-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
@@ -122,7 +121,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   _localStorageKey: string = '';
   firstResize: boolean = true;
   offSetSub?: Subscription;
-  columnsWidth: string | undefined
+  columnsWidth: string | undefined;
+  resizePosition: number = 0;
 
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
@@ -438,7 +438,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     const rowEleRect = rowEle.getBoundingClientRect();
     const scrollRect = this.viewport.elementRef.nativeElement.getBoundingClientRect();
-    const belowTop = rowEleRect.top >= (scrollRect.top + ROW_HEIGHT); // need to include header row in height
+    const belowTop = rowEleRect.top >= scrollRect.top + ROW_HEIGHT; // need to include header row in height
     const aboveBottom = rowEleRect.bottom <= scrollRect.bottom;
     return belowTop && aboveBottom;
   }
@@ -474,7 +474,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   resizableMousemove?: () => void;
   resizableMouseup?: () => void;
 
-  onResizeColumn(ev: MouseEvent, index: number) {
+  onResizeColumn(ev: MouseEvent, index: number, rightSizer: boolean = false) {
     if (this.firstResize) {
       const currentStyle = this.columnsWidth;
       const currentWidths: string[] = currentStyle!.split(' ');
@@ -502,6 +502,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.currentResizeIndex = index;
     this.pressed = true;
     this.startX = ev.pageX;
+    if (rightSizer) {
+      this.resizePosition = (ev.target as any)?.offsetParent.offsetLeft + (ev.target as any)?.offsetParent.offsetWidth;
+    } else {
+      this.resizePosition = (ev.target as any)?.offsetParent.offsetLeft;
+    }
+    this.ref.detectChanges();
     const columnElement = this.viewport!.elementRef.nativeElement.getElementsByClassName(
       'mat-column-' + this.allColumnDefs[index].id
     );
@@ -511,12 +517,13 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   mouseMove(index: number) {
-    this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event) => {
+    this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event: MouseEvent) => {
       if (this.pressed && event.buttons) {
-        const displacementX = event.pageX - this.startX!;
-        const width = this.startWidth! + displacementX;
-        if (this.currentResizeIndex === index) {
-          this.setColumnWidthChanges(index, width);
+        // TODO if I move too fast this doesn't take into account
+        const resizePos = this.resizePosition + event?.movementX;
+        if(event.movementX > 0 || (resizePos - (event.target as any).offsetParent.offsetLeft) > this.columnMinWidth){
+          this.resizePosition = resizePos;
+          this.ref.detectChanges();
         }
       }
     });
@@ -526,6 +533,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         this.currentResizeIndex = -1;
         const displacementX = event.pageX - this.startX!;
         const width = this.startWidth! + displacementX;
+        this.setColumnWidthChanges(index, width);
         let repoData: RepositoryBrowserData | undefined = this.getLocalStorageData();
         const key = this.allColumnDefs[index].id;
         if (repoData) {
@@ -550,15 +558,16 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       const trs = (this.matTable!.nativeElement as HTMLElement).querySelectorAll('tr');
       const widths = this.columnsWidth ?? '';
       const widthsA = widths.split(' ');
-      if (width > this.columnMinWidth) {
-        this.previousWidth = width;
-        // this.allColumnDefs[index].width = width;
-        widthsA[index] = width + 'px';
-        const stringWidths = widthsA.join(' ');
-        // trs.forEach((el) => (el.style.gridTemplateColumns = stringWidths));
-        this.columnsWidth = stringWidths;
-        this.ref.detectChanges();
+      if (width < this.columnMinWidth) {
+        width = this.columnMinWidth;
       }
+      this.previousWidth = width;
+      // this.allColumnDefs[index].width = width;
+      widthsA[index] = width + 'px';
+      const stringWidths = widthsA.join(' ');
+      // trs.forEach((el) => (el.style.gridTemplateColumns = stringWidths));
+      this.columnsWidth = stringWidths;
+      this.ref.detectChanges();
     }
   }
 
