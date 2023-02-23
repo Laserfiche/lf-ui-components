@@ -377,7 +377,15 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   setInitialWidth() {
     // Check the local store based on ids
+    if (!this.viewport) {
+      return;
+    }
     let asJSON = this.getLocalStorageData();
+    const tableEl = Array.from(
+      this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
+    );
+    (tableEl[0] as HTMLTableElement).style.width = this._containerWidth + 'px';
+    this.ref.detectChanges();
     const widths: string[] = [];
     this.allColumnDefs.forEach((col) => {
       const columnWidth = asJSON?.columns[col.id];
@@ -391,10 +399,32 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
       );
     });
+
     if (this.matTable) {
       const templateCOls = widths.join(' ');
       this.columnsWidth = templateCOls;
     }
+
+    // save the column width as pixels
+    this.ref.detectChanges();
+    setTimeout(() => {
+      const widthsInPixel: string[] = [];
+      this.allColumnDefs.forEach((col) => {
+        const columnEls = Array.from(
+          this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
+        );
+        const columnWidthInPixel = (columnEls[0] as HTMLDivElement).clientWidth + 'px';
+        widthsInPixel.push(columnWidthInPixel);
+      })
+
+      if (this.matTable) {
+        const templateCOls = widthsInPixel.join(' ');
+        this.columnsWidth = templateCOls;
+      }
+
+      (tableEl[0] as HTMLTableElement).style.width = 'fit-content';
+      this.ref.detectChanges();
+    }, 0)
   }
 
   private getLocalStorageData(): RepositoryBrowserData | undefined {

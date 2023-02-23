@@ -72,7 +72,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   }
 
   create = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%' };
-  test = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '15em' };
+  test = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '60%' };
 
   singleColChange() {
     const columns = [];
