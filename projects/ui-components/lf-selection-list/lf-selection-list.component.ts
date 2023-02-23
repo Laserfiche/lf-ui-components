@@ -535,7 +535,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.currentResizeIndex = index;
     this.pressed = true;
     this.startX = ev.pageX;
-    this.resizePosition = this.startX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
+    this.resizePosition = ev.clientX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
     this.ref.detectChanges();
     const columnElement = this.viewport!.elementRef.nativeElement.getElementsByClassName(
       'mat-column-' + this.allColumnDefs[index].id
@@ -551,7 +551,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         return;
       }
       if (this.pressed && event.buttons) {
-          this.resizePosition = event.pageX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
+          this.resizePosition = event.clientX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
           this.ref.detectChanges();
       }
     });
