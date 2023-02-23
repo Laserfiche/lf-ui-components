@@ -475,6 +475,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   resizableMouseup?: () => void;
 
   onResizeColumn(ev: MouseEvent, index: number) {
+    if (!this.viewport) {
+      return;
+    }
     if (this.firstResize) {
       const currentStyle = this.columnsWidth;
       const currentWidths: string[] = currentStyle!.split(' ');
@@ -502,9 +505,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.currentResizeIndex = index;
     this.pressed = true;
     this.startX = ev.pageX;
-    // hack: add 15 for padding
-    this.resizePosition =
-      (ev.target as any)?.offsetParent.offsetLeft + (ev.target as any)?.offsetParent.offsetWidth + 15;
+    this.resizePosition = this.startX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
     this.ref.detectChanges();
     const columnElement = this.viewport!.elementRef.nativeElement.getElementsByClassName(
       'mat-column-' + this.allColumnDefs[index].id
@@ -516,14 +517,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   mouseMove(index: number) {
     this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event: MouseEvent) => {
+      if (!this.viewport) {
+        return;
+      }
       if (this.pressed && event.buttons) {
-        // TODO if I move too fast this doesn't take into account
-        const resizePos = this.resizePosition + event?.movementX;
-        // don't move resizer closer than minimum width
-        if (event.movementX > 0 || resizePos - (event.target as any).offsetParent.offsetLeft > this.columnMinWidth) {
-          this.resizePosition = resizePos;
+          this.resizePosition = event.pageX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
           this.ref.detectChanges();
-        }
       }
     });
     this.resizableMouseup = this.renderer.listen('document', 'mouseup', (event) => {
