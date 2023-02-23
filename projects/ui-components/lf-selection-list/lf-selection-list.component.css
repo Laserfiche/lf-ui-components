@@ -126,6 +126,7 @@ tr.mat-header-row.lf-selection-list-header-row {
   height: 100%;
   width: 1px;
   background-color: #aeaeae;
+  user-select: none;
 }
 .lf-viewport-wrapper {
   height: 100%;

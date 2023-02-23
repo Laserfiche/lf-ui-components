@@ -123,6 +123,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   offSetSub?: Subscription;
   columnsWidth: string | undefined;
   resizePosition: number = 0;
+  resizedColumnInitialOffsetLeft: number = 0;
 
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
@@ -542,6 +543,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     );
     this.startWidth = columnElement![0].clientWidth;
     this.previousWidth = this.startWidth;
+    this.resizedColumnInitialOffsetLeft = (columnElement![0] as any).offsetLeft;
     this.mouseMove(index);
   }
 
@@ -551,8 +553,15 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         return;
       }
       if (this.pressed && event.buttons) {
-          this.resizePosition = event.clientX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
+        const currentPositionWithScroll =  event.clientX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
+        if (currentPositionWithScroll - this.resizedColumnInitialOffsetLeft > this.columnMinWidth) {
+          this.resizePosition = currentPositionWithScroll;
           this.ref.detectChanges();
+        }
+        else {
+          this.resizePosition = this.resizedColumnInitialOffsetLeft + this.columnMinWidth;
+          this.ref.detectChanges();
+        }
       }
     });
     this.resizableMouseup = this.renderer.listen('document', 'mouseup', (event) => {
