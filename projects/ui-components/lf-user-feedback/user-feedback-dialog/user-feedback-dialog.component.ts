@@ -1,4 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable } from 'rxjs';
@@ -10,7 +18,7 @@ export enum FeedbackDialogState {
   FEEDBACK,
   SUGGESTION,
   THANK_YOU,
-  ERROR
+  ERROR,
 }
 
 /**
@@ -19,10 +27,9 @@ export enum FeedbackDialogState {
 @Component({
   selector: 'lf-user-feedback-dialog-component',
   templateUrl: './user-feedback-dialog.component.html',
-  styleUrls: ['./user-feedback-dialog.component.css']
+  styleUrls: ['./user-feedback-dialog.component.css'],
 })
 export class UserFeedbackDialogComponent implements AfterViewInit {
-
   @Output() submitFeedback: EventEmitter<UserFeedbackDialogData> = new EventEmitter();
   @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
 
@@ -31,37 +38,68 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   feedbackTextBox: string = '';
   feedbackEmailCheckbox: boolean = false;
   feedbackImageBase64: string = '';
+  imageUploaded?: File;
+  imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
+  isImageValid: boolean = false;
 
   get isSubmitDisabled(): boolean {
     return this.isEmptyOrWhitespace(this.feedbackTextBox);
   }
 
-  get isFirstPane(): boolean { return this.dialogState === FeedbackDialogState.FIRST_PANE; }
-  get isFeedback(): boolean { return this.dialogState === FeedbackDialogState.FEEDBACK; }
-  get isSuggestion(): boolean { return this.dialogState === FeedbackDialogState.SUGGESTION; }
-  get isThankYou(): boolean { return this.dialogState === FeedbackDialogState.THANK_YOU; }
-  get isError(): boolean { return this.dialogState === FeedbackDialogState.ERROR; }
+  get isFirstPane(): boolean {
+    return this.dialogState === FeedbackDialogState.FIRST_PANE;
+  }
+  get isFeedback(): boolean {
+    return this.dialogState === FeedbackDialogState.FEEDBACK;
+  }
+  get isSuggestion(): boolean {
+    return this.dialogState === FeedbackDialogState.SUGGESTION;
+  }
+  get isThankYou(): boolean {
+    return this.dialogState === FeedbackDialogState.THANK_YOU;
+  }
+  get isError(): boolean {
+    return this.dialogState === FeedbackDialogState.ERROR;
+  }
 
   localizedStrings = {
     SUGGESTION: this.localizationService.getStringLaserficheObservable('SUGGESTION'),
     FEEDBACK: this.localizationService.getStringLaserficheObservable('FEEDBACK'),
     CLOSE: this.localizationService.getStringLaserficheObservable('CLOSE'),
-    YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT: this.localizationService.getStringComponentsObservable('YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT'),
-    TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP: this.localizationService.getStringComponentsObservable('TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP'),
-    FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW: this.localizationService.getStringComponentsObservable('FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW'),
-    DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING: this.localizationService.getStringComponentsObservable('DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING'),
-    PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK: this.localizationService.getStringComponentsObservable('PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK'),
+    YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT: this.localizationService.getStringComponentsObservable(
+      'YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT'
+    ),
+    TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP: this.localizationService.getStringComponentsObservable(
+      'TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP'
+    ),
+    FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW: this.localizationService.getStringComponentsObservable(
+      'FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW'
+    ),
+    DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING:
+      this.localizationService.getStringComponentsObservable(
+        'DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING'
+      ),
+    PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK:
+      this.localizationService.getStringComponentsObservable(
+        'PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK'
+      ),
     TELL_US_ABOUT_EXPERIENCE: this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_EXPERIENCE'),
     TELL_US_ABOUT_IDEA: this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_IDEA'),
     I_HAVE_FEEDBACK: this.localizationService.getStringComponentsObservable('I_HAVE_FEEDBACK'),
     I_HAVE_SUGGESTION: this.localizationService.getStringComponentsObservable('I_HAVE_SUGGESTION'),
     THANK_YOU_FOR_SUBMISSION: this.localizationService.getStringComponentsObservable('THANK_YOU_FOR_SUBMISSION'),
-    YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK: this.localizationService.getStringComponentsObservable('YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK'),
-    IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL: this.localizationService.getStringComponentsObservable('IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL'),
+    YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK: this.localizationService.getStringComponentsObservable(
+      'YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK'
+    ),
+    IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL: this.localizationService.getStringComponentsObservable(
+      'IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL'
+    ),
     PLEASE_CLICK_HERE: this.localizationService.getStringComponentsObservable('PLEASE_CLICK_HERE'),
-    SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER: this.localizationService.getStringComponentsObservable('SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER'),
+    SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER: this.localizationService.getStringComponentsObservable(
+      'SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER'
+    ),
     SUBMIT: this.localizationService.getStringLaserficheObservable('SUBMIT'),
-    CANCEL: this.localizationService.getStringLaserficheObservable('CANCEL')
+    CANCEL: this.localizationService.getStringLaserficheObservable('CANCEL'),
   };
 
   USER_FEEDBACK_TITLE: Observable<string> = this.localizedStrings.FEEDBACK;
@@ -70,7 +108,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     public dialogRef: MatDialogRef<UserFeedbackDialogComponent>,
     private ref: ChangeDetectorRef,
     private localizationService: AppLocalizationService
-  ) { }
+  ) {}
 
   ngAfterViewInit() {
     const elem = document.getElementById('lf-user-feedback-feedback-mode-button');
@@ -104,26 +142,47 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   }
 
   onInputClickArea(): void {
-    if(this.inputFile)
-    {
-      this.inputFile.nativeElement.click();
-
+    if (!this.inputFile) {
+      return;
     }
+    this.inputFile.nativeElement.click();
   }
 
-  onFileSelected(event: Event): void {
-    if(!this.inputFile){
-      return
+  onFileSelected(): void {
+    this.imageUploaded = this.inputFile?.nativeElement.files?.item(0) ?? undefined;
+
+    if (this.imageUploaded && this.imageUploaded.size <= this.imageSizeLimitBytes) {
+      this.isImageValid = true;
+      this.getBase64(this.imageUploaded);
     }
-    const file = this.inputFile.nativeElement.files!.item(0);
-    console.log(file?.name);
-    // TODO:
-    // display file name
+
     // limit the image size <2.9m and do error handlings
     // base64 encode the image string
     // add a remove button to clear what have been uploaded
+  }
 
+  getBase64(file: File): void {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      console.log(reader.result);
+    };
+    reader.onerror = (error) => {
+      console.log('Error: ', error);
+    };
+    // TODO: remove header data:image/jpeg;base64,
+    // decode and test
+  }
 
+  removeImage(): void {
+    // this is to clear the selection of the input element
+    this.isImageValid = false;
+    if (!this.inputFile?.nativeElement.files) {
+      return;
+    }
+    this.inputFile.nativeElement.files = null;
+    this.imageUploaded = undefined;
+    this.inputFile.nativeElement.value = '';
   }
 
   private isEmptyOrWhitespace(value: string): boolean {

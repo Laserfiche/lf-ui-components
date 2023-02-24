@@ -27,8 +27,15 @@
       <span> / </span>
       <span>{{maxFeedbackLength}}</span>
   </span>
-<button class="lf-button feedback-file-upload-button" (click)="onInputClickArea()">Click to Upload</button>
-<input type="file" accept=".jpg,.png,.gif,.webp" class="file-input feedback-file-input" (change)="onFileSelected($event)" #uploadFile>
+
+<button [disabled]="isImageValid" class="lf-button feedback-file-upload-button" (click)="onInputClickArea()">Click to Upload</button>
+<input type="file" accept=".jpg,.png,.gif,.webp" class="file-input feedback-file-input" (input)="onFileSelected()" #uploadFile>
+
+<div *ngIf="imageUploaded?.name; else noUpload">{{imageUploaded?.name}}
+  <span (click)="removeImage()">Remove</span>
+  <span *ngIf="!isImageValid">image too big</span>
+</div>
+<ng-template #noUpload>no image uploaded</ng-template>
 
   <div class="email-checkbox-container">
       <mat-checkbox color="primary" class="lf-user-feedback-checkbox lf-checkbox"
