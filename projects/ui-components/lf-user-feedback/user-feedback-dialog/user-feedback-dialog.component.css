@@ -143,3 +143,7 @@ span#pop-up-dialog-close:hover {
 .lf-user-feedback-close-feedback-button {
   margin-right: 20px;
 }
+
+.feedback-file-input{
+  display: none;
+}

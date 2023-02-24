@@ -27,6 +27,9 @@
       <span> / </span>
       <span>{{maxFeedbackLength}}</span>
   </span>
+<button class="lf-button feedback-file-upload-button" (click)="onInputClickArea()">Click to Upload</button>
+<input type="file" accept=".jpg,.png,.gif,.webp" class="file-input feedback-file-input" (change)="onFileSelected($event)" #uploadFile>
+
   <div class="email-checkbox-container">
       <mat-checkbox color="primary" class="lf-user-feedback-checkbox lf-checkbox"
           [disableRipple]="true" ngDefaultControl [(ngModel)]="feedbackEmailCheckbox">

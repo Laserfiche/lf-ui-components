@@ -7,6 +7,7 @@ export interface UserFeedbackDialogData {
   userFeedbackTrackingEventType: UserFeedbackTrackingEventType;
   feedbackText: string;
   canContact: boolean;
+  feedbackImageBase64?: string;
 }
 
 /**
@@ -38,4 +39,5 @@ export interface UserFeedbackUserTrackingEvent extends IUserTrackingEvent {
   is_willing_to_be_contacted: boolean;
   message: string;
   email_address: string;
+  image?: string;
 }
