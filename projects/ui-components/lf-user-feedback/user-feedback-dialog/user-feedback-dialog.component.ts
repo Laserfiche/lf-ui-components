@@ -37,7 +37,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   readonly maxFeedbackLength: number = 2048;
   feedbackTextBox: string = '';
   feedbackEmailCheckbox: boolean = false;
-  feedbackImageBase64: string = '';
+  feedbackImageBase64: string | undefined;
   imageUploaded?: File;
   imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
   isImageValid: boolean = false;
@@ -154,6 +154,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     if (this.imageUploaded && this.imageUploaded.size <= this.imageSizeLimitBytes) {
       this.isImageValid = true;
       this.getBase64(this.imageUploaded);
+      console.log(this.feedbackImageBase64);
     }
 
     // limit the image size <2.9m and do error handlings
@@ -163,13 +164,15 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
 
   getBase64(file: File): void {
     var reader = new FileReader();
+
     reader.readAsDataURL(file);
     reader.onload = () => {
-      console.log(reader.result);
+      this.feedbackImageBase64 = reader.result as string;
     };
     reader.onerror = (error) => {
       console.log('Error: ', error);
     };
+
     // TODO: remove header data:image/jpeg;base64,
     // decode and test
   }
