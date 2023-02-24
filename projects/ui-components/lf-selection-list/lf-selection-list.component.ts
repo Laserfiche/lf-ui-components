@@ -114,9 +114,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   columnMinWidth: number = 100;
   selectWidth: number = 0;
   selectColumnDef: ColumnDef = { id: 'select', displayName: '', defaultWidth: '50px' };
-  nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '30%' };
+  nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: 'auto' };
   allColumnDefs: ColumnDef[] = [];
-  previousWidth: number = 0;
   _containerWidth: number = 0;
   _localStorageKey: string = '';
   firstResize: boolean = true;
@@ -128,9 +127,11 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
     if (this.dataSource) {
+      if (this.dataSource.allData.length < 1 && items.length > 0) {
+        this.setInitialWidth();
+      }
       this.dataSource.allData = this.items;
     }
-    this.setInitialWidth();
   }
 
   @Input() set uniqueIdentifier(key: string) {
@@ -155,10 +156,19 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   @Input() set columns(cols: ColumnDef[]) {
     this.firstResize = true;
-    const toAdd: ColumnDef[] = this.multipleSelection
-      ? [this.selectColumnDef, this.nameColumnDef]
-      : [this.nameColumnDef];
-    // only add name column if it's not in there??
+    const nameColumnDef = cols.find((col) => col.id === 'name');
+    const toAdd: ColumnDef[] = [];
+    if (nameColumnDef) {
+      if (this.multipleSelection) {
+        toAdd.push(this.selectColumnDef);
+      }
+    } else {
+      if (this.multipleSelection) {
+        toAdd.push(this.selectColumnDef, this.nameColumnDef);
+      } else {
+        toAdd.push(this.nameColumnDef)
+      }
+    }
     this.allColumnDefs = toAdd.concat(cols);
     this.allColumnHeaders = this.allColumnDefs.map((col) => col.id);
     this.additionalColumnDefs = cols;
@@ -407,6 +417,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
 
     // save the column width as pixels
+    // TODO: check if setTimeout is needed
     this.ref.detectChanges();
     setTimeout(() => {
       const widthsInPixel: string[] = [];
@@ -414,7 +425,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         const columnEls = Array.from(
           this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
         );
-        const columnWidthInPixel = (columnEls[0] as HTMLDivElement).clientWidth + 'px';
+        const columnWidthInPixel = (columnEls[0] as HTMLDivElement).offsetWidth  + 'px';
         widthsInPixel.push(columnWidthInPixel);
       })
 
@@ -425,7 +436,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
       (tableEl[0] as HTMLTableElement).style.width = 'fit-content';
       this.ref.detectChanges();
-    }, 0)
+    })
   }
 
   private getLocalStorageData(): RepositoryBrowserData | undefined {
@@ -498,7 +509,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   // column resizing
 
   placeholderHeight: number = 0;
-  currentResizeIndex: number = -1;
   pressed: boolean = false;
   startWidth?: number;
   startX?: number;
@@ -533,7 +543,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.firstResize = false;
     ev.preventDefault();
     ev.stopPropagation();
-    this.currentResizeIndex = index;
     this.pressed = true;
     this.startX = ev.pageX;
     this.resizePosition = ev.clientX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
@@ -542,7 +551,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       'mat-column-' + this.allColumnDefs[index].id
     );
     this.startWidth = columnElement![0].clientWidth;
-    this.previousWidth = this.startWidth;
     this.resizedColumnInitialOffsetLeft = (columnElement![0] as any).offsetLeft;
     this.mouseMove(index);
   }
@@ -567,20 +575,16 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.resizableMouseup = this.renderer.listen('document', 'mouseup', (event) => {
       if (this.pressed) {
         this.pressed = false;
-        this.currentResizeIndex = -1;
-        const displacementX = event.pageX - this.startX!;
-        const width = this.startWidth! + displacementX;
+        const width = this.resizePosition - this.resizedColumnInitialOffsetLeft;
         this.setColumnWidthChanges(index, width);
         let repoData: RepositoryBrowserData | undefined = this.getLocalStorageData();
         const key = this.allColumnDefs[index].id;
-        if (repoData) {
-          repoData.columns[key] = (width < this.columnMinWidth ? this.columnMinWidth : width).toString() + 'px';
-        } else {
+        if (!repoData) {
           repoData = {
             columns: {},
           };
-          repoData.columns[key] = (width < this.columnMinWidth ? this.columnMinWidth : width).toString() + 'px';
         }
+        repoData.columns[key] = width + 'px';
         localStorage.setItem(this._localStorageKey, JSON.stringify(repoData));
         if (this.resizableMousemove) this.resizableMousemove();
         if (this.resizableMouseup) this.resizableMouseup();
@@ -589,23 +593,13 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   setColumnWidthChanges(index: number, width: number) {
-    const origWidth = this.previousWidth;
-    const dx = width - origWidth;
-    if (dx !== 0) {
-      const trs = (this.matTable!.nativeElement as HTMLElement).querySelectorAll('tr');
-      const widths = this.columnsWidth ?? '';
-      const widthsA = widths.split(' ');
-      if (width < this.columnMinWidth) {
-        width = this.columnMinWidth;
-      }
-      this.previousWidth = width;
-      // this.allColumnDefs[index].width = width;
-      widthsA[index] = width + 'px';
-      const stringWidths = widthsA.join(' ');
-      // trs.forEach((el) => (el.style.gridTemplateColumns = stringWidths));
-      this.columnsWidth = stringWidths;
-      this.ref.detectChanges();
-    }
+    const widths = this.columnsWidth ?? '';
+    const widthsA = widths.split(' ');
+    widthsA[index] = width + 'px';
+    const stringWidths = widthsA.join(' ');
+    // trs.forEach((el) => (el.style.gridTemplateColumns = stringWidths));
+    this.columnsWidth = stringWidths;
+    this.ref.detectChanges();
   }
 
   // setColumnWidth(column: ColumnDef, width: number) {

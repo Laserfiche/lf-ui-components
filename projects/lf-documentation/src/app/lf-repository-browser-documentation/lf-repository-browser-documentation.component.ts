@@ -73,9 +73,11 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   create = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%' };
   test = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '60%' };
+  name = { id: 'name', displayName: 'Name', defaultWidth: '30%' };
 
   singleColChange() {
-    const columns = [];
+    const columns = [this.name];
+
     if (this.creation_col_single) {
       columns.push(this.create);
     }

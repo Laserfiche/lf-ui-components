@@ -14,6 +14,7 @@ table {
 .icon-name-container {
   display: flex;
   align-items: center;
+  height: 100%;
 }
 
 .fixed-size-icon-container {
@@ -66,12 +67,9 @@ table {
     width: 0;
     height: 0;
 }
-.multiselect-indicator {
+.multiselect-column .multiselect-indicator {
     padding-right: 8px;
-}
-
-.multiselect-column {
-  width: 24px;
+    display: inline-grid;
 }
 
 tr.mat-header-row.lf-selection-list-header-row {
@@ -127,6 +125,7 @@ tr.mat-header-row.lf-selection-list-header-row {
   width: 1px;
   background-color: #aeaeae;
   user-select: none;
+  z-index: 1;
 }
 .lf-viewport-wrapper {
   height: 100%;
@@ -149,6 +148,7 @@ tr.mat-header-row.lf-selection-list-header-row {
 ::ng-deep .lf-table-selection-list thead {
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 
 .column-text-div {
