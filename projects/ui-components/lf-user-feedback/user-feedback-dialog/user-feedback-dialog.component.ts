@@ -148,12 +148,13 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     this.inputFile.nativeElement.click();
   }
 
-  onFileSelected(): void {
+  async onFileSelected(): Promise<void> {
     this.imageUploaded = this.inputFile?.nativeElement.files?.item(0) ?? undefined;
 
     if (this.imageUploaded && this.imageUploaded.size <= this.imageSizeLimitBytes) {
       this.isImageValid = true;
-      this.getBase64(this.imageUploaded);
+      const encodingData = await this.getBase64(this.imageUploaded);
+      this.feedbackImageBase64 = encodingData?.split(',')[1];
       console.log(this.feedbackImageBase64);
     }
 
@@ -162,16 +163,19 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     // add a remove button to clear what have been uploaded
   }
 
-  getBase64(file: File): void {
-    var reader = new FileReader();
-
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.feedbackImageBase64 = reader.result as string;
-    };
-    reader.onerror = (error) => {
-      console.log('Error: ', error);
-    };
+  async getBase64(file: File): Promise<string | undefined> {
+    return new Promise((resolve,reject) => {
+      var reader = new FileReader();
+      reader.onload = () => {
+        resolve(reader.result as string);
+        // this.feedbackImageBase64 = reader.result as string;
+      };
+      reader.onerror = (error) => {
+        reject(reader.error);
+        console.log('Error: ', error);
+      };
+      reader.readAsDataURL(file);
+    });
 
     // TODO: remove header data:image/jpeg;base64,
     // decode and test
@@ -201,7 +205,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
       canContact: this.feedbackEmailCheckbox,
       userFeedbackTrackingEventType,
       feedbackText: this.feedbackTextBox,
-      // TODO: add image property
+      feedbackImageBase64: this.feedbackImageBase64,
     };
     return dialogData;
   }
