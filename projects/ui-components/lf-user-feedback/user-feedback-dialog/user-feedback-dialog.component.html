@@ -29,7 +29,7 @@
   </span>
 
 <button [disabled]="isImageValid" class="lf-button feedback-file-upload-button" (click)="onInputClickArea()">Click to Upload</button>
-<input type="file" accept=".jpg,.png,.gif,.webp" class="file-input feedback-file-input" (input)="onFileSelected()" #uploadFile>
+<input type="file" accept=".jpg,.png,.gif,.webp" class="file-input feedback-file-input" (input)="onFileSelectedAsync()" #uploadFile>
 
 <div *ngIf="imageUploaded?.name; else noUpload">{{imageUploaded?.name}}
   <span (click)="removeImage()">Remove</span>

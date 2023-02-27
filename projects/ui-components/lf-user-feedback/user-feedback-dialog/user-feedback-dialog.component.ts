@@ -148,23 +148,22 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     this.inputFile.nativeElement.click();
   }
 
-  async onFileSelected(): Promise<void> {
+  async onFileSelectedAsync(): Promise<void> {
     this.imageUploaded = this.inputFile?.nativeElement.files?.item(0) ?? undefined;
 
     if (this.imageUploaded && this.imageUploaded.size <= this.imageSizeLimitBytes) {
       this.isImageValid = true;
-      const encodingData = await this.getBase64(this.imageUploaded);
+      const encodingData = await this.getBase64Async(this.imageUploaded);
       this.feedbackImageBase64 = encodingData?.split(',')[1];
-      console.log(this.feedbackImageBase64);
+      console.log(this.feedbackImageBase64); // TODO: remove
     }
 
     // limit the image size <2.9m and do error handlings
-    // base64 encode the image string
-    // add a remove button to clear what have been uploaded
+
   }
 
-  async getBase64(file: File): Promise<string | undefined> {
-    return new Promise((resolve,reject) => {
+  async getBase64Async(file: File): Promise<string | undefined> {
+    return new Promise((resolve, reject) => {
       var reader = new FileReader();
       reader.onload = () => {
         resolve(reader.result as string);
