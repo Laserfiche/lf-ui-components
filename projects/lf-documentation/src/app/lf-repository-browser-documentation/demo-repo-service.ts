@@ -9,6 +9,7 @@ import {
 
 export const propIdCreateDate: string = 'create_date';
 export const propIdNumberCol: string = 'number_col';
+export const propIdNameCol: string = 'name';
 
 export class DemoRepoService implements LfTreeNodeService {
   breadCrumb: LfTreeNode[] = [];
@@ -337,7 +338,7 @@ export class DemoRepoService implements LfTreeNodeService {
     }
     const sortedData = data?.sort((a, b) => {
       const isAsc = !sortState.isDesc;
-      if (sortState.columnId === 'name') {
+      if (sortState.columnId === propIdNameCol) {
         return this.compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc);
       } else if (sortState.columnId !== undefined) {
         const aVal = a.attributes?.get(sortState?.columnId)?.value;

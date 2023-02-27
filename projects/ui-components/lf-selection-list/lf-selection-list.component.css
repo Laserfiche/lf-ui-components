@@ -17,17 +17,6 @@ table {
   height: 100%;
 }
 
-.fixed-size-icon-container {
-  position: relative;
-  width: 24px;
-  min-width: 24px;
-  height: 24px;
-  margin: 5px 10px 5px 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .lf-entry-icon {
   display: block;
   height: 24px;

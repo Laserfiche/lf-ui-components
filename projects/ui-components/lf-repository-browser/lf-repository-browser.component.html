@@ -17,10 +17,17 @@
     [itemSize]="itemSize"
     [columns]="columns"
     (scrollChanged)="onScroll()"
+    [listItemRef]="listOption"
     (itemDoubleClicked)="onDblClickAsync($event)"
     (itemSelected)="onItemSelected($event)"
     (itemFocused)="onEntryFocused($event)"
     (refreshData)="refreshAsync(false)"
   >
+    <ng-template #listOption let-item="value">
+      <div *ngIf="getIcons(item).length > 0" class="fixed-size-icon-container">
+        <img *ngFor="let icon of getIcons(item)" src="{{ icon }}" alt="" class="lf-entry-icon" />
+      </div>
+      <div title="{{ item?.name }}" class="lf-ellipsis-overflow">{{ item?.name }}</div>
+    </ng-template>
   </lf-selection-list-component>
 </div>

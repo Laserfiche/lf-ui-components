@@ -12,6 +12,7 @@ import {
   OnDestroy,
   Output,
   Renderer2,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -43,7 +44,7 @@ const PAGESIZE = 20;
 const ROW_HEIGHT = 42;
 
 export class GridTableDataSource extends DataSource<any> {
-  private _data: any[];
+  private _data: ILfSelectable[];
   indexChangeSub: Subscription;
   curStart: number = 0;
 
@@ -105,6 +106,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
   @ViewChild('matTable', { read: ElementRef }) matTable?: ElementRef;
   @Input() itemSize: number = 42;
+  @Input() listItemRef?: TemplateRef<unknown>
   private additionalColumnDefs: ColumnDef[] = [];
   allColumnHeaders?: string[];
   /** @internal */
@@ -166,7 +168,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       if (this.multipleSelection) {
         toAdd.push(this.selectColumnDef, this.nameColumnDef);
       } else {
-        toAdd.push(this.nameColumnDef)
+        toAdd.push(this.nameColumnDef);
       }
     }
     this.allColumnDefs = toAdd.concat(cols);
@@ -391,7 +393,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (!this.viewport) {
       return;
     }
-    let asJSON = this.getLocalStorageData();
+    const asJSON = this.getLocalStorageData();
     const tableEl = Array.from(
       this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
     );
@@ -427,7 +429,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         );
         const columnWidthInPixel = (columnEls[0] as HTMLDivElement).offsetWidth  + 'px';
         widthsInPixel.push(columnWidthInPixel);
-      })
+      });
 
       if (this.matTable) {
         const templateCOls = widthsInPixel.join(' ');
@@ -436,7 +438,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
       (tableEl[0] as HTMLTableElement).style.width = 'fit-content';
       this.ref.detectChanges();
-    })
+    });
   }
 
   private getLocalStorageData(): RepositoryBrowserData | undefined {
@@ -495,15 +497,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       '#lf-row-' + this.currentFocusIndex
     ) as HTMLElement;
     ele?.focus();
-  }
-
-  /**
-   * @internal
-   * @param entry
-   * @returns list of strings that represent img src's
-   */
-  getIcons(entry: any): string[] {
-    return typeof entry.icon === 'string' ? [entry.icon] : entry.icon;
   }
 
   // column resizing

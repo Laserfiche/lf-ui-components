@@ -3,7 +3,7 @@ import {
   LfTreeNode,
   LfRepositoryBrowserComponent,
 } from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
-import { DemoRepoService, propIdCreateDate, propIdNumberCol } from './demo-repo-service';
+import { DemoRepoService, propIdCreateDate, propIdNameCol, propIdNumberCol } from './demo-repo-service';
 
 @Component({
   selector: 'app-lf-repository-browser-documentation',
@@ -38,13 +38,11 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
         this.repoBrowser.nativeElement.focus();
       }
     }, 1000);
+    
     if (!this.singleSelectRepoBrowser) {
       throw new Error('repoBrowser is undefined');
     }
-    this.singleSelectRepoBrowser.nativeElement.columnsToDisplay = [
-      { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%' }
-    ];
-    this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
+    await this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
     this.singleColChange();
   }
 
@@ -73,7 +71,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   create = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%' };
   test = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '60%' };
-  name = { id: 'name', displayName: 'Name', defaultWidth: '30%' };
+  name = { id: propIdNameCol, displayName: 'Name', defaultWidth: '30%' };
 
   singleColChange() {
     const columns = [this.name];

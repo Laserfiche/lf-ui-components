@@ -1,4 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  NgZone,
+  OnDestroy,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
@@ -272,6 +283,15 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     await this.updateAllPossibleEntriesAsync(this._currentFolder);
     this.entryDblClicked.emit([this._currentFolder]);
     setTimeout(() => this.entryList?.focus());
+  }
+
+  /**
+   * @internal
+   * @param entry
+   * @returns list of strings that represent img src's
+   */
+  getIcons(entry: any): string[] {
+    return typeof entry.icon === 'string' ? [entry.icon] : entry.icon;
   }
 
   /**
