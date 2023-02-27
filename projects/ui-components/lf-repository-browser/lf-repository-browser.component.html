@@ -12,6 +12,7 @@
   <lf-selection-list-component
     [hidden]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage"
     [uniqueIdentifier]="repoBrowserUniqueId"
+    [containerWidth]="repoContainerWidth"
     [listItems]="currentFolderChildren"
     [multipleSelection]="multiple"
     [itemSize]="itemSize"
