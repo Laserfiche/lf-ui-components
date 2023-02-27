@@ -118,7 +118,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   selectColumnDef: ColumnDef = { id: 'select', displayName: '', defaultWidth: '50px' };
   nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: 'auto' };
   allColumnDefs: ColumnDef[] = [];
-  _containerWidth: number = 0;
   _localStorageKey: string = '';
   firstResize: boolean = true;
   offSetSub?: Subscription;
@@ -144,9 +143,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     return index == 0;
   }
 
-  @Input() set containerWidth(value: number) {
-    this._containerWidth = value;
-  }
   @Input() set multipleSelection(value: boolean) {
     this._multipleSelectEnabled = value;
     this.selectable.multiSelectable = value;
@@ -397,7 +393,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     const tableEl = Array.from(
       this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
     );
-    (tableEl[0] as HTMLTableElement).style.width = this._containerWidth + 'px';
+    const containerWidth = this.viewport.elementRef.nativeElement.getBoundingClientRect().width;
+    (tableEl[0] as HTMLTableElement).style.width = containerWidth + 'px';
     this.ref.detectChanges();
     const widths: string[] = [];
     this.allColumnDefs.forEach((col) => {
@@ -524,7 +521,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
           'mat-column-' + this.allColumnDefs[i].id
         );
 
-        const currentWidth = columnElements![0].clientWidth;
+        const currentWidth = (columnElements![0] as HTMLElement).offsetWidth;
         currentWidths[i] = currentWidth + 'px';
         repoData!.columns[colDef.id] = currentWidth + 'px';
       });

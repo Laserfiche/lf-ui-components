@@ -14,17 +14,6 @@
   text-overflow: ellipsis;
 }
 
-.fixed-size-icon-container {
-  position: relative;
-  width: 24px;
-  min-width: 24px;
-  height: 24px;
-  margin: 5px 10px 5px 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .lf-repo-entry-container {
   padding-bottom: 10px;
   overflow: auto;
