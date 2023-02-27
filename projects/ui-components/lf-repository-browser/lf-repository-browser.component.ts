@@ -32,7 +32,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   private focusedEntry: ItemWithId | undefined;
   columns: ColumnDef[] = [];
   private _multipleSelectEnabled: boolean = false;
-  private resizeObserver: ResizeObserver;
   repoBrowserUniqueId: string = '';
   repoContainerWidth: number = 0;
 
@@ -235,9 +234,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     /** @internal */
     public zone: NgZone,
     /** @internal */
-    public localizationService: AppLocalizationService,
+    private localizationService: AppLocalizationService,
     /** @internal */
-    public el: ElementRef
+    private el: ElementRef
   ) {
     this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
       if (!this._currentFolder) {
@@ -251,19 +250,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         await this.makeDataCall(this._currentFolder);
       }
     });
-    this.resizeObserver = new ResizeObserver((entries) => {
-      if (this.entryList) {
-        // TODO is there a better way to set this, using the offset width was not resizing
-        // also should all the "el" logic be in the selection list?
-        // maybe the recalculation should actually be in a container size setter
-        this.entryList.containerWidth = entries[0].borderBoxSize[0].inlineSize;
-        // this.entryList.recalculateWidths();
-      }
-    });
   }
   ngAfterViewInit(): void {
     this.repoContainerWidth = this.el.nativeElement.offsetWidth;
-    this.resizeObserver.observe(this.el.nativeElement);
 
     const path = window.location.pathname;
     this.repoBrowserUniqueId = `lf-repository-browser_${path}_${this.el.nativeElement.id}`;
@@ -615,6 +604,5 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   /** @internal */
   ngOnDestroy() {
     this.scrolledIndexChanged.unsubscribe();
-    this.resizeObserver.unobserve(this.el.nativeElement);
   }
 }
