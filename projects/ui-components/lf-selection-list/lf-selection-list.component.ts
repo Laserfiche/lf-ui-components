@@ -1,5 +1,4 @@
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
@@ -17,82 +16,16 @@ import {
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { GridTableDataSource, ROW_HEIGHT } from './lf-selection-list-data-source';
+import { ColumnDef, ColumnOrderBy, SelectedItemEvent } from './lf-selection-list-types';
 
-export interface ColumnOrderBy {
-  columnId: string;
-  isDesc: boolean;
-}
-
-export interface ColumnDef {
-  id: string;
-  displayName: string;
-  defaultWidth: string;
-}
 
 /** @internal */
-export interface SelectedItemEvent {
-  selected: ILfSelectable;
-  selectedItems: ILfSelectable[] | undefined;
-}
-
-export interface RepositoryBrowserData {
+interface RepositoryBrowserData {
   columns: Record<string, string>;
 }
 
-const PAGESIZE = 20;
-const ROW_HEIGHT = 42;
-
-export class GridTableDataSource extends DataSource<any> {
-  private _data: ILfSelectable[];
-  indexChangeSub: Subscription;
-  curStart: number = 0;
-
-  get allData(): ILfSelectable[] {
-    return this._data.slice();
-  }
-
-  set allData(data: ILfSelectable[]) {
-    const existingData = this._data;
-    this._data = data;
-    this.viewport.setTotalContentSize(this.itemSize * this._data.length);
-    if (!existingData || existingData.length === 0) {
-      this.resetView();
-    }
-  }
-
-  private resetView() {
-    this.visibleData.next(this._data.slice(0, PAGESIZE));
-    this.viewport.scrollTo({ top: 0 });
-  }
-
-  offset = 0;
-  offsetChange = new BehaviorSubject(0);
-
-  constructor(initialData: ILfSelectable[], private viewport: CdkVirtualScrollViewport, private itemSize: number) {
-    super();
-    this._data = initialData;
-    this.viewport.setTotalContentSize(this.itemSize * initialData.length);
-    this.visibleData.next(this._data.slice(0, PAGESIZE));
-
-    this.indexChangeSub = this.viewport.scrolledIndexChange.subscribe((li) => {
-      const slicedData = this._data.slice(li, li + PAGESIZE);
-      this.curStart = li;
-      this.visibleData.next(slicedData);
-      this.offsetChange.next(li * ROW_HEIGHT);
-    });
-  }
-
-  private readonly visibleData: BehaviorSubject<ILfSelectable[]> = new BehaviorSubject<ILfSelectable[]>([]);
-
-  connect(collectionViewer: CollectionViewer): Observable<any[] | ReadonlyArray<any>> {
-    return this.visibleData;
-  }
-
-  disconnect(collectionViewer: CollectionViewer): void {
-    this.indexChangeSub.unsubscribe();
-  }
-}
 
 /** @internal */
 @Component({
@@ -587,17 +520,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     const widthsA = widths.split(' ');
     widthsA[index] = width + 'px';
     const stringWidths = widthsA.join(' ');
-    // trs.forEach((el) => (el.style.gridTemplateColumns = stringWidths));
     this.columnsWidth = stringWidths;
     this.ref.detectChanges();
   }
-
-  // setColumnWidth(column: ColumnDef, width: number) {
-  //   if (this.viewport == null) {
-  //     return;
-  //   }
-  //   const columnEls = Array.from(
-  //     this.viewport.elementRef.nativeElement.getElementsByClassName('mat-column-' + column.id)
-  //   );
-  // }
 }

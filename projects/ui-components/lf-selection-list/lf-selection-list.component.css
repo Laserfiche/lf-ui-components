@@ -7,22 +7,10 @@
   height: 100%;
 }
 
-table {
-  width: 100%;
-}
-
-.icon-name-container {
+.lf-name-col-container {
   display: flex;
   align-items: center;
   height: 100%;
-}
-
-.lf-entry-icon {
-  display: block;
-  height: 24px;
-  width: 24px;
-  overflow: hidden;
-  position: absolute;
 }
 
 .item-holder {
@@ -63,7 +51,6 @@ table {
 
 tr.mat-header-row.lf-selection-list-header-row {
   height: 42px;
-
 }
 
 :host .lf-table-selection-list th.mat-header-cell, :host .lf-table-selection-list td.mat-cell, :host .lf-table-selection-list td.mat-footer-cell {
@@ -75,15 +62,11 @@ tr.mat-header-row.lf-selection-list-header-row {
   box-sizing:border-box;
 }
 
-.lf-ellipsis-overflow, ::ng-deep .lf-ellipsis-overflow .mat-sort-header-content{
+.lf-ellipsis-overflow, ::ng-deep .lf-ellipsis-overflow .mat-sort-header-content {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-/* ::ng-deep th.mat-sort-header {
-  overflow: visible !important;
-} */
 
 ::ng-deep .lf-ellipsis-overflow .mat-sort-header-content {
   display: block;
@@ -116,9 +99,6 @@ tr.mat-header-row.lf-selection-list-header-row {
   user-select: none;
   z-index: 1;
 }
-.lf-viewport-wrapper {
-  height: 100%;
-}
 
 .lf-resize-wrapper-div {
   width: 100%;
@@ -144,10 +124,6 @@ tr.mat-header-row.lf-selection-list-header-row {
   display: flex;
   height: 42px;
   align-items: center;
-}
-
-::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list.table-width-auto {
-  width: auto;
 }
 
 ::ng-deep #lf-list-viewport.cdk-virtual-scroll-orientation-vertical .cdk-virtual-scroll-content-wrapper {
@@ -186,14 +162,7 @@ table th .resize-handle:hover {
 
 .resize-handle {
   width: 15px;
-}
-
-.resize-handle-right {
   right: -22.5px;
-}
-
-.resize-handle-left {
-  left: -22.5px;
 }
 
 .lf-hidden-column-header {

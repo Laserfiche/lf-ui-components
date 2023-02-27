@@ -232,9 +232,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     /** @internal */
     public zone: NgZone,
     /** @internal */
-    public localizationService: AppLocalizationService,
+    private localizationService: AppLocalizationService,
     /** @internal */
-    public el: ElementRef
+    private el: ElementRef
   ) {
     this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
       if (!this._currentFolder) {
