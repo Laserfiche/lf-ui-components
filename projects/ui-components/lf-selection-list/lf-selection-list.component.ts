@@ -39,7 +39,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
   @ViewChild('matTable', { read: ElementRef }) matTable?: ElementRef;
   @Input() itemSize: number = 42;
-  @Input() listItemRef?: TemplateRef<unknown>
+  @Input() listItemRef?: TemplateRef<unknown>;
   private additionalColumnDefs: ColumnDef[] = [];
   allColumnHeaders?: string[];
   /** @internal */
