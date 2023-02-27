@@ -537,7 +537,7 @@ fdescribe('LfRepositoryBrowserComponent', () => {
     const trEl = trEls[0] as HTMLDivElement;
     const thEls = Array.from(
       trEl.getElementsByClassName('mat-header-cell')
-    )
+    );
     expect(thEls.length).toBe(2);
   });
 
