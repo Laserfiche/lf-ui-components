@@ -12,5 +12,8 @@
    "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "You may contact me about this feedback",
    "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "If you'd like to join our Customer Panel, ",
    "PLEASE_CLICK_HERE": "please click here.",
-   "SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER": "Something went wrong. Please try again later."
+   "SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER": "Something went wrong. Please try again later.",
+   "UPLOAD_FILE": "Click to Upload",
+   "FILE_TOO_LARGE": "The file is too large to upload. The maximum suported file size is 2.9MB.",
+   "NO_IMAGE_UPLOADED": "No image uploaded"
 }

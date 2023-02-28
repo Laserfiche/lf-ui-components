@@ -147,3 +147,22 @@ span#pop-up-dialog-close:hover {
 .feedback-file-input{
   display: none;
 }
+
+.upload-file-info {
+  margin-top: 5px;
+}
+.upload-file-info td {
+  padding: 5px;
+  max-width: 230px;
+  overflow-wrap: break-word;
+}
+.upload-file-remove{
+  cursor: pointer;
+  color:#147186;
+}
+
+.error-message {
+  color: red;
+  padding-top: 10px;
+  padding-left: 5px;
+}

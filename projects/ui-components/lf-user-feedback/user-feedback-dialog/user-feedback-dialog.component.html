@@ -28,14 +28,17 @@
       <span>{{maxFeedbackLength}}</span>
   </span>
 
-<button [disabled]="isImageValid" class="lf-button feedback-file-upload-button" (click)="onInputClickArea()">Click to Upload</button>
-<input type="file" accept=".jpg,.png,.gif,.webp" class="file-input feedback-file-input" (input)="onFileSelectedAsync()" #uploadFile>
-
-<div *ngIf="imageUploaded?.name; else noUpload">{{imageUploaded?.name}}
-  <span (click)="removeImage()">Remove</span>
-  <span *ngIf="!isImageValid">image too big</span>
-</div>
-<ng-template #noUpload>no image uploaded</ng-template>
+  <button [disabled]="isImageValid" class="lf-button feedback-file-upload-button" (click)="onInputClickArea()">{{localizedStrings.UPLOAD_FILE | async}}</button>
+  <input type="file" accept=".jpg,.png,.gif,.webp" class="file-input feedback-file-input" (input)="onFileSelectedAsync()" #uploadFile>
+  <div *ngIf="imageUploaded?.name; else noUpload">
+    <tr class="upload-file-info">
+      <td >{{imageUploaded?.name}}</td>
+      <td >{{uploadedImageSize}}</td>
+      <td class="upload-file-remove" (click)="removeImage()" >{{localizedStrings.REMOVE | async}}</td>
+    </tr>
+    <span *ngIf="!isImageValid" class="error-message">{{localizedStrings.FILE_TOO_LARGE | async}}</span>
+  </div>
+  <ng-template #noUpload >{{localizedStrings.NO_IMAGE_UPLOADED | async}}</ng-template>
 
   <div class="email-checkbox-container">
       <mat-checkbox color="primary" class="lf-user-feedback-checkbox lf-checkbox"

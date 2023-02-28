@@ -39,6 +39,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   feedbackEmailCheckbox: boolean = false;
   feedbackImageBase64: string | undefined;
   imageUploaded?: File;
+  uploadedImageSize: string | undefined;
   imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
   isImageValid: boolean = false;
 
@@ -100,6 +101,10 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     ),
     SUBMIT: this.localizationService.getStringLaserficheObservable('SUBMIT'),
     CANCEL: this.localizationService.getStringLaserficheObservable('CANCEL'),
+    UPLOAD_FILE: this.localizationService.getStringComponentsObservable('UPLOAD_FILE'),
+    REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
+    FILE_TOO_LARGE: this.localizationService.getStringComponentsObservable('FILE_TOO_LARGE'),
+    NO_IMAGE_UPLOADED: this.localizationService.getStringComponentsObservable('NO_IMAGE_UPLOADED'),
   };
 
   USER_FEEDBACK_TITLE: Observable<string> = this.localizedStrings.FEEDBACK;
@@ -150,12 +155,20 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
 
   async onFileSelectedAsync(): Promise<void> {
     this.imageUploaded = this.inputFile?.nativeElement.files?.item(0) ?? undefined;
-
-    if (this.imageUploaded && this.imageUploaded.size <= this.imageSizeLimitBytes) {
+    if (!this.imageUploaded)
+    {
+      return;
+    }
+    this.uploadedImageSize = this.formatBytes(this.imageUploaded.size);
+    if (this.imageUploaded.size <= this.imageSizeLimitBytes) {
       this.isImageValid = true;
       const encodingData = await this.getBase64Async(this.imageUploaded);
       this.feedbackImageBase64 = encodingData?.split(',')[1];
       console.log(this.feedbackImageBase64); // TODO: remove
+    }
+    else{
+      this.isImageValid = false;
+      // TODO: disable submit or notify users that the image will not be submitted
     }
 
     // limit the image size <2.9m and do error handlings
@@ -208,4 +221,15 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     };
     return dialogData;
   }
+  private formatBytes(bytes: number, decimals: number = 2): string {
+    if (!+bytes) return '0 Bytes'
+
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+}
 }
