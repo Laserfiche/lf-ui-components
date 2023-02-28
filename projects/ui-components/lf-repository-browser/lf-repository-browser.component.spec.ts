@@ -13,7 +13,7 @@ import { LfRepositoryBrowserComponent } from './lf-repository-browser.component'
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { LfSelectionListModule } from '../lf-selection-list/lf-selection-list.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ColumnDef, RepositoryBrowserData } from '../lf-selection-list/lf-selection-list.component';
+import { ColumnDef, RepositoryBrowserData } from '@laserfiche/lf-ui-components/lf-selection-list';
 
 const rootTreeNode: LfTreeNode = {
   icon: '',
@@ -57,7 +57,7 @@ const moduleDef: TestModuleMetadata = {
   declarations: [LfRepositoryBrowserComponent, LfBreadcrumbsComponent, LfLoaderComponent],
 };
 
-fdescribe('LfRepositoryBrowserComponent', () => {
+describe('LfRepositoryBrowserComponent', () => {
   let component: LfRepositoryBrowserComponent;
   let fixture: ComponentFixture<LfRepositoryBrowserComponent>;
 
@@ -77,6 +77,7 @@ fdescribe('LfRepositoryBrowserComponent', () => {
 
     fixture = TestBed.createComponent(LfRepositoryBrowserComponent);
     component = fixture.componentInstance;
+    // @ts-ignore
     component.el.nativeElement.style=`height: 500px; width: ${containerWidth}px`;
     // await component.initAsync(repoService);
     fixture.detectChanges();
@@ -542,15 +543,14 @@ fdescribe('LfRepositoryBrowserComponent', () => {
   });
 
   it('if there is no column provided, set the name column to be auto', fakeAsync(async () => {
-    //TODO is this expected?
     // Act
     await setupRepoBrowserWithColumns([]);
-
+    flush();
     const trEls = Array.from(
       document.getElementsByClassName('mat-header-row')
     );
     const trEl = trEls[0] as HTMLDivElement;
-    expect(trEl.style.gridTemplateColumns).toBe('auto');
+    expect(trEl.style.gridTemplateColumns).toBe(containerWidth + 'px');
   }));
 
   it('can set column initial width', fakeAsync(async () => {
@@ -628,7 +628,7 @@ fdescribe('LfRepositoryBrowserComponent', () => {
     expect(storedItem.columns['name']).toBe(newColumnWidth+'px');
   }));
 
-  fit('initialize the columns to have the same size with localstorage data', fakeAsync(async () => {
+  it('initialize the columns to have the same size with localstorage data', fakeAsync(async () => {
 
     // Arrange
     const customNameColumnWidth = '300px';

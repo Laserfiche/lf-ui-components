@@ -7,7 +7,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
-import { LfSelectionListComponent, SelectedItemEvent } from './lf-selection-list.component';
+import { SelectedItemEvent } from './lf-selection-list-types';
+import { LfSelectionListComponent } from './lf-selection-list.component';
 
 const itemList: ILfSelectable[] = [
   {isSelectable: true, isSelected: false, value: {id: '1'}},

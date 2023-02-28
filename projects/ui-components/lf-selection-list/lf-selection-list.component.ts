@@ -22,7 +22,7 @@ import { ColumnDef, ColumnOrderBy, SelectedItemEvent } from './lf-selection-list
 
 
 /** @internal */
-interface RepositoryBrowserData {
+export interface RepositoryBrowserData {
   columns: Record<string, string>;
 }
 
