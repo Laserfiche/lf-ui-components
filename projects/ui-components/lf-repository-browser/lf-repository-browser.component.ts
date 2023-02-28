@@ -33,7 +33,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   columns: ColumnDef[] = [];
   private _multipleSelectEnabled: boolean = false;
   repoBrowserUniqueId: string = '';
-  repoContainerWidth: number = 0;
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -252,8 +251,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     });
   }
   ngAfterViewInit(): void {
-    this.repoContainerWidth = this.el.nativeElement.offsetWidth;
-
     const path = window.location.pathname;
     this.repoBrowserUniqueId = `lf-repository-browser_${path}_${this.el.nativeElement.id}`;
     this.ref.detectChanges();
