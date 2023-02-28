@@ -147,7 +147,7 @@ table th .resize-handle:hover {
   display: none;
 }
 
-::ng-deep .mat-sort-header:hover .mat-sort-header-arrow {
+::ng-deep .lf-table-selection-list .mat-sort-header:hover .mat-sort-header-arrow, ::ng-deep .lf-table-selection-list .mat-sort-header-sorted .mat-sort-header-arrow {
   display: flex;
 }
 
