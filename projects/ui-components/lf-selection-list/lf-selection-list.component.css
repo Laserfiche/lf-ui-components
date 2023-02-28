@@ -90,7 +90,7 @@ tr.mat-header-row.lf-selection-list-header-row {
   overflow: visible !important;
 }
 
-.ui-grid-resize-overlay {
+.repo-browser-resize-overlay {
   position: absolute;
   top: 0;
   height: 100%;

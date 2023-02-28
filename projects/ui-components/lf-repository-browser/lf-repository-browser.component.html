@@ -4,33 +4,30 @@
 </div>
 <div class="lf-repo-entry-container">
   <lf-loader-component *ngIf="isLoading" class="no-entries-text"></lf-loader-component>
-  <ng-container *ngIf="!isLoading">
-    <div id="message-display" *ngIf="shouldShowErrorMessage || shouldShowEmptyMessage; else showList">
-      <div *ngIf="shouldShowErrorMessage" class="error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
-      <div *ngIf="shouldShowEmptyMessage" class="no-entries-text">{{ THIS_FOLDER_IS_EMPTY | async }}</div>
-    </div>
-    <ng-template #showList>
-      <lf-selection-list-component
-        [hidden]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage"
-        [uniqueIdentifier]="repoBrowserUniqueId"
-        [listItems]="currentFolderChildren"
-        [multipleSelection]="multiple"
-        [itemSize]="itemSize"
-        [columns]="columns"
-        (scrollChanged)="onScroll()"
-        [listItemRef]="listOption"
-        (itemDoubleClicked)="onDblClickAsync($event)"
-        (itemSelected)="onItemSelected($event)"
-        (itemFocused)="onEntryFocused($event)"
-        (refreshData)="refreshAsync(false)"
-      >
-        <ng-template #listOption let-item="value">
-          <div *ngIf="getIcons(item).length > 0" class="fixed-size-icon-container">
-            <img *ngFor="let icon of getIcons(item)" src="{{ icon }}" alt="" class="lf-entry-icon" />
-          </div>
-          <div title="{{ item?.name }}" class="lf-ellipsis-overflow">{{ item?.name }}</div>
-        </ng-template>
-      </lf-selection-list-component>
+  <div id="message-display" *ngIf="!isLoading && (shouldShowErrorMessage || shouldShowEmptyMessage)">
+    <div *ngIf="shouldShowErrorMessage" class="error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
+    <div *ngIf="shouldShowEmptyMessage" class="no-entries-text">{{ THIS_FOLDER_IS_EMPTY | async }}</div>
+  </div>
+
+  <lf-selection-list-component
+    [hidden]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage"
+    [uniqueIdentifier]="repoBrowserUniqueId"
+    [listItems]="currentFolderChildren"
+    [multipleSelection]="multiple"
+    [itemSize]="itemSize"
+    [columns]="additionalColumnsToDisplay"
+    (scrollChanged)="onScroll()"
+    [listItemRef]="listOption"
+    (itemDoubleClicked)="onDblClickAsync($event)"
+    (itemSelected)="onItemSelected($event)"
+    (itemFocused)="onEntryFocused($event)"
+    (refreshData)="refreshAsync(false)"
+  >
+    <ng-template #listOption let-item="value">
+      <div *ngIf="getIcons(item).length > 0" class="fixed-size-icon-container">
+        <img *ngFor="let icon of getIcons(item)" src="{{ icon }}" alt="" class="lf-entry-icon" />
+      </div>
+      <div title="{{ item?.name }}" class="lf-ellipsis-overflow">{{ item?.name }}</div>
     </ng-template>
-  </ng-container>
+  </lf-selection-list-component>
 </div>

@@ -108,7 +108,7 @@ describe('LfRepositoryBrowserComponent', () => {
     // Act
     // initialize the component
     await component.initAsync(dataServiceMock);
-    component.columnsToDisplay = columns; // TODO: await this?
+    component.additionalColumnsToDisplay = columns; // TODO: await this?
   }
 
   it('should create an instance', () => {

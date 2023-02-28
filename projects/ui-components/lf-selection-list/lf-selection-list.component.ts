@@ -20,12 +20,10 @@ import { Subscription } from 'rxjs';
 import { GridTableDataSource, ROW_HEIGHT } from './lf-selection-list-data-source';
 import { ColumnDef, ColumnOrderBy, SelectedItemEvent } from './lf-selection-list-types';
 
-
 /** @internal */
 export interface RepositoryBrowserData {
   columns: Record<string, string>;
 }
-
 
 /** @internal */
 @Component({
@@ -318,46 +316,36 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   setInitialWidth() {
-    // Check the local store based on ids
-    if (!this.viewport) {
-      return;
-    }
-    const asJSON = this.getLocalStorageData();
-    const tableEl = Array.from(
-      this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
-    );
-    const containerWidth = this.viewport.elementRef.nativeElement.getBoundingClientRect().width;
-    (tableEl[0] as HTMLTableElement).style.width = containerWidth + 'px';
-    this.ref.detectChanges();
-    const widths: string[] = [];
-    this.allColumnDefs.forEach((col) => {
-      const columnWidth = asJSON?.columns[col.id];
-      if (columnWidth) {
-        widths.push(columnWidth);
-      } else {
-        widths.push(col.defaultWidth);
+    setTimeout(() => {
+      const asJSON = this.getLocalStorageData();
+      const tableEl = Array.from(
+        this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
+      );
+      const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
+      (tableEl[0] as HTMLTableElement).style.width = containerWidth + 'px';
+      this.ref.detectChanges();
+      const widths: string[] = [];
+      this.allColumnDefs.forEach((col) => {
+        const columnWidth = asJSON?.columns[col.id];
+        if (columnWidth) {
+          widths.push(columnWidth);
+        } else {
+          widths.push(col.defaultWidth);
+        }
+      });
+
+      if (this.matTable) {
+        const templateCOls = widths.join(' ');
+        this.columnsWidth = templateCOls;
       }
 
-      const columnEls = Array.from(
-        this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
-      );
-    });
-
-    if (this.matTable) {
-      const templateCOls = widths.join(' ');
-      this.columnsWidth = templateCOls;
-    }
-
-    // save the column width as pixels
-    // TODO: check if setTimeout is needed
-    this.ref.detectChanges();
-    setTimeout(() => {
+      this.ref.detectChanges();
       const widthsInPixel: string[] = [];
       this.allColumnDefs.forEach((col) => {
         const columnEls = Array.from(
           this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
         );
-        const columnWidthInPixel = (columnEls[0] as HTMLDivElement).offsetWidth  + 'px';
+        const columnWidthInPixel = (columnEls[0] as HTMLDivElement).offsetWidth + 'px';
         widthsInPixel.push(columnWidthInPixel);
       });
 
@@ -468,12 +456,15 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     ev.stopPropagation();
     this.pressed = true;
     this.startX = ev.pageX;
-    this.resizePosition = ev.clientX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
+    this.resizePosition =
+      ev.clientX -
+      this.viewport.elementRef.nativeElement.getBoundingClientRect().left +
+      this.viewport.elementRef.nativeElement.scrollLeft;
     this.ref.detectChanges();
     const columnElement = this.viewport!.elementRef.nativeElement.getElementsByClassName(
       'mat-column-' + this.allColumnDefs[index].id
     );
-    this.startWidth = columnElement![0].clientWidth;
+    this.startWidth = (columnElement![0] as HTMLElement).offsetWidth;
     this.resizedColumnInitialOffsetLeft = (columnElement![0] as any).offsetLeft;
     this.mouseMove(index);
   }
@@ -484,12 +475,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         return;
       }
       if (this.pressed && event.buttons) {
-        const currentPositionWithScroll =  event.clientX - this.viewport.elementRef.nativeElement.getBoundingClientRect().left + this.viewport.elementRef.nativeElement.scrollLeft;
+        const currentPositionWithScroll =
+          event.clientX -
+          this.viewport.elementRef.nativeElement.getBoundingClientRect().left +
+          this.viewport.elementRef.nativeElement.scrollLeft;
         if (currentPositionWithScroll - this.resizedColumnInitialOffsetLeft > this.columnMinWidth) {
           this.resizePosition = currentPositionWithScroll;
           this.ref.detectChanges();
-        }
-        else {
+        } else {
           this.resizePosition = this.resizedColumnInitialOffsetLeft + this.columnMinWidth;
           this.ref.detectChanges();
         }
