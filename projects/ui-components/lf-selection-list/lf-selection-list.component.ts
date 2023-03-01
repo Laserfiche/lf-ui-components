@@ -337,10 +337,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       } else {
         widths.push(col.defaultWidth);
       }
-
-      const columnEls = Array.from(
-        this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
-      );
     });
 
     if (this.matTable) {
@@ -349,15 +345,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
 
     // save the column width as pixels
-    // TODO: check if setTimeout is needed
-    this.ref.detectChanges();
     setTimeout(() => {
       const widthsInPixel: string[] = [];
       this.allColumnDefs.forEach((col) => {
         const columnEls = Array.from(
           this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
         );
-        const columnWidthInPixel = (columnEls[0] as HTMLDivElement).offsetWidth  + 'px';
+        const columnWidthOffset = (columnEls[0] as HTMLDivElement).offsetWidth;
+        const columnWidthInPixel = col.id !== 'select'? Math.max(columnWidthOffset, this.columnMinWidth) + 'px' : this.selectColumnDef.defaultWidth;
         widthsInPixel.push(columnWidthInPixel);
       });
 
