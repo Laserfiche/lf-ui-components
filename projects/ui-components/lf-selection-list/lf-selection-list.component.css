@@ -98,6 +98,7 @@ tr.mat-header-row.lf-selection-list-header-row {
   background-color: #aeaeae;
   user-select: none;
   z-index: 1;
+  cursor: col-resize;
 }
 
 .lf-resize-wrapper-div {
