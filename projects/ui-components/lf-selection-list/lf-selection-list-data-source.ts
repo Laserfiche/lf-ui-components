@@ -3,7 +3,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 
-const PAGESIZE = 20;
+const PAGESIZE = 50;
 export const ROW_HEIGHT = 42;
 
 export class GridTableDataSource extends DataSource<any> {
@@ -32,6 +32,9 @@ export class GridTableDataSource extends DataSource<any> {
   offset = 0;
   offsetChange = new BehaviorSubject(0);
 
+  extraData: number = PAGESIZE/2;
+  bufferToEnd: number = PAGESIZE/4;
+
   constructor(initialData: ILfSelectable[], private viewport: CdkVirtualScrollViewport, private itemSize: number) {
     super();
     this._data = initialData;
@@ -39,10 +42,14 @@ export class GridTableDataSource extends DataSource<any> {
     this.visibleData.next(this._data.slice(0, PAGESIZE));
 
     this.indexChangeSub = this.viewport.scrolledIndexChange.subscribe((li) => {
-      const slicedData = this._data.slice(li, li + PAGESIZE);
-      this.curStart = li;
-      this.visibleData.next(slicedData);
-      this.offsetChange.next(li * ROW_HEIGHT);
+      
+      const rendered = this.viewport.elementRef.nativeElement.getBoundingClientRect().height / ROW_HEIGHT;
+      if (li + rendered > (this.curStart + this.extraData - this.bufferToEnd) || (li > this.bufferToEnd ? li-this.bufferToEnd : 0) < this.curStart) {
+        this.curStart = li;
+        const slicedData = this._data.slice(li > this.extraData ? li-(this.extraData) : 0, li + rendered + this.extraData);
+        this.visibleData.next(slicedData);
+        this.offsetChange.next((li > this.extraData ? li-this.extraData: 0) * ROW_HEIGHT);
+      }
     });
   }
 
