@@ -24,6 +24,11 @@
     <span>document.querySelector('lf-repository-browser');</span>
     <p>repoBrowser.addEventListener('entrySelected', onElementNodeSelected(event));</p>
     <p>await repoBrowser.initAsync(treeProvidersObject);</p>
+    <p>const create: ColumnDef = 	&#123; id: 'creationTime', displayName: 'Creation Date', defaultWidth: '40%' &#125;;</p>
+    <p>const templateName : ColumnDef = &#123; id: 'templateName', displayName: 'Template Name', defaultWidth: '40%' &#125;;</p>
+    <p>const elecDocmentSize : ColumnDef = &#123; id: 'elecDocumentSize', displayName: 'Size', defaultWidth: '40%' &#125;;</p>
+    <p>const columns: ColumnDef[] = [create, templateName, elecDocmentSize];</p>
+    <p>repoBrowser.additionalColumnsToDisplay = columns;</p>
   </code>
 </p>
 <label>
@@ -119,6 +124,11 @@
     <td>itemSize</td>
     <td>number</td>
     <td>allows user to set the itemSize for the scrollable section</td>
+  </tr>
+  <tr>
+    <td>additionalColumnsToDisplay</td>
+    <td>ColumnDef </td>
+    <td>allows user to set the columns</td>
   </tr>
 </table>
 <br />
@@ -220,7 +230,7 @@
 <ul>
   <li>getRootTreeNodeAsync() : Promise&lt;LfTreeNode&gt;</li>
   <li>
-    getFolderChildrenAsync(folder: LfTreeNode, nextPage: string | undefined): Promise&lt;LfTreeNodePage&gt;
+    getFolderChildrenAsync(folder: LfTreeNode, nextPage: string | undefined, orderBy?: ColumnOrderBy): Promise&lt;LfTreeNodePage&gt;
     <ul>
       <li>The LfTreeNodePage that this returns represents one page of data, not the cumulative data</li>
     </ul>
@@ -248,4 +258,15 @@
   <li>isLeaf : boolean</li>
   <li>name : string</li>
   <li>path : string</li>
+</ul>
+<p class="documentation-sub-header">ColumnDef Interface</p>
+<ul>
+  <li>id : string</li>
+  <li>displayName: string;</li>
+  <li>defaultWidth: string;</li>
+</ul>
+<p class="documentation-sub-header">ColumnOrderBy Interface</p>
+<ul>
+  <li>columnId: string;</li>
+  <li>isDesc: boolean;</li>
 </ul>
