@@ -46,7 +46,8 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   imageUploadErrorMessage = new Observable<string>();
 
   get isSubmitDisabled(): boolean {
-    return this.isEmptyOrWhitespace(this.feedbackTextBox);
+    //TODO: make this more readable
+    return this.isEmptyOrWhitespace(this.feedbackTextBox) || ( this.imageUploaded !== undefined && !(this.isImageValid));
   }
 
   get isFirstPane(): boolean {
