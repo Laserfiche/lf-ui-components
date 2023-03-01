@@ -46,8 +46,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   imageUploadErrorMessage = new Observable<string>();
 
   get isSubmitDisabled(): boolean {
-    //TODO: make this more readable
-    return this.isEmptyOrWhitespace(this.feedbackTextBox) || ( this.imageUploaded !== undefined && !(this.isImageValid));
+    return this.isEmptyOrWhitespace(this.feedbackTextBox) || this.uploadedInvalidImage(this.imageUploaded, this.isImageValid);
   }
 
   get isFirstPane(): boolean {
@@ -243,6 +242,9 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
 
   private isEmptyOrWhitespace(value: string): boolean {
     return !(value.trim().length > 0);
+  }
+  private uploadedInvalidImage(image: File | undefined, isImageValid: boolean): boolean {
+    return (image !== undefined) && (isImageValid === false);
   }
 
   private getFeedbackDialogData(): UserFeedbackDialogData {
