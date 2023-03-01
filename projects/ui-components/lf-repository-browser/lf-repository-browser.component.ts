@@ -30,8 +30,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   private selectedItems: LfTreeNode[] | undefined;
   /** @internal */
   private focusedEntry: ItemWithId | undefined;
-  columns: ColumnDef[] = [];
+  /** @internal */
+  private columns: ColumnDef[] = [];
+  /** @internal */
   private _multipleSelectEnabled: boolean = false;
+  /** @internal */
   repoBrowserUniqueId: string = '';
 
   @Input() get breadcrumbs(): LfTreeNode[] {
@@ -48,9 +51,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    *
    */
   @Input()
-  set columnsToDisplay(cols: ColumnDef[]) {
+  set additionalColumnsToDisplay(cols: ColumnDef[]) {
     this.columns = cols;
     this.ref.detectChanges();
+  }
+  get additionalColumnsToDisplay(): ColumnDef[] {
+    return this.columns;
   }
 
   /**
