@@ -14,6 +14,7 @@
    "PLEASE_CLICK_HERE": "please click here.",
    "SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER": "Something went wrong. Please try again later.",
    "UPLOAD_FILE": "Click to Upload",
-   "FILE_TOO_LARGE": "The file is too large to upload. The maximum suported file size is 2.9MB.",
+   "FILE_TOO_LARGE": "The file is too large to upload. The maximum supported file size is 2.9MB.",
+   "IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED": "The image is corrupted or the format is not recognized",
    "NO_IMAGE_UPLOADED": "No image uploaded"
 }

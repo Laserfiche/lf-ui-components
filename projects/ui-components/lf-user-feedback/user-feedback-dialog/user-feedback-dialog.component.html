@@ -36,9 +36,13 @@
       <td >{{uploadedImageSize}}</td>
       <td class="upload-file-remove" (click)="removeImage()" >{{localizedStrings.REMOVE | async}}</td>
     </tr>
-    <span *ngIf="!isImageValid" class="error-message">{{localizedStrings.FILE_TOO_LARGE | async}}</span>
+    <span *ngIf="!isImageValid" class="error-message">{{imageUploadErrorMessage | async}}</span>
   </div>
   <ng-template #noUpload >{{localizedStrings.NO_IMAGE_UPLOADED | async}}</ng-template>
+  <!-- <form runat="server">
+    <input accept="image/*" type='file' id="imgInp" />
+    <img id="blah" src="#" alt="your image" />
+  </form> -->
 
   <div class="email-checkbox-container">
       <mat-checkbox color="primary" class="lf-user-feedback-checkbox lf-checkbox"

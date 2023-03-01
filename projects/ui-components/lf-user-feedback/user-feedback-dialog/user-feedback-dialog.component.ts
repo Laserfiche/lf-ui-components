@@ -1,3 +1,4 @@
+import { LocalizedString } from '@angular/compiler';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -42,6 +43,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   uploadedImageSize: string | undefined;
   imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
   isImageValid: boolean = false;
+  imageUploadErrorMessage = new Observable<string>();
 
   get isSubmitDisabled(): boolean {
     return this.isEmptyOrWhitespace(this.feedbackTextBox);
@@ -104,6 +106,9 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     UPLOAD_FILE: this.localizationService.getStringComponentsObservable('UPLOAD_FILE'),
     REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
     FILE_TOO_LARGE: this.localizationService.getStringComponentsObservable('FILE_TOO_LARGE'),
+    IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED: this.localizationService.getStringComponentsObservable(
+      'IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED'
+    ),
     NO_IMAGE_UPLOADED: this.localizationService.getStringComponentsObservable('NO_IMAGE_UPLOADED'),
   };
 
@@ -155,35 +160,66 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
 
   async onFileSelectedAsync(): Promise<void> {
     this.imageUploaded = this.inputFile?.nativeElement.files?.item(0) ?? undefined;
-    if (!this.imageUploaded)
-    {
+    if (!this.imageUploaded) {
       return;
     }
     this.uploadedImageSize = this.formatBytes(this.imageUploaded.size);
-    if (this.imageUploaded.size <= this.imageSizeLimitBytes) {
-      this.isImageValid = true;
-      const encodingData = await this.getBase64Async(this.imageUploaded);
-      this.feedbackImageBase64 = encodingData?.split(',')[1];
-      console.log(this.feedbackImageBase64); // TODO: remove
-    }
-    else{
+    // TODO: put the upper 4 lines in try&catch?
+    try {
+      if (this.imageUploaded.size <= this.imageSizeLimitBytes) {
+        const encodingData = await this.getBase64Async(this.imageUploaded);
+        this.feedbackImageBase64 = encodingData?.split(',')[1];
+        // console.log(this.feedbackImageBase64); // TODO: remove
+        this.isImageValid = true;
+      } else {
+        // TODO: disable submit or notify users that the image will not be submitted
+        throw new ImageUploadError('ImageUploadErrorType.TooLarge', ImageUploadErrorType.TooLarge);
+      }
+    } catch (error: any) {
+      let errorMessage: Observable<string>;
+      if (error.name === ImageUploadError_name) {
+        switch ((<ImageUploadError>error).imageUploadErrorType) {
+          case ImageUploadErrorType.TooLarge:
+            errorMessage = this.localizedStrings.FILE_TOO_LARGE;
+            break;
+          case ImageUploadErrorType.UnsupportedFormat:
+            errorMessage = this.localizedStrings.IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED;
+            break;
+          default:
+            errorMessage = new Observable<string>(error.message);
+            break;
+        }
+      } else {
+        errorMessage = new Observable<string>(error.message);
+      }
+      console.log(error); // TODO: remove
       this.isImageValid = false;
-      // TODO: disable submit or notify users that the image will not be submitted
+      this.imageUploadErrorMessage = errorMessage;
     }
 
     // limit the image size <2.9m and do error handlings
-
   }
 
-  async getBase64Async(file: File): Promise<string | undefined> {
+  async getBase64Async(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
       reader.onload = () => {
-        resolve(reader.result as string);
+        var image = document.createElement('img');
+        image.onload = () => {
+          const imgBase64: string = reader.result as string;
+          resolve(imgBase64);
+        };
+        image.onerror = (error) => {
+          console.error('invalid image: ', error);
+          reject(new ImageUploadError((error as string) ?? 'error event', ImageUploadErrorType.UnsupportedFormat));
+        };
+        image.src = reader.result as string;
+        //TODO: review the above cast
         // this.feedbackImageBase64 = reader.result as string;
       };
-      reader.onerror = (error) => {
-        reject(reader.error);
+      reader.onerror = (error: any) => {
+        //TODO: is message the expected property?
+        reject(new ImageUploadError(error?.message ?? 'error event', ImageUploadErrorType.UnsupportedFormat));
         console.log('Error: ', error);
       };
       reader.readAsDataURL(file);
@@ -222,14 +258,28 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     return dialogData;
   }
   private formatBytes(bytes: number, decimals: number = 2): string {
-    if (!+bytes) return '0 Bytes'
+    if (!+bytes) return '0 Bytes';
 
-    const k = 1024
-    const dm = decimals < 0 ? 0 : decimals
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+  }
 }
+enum ImageUploadErrorType {
+  'TooLarge',
+  'UnsupportedFormat',
+}
+
+const ImageUploadError_name = 'ImageUploadError';
+class ImageUploadError extends Error {
+  name = ImageUploadError_name;
+  constructor(message: string, public imageUploadErrorType: ImageUploadErrorType) {
+    super(message);
+
+    // Set the prototype explicitly.
+  }
 }
