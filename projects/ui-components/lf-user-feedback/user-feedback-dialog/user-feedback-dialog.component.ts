@@ -46,7 +46,9 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   imageUploadErrorMessage = new Observable<string>();
 
   get isSubmitDisabled(): boolean {
-    return this.isEmptyOrWhitespace(this.feedbackTextBox) || this.uploadedInvalidImage(this.imageUploaded, this.isImageValid);
+    return (
+      this.isEmptyOrWhitespace(this.feedbackTextBox)
+    );
   }
 
   get isFirstPane(): boolean {
@@ -158,46 +160,11 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     this.inputFile.nativeElement.click();
   }
 
-  async onFileSelectedAsync(): Promise<void> {
-    this.imageUploaded = this.inputFile?.nativeElement.files?.item(0) ?? undefined;
-    if (!this.imageUploaded) {
-      return;
-    }
-    this.uploadedImageSize = this.formatBytes(this.imageUploaded.size);
-    // TODO: put the upper 4 lines in try&catch?
-    try {
-      if (this.imageUploaded.size <= this.imageSizeLimitBytes) {
-        const encodingData = await this.getBase64Async(this.imageUploaded);
-        this.feedbackImageBase64 = encodingData?.split(',')[1];
-        // console.log(this.feedbackImageBase64); // TODO: remove
-        this.isImageValid = true;
-      } else {
-        // TODO: disable submit or notify users that the image will not be submitted
-        throw new ImageUploadError('ImageUploadErrorType.TooLarge', ImageUploadErrorType.TooLarge);
-      }
-    } catch (error: any) {
-      let errorMessage: Observable<string>;
-      if (error.name === ImageUploadError_name) {
-        switch ((<ImageUploadError>error).imageUploadErrorType) {
-          case ImageUploadErrorType.TooLarge:
-            errorMessage = this.localizedStrings.FILE_TOO_LARGE;
-            break;
-          case ImageUploadErrorType.UnsupportedFormat:
-            errorMessage = this.localizedStrings.IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED;
-            break;
-          default:
-            errorMessage = new Observable<string>(error.message);
-            break;
-        }
-      } else {
-        errorMessage = new Observable<string>(error.message);
-      }
-      console.log(error); // TODO: remove
-      this.isImageValid = false;
-      this.imageUploadErrorMessage = errorMessage;
-    }
+  async onFileSelectedAsync(event: Event): Promise<void> {
 
-    // limit the image size <2.9m and do error handlings
+    // console.log(event);
+    this.imageUploaded = this.inputFile?.nativeElement.files?.item(0) ?? undefined;
+    await this.readAndValidateImageAsync();
   }
 
   async getBase64Async(file: File): Promise<string> {
@@ -224,9 +191,6 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
       };
       reader.readAsDataURL(file);
     });
-
-    // TODO: remove header data:image/jpeg;base64,
-    // decode and test
   }
 
   removeImage(): void {
@@ -240,11 +204,34 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     this.inputFile.nativeElement.value = '';
   }
 
+  async dropHandler(ev: DragEvent): Promise<void> {
+    let file: File | undefined;
+    console.log('File(s) dropped');
+
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+
+    if (ev?.dataTransfer?.items) {
+      // Use DataTransferItemList interface to access the file
+      const item = ev.dataTransfer.items[0];
+      if (item.kind === 'file') {
+        file = item.getAsFile() ?? undefined;
+      }
+    } else {
+      // Use DataTransfer interface to access the file(s)
+      file = ev.dataTransfer?.files.item(0) ?? undefined;
+    }
+    this.imageUploaded = file;
+    await this.readAndValidateImageAsync();
+  }
+
+  dragOverHandler(ev: DragEvent) {
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+  }
+
   private isEmptyOrWhitespace(value: string): boolean {
     return !(value.trim().length > 0);
-  }
-  private uploadedInvalidImage(image: File | undefined, isImageValid: boolean): boolean {
-    return (image !== undefined) && (isImageValid === false);
   }
 
   private getFeedbackDialogData(): UserFeedbackDialogData {
@@ -271,7 +258,47 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
 
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
   }
+
+  private async readAndValidateImageAsync(): Promise<void> {
+    if (!this.imageUploaded) {
+      return;
+    }
+    this.uploadedImageSize = this.formatBytes(this.imageUploaded.size);
+    try {
+      if (this.imageUploaded.size <= this.imageSizeLimitBytes) {
+        const encodingData = await this.getBase64Async(this.imageUploaded);
+        this.feedbackImageBase64 = encodingData?.split(',')[1];
+        // console.log(this.feedbackImageBase64); // TODO: remove
+        this.isImageValid = true;
+      } else {
+        // TODO: disable submit or notify users that the image will not be submitted
+        throw new ImageUploadError('ImageUploadErrorType.TooLarge', ImageUploadErrorType.TooLarge);
+      }
+    } catch (error: any) {
+      let errorMessage: Observable<string>;
+      if (error.name === ImageUploadError_name) {
+        switch ((<ImageUploadError>error).imageUploadErrorType)
+        {
+          case ImageUploadErrorType.TooLarge:
+            errorMessage = this.localizedStrings.FILE_TOO_LARGE;
+            break;
+          case ImageUploadErrorType.UnsupportedFormat:
+            errorMessage = this.localizedStrings.IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED;
+            break;
+          default:
+            errorMessage = new Observable<string>(error.message);
+            break;
+        }
+      } else {
+        errorMessage = new Observable<string>(error.message);
+      }
+      console.log(error); // TODO: remove
+      this.isImageValid = false;
+      this.imageUploadErrorMessage = errorMessage;
+    }
+  }
 }
+
 enum ImageUploadErrorType {
   'TooLarge',
   'UnsupportedFormat',
@@ -282,7 +309,6 @@ class ImageUploadError extends Error {
   name = ImageUploadError_name;
   constructor(message: string, public imageUploadErrorType: ImageUploadErrorType) {
     super(message);
-
     // Set the prototype explicitly.
   }
 }

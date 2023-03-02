@@ -166,3 +166,17 @@ span#pop-up-dialog-close:hover {
   padding-top: 10px;
   padding-left: 5px;
 }
+
+.drop-zone {
+  height: 50px;
+  display: table;
+  width: 100%;
+  background-color:  #FAFAFA;
+  border: 1px solid #6D6D6D;
+  border-radius: 2px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding: 7px 10px 8px 10px;
+  box-sizing: border-box;
+  color: #6D6D6D;
+}
