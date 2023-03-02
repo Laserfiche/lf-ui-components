@@ -43,7 +43,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   uploadedImageSize: string | undefined;
   imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
   isImageValid: boolean = false;
-  imageUploadErrorMessage = new Observable<string>();
+  imageUploadErrorMessage?: Observable<string>;
 
   get isSubmitDisabled(): boolean {
     return (
@@ -105,13 +105,14 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     ),
     SUBMIT: this.localizationService.getStringLaserficheObservable('SUBMIT'),
     CANCEL: this.localizationService.getStringLaserficheObservable('CANCEL'),
-    UPLOAD_FILE: this.localizationService.getStringComponentsObservable('UPLOAD_FILE'),
     REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
     FILE_TOO_LARGE: this.localizationService.getStringComponentsObservable('FILE_TOO_LARGE'),
     IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED: this.localizationService.getStringComponentsObservable(
       'IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED'
     ),
-    NO_IMAGE_UPLOADED: this.localizationService.getStringComponentsObservable('NO_IMAGE_UPLOADED'),
+    BROWSE: this.localizationService.getStringLaserficheObservable('BROWSE'),
+    DRAG_SELECT_IMAGE: this.localizationService.getStringComponentsObservable('DRAG_SELECT_IMAGE'),
+    UPLOAD_IMAGE_OPTIONAL: this.localizationService.getStringComponentsObservable('UPLOAD_IMAGE_OPTIONAL'),
   };
 
   USER_FEEDBACK_TITLE: Observable<string> = this.localizedStrings.FEEDBACK;
@@ -270,6 +271,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
         this.feedbackImageBase64 = encodingData?.split(',')[1];
         // console.log(this.feedbackImageBase64); // TODO: remove
         this.isImageValid = true;
+        this.imageUploadErrorMessage = undefined;
       } else {
         // TODO: disable submit or notify users that the image will not be submitted
         throw new ImageUploadError('ImageUploadErrorType.TooLarge', ImageUploadErrorType.TooLarge);

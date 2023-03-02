@@ -14,7 +14,8 @@
   <button id="lf-user-feedback-suggestion-mode-button" class="lf-button feedback-suggestion-button"
     (click)="onClickSuggestion()">{{localizedStrings.I_HAVE_SUGGESTION | async}}</button>
 </div>
-<div *ngIf="isFeedback || isSuggestion" mat-dialog-content class="user-feedback-content-container lf-dialog-content">
+<div *ngIf="isFeedback || isSuggestion" mat-dialog-content class="user-feedback-content-container lf-dialog-content" (drop)="dropHandler($event)"
+(dragover)="dragOverHandler($event)">
   <div class="lf-text-body lf-user-feedback-description">
       {{isFeedback ? (localizedStrings.FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW | async) : (localizedStrings.DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING | async)}}
   </div>
@@ -27,30 +28,29 @@
     <span> / </span>
     <span>{{maxFeedbackLength}}</span>
   </span>
-  <hr>
+  <!-- <hr> -->
 
-  <label for="image-upload" class="lf-text-label">Upload Image (Optional)</label> <!-- TODO: localize this string -->
+  <label for="image-upload" class="lf-text-label">{{localizedStrings.UPLOAD_IMAGE_OPTIONAL | async}}</label> <!-- TODO: localize this string -->
   <div id="image-upload">
-    <div *ngIf="!this.imageUploaded || !isImageValid" id="drop_zone" class="drop-zone" (drop)="dropHandler($event)"
-      (dragover)="dragOverHandler($event)">
-      <p>Drag an image to this drop zone</p>
+    <div *ngIf="!this.imageUploaded || !isImageValid" id="drop_zone" class="drop-zone" >
+      <label for="upload-button" class="lf-text-body">{{localizedStrings.DRAG_SELECT_IMAGE | async}}</label>
+      <button id="upload-button" [disabled]="isImageValid" class="lf-button feedback-file-upload-button"
+      (click)="onInputClickArea()">{{localizedStrings.BROWSE | async}}</button>
     </div>
-    <button [disabled]="isImageValid" class="lf-button feedback-file-upload-button"
-      (click)="onInputClickArea()">{{localizedStrings.UPLOAD_FILE | async}}</button>
-    <input type="file" accept=".jpg,.png,.gif,.webp" class="file-input feedback-file-input"
-      (input)="onFileSelectedAsync($event)" #uploadFile>
-    <div *ngIf="imageUploaded?.name; else noUpload">
+    <div *ngIf="imageUploaded?.name">
       <tr *ngIf="isImageValid" class="upload-file-info">
         <td>{{imageUploaded?.name}}</td>
         <td>{{uploadedImageSize}}</td>
         <td class="upload-file-remove" (click)="removeImage()">{{localizedStrings.REMOVE | async}}</td>
       </tr>
-      <p *ngIf="!isImageValid" class="error-message">{{imageUploadErrorMessage | async}}</p>
     </div>
-    <ng-template #noUpload>{{localizedStrings.NO_IMAGE_UPLOADED | async}}</ng-template>
-  </div>
 
-  <hr>
+    <input type="file" accept=".jpg,.png,.gif,.webp" class="file-input feedback-file-input"
+      (input)="onFileSelectedAsync($event)" #uploadFile>
+    <p *ngIf="!isImageValid" class="error-message lf-text-body">{{imageUploadErrorMessage | async}}</p>
+  </div>
+  <!-- <hr> -->
+
   <div class="email-checkbox-container">
       <mat-checkbox color="primary" class="lf-user-feedback-checkbox lf-checkbox"
           [disableRipple]="true" ngDefaultControl [(ngModel)]="feedbackEmailCheckbox">
