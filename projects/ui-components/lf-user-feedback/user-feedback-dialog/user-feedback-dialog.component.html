@@ -28,28 +28,36 @@
     <span> / </span>
     <span>{{maxFeedbackLength}}</span>
   </span>
-  <!-- <hr> -->
 
-  <label for="image-upload" class="lf-text-label">{{localizedStrings.UPLOAD_IMAGE_OPTIONAL | async}}</label> <!-- TODO: localize this string -->
+  <label for="image-upload" class="lf-text-label">{{ localizedStrings.UPLOAD_IMAGE_OPTIONAL | async }}</label>
   <div id="image-upload">
-    <div *ngIf="!this.imageUploaded || !isImageValid" id="drop_zone" class="drop-zone" >
-      <label for="upload-button" class="lf-text-body">{{localizedStrings.DRAG_SELECT_IMAGE | async}}</label>
-      <button id="upload-button" [disabled]="isImageValid" class="lf-button feedback-file-upload-button"
-      (click)="onInputClickArea()">{{localizedStrings.BROWSE | async}}</button>
-    </div>
-    <div *ngIf="imageUploaded?.name">
-      <tr *ngIf="isImageValid" class="upload-file-info">
-        <td>{{imageUploaded?.name}}</td>
-        <td>{{uploadedImageSize}}</td>
-        <td class="upload-file-remove" (click)="removeImage()">{{localizedStrings.REMOVE | async}}</td>
-      </tr>
+    <div *ngIf="!imageUploaded || !isImageValid" id="drop_zone" class="drop-zone">
+      <label for="upload-button" class="lf-text-body">{{ localizedStrings.DRAG_SELECT_IMAGE | async }}</label>
+      <button
+        id="upload-button"
+        [disabled]="isImageValid"
+        class="lf-button sec-button feedback-file-upload-button"
+        (click)="onInputClickArea()"
+      >
+        {{ localizedStrings.BROWSE | async }}
+      </button>
     </div>
 
-    <input type="file" accept=".jpg,.png,.gif,.webp" class="file-input feedback-file-input"
-      (input)="onFileSelectedAsync($event)" #uploadFile>
-    <p *ngIf="!isImageValid" class="error-message lf-text-body">{{imageUploadErrorMessage | async}}</p>
+    <tr *ngIf="isImageValid" class="upload-file-info">
+      <td>{{ imageUploaded?.name }}</td>
+      <td>{{ uploadedImageSize }}</td>
+      <td class="upload-file-remove" (click)="removeImage()">{{ localizedStrings.REMOVE | async }}</td>
+    </tr>
+
+    <input
+      type="file"
+      accept=".jpg,.png,.gif,.webp"
+      class="file-input feedback-file-input"
+      (input)="onFileSelectedAsync($event)"
+      #uploadFile
+    />
+    <p *ngIf="!isImageValid" class="error-message lf-text-body">{{ imageUploadErrorMessage | async }}</p>
   </div>
-  <!-- <hr> -->
 
   <div class="email-checkbox-container">
       <mat-checkbox color="primary" class="lf-user-feedback-checkbox lf-checkbox"
