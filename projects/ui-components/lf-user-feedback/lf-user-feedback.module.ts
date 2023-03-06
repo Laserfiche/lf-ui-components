@@ -6,9 +6,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { createCustomElement } from '@angular/elements';
+import { FeedbackSuggestionSelectionComponent } from './feedback-suggestion-selection/feedback-suggestion-selection.component';
+import { FeedbackSubmissionComponent } from './feedback-submission/feedback-submission.component';
 
 @NgModule({
-  declarations: [LfUserFeedbackComponent, UserFeedbackDialogComponent],
+  declarations: [LfUserFeedbackComponent, UserFeedbackDialogComponent, FeedbackSuggestionSelectionComponent, FeedbackSubmissionComponent],
   imports: [
     CommonModule,
     FormsModule,
