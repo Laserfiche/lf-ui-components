@@ -81,18 +81,14 @@ tr.mat-header-row.lf-selection-list-header-row {
   padding: 0 0 0 15px;
 }
 
-.lf-ellipsis-overflow,
-::ng-deep .lf-ellipsis-overflow .mat-sort-header-content {
+::ng-deep .lf-ellipsis-label .mat-sort-header-content {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-::ng-deep .lf-ellipsis-overflow .mat-sort-header-content {
   display: block;
 }
 
-::ng-deep .lf-ellipsis-overflow .mat-sort-header-container {
+::ng-deep .lf-ellipsis-label .mat-sort-header-container {
   width: 100%;
 }
 

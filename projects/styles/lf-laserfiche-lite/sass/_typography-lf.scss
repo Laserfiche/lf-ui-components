@@ -50,14 +50,22 @@ $sec-info-color: #6D6D6D;
 $kpi-stats-stack: 600 30px "Open Sans";
 $kpi-states-color: #6D6D6D;
 
+$error-color: #ab2227;
+
 .lf-text-body {
   font: $body-stack;
   color: $body-color;
+  &.lf-text-error {
+    color: $error-color;
+  }
 }
 
 .lf-text-label {
   font: $label-stack;
   color: $label-color;
+  &.lf-text-error {
+    color: $error-color;
+  }
 }
 
 .lf-ellipsis-label {
@@ -65,6 +73,7 @@ $kpi-states-color: #6D6D6D;
   overflow: hidden;
   white-space: nowrap;
 }
+
 
 :root {
   --lf-body-text-color: #333333;

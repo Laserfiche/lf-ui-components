@@ -19,7 +19,7 @@
     <ng-container [matColumnDef]="column.id" *ngFor="let column of allColumnDefs; let i = index">
       <ng-container [ngSwitch]="column.id">
         <ng-container *ngSwitchCase="'name'">
-          <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-overflow">
+          <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
             <div class="lf-resize-wrapper-div">
               <div class="column-text-div" mat-sort-header>{{column.displayName}}</div>
               <span class="resize-handle" (mousedown)="onResizeColumn($event, i)"></span>
@@ -32,7 +32,7 @@
                   <ng-container *ngTemplateOutlet="listItemRef; context: item"></ng-container>
                 </ng-container>
               </ng-container>
-              <ng-template #defaultItem><span class="lf-ellipsis-overflow">{{ item.value.name ?? item.value.id}}</span></ng-template>
+              <ng-template #defaultItem><span class="lf-ellipsis-label">{{ item.value.name ?? item.value.id}}</span></ng-template>
             </div>
           </td></ng-container
         >
@@ -59,7 +59,7 @@
         </ng-container>
         <!--default case when there are no matches -->
         <ng-container *ngSwitchDefault>
-          <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-overflow">
+          <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
             <div class="lf-resize-wrapper-div">
               <div class="column-text-div" mat-sort-header>
                 {{ column.displayName }}
@@ -71,7 +71,7 @@
               ></span>
             </div>
           </th>
-          <td mat-cell class="lf-ellipsis-overflow" *matCellDef="let row">
+          <td mat-cell class="lf-ellipsis-label" *matCellDef="let row">
             <div class="column-text-div">
               {{ row.value.attributes?.get(column.id)?.displayValue }}
             </div>

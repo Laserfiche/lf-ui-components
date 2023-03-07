@@ -31,8 +31,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   /** @internal */
   private focusedEntry: ItemWithId | undefined;
   /** @internal */
-  private columns: ColumnDef[] = [];
-  /** @internal */
   private _multipleSelectEnabled: boolean = false;
   /** @internal */
   repoBrowserUniqueId: string = '';
@@ -71,12 +69,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    *
    */
   @Input()
-  set additionalColumnsToDisplay(cols: ColumnDef[]) {
-    this.columns = cols;
+  setAdditionalColumnsToDisplay: (cols: ColumnDef[]) => void = (cols: ColumnDef[]) => {
+    if (this.entryList) {
+      this.entryList.columns = cols;
+    }
     this.ref.detectChanges();
-  }
-  get additionalColumnsToDisplay(): ColumnDef[] {
-    return this.columns;
   }
 
   /**
