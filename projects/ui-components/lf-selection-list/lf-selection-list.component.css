@@ -26,7 +26,7 @@
 }
 
 .node-selected.item-holder {
-  background-color: var(--lf-menu-item-selected-color, #EAF5FF) !important;
+  background-color: var(--lf-menu-item-selected-color, #eaf5ff) !important;
 }
 
 .item-holder:hover {
@@ -41,28 +41,48 @@
   padding-left: 32px;
 }
 ::ng-deep mat-checkbox.lf-no-ripple .mat-checkbox-layout .mat-checkbox-inner-container .mat-checkbox-ripple {
-    width: 0;
-    height: 0;
+  width: 0;
+  height: 0;
 }
 .multiselect-column .multiselect-indicator {
-    padding-right: 8px;
-    display: inline-grid;
+  padding-right: 8px;
+  display: inline-grid;
 }
 
 tr.mat-header-row.lf-selection-list-header-row {
   height: 42px;
 }
 
-:host .lf-table-selection-list th.mat-header-cell, :host .lf-table-selection-list td.mat-cell, :host .lf-table-selection-list td.mat-footer-cell {
-  border-bottom-color: rgb(0,0,0,0.12);
-  border-left-color: rgb(0,0,0,0.12);
-  border-left-width: 1px;
-  border-left-style: solid;
-  padding: 0px 15px;
-  box-sizing:border-box;
+:host .lf-table-selection-list th.mat-header-cell:has(.mat-sort-header-sorted) {
+  background-color: #e2e2e2;
 }
 
-.lf-ellipsis-overflow, ::ng-deep .lf-ellipsis-overflow .mat-sort-header-content {
+:host .lf-table-selection-list th.mat-header-cell {
+  border-left-color: rgb(0, 0, 0, 0.12);
+  border-left-width: 1px;
+  border-left-style: solid;
+}
+
+:host .lf-table-selection-list th.mat-header-cell,
+:host .lf-table-selection-list td.mat-cell,
+:host .lf-table-selection-list td.mat-footer-cell {
+  border-bottom: none;
+  padding: 0px 10px;
+  box-sizing: border-box;
+}
+
+:host .lf-table-selection-list tr.item-holder {
+  border-bottom: 1px solid rgb(0, 0, 0, 0.12);;
+}
+
+:host .lf-table-selection-list th.mat-header-cell.multiselect-column,
+:host .lf-table-selection-list td.mat-cell.multiselect-column,
+:host .lf-table-selection-list td.mat-footer-cell.multiselect-column {
+  padding: 0 0 0 15px;
+}
+
+.lf-ellipsis-overflow,
+::ng-deep .lf-ellipsis-overflow .mat-sort-header-content {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -77,10 +97,10 @@ tr.mat-header-row.lf-selection-list-header-row {
 }
 
 :host .lf-table-selection-list th.mat-header-cell {
-  background-color: rgb(0,0,0,0.05);
+  background-color: #f3f3f3;
 }
 
-:host .lf-table-selection-list th.mat-header-cell:last-of-type, :host .lf-table-selection-list td.mat-cell:last-of-type, :host .lf-table-selection-list td.mat-footer-cell:last-of-type {
+:host .lf-table-selection-list th.mat-header-cell:last-of-type {
   border-right-color: rgb(0,0,0,0.12);
   border-right-width: 1px;
   border-right-style: solid;
@@ -106,7 +126,7 @@ tr.mat-header-row.lf-selection-list-header-row {
   position: relative;
 }
 
-::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list{
+::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list {
   display: flex;
   flex-direction: column;
   width: fit-content;
@@ -148,7 +168,8 @@ table th .resize-handle:hover {
   display: none;
 }
 
-::ng-deep .lf-table-selection-list .mat-sort-header:hover .mat-sort-header-arrow, ::ng-deep .lf-table-selection-list .mat-sort-header-sorted .mat-sort-header-arrow {
+::ng-deep .lf-table-selection-list .mat-sort-header:hover .mat-sort-header-arrow,
+::ng-deep .lf-table-selection-list .mat-sort-header-sorted .mat-sort-header-arrow {
   display: flex;
 }
 
@@ -163,7 +184,7 @@ table th .resize-handle:hover {
 
 .resize-handle {
   width: 15px;
-  right: -22.5px;
+  right: -17.5px;
 }
 
 .lf-hidden-column-header {

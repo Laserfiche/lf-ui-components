@@ -16,7 +16,7 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-sh
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { ColumnDef, LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-components/lf-selection-list';
+import { ColumnDef, ColumnOrderBy, LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-components/lf-selection-list';
 
 @Component({
   selector: 'lf-repository-browser-component',
@@ -46,6 +46,26 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   }
 
   @Input() itemSize: number = 42;
+
+  @Input()
+  get columnOrderBy(): ColumnOrderBy | undefined {
+    return this.entryList?.columnOrderBy;
+  }
+  set columnOrderBy(orderBy: ColumnOrderBy | undefined) {
+    if (this.entryList) {
+      this.entryList.columnOrderBy = orderBy;
+    }
+  }
+  
+  @Input()
+  get alwaysShowHeader(): boolean | undefined {
+    return this.entryList?.alwaysShowHeader;
+  }
+  set alwaysShowHeader(showHeader: boolean | undefined) {
+    if (this.entryList) {
+      this.entryList.alwaysShowHeader = showHeader;
+    }
+  }
 
   /**
    *
@@ -586,7 +606,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    */
   private async updateFolderChildrenAsync(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
     this.lastCalledPage = this.nextPage;
-    const sortState = this.entryList?.columnOrderBy;
+    const sortState = this.columnOrderBy;
     const dataPage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage, sortState);
     let selectablePage: ILfSelectable[] = [];
     this.nextPage = dataPage.nextPage;

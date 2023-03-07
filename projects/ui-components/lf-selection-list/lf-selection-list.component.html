@@ -85,7 +85,7 @@
 
     <tr
       class="lf-selection-list-header-row"
-      [ngClass]="{ 'lf-hidden-column-header': columns?.length < 1 }"
+      [ngClass]="{ 'lf-hidden-column-header': !_showHeader}"
       mat-header-row
       [style.gridTemplateColumns]="columnsWidth"
       *matHeaderRowDef="allColumnHeaders"
@@ -106,10 +106,10 @@
         'selectable-option': row.isSelectable,
         'node-selected': row.isSelected
       }"
-      [attr.id]="_computeRowId(i + (dataSource?.curStart ?? 0))"
-      (click)="onClickMatListOption($event, row, i + (dataSource?.curStart ?? 0))"
+      [attr.id]="_computeRowId(i + (dataSource?.dataStart ?? 0))"
+      (click)="onClickMatListOption($event, row, i + (dataSource?.dataStart ?? 0))"
       (dblclick)="onDblClick($event, row)"
-      (focusin)="onFocused(i + (dataSource?.curStart ?? 0))"
+      (focusin)="onFocused(i + (dataSource?.dataStart ?? 0))"
       (keydown)="onItemKeyDown($event, row)"
       (keyup)="onItemKeyUp($event, row)"
       [style.gridTemplateColumns]="columnsWidth"

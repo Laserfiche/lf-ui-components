@@ -36,18 +36,19 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
   @ViewChild('matTable', { read: ElementRef }) matTable?: ElementRef;
+  @ViewChild(MatSort) sort?: MatSort;
   @Input() itemSize: number = 42;
   @Input() listItemRef?: TemplateRef<unknown>;
   private additionalColumnDefs: ColumnDef[] = [];
   allColumnHeaders?: string[];
   /** @internal */
   items: ILfSelectable[] = [];
-  columnOrderBy?: ColumnOrderBy;
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
   columnMinWidth: number = 100;
   selectWidth: number = 0;
-  selectColumnDef: ColumnDef = { id: 'select', displayName: '', defaultWidth: '50px' };
+  selectColumnDef: ColumnDef = { id: 'select', displayName: '', defaultWidth: '35px' };
   nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: 'auto' };
+  nameHalfColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '50ch' };
   allColumnDefs: ColumnDef[] = [];
   _localStorageKey: string = '';
   firstResize: boolean = true;
@@ -55,6 +56,20 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   columnsWidth: string | undefined;
   resizePosition: number = 0;
   resizedColumnInitialOffsetLeft: number = 0;
+  private fillLastColumn: boolean = true;
+  private _columnOrderBy: ColumnOrderBy | undefined;
+  alwaysShowHeader?: boolean;
+  _showHeader: boolean = false;
+
+  get columnOrderBy(): ColumnOrderBy | undefined {
+    return this._columnOrderBy;
+  }
+  set columnOrderBy(orderBy: ColumnOrderBy | undefined) {
+    if (orderBy?.columnId && this.allColumnDefs.find((c) => c.id === orderBy.columnId)) {
+      this.sort!.sort({ id: orderBy?.columnId, start: orderBy?.isDesc ? 'desc' : 'asc', disableClear: true });
+      this._columnOrderBy = orderBy;
+    }
+  }
 
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
@@ -87,15 +102,34 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.firstResize = true;
     const nameColumnDef = cols.find((col) => col.id === 'name');
     const toAdd: ColumnDef[] = [];
+    if (cols.length > 1 || (cols.length === 1 && cols[0].id !== 'name')) {
+      this.fillLastColumn = false;
+      this._showHeader = this.alwaysShowHeader === false ? false : true;
+    } else {
+      if (!this.additionalColumnDefs || this.additionalColumnDefs.length === 0 || !cols.find(c => c.id === 'name')) {
+        this.fillLastColumn = true;
+      }
+      else {
+        this.fillLastColumn = false;
+      }
+      this._showHeader = this.alwaysShowHeader === true ? true : false;
+    }
     if (nameColumnDef) {
       if (this.multipleSelection) {
         toAdd.push(this.selectColumnDef);
       }
     } else {
+      let nameCol: ColumnDef;
+      if (this.fillLastColumn) {
+        nameCol = this.nameColumnDef;
+      }
+      else {
+        nameCol = this.nameHalfColumnDef;
+      }
       if (this.multipleSelection) {
-        toAdd.push(this.selectColumnDef, this.nameColumnDef);
+        toAdd.push(this.selectColumnDef, nameCol);
       } else {
-        toAdd.push(this.nameColumnDef);
+        toAdd.push(nameCol);
       }
     }
     this.allColumnDefs = toAdd.concat(cols);
@@ -122,7 +156,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   protected selectable: Selectable = new Selectable();
   /** @internal */
   private _multipleSelectEnabled: boolean = false;
-  @ViewChild(MatSort) sort?: MatSort;
 
   /** @internal */
   constructor(
@@ -170,7 +203,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       return;
     }
     const sortState: ColumnOrderBy = { columnId: sort.active, isDesc: sort.direction === 'desc' };
-    this.columnOrderBy = sortState;
+    this._columnOrderBy = sortState;
     this.refreshData.emit();
   }
   // When the table content gets focused we check to see if we need to reset the currentFocusIndex
@@ -321,9 +354,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       const tableEl = Array.from(
         this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
       );
-      const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
-      (tableEl[0] as HTMLTableElement).style.width = containerWidth + 'px';
-      this.ref.detectChanges();
       const widths: string[] = [];
       this.allColumnDefs.forEach((col) => {
         const columnWidth = asJSON?.columns[col.id];
@@ -338,25 +368,38 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         const templateCOls = widths.join(' ');
         this.columnsWidth = templateCOls;
       }
-
       this.ref.detectChanges();
-      const widthsInPixel: string[] = [];
-      this.allColumnDefs.forEach((col) => {
-        const columnEls = Array.from(
-          this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
-        );
-        const columnWidthOffset = (columnEls[0] as HTMLDivElement).offsetWidth;
-        const columnWidthInPixel = col.id !== 'select'? Math.max(columnWidthOffset, this.columnMinWidth) + 'px' : this.selectColumnDef.defaultWidth;
-        widthsInPixel.push(columnWidthInPixel);
-      });
 
-      if (this.matTable) {
-        const templateCOls = widthsInPixel.join(' ');
-        this.columnsWidth = templateCOls;
+      if (!this.fillLastColumn) {
+        const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
+        (tableEl[0] as HTMLTableElement).style.width = containerWidth + 'px';
+        this.ref.detectChanges();
+        const widthsInPixel: string[] = [];
+
+        this.allColumnDefs.forEach((col) => {
+          const columnEls = Array.from(
+            this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
+          );
+          const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
+          const columnWidthInPixel =
+            col.id !== 'select'
+              ? (Math.max(columnWidthOffset, this.columnMinWidth)) + 'px'
+              : this.selectColumnDef.defaultWidth;
+          widthsInPixel.push(columnWidthInPixel);
+        });
+
+        if (this.matTable) {
+          const templateCOls = widthsInPixel.join(' ');
+          this.columnsWidth = templateCOls;
+        }
+
+        (tableEl[0] as HTMLTableElement).style.width = 'fit-content';
+        this.ref.detectChanges();
       }
-
-      (tableEl[0] as HTMLTableElement).style.width = 'fit-content';
-      this.ref.detectChanges();
+      else {
+        // const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
+        (tableEl[0] as HTMLTableElement).style.minWidth = '100%';
+      }
     });
   }
 
@@ -401,7 +444,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     const rowEleRect = rowEle.getBoundingClientRect();
     const scrollRect = this.viewport.elementRef.nativeElement.getBoundingClientRect();
-    const belowTop = rowEleRect.top >= scrollRect.top + ROW_HEIGHT; // need to include header row in height
+    const belowTop = rowEleRect.top >= scrollRect.top + (this._showHeader ? ROW_HEIGHT : 0); // need to include header row in height
     const aboveBottom = rowEleRect.bottom <= scrollRect.bottom;
     return belowTop && aboveBottom;
   }

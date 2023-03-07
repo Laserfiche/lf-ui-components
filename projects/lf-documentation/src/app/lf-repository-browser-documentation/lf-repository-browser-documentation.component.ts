@@ -44,6 +44,8 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     }
     await this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
     this.singleColChange();
+    this.singleSelectRepoBrowser.nativeElement.columnOrderBy = {columnId: 'name', isDesc: false};
+    this.singleSelectRepoBrowser.nativeElement.alwaysShowHeader = true;
   }
 
   onEntrySelected(event: CustomEvent<LfTreeNode[] | undefined>) {
@@ -71,7 +73,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   create = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%' };
   test = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '60%' };
-  name = { id: propIdNameCol, displayName: 'Name', defaultWidth: '30%' };
+  name = { id: propIdNameCol, displayName: 'Name', defaultWidth: '50%' };
 
   singleColChange() {
     const columns = [this.name];

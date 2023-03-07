@@ -10,6 +10,7 @@ export class GridTableDataSource extends DataSource<any> {
   private _data: ILfSelectable[];
   indexChangeSub: Subscription;
   curStart: number = 0;
+  dataStart: number = 0;
 
   get allData(): ILfSelectable[] {
     return this._data.slice();
@@ -47,6 +48,7 @@ export class GridTableDataSource extends DataSource<any> {
       if (li + rendered > (this.curStart + this.extraData - this.bufferToEnd) || (li > this.bufferToEnd ? li-this.bufferToEnd : 0) < this.curStart) {
         this.curStart = li;
         const slicedData = this._data.slice(li > this.extraData ? li-(this.extraData) : 0, li + rendered + this.extraData);
+        this.dataStart = li > this.extraData ? li-(this.extraData) : 0;
         this.visibleData.next(slicedData);
         this.offsetChange.next((li > this.extraData ? li-this.extraData: 0) * ROW_HEIGHT);
       }
