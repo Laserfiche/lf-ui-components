@@ -1,0 +1,66 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e0e0e0;
+    min-height: 50px;
+    color: #606060;
+    background-color: #fafafa;
+    /* default is the standard padding, but expose variables
+       in case contents have additional padding */
+    padding-top: var(--header-padding-top, 13px);
+    padding-bottom: var(--header-padding-bottom, 13px);
+    padding-left: var(--header-padding-left, 20px);
+    padding-right: var(--header-padding-right, 20px);
+  
+    /* automatically accommodates for padding */
+    box-sizing: border-box;
+    height: 50px;
+    /* 50px - padding */
+    line-height: 24px;
+  }
+  
+  .content-box {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    box-sizing: border-box;
+    overflow: auto;
+    background-color: #fafafa;
+    /* default is the standard padding, but expose variables
+       in case contents have additional padding */
+    padding-top: var(--content-padding-top, 20px);
+    padding-bottom: var(--content-padding-bottom, 20px);
+    padding-left: var(--content-padding-left, 20px);
+    padding-right: var(--content-padding-right, 20px);
+  }
+  
+  .footer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    min-height: 50px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #fafafa;
+    /* default is the standard padding, but expose variables
+       in case contents have additional padding */
+    padding-top: var(--footer-padding-top, 10px);
+    padding-bottom: var(--footer-padding-bottom, 10px);
+    padding-left: var(--footer-padding-left, 20px);
+    padding-right: var(--footer-padding-right, 20px);
+  
+    /* automatically accommodates for padding */
+    box-sizing: border-box;
+    height: 50px;
+    /* 50px - padding */
+    line-height: 30px;
+  }
+  
+  

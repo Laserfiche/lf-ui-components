@@ -27,7 +27,7 @@ $widget-stack: 600 14px  "Open Sans";
 $widget-color: #333333;
 
 $label-stack: 600 14px "Open Sans";
-$label-color: #6D6D6D;
+$label-color: #333333;
 
 $body-stack: 400 14px  "Open Sans";
 $body-color: #333333;
@@ -50,9 +50,22 @@ $sec-info-color: #6D6D6D;
 $kpi-stats-stack: 600 30px "Open Sans";
 $kpi-states-color: #6D6D6D;
 
+$dialog-title-stack: 600 18px "Open Sans";
+$dialog-title-color: #606060;
+
+.lf-dialog-title {
+  font: $dialog-title-stack;
+  color: $dialog-title-color;
+}
+
 .lf-text-body {
   font: $body-stack;
   color: $body-color;
+}
+
+.lf-text-placeholder::placeholder {
+  font: $placeholder-stack;
+  color: $placeholder-color;
 }
 
 .lf-text-label {
