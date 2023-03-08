@@ -58,16 +58,6 @@ span#pop-up-dialog-close:hover {
   resize: none;
 }
 
-/* .lf-dialog-content {
-  border-bottom-color:rgb(224, 224, 224);
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-top-color:rgb(224, 224, 224);
-  border-top-width: 1px;
-  border-top-style: solid;
-  padding-bottom: 20px;
-} */
-
 .lf-user-feedback-description {
   margin-bottom: 10px;
 }
@@ -101,17 +91,10 @@ span#pop-up-dialog-close:hover {
   white-space: normal;
 }
 
-::ng-deep .mat-dialog-content.lf-dialog-content {
-  margin: 0;
-}
-
 ::ng-deep .lf-user-feedback-panel .mat-dialog-container {
   padding: 0;
 }
 
-::ng-deep .mat-dialog-actions.lf-dialog-footer {
-  margin-bottom: 0;
-}
 
 ::ng-deep .mat-dialog-title.user-feedback-title {
   margin: 20px;
@@ -159,3 +142,10 @@ button#upload-button {
   margin-left: 10px;
 }
 
+.dialog-content {
+  position: relative;
+}
+
+#messages {
+  top: -15px;
+}

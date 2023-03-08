@@ -7,12 +7,12 @@ export enum LfMessageToastTypes {
   Error,
   Warning,
   Validation,
-  Informational
+  Informational,
 }
 const DEFAULT_TIME_TO_SHOW = 3000;
 export interface LfToastMessage {
   message: string;
-  timeToShow: number;
+  timeToShow?: number;
   type: LfMessageToastTypes;
   noIcon: boolean;
   hideMessage?: boolean;
@@ -25,29 +25,31 @@ export interface LfToastMessage {
   // tslint:disable-next-line: component-selector
   selector: 'lf-toast-message',
   templateUrl: './lf-toast-message.component.html',
-  styleUrls: ['./lf-toast-message.component.css']
+  styleUrls: ['./lf-toast-message.component.css'],
 })
-
 export class LfToastMessageComponent {
   form = new UntypedFormGroup({});
 
   @Input('messages')
   set messages(messages: LfToastMessage[]) {
-    if (typeof(messages) === 'undefined') { return; }
+    if (typeof messages === 'undefined') {
+      return;
+    }
     for (const message of messages) {
-    
       let messageId = message.id;
       if (messageId) {
         this.form.addControl(messageId, new UntypedFormControl());
-      }
-      else {
+      } else {
         messageId = message.id = Math.random().toString();
       }
 
       this.Messages.push(message);
       // Errors and Warnings will not auto dismiss
-      if ((message.type === LfMessageToastTypes.Validation || message.type === LfMessageToastTypes.Informational)
-        && message.timeToShow !== null && message.timeToShow > 0) {
+      if (
+        (message.type === LfMessageToastTypes.Validation || message.type === LfMessageToastTypes.Informational) &&
+        message.timeToShow &&
+        message.timeToShow > 0
+      ) {
         window.setTimeout(this._removeToast.bind(this, messageId), message.timeToShow);
       }
     }
@@ -86,7 +88,7 @@ export class LfToastMessageComponent {
   _removeToast(messageId: string) {
     const checkboxControl = this.getCheckboxControl(messageId);
 
-    const idx = this.Messages.findIndex(message => message.id === messageId);
+    const idx = this.Messages.findIndex((message) => message.id === messageId);
     if (idx !== -1) {
       this.Messages.splice(idx, 1);
     }
@@ -95,7 +97,6 @@ export class LfToastMessageComponent {
   // remove all toasts
   // applying toastFilter will only remove LFMessages of that type
   clearToasts(toastFilter?: LfMessageToastTypes) {
-    this.Messages = (toastFilter) ? this.Messages.filter((message) => message.type !== toastFilter) : [];
+    this.Messages = toastFilter ? this.Messages.filter((message) => message.type !== toastFilter) : [];
   }
 }
-

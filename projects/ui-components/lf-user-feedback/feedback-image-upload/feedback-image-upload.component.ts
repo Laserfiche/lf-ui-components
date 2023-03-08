@@ -27,7 +27,7 @@ export class FeedbackImageUploadComponent implements OnInit {
   constructor(private localizationService: AppLocalizationService) {}
 
   ngOnInit(): void {}
-  
+
   async dropHandler(ev: DragEvent): Promise<void> {
     let file: File | undefined;
     console.log('File(s) dropped');
@@ -75,7 +75,7 @@ export class FeedbackImageUploadComponent implements OnInit {
       if (error.name === ImageUploadError_name) {
         switch ((<ImageUploadError>error).imageUploadErrorType) {
           case ImageUploadErrorType.TooLarge:
-            errorMessage = this.localizationService.getResourceStringComponents('FILE_TOO_LARGE');
+            errorMessage = this.localizationService.getResourceStringComponents('FILE_TOO_LARGE_MAX_SIZE_2DOT9MB');
             break;
           case ImageUploadErrorType.UnsupportedFormat:
             errorMessage = this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED');
@@ -89,7 +89,9 @@ export class FeedbackImageUploadComponent implements OnInit {
       }
       console.log(error); // TODO: remove
       this.isImageValid = false;
-      this.imageUploadError.emit(errorMessage);
+      this.imageUploadError.emit(
+        errorMessage + ' ' + this.localizationService.getResourceStringComponents('IMAGE_WILL_NOT_BE_ATTACHED')
+      );
       this.removeImage();
     }
   }

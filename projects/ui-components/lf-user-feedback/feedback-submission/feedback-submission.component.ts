@@ -54,10 +54,9 @@ export class FeedbackSubmissionComponent {
   onImageUploadError(errMsg: string){
     const errorToastMsg : LfToastMessage = {
       message: errMsg,
-      timeToShow: 3000,
       type: LfMessageToastTypes.Warning,
  
-      noIcon: true,
+      noIcon: false,
       hideMessage: false,    
     }
     this.toastMessages = [errorToastMsg];
