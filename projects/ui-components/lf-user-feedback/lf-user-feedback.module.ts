@@ -10,14 +10,17 @@ import { FeedbackSuggestionSelectionComponent } from './feedback-suggestion-sele
 import { FeedbackSubmissionComponent } from './feedback-submission/feedback-submission.component';
 import { GeneralDialogLayoutComponent } from './general-dialog-layout/general-dialog-layout.component';
 import { FeedbackImageUploadComponent } from './feedback-image-upload/feedback-image-upload.component';
+import { LfToastMessageComponent } from './lf-toast-message/lf-toast-message.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [LfUserFeedbackComponent, UserFeedbackDialogComponent, FeedbackSuggestionSelectionComponent, FeedbackSubmissionComponent, GeneralDialogLayoutComponent, FeedbackImageUploadComponent],
+  declarations: [LfUserFeedbackComponent, UserFeedbackDialogComponent, FeedbackSuggestionSelectionComponent, FeedbackSubmissionComponent, GeneralDialogLayoutComponent, FeedbackImageUploadComponent, LfToastMessageComponent],
   imports: [
     CommonModule,
     FormsModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [LfUserFeedbackComponent],

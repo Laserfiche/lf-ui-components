@@ -1,6 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { LfToastMessage } from '../lf-toast-message/lf-toast-message.component';
 
 @Component({
   selector: 'lib-feedback-image-upload',
@@ -9,23 +10,19 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-sh
 })
 export class FeedbackImageUploadComponent implements OnInit {
   @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
+  @Output() imageUploadError: EventEmitter<string> = new EventEmitter<string>();
 
   imageUploaded?: File;
   feedbackImageBase64: string | undefined;
   uploadedImageSize: string | undefined;
   imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
   isImageValid: boolean = false;
-  imageUploadErrorMessage?: Observable<string>;
 
   localizedStrings = {
     UPLOAD_IMAGE_OPTIONAL: this.localizationService.getStringComponentsObservable('UPLOAD_IMAGE_OPTIONAL'),
     DRAG_SELECT_IMAGE: this.localizationService.getStringComponentsObservable('DRAG_SELECT_IMAGE'),
     REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
     BROWSE: this.localizationService.getStringLaserficheObservable('BROWSE'),
-    FILE_TOO_LARGE: this.localizationService.getStringComponentsObservable('FILE_TOO_LARGE'),
-    IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED: this.localizationService.getStringComponentsObservable(
-      'IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED'
-    ),
   };
   constructor(private localizationService: AppLocalizationService) {}
 
@@ -68,31 +65,32 @@ export class FeedbackImageUploadComponent implements OnInit {
         this.feedbackImageBase64 = encodingData?.split(',')[1];
         // console.log(this.feedbackImageBase64); // TODO: remove
         this.isImageValid = true;
-        this.imageUploadErrorMessage = undefined;
+        // this.imageUploadErrorMessage = '';
       } else {
         // TODO: disable submit or notify users that the image will not be submitted
         throw new ImageUploadError('ImageUploadErrorType.TooLarge', ImageUploadErrorType.TooLarge);
       }
     } catch (error: any) {
-      let errorMessage: Observable<string>;
+      let errorMessage: string;
       if (error.name === ImageUploadError_name) {
         switch ((<ImageUploadError>error).imageUploadErrorType) {
           case ImageUploadErrorType.TooLarge:
-            errorMessage = this.localizedStrings.FILE_TOO_LARGE;
+            errorMessage = this.localizationService.getResourceStringComponents('FILE_TOO_LARGE');
             break;
           case ImageUploadErrorType.UnsupportedFormat:
-            errorMessage = this.localizedStrings.IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED;
+            errorMessage = this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED');
             break;
           default:
-            errorMessage = new Observable<string>(error.message);
+            errorMessage = error.message;
             break;
         }
       } else {
-        errorMessage = new Observable<string>(error.message);
+        errorMessage = error.message;
       }
       console.log(error); // TODO: remove
       this.isImageValid = false;
-      this.imageUploadErrorMessage = errorMessage;
+      this.imageUploadError.emit(errorMessage);
+      this.removeImage();
     }
   }
 

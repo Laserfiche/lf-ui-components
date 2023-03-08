@@ -1,5 +1,5 @@
-
-  <div   class="user-feedback-content-container lf-dialog-content">
+<div class="user-feedback-content-container lf-dialog-content">
+  <lf-toast-message id="messages" [messages]="toastMessages"></lf-toast-message>
   <div class="lf-text-body lf-user-feedback-description">
     {{
       isFeedback
@@ -13,17 +13,17 @@
   <textarea
     id="feedback-suggestion-textbox"
     rows="12"
-    [maxlength]="maxFeedbackLength"
-    [(ngModel)]="feedbackTextBox"
+    [attr.maxlength]="maxFeedbackLength"
+    (input)="feedbackTextBoxChange($event)"
     class="lf-textarea lf-text-placeholder lf-text-body feedback-suggestion-textbox"
     [placeholder]="localizedStrings.PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK | async"
   ></textarea>
   <span class="lf-text-body character-count">
-    <span>{{ feedbackTextBox?.length ? feedbackTextBox.length : "0" }}</span>
+    <span>{{ feedbackLength }}</span>
     <span> / </span>
     <span>{{ maxFeedbackLength }}</span>
   </span>
-  <lib-feedback-image-upload [(feedbackImageBase64)]="feedbackImageBase64"></lib-feedback-image-upload>
+  <lib-feedback-image-upload [(feedbackImageBase64)]="feedbackImageBase64" (imageUploadError)="onImageUploadError($event)"></lib-feedback-image-upload>
   <div class="email-checkbox-container">
     <mat-checkbox
       color="primary"

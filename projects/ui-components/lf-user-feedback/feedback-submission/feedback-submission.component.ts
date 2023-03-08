@@ -1,6 +1,7 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
-import { Observable } from 'rxjs';
+import { LfMessageToastTypes, LfToastMessage } from '../lf-toast-message/lf-toast-message.component';
+
 
 @Component({
   selector: 'lib-feedback-submission',
@@ -9,9 +10,11 @@ import { Observable } from 'rxjs';
 })
 export class FeedbackSubmissionComponent {
   @Input() isFeedback?: boolean;
+  @Output() feedbackTextChanged: EventEmitter<string> = new EventEmitter<string>();
+  toastMessages: LfToastMessage[] = [];
 
   readonly maxFeedbackLength: number = 2048;
-  feedbackTextBox: string = '';
+  feedbackLength: number = 0;
   feedbackEmailCheckbox: boolean = false;
   feedbackImageBase64: string | undefined;
 
@@ -41,4 +44,22 @@ export class FeedbackSubmissionComponent {
 
   constructor(private localizationService: AppLocalizationService) {}
 
+
+  feedbackTextBoxChange(event: InputEvent) {
+    const feedbackText = (event.target as HTMLTextAreaElement).value;
+    this.feedbackLength = feedbackText.length;
+    this.feedbackTextChanged.emit(feedbackText);
+  }
+
+  onImageUploadError(errMsg: string){
+    const errorToastMsg : LfToastMessage = {
+      message: errMsg,
+      timeToShow: 3000,
+      type: LfMessageToastTypes.Warning,
+ 
+      noIcon: true,
+      hideMessage: false,    
+    }
+    this.toastMessages = [errorToastMsg];
+  }
 }

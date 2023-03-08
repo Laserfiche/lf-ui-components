@@ -1,0 +1,101 @@
+import { Component, Input } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+
+const LOCAL_STORAGE_KEY_PREFIX = 'lf-toast-message-dontshow-';
+
+export enum LfMessageToastTypes {
+  Error,
+  Warning,
+  Validation,
+  Informational
+}
+const DEFAULT_TIME_TO_SHOW = 3000;
+export interface LfToastMessage {
+  message: string;
+  timeToShow: number;
+  type: LfMessageToastTypes;
+  noIcon: boolean;
+  hideMessage?: boolean;
+
+  id?: string;
+  doNotShowLabel?: string;
+}
+
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'lf-toast-message',
+  templateUrl: './lf-toast-message.component.html',
+  styleUrls: ['./lf-toast-message.component.css']
+})
+
+export class LfToastMessageComponent {
+  form = new UntypedFormGroup({});
+
+  @Input('messages')
+  set messages(messages: LfToastMessage[]) {
+    if (typeof(messages) === 'undefined') { return; }
+    for (const message of messages) {
+    
+      let messageId = message.id;
+      if (messageId) {
+        this.form.addControl(messageId, new UntypedFormControl());
+      }
+      else {
+        messageId = message.id = Math.random().toString();
+      }
+
+      this.Messages.push(message);
+      // Errors and Warnings will not auto dismiss
+      if ((message.type === LfMessageToastTypes.Validation || message.type === LfMessageToastTypes.Informational)
+        && message.timeToShow !== null && message.timeToShow > 0) {
+        window.setTimeout(this._removeToast.bind(this, messageId), message.timeToShow);
+      }
+    }
+  }
+
+  Messages: LfToastMessage[];
+  getCheckboxControl(messageId: string) {
+    return this.form.controls[messageId];
+  }
+
+  constructor() {
+    this.Messages = [];
+  }
+
+  _computeTypeIcon(type: LfMessageToastTypes): string {
+    switch (type) {
+      case LfMessageToastTypes.Validation:
+        return 'check_circle_outline';
+      case LfMessageToastTypes.Warning:
+        return 'warning_amber';
+      case LfMessageToastTypes.Informational:
+        return 'info_outline';
+      default:
+        return 'error_outline';
+    }
+  }
+
+  _computeIconLabel(type: LfMessageToastTypes): string {
+    return LfMessageToastTypes[type];
+  }
+
+  _closeToast(messageId: string) {
+    this._removeToast(messageId);
+  }
+
+  _removeToast(messageId: string) {
+    const checkboxControl = this.getCheckboxControl(messageId);
+
+    const idx = this.Messages.findIndex(message => message.id === messageId);
+    if (idx !== -1) {
+      this.Messages.splice(idx, 1);
+    }
+  }
+
+  // remove all toasts
+  // applying toastFilter will only remove LFMessages of that type
+  clearToasts(toastFilter?: LfMessageToastTypes) {
+    this.Messages = (toastFilter) ? this.Messages.filter((message) => message.type !== toastFilter) : [];
+  }
+}
+

@@ -13,13 +13,14 @@
     <lib-feedback-submission [isFeedback]="isFeedback"></lib-feedback-submission>
   </div>
   <div *ngIf="isThankYou" class="lf-dialog-content dialog-content">
-    <p class="lf-text-body lf-user-feedback-thank-you">
+    <div class="lf-text-body">
       {{ localizedStrings.THANK_YOU_FOR_SUBMISSION | async
-      }}{{ localizedStrings.IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL | async }}
+      }}
+    </div>
+    <div class="lf-text-body">{{ localizedStrings.IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL | async }}
       <a href="https://info.laserfiche.com/laserfiche-customer-panel-signup" target="_blank">{{
         localizedStrings.PLEASE_CLICK_HERE | async
-      }}</a>
-    </p>
+      }}</a></div>
   </div>
   <div *ngIf="isError" class="lf-dialog-content dialog-content">
     <p class="lf-text-body lf-user-feedback-thank-you">

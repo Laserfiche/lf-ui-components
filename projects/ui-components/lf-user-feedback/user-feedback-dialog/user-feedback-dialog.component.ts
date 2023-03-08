@@ -5,12 +5,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  OnDestroy,
   Output,
   ViewChild,
 } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
-import { Observable } from 'rxjs';
+import { debounceTime, Observable, Subscription } from 'rxjs';
 import { FeedbackSubmissionComponent } from '../feedback-submission/feedback-submission.component';
 import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-user-feedback-types';
 
@@ -31,16 +32,13 @@ export enum FeedbackDialogState {
   templateUrl: './user-feedback-dialog.component.html',
   styleUrls: ['./user-feedback-dialog.component.css'],
 })
-export class UserFeedbackDialogComponent implements AfterViewInit {
+export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   @Output() submitFeedback: EventEmitter<UserFeedbackDialogData> = new EventEmitter();
-  @ViewChild('lib-feedback-submission') feedbackSubmission?: FeedbackSubmissionComponent;
+  @ViewChild(FeedbackSubmissionComponent) feedbackSubmission?: FeedbackSubmissionComponent;
   dialogState: FeedbackDialogState = FeedbackDialogState.FIRST_PANE;
-
-  get isSubmitDisabled(): boolean {
-    return (
-      this.isEmptyOrWhitespace(this.feedbackSubmission?.feedbackTextBox)
-    );
-  }
+  feedbackText: string | undefined;
+  isSubmitDisabled: boolean = true;
+  allSubscriptions: Subscription = new Subscription();
 
   get isFirstPane(): boolean {
     return this.dialogState === FeedbackDialogState.FIRST_PANE;
@@ -87,6 +85,10 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     elem?.focus();
   }
 
+  ngOnDestroy(): void {
+    this.allSubscriptions.unsubscribe();
+  }
+
   setError(): void {
     this.dialogState = FeedbackDialogState.ERROR;
   }
@@ -94,17 +96,28 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   onClickFeedback(): void {
     this.dialogState = FeedbackDialogState.FEEDBACK;
     this.USER_FEEDBACK_TITLE = this.localizedStrings.FEEDBACK;
-    this.ref.detectChanges();
     document.getElementById('feedback-suggestion-textbox')?.focus();
+    this.onTextChanges();
   }
 
   onClickSuggestion(): void {
     this.dialogState = FeedbackDialogState.SUGGESTION;
     this.USER_FEEDBACK_TITLE = this.localizedStrings.SUGGESTION;
-    this.ref.detectChanges();
     document.getElementById('feedback-suggestion-textbox')?.focus();
+    this.onTextChanges();
   }
 
+  private onTextChanges(): void {
+    this.ref.detectChanges();
+    const feedbackTextSub = this.feedbackSubmission?.feedbackTextChanged
+      .asObservable()
+      .pipe(debounceTime(250))
+      .subscribe((text) => {
+        this.feedbackText = text;
+        this.isSubmitDisabled = this.isEmptyOrWhitespace(text);
+      });
+    this.allSubscriptions.add(feedbackTextSub);
+  }
   async onClickSubmitAsync(): Promise<void> {
     try {
       const dialogData = this.getFeedbackDialogData();
@@ -112,12 +125,12 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
       if (!this.isError) {
         this.dialogState = FeedbackDialogState.THANK_YOU;
       }
-    }
-    catch (error: any) {
+    } catch (error: any) {
       console.warn(error.message);
       this.setError();
     }
   }
+
   onCloseDialog(): void {
     this.dialogRef.close();
   }
@@ -127,8 +140,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   }
 
   private getFeedbackDialogData(): UserFeedbackDialogData {
-    if (!this.feedbackSubmission)
-    {
+    if (!this.feedbackSubmission || !this.feedbackText) {
       throw new Error('feedbackSubmission unexpectedly does not exist. Cannot submit');
     }
     let userFeedbackTrackingEventType: UserFeedbackTrackingEventType = UserFeedbackTrackingEventType.Feedback;
@@ -138,10 +150,9 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     const dialogData: UserFeedbackDialogData = {
       canContact: this.feedbackSubmission.feedbackEmailCheckbox,
       userFeedbackTrackingEventType,
-      feedbackText: this.feedbackSubmission.feedbackTextBox,
+      feedbackText: this.feedbackText,
       feedbackImageBase64: this.feedbackSubmission.feedbackImageBase64,
     };
     return dialogData;
   }
 }
-

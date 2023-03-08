@@ -1,0 +1,137 @@
+:host {
+  pointer-events: none;
+}
+
+:host:not(.relative) {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  z-index: 9999;
+}
+
+:host(.relative) {
+  display: block;
+  left: calc(var(--lf-toast-message-offset, 48px) / 2);
+  width: 100%;
+  z-index: 9999;
+}
+
+:host:not(.bottom-align) {
+  top: 10px;
+}
+
+:host(.bottom-align) {
+  bottom: 10px;
+}
+
+.lf-flexbox-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.lf-flexbox-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.lf-flexbox-center.both-axis {
+  align-items: center;
+  place-content: center;
+}
+
+.lf-flex-item {
+  flex: 1 1 auto;
+}
+
+.hide-icon {
+  display: none;
+}
+
+.message-holder {
+  margin: 1px 0;
+  padding: 8px 8px 8px 20px;
+  border-radius: 5px;
+  min-width: 300px;
+  max-width: 560px;
+  cursor: pointer;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  pointer-events: auto;
+}
+
+.no-left-padding {
+  padding-left: 0 !important;
+}
+
+.message-holder.error {
+  color: #ab2227;
+  background-color: #f7e8e9;
+  border: #ab2227 1px solid;
+}
+
+.message-holder.warning {
+  background-color: #fff9eb;
+  border: #facb5e 1px solid;
+}
+
+.warning {
+  color: #333333;
+}
+
+.warningIcon {
+  color: #333333 !important;
+}
+
+.message-holder.validation {
+  color: #216352;
+  background-color: #e8efed;
+  border: #216352 1px solid;
+}
+
+.message-holder.informational {
+  color: #0058ad;
+  background-color: #c1d6eb;
+  border: #0058ad 1px solid;
+}
+
+mat-icon {
+  color: inherit;
+}
+
+.message-text {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 10px;
+  white-space: pre-line;
+  max-height: 85px;
+  overflow-y: auto;
+}
+
+.message-wrapper {
+  margin: auto 0;
+}
+
+#close-btn {
+  width: 24px;
+  height: 24px;
+  color: inherit;
+  border: none;
+  background: inherit;
+  cursor: pointer;
+  padding: 0;
+  pointer-events: all;
+}
+
+.do-not-show-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+}

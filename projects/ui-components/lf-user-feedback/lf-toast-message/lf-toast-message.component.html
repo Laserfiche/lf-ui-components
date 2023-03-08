@@ -1,0 +1,49 @@
+
+<div *ngFor="let message of Messages; index as idx;"
+  class="toast-message message-holder lf-flexbox-col"
+  [ngClass]="{
+    'error': message.type === 0,
+    'warning': message.type === 1,
+    'validation': message.type === 2,
+    'informational': message.type === 3
+  }">
+  <div class="lf-flexbox-row lf-flexbox-center both-axis">
+    <!-- <mat-icon [svgIcon]="_computeTypeIcon(message.type)"
+      style="flex: 0 0 auto;"
+      [ngClass]="{
+        'warningIcon': message.type === 1,
+        'hide-icon': message.noIcon
+        }"
+      [attr.aria-label]="_computeIconLabel(message.type)">
+    </mat-icon> -->
+    <span class="material-icons-outlined">
+        {{_computeTypeIcon(message.type)}}
+    </span>
+    <div class="message-text lf-flex-item lf-flexbox-row"
+      [ngClass]="{
+        'error': message.type === 0,
+        'warning': message.type === 1,
+        'validation': message.type === 2,
+        'informational': message.type === 3,
+        'no-left-padding': message.noIcon
+      }">
+      <div class="message-wrapper">
+        {{message.message}}
+      </div>
+    </div>
+    <button id="close-btn" (click)="_closeToast(message.id)"
+      style="flex: 0 0 auto;"
+      [ngClass]="{
+      'warningIcon': message.type === 1
+      }"
+      test-selector="toast-close-btn">
+      <span class="material-icons-outlined">
+        close
+        </span>
+      <!-- <mat-icon svgIcon="clear" aria-label="close"></mat-icon> -->
+    </button>
+  </div>
+  <div *ngIf="getCheckboxControl(message.id) && message.doNotShowLabel" class="do-not-show-container">
+    <mat-checkbox [formControl]="getCheckboxControl(message.id)">{{ message.doNotShowLabel }}</mat-checkbox>
+  </div>
+</div>
