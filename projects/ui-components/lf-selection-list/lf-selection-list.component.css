@@ -14,9 +14,6 @@
 }
 
 .item-holder {
-  max-height: 42px;
-  min-height: 42px;
-  height: 42px;
   color: var(--lf-body-text-color, #333333);
 }
 
@@ -47,10 +44,6 @@
 .multiselect-column .multiselect-indicator {
   padding-right: 8px;
   display: inline-grid;
-}
-
-tr.mat-header-row.lf-selection-list-header-row {
-  height: 42px;
 }
 
 :host .lf-table-selection-list th.mat-header-cell:has(.mat-sort-header-sorted) {
@@ -139,7 +132,6 @@ tr.mat-header-row.lf-selection-list-header-row {
 
 .column-text-div {
   display: flex;
-  height: 42px;
   align-items: center;
 }
 

@@ -17,7 +17,7 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Subscription } from 'rxjs';
-import { GridTableDataSource, ROW_HEIGHT } from './lf-selection-list-data-source';
+import { GridTableDataSource } from './lf-selection-list-data-source';
 import { ColumnDef, ColumnOrderBy, SelectedItemEvent } from './lf-selection-list-types';
 
 /** @internal */
@@ -32,20 +32,21 @@ export interface RepositoryBrowserData {
   styleUrls: ['./lf-selection-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
+export class LfSelectionListComponent implements AfterViewInit, OnDestroy {  
+  @Input() itemSize: number = 42;
+  @Input() listItemRef?: TemplateRef<unknown>;
+
   /** @internal */
   @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
   @ViewChild('matTable', { read: ElementRef }) matTable?: ElementRef;
   @ViewChild(MatSort) sort?: MatSort;
-  @Input() itemSize: number = 42;
-  @Input() listItemRef?: TemplateRef<unknown>;
+
   private additionalColumnDefs: ColumnDef[] = [];
   allColumnHeaders?: string[];
   /** @internal */
   items: ILfSelectable[] = [];
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
   columnMinWidth: number = 100;
-  selectWidth: number = 0;
   selectColumnDef: ColumnDef = { id: 'select', displayName: '', defaultWidth: '35px' };
   nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: 'auto' };
   nameHalfColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '50ch' };
@@ -92,7 +93,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Input() set multipleSelection(value: boolean) {
     this._multipleSelectEnabled = value;
     this.selectable.multiSelectable = value;
-    this.selectWidth = value ? 50 : 0;
   }
   get multipleSelection(): boolean {
     return this._multipleSelectEnabled;
@@ -104,7 +104,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     const toAdd: ColumnDef[] = [];
     if (cols.length > 1 || (cols.length === 1 && cols[0].id !== 'name')) {
       this.fillLastColumn = false;
-      this._showHeader = this.alwaysShowHeader === false ? false : true;
+      this._showHeader = true;
     } else {
       if (!this.additionalColumnDefs || this.additionalColumnDefs.length === 0 || !cols.find(c => c.id === 'name')) {
         this.fillLastColumn = true;
@@ -444,7 +444,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     const rowEleRect = rowEle.getBoundingClientRect();
     const scrollRect = this.viewport.elementRef.nativeElement.getBoundingClientRect();
-    const belowTop = rowEleRect.top >= scrollRect.top + (this._showHeader ? ROW_HEIGHT : 0); // need to include header row in height
+    const belowTop = rowEleRect.top >= scrollRect.top + (this._showHeader ? this.itemSize : 0);
     const aboveBottom = rowEleRect.bottom <= scrollRect.bottom;
     return belowTop && aboveBottom;
   }

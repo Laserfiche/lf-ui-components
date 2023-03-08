@@ -1,7 +1,7 @@
 <cdk-virtual-scroll-viewport
   #viewport
   id="lf-list-viewport"
-  tabindex="0"
+  tabindex="-1"
   [itemSize]="itemSize"
   (scrolledIndexChange)="onScroll($event)"
   (keydown)="onViewportKeyDown($event)"
@@ -21,7 +21,9 @@
         <ng-container *ngSwitchCase="'name'">
           <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
             <div class="lf-resize-wrapper-div">
-              <div class="column-text-div" mat-sort-header>{{column.displayName}}</div>
+              <div class="column-text-div" [ngStyle]="{ height: itemSize + 'px' }" mat-sort-header>
+                {{ column.displayName }}
+              </div>
               <span class="resize-handle" (mousedown)="onResizeColumn($event, i)"></span>
             </div>
           </th>
@@ -32,7 +34,9 @@
                   <ng-container *ngTemplateOutlet="listItemRef; context: item"></ng-container>
                 </ng-container>
               </ng-container>
-              <ng-template #defaultItem><span class="lf-ellipsis-label">{{ item.value.name ?? item.value.id}}</span></ng-template>
+              <ng-template #defaultItem
+                ><span class="lf-ellipsis-label">{{ item.value.name ?? item.value.id }}</span></ng-template
+              >
             </div>
           </td></ng-container
         >
@@ -61,18 +65,14 @@
         <ng-container *ngSwitchDefault>
           <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
             <div class="lf-resize-wrapper-div">
-              <div class="column-text-div" mat-sort-header>
+              <div class="column-text-div" [ngStyle]="{ height: itemSize + 'px' }" mat-sort-header>
                 {{ column.displayName }}
               </div>
-              <span
-                *ngIf="i > 0"
-                class="resize-handle"
-                (mousedown)="onResizeColumn($event, i)"
-              ></span>
+              <span *ngIf="i > 0" class="resize-handle" (mousedown)="onResizeColumn($event, i)"></span>
             </div>
           </th>
           <td mat-cell class="lf-ellipsis-label" *matCellDef="let row">
-            <div class="column-text-div">
+            <div class="column-text-div" [ngStyle]="{ height: itemSize + 'px' }">
               {{ row.value.attributes?.get(column.id)?.displayValue }}
             </div>
           </td>
@@ -85,8 +85,10 @@
 
     <tr
       class="lf-selection-list-header-row"
-      [ngClass]="{ 'lf-hidden-column-header': !_showHeader}"
+      [ngClass]="{ 'lf-hidden-column-header': !_showHeader }"
+      [ngStyle]="{ height: itemSize + 'px' }"
       mat-header-row
+      tabindex="-1"
       [style.gridTemplateColumns]="columnsWidth"
       *matHeaderRowDef="allColumnHeaders"
     ></tr>
@@ -99,8 +101,13 @@
     <tr
       mat-row
       *matRowDef="let row; let i = dataIndex; columns: allColumnHeaders"
-      tabindex="0"
+      [tabindex]="i === currentFocusIndex ? 0 : -1"
       class="item-holder"
+      [ngStyle]="{
+        height: itemSize + 'px',
+        'min-height': itemSize + 'px',
+        'max-height': itemSize + 'px'
+      }"
       [ngClass]="{
         'non-selectable-option': !row.isSelectable,
         'selectable-option': row.isSelectable,
