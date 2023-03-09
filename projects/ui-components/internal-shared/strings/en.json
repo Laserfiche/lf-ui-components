@@ -17,7 +17,7 @@
    "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "The image is corrupted or in an unrecognized format.",
    "IMAGE_NOT_ATTACHED": "Image not attached.",
    "DRAG_DROP_FILE": "Drag and drop file",
-   "UPLOAD_IMAGE_OPTIONAL": "Upload Image (Optional)",
+   "ATTACH_IMAGE_OPTIONAL": "Attach Image (Optional)",
    "MULT_FILES_DROPPED_BUT_ONE_ALLOWED": "Multiple files were dropped but only one is allowed.",
    "OR": "or"
 }

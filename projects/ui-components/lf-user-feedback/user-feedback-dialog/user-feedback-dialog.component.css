@@ -22,7 +22,7 @@ span#pop-up-dialog-close:hover {
 .lf-textarea {
   width: 100%;
   display: block;
-  border: 1px solid #6D6D6D;
+  border: 1px solid #aaaaaa;
   border-radius: 2px;
   padding: 7px 10px 8px 10px;
   box-sizing: border-box;
@@ -37,7 +37,7 @@ span#pop-up-dialog-close:hover {
 }
 
 .lf-textarea::-webkit-scrollbar-thumb {
-  background: #6D6D6D;
+  background: #6d6d6d;
   border-radius: 10px;
 }
 
@@ -48,7 +48,6 @@ span#pop-up-dialog-close:hover {
 .character-count {
   width: 100%;
   text-align: right;
-  float: right;
   font-size: 12px;
   margin-top: 2px;
 }
@@ -72,7 +71,7 @@ span#pop-up-dialog-close:hover {
   height: 60px;
   margin-bottom: 5px;
   background-color: inherit;
-  border: 1px solid #CFCFCF;
+  border: 1px solid #cfcfcf;
   border-radius: 4px;
   line-height: 16px;
 }
@@ -82,8 +81,9 @@ span#pop-up-dialog-close:hover {
 }
 
 .email-checkbox-container {
-  margin-top: 5px;
-  display: inline-block;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
 }
 
 ::ng-deep .lf-user-feedback-checkbox.mat-checkbox .mat-checkbox-layout {
@@ -94,7 +94,6 @@ span#pop-up-dialog-close:hover {
   padding: 0;
 }
 
-
 ::ng-deep .mat-dialog-title.user-feedback-title {
   margin: 20px;
 }
@@ -103,7 +102,7 @@ span#pop-up-dialog-close:hover {
   margin-right: 20px;
 }
 
-.feedback-file-input{
+.feedback-file-input {
   display: none;
 }
 
@@ -115,26 +114,26 @@ span#pop-up-dialog-close:hover {
   max-width: 230px;
   overflow-wrap: break-word;
 }
-.upload-file-remove{
+.upload-file-remove {
   cursor: pointer;
-  color:#147186;
+  color: #147186;
 }
 
 .error-message {
-  background-color: #FFF9EB;
+  background-color: #fff9eb;
 }
 
 .drop-zone {
   height: 50px;
   display: table;
   width: 100%;
-  border: 1px solid #6D6D6D;
+  border: 1px solid #6d6d6d;
   border-radius: 2px;
   margin-bottom: 5px;
   margin-top: 5px;
   padding: 7px 10px 8px 10px;
   box-sizing: border-box;
-  color: #6D6D6D;
+  color: #6d6d6d;
 }
 
 button#upload-button {

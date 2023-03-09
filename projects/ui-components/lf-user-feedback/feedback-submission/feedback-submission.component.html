@@ -12,18 +12,18 @@
   }}</label>
   <textarea
     id="feedback-suggestion-textbox"
-    rows="7"
+    rows="10"
     [attr.maxlength]="maxFeedbackLength"
     (input)="feedbackTextBoxChange($event)"
     class="lf-textarea lf-text-placeholder lf-text-body feedback-suggestion-textbox"
     [placeholder]="localizedStrings.PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK | async"
   ></textarea>
-  <span class="lf-text-body character-count">
+  <div class="lf-text-body character-count">
     <span>{{ feedbackLength }}</span>
     <span> / </span>
     <span>{{ maxFeedbackLength }}</span>
-  </span>
-  <lib-feedback-image-upload [(feedbackImageBase64)]="feedbackImageBase64" (imageUploadError)="onImageUploadError($event)"></lib-feedback-image-upload>
+  </div>
+  <lib-feedback-image-upload id="image-upload-block" [(feedbackImageBase64)]="feedbackImageBase64" (imageUploadError)="onImageUploadError($event)"></lib-feedback-image-upload>
   <div class="email-checkbox-container">
     <mat-checkbox
       color="primary"
