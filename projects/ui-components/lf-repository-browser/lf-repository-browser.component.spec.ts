@@ -11,9 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
-import { LfSelectionListModule } from '../lf-selection-list/lf-selection-list.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ColumnDef, RepositoryBrowserData } from '@laserfiche/lf-ui-components/lf-selection-list';
+import { ColumnDef, LfSelectionListComponent, LfSelectionListModule, RepositoryBrowserData } from '@laserfiche/lf-ui-components/lf-selection-list';
 
 const rootTreeNode: LfTreeNode = {
   icon: '',
@@ -54,7 +53,7 @@ const moduleDef: TestModuleMetadata = {
     MatDialogModule,
     LfSelectionListModule,
   ],
-  declarations: [LfRepositoryBrowserComponent, LfBreadcrumbsComponent, LfLoaderComponent],
+  declarations: [LfRepositoryBrowserComponent, LfBreadcrumbsComponent, LfLoaderComponent, LfSelectionListComponent],
 };
 
 describe('LfRepositoryBrowserComponent', () => {
@@ -561,11 +560,11 @@ describe('LfRepositoryBrowserComponent', () => {
     await component.initAsync(dataServiceMock, entry);
 
     // Act
-    await component.setSelectedNodesAsync([entry]);
+    await component.setSelectedNodesAsync([rootTreeNodeChildren[1]]);
 
     // Assert
     // @ts-ignore
-    expect(component.selectedItems).toEqual([entry]);
+    expect(component.selectedItems).toEqual([rootTreeNodeChildren[1]]);
 
   });
 

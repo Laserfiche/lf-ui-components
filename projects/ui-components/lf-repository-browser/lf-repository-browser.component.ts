@@ -34,7 +34,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   private _multipleSelectEnabled: boolean = false;
   /** @internal */
   repoBrowserUniqueId: string = '';
-  additionalColumnsToDisplay: ColumnDef[] = [];
 
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
@@ -71,7 +70,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   setAdditionalColumnsToDisplay: (cols: ColumnDef[]) => void = (cols: ColumnDef[]) => {
-    this.additionalColumnsToDisplay = cols;
+    if (this.entryList) {
+      this.entryList.columns = cols;
+    }
     this.ref.detectChanges();
   };
 
@@ -450,6 +451,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
     this.initialized = true;
     await this.setNodeAsParentAsync(currentEntry);
+    this.setAdditionalColumnsToDisplay([]); // TODO: is this a good idea?
   }
 
   /**
