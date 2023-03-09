@@ -3,7 +3,6 @@
   id="lf-list-viewport"
   tabindex="-1"
   [itemSize]="itemSize"
-  (scrolledIndexChange)="onScroll($event)"
   (keydown)="onViewportKeyDown($event)"
 >
   <table
@@ -20,11 +19,11 @@
       <ng-container [ngSwitch]="column.id">
         <ng-container *ngSwitchCase="'name'">
           <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
-            <div class="lf-resize-wrapper-div">
+            <div class="lf-resize-wrapper-div" [resizeColumn]="true" (widthChanged)="onColumnWidthChanges($event, i)">
               <div class="column-text-div" [ngStyle]="{ height: itemSize + 'px' }" mat-sort-header>
                 {{ column.displayName }}
               </div>
-              <span class="resize-handle" (mousedown)="onResizeColumn($event, i)"></span>
+              <!-- <span class="resize-handle" (mousedown)="onResizeColumn($event, i)"></span> -->
             </div>
           </th>
           <td mat-cell *matCellDef="let item">
@@ -64,11 +63,11 @@
         <!--default case when there are no matches -->
         <ng-container *ngSwitchDefault>
           <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
-            <div class="lf-resize-wrapper-div">
+            <div class="lf-resize-wrapper-div" [resizeColumn]="true" (widthChanged)="onColumnWidthChanges($event, i)">
               <div class="column-text-div" [ngStyle]="{ height: itemSize + 'px' }" mat-sort-header>
                 {{ column.displayName }}
               </div>
-              <span *ngIf="i > 0" class="resize-handle" (mousedown)="onResizeColumn($event, i)"></span>
+              <!-- <span *ngIf="i > 0" class="resize-handle" (mousedown)="onResizeColumn($event, i)"></span> -->
             </div>
           </th>
           <td mat-cell class="lf-ellipsis-label" *matCellDef="let row">
@@ -122,5 +121,4 @@
       [style.gridTemplateColumns]="columnsWidth"
     ></tr>
   </table>
-  <div *ngIf="pressed" class="repository-browser-resize-overlay" [style.left.px]="resizePosition"></div>
 </cdk-virtual-scroll-viewport>

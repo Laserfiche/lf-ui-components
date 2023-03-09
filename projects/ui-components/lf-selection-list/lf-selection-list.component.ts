@@ -25,6 +25,10 @@ export interface RepositoryBrowserData {
   columns: Record<string, string>;
 }
 
+const SELECT_COL: ColumnDef = { id: 'select', displayName: '', defaultWidth: '35px' };
+const NAME_COL_AUTO: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: 'auto' };
+const NAME_COL_50CH: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '50ch' };
+
 /** @internal */
 @Component({
   selector: 'lf-selection-list-component',
@@ -32,46 +36,16 @@ export interface RepositoryBrowserData {
   styleUrls: ['./lf-selection-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LfSelectionListComponent implements AfterViewInit, OnDestroy {  
+export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
+  @Output() scrollChanged = new EventEmitter<undefined>();
+  @Output() itemDoubleClicked = new EventEmitter<ItemWithId>();
+  @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
+  @Output() itemFocused = new EventEmitter<ItemWithId>();
+  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
+
   @Input() itemSize: number = 42;
   @Input() listItemRef?: TemplateRef<unknown>;
-
-  /** @internal */
-  @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
-  @ViewChild('matTable', { read: ElementRef }) matTable?: ElementRef;
-  @ViewChild(MatSort) sort?: MatSort;
-
-  private additionalColumnDefs: ColumnDef[] = [];
-  allColumnHeaders?: string[];
-  /** @internal */
-  items: ILfSelectable[] = [];
-  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
-  columnMinWidth: number = 100;
-  selectColumnDef: ColumnDef = { id: 'select', displayName: '', defaultWidth: '35px' };
-  nameColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: 'auto' };
-  nameHalfColumnDef: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '50ch' };
-  allColumnDefs: ColumnDef[] = [];
-  _localStorageKey: string = '';
-  firstResize: boolean = true;
-  offSetSub?: Subscription;
-  columnsWidth: string | undefined;
-  resizePosition: number = 0;
-  resizedColumnInitialOffsetLeft: number = 0;
-  private fillLastColumn: boolean = true;
-  private _columnOrderBy: ColumnOrderBy | undefined;
-  alwaysShowHeader?: boolean;
-  _showHeader: boolean = false;
-
-  get columnOrderBy(): ColumnOrderBy | undefined {
-    return this._columnOrderBy;
-  }
-  set columnOrderBy(orderBy: ColumnOrderBy | undefined) {
-    if (orderBy?.columnId && this.allColumnDefs.find((c) => c.id === orderBy.columnId)) {
-      this.sort!.sort({ id: orderBy?.columnId, start: orderBy?.isDesc ? 'desc' : 'asc', disableClear: true });
-      this._columnOrderBy = orderBy;
-    }
-  }
-
+  @Input() alwaysShowHeader?: boolean;
   @Input() set listItems(items: ILfSelectable[]) {
     this.items = items;
     if (this.dataSource) {
@@ -83,11 +57,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   @Input() set uniqueIdentifier(key: string) {
-    this._localStorageKey = key;
-  }
-
-  placeholderWhen(index: number, _: any) {
-    return index == 0;
+    this._uniqueIdentifier = key;
   }
 
   @Input() set multipleSelection(value: boolean) {
@@ -98,36 +68,44 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     return this._multipleSelectEnabled;
   }
 
+  @Input()
+  get columnOrderBy(): ColumnOrderBy | undefined {
+    return this._columnOrderBy;
+  }
+  set columnOrderBy(orderBy: ColumnOrderBy | undefined) {
+    if (orderBy?.columnId && this.allColumnDefs.find((c) => c.id === orderBy.columnId)) {
+      this.sort!.sort({ id: orderBy?.columnId, start: orderBy?.isDesc ? 'desc' : 'asc', disableClear: true });
+      this._columnOrderBy = orderBy;
+    }
+  }
+
   @Input() set columns(cols: ColumnDef[]) {
-    this.firstResize = true;
     const nameColumnDef = cols.find((col) => col.id === 'name');
     const toAdd: ColumnDef[] = [];
     if (cols.length > 1 || (cols.length === 1 && cols[0].id !== 'name')) {
       this.fillLastColumn = false;
       this._showHeader = true;
     } else {
-      if (!this.additionalColumnDefs || this.additionalColumnDefs.length === 0 || !cols.find(c => c.id === 'name')) {
+      if (!this.additionalColumnDefs || this.additionalColumnDefs.length === 0 || !cols.find((c) => c.id === 'name')) {
         this.fillLastColumn = true;
-      }
-      else {
+      } else {
         this.fillLastColumn = false;
       }
       this._showHeader = this.alwaysShowHeader === true ? true : false;
     }
     if (nameColumnDef) {
       if (this.multipleSelection) {
-        toAdd.push(this.selectColumnDef);
+        toAdd.push(SELECT_COL);
       }
     } else {
       let nameCol: ColumnDef;
       if (this.fillLastColumn) {
-        nameCol = this.nameColumnDef;
-      }
-      else {
-        nameCol = this.nameHalfColumnDef;
+        nameCol = NAME_COL_AUTO;
+      } else {
+        nameCol = NAME_COL_50CH;
       }
       if (this.multipleSelection) {
-        toAdd.push(this.selectColumnDef, nameCol);
+        toAdd.push(SELECT_COL, nameCol);
       } else {
         toAdd.push(nameCol);
       }
@@ -139,23 +117,47 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.setInitialWidth();
   }
   get columns(): ColumnDef[] {
-    // be able to get all column defs with calculated columns
     return this.additionalColumnDefs;
   }
 
-  dataSource?: GridTableDataSource;
-  @Output() scrollChanged = new EventEmitter<undefined>();
-  @Output() itemDoubleClicked = new EventEmitter<ItemWithId>();
-  @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
-  @Output() itemFocused = new EventEmitter<ItemWithId>();
+  /** @internal */
+  @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
+  /** @internal */
+  @ViewChild('matTable', { read: ElementRef }) matTable?: ElementRef;
+  /** @internal */
+  @ViewChild(MatSort) sort?: MatSort;
 
   /** @internal */
-  currentFocusIndex: number = 0;
-
+  private additionalColumnDefs: ColumnDef[] = [];
   /** @internal */
-  protected selectable: Selectable = new Selectable();
+  private _uniqueIdentifier?: string;
+  /** @internal */
+  private allSubscriptions?: Subscription;
+  /** @internal */
+  private fillLastColumn: boolean = true;
+  /** @internal */
+  private _columnOrderBy: ColumnOrderBy | undefined;
+  /** @internal */
+  private selectable: Selectable = new Selectable();
   /** @internal */
   private _multipleSelectEnabled: boolean = false;
+
+  /** @internal */
+  allColumnHeaders?: string[];
+  /** @internal */
+  dataSource?: GridTableDataSource;
+  /** @internal */
+  items: ILfSelectable[] = [];
+  /** @internal */
+  allColumnDefs: ColumnDef[] = [];
+  /** @internal */
+  columnsWidth: string | undefined;
+  /** @internal */
+  resizePosition: number = 0;
+  /** @internal */
+  _showHeader: boolean = false;
+  /** @internal */
+  currentFocusIndex: number = 0;
 
   /** @internal */
   constructor(
@@ -168,10 +170,15 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   ngAfterViewInit(): void {
     this.dataSource = new GridTableDataSource(this.items, this.viewport!, this.itemSize);
+    const dataSourceSub = this.dataSource.checkForData.subscribe(() => {
+      this.scrollChanged.emit();
+    });
     this.ref.detectChanges();
-    this.offSetSub = this.dataSource.offsetChange.subscribe((offset) => {
+    const dataOffsetSub = this.dataSource.offsetChange.subscribe((offset) => {
       this.placeholderHeight = offset;
     });
+    this.allSubscriptions?.add(dataSourceSub);
+    this.allSubscriptions?.add(dataOffsetSub);
 
     if (this.viewport?.elementRef.nativeElement) {
       this.focusMonitor.monitor(this.viewport?.elementRef.nativeElement, true).subscribe((origin: FocusOrigin) => {
@@ -182,16 +189,21 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  onCheckboxClicked(event: MouseEvent) {
-    event.preventDefault();
-  }
   ngOnDestroy() {
-    this.offSetSub?.unsubscribe();
+    this.allSubscriptions?.unsubscribe();
     this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
   }
 
   clearSelectedValues() {
     this.selectable.clearSelectedValues(this.items);
+  }
+
+  placeholderWhen(index: number, _: any) {
+    return index == 0;
+  }
+
+  onCheckboxClicked(event: MouseEvent) {
+    event.preventDefault();
   }
 
   focus() {
@@ -206,8 +218,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this._columnOrderBy = sortState;
     this.refreshData.emit();
   }
-  // When the table content gets focused we check to see if we need to reset the currentFocusIndex
-  // we do this by checking to see if it is larger than the list
+
   focusCurrentIndex() {
     if (this.currentFocusIndex >= this.items.length) {
       this.currentFocusIndex = 0;
@@ -284,20 +295,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   /** @internal */
-  onScroll(event: number) {
-    if (this.viewport == null) {
-      console.error('Viewport was not defined when onScroll was called');
-      return;
-    }
-    // If the viewport is at the end we should try and pull more data
-    const end = event + 10;
-    const total = this.items.length ? this.items.length - 1 : 0;
-    if ((total > 0 && end === total) || end > total) {
-      this.scrollChanged.emit();
-    }
-  }
-
-  /** @internal */
   onFocused(index: number) {
     this.currentFocusIndex = index;
     // TODO this is
@@ -350,13 +347,13 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   setInitialWidth() {
     setTimeout(() => {
-      const asJSON = this.getLocalStorageData();
+      const repositoryBrowserData: RepositoryBrowserData | undefined = this.getRepositoryBrowserData();
       const tableEl = Array.from(
         this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
       );
       const widths: string[] = [];
       this.allColumnDefs.forEach((col) => {
-        const columnWidth = asJSON?.columns[col.id];
+        const columnWidth = repositoryBrowserData?.columns[col.id];
         if (columnWidth) {
           widths.push(columnWidth);
         } else {
@@ -382,9 +379,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
           );
           const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
           const columnWidthInPixel =
-            col.id !== 'select'
-              ? (Math.max(columnWidthOffset, this.columnMinWidth)) + 'px'
-              : this.selectColumnDef.defaultWidth;
+            col.id !== 'select' ? Math.max(columnWidthOffset, 100) + 'px' : SELECT_COL.defaultWidth;
           widthsInPixel.push(columnWidthInPixel);
         });
 
@@ -395,21 +390,23 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
         (tableEl[0] as HTMLTableElement).style.width = 'fit-content';
         this.ref.detectChanges();
-      }
-      else {
-        // const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
+      } else {
         (tableEl[0] as HTMLTableElement).style.minWidth = '100%';
       }
     });
   }
 
-  private getLocalStorageData(): RepositoryBrowserData | undefined {
-    const repositoryBrowserData = window.localStorage.getItem(this._localStorageKey);
-    let asJSON: RepositoryBrowserData | undefined;
-    if (repositoryBrowserData) {
-      asJSON = JSON.parse(repositoryBrowserData);
+  private getRepositoryBrowserData(): RepositoryBrowserData | undefined {
+    if (this._uniqueIdentifier) {
+      const repositoryBrowserData = window.localStorage.getItem(this._uniqueIdentifier);
+      let asJSON: RepositoryBrowserData | undefined;
+      if (repositoryBrowserData) {
+        asJSON = JSON.parse(repositoryBrowserData);
+      }
+      return asJSON;
+    } else {
+      return undefined;
     }
-    return asJSON;
   }
 
   async setSelectedNodesAsync(
@@ -464,95 +461,29 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   // column resizing
 
   placeholderHeight: number = 0;
-  pressed: boolean = false;
-  startWidth?: number;
-  startX?: number;
-  resizableMousemove?: () => void;
-  resizableMouseup?: () => void;
 
-  onResizeColumn(ev: MouseEvent, index: number) {
-    if (!this.viewport) {
-      return;
-    }
-    if (this.firstResize) {
-      const currentStyle = this.columnsWidth;
-      const currentWidths: string[] = currentStyle!.split(' ');
-      let repoData: RepositoryBrowserData | undefined = this.getLocalStorageData();
+  onColumnWidthChanges(width: number, index: number) {
+    this.updateRepositoryBrowserData(width, index);
+    this.setColumnWidthChanges(width, index);
+  }
+
+  private updateRepositoryBrowserData(width: number, index: number) {
+    if (this._uniqueIdentifier) {
+      let repoData: RepositoryBrowserData | undefined = this.getRepositoryBrowserData();
+      const key = this.allColumnDefs[index].id;
       if (!repoData) {
-        repoData = { columns: {} };
+        repoData = {
+          columns: {},
+        };
       }
-      this.allColumnDefs.forEach((colDef, i) => {
-        const columnElements = this.viewport!.elementRef.nativeElement.getElementsByClassName(
-          'mat-column-' + this.allColumnDefs[i].id
-        );
-
-        const currentWidth = (columnElements![0] as HTMLElement).offsetWidth;
-        currentWidths[i] = currentWidth + 'px';
-        repoData!.columns[colDef.id] = currentWidth + 'px';
-      });
-      const colWidths = currentWidths.join(' ');
-      this.columnsWidth = colWidths;
-
-      localStorage.setItem(this._localStorageKey, JSON.stringify(repoData));
+      repoData.columns[key] = width + 'px';
+      localStorage.setItem(this._uniqueIdentifier, JSON.stringify(repoData));
+    } else {
+      console.warn('Unable to save lf-selection-list column widths. Need to set uniqueIdentifier on lf-selection-list');
     }
-    this.firstResize = false;
-    ev.preventDefault();
-    ev.stopPropagation();
-    this.pressed = true;
-    this.startX = ev.pageX;
-    this.resizePosition =
-      ev.clientX -
-      this.viewport.elementRef.nativeElement.getBoundingClientRect().left +
-      this.viewport.elementRef.nativeElement.scrollLeft;
-    this.ref.detectChanges();
-    const columnElement = this.viewport!.elementRef.nativeElement.getElementsByClassName(
-      'mat-column-' + this.allColumnDefs[index].id
-    );
-    this.startWidth = (columnElement![0] as HTMLElement).offsetWidth;
-    this.resizedColumnInitialOffsetLeft = (columnElement![0] as any).offsetLeft;
-    this.mouseMove(index);
   }
 
-  mouseMove(index: number) {
-    this.resizableMousemove = this.renderer.listen('document', 'mousemove', (event: MouseEvent) => {
-      if (!this.viewport) {
-        return;
-      }
-      if (this.pressed && event.buttons) {
-        const currentPositionWithScroll =
-          event.clientX -
-          this.viewport.elementRef.nativeElement.getBoundingClientRect().left +
-          this.viewport.elementRef.nativeElement.scrollLeft;
-        if (currentPositionWithScroll - this.resizedColumnInitialOffsetLeft > this.columnMinWidth) {
-          this.resizePosition = currentPositionWithScroll;
-          this.ref.detectChanges();
-        } else {
-          this.resizePosition = this.resizedColumnInitialOffsetLeft + this.columnMinWidth;
-          this.ref.detectChanges();
-        }
-      }
-    });
-    this.resizableMouseup = this.renderer.listen('document', 'mouseup', (event) => {
-      if (this.pressed) {
-        this.pressed = false;
-        const width = this.resizePosition - this.resizedColumnInitialOffsetLeft;
-        this.setColumnWidthChanges(index, width);
-        let repoData: RepositoryBrowserData | undefined = this.getLocalStorageData();
-        const key = this.allColumnDefs[index].id;
-        if (!repoData) {
-          repoData = {
-            columns: {},
-          };
-        }
-        repoData.columns[key] = width + 'px';
-        localStorage.setItem(this._localStorageKey, JSON.stringify(repoData));
-        if (this.resizableMousemove) this.resizableMousemove();
-        if (this.resizableMouseup) this.resizableMouseup();
-      }
-    });
-  }
-
-  setColumnWidthChanges(index: number, width: number) {
+  setColumnWidthChanges(width: number, index: number) {
     const widths = this.columnsWidth ?? '';
     const widthsA = widths.split(' ');
     widthsA[index] = width + 'px';

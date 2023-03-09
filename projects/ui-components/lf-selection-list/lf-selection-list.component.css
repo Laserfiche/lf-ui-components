@@ -168,9 +168,6 @@ table th .resize-handle:hover {
   height: 100%;
   cursor: col-resize;
   opacity: 0;
-}
-
-.resize-handle {
   width: 15px;
   right: -17.5px;
 }

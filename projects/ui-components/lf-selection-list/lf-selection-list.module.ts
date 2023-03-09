@@ -6,10 +6,12 @@ import { LfSelectionListComponent } from './lf-selection-list.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { ResizeColumnDirective } from './resize-column.directive';
 
 @NgModule({
   declarations: [
     LfSelectionListComponent,
+    ResizeColumnDirective,
   ],
   imports: [
     CommonModule,
@@ -18,9 +20,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatTableModule,
     MatSortModule
   ],
-  bootstrap: [LfSelectionListComponent],
+  bootstrap: [LfSelectionListComponent, ResizeColumnDirective],
   exports: [LfSelectionListComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 
 /** @internal */

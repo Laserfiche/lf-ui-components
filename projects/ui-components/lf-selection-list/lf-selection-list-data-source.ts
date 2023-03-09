@@ -1,12 +1,13 @@
 import { DataSource, CollectionViewer } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { Subscription, BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 
 const PAGESIZE = 50;
 
 export class GridTableDataSource extends DataSource<any> {
   private _data: ILfSelectable[];
+  checkForData: Subject<void> = new Subject<void>();
   indexChangeSub: Subscription;
   currentScrollIndex: number = 0;
   dataStart: number = 0;
@@ -51,10 +52,19 @@ export class GridTableDataSource extends DataSource<any> {
       if (scrollPastEndOfData || scrollBeforeStartOfData) {
         this.currentScrollIndex = currentScrollIndex;
         this.dataStart = currentScrollIndex > this.extraData ? currentScrollIndex - this.extraData : 0;
-        this.dataEnd = currentScrollIndex + numItemsInView + this.extraData;
+        const end = currentScrollIndex + numItemsInView + this.extraData;
+        this.dataEnd = end > this._data.length ? this._data.length : end;
         const slicedData = this._data.slice(this.dataStart, this.dataEnd);
         this.visibleData.next(slicedData);
         this.offsetChange.next(this.dataStart * this.itemSize);
+      }
+
+      // If the viewport is at the end we should try and pull more data
+      const total = this._data.length ? this._data.length - 1 : 0;
+      const endOfData = this.dataEnd;
+      const endOfRender = currentScrollIndex + numItemsInView;
+      if (total > 0 && endOfData < endOfRender + this.bufferToEnd) {
+        this.checkForData.next();
       }
     });
   }

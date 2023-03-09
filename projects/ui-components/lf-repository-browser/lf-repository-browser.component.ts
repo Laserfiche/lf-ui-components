@@ -74,7 +74,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       this.entryList.columns = cols;
     }
     this.ref.detectChanges();
-  }
+  };
 
   /**
    * function to initialize the lf-repository-browser component
