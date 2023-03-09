@@ -54,7 +54,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       this.entryList.columnOrderBy = orderBy;
     }
   }
-  
+
   @Input()
   get alwaysShowHeader(): boolean | undefined {
     return this.entryList?.alwaysShowHeader;
@@ -74,7 +74,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       this.entryList.columns = cols;
     }
     this.ref.detectChanges();
-  }
+  };
 
   /**
    * function to initialize the lf-repository-browser component
