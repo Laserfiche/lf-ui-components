@@ -14,13 +14,13 @@ export class FeedbackImageUploadComponent implements OnInit {
 
   imageUploaded?: File;
   feedbackImageBase64: string | undefined;
-  uploadedImageSize: string | undefined;
   imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
-  isImageValid: boolean = false;
+  rawImageBase64: string = '';
 
   localizedStrings = {
+    OR: this.localizationService.getStringComponentsObservable('OR'),
     UPLOAD_IMAGE_OPTIONAL: this.localizationService.getStringComponentsObservable('UPLOAD_IMAGE_OPTIONAL'),
-    DRAG_SELECT_IMAGE: this.localizationService.getStringComponentsObservable('DRAG_SELECT_IMAGE'),
+    DRAG_DROP_FILE: this.localizationService.getStringComponentsObservable('DRAG_DROP_FILE'),
     REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
     BROWSE: this.localizationService.getStringLaserficheObservable('BROWSE'),
   };
@@ -30,23 +30,33 @@ export class FeedbackImageUploadComponent implements OnInit {
 
   async dropHandler(ev: DragEvent): Promise<void> {
     let file: File | undefined;
-    console.log('File(s) dropped');
-
+    let numFiles = 0;
     // Prevent default behavior (Prevent file from being opened)
     ev.preventDefault();
 
     if (ev?.dataTransfer?.items) {
       // Use DataTransferItemList interface to access the file
+      numFiles = ev.dataTransfer.items.length;
       const item = ev.dataTransfer.items[0];
       if (item.kind === 'file') {
         file = item.getAsFile() ?? undefined;
       }
     } else {
       // Use DataTransfer interface to access the file(s)
+      numFiles = ev.dataTransfer?.files.length ?? 0;
       file = ev.dataTransfer?.files.item(0) ?? undefined;
     }
-    this.imageUploaded = file;
-    await this.readAndValidateImageAsync();
+
+    if (numFiles > 1) {
+      this.imageUploadError.emit(
+        this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') +
+          ' ' +
+          this.localizationService.getResourceStringComponents('MULT_FILES_DROPPED_BUT_ONE_ALLOWED')
+      );
+      // this.removeImage();
+    } else {
+      await this.tryReadAndValidateImageAsync(file);
+    }
   }
 
   dragOverHandler(ev: DragEvent) {
@@ -54,20 +64,18 @@ export class FeedbackImageUploadComponent implements OnInit {
     ev.preventDefault();
   }
 
-  private async readAndValidateImageAsync(): Promise<void> {
-    if (!this.imageUploaded) {
-      return;
+  private async tryReadAndValidateImageAsync(image: File | undefined): Promise<boolean> {
+    if (!image) {
+      return false;
     }
-    this.uploadedImageSize = this.formatBytes(this.imageUploaded.size);
     try {
-      if (this.imageUploaded.size <= this.imageSizeLimitBytes) {
-        const encodingData = await this.getBase64Async(this.imageUploaded);
+      if (image.size <= this.imageSizeLimitBytes) {
+        const encodingData = await this.getBase64Async(image);
+        this.rawImageBase64 = encodingData;
         this.feedbackImageBase64 = encodingData?.split(',')[1];
-        // console.log(this.feedbackImageBase64); // TODO: remove
-        this.isImageValid = true;
-        // this.imageUploadErrorMessage = '';
+        this.imageUploaded = image;
+        return true;
       } else {
-        // TODO: disable submit or notify users that the image will not be submitted
         throw new ImageUploadError('ImageUploadErrorType.TooLarge', ImageUploadErrorType.TooLarge);
       }
     } catch (error: any) {
@@ -75,10 +83,10 @@ export class FeedbackImageUploadComponent implements OnInit {
       if (error.name === ImageUploadError_name) {
         switch ((<ImageUploadError>error).imageUploadErrorType) {
           case ImageUploadErrorType.TooLarge:
-            errorMessage = this.localizationService.getResourceStringComponents('FILE_TOO_LARGE_MAX_SIZE_2DOT9MB');
+            errorMessage = this.localizationService.getResourceStringComponents('IMAGE_EXCEEDS_MAX_FILE_SIZE_2DOT9MB');
             break;
           case ImageUploadErrorType.UnsupportedFormat:
-            errorMessage = this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED');
+            errorMessage = this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT');
             break;
           default:
             errorMessage = error.message;
@@ -87,13 +95,12 @@ export class FeedbackImageUploadComponent implements OnInit {
       } else {
         errorMessage = error.message;
       }
-      console.log(error); // TODO: remove
-      this.isImageValid = false;
       this.imageUploadError.emit(
-        errorMessage + ' ' + this.localizationService.getResourceStringComponents('IMAGE_WILL_NOT_BE_ATTACHED')
+        this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') + ' ' + errorMessage
       );
-      this.removeImage();
+      this.imageUploaded = undefined;
     }
+    return false;
   }
 
   onInputClickArea(): void {
@@ -103,33 +110,34 @@ export class FeedbackImageUploadComponent implements OnInit {
     this.inputFile.nativeElement.click();
   }
 
-  async onFileSelectedAsync(event: Event): Promise<void> {
-    // console.log(event);
-    this.imageUploaded = this.inputFile?.nativeElement.files?.item(0) ?? undefined;
-    await this.readAndValidateImageAsync();
+  async onFileSelectedAsync(event: InputEvent): Promise<void> {
+    const file =(event.target as HTMLInputElement)?.files?.item(0) ?? undefined;
+    const isFileAttached = await this.tryReadAndValidateImageAsync(file);
+     if (!isFileAttached) {
+      (event.target as HTMLInputElement).files = null;
+      (event.target as HTMLInputElement).value = '';
+     }
   }
 
   async getBase64Async(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
+
       reader.onload = () => {
+        const imgBase64: string = reader.result as string;
+        //TODO: review the above cast
         var image = document.createElement('img');
         image.onload = () => {
-          const imgBase64: string = reader.result as string;
           resolve(imgBase64);
         };
         image.onerror = (error) => {
-          console.error('invalid image: ', error);
           reject(new ImageUploadError((error as string) ?? 'error event', ImageUploadErrorType.UnsupportedFormat));
         };
-        image.src = reader.result as string;
-        //TODO: review the above cast
-        // this.feedbackImageBase64 = reader.result as string;
+        image.src = imgBase64;
       };
       reader.onerror = (error: any) => {
         //TODO: is message the expected property?
         reject(new ImageUploadError(error?.message ?? 'error event', ImageUploadErrorType.UnsupportedFormat));
-        console.log('Error: ', error);
       };
       reader.readAsDataURL(file);
     });
@@ -137,25 +145,7 @@ export class FeedbackImageUploadComponent implements OnInit {
 
   removeImage(): void {
     // this is to clear the selection of the input element
-    this.isImageValid = false;
-    if (!this.inputFile?.nativeElement.files) {
-      return;
-    }
-    this.inputFile.nativeElement.files = null;
     this.imageUploaded = undefined;
-    this.inputFile.nativeElement.value = '';
-  }
-
-  private formatBytes(bytes: number, decimals: number = 2): string {
-    if (!+bytes) return '0 Bytes';
-
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
   }
 }
 

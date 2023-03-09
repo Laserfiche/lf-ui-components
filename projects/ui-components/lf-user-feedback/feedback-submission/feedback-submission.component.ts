@@ -31,10 +31,6 @@ export class FeedbackSubmissionComponent {
     this.localizationService.getStringComponentsObservable(
       'PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK'
     ),
-    UPLOAD_IMAGE_OPTIONAL: this.localizationService.getStringComponentsObservable('UPLOAD_IMAGE_OPTIONAL'),
-    DRAG_SELECT_IMAGE: this.localizationService.getStringComponentsObservable('DRAG_SELECT_IMAGE'),
-    REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
-    BROWSE: this.localizationService.getStringLaserficheObservable('BROWSE'),
     YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK: this.localizationService.getStringComponentsObservable(
       'YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK'
     ),

@@ -13,9 +13,11 @@
    "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "If you'd like to join our Customer Panel, ",
    "PLEASE_CLICK_HERE": "please click here.",
    "SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER": "Something went wrong. Please try again later.",
-   "FILE_TOO_LARGE_MAX_SIZE_2DOT9MB": "The file is too large, the maximum size is 2.9MB.",
-   "IMAGE_CORRUPTED_FORMAT_UNRECOGNIZED": "The image is corrupted or the format is not recognized.",
-   "IMAGE_WILL_NOT_BE_ATTACHED": "The image will not be attached.",
-   "DRAG_SELECT_IMAGE": "Drag or select an image to upload",
-   "UPLOAD_IMAGE_OPTIONAL": "Upload Image (Optional)"
+   "IMAGE_EXCEEDS_MAX_FILE_SIZE_2DOT9MB": "The image exceeds the maximum file size of 2.9 MB.",
+   "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "The image is corrupted or in an unrecognized format.",
+   "IMAGE_NOT_ATTACHED": "Image not attached.",
+   "DRAG_DROP_FILE": "Drag and drop file",
+   "UPLOAD_IMAGE_OPTIONAL": "Upload Image (Optional)",
+   "MULT_FILES_DROPPED_BUT_ONE_ALLOWED": "Multiple files were dropped but only one is allowed.",
+   "OR": "or"
 }

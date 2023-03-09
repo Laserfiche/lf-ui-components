@@ -24,7 +24,6 @@ span#pop-up-dialog-close:hover {
   display: block;
   border: 1px solid #6D6D6D;
   border-radius: 2px;
-  margin-top: 5px;
   padding: 7px 10px 8px 10px;
   box-sizing: border-box;
 }
@@ -148,4 +147,9 @@ button#upload-button {
 
 #messages {
   top: -15px;
+}
+
+.lf-text-label {
+  display: block;
+  padding-bottom: 5px;
 }
