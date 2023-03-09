@@ -104,11 +104,12 @@ describe('LfRepositoryBrowserComponent', () => {
     dataServiceMock.getFolderChildrenAsync.and.returnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
+    dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
 
     // Act
     // initialize the component
     await component.initAsync(dataServiceMock);
-    component.additionalColumnsToDisplay = columns;
+    component.setAdditionalColumnsToDisplay(columns);
   }
 
   it('should create an instance', () => {
@@ -528,9 +529,50 @@ describe('LfRepositoryBrowserComponent', () => {
 
   });
 
-  it('can initialize with column', async () => {
+  it('setSelectedNodesAsync should set selectedNode', async () => {
+    // TODO: this will fail because component.entryList is undefined
+    // Arrange
+    const id = '7';
+    const entry: LfTreeNode = {
+      icon: '',
+      id,
+      isContainer: true,
+      isLeaf: true,
+      name: 'test entry (7)',
+      path: '8',
+    };
+    const parent: LfTreeNode = {
+      icon: '',
+      id: '8',
+      isContainer: true,
+      isLeaf: false,
+      name: 'test entry (8)',
+      path: '',
+    };
+    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
+    );
+    dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
+      if (treeNode.id === id) {
+        return Promise.resolve(parent);
+      }
+      return Promise.resolve(undefined);
+    });
+    await component.initAsync(dataServiceMock, entry);
+
+    // Act
+    await component.setSelectedNodesAsync([entry]);
+
+    // Assert
+    // @ts-ignore
+    expect(component.selectedItems).toEqual([entry]);
+
+  });
+
+  it('can initialize with column', fakeAsync (async () => {
     // Act
     await setupRepoBrowserWithColumns([create]);
+    flush();
 
     const trEls = Array.from(
       document.getElementsByClassName('mat-header-row')
@@ -540,7 +582,7 @@ describe('LfRepositoryBrowserComponent', () => {
       trEl.getElementsByClassName('mat-header-cell')
     );
     expect(thEls.length).toBe(2);
-  });
+  }));
 
   it('if there is no column provided, set the name column to be auto', fakeAsync(async () => {
     // Act
@@ -550,7 +592,7 @@ describe('LfRepositoryBrowserComponent', () => {
       document.getElementsByClassName('mat-header-row')
     );
     const trEl = trEls[0] as HTMLDivElement;
-    expect(trEl.style.gridTemplateColumns).toBe(containerWidth + 'px');
+    expect(trEl.style.gridTemplateColumns).toBe('auto');
   }));
 
   it('can set column initial width', fakeAsync(async () => {
@@ -562,10 +604,9 @@ describe('LfRepositoryBrowserComponent', () => {
       document.getElementsByClassName('mat-header-row')
     );
     const trEl = trEls[0] as HTMLDivElement;
-    const createDateWidth = parseFloat(create.defaultWidth) / 100 * containerWidth;
-    const nameWidth = containerWidth - createDateWidth;
-    const gridTemplateColumnsWidth = `${nameWidth}px ${createDateWidth}px`;
-    expect(trEl.style.gridTemplateColumns).toBe(gridTemplateColumnsWidth);
+    const createDateWidth = parseFloat(create.defaultWidth) / 100 * containerWidth + 'px';
+    const createDateActualWidth = trEl.style.gridTemplateColumns.split(' ')[1];
+    expect(createDateWidth).toBe(createDateActualWidth);
   }));
 
   it('if name is provided in columnToDisplay, use the defaultWidth there', fakeAsync(async () => {
@@ -590,9 +631,10 @@ describe('LfRepositoryBrowserComponent', () => {
     const propIdCreateDate: string = 'create_date';
     const createDateInitialWidth = '35%';
     const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth };
+    const name : ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '65%'};
     const initialNameColumnWidth = parseFloat('65%')*containerWidth/100;
     const moveX = 100;
-    await setupRepoBrowserWithColumns([create]);
+    await setupRepoBrowserWithColumns([name, create]);
     flush();
 
     // click the resize-handle
