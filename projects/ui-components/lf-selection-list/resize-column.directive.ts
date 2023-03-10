@@ -1,12 +1,14 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Input, Output, Renderer2 } from '@angular/core';
+import { ColumnDef } from './lf-selection-list-types';
 
-const COLUMN_MIN_WIDTH: number = 100;
+export const COLUMN_MIN_WIDTH: number = 100;
 
 @Directive({
   selector: '[resizeColumn]',
 })
 export class ResizeColumnDirective {
   @Input('resizeColumn') resizable: boolean = false;
+  @Input() columnDef?: ColumnDef;
   @Output() widthChanged: EventEmitter<number> = new EventEmitter<number>();
 
   private column: HTMLElement;
@@ -68,12 +70,11 @@ export class ResizeColumnDirective {
     if (this.pressed && event.buttons) {
       const currentPositionWithScroll =
         event.clientX - this.viewport.getBoundingClientRect().left + this.viewport.scrollLeft;
-      if (currentPositionWithScroll - this.resizedColumnInitialOffsetLeft > COLUMN_MIN_WIDTH) {
+      const minWidth = this.columnDef?.minWidth ?? COLUMN_MIN_WIDTH;
+      if (currentPositionWithScroll - this.resizedColumnInitialOffsetLeft > minWidth) {
         this.resizePosition = currentPositionWithScroll;
-        // this.ref.detectChanges();
       } else {
-        this.resizePosition = this.resizedColumnInitialOffsetLeft + COLUMN_MIN_WIDTH;
-        // this.ref.detectChanges();
+        this.resizePosition = this.resizedColumnInitialOffsetLeft + minWidth;
       }
       this.divresizer!.style.left = this.resizePosition + 'px';
     }

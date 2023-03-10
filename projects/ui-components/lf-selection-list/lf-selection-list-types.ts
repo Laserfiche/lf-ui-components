@@ -9,6 +9,9 @@ export interface ColumnDef {
   id: string;
   displayName: string;
   defaultWidth: string;
+  minWidth?: number;
+  sortable?: boolean;
+  resizable?: boolean;
 }
 
 /** @internal */

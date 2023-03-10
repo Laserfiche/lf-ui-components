@@ -16,7 +16,15 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-sh
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { ColumnDef, ColumnOrderBy, LfSelectionListComponent, SelectedItemEvent } from '@laserfiche/lf-ui-components/lf-selection-list';
+import {
+  ColumnDef,
+  ColumnOrderBy,
+  LfSelectionListComponent,
+  SelectedItemEvent,
+} from '@laserfiche/lf-ui-components/lf-selection-list';
+
+const NAME_COL_AUTO: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: 'auto', minWidth: 100,  resizable: true, sortable: true};
+const NAME_COL_50CH: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '50ch', minWidth: 100,  resizable: true, sortable: true };
 
 @Component({
   selector: 'lf-repository-browser-component',
@@ -71,6 +79,26 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   @Input()
   setAdditionalColumnsToDisplay: (cols: ColumnDef[]) => void = (cols: ColumnDef[]) => {
     if (this.entryList) {
+      const nameColumnDef = cols.find((col) => col.id === 'name');
+      let fillLastColumn: boolean;
+      if (cols.length > 1 || (cols.length === 1 && cols[0].id !== 'name')) {
+        fillLastColumn = false;
+      } else {
+        if (!cols || cols.length === 0 || !cols.find((c) => c.id === 'name')) {
+          fillLastColumn = true;
+        } else {
+          fillLastColumn = false;
+        }
+      }
+      if (!nameColumnDef) {
+        let nameCol: ColumnDef;
+        if (fillLastColumn) {
+          nameCol = NAME_COL_AUTO;
+        } else {
+          nameCol = NAME_COL_50CH;
+        }
+        cols.unshift(nameCol);
+      }
       this.entryList.columns = cols;
     }
     this.ref.detectChanges();

@@ -5,13 +5,19 @@ import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 
 const PAGESIZE = 50;
 
-export class GridTableDataSource extends DataSource<any> {
+export class GridSelectionListDataSource extends DataSource<any> {
   private _data: ILfSelectable[];
   checkForData: Subject<void> = new Subject<void>();
   indexChangeSub: Subscription;
   currentScrollIndex: number = 0;
   dataStart: number = 0;
   dataEnd: number = 0;
+  
+  offset = 0;
+  offsetChange = new BehaviorSubject(0);
+
+  extraData: number = PAGESIZE / 2;
+  bufferToEnd: number = PAGESIZE / 4;
 
   get allData(): ILfSelectable[] {
     return this._data.slice();
@@ -30,12 +36,6 @@ export class GridTableDataSource extends DataSource<any> {
     this.visibleData.next(this._data.slice(0, PAGESIZE));
     this.viewport.scrollTo({ top: 0 });
   }
-
-  offset = 0;
-  offsetChange = new BehaviorSubject(0);
-
-  extraData: number = PAGESIZE / 2;
-  bufferToEnd: number = PAGESIZE / 4;
 
   constructor(initialData: ILfSelectable[], private viewport: CdkVirtualScrollViewport, private itemSize: number) {
     super();

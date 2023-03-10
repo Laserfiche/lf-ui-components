@@ -19,11 +19,20 @@
       <ng-container [ngSwitch]="column.id">
         <ng-container *ngSwitchCase="'name'">
           <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
-            <div class="lf-resize-wrapper-div" [resizeColumn]="true" (widthChanged)="onColumnWidthChanges($event, i)">
-              <div class="column-text-div" [ngStyle]="{ height: itemSize + 'px' }" mat-sort-header>
+            <div
+              class="lf-resize-wrapper-div"
+              [resizeColumn]="column.resizable"
+              [columnDef]="column"
+              (widthChanged)="onColumnWidthChanges($event, i)"
+            >
+              <div
+                class="column-text-div"
+                [ngStyle]="{ height: itemSize + 'px' }"
+                mat-sort-header
+                [disabled]="!column.sortable"
+              >
                 {{ column.displayName }}
               </div>
-              <!-- <span class="resize-handle" (mousedown)="onResizeColumn($event, i)"></span> -->
             </div>
           </th>
           <td mat-cell *matCellDef="let item">
@@ -60,14 +69,22 @@
             </mat-checkbox>
           </td>
         </ng-container>
-        <!--default case when there are no matches -->
         <ng-container *ngSwitchDefault>
           <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
-            <div class="lf-resize-wrapper-div" [resizeColumn]="true" (widthChanged)="onColumnWidthChanges($event, i)">
-              <div class="column-text-div" [ngStyle]="{ height: itemSize + 'px' }" mat-sort-header>
+            <div
+              class="lf-resize-wrapper-div"
+              [resizeColumn]="column.resizable"
+              [columnDef]="column"
+              (widthChanged)="onColumnWidthChanges($event, i)"
+            >
+              <div
+                class="column-text-div"
+                [ngStyle]="{ height: itemSize + 'px' }"
+                mat-sort-header
+                [disabled]="!column.sortable"
+              >
                 {{ column.displayName }}
               </div>
-              <!-- <span *ngIf="i > 0" class="resize-handle" (mousedown)="onResizeColumn($event, i)"></span> -->
             </div>
           </th>
           <td mat-cell class="lf-ellipsis-label" *matCellDef="let row">

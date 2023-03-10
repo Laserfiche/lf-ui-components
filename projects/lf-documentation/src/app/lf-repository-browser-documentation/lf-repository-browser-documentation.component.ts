@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ColumnDef } from '@laserfiche/lf-ui-components/lf-selection-list';
 import {
   LfTreeNode,
   LfRepositoryBrowserComponent,
@@ -71,9 +72,9 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.repoBrowser?.nativeElement.refreshAsync();
   }
 
-  create = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%' };
-  test = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '60%' };
-  name = { id: propIdNameCol, displayName: 'Name', defaultWidth: '50%' };
+  create: ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%', minWidth: 200, resizable: true };
+  test: ColumnDef = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '60%', minWidth: 100, resizable: true, sortable: true  };
+  name: ColumnDef = { id: propIdNameCol, displayName: 'Name', defaultWidth: '50%', minWidth: 100, resizable: true, sortable: true  };
 
   singleColChange() {
     const columns = [this.name];

@@ -17,17 +17,16 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Subscription } from 'rxjs';
-import { GridTableDataSource } from './lf-selection-list-data-source';
+import { GridSelectionListDataSource } from './lf-selection-list-data-source';
 import { ColumnDef, ColumnOrderBy, SelectedItemEvent } from './lf-selection-list-types';
+import { COLUMN_MIN_WIDTH } from './resize-column.directive';
 
 /** @internal */
 export interface RepositoryBrowserData {
   columns: Record<string, string>;
 }
 
-const SELECT_COL: ColumnDef = { id: 'select', displayName: '', defaultWidth: '35px' };
-const NAME_COL_AUTO: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: 'auto' };
-const NAME_COL_50CH: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '50ch' };
+const SELECT_COL: ColumnDef = { id: 'select', displayName: '', defaultWidth: '35px', minWidth: 35, resizable: false, sortable: false };
 
 /** @internal */
 @Component({
@@ -80,35 +79,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   @Input() set columns(cols: ColumnDef[]) {
-    const nameColumnDef = cols.find((col) => col.id === 'name');
-    const toAdd: ColumnDef[] = [];
-    if (cols.length > 1 || (cols.length === 1 && cols[0].id !== 'name')) {
-      this.fillLastColumn = false;
+    if (cols.length > 1 || this.alwaysShowHeader === true) {
       this._showHeader = true;
     } else {
-      if (!this.additionalColumnDefs || this.additionalColumnDefs.length === 0 || !cols.find((c) => c.id === 'name')) {
-        this.fillLastColumn = true;
-      } else {
-        this.fillLastColumn = false;
-      }
-      this._showHeader = this.alwaysShowHeader === true ? true : false;
+      this._showHeader = false;
     }
-    if (nameColumnDef) {
-      if (this.multipleSelection) {
-        toAdd.push(SELECT_COL);
-      }
-    } else {
-      let nameCol: ColumnDef;
-      if (this.fillLastColumn) {
-        nameCol = NAME_COL_AUTO;
-      } else {
-        nameCol = NAME_COL_50CH;
-      }
-      if (this.multipleSelection) {
-        toAdd.push(SELECT_COL, nameCol);
-      } else {
-        toAdd.push(nameCol);
-      }
+    const toAdd: ColumnDef[] = [];
+    if (this.multipleSelection) {
+      toAdd.push(SELECT_COL);
     }
     this.allColumnDefs = toAdd.concat(cols);
     this.allColumnHeaders = this.allColumnDefs.map((col) => col.id);
@@ -134,8 +112,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   private allSubscriptions?: Subscription;
   /** @internal */
-  private fillLastColumn: boolean = true;
-  /** @internal */
   private _columnOrderBy: ColumnOrderBy | undefined;
   /** @internal */
   private selectable: Selectable = new Selectable();
@@ -145,7 +121,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   allColumnHeaders?: string[];
   /** @internal */
-  dataSource?: GridTableDataSource;
+  dataSource?: GridSelectionListDataSource;
   /** @internal */
   items: ILfSelectable[] = [];
   /** @internal */
@@ -163,17 +139,15 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   constructor(
     /** @internal */
     private focusMonitor: FocusMonitor,
-    private ref: ChangeDetectorRef,
-    private renderer: Renderer2
+    private ref: ChangeDetectorRef
   ) {}
 
   /** @internal */
   ngAfterViewInit(): void {
-    this.dataSource = new GridTableDataSource(this.items, this.viewport!, this.itemSize);
+    this.dataSource = new GridSelectionListDataSource(this.items, this.viewport!, this.itemSize);
     const dataSourceSub = this.dataSource.checkForData.subscribe(() => {
       this.scrollChanged.emit();
     });
-    this.ref.detectChanges();
     const dataOffsetSub = this.dataSource.offsetChange.subscribe((offset) => {
       this.placeholderHeight = offset;
     });
@@ -367,7 +341,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       }
       this.ref.detectChanges();
 
-      if (!this.fillLastColumn) {
+      if (!(this.allColumnDefs[this.allColumnDefs.length - 1].defaultWidth === 'auto')) {
         const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
         (tableEl[0] as HTMLTableElement).style.width = containerWidth + 'px';
         this.ref.detectChanges();
@@ -378,8 +352,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
             this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
           );
           const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
+          const minWidth = col.minWidth ?? COLUMN_MIN_WIDTH;
           const columnWidthInPixel =
-            col.id !== 'select' ? Math.max(columnWidthOffset, 100) + 'px' : SELECT_COL.defaultWidth;
+            col.id !== 'select' ? Math.max(columnWidthOffset, minWidth) + 'px' : SELECT_COL.defaultWidth;
           widthsInPixel.push(columnWidthInPixel);
         });
 
@@ -391,7 +366,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         (tableEl[0] as HTMLTableElement).style.width = 'fit-content';
         this.ref.detectChanges();
       } else {
-        (tableEl[0] as HTMLTableElement).style.minWidth = '100%';
+        (tableEl[0] as HTMLTableElement).style.width = '100%';
       }
     });
   }

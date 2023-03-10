@@ -96,8 +96,8 @@ describe('LfRepositoryBrowserComponent', () => {
   const containerWidth = 500;
   const propIdCreateDate: string = 'create_date';
   const createDateInitialWidth = '35%';
-  const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth };
-  const name: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '80%' };
+  const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth, minWidth: 100, resizable: true, sortable: true };
+  const name: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '80%', minWidth: 100, resizable: true, sortable: true  };
   async function setupRepoBrowserWithColumns( columns: ColumnDef[]) {
     dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
     dataServiceMock.getFolderChildrenAsync.and.returnValue(
@@ -629,8 +629,8 @@ describe('LfRepositoryBrowserComponent', () => {
     // need to reset create columneDef to have the defaultWidth because the test
     const propIdCreateDate: string = 'create_date';
     const createDateInitialWidth = '35%';
-    const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth };
-    const name : ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '65%'};
+    const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth, minWidth: 100, resizable: true, sortable: true  };
+    const name : ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '65%', minWidth: 100, resizable: true, sortable: true };
     const initialNameColumnWidth = parseFloat('65%')*containerWidth/100;
     const moveX = 100;
     await setupRepoBrowserWithColumns([name, create]);
