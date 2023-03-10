@@ -24,11 +24,11 @@
     <span>document.querySelector('lf-repository-browser');</span>
     <p>repoBrowser.addEventListener('entrySelected', onElementNodeSelected(event));</p>
     <p>await repoBrowser.initAsync(treeProvidersObject);</p>
-    <p>const create: ColumnDef = 	&#123; id: 'creationTime', displayName: 'Creation Date', defaultWidth: '40%' &#125;;</p>
-    <p>const templateName : ColumnDef = &#123; id: 'templateName', displayName: 'Template Name', defaultWidth: '40%' &#125;;</p>
-    <p>const elecDocmentSize : ColumnDef = &#123; id: 'elecDocumentSize', displayName: 'Size', defaultWidth: '40%' &#125;;</p>
+    <p>const create: ColumnDef = 	&#123; id: 'creationTime', displayName: 'Creation Date', defaultWidth: '40%', minWidth: 100, resizable: true, sortable: true &#125;;</p>
+    <p>const templateName : ColumnDef = &#123; id: 'templateName', displayName: 'Template Name', defaultWidth: '40%', minWidth: 200, resizable: true &#125;;</p>
+    <p>const elecDocmentSize : ColumnDef = &#123; id: 'elecDocumentSize', displayName: 'Size', defaultWidth: '40%', minWidth: 150, sortable: false &#125;;</p>
     <p>const columns: ColumnDef[] = [create, templateName, elecDocmentSize];</p>
-    <p>repoBrowser.additionalColumnsToDisplay = columns;</p>
+    <p>repoBrowser.setAdditionalColumns(columns);</p>
   </code>
 </p>
 <label>
@@ -123,12 +123,35 @@
   <tr>
     <td>itemSize</td>
     <td>number</td>
-    <td>allows user to set the itemSize for the scrollable section</td>
+    <td>allows user to set the item height in pixels for the scrollable section</td>
   </tr>
   <tr>
-    <td>additionalColumnsToDisplay</td>
-    <td>ColumnDef </td>
-    <td>allows user to set the columns</td>
+    <td>isSelectable</td>
+    <td>(treeNode: LfTreeNode) => Promise&lt;boolean&gt;</td>
+    <td>
+      Lambda function that can be used to specify if specific tree nodes are selectable. This is called whenever new
+      data is added.
+    </td>
+  </tr>
+  <tr>
+    <td>columnOrderBy</td>
+    <td>ColumnOrderBy | undefined</td>
+    <td>set the column to order by programmatically</td>
+  </tr>
+  <tr>
+    <td>alwaysShowHeader</td>
+    <td>boolean | undefined</td>
+    <td>Specify whether to always show header, by default it will not show if there is only a name column</td>
+  </tr>
+  <tr>
+    <td>breadcrumbs</td>
+    <td>LfTreeNode[] | undefined</td>
+    <td>read-only property that contains the breadcrumbs of the currently opened folder</td>
+  </tr>
+  <tr>
+    <td>currentFolder</td>
+    <td>LfTreeNode | undefined</td>
+    <td>read-only property that allows the user to see what the currently open LfTreeNode is</td>
   </tr>
 </table>
 <br />
@@ -179,8 +202,8 @@
   </tr>
   <tr>
     <td>refreshAsync</td>
-    <td>() => Promise&lt;void&gt;</td>
-    <td>Refreshes the current folder. Calls for all of the data again.</td>
+    <td>(clearSelectedValues?: boolean) => Promise&lt;void&gt;</td>
+    <td>Refreshes the current folder. Calls for all of the data again. By default will clear all currently selected values.</td>
   </tr>
   <tr>
     <td>openSelectedNodesAsync</td>
@@ -207,22 +230,9 @@
     <td>focuses the first item in the lf-repository-browser</td>
   </tr>
   <tr>
-    <td>isSelectable</td>
-    <td>(treeNode: LfTreeNode) => Promise&lt;boolean&gt;</td>
-    <td>
-      Lambda function that can be used to specify if specific tree nodes are selectable. This is called whenever new
-      data is added.
-    </td>
-  </tr>
-  <tr>
-    <td>breadcrumbs</td>
-    <td>LfTreeNode[] | undefined</td>
-    <td>read-only property that contains the breadcrumbs of the currently opened folder</td>
-  </tr>
-  <tr>
-    <td>currentFolder</td>
-    <td>LfTreeNode | undefined</td>
-    <td>read-only property that allows the user to see what the currently open LfTreeNode is</td>
+    <td>setAdditionalColumnsToDisplay</td>
+    <td>(ColumnDef[]) => void</td>
+    <td>allows user to set additional columns to display. You can specify a specific definition for the name column, or accept the default.</td>
   </tr>
 </table>
 
@@ -252,21 +262,30 @@
 </ul>
 <p class="documentation-sub-header">LfTreeNode Interface</p>
 <ul>
-  <li>id : string</li>
-  <li>icon : string | string[]</li>
-  <li>isContainer : boolean</li>
-  <li>isLeaf : boolean</li>
-  <li>name : string</li>
-  <li>path : string</li>
+  <li>id: string</li>
+  <li>icon: string | string[]</li>
+  <li>isContainer: boolean</li>
+  <li>isLeaf: boolean</li>
+  <li>name: string</li>
+  <li>path: string</li>
+  <li>attributes: Map&lt;string, PropertyValue&gt; | undefined</li>
 </ul>
 <p class="documentation-sub-header">ColumnDef Interface</p>
 <ul>
-  <li>id : string</li>
-  <li>displayName: string;</li>
-  <li>defaultWidth: string;</li>
+  <li>id: string</li>
+  <li>displayName: string</li>
+  <li>defaultWidth: string</li>
+  <li>minWidth: string | undefined</li>
+  <li>sortable: string | undefined</li>
+  <li>resizable: string | undefined</li>
 </ul>
 <p class="documentation-sub-header">ColumnOrderBy Interface</p>
 <ul>
-  <li>columnId: string;</li>
-  <li>isDesc: boolean;</li>
+  <li>columnId: string</li>
+  <li>isDesc: boolean</li>
+</ul>
+<p class="documentation-sub-header">PropertyValue Interface</p>
+<ul>
+  <li>value: string | Date | number</li>
+  <li>displayValue: string</li>
 </ul>
