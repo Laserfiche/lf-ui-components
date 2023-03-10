@@ -31,67 +31,124 @@ describe('FeedbackImageUploadComponent', () => {
     expect(fileDropZone.length).toBe(1);
   });
 
-  it('if there is a valid image attached, should show name and the preview of the image', fakeAsync(async () => {
-    // query selector for the image preview and check the src attribute
-    const base64Image = 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxEAAAsRAX9kX5EAAADdSURBVDhPY7gZx/CfEkx9A24lMvy/Hsrw/6o3hAbx0dUgYwwDbkQy/L+TLfL/foUGmAbx0dUgYwwDLtkz/H+7seU/CIBoEB9dDTLGbsDmNogBQJp0AxwY/r9Z3wA2AESD+OhqkPEgN+DFgoz/p2QgYiB8PQwYrcmo6rEG4puNTWADvt068v/l4pb/bzdB8L0S5f/XAlHVYxhw0Zbh/7sdfWAD0MGzaeH/L9qhqscwAOTMe8VK/x93OmPgO5lC/6+Ho6rHMADkR5AzL7tiYpDmW0mo6jEMIBVTaADDfwCCFlxzktJ/YwAAAABJRU5ErkJggg==' // image data truncated for brevity 
-    // const blob = new Blob([StringUtils.base64toString(base64Image)], { type: 'image/png' });
-    const file = new File([atob(base64Image)], 'lf-16.png', { type: 'image/png' });
-    // @ts-ignore
-    await component.tryReadAndValidateImageAsync(file);
-    flush();
+  it('if there is image attached, should show the picked file zone', () => {
+    // Act
+    component.imageUploaded = new File([''], 'test.png');
     fixture.detectChanges();
-    console.log(component.imageUploaded);
-    // upload the file through the browse button -> input
-    // const inputElement = document.getElementsByTagName('input');
-    // const fileList: FileList = {
-    //   length: 1,
-    //   item : (index: number) => file,
-    // };
-    // // fileList.item = (index: number) => file;
-    // // inputElement[0].dispatchEvent(new InputEvent('change', {
-    // //   inputType: 'file',
-    // //   data: base64Image,
-    // // }));
-    // inputElement[0].files = fileList;
-        // const event = { target: { files:
-    //   item = () => file
-    // } };
-    // await component.onFileSelectedAsync(event as unknown as InputEvent);
 
+    // Assert
+    const fileDropZone  = document.getElementsByClassName('picked-file-zone');
+    expect(fileDropZone.length).toBe(1);
+  });
 
+  it('if there is a valid image attached, should should attach image, and should set feedbackImageBase64', fakeAsync(async () => {
+    // Arrange
+    const base64Image = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+    // convert base64 to byte array
+    const file = base64ToImage(base64Image);
+    // @ts-ignore
+
+    // Act
+    const success = await component.tryReadAndValidateImageAsync(file);
+    fixture.detectChanges();
+
+    // Assert
+    expect(success).toBe(true);
+    expect(component.feedbackImageBase64).toBe(base64Image);
+    expect(component.imageUploaded).toBe(file);
   }));
 
-  fit('if the image attached is above 2.9MB, should emit warning', fakeAsync(async () => {
-    const file = new File([''], 'big-file.png');
-    Object.defineProperty(
-      file, 'size', {value: 3*Math.pow(1024, 3), writable: false});
-
+  it('if the image attached is above 2.9MB, should emit warning, and should not attach image', fakeAsync(async () => {
+    // Arrange
+    const fileSize = 3*Math.pow(1024, 2); // 3 MB
+    const file = createInvalidImageWithSize(fileSize);
     spyOn(component.imageUploadError, 'emit');
+
+    // Act
     // @ts-ignore
     await component.tryReadAndValidateImageAsync(file);
+    fixture.detectChanges();
+
+    // Assert
     expect(component.imageUploadError.emit).toHaveBeenCalledWith('Image not attached. The image exceeds the maximum file size of 2.9 MB.')
+    expect(component.imageUploaded).toBe(undefined);
   }));
 
-  fit('if the image attached is not a valid image, should emit warning', fakeAsync(async () => {
-    const file = new File([''], 'invalid-file.png');
-
+  it('if the image attached is not a valid image, should emit warning, and should not attach image', fakeAsync(async () => {
+    // Arrange
+    const fileSize = Math.pow(1024, 2); // 1 MB
+    const file = createInvalidImageWithSize(fileSize);
     spyOn(component.imageUploadError, 'emit');
+
+    // Act
     // @ts-ignore
     await component.tryReadAndValidateImageAsync(file);
-    expect(component.imageUploadError.emit).toHaveBeenCalledWith('Image not attached. The image is corrupted or in an unrecognized format.')
+    fixture.detectChanges();
 
+    // Assert
+    expect(component.imageUploadError.emit).toHaveBeenCalledWith('Image not attached. The image is corrupted or in an unrecognized format.')
+    expect(component.imageUploaded).toBe(undefined);
   }));
 
   it('if multiple images are dropped to the file drop zone, should emit warning', () =>{
+    const file1 = new File([''], 'dummy1.png');
+    const file2 = new File([''], 'dummy2.png');
+
+
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file1);
+    dataTransfer.items.add(file2);
+
+    const event = new DragEvent("drop", { dataTransfer });
+    spyOn(component.imageUploadError, 'emit');
+
+    component.dropHandler(event);
+    fixture.detectChanges();
+    expect(component.imageUploadError.emit).toHaveBeenCalledWith('Image not attached. Multiple files were dropped but only one is allowed.')
 
   });
 
-  it('can upload image using the browse button', () => {});
 
-  it('can upload image by dropping the image in the drop zone', () => {});
+  it('if remove the image, should show the file drop zone', async () => {
+    // Arrange
+    // Arrange
+    const base64Image = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+    // convert base64 to byte array
+    const file = base64ToImage(base64Image);
+    // @ts-ignore
 
+    // Act
+    await component.tryReadAndValidateImageAsync(file);
+    fixture.detectChanges();
+    component.removeImage();
+    fixture.detectChanges();
 
-  it('if remove the image, should show the file drop zone', () => {});
+    // Assert
+    expect(component.imageUploaded).toBe(undefined);
+    expect(component.inputFile?.nativeElement.value).toBe('');
+    expect(component.inputFile?.nativeElement.files?.length).toBe(0);
+  });
 
 
 });
+function createInvalidImageWithSize(fileSize: number) {
+  const file = new File([''], 'invalid-image.png');
+  Object.defineProperty(
+    file, 'size', { value: fileSize, writable: false });
+  return file;
+}
+
+function base64ToImage(base64Image: string) {
+  const asciiImage = StringUtils.base64toString(base64Image);
+  const byteNumbers = new Array(asciiImage.length);
+  for (let i = 0; i < asciiImage.length; i++) {
+    byteNumbers[i] = asciiImage.charCodeAt(i);
+  }
+  // convert this array of byte values into a real typed byte array
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: 'image/png' });
+
+  const file = new File([blob], 'test.png', { type: 'image/png' });
+  return file;
+}
+
