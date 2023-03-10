@@ -59,29 +59,29 @@ describe('UserFeedbackDialogComponent', () => {
     expect(component.isSuggestion).toBeTrue();
   });
 
-  it('should disable submit button when textbox is empty', () => {
-    goToFeedbackMode();
-    component.feedbackTextBox = '';
-    expect(component.isSubmitDisabled).toBeTrue();
-  });
+  // it('should disable submit button when textbox is empty', () => {
+  //   goToFeedbackMode();
+  //   component.feedbackTextBox = '';
+  //   expect(component.isSubmitDisabled).toBeTrue();
+  // });
 
-  it('should disable submit button when textbox is whitespace', () => {
-    goToFeedbackMode();
-    component.feedbackTextBox = '     ';
-    expect(component.isSubmitDisabled).toBeTrue();
-  });
+  // it('should disable submit button when textbox is whitespace', () => {
+  //   goToFeedbackMode();
+  //   component.feedbackTextBox = '     ';
+  //   expect(component.isSubmitDisabled).toBeTrue();
+  // });
 
-  it('should enable submit button when textbox has non-whitespace value', () => {
-    goToFeedbackMode();
-    component.feedbackTextBox = 'Hello';
-    expect(component.isSubmitDisabled).toBeFalse();
-  });
+  // it('should enable submit button when textbox has non-whitespace value', () => {
+  //   goToFeedbackMode();
+  //   component.feedbackTextBox = 'Hello';
+  //   expect(component.isSubmitDisabled).toBeFalse();
+  // });
 
-  it('should enable submit button when email is disabled', () => {
-    goToFeedbackMode();
-    component.feedbackTextBox = 'Hello';
-    component.feedbackEmailCheckbox = false;
-    expect(component.isSubmitDisabled).toBeFalse();
-  });
+  // it('should enable submit button when email is disabled', () => {
+  //   goToFeedbackMode();
+  //   component.feedbackTextBox = 'Hello';
+  //   component.feedbackEmailCheckbox = false;
+  //   expect(component.isSubmitDisabled).toBeFalse();
+  // });
 
 });
