@@ -21,7 +21,7 @@
           <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
             <div
               class="lf-resize-wrapper-div"
-              [resizeColumn]="column.resizable"
+              [lfResizeColumn]="column.resizable"
               [columnDef]="column"
               (widthChanged)="onColumnWidthChanges($event, i)"
             >
@@ -73,7 +73,7 @@
           <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
             <div
               class="lf-resize-wrapper-div"
-              [resizeColumn]="column.resizable"
+              [lfResizeColumn]="column.resizable"
               [columnDef]="column"
               (widthChanged)="onColumnWidthChanges($event, i)"
             >

@@ -26,7 +26,14 @@ export interface RepositoryBrowserData {
   columns: Record<string, string>;
 }
 
-const SELECT_COL: ColumnDef = { id: 'select', displayName: '', defaultWidth: '35px', minWidth: 35, resizable: false, sortable: false };
+const SELECT_COL: ColumnDef = {
+  id: 'select',
+  displayName: '',
+  defaultWidth: '35px',
+  minWidth: 35,
+  resizable: false,
+  sortable: false,
+};
 
 /** @internal */
 @Component({
@@ -320,7 +327,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   setInitialWidth() {
-    setTimeout(() => {
+    if (this.allColumnDefs.length > 0) {
       const repositoryBrowserData: RepositoryBrowserData | undefined = this.getRepositoryBrowserData();
       const tableEl = Array.from(
         this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
@@ -340,8 +347,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         this.columnsWidth = templateCOls;
       }
       this.ref.detectChanges();
-
-      if (!(this.allColumnDefs[this.allColumnDefs.length - 1].defaultWidth === 'auto')) {
+      
+      // TODO is there a better way to do this
+      if (!(this.allColumnDefs[this.allColumnDefs.length - 1]?.defaultWidth === 'auto')) {
         const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
         (tableEl[0] as HTMLTableElement).style.width = containerWidth + 'px';
         this.ref.detectChanges();
@@ -368,7 +376,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       } else {
         (tableEl[0] as HTMLTableElement).style.width = '100%';
       }
-    });
+    }
   }
 
   private getRepositoryBrowserData(): RepositoryBrowserData | undefined {

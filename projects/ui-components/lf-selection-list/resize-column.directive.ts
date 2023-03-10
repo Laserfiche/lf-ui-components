@@ -1,13 +1,13 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Input, Output, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { ColumnDef } from './lf-selection-list-types';
 
 export const COLUMN_MIN_WIDTH: number = 100;
 
 @Directive({
-  selector: '[resizeColumn]',
+  selector: '[lfResizeColumn]',
 })
-export class ResizeColumnDirective {
-  @Input('resizeColumn') resizable: boolean = false;
+export class ResizeColumnDirective implements OnInit {
+  @Input('lfResizeColumn') resizable: boolean = false;
   @Input() columnDef?: ColumnDef;
   @Output() widthChanged: EventEmitter<number> = new EventEmitter<number>();
 
@@ -17,8 +17,6 @@ export class ResizeColumnDirective {
   resizePosition: number = 0;
   resizedColumnInitialOffsetLeft: number = 0;
   viewport?: HTMLElement;
-  startWidth?: number;
-  startX?: number;
   th?: HTMLElement;
   divresizer?: HTMLElement;
 
@@ -51,13 +49,10 @@ export class ResizeColumnDirective {
     ev.preventDefault();
     ev.stopPropagation();
     this.pressed = true;
-    this.startX = ev.pageX;
     this.resizePosition =
       ev.clientX - (this.viewport?.getBoundingClientRect()?.left ?? 0) + (this.viewport?.scrollLeft ?? 0);
     this.viewport?.appendChild(this.divresizer!);
     this.divresizer!.style.left = this.resizePosition + 'px';
-    // this.ref.detectChanges();
-    this.startWidth = this.th?.offsetWidth ?? 0;
     this.resizedColumnInitialOffsetLeft = this.th?.offsetLeft ?? 0;
   };
 

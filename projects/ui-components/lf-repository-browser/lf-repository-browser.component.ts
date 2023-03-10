@@ -23,8 +23,24 @@ import {
   SelectedItemEvent,
 } from '@laserfiche/lf-ui-components/lf-selection-list';
 
-const NAME_COL_AUTO: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: 'auto', minWidth: 100,  resizable: true, sortable: true};
-const NAME_COL_50CH: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '50ch', minWidth: 100,  resizable: true, sortable: true };
+/** @internal */
+const NAME_COL_AUTO: ColumnDef = {
+  id: 'name',
+  displayName: 'Name',
+  defaultWidth: 'auto',
+  minWidth: 100,
+  resizable: true,
+  sortable: true,
+};
+/** @internal */
+const NAME_COL_50CH: ColumnDef = {
+  id: 'name',
+  displayName: 'Name',
+  defaultWidth: '50ch',
+  minWidth: 100,
+  resizable: true,
+  sortable: true,
+};
 
 @Component({
   selector: 'lf-repository-browser-component',
@@ -301,6 +317,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       }
     });
   }
+
+  /** @internal */
   ngAfterViewInit(): void {
     const path = window.location.pathname;
     this.repoBrowserUniqueId = `lf-repository-browser_${path}_${this.el.nativeElement.id}`;
@@ -609,6 +627,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
   }
 
+  /** @internal */
   private async makeDataCall(parentEntry: LfTreeNode): Promise<ILfSelectable[] | undefined> {
     try {
       this.hasError = false;
