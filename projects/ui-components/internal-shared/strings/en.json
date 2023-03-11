@@ -15,9 +15,10 @@
    "SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER": "Something went wrong. Please try again later.",
    "IMAGE_EXCEEDS_MAX_FILE_SIZE_2DOT9MB": "The image exceeds the maximum file size of 2.9 MB.",
    "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "The image is corrupted or in an unrecognized format.",
+   "ACCEPTED_FORMATS_ARE_0": "The accepted formats are: {0}.",
    "IMAGE_NOT_ATTACHED": "Image not attached.",
    "DRAG_DROP_FILE": "Drag and drop file",
    "ATTACH_IMAGE_OPTIONAL": "Attach Image (Optional)",
-   "MULT_FILES_DROPPED_BUT_ONE_ALLOWED": "Multiple files were dropped but only one is allowed.",
+   "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Please attach only one image.",
    "OR": "or"
 }

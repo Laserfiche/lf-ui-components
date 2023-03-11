@@ -40,7 +40,9 @@ export class FeedbackSubmissionComponent {
 
   constructor(private localizationService: AppLocalizationService) {}
 
-
+  onFeedbackImageBase64(imageBase64: string) {
+    this.feedbackImageBase64 = imageBase64;
+  }
   feedbackTextBoxChange(event: InputEvent) {
     const feedbackText = (event.target as HTMLTextAreaElement).value;
     this.feedbackLength = feedbackText.length;
@@ -51,9 +53,9 @@ export class FeedbackSubmissionComponent {
     const errorToastMsg : LfToastMessage = {
       message: errMsg,
       type: LfMessageToastTypes.Warning,
- 
+
       noIcon: false,
-      hideMessage: false,    
+      hideMessage: false,
     }
     this.toastMessages = [errorToastMsg];
   }

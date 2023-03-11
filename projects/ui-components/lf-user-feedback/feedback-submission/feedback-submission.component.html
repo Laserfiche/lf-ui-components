@@ -23,7 +23,7 @@
     <span> / </span>
     <span>{{ maxFeedbackLength }}</span>
   </div>
-  <lib-feedback-image-upload id="image-upload-block" [(feedbackImageBase64)]="feedbackImageBase64" (imageUploadError)="onImageUploadError($event)"></lib-feedback-image-upload>
+  <lib-feedback-image-upload id="image-upload-block" (feedbackImageBase64) ="onFeedbackImageBase64($event)" (imageUploadError)="onImageUploadError($event)"></lib-feedback-image-upload>
   <div class="email-checkbox-container">
     <mat-checkbox
       color="primary"

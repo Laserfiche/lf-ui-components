@@ -38,7 +38,7 @@
 >
   <input
     type="file"
-    accept=".jpg,.png,.gif,.webp"
+    accept=".jpg,.jpeg,.png,.gif,.webp"
     tabindex="-1"
     title=""
     (change)="onFileSelectedAsync($event)"
@@ -62,7 +62,7 @@
       </div>
       <div
         id="uploaded-file-name"
-        class="lf-text-body"        
+        class="lf-text-body"
         title="{{ imageUploaded?.name }}"
       >
         {{ imageUploaded?.name }}

@@ -1,3 +1,9 @@
+:host {
+  --header-min-height: 50px;
+  --footer-min-height: 50px;
+
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -8,7 +14,7 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #e0e0e0;
-  min-height: 50px;
+  min-height: var(--header-min-height, 50px);
   color: #606060;
   background-color: #fafafa;
   /* default is the standard padding, but expose variables
@@ -40,13 +46,15 @@
   padding-bottom: var(--content-padding-bottom, 20px);
   padding-left: var(--content-padding-left, 20px);
   padding-right: var(--content-padding-right, 20px);
+  max-height: calc(100vh - var(--header-min-height) - var(--footer-min-height));
+  display: block;
 }
 
 .footer {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  min-height: 50px;
+  min-height: var(--footer-min-height, 50px);
   border-top: 1px solid #e0e0e0;
   background-color: #fafafa;
   /* default is the standard padding, but expose variables

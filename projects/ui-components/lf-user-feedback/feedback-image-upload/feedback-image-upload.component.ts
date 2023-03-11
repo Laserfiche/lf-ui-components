@@ -13,7 +13,7 @@ export class FeedbackImageUploadComponent implements OnInit {
   @Output() imageUploadError: EventEmitter<string> = new EventEmitter<string>();
 
   imageUploaded?: File;
-  feedbackImageBase64: string | undefined;
+  @Output() feedbackImageBase64: EventEmitter<string> = new EventEmitter<string>();
   imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
   rawImageBase64: string = '';
 
@@ -51,7 +51,7 @@ export class FeedbackImageUploadComponent implements OnInit {
       this.imageUploadError.emit(
         this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') +
           ' ' +
-          this.localizationService.getResourceStringComponents('MULT_FILES_DROPPED_BUT_ONE_ALLOWED')
+          this.localizationService.getResourceStringComponents('PLEASE_ATTACH_ONLY_ONE_IMAGE')
       );
       // this.removeImage();
     } else {
@@ -72,7 +72,7 @@ export class FeedbackImageUploadComponent implements OnInit {
       if (image.size <= this.imageSizeLimitBytes) {
         const encodingData = await this.getBase64Async(image);
         this.rawImageBase64 = encodingData;
-        this.feedbackImageBase64 = encodingData?.split(',')[1];
+        this.feedbackImageBase64.emit(encodingData?.split(',')[1]);
         this.imageUploaded = image;
         return true;
       } else {
@@ -87,6 +87,7 @@ export class FeedbackImageUploadComponent implements OnInit {
             break;
           case ImageUploadErrorType.UnsupportedFormat:
             errorMessage = this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT');
+            errorMessage +=' ' + this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', ['JPEG, PNG, GIF, WebP']);
             break;
           default:
             errorMessage = error.message;
