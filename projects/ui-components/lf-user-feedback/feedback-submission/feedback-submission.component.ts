@@ -35,7 +35,6 @@ export class FeedbackSubmissionComponent {
       'YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK'
     ),
     TELL_US_ABOUT_IDEA: this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_IDEA'),
-
   };
 
   constructor(private localizationService: AppLocalizationService) {}
@@ -43,6 +42,7 @@ export class FeedbackSubmissionComponent {
   onFeedbackImageBase64(imageBase64: string) {
     this.feedbackImageBase64 = imageBase64;
   }
+
   feedbackTextBoxChange(event: InputEvent) {
     const feedbackText = (event.target as HTMLTextAreaElement).value;
     this.feedbackLength = feedbackText.length;
