@@ -1,5 +1,5 @@
 <div
-  *ngFor="let message of Messages; index as idx"
+  *ngFor="let message of allMessages; index as idx"
   class="toast-message message-holder lf-flexbox-col"
   [ngClass]="{
     error: message.type === 0,

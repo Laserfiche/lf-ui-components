@@ -40,7 +40,7 @@ describe('FeedbackImageUploadComponent', () => {
     expect(fileDropZone.length).toBe(1);
   });
 
-  it('if there is a valid image attached, should should attach image, and should emit event feedbackImageBase64', fakeAsync(async () => {
+  it('if tryReadAndValidateImageAsync is called with a valid image, should should attach image, and should emit event feedbackImageBase64', fakeAsync(async () => {
     // Arrange
     const base64Image =
       'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
@@ -59,7 +59,7 @@ describe('FeedbackImageUploadComponent', () => {
     expect(component.imageUploaded).toBe(file);
   }));
 
-  it('if the image attached is above 2.9MB, should emit warning, and should not attach image', fakeAsync(async () => {
+  it('if tryReadAndValidateImageAsync is called with a file above 2.9MB, should emit warning, and should not attach image', fakeAsync(async () => {
     // Arrange
     const fileSize = 3 * Math.pow(1024, 2); // 3 MB
     const file = createInvalidImageWithSize(fileSize);
@@ -77,7 +77,7 @@ describe('FeedbackImageUploadComponent', () => {
     expect(component.imageUploaded).toBe(undefined);
   }));
 
-  it('if the image attached is not a valid image, should emit warning, and should not attach image', fakeAsync(async () => {
+  it('if tryReadAndValidateImageAsync is called with an invalid image, should emit warning, and should not attach image', fakeAsync(async () => {
     // Arrange
     const fileSize = Math.pow(1024, 2); // 1 MB
     const file = createInvalidImageWithSize(fileSize);
@@ -131,7 +131,7 @@ describe('FeedbackImageUploadComponent', () => {
   });
 
   it('if remove the image, should show the file drop zone', async () => {
-    
+
     // Arrange
     const base64Image =
       'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';

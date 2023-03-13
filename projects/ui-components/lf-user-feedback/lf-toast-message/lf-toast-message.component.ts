@@ -43,7 +43,7 @@ export class LfToastMessageComponent {
         messageId = message.id = Math.random().toString();
       }
 
-      this.Messages.push(message);
+      this.allMessages.push(message);
       // Errors and Warnings will not auto dismiss
       if (
         (message.type === LfMessageToastTypes.Validation || message.type === LfMessageToastTypes.Informational) &&
@@ -55,13 +55,13 @@ export class LfToastMessageComponent {
     }
   }
 
-  Messages: LfToastMessage[];
+  allMessages: LfToastMessage[];
   getCheckboxControl(messageId: string) {
     return this.form.controls[messageId];
   }
 
   constructor() {
-    this.Messages = [];
+    this.allMessages = [];
   }
 
   _computeTypeIcon(type: LfMessageToastTypes): string {
@@ -88,15 +88,15 @@ export class LfToastMessageComponent {
   _removeToast(messageId: string) {
     const checkboxControl = this.getCheckboxControl(messageId);
 
-    const idx = this.Messages.findIndex((message) => message.id === messageId);
+    const idx = this.allMessages.findIndex((message) => message.id === messageId);
     if (idx !== -1) {
-      this.Messages.splice(idx, 1);
+      this.allMessages.splice(idx, 1);
     }
   }
 
   // remove all toasts
   // applying toastFilter will only remove LFMessages of that type
   clearToasts(toastFilter?: LfMessageToastTypes) {
-    this.Messages = toastFilter ? this.Messages.filter((message) => message.type !== toastFilter) : [];
+    this.allMessages = toastFilter ? this.allMessages.filter((message) => message.type !== toastFilter) : [];
   }
 }
