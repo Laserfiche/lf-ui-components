@@ -130,6 +130,11 @@
   z-index: 1;
 }
 
+
+::ng-deep .lf-table-selection-list tbody {
+  padding: 2px; /** TODO is there a better way to account for border */
+}
+
 .column-text-div {
   display: flex;
   align-items: center;

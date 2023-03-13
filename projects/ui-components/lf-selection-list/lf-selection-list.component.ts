@@ -313,7 +313,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         if (this.currentFocusIndex < 0 || this.currentFocusIndex >= this.items.length) {
           this.currentFocusIndex = this.currentFocusIndex - moveDirection;
         }
-        // TODO this dorsn't work  whrn multiple components on page
         const ele = this.viewport.elementRef.nativeElement.querySelector(
           '#lf-row-' + this.currentFocusIndex
         ) as HTMLElement;

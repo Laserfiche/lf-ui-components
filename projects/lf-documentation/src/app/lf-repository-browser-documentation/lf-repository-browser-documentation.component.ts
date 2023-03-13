@@ -43,8 +43,8 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     if (!this.singleSelectRepoBrowser) {
       throw new Error('repoBrowser is undefined');
     }
-    await this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
     this.singleColChange();
+    await this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
     this.singleSelectRepoBrowser.nativeElement.columnOrderBy = {columnId: 'name', isDesc: false};
     this.singleSelectRepoBrowser.nativeElement.alwaysShowHeader = true;
   }

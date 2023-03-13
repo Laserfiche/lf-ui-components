@@ -497,7 +497,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
     this.initialized = true;
     await this.setNodeAsParentAsync(currentEntry);
-    this.setAdditionalColumnsToDisplay([]); // TODO: is this a good idea?
+    this.setAdditionalColumnsToDisplay(this.entryList?.columns ?? []);
   }
 
   /**
