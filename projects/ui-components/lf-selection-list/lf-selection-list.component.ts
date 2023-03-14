@@ -56,7 +56,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.items = items;
     if (this.dataSource) {
       if (this.dataSource.allData.length < 1 && items.length > 0) {
-        this.setInitialWidth();
+        if (this._showHeader === true) {
+          this.setInitialWidth();
+        }
+        else {
+          this.setDefaultWidths();
+        }
       }
       this.dataSource.allData = this.items;
     }
