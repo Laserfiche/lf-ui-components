@@ -68,8 +68,9 @@ describe('UserFeedbackDialogComponent', () => {
   });
 
   fit('should go to suggestion mode when suggestion button is clicked', () => {
-    const suggestionButton = element.querySelector('#lf-user-feedback-suggestion-mode-button') as HTMLButtonElement;
-    suggestionButton.click();
+    const mockFeedBackSuggestionSelection = fixture.debugElement.query(By.directive(MockFeedBackSuggestionSelectionComponent));
+    mockFeedBackSuggestionSelection.triggerEventHandler('suggestionClicked');
+    fixture.detectChanges();
     expect(component.isFeedback).toBeFalse();
     expect(component.isSuggestion).toBeTrue();
   });
