@@ -16,6 +16,7 @@ export class FeedbackImageUploadComponent implements OnInit {
   @Output() feedbackImageBase64: EventEmitter<string> = new EventEmitter<string>();
   imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
   rawImageBase64: string = '';
+  supportedImageTypes: string[] = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
   localizedStrings = {
     OR: this.localizationService.getStringComponentsObservable('OR'),
@@ -69,6 +70,10 @@ export class FeedbackImageUploadComponent implements OnInit {
       return false;
     }
     try {
+      const isImageSupported = this.supportedImageTypes.includes(image.type);
+      if (!isImageSupported) {
+        throw new ImageUploadError('ImageUploadErrorType.UnsupportedFormat', ImageUploadErrorType.UnsupportedFormat);
+      }
       if (image.size <= this.imageSizeLimitBytes) {
         const encodingData = await this.getBase64Async(image);
         this.rawImageBase64 = encodingData;
@@ -87,7 +92,9 @@ export class FeedbackImageUploadComponent implements OnInit {
             break;
           case ImageUploadErrorType.UnsupportedFormat:
             errorMessage = this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT');
-            errorMessage +=' ' + this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', ['JPEG, PNG, GIF, WebP']);
+            errorMessage +=
+              ' ' +
+              this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', ['JPEG, PNG, GIF, WebP']);
             break;
           default:
             errorMessage = error.message;
@@ -112,12 +119,12 @@ export class FeedbackImageUploadComponent implements OnInit {
   }
 
   async onFileSelectedAsync(event: InputEvent): Promise<void> {
-    const file =(event.target as HTMLInputElement)?.files?.item(0) ?? undefined;
+    const file = (event.target as HTMLInputElement)?.files?.item(0) ?? undefined;
     const isFileAttached = await this.tryReadAndValidateImageAsync(file);
-     if (!isFileAttached) {
+    if (!isFileAttached) {
       (event.target as HTMLInputElement).files = null;
       (event.target as HTMLInputElement).value = '';
-     }
+    }
   }
 
   async getBase64Async(file: File): Promise<string> {
