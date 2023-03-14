@@ -209,8 +209,8 @@
     <td>openSelectedNodesAsync</td>
     <td>() => Promise&lt;void&gt;</td>
     <td>
-      Opens the selected nodes. If one container is selected it will open that folder in the UI, if multiple items or an
-      item that is not a container is selected, then this function will just emit the entryOpened event with the
+      Opens the selected nodes. If one container is selected it will open that folder in the UI and emit the entryDblClicked event, if multiple items or an
+      item that is not a container is selected, then this function will just emit the entryDblClicked event with the
       selected nodes.
     </td>
   </tr>
@@ -220,7 +220,7 @@
     <td>
       Opens the focused node (the one with a thick blue line around it in the UI). If a container is focused it will
       open that folder in the UI, if an item that is not a container is selected, then this function will just emit the
-      entryOpened event with the focused node. Note: Be sure to call this when the focus is still on the item. This may
+      entryDblClicked event with the focused node. Note: Be sure to call this when the focus is still on the item. This may
       require adding preventDefault on a click event to stop the item from losing focus
     </td>
   </tr>

@@ -6,6 +6,12 @@ import {
 } from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
 import { DemoRepoService, propIdCreateDate, propIdNameCol, propIdNumberCol } from './demo-repo-service';
 
+
+
+const CREATE_COL: ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%', minWidth: 200, resizable: true };
+const NUMBER_COL: ColumnDef = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '60%', minWidth: 100, resizable: true, sortable: true  };
+const NAME_COL: ColumnDef = { id: propIdNameCol, displayName: 'Name', defaultWidth: '50%', minWidth: 100, resizable: true, sortable: true  };
+
 @Component({
   selector: 'app-lf-repository-browser-documentation',
   templateUrl: './lf-repository-browser-documentation.component.html',
@@ -14,8 +20,6 @@ import { DemoRepoService, propIdCreateDate, propIdNameCol, propIdNumberCol } fro
 export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit {
   @ViewChild('repoBrowser') repoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
   @ViewChild('singleSelectRepoBrowser') singleSelectRepoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
-  creation_col_single: boolean = true;
-  number_col_single: boolean = false;
   allSelectable: boolean = true;
   dataService: DemoRepoService = new DemoRepoService();
   selectable = this._selectable.bind(this);
@@ -23,6 +27,9 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   filter: string = '';
 
   elementSelectedEntry: LfTreeNode[] | undefined;
+
+  creation_col_single: boolean = true;
+  number_col_single: boolean = false;
   creation_col_multi: boolean = false;
   number_col_multi: boolean = false;
 
@@ -72,18 +79,14 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.repoBrowser?.nativeElement.refreshAsync();
   }
 
-  create: ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%', minWidth: 200, resizable: true };
-  test: ColumnDef = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '60%', minWidth: 100, resizable: true, sortable: true  };
-  name: ColumnDef = { id: propIdNameCol, displayName: 'Name', defaultWidth: '50%', minWidth: 100, resizable: true, sortable: true  };
-
   singleColChange() {
-    const columns = [this.name];
+    const columns = [NAME_COL];
 
     if (this.creation_col_single) {
-      columns.push(this.create);
+      columns.push(CREATE_COL);
     }
     if (this.number_col_single) {
-      columns.push(this.test);
+      columns.push(NUMBER_COL);
     }
     this.singleSelectRepoBrowser!.nativeElement.setAdditionalColumnsToDisplay(columns);
   }
@@ -91,10 +94,10 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   multiColChange() {
     const columns = [];
     if (this.creation_col_multi) {
-      columns.push(this.create);
+      columns.push(CREATE_COL);
     }
     if (this.number_col_multi) {
-      columns.push(this.test);
+      columns.push(NUMBER_COL);
     }
     this.repoBrowser!.nativeElement.setAdditionalColumnsToDisplay(columns);
   }

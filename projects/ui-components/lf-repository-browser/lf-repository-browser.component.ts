@@ -48,27 +48,28 @@ const NAME_COL_50CH: ColumnDef = {
   styleUrls: ['./lf-repository-browser.component.css'],
 })
 export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
-  /** @internal */
-  @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
-  /** @internal */
-  private selectedItems: LfTreeNode[] | undefined;
-  /** @internal */
-  private focusedEntry: ItemWithId | undefined;
-  /** @internal */
-  private _multipleSelectEnabled: boolean = false;
-  /** @internal */
-  repoBrowserUniqueId: string = '';
-
+  /**
+   * read-only property to get current breadcrumbs
+   */
   @Input() get breadcrumbs(): LfTreeNode[] {
     return this._breadcrumbs;
   }
 
+  /**
+   * read-only property to retrieve currently opened LfTreeNode
+   */
   @Input() get currentFolder(): LfTreeNode | undefined {
     return this._currentFolder;
   }
 
+  /**
+   * Property to set height in pixels of each item in lf-repository-browser
+   */
   @Input() itemSize: number = 42;
 
+  /**
+   * Property to get and set the current column to order by
+   */
   @Input()
   get columnOrderBy(): ColumnOrderBy | undefined {
     return this.entryList?.columnOrderBy;
@@ -79,10 +80,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Property to set whether or not to always show header. By default will only show header if there is more than one column
+   */
   @Input()
-  get alwaysShowHeader(): boolean | undefined {
-    return this.entryList?.alwaysShowHeader;
-  }
   set alwaysShowHeader(showHeader: boolean | undefined) {
     if (this.entryList) {
       this.entryList.alwaysShowHeader = showHeader;
@@ -90,7 +91,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   }
 
   /**
-   *
+   * Function to set additional columns to display. You can use this to set a specific name column as well, or accept the default.
    */
   @Input()
   setAdditionalColumnsToDisplay: (cols: ColumnDef[]) => void = (cols: ColumnDef[]) => {
@@ -121,7 +122,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   };
 
   /**
-   * function to initialize the lf-repository-browser component
+   * Function to initialize the lf-repository-browser component
    * @param provider LfRepositoryService service
    * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
    */
@@ -142,8 +143,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     });
   };
 
+  /**
+   * This function will be called for each LfTreeNode to determine if it is selectable, when it is rendered
+   */
   @Input() isSelectable?: (treeNode: LfTreeNode) => Promise<boolean>;
 
+  /**
+   * Property to get and set whether multiple select is enabled on the component
+   */
   @Input() set multiple(value: boolean | string) {
     if (typeof value === 'string') {
       if (value.toLowerCase() === 'true') {
@@ -157,7 +164,13 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   get multiple(): boolean {
     return this._multipleSelectEnabled;
   }
-
+  
+  /**
+   * Function to set selectedNodes. If current data does not include all the requested node, it will call getFolderChildren until there are no more, or maxFetchIterations is reached.
+   * @param nodesToSelect array of LfTreeNodes to select by id
+   * @param maxFetchIterations Max number of times to get data if the current data doesn't contain all of the requested nodes. Default is 5.
+   * @returns void
+   */
   @Input()
   setSelectedNodesAsync: (nodesToSelect: LfTreeNode[], maxFetchIterations?: number) => Promise<void> = async (
     nodesToSelect: LfTreeNode[],
@@ -183,6 +196,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
   };
 
+  /**
+   * Function to refresh data in folder (get first page)
+   * @param clearSelectedValues Optional parameter to clear all the currently selected values. Default is true.
+   */
   @Input()
   refreshAsync: (clearSelectedValues?: boolean) => Promise<void> = async (clearSelectedValues: boolean = true) => {
     try {
@@ -209,6 +226,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
   };
 
+  /**
+   * Function to open selected node(s). If there is just one container node it will open the container in the UI and emit the entryDblClicked event,
+   * if there is more than one node or it is not a container, it will just emit the entryDblClicked event 
+   */
   @Input()
   openSelectedNodesAsync: () => Promise<void> = async () => {
     if (this.selectedItems && this.selectedItems.length > 0) {
@@ -218,6 +239,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
   };
 
+  /**
+   * Function to open focused node. If there is just one container node it will open the container in the UI and emit the entryDblClicked event 
+   */
   @Input()
   openFocusedNodeAsync: () => Promise<void> = async () => {
     if (this.focusedEntry) {
@@ -237,9 +261,23 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     this._focus();
   };
 
+  /** Event triggered on double click (open) of a node. This can be accompanied by the UI opening a single container */
   @Output() entryDblClicked = new EventEmitter<LfTreeNode[]>();
+  /** Event triggered on selection (click/space bar) of a node.*/
   @Output() entrySelected = new EventEmitter<LfTreeNode[] | undefined>();
+  /** Event triggered on focus of a node.*/
   @Output() entryFocused = new EventEmitter<LfTreeNode | undefined>();
+
+  /** @internal */
+  @ViewChild(LfSelectionListComponent) entryList: LfSelectionListComponent | undefined;
+  /** @internal */
+  private selectedItems: LfTreeNode[] | undefined;
+  /** @internal */
+  private focusedEntry: ItemWithId | undefined;
+  /** @internal */
+  private _multipleSelectEnabled: boolean = false;
+  /** @internal */
+  repoBrowserUniqueId: string = '';
 
   /** @internal */
   currentFolderChildren: ILfSelectable[] = [];

@@ -99,8 +99,26 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.allColumnHeaders = this.allColumnDefs.map((col) => col.id);
     this.additionalColumnDefs = cols;
     this.ref.detectChanges();
-    this.setInitialWidth();
+    if (this._showHeader === true) {
+      this.setInitialWidth();
+    } else {
+      this.setDefaultWidths();
+    }
   }
+
+  private setDefaultWidths() {
+    const widths: string[] = [];
+    this.allColumnDefs.forEach((col) => {
+      widths.push(col.defaultWidth);
+    });
+
+    if (this.matTable) {
+      const templateCOls = widths.join(' ');
+      this.columnsWidth = templateCOls;
+    }
+    this.ref.detectChanges();
+  }
+
   get columns(): ColumnDef[] {
     return this.additionalColumnDefs;
   }
@@ -326,56 +344,58 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   setInitialWidth() {
-    if (this.allColumnDefs.length > 0) {
-      const repositoryBrowserData: RepositoryBrowserData | undefined = this.getRepositoryBrowserData();
-      const tableEl = Array.from(
-        this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
-      );
-      const widths: string[] = [];
-      this.allColumnDefs.forEach((col) => {
-        const columnWidth = repositoryBrowserData?.columns[col.id];
-        if (columnWidth) {
-          widths.push(columnWidth);
-        } else {
-          widths.push(col.defaultWidth);
-        }
-      });
-
-      if (this.matTable) {
-        const templateCOls = widths.join(' ');
-        this.columnsWidth = templateCOls;
-      }
-      this.ref.detectChanges();
-      
-      // TODO is there a better way to do this
-      if (!(this.allColumnDefs[this.allColumnDefs.length - 1]?.defaultWidth === 'auto')) {
-        const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
-        (tableEl[0] as HTMLTableElement).style.width = containerWidth + 'px';
-        this.ref.detectChanges();
-        const widthsInPixel: string[] = [];
-
+    setTimeout(() => {
+      if (this.allColumnDefs.length > 0) {
+        const repositoryBrowserData: RepositoryBrowserData | undefined = this.getRepositoryBrowserData();
+        const tableEl = Array.from(
+          this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
+        );
+        const widths: string[] = [];
         this.allColumnDefs.forEach((col) => {
-          const columnEls = Array.from(
-            this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
-          );
-          const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
-          const minWidth = col.minWidth ?? COLUMN_MIN_WIDTH;
-          const columnWidthInPixel =
-            col.id !== 'select' ? Math.max(columnWidthOffset, minWidth) + 'px' : SELECT_COL.defaultWidth;
-          widthsInPixel.push(columnWidthInPixel);
+          const columnWidth = repositoryBrowserData?.columns[col.id];
+          if (columnWidth) {
+            widths.push(columnWidth);
+          } else {
+            widths.push(col.defaultWidth);
+          }
         });
 
         if (this.matTable) {
-          const templateCOls = widthsInPixel.join(' ');
+          const templateCOls = widths.join(' ');
           this.columnsWidth = templateCOls;
         }
-
-        (tableEl[0] as HTMLTableElement).style.width = 'fit-content';
         this.ref.detectChanges();
-      } else {
-        (tableEl[0] as HTMLTableElement).style.width = '100%';
+
+        // TODO is there a better way to do this
+        if (!(this.allColumnDefs[this.allColumnDefs.length - 1]?.defaultWidth === 'auto')) {
+          const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
+          (tableEl[0] as HTMLTableElement).style.width = containerWidth + 'px';
+          this.ref.detectChanges();
+          const widthsInPixel: string[] = [];
+
+          this.allColumnDefs.forEach((col) => {
+            const columnEls = Array.from(
+              this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
+            );
+            const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
+            const minWidth = col.minWidth ?? COLUMN_MIN_WIDTH;
+            const columnWidthInPixel =
+              col.id !== 'select' ? Math.max(columnWidthOffset, minWidth) + 'px' : SELECT_COL.defaultWidth;
+            widthsInPixel.push(columnWidthInPixel);
+          });
+
+          if (this.matTable) {
+            const templateCOls = widthsInPixel.join(' ');
+            this.columnsWidth = templateCOls;
+          }
+
+          (tableEl[0] as HTMLTableElement).style.width = 'fit-content';
+          this.ref.detectChanges();
+        } else if (!this._showHeader) {
+          (tableEl[0] as HTMLTableElement).style.width = '100%';
+        }
       }
-    }
+    });
   }
 
   private getRepositoryBrowserData(): RepositoryBrowserData | undefined {

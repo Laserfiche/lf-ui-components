@@ -254,7 +254,7 @@ export class DemoRepoService implements LfTreeNodeService {
 
   constructor() {
     for (let i = 0; i < 10000; i++) {
-      const number = i%1000;
+      const number = i % 1000;
       this._testData['17'].push({
         icon: IconUtils.getDocumentIconUrlFromIconId('document-20'),
         id: i.toString(),
@@ -262,9 +262,7 @@ export class DemoRepoService implements LfTreeNodeService {
         isLeaf: true,
         name: `generated entry ${i}`,
         path: `/17/${i}`,
-        attributes: new Map<string, PropertyValue>([
-          [propIdNumberCol, { value: number, displayValue: `${number}` }],
-        ]),
+        attributes: new Map<string, PropertyValue>([[propIdNumberCol, { value: number, displayValue: `${number}` }]]),
       });
     }
   }
@@ -351,11 +349,8 @@ export class DemoRepoService implements LfTreeNodeService {
         } else if (typeof aVal === 'string') {
           return this.compare(aVal.toLowerCase(), (bVal as string).toLowerCase(), isAsc);
         } else {
-          // err -- not valid?
-          // or just do straight comparison?
+          // No value or unsupported value
         }
-        // sort based on a.value.properties[{{sort.active}}].value
-        // if Date sort by date, if number sort by number etc.
         return 0;
       } else {
         return 0;
