@@ -1,7 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
-import { LfToastMessage } from '../lf-toast-message/lf-toast-message.component';
 
 @Component({
   selector: 'lib-feedback-image-upload',
@@ -54,7 +52,6 @@ export class FeedbackImageUploadComponent implements OnInit {
           ' ' +
           this.localizationService.getResourceStringComponents('PLEASE_ATTACH_ONLY_ONE_IMAGE')
       );
-      // this.removeImage();
     } else {
       await this.tryReadAndValidateImageAsync(file);
     }
@@ -133,7 +130,6 @@ export class FeedbackImageUploadComponent implements OnInit {
 
       reader.onload = () => {
         const imgBase64: string = reader.result as string;
-        //TODO: review the above cast
         var image = document.createElement('img');
         image.onload = () => {
           resolve(imgBase64);
