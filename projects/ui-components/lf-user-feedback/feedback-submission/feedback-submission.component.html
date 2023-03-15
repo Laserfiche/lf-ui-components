@@ -7,9 +7,12 @@
         : (localizedStrings.DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING | async)
     }}
   </div>
-  <label for="feedback-suggestion-textbox" class="lf-text-label">{{
-    isFeedback ? (localizedStrings.TELL_US_ABOUT_EXPERIENCE | async) : (localizedStrings.TELL_US_ABOUT_IDEA | async)
-  }}</label>
+  <label for="feedback-suggestion-textbox" class="lf-text-label"
+    >{{
+      isFeedback ? (localizedStrings.TELL_US_ABOUT_EXPERIENCE | async) : (localizedStrings.TELL_US_ABOUT_IDEA | async)
+    }}
+    ({{ localizedStrings.REQUIRED | async }})</label
+  >
   <textarea
     id="feedback-suggestion-textbox"
     rows="10"
@@ -23,7 +26,11 @@
     <span> / </span>
     <span>{{ maxFeedbackLength }}</span>
   </div>
-  <lib-feedback-image-upload id="image-upload-block" (feedbackImageBase64) ="onFeedbackImageBase64($event)" (imageUploadError)="onImageUploadError($event)"></lib-feedback-image-upload>
+  <lib-feedback-image-upload
+    id="image-upload-block"
+    (feedbackImageBase64)="onFeedbackImageBase64($event)"
+    (imageUploadError)="onImageUploadError($event)"
+  ></lib-feedback-image-upload>
   <div class="email-checkbox-container">
     <mat-checkbox
       color="primary"
