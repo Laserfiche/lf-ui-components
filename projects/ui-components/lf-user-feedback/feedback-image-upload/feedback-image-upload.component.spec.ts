@@ -155,6 +155,7 @@ describe('FeedbackImageUploadComponent', () => {
 function createInvalidImageWithSize(fileSize: number) {
   const file = new File([''], 'invalid-image.png');
   Object.defineProperty(file, 'size', { value: fileSize, writable: false });
+  Object.defineProperty(file, 'type', { value: 'image/png', writable: false });
   return file;
 }
 

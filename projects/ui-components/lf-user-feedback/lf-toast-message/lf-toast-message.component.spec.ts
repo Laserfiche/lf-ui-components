@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {LfToastMessageComponent, LfMessageToastTypes, LfToastMessage} from './lf-toast-message.component';
 
-fdescribe('LfToastMessageComponent', () => {
+describe('LfToastMessageComponent', () => {
   let component: LfToastMessageComponent;
   let fixture: ComponentFixture<LfToastMessageComponent>;
 

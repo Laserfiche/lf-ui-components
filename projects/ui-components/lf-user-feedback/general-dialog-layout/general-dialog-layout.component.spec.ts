@@ -19,7 +19,7 @@ export class DialogLayoutTesterComponent {
   @ViewChild('#layout', /* TODO: add static flag */ {}) layout?: GeneralDialogLayoutComponent;
 }
 
-fdescribe('LfGeneralDialogLayoutComponent UI tests', () => {
+describe('LfGeneralDialogLayoutComponent UI tests', () => {
   let component: DialogLayoutTesterComponent;
   let fixture: ComponentFixture<DialogLayoutTesterComponent>;
 
