@@ -35,6 +35,7 @@ export class FeedbackSubmissionComponent {
       'YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK'
     ),
     TELL_US_ABOUT_IDEA: this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_IDEA'),
+    REQUIRED: this.localizationService.getStringLaserficheObservable('REQUIRED'),
   };
 
   constructor(private localizationService: AppLocalizationService) {}

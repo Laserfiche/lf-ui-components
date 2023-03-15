@@ -18,10 +18,11 @@ export class FeedbackImageUploadComponent implements OnInit {
 
   localizedStrings = {
     OR: this.localizationService.getStringComponentsObservable('OR'),
-    ATTACH_IMAGE_OPTIONAL: this.localizationService.getStringComponentsObservable('ATTACH_IMAGE_OPTIONAL'),
+    ATTACH_IMAGE: this.localizationService.getStringComponentsObservable('ATTACH_IMAGE'),
     DRAG_DROP_FILE: this.localizationService.getStringComponentsObservable('DRAG_DROP_FILE'),
     REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
     BROWSE: this.localizationService.getStringLaserficheObservable('BROWSE'),
+    OPTIONAL: this.localizationService.getStringComponentsObservable('OPTIONAL'),
   };
   constructor(private localizationService: AppLocalizationService) {}
 

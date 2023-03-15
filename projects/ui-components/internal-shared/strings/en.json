@@ -18,7 +18,8 @@
    "ACCEPTED_FORMATS_ARE_0": "The accepted formats are: {0}.",
    "IMAGE_NOT_ATTACHED": "Image not attached.",
    "DRAG_DROP_FILE": "Drag and drop file",
-   "ATTACH_IMAGE_OPTIONAL": "Attach Image (Optional)",
+   "ATTACH_IMAGE": "Attach Image",
    "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Please attach only one image.",
-   "OR": "or"
+   "OR": "or",
+   "OPTIONAL": "Optional"
 }
