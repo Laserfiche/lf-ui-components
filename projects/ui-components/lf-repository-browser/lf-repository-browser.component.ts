@@ -639,16 +639,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         } else {
           this.ref.detectChanges();
           const selected = this.selectedItems;
+          this.entryList?.clearSelectedValues();
           const selectableValues = await this.mapTreeNodesToLfSelectableAsync(selected ?? []);
-          this.currentFolderChildren.forEach(n => {
-            const i = selected?.find(v => v.id === n.value.id)
-            if (n.isSelectable && i) {
-              n.isSelected = true;
-            }
-          })
-          await this.entryList!.resetSelectedValues(this.currentFolderChildren);
-          
-          const selectedItems = this.convertSelectedItemsToTreeNode(selectableValues)
+          const selectedNodes: ILfSelectable[] = await this.entryList!.setSelectedNodesAsync(
+            selectableValues,
+            this.checkForMoreDataCallback.bind(this),
+            0
+          );
+          const selectedItems = this.convertSelectedItemsToTreeNode(selectedNodes);
           this.selectedItems = selectedItems;
           this.entrySelected.emit(this.selectedItems);
         }
