@@ -1,12 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 
 @Component({
-  selector: 'lib-feedback-suggestion-selection',
+  selector: 'lf-feedback-suggestion-selection',
   templateUrl: './feedback-suggestion-selection.component.html',
   styleUrls: ['./feedback-suggestion-selection.component.css','../user-feedback-dialog/user-feedback-dialog.component.css']
 })
-export class FeedbackSuggestionSelectionComponent implements OnInit {
+export class FeedbackSuggestionSelectionComponent {
   @Output() feedbackClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() suggestionClicked: EventEmitter<void> = new EventEmitter<void>();
 
@@ -24,9 +24,6 @@ export class FeedbackSuggestionSelectionComponent implements OnInit {
   constructor(
     private localizationService: AppLocalizationService
   ) { }
-
-  ngOnInit(): void {
-  }
 
   onClickFeedback() {
     this.feedbackClicked.emit();

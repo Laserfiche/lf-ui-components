@@ -1,16 +1,16 @@
-<lib-general-dialog-layout>
+<lf-general-dialog-layout>
   <span class="lf-dialog-title lf-popup-dialog-title dialog-header">{{ USER_FEEDBACK_TITLE | async }}</span>
   <button class="dialog-header lf-close-button" [title]="localizedStrings.CLOSE | async" (click)="onCloseDialog()">
     <span id="pop-up-dialog-close" class="material-icons-outlined"> close </span>
   </button>
   <div *ngIf="isFirstPane" class="dialog-content">
-    <lib-feedback-suggestion-selection
+    <lf-feedback-suggestion-selection
       (feedbackClicked)="onClickFeedback()"
       (suggestionClicked)="onClickSuggestion()"
-    ></lib-feedback-suggestion-selection>
+    ></lf-feedback-suggestion-selection>
   </div>
   <div *ngIf="isFeedback || isSuggestion" class="dialog-content">
-    <lib-feedback-submission [isFeedback]="isFeedback"></lib-feedback-submission>
+    <lf-feedback-submission [isFeedback]="isFeedback"></lf-feedback-submission>
   </div>
   <div *ngIf="isThankYou" class="dialog-content">
     <div class="lf-text-body">
@@ -42,4 +42,4 @@
       {{ isThankYou || isError ? (localizedStrings.CLOSE | async) : (localizedStrings.CANCEL | async) }}
     </button>
   </div>
-</lib-general-dialog-layout>
+</lf-general-dialog-layout>

@@ -10,7 +10,7 @@ import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-use
 import { UserFeedbackDialogComponent } from './user-feedback-dialog.component';
 
 @Component({
-  selector: 'lib-feedback-suggestion-selection',
+  selector: 'lf-feedback-suggestion-selection',
   template: '<p>Mock Feedback Suggestion Selection Component</p>',
 })
 class MockFeedBackSuggestionSelectionComponent {}

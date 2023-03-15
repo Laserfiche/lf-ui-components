@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { LfMessageToastTypes } from '../lf-toast-message/lf-toast-message.component';
 
 @Component({
-  selector: 'lib-feedback-image-upload',
+  selector: 'lf-feedback-image-upload',
   template: '<p>Mock Image Attach Component</p>',
 })
 class MockFeedbackImageUploadComponent {}

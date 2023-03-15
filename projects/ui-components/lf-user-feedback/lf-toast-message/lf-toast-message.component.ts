@@ -9,7 +9,6 @@ export enum LfMessageToastTypes {
   Validation,
   Informational,
 }
-const DEFAULT_TIME_TO_SHOW = 3000;
 export interface LfToastMessage {
   message: string;
   timeToShow?: number;
@@ -30,7 +29,7 @@ export interface LfToastMessage {
 export class LfToastMessageComponent {
   form = new UntypedFormGroup({});
 
-  @Input('messages')
+  @Input()
   set messages(messages: LfToastMessage[]) {
     if (typeof messages === 'undefined') {
       return;

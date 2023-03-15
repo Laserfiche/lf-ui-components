@@ -6,14 +6,14 @@ import { GeneralDialogLayoutComponent } from './general-dialog-layout.component'
 
 @Component({
   selector: 'lf-dialog-layout-tester',
-  template: `<lib-general-dialog-layout id="layout">
+  template: `<lf-general-dialog-layout id="layout">
       <div class="dialog-header">Header</div>
       <div class="dialog-header">Header Two</div>
       <div class="dialog-content">Content</div>
       <div class="dialog-content">Content2</div>
       <div class="dialog-content">Content3</div>
       <div class="dialog-footer">Footer</div>
-    </lib-general-dialog-layout>`,
+    </lf-general-dialog-layout>`,
 })
 export class DialogLayoutTesterComponent {
   @ViewChild('#layout', /* TODO: add static flag */ {}) layout?: GeneralDialogLayoutComponent;

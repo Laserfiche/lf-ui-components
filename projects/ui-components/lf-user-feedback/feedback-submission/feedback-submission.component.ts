@@ -4,7 +4,7 @@ import { LfMessageToastTypes, LfToastMessage } from '../lf-toast-message/lf-toas
 
 
 @Component({
-  selector: 'lib-feedback-submission',
+  selector: 'lf-feedback-submission',
   templateUrl: './feedback-submission.component.html',
   styleUrls: ['./feedback-submission.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
 })
@@ -57,7 +57,7 @@ export class FeedbackSubmissionComponent {
 
       noIcon: false,
       hideMessage: false,
-    }
+    };
     this.toastMessages = [errorToastMsg];
   }
 }
