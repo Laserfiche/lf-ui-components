@@ -69,10 +69,10 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     console.debug('entry focused', event.detail);
   }
 
-  onFilterChange(event: any) {
+  async onFilterChange(event: any) {
     this.filter = event.target.value;
     this.dataService.filter = this.filter;
-    this.repoBrowser?.nativeElement.refreshAsync();
+    await this.repoBrowser?.nativeElement.refreshAsync(false);
   }
 
   onRefresh() {

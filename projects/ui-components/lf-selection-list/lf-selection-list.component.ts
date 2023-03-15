@@ -58,8 +58,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       if (this.dataSource.allData.length < 1 && items.length > 0) {
         if (this._showHeader === true) {
           this.setInitialWidth();
-        }
-        else {
+        } else {
           this.setDefaultWidths();
         }
       }
@@ -230,6 +229,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (!this.items[this.currentFocusIndex] || !this.items[this.currentFocusIndex]) {
       this.viewport?.scrollToIndex(this.currentFocusIndex);
     }
+  }
+
+  resetSelectedValues(list: ILfSelectable[]) {
+    this.selectable.resetSelectedValues(list);
   }
 
   /** @internal */

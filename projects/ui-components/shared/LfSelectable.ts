@@ -168,7 +168,9 @@ export class Selectable {
   /** @internal */
   private clearAllSelectedItems(list: ILfSelectable[]) {
     this.selectedItemsIndices.forEach((val) => {
-      list[val].isSelected = false;
+      if (list[val]) {
+        list[val].isSelected = false;
+      }
     });
     this.selectedItemsIndices = [];
     this._selectedItems = [];
