@@ -94,52 +94,6 @@ span#pop-up-dialog-close:hover {
   padding: 0;
 }
 
-::ng-deep .mat-dialog-title.user-feedback-title {
-  margin: 20px;
-}
-
-.lf-user-feedback-close-feedback-button {
-  margin-right: 20px;
-}
-
-.feedback-file-input {
-  display: none;
-}
-
-.upload-file-info {
-  margin-top: 5px;
-}
-.upload-file-info td {
-  padding: 5px;
-  max-width: 230px;
-  overflow-wrap: break-word;
-}
-.upload-file-remove {
-  cursor: pointer;
-  color: #147186;
-}
-
-.error-message {
-  background-color: #fff9eb;
-}
-
-.drop-zone {
-  height: 50px;
-  display: table;
-  width: 100%;
-  border: 1px solid #6d6d6d;
-  border-radius: 2px;
-  margin-bottom: 5px;
-  margin-top: 5px;
-  padding: 7px 10px 8px 10px;
-  box-sizing: border-box;
-  color: #6d6d6d;
-}
-
-button#upload-button {
-  margin-left: 10px;
-}
-
 .dialog-content {
   position: relative;
 }

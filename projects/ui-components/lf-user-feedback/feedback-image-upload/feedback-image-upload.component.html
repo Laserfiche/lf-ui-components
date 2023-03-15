@@ -1,32 +1,3 @@
-<!-- <label for="image-upload" class="lf-text-label">{{ localizedStrings.UPLOAD_IMAGE_OPTIONAL | async }}</label>
-<div (drop)="dropHandler($event)" (dragover)="dragOverHandler($event)" id="image-upload">
-  <div *ngIf="!imageUploaded || !isImageValid" id="drop_zone" class="drop-zone">
-    <label for="upload-button" class="lf-text-body">{{ localizedStrings.DRAG_SELECT_IMAGE | async }}</label>
-    <button
-      id="upload-button"
-      [disabled]="isImageValid"
-      class="lf-button sec-button feedback-file-upload-button"
-      (click)="onInputClickArea()"
-    >
-      {{ localizedStrings.BROWSE | async }}
-    </button>
-  </div>
-
-  <tr *ngIf="isImageValid" class="upload-file-info">
-    <td>{{ imageUploaded?.name }}</td>
-    <td>{{ uploadedImageSize }}</td>
-    <td class="upload-file-remove" (click)="removeImage()">{{ localizedStrings.REMOVE | async }}</td>
-  </tr>
-
-  <input
-    type="file"
-    accept=".jpg,.png,.gif,.webp"
-    class="file-input feedback-file-input"
-    (input)="onFileSelectedAsync($event)"
-    #uploadFile
-  />
-</div>
- -->
 <label for="image-upload" class="lf-text-label">{{ localizedStrings.ATTACH_IMAGE_OPTIONAL | async }}</label>
 <div
   id="image-upload"
@@ -35,7 +6,7 @@
   (drop)="dropHandler($event)"
   (dragover)="dragOverHandler($event)"
 >
-  <input
+  <input id="browseFileInput"
     type="file"
     accept=".jpg,.jpeg,.png,.gif,.webp"
     tabindex="-1"
@@ -49,8 +20,8 @@
     <label for="uploadFile">
       <button class="sec-button lf-button" (click)="onInputClickArea()">{{ localizedStrings.BROWSE | async }}</button>
     </label>
-    <div class="sub-text">{{ localizedStrings.OR | async }}</div>
-    <div class="sub-text">{{ localizedStrings.DRAG_DROP_FILE | async }}</div>
+    <div class="file-upload-sub-text">{{ localizedStrings.OR | async }}</div>
+    <div class="file-upload-sub-text">{{ localizedStrings.DRAG_DROP_FILE | async }}</div>
   </div>
 </div>
 <ng-template #showSelectedFile>
