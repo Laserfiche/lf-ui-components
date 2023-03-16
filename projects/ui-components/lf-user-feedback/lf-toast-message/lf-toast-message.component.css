@@ -68,7 +68,7 @@
 }
 
 .no-left-padding {
-  padding-left: 0 !important;
+  padding-left: 0;
 }
 
 .message-holder.error {
@@ -87,7 +87,7 @@
 }
 
 .warningIcon {
-  color: #333333 !important;
+  color: #333333;
 }
 
 .message-holder.validation {

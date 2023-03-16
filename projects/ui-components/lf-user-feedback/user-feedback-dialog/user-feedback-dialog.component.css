@@ -86,7 +86,7 @@ span#pop-up-dialog-close:hover {
   justify-content: flex-start;
 }
 
-::ng-deep .lf-user-feedback-checkbox.mat-checkbox .mat-checkbox-layout {
+::ng-deep .user-feedback-content-container .lf-user-feedback-checkbox.mat-checkbox .mat-checkbox-layout {
   white-space: normal;
 }
 

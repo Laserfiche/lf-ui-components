@@ -1,11 +1,10 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { ChecklistOption } from './checklist-option';
 
 @Component({
   selector: 'lf-options-component',
   templateUrl: './options.component.html',
-  styleUrls: ['./options.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./options.component.css'],  
 })
 export class OptionsComponent {
 
