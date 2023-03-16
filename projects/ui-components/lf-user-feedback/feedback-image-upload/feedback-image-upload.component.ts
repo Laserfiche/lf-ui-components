@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 
+/** @internal */
 @Component({
   selector: 'lf-feedback-image-upload',
   templateUrl: './feedback-image-upload.component.html',
@@ -151,7 +152,7 @@ export class FeedbackImageUploadComponent {
     this.imageUploaded = undefined;
   }
 }
-
+/** @internal */
 enum ImageUploadErrorType {
   'TooLarge',
   'UnsupportedFormat',

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 
+/** @internal */
 @Component({
   selector: 'lf-feedback-suggestion-selection',
   templateUrl: './feedback-suggestion-selection.component.html',
@@ -32,5 +33,4 @@ export class FeedbackSuggestionSelectionComponent {
   onClickSuggestion() {
     this.suggestionClicked.emit();
   }
-
 }

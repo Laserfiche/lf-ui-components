@@ -1,14 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
-const LOCAL_STORAGE_KEY_PREFIX = 'lf-toast-message-dontshow-';
-
+/** @internal */
 export enum LfMessageToastTypes {
   Error,
   Warning,
   Validation,
   Informational,
 }
+
+/** @internal */
 export interface LfToastMessage {
   message: string;
   timeToShow?: number;
@@ -20,12 +21,14 @@ export interface LfToastMessage {
   doNotShowLabel?: string;
 }
 
+/** @internal */
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'lf-toast-message',
   templateUrl: './lf-toast-message.component.html',
   styleUrls: ['./lf-toast-message.component.css'],
 })
+
 export class LfToastMessageComponent {
   form = new UntypedFormGroup({});
 

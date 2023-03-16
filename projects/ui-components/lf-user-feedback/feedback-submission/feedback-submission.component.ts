@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, Output, ViewChild, EventEmitter } from '@
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMessageToastTypes, LfToastMessage } from '../lf-toast-message/lf-toast-message.component';
 
-
+/** @internal */
 @Component({
   selector: 'lf-feedback-submission',
   templateUrl: './feedback-submission.component.html',
@@ -23,14 +23,14 @@ export class FeedbackSubmissionComponent {
       'FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW'
     ),
     DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING:
-    this.localizationService.getStringComponentsObservable(
-      'DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING'
-    ),
+      this.localizationService.getStringComponentsObservable(
+        'DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING'
+      ),
     TELL_US_ABOUT_EXPERIENCE: this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_EXPERIENCE'),
     PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK:
-    this.localizationService.getStringComponentsObservable(
-      'PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK'
-    ),
+      this.localizationService.getStringComponentsObservable(
+        'PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK'
+      ),
     YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK: this.localizationService.getStringComponentsObservable(
       'YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK'
     ),
@@ -50,8 +50,8 @@ export class FeedbackSubmissionComponent {
     this.feedbackTextChanged.emit(feedbackText);
   }
 
-  onImageUploadError(errMsg: string){
-    const errorToastMsg : LfToastMessage = {
+  onImageUploadError(errMsg: string) {
+    const errorToastMsg: LfToastMessage = {
       message: errMsg,
       type: LfMessageToastTypes.Warning,
 
