@@ -5,7 +5,7 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-sh
 @Component({
   selector: 'lf-feedback-suggestion-selection',
   templateUrl: './feedback-suggestion-selection.component.html',
-  styleUrls: ['./feedback-suggestion-selection.component.css','../user-feedback-dialog/user-feedback-dialog.component.css']
+  styleUrls: ['./feedback-suggestion-selection.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css']
 })
 export class FeedbackSuggestionSelectionComponent {
   @Output() feedbackClicked: EventEmitter<void> = new EventEmitter<void>();

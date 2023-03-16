@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './general-dialog-layout.component.html',
   styleUrls: ['./general-dialog-layout.component.css']
 })
-export class GeneralDialogLayoutComponent {}
+export class GeneralDialogLayoutComponent { }

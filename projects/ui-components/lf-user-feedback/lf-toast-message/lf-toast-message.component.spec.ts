@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {LfToastMessageComponent, LfMessageToastTypes, LfToastMessage} from './lf-toast-message.component';
+import { LfToastMessageComponent, LfMessageToastTypes, LfToastMessage } from './lf-toast-message.component';
 
 describe('LfToastMessageComponent', () => {
   let component: LfToastMessageComponent;
@@ -8,7 +8,7 @@ describe('LfToastMessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfToastMessageComponent ]
+      declarations: [LfToastMessageComponent]
     })
     .compileComponents();
   });
@@ -24,8 +24,8 @@ describe('LfToastMessageComponent', () => {
   });
 
   it('should add message to the messages array when passed in', () => {
-    const message : LfToastMessage = {
-      message:  'Test',
+    const message: LfToastMessage = {
+      message: 'Test',
       type: LfMessageToastTypes.Error,
       timeToShow: 100,
       noIcon: false,
@@ -36,8 +36,8 @@ describe('LfToastMessageComponent', () => {
   });
 
   it('should add multiple messages to the messages array when passed in', () => {
-    const message : LfToastMessage = {
-      message:  'Test',
+    const message: LfToastMessage = {
+      message: 'Test',
       type: LfMessageToastTypes.Error,
       timeToShow: 100,
       noIcon: false,
@@ -49,15 +49,15 @@ describe('LfToastMessageComponent', () => {
 
   it('should remove validation and informational after the alloted time', (done) => {
     const timeToShow = 100;
-    const validationMessage : LfToastMessage = {
-      message:  'Test',
+    const validationMessage: LfToastMessage = {
+      message: 'Test',
       type: LfMessageToastTypes.Validation,
       timeToShow: timeToShow,
       noIcon: false,
       hideMessage: false,
     };
-    const informationalMessage : LfToastMessage = {
-      message:  'Test',
+    const informationalMessage: LfToastMessage = {
+      message: 'Test',
       type: LfMessageToastTypes.Informational,
       timeToShow: timeToShow,
       noIcon: false,
@@ -73,16 +73,16 @@ describe('LfToastMessageComponent', () => {
 
   it('should not remove error or warning messages after alloted time', (done) => {
     const timeToShow = 100;
-    const errorMessage : LfToastMessage = {
-      message:  'Test',
+    const errorMessage: LfToastMessage = {
+      message: 'Test',
       type: LfMessageToastTypes.Error,
       timeToShow: timeToShow,
       noIcon: false,
       hideMessage: false,
     };
 
-    const warningMessage : LfToastMessage = {
-      message:  'Test',
+    const warningMessage: LfToastMessage = {
+      message: 'Test',
       type: LfMessageToastTypes.Warning,
       timeToShow: timeToShow,
       noIcon: false,
@@ -97,8 +97,8 @@ describe('LfToastMessageComponent', () => {
   });
 
   it('should remove all messages when clearToasts is called', () => {
-    const message : LfToastMessage = {
-      message:  'Test',
+    const message: LfToastMessage = {
+      message: 'Test',
       type: LfMessageToastTypes.Error,
       timeToShow: 100,
       noIcon: false,
@@ -111,15 +111,15 @@ describe('LfToastMessageComponent', () => {
   });
 
   it('should only clear the messages of toastFilter type when clearToasts is called', () => {
-    const errorMessage : LfToastMessage = {
-      message:  'Test',
+    const errorMessage: LfToastMessage = {
+      message: 'Test',
       type: LfMessageToastTypes.Error,
       timeToShow: 100,
       noIcon: false,
       hideMessage: false,
     };
-    const validMessage : LfToastMessage = {
-      message:  'Test',
+    const validMessage: LfToastMessage = {
+      message: 'Test',
       type: LfMessageToastTypes.Validation,
       timeToShow: 100,
       noIcon: false,

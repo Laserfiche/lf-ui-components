@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -13,7 +13,7 @@ import { UserFeedbackDialogComponent } from './user-feedback-dialog.component';
   selector: 'lf-feedback-suggestion-selection',
   template: '<p>Mock Feedback Suggestion Selection Component</p>',
 })
-class MockFeedBackSuggestionSelectionComponent {}
+class MockFeedBackSuggestionSelectionComponent { }
 
 describe('UserFeedbackDialogComponent', () => {
   let component: UserFeedbackDialogComponent;
@@ -116,7 +116,7 @@ describe('UserFeedbackDialogComponent', () => {
     window.setTimeout(() => {
       expect(component.isSubmitDisabled).toBeFalse();
       done();
-  }, 350);
+    }, 350);
   });
 
   it('getFeedbackDialogData should get feedback dialog data', (done) => {
@@ -125,7 +125,7 @@ describe('UserFeedbackDialogComponent', () => {
     triggerFeedbackTextChangedEventWith(text);
 
     component.feedbackSubmission!.feedbackEmailCheckbox = false;
-    const expectedDialogData : UserFeedbackDialogData= {
+    const expectedDialogData: UserFeedbackDialogData = {
       canContact: component.feedbackSubmission!.feedbackEmailCheckbox,
       userFeedbackTrackingEventType: UserFeedbackTrackingEventType.Feedback,
       feedbackText: text,
@@ -136,7 +136,7 @@ describe('UserFeedbackDialogComponent', () => {
       const dialogData = component.getFeedbackDialogData();
       expect(dialogData).toEqual(expectedDialogData);
       done();
-  }, 350);
+    }, 350);
   });
 
 });

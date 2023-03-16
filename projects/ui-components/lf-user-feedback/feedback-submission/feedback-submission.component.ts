@@ -38,7 +38,7 @@ export class FeedbackSubmissionComponent {
     REQUIRED: this.localizationService.getStringLaserficheObservable('REQUIRED'),
   };
 
-  constructor(private localizationService: AppLocalizationService) {}
+  constructor(private localizationService: AppLocalizationService) { }
 
   onFeedbackImageBase64(imageBase64: string) {
     this.feedbackImageBase64 = imageBase64;
@@ -54,7 +54,6 @@ export class FeedbackSubmissionComponent {
     const errorToastMsg: LfToastMessage = {
       message: errMsg,
       type: LfMessageToastTypes.Warning,
-
       noIcon: false,
       hideMessage: false,
     };

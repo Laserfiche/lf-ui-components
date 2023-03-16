@@ -78,7 +78,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
     public dialogRef: MatDialogRef<UserFeedbackDialogComponent>,
     private ref: ChangeDetectorRef,
     private localizationService: AppLocalizationService
-  ) {}
+  ) { }
 
   ngAfterViewInit() {
     const elem = document.getElementById('lf-user-feedback-feedback-mode-button');
