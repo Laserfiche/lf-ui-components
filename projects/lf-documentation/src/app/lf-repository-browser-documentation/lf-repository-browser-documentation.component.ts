@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ColumnDef } from '@laserfiche/lf-ui-components/lf-selection-list';
+import { ColumnDef } from './../../../../ui-components/lf-selection-list/lf-selection-list-public-api';
 import {
   LfTreeNode,
   LfRepositoryBrowserComponent,
