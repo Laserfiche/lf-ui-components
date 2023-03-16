@@ -13,7 +13,7 @@ import { UserFeedbackDialogComponent } from './user-feedback-dialog.component';
   selector: 'lf-feedback-suggestion-selection',
   template: '<p>Mock Feedback Suggestion Selection Component</p>',
 })
-class MockFeedBackSuggestionSelectionComponent { }
+class MockFeedBackSuggestionSelectionComponent {}
 
 describe('UserFeedbackDialogComponent', () => {
   let component: UserFeedbackDialogComponent;
@@ -26,18 +26,14 @@ describe('UserFeedbackDialogComponent', () => {
         UserFeedbackDialogComponent,
         FeedbackSubmissionComponent,
         MockFeedBackSuggestionSelectionComponent,
-        GeneralDialogLayoutComponent
+        GeneralDialogLayoutComponent,
       ],
-      imports: [
-        FormsModule,
-        MatCheckboxModule,
-        MatDialogModule],
+      imports: [FormsModule, MatCheckboxModule, MatDialogModule],
       providers: [
         { provide: MatDialogRef, useValue: {} },
-        { provide: MAT_DIALOG_DATA, useValue: {} }
-      ]
-    })
-      .compileComponents();
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -57,7 +53,7 @@ describe('UserFeedbackDialogComponent', () => {
   function triggerFeedbackTextChangedEventWith(textChange: string) {
     component.feedbackSubmission!.feedbackTextChanged.emit(textChange);
     fixture.detectChanges();
-  };
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -66,7 +62,9 @@ describe('UserFeedbackDialogComponent', () => {
   });
 
   it('should go to feedback mode when feedback button is clicked', () => {
-    const mockFeedBackSuggestionSelection = fixture.debugElement.query(By.directive(MockFeedBackSuggestionSelectionComponent));
+    const mockFeedBackSuggestionSelection = fixture.debugElement.query(
+      By.directive(MockFeedBackSuggestionSelectionComponent)
+    );
     mockFeedBackSuggestionSelection.triggerEventHandler('feedbackClicked');
     fixture.detectChanges();
     expect(component.isFeedback).toBeTrue();
@@ -74,7 +72,9 @@ describe('UserFeedbackDialogComponent', () => {
   });
 
   it('should go to suggestion mode when suggestion button is clicked', () => {
-    const mockFeedBackSuggestionSelection = fixture.debugElement.query(By.directive(MockFeedBackSuggestionSelectionComponent));
+    const mockFeedBackSuggestionSelection = fixture.debugElement.query(
+      By.directive(MockFeedBackSuggestionSelectionComponent)
+    );
     mockFeedBackSuggestionSelection.triggerEventHandler('suggestionClicked');
     fixture.detectChanges();
     expect(component.isFeedback).toBeFalse();
@@ -93,6 +93,7 @@ describe('UserFeedbackDialogComponent', () => {
     triggerFeedbackTextChangedEventWith(text);
     window.setTimeout(() => {
       expect(component.isSubmitDisabled).toBeTrue();
+      // @ts-ignore
       expect(component.feedbackText).toBe(text);
       done();
     }, 350);
@@ -104,6 +105,7 @@ describe('UserFeedbackDialogComponent', () => {
     triggerFeedbackTextChangedEventWith(text);
     window.setTimeout(() => {
       expect(component.isSubmitDisabled).toBeFalse();
+      // @ts-ignore
       expect(component.feedbackText).toBe(text);
       done();
     }, 350);
@@ -138,6 +140,4 @@ describe('UserFeedbackDialogComponent', () => {
       done();
     }, 350);
   });
-
 });
-

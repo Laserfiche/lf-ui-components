@@ -47,9 +47,9 @@ describe('FeedbackImageUploadComponent', () => {
     // convert base64 to byte array
     const file = base64ToImage(base64Image);
     spyOn(component.feedbackImageBase64, 'emit');
-    // @ts-ignore
 
     // Act
+    // @ts-ignore
     const success = await component.tryReadAndValidateImageAsync(file);
     fixture.detectChanges();
 
@@ -131,7 +131,6 @@ describe('FeedbackImageUploadComponent', () => {
   });
 
   it('if remove the image, should show the file drop zone', async () => {
-
     // Arrange
     const base64Image =
       'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
