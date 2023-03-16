@@ -111,6 +111,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   private setDefaultWidths() {
+    (this.matTable?.nativeElement).style.width = '100%';
     const widths: string[] = [];
     this.allColumnDefs.forEach((col) => {
       widths.push(col.defaultWidth);

@@ -127,7 +127,8 @@
       [ngClass]="{
         'non-selectable-option': !row.isSelectable,
         'selectable-option': row.isSelectable,
-        'node-selected': row.isSelected
+        'node-selected': row.isSelected,
+        'lf-row-border-top': !_showHeader
       }"
       [attr.id]="_computeRowId(i + (dataSource?.dataStart ?? 0))"
       (click)="onClickMatListOption($event, row, i + (dataSource?.dataStart ?? 0))"

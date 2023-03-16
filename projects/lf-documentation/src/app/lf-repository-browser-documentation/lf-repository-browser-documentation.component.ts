@@ -8,7 +8,7 @@ import { DemoRepoService, propIdCreateDate, propIdNameCol, propIdNumberCol } fro
 
 
 
-const CREATE_COL: ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%', minWidth: 200, resizable: true };
+const CREATE_COL: ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%', minWidth: 100, resizable: true };
 const NUMBER_COL: ColumnDef = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '60%', minWidth: 100, resizable: true, sortable: true  };
 const NAME_COL: ColumnDef = { id: propIdNameCol, displayName: 'Name', defaultWidth: '50%', minWidth: 100, resizable: true, sortable: true  };
 

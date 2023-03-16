@@ -7,6 +7,10 @@
   height: 100%;
 }
 
+.mat-table.lf-table-selection-list {
+  font-family: 'Open Sans';
+}
+
 .lf-name-col-container {
   display: flex;
   align-items: center;
@@ -62,6 +66,10 @@
   border-bottom: none;
   padding: 0px 10px;
   box-sizing: border-box;
+}
+
+:host .lf-table-selection-list tr.item-holder#lf-row-0.lf-row-border-top {
+  border-top: 1px solid rgb(0, 0, 0, 0.12);
 }
 
 :host .lf-table-selection-list tr.item-holder {
@@ -186,4 +194,9 @@ table th .resize-handle:hover {
 
 .lf-hidden-column-header .mat-sort-header {
   display: none;
+}
+
+.multiselect-column.mat-column-select {
+  display: flex;
+  align-items: center;
 }
