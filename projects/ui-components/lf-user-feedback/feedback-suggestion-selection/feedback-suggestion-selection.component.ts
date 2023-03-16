@@ -11,7 +11,6 @@ export class FeedbackSuggestionSelectionComponent {
   @Output() feedbackClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() suggestionClicked: EventEmitter<void> = new EventEmitter<void>();
 
-
   localizedStrings = {
     YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT: this.localizationService.getStringComponentsObservable(
       'YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT'
@@ -22,6 +21,7 @@ export class FeedbackSuggestionSelectionComponent {
     I_HAVE_FEEDBACK: this.localizationService.getStringComponentsObservable('I_HAVE_FEEDBACK'),
     I_HAVE_SUGGESTION: this.localizationService.getStringComponentsObservable('I_HAVE_SUGGESTION'),
   };
+
   constructor(
     private localizationService: AppLocalizationService
   ) { }

@@ -26,7 +26,7 @@ export class LfUserFeedbackComponent {
   feedbackText: Observable<string> = this.localizationService.getStringLaserficheObservable('FEEDBACK');
 
   /** @internal */
-  dialogRef: MatDialogRef<UserFeedbackDialogComponent> | undefined;
+  protected dialogRef: MatDialogRef<UserFeedbackDialogComponent> | undefined;
 
   /** @internal */
   constructor(
@@ -47,7 +47,7 @@ export class LfUserFeedbackComponent {
   }
 
   /** @internal */
-  async closeDialogAsync() {
+  private async closeDialogAsync() {
     await this.dialogRef!.afterClosed().toPromise();
     this.dialogRef = undefined;
   }
@@ -58,7 +58,7 @@ export class LfUserFeedbackComponent {
   }
 
   /** @internal */
-  openDialog(): void {
+  private openDialog(): void {
     try {
       this.dialogRef = this.dialog.open(UserFeedbackDialogComponent, {
         width: '448px',

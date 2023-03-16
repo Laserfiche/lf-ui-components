@@ -8,14 +8,15 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-sh
   styleUrls: ['./feedback-image-upload.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
 })
 export class FeedbackImageUploadComponent {
-  @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
   @Output() imageUploadError: EventEmitter<string> = new EventEmitter<string>();
+  @Output() feedbackImageBase64: EventEmitter<string> = new EventEmitter<string>();
+
+  @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
 
   imageUploaded?: File;
-  @Output() feedbackImageBase64: EventEmitter<string> = new EventEmitter<string>();
-  imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
   rawImageBase64: string = '';
-  supportedImageTypes: string[] = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  private imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
+  private supportedImageTypes: string[] = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
   localizedStrings = {
     OR: this.localizationService.getStringComponentsObservable('OR'),
@@ -124,7 +125,7 @@ export class FeedbackImageUploadComponent {
     }
   }
 
-  async getBase64Async(file: File): Promise<string> {
+  private async getBase64Async(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
 
@@ -152,13 +153,16 @@ export class FeedbackImageUploadComponent {
     this.imageUploaded = undefined;
   }
 }
+
 /** @internal */
 enum ImageUploadErrorType {
   'TooLarge',
   'UnsupportedFormat',
 }
 
+/** @internal */
 const ImageUploadError_name = 'ImageUploadError';
+/** @internal */
 class ImageUploadError extends Error {
   name = ImageUploadError_name;
   constructor(message: string, public imageUploadErrorType: ImageUploadErrorType) {

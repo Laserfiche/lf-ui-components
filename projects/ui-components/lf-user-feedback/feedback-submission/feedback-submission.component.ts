@@ -11,6 +11,7 @@ import { LfMessageToastTypes, LfToastMessage } from '../lf-toast-message/lf-toas
 export class FeedbackSubmissionComponent {
   @Input() isFeedback?: boolean;
   @Output() feedbackTextChanged: EventEmitter<string> = new EventEmitter<string>();
+
   toastMessages: LfToastMessage[] = [];
 
   readonly maxFeedbackLength: number = 2048;

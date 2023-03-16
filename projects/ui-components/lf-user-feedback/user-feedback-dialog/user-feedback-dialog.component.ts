@@ -35,10 +35,11 @@ export enum FeedbackDialogState {
 export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   @Output() submitFeedback: EventEmitter<UserFeedbackDialogData> = new EventEmitter();
   @ViewChild(FeedbackSubmissionComponent) feedbackSubmission?: FeedbackSubmissionComponent;
-  dialogState: FeedbackDialogState = FeedbackDialogState.FIRST_PANE;
-  feedbackText: string | undefined;
+
+  private dialogState: FeedbackDialogState = FeedbackDialogState.FIRST_PANE;
+  private feedbackText: string | undefined;
+  private allSubscriptions: Subscription = new Subscription();
   isSubmitDisabled: boolean = true;
-  allSubscriptions: Subscription = new Subscription();
 
   get isFirstPane(): boolean {
     return this.dialogState === FeedbackDialogState.FIRST_PANE;
@@ -118,6 +119,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
       });
     this.allSubscriptions.add(feedbackTextSub);
   }
+
   async onClickSubmitAsync(): Promise<void> {
     try {
       const dialogData = this.getFeedbackDialogData();
