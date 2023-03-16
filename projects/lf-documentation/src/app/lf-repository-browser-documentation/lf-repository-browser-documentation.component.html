@@ -42,14 +42,14 @@
     &gt;&lt;/lf-repository-browser&gt;
   </pre>
 </label>
-<section class="column-checkbox-section">
+<div class="column-checkbox-section documentation-text">
   Columns to display:
   <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="singleColChange()" [(ngModel)]="creation_col_single"
     >Creation Date</mat-checkbox
   >
   <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="singleColChange()" [(ngModel)]="number_col_single"
     >Number Column</mat-checkbox
-  ></section>
+  ></div>
 <app-card>
   <lf-repository-browser
     multiple="false"
@@ -73,9 +73,8 @@
     &gt;&lt;/lf-repository-browser&gt;
   </pre>
 </label>
-<input (change)="onFilterChange($event)" />
-<button (click)="onRefresh()">Refresh</button>
-<section class="column-checkbox-section">
+<button class="lf-button primary-button" (click)="onRefresh()">Refresh and clear selected</button>
+<div class="column-checkbox-section documentation-text">
   Columns to display:
   <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="multiColChange()" [(ngModel)]="creation_col_multi"
     >Creation Date</mat-checkbox
@@ -83,7 +82,7 @@
   <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="multiColChange()" [(ngModel)]="number_col_multi"
     >Number Column</mat-checkbox
   >
-</section>
+</div>
 <app-card>
   <lf-repository-browser
     multiple="true"

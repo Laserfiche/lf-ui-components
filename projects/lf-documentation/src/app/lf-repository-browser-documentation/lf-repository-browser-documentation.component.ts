@@ -24,7 +24,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   dataService: DemoRepoService = new DemoRepoService();
   selectable = this._selectable.bind(this);
   singleSelectDataService: DemoRepoService = new DemoRepoService();
-  filter: string = '';
 
   elementSelectedEntry: LfTreeNode[] | undefined;
 
@@ -67,12 +66,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
 
   onEntryFocused(event: CustomEvent<LfTreeNode | undefined>) {
     console.debug('entry focused', event.detail);
-  }
-
-  async onFilterChange(event: any) {
-    this.filter = event.target.value;
-    this.dataService.filter = this.filter;
-    await this.repoBrowser?.nativeElement.refreshAsync(false);
   }
 
   onRefresh() {

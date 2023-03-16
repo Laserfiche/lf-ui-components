@@ -15,8 +15,6 @@ export class DemoRepoService implements LfTreeNodeService {
   breadCrumb: LfTreeNode[] = [];
   currentFolder: LfTreeNode | undefined;
 
-  filter: string = '';
-
   _rootEntry: LfTreeNode = {
     icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
     id: '1',
@@ -297,9 +295,7 @@ export class DemoRepoService implements LfTreeNodeService {
           });
         }
         this.lastFolder = folderId;
-        const testData = this._testData['19'].filter((data: LfTreeNode) => {
-          return data.name.indexOf(this.filter) >= 0;
-        });
+        const testData = this._testData['19'];
         return new Promise((resolve, reject) => {
           setTimeout(() => {
             resolve({
@@ -311,9 +307,7 @@ export class DemoRepoService implements LfTreeNodeService {
       }
 
       this.lastFolder = folderId;
-      const testData = this._testData[folderId].filter((data: LfTreeNode) => {
-        return data.name.indexOf(this.filter) >= 0;
-      });
+      const testData = this._testData[folderId];
       const sortData = this.sortItems(testData, sort);
       return Promise.resolve({
         page: sortData,

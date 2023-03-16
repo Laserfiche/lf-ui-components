@@ -3,5 +3,7 @@
 }
 
 .column-checkbox-section {
-    height: 50px;
+    padding: 10px 0px;
+    display: flex;
+    align-items: center;
 }
