@@ -9,3 +9,6 @@ export * from './app-localization.service';
 export * from './validation-utils';
 
 export * from './filter-utils';
+
+export * from './general-dialog-layout/general-dialog-layout.component';
+export * from './general-dialog-layout/general-dialog-layout.module';

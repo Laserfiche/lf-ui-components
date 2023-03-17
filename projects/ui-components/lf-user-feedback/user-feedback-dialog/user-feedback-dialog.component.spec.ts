@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
+import { GeneralDialogLayoutModule } from '@laserfiche/lf-ui-components/internal-shared';
 import { FeedbackSubmissionComponent } from '../feedback-submission/feedback-submission.component';
-import { GeneralDialogLayoutComponent } from '../general-dialog-layout/general-dialog-layout.component';
 import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-user-feedback-types';
 import { UserFeedbackDialogComponent } from './user-feedback-dialog.component';
 
@@ -26,9 +26,8 @@ describe('UserFeedbackDialogComponent', () => {
         UserFeedbackDialogComponent,
         FeedbackSubmissionComponent,
         MockFeedBackSuggestionSelectionComponent,
-        GeneralDialogLayoutComponent,
       ],
-      imports: [FormsModule, MatCheckboxModule, MatDialogModule],
+      imports: [FormsModule, MatCheckboxModule, MatDialogModule, GeneralDialogLayoutModule],
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: {} },
