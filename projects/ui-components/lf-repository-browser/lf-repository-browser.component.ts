@@ -97,19 +97,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   setAdditionalColumnsToDisplay: (cols: ColumnDef[]) => void = (cols: ColumnDef[]) => {
     if (this.entryList) {
       const nameColumnDef = cols.find((col) => col.id === 'name');
-      let fillLastColumn: boolean;
-      if (cols.length > 1 || (cols.length === 1 && cols[0].id !== 'name')) {
-        fillLastColumn = false;
-      } else {
-        if (!cols || cols.length === 0 || !cols.find((c) => c.id === 'name')) {
-          fillLastColumn = true;
-        } else {
-          fillLastColumn = false;
-        }
-      }
       if (!nameColumnDef) {
         let nameCol: ColumnDef;
-        if (fillLastColumn) {
+        if (!cols || cols.length === 0) {
           nameCol = NAME_COL_AUTO;
         } else {
           nameCol = NAME_COL_50CH;
