@@ -13,7 +13,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
-import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
+import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import {
@@ -317,7 +317,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * @internal
    * Used to track if data is currently being pulled
    * */
-  private lastDataCall?: Promise<any>;
+  private lastDataCall?: Promise<ILfSelectable[]>;
 
   /** @internal */
   constructor(
@@ -660,7 +660,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       this.checkForMoreDataCallback.bind(this),
       0
     );
-    const currentSelectedItems = this.convertSelectedItemsToTreeNode(resetSelectedNodes);
+    const currentSelectedItems: LfTreeNode[] | undefined = this.convertSelectedItemsToTreeNode(resetSelectedNodes);
     return currentSelectedItems;
   }
 
@@ -669,7 +669,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     try {
       this.hasError = false;
       this.lastDataCall = this.updateFolderChildrenAsync(parentEntry);
-      const selectable = await this.lastDataCall;
+      const selectable: ILfSelectable[] = await this.lastDataCall;
       this.lastDataCall = undefined;
       return selectable;
     } catch (error) {
@@ -688,12 +688,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    */
   private async updateFolderChildrenAsync(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
     this.lastCalledPage = this.nextPage;
-    const sortState = this.columnOrderBy;
-    const dataPage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage, sortState);
+    const sortState: ColumnOrderBy | undefined = this.columnOrderBy;
+    const dataPage: LfTreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage, sortState);
     let selectablePage: ILfSelectable[] = [];
     this.nextPage = dataPage.nextPage;
-    const page = dataPage.page;
-    selectablePage = await this.mapTreeNodesToLfSelectableAsync(page);
+    const pageTreeNodes: LfTreeNode[] = dataPage.page;
+    selectablePage = await this.mapTreeNodesToLfSelectableAsync(pageTreeNodes);
     this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
     if (this.nextPage) {
       this.maximumChildrenReceived = false;
