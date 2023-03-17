@@ -25,9 +25,7 @@
     <p>repoBrowser.addEventListener('entrySelected', onElementNodeSelected(event));</p>
     <p>await repoBrowser.initAsync(treeProvidersObject);</p>
     <p>const create: ColumnDef = 	&#123; id: 'creationTime', displayName: 'Creation Date', defaultWidth: '40%', minWidth: 100, resizable: true, sortable: true &#125;;</p>
-    <p>const templateName : ColumnDef = &#123; id: 'templateName', displayName: 'Template Name', defaultWidth: '40%', minWidth: 200, resizable: true &#125;;</p>
-    <p>const elecDocmentSize : ColumnDef = &#123; id: 'elecDocumentSize', displayName: 'Size', defaultWidth: '40%', minWidth: 150, sortable: false &#125;;</p>
-    <p>const columns: ColumnDef[] = [create, templateName, elecDocmentSize];</p>
+    <p>const columns: ColumnDef[] = [create];</p>
     <p>repoBrowser.setAdditionalColumns(columns);</p>
   </code>
 </p>
@@ -142,16 +140,6 @@
     <td>boolean | undefined</td>
     <td>Specify whether to always show header, by default it will not show if there is only a name column</td>
   </tr>
-  <tr>
-    <td>breadcrumbs</td>
-    <td>LfTreeNode[] | undefined</td>
-    <td>read-only property that contains the breadcrumbs of the currently opened folder</td>
-  </tr>
-  <tr>
-    <td>currentFolder</td>
-    <td>LfTreeNode | undefined</td>
-    <td>read-only property that allows the user to see what the currently open LfTreeNode is</td>
-  </tr>
 </table>
 <br />
 <table>
@@ -227,6 +215,16 @@
     <td>focus</td>
     <td>() => void</td>
     <td>focuses the first item in the lf-repository-browser</td>
+  </tr>
+  <tr>
+    <td>breadcrumbs</td>
+    <td>LfTreeNode[] | undefined</td>
+    <td>read-only property that contains the breadcrumbs of the currently opened folder</td>
+  </tr>
+  <tr>
+    <td>currentFolder</td>
+    <td>LfTreeNode | undefined</td>
+    <td>read-only property that allows the user to see what the currently open LfTreeNode is</td>
   </tr>
   <tr>
     <td>setAdditionalColumnsToDisplay</td>

@@ -344,8 +344,8 @@ export class DemoRepoService implements LfTreeNodeService {
           return this.compare(aVal.toLowerCase(), (bVal as string).toLowerCase(), isAsc);
         } else {
           // No value or unsupported value
+          return 0;
         }
-        return 0;
       } else {
         return 0;
       }
