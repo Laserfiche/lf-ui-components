@@ -164,7 +164,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   get multiple(): boolean {
     return this._multipleSelectEnabled;
   }
-  
+
   /**
    * Function to set selectedNodes. If current data does not include all the requested node, it will call getFolderChildren until there are no more, or maxFetchIterations is reached.
    * @param nodesToSelect array of LfTreeNodes to select by id
@@ -228,7 +228,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
 
   /**
    * Function to open selected node(s). If there is just one container node it will open the container in the UI and emit the entryDblClicked event,
-   * if there is more than one node or it is not a container, it will just emit the entryDblClicked event 
+   * if there is more than one node or it is not a container, it will just emit the entryDblClicked event
    */
   @Input()
   openSelectedNodesAsync: () => Promise<void> = async () => {
@@ -240,7 +240,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   };
 
   /**
-   * Function to open focused node. If there is just one container node it will open the container in the UI and emit the entryDblClicked event 
+   * Function to open focused node. If there is just one container node it will open the container in the UI and emit the entryDblClicked event
    */
   @Input()
   openFocusedNodeAsync: () => Promise<void> = async () => {
@@ -629,27 +629,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       try {
         this.isLoading = true;
         this.hasError = false;
-        if (clearSelected) {
-          this.resetFolderProperties();
-        }
+        const previousSelectedItems: ILfSelectable[] = await this.getCurrentlySelectedItemsAsync();
+        this.resetFolderProperties();
         await this.makeDataCall(parentEntry);
-        if (clearSelected) {
-          this.selectedItems = [];
-          this.entrySelected.emit([]);
-        } else {
-          this.ref.detectChanges();
-          const selected = this.selectedItems;
-          this.entryList?.clearSelectedValues();
-          const selectableValues = await this.mapTreeNodesToLfSelectableAsync(selected ?? []);
-          const selectedNodes: ILfSelectable[] = await this.entryList!.setSelectedNodesAsync(
-            selectableValues,
-            this.checkForMoreDataCallback.bind(this),
-            0
-          );
-          const selectedItems = this.convertSelectedItemsToTreeNode(selectedNodes);
-          this.selectedItems = selectedItems;
-          this.entrySelected.emit(this.selectedItems);
+        this.selectedItems = [];
+        if (!clearSelected) {
+          this.selectedItems = await this.resetPreviouslySelectedItemsAsync(previousSelectedItems);
         }
+        this.entrySelected.emit(this.selectedItems);
       } catch (error) {
         console.error(error);
         this.lastDataCall = undefined;
@@ -662,6 +649,29 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       console.error('updateAllPossibleEntriesAsync parentEntry undefined or missing id property');
       this.hasError = true;
     }
+  }
+
+  /** @internal */
+  private async getCurrentlySelectedItemsAsync() {
+    const previousSelectedNodes: LfTreeNode[] | undefined = this.selectedItems;
+    const previousSelectedItems: ILfSelectable[] = await this.mapTreeNodesToLfSelectableAsync(
+      previousSelectedNodes ?? []
+    );
+    return previousSelectedItems;
+  }
+
+  /** @internal */
+  private async resetPreviouslySelectedItemsAsync(
+    previousSelectedItems: ILfSelectable[]
+  ): Promise<LfTreeNode[] | undefined> {
+    this.ref.detectChanges();
+    const resetSelectedNodes: ILfSelectable[] = await this.entryList!.setSelectedNodesAsync(
+      previousSelectedItems,
+      this.checkForMoreDataCallback.bind(this),
+      0
+    );
+    const currentSelectedItems = this.convertSelectedItemsToTreeNode(resetSelectedNodes);
+    return currentSelectedItems;
   }
 
   /** @internal */
