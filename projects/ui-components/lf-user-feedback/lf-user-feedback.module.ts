@@ -9,12 +9,11 @@ import { createCustomElement } from '@angular/elements';
 import { FeedbackSuggestionSelectionComponent } from './feedback-suggestion-selection/feedback-suggestion-selection.component';
 import { FeedbackSubmissionComponent } from './feedback-submission/feedback-submission.component';
 import { FeedbackImageUploadComponent } from './feedback-image-upload/feedback-image-upload.component';
-import { LfToastMessageComponent } from './lf-toast-message/lf-toast-message.component';
 import { MatIconModule } from '@angular/material/icon';
-import { GeneralDialogLayoutModule } from '@laserfiche/lf-ui-components/internal-shared';
+import { GeneralDialogLayoutModule, LfToastMessageModule } from '@laserfiche/lf-ui-components/internal-shared';
 
 @NgModule({
-  declarations: [LfUserFeedbackComponent, UserFeedbackDialogComponent, FeedbackSuggestionSelectionComponent, FeedbackSubmissionComponent, FeedbackImageUploadComponent, LfToastMessageComponent],
+  declarations: [LfUserFeedbackComponent, UserFeedbackDialogComponent, FeedbackSuggestionSelectionComponent, FeedbackSubmissionComponent, FeedbackImageUploadComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,6 +21,7 @@ import { GeneralDialogLayoutModule } from '@laserfiche/lf-ui-components/internal
     MatCheckboxModule,
     MatIconModule,
     GeneralDialogLayoutModule,
+    LfToastMessageModule,
   ],
   providers: [],
   bootstrap: [LfUserFeedbackComponent],

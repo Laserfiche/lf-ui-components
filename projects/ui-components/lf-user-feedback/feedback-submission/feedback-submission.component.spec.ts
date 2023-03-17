@@ -3,8 +3,7 @@ import { Component } from '@angular/core';
 import { FeedbackSubmissionComponent } from './feedback-submission.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { By } from '@angular/platform-browser';
-import { LfMessageToastTypes } from '../lf-toast-message/lf-toast-message.component';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { AppLocalizationService, LfMessageToastTypes } from '@laserfiche/lf-ui-components/internal-shared';
 import { of } from 'rxjs';
 
 @Component({

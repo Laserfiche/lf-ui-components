@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, Output, ViewChild, EventEmitter } from '@angular/core';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
-import { LfMessageToastTypes, LfToastMessage } from '../lf-toast-message/lf-toast-message.component';
+import { AppLocalizationService, LfMessageToastTypes, LfToastMessage } from '@laserfiche/lf-ui-components/internal-shared';
 
 /** @internal */
 @Component({
