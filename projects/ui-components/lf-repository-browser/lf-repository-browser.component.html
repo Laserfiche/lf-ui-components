@@ -26,7 +26,7 @@
       <div *ngIf="getIcons(item).length > 0" class="fixed-size-icon-container  lf-no-user-select">
         <img *ngFor="let icon of getIcons(item)" src="{{ icon }}" alt="" class="lf-entry-icon" />
       </div>
-      <div title="{{ item?.name }}" class="lf-ellipsis-label">{{ item?.name }}</div>
+      <div title="{{ item?.name }}" class="lf-ellipsis-label lf-no-user-select">{{ item?.name }}</div>
     </ng-template>
   </lf-selection-list-component>
 </div>
