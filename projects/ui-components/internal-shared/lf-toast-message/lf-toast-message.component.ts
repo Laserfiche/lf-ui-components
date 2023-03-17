@@ -73,7 +73,7 @@ export class LfToastMessageComponent {
       case LfMessageToastTypes.Warning:
         return 'warning_amber';
       case LfMessageToastTypes.Informational:
-        return 'info_outline';
+        return 'info';
       default:
         return 'error_outline';
     }

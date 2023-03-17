@@ -102,10 +102,6 @@
   border: #0058ad 1px solid;
 }
 
-mat-icon {
-  color: inherit;
-}
-
 .message-text {
   font-size: 13px;
   font-weight: 600;
