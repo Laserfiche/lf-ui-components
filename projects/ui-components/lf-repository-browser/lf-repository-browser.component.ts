@@ -694,7 +694,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     this.nextPage = dataPage.nextPage;
     const page = dataPage.page;
     selectablePage = await this.mapTreeNodesToLfSelectableAsync(page);
-    this.isLoading = false;
     this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
     if (this.nextPage) {
       this.maximumChildrenReceived = false;
