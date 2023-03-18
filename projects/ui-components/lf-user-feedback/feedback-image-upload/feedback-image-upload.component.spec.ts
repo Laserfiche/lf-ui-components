@@ -6,6 +6,8 @@ import { FeedbackImageUploadComponent } from './feedback-image-upload.component'
 describe('FeedbackImageUploadComponent', () => {
   let component: FeedbackImageUploadComponent;
   let fixture: ComponentFixture<FeedbackImageUploadComponent>;
+  const base64Image =
+  'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -41,9 +43,7 @@ describe('FeedbackImageUploadComponent', () => {
   });
 
   it('if tryReadAndValidateImageAsync is called with a valid image, should should attach image, and should emit event feedbackImageBase64', fakeAsync(async () => {
-    // Arrange
-    const base64Image =
-      'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+    // Arrange   
     // convert base64 to byte array
     const file = base64ToImage(base64Image);
     spyOn(component.feedbackImageBase64, 'emit');
@@ -132,8 +132,6 @@ describe('FeedbackImageUploadComponent', () => {
 
   it('if remove the image, should show the file drop zone', async () => {
     // Arrange
-    const base64Image =
-      'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
     // convert base64 to byte array
     const file = base64ToImage(base64Image);
 

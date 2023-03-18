@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 /** @internal */
 export enum LfMessageToastTypes {
-  Error='Error',
-  Warning='Warning',
-  Validation='Validation',
-  Informational='Informational',
+  Error = 'Error',
+  Warning = 'Warning',
+  Validation = 'Validation',
+  Informational = 'Informational',
 }
 
 /** @internal */
@@ -16,9 +15,7 @@ export interface LfToastMessage {
   type: LfMessageToastTypes;
   noIcon: boolean;
   hideMessage?: boolean;
-
   id?: string;
-  doNotShowLabel?: string;
 }
 
 /** @internal */
@@ -27,10 +24,7 @@ export interface LfToastMessage {
   templateUrl: './lf-toast-message.component.html',
   styleUrls: ['./lf-toast-message.component.css'],
 })
-
 export class LfToastMessageComponent {
-  form = new UntypedFormGroup({});
-
   @Input()
   set messages(messages: LfToastMessage[]) {
     if (typeof messages === 'undefined') {
@@ -38,9 +32,7 @@ export class LfToastMessageComponent {
     }
     for (const message of messages) {
       let messageId = message.id;
-      if (messageId) {
-        this.form.addControl(messageId, new UntypedFormControl());
-      } else {
+      if (!messageId) {
         messageId = message.id = Math.random().toString();
       }
 
@@ -57,9 +49,6 @@ export class LfToastMessageComponent {
   }
 
   allMessages: LfToastMessage[];
-  getCheckboxControl(messageId: string) {
-    return this.form.controls[messageId];
-  }
 
   constructor() {
     this.allMessages = [];
@@ -78,14 +67,11 @@ export class LfToastMessageComponent {
     }
   }
 
-
   _closeToast(messageId: string) {
     this._removeToast(messageId);
   }
 
   _removeToast(messageId: string) {
-    const checkboxControl = this.getCheckboxControl(messageId);
-
     const idx = this.allMessages.findIndex((message) => message.id === messageId);
     if (idx !== -1) {
       this.allMessages.splice(idx, 1);
