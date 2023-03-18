@@ -3,10 +3,10 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 /** @internal */
 export enum LfMessageToastTypes {
-  Error,
-  Warning,
-  Validation,
-  Informational,
+  Error='Error',
+  Warning='Warning',
+  Validation='Validation',
+  Informational='Informational',
 }
 
 /** @internal */
@@ -23,7 +23,6 @@ export interface LfToastMessage {
 
 /** @internal */
 @Component({
-  // tslint:disable-next-line: component-selector
   selector: 'lf-toast-message',
   templateUrl: './lf-toast-message.component.html',
   styleUrls: ['./lf-toast-message.component.css'],
@@ -79,9 +78,6 @@ export class LfToastMessageComponent {
     }
   }
 
-  _computeIconLabel(type: LfMessageToastTypes): string {
-    return LfMessageToastTypes[type];
-  }
 
   _closeToast(messageId: string) {
     this._removeToast(messageId);
@@ -96,8 +92,6 @@ export class LfToastMessageComponent {
     }
   }
 
-  // remove all toasts
-  // applying toastFilter will only remove LFMessages of that type
   clearToasts(toastFilter?: LfMessageToastTypes) {
     this.allMessages = toastFilter ? this.allMessages.filter((message) => message.type !== toastFilter) : [];
   }

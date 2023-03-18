@@ -2,10 +2,10 @@
   *ngFor="let message of allMessages; index as idx"
   class="toast-message message-holder lf-flexbox-col"
   [ngClass]="{
-    error: message.type === 0,
-    warning: message.type === 1,
-    validation: message.type === 2,
-    informational: message.type === 3
+    error: message.type === 'Error',
+    warning: message.type === 'Warning',
+    validation: message.type === 'Validation',
+    informational: message.type === 'Informational'
   }"
 >
   <div class="lf-flexbox-row lf-flexbox-center both-axis">
@@ -13,20 +13,20 @@
       class="material-icons-outlined"
       style="flex: 0 0 auto"
       [ngClass]="{
-        warningIcon: message.type === 1,
+        warningIcon: message.type === 'Warning',
         'hide-icon': message.noIcon
       }"
-      [attr.aria-label]="_computeIconLabel(message.type)"
+      [attr.aria-label]="message.type"
     >
       {{ _computeTypeIcon(message.type) }}
     </span>
     <div
       class="message-text lf-flex-item lf-flexbox-row"
       [ngClass]="{
-        error: message.type === 0,
-        warning: message.type === 1,
-        validation: message.type === 2,
-        informational: message.type === 3,
+        error: message.type === 'Error',
+        warning: message.type === 'Warning',
+        validation: message.type === 'Validation',
+        informational: message.type === 'Informational',
         'no-left-padding': message.noIcon
       }"
     >
@@ -39,7 +39,7 @@
       (click)="_closeToast(message.id)"
       style="flex: 0 0 auto"
       [ngClass]="{
-        warningIcon: message.type === 1
+        warningIcon: message.type === 'Warning'
       }"
       test-selector="toast-close-btn"
     >
