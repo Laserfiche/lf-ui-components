@@ -232,10 +232,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  resetSelectedValues(list: ILfSelectable[]) {
-    this.selectable.resetSelectedValues(list);
-  }
-
   /** @internal */
   async onClickMatListOption(event: MouseEvent, option: ILfSelectable, index: number) {
     let target: HTMLElement | null = event.target as HTMLElement;
