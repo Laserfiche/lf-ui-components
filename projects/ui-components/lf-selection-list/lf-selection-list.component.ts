@@ -56,13 +56,17 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.items = items;
     if (this.dataSource) {
       if (this.dataSource.allData.length < 1 && items.length > 0) {
-        if (this._showHeader === true) {
-          this.setInitialWidth();
-        } else {
-          this.setDefaultWidths();
-        }
+        this.setNewWidths();
       }
       this.dataSource.allData = this.items;
+    }
+  }
+
+  private setNewWidths() {
+    if (this._showHeader === true) {
+      this.setInitialWidth();
+    } else {
+      this.setDefaultWidths();
     }
   }
 
@@ -83,9 +87,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     return this._columnOrderBy;
   }
   set columnOrderBy(orderBy: ColumnOrderBy | undefined) {
-    if (orderBy?.columnId && this.allColumnDefs.find((c) => c.id === orderBy.columnId)) {
-      this.sort!.sort({ id: orderBy?.columnId, start: orderBy?.isDesc ? 'desc' : 'asc', disableClear: true });
+    if (this.sort && orderBy?.columnId && this.allColumnDefs.find((c) => c.id === orderBy.columnId)) {
+      this.sort.sort({ id: orderBy?.columnId, start: orderBy?.isDesc ? 'desc' : 'asc', disableClear: true });
       this._columnOrderBy = orderBy;
+    }
+    else {
+      console.debug('Unable to set new sort header');
     }
   }
 
@@ -103,11 +110,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.allColumnHeaders = this.allColumnDefs.map((col) => col.id);
     this.additionalColumnDefs = cols;
     this.ref.detectChanges();
-    if (this._showHeader === true) {
-      this.setInitialWidth();
-    } else {
-      this.setDefaultWidths();
-    }
+    this.setNewWidths();
   }
 
   private setDefaultWidths() {
@@ -117,7 +120,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     });
 
     if (this.matTable) {
-      (this.matTable.nativeElement).style.width = '100%';
+      this.matTable.nativeElement.style.width = '100%';
       const templateCOls = widths.join(' ');
       this.columnsWidth = templateCOls;
     }
@@ -203,7 +206,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   placeholderWhen(index: number, _: any) {
-    return index == 0;
+    return index === 0;
   }
 
   onCheckboxClicked(event: MouseEvent) {
@@ -246,7 +249,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.selectable.onItemClicked(event, option, this.items);
     }
     this.currentFocusIndex = index;
-    // TODO not focusing
 
     this.itemSelected.emit({ selected: option, selectedItems: this.selectable.selectedItems });
   }
@@ -301,7 +303,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   onFocused(index: number) {
     this.currentFocusIndex = index;
-    // TODO this is
     this.itemFocused.emit(this.items[index]?.value);
   }
 
@@ -352,9 +353,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => {
       if (this.allColumnDefs.length > 0) {
         const repositoryBrowserData: RepositoryBrowserData | undefined = this.getRepositoryBrowserData();
-        const tableEl = Array.from(
-          this.viewport!.elementRef.nativeElement.getElementsByClassName('lf-table-selection-list')
-        );
+        const tableEl = this.matTable?.nativeElement;
         const widths: string[] = [];
         this.allColumnDefs.forEach((col) => {
           const columnWidth = repositoryBrowserData?.columns[col.id];
@@ -371,10 +370,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         }
         this.ref.detectChanges();
 
-        // TODO is there a better way to do this
-        if (!(this.allColumnDefs[this.allColumnDefs.length - 1]?.defaultWidth === 'auto')) {
+        const shouldFillLastColumn = this.allColumnDefs[this.allColumnDefs.length - 1]?.defaultWidth === 'auto';
+        if (!shouldFillLastColumn) {
           const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
-          (tableEl[0] as HTMLTableElement).style.width = containerWidth + 'px';
+          tableEl.style.width = containerWidth + 'px';
           this.ref.detectChanges();
           const widthsInPixel: string[] = [];
 
@@ -394,10 +393,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
             this.columnsWidth = templateCOls;
           }
 
-          (tableEl[0] as HTMLTableElement).style.width = 'fit-content';
+          tableEl.style.width = 'fit-content';
           this.ref.detectChanges();
-        } else if (!this._showHeader) {
-          (tableEl[0] as HTMLTableElement).style.width = '100%';
         }
       }
     });
