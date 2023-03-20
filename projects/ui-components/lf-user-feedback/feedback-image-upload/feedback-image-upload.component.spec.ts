@@ -1,17 +1,34 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StringUtils } from '@laserfiche/lf-js-utils';
-
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { FeedbackImageUploadComponent } from './feedback-image-upload.component';
+import { of } from 'rxjs';
 
 describe('FeedbackImageUploadComponent', () => {
   let component: FeedbackImageUploadComponent;
   let fixture: ComponentFixture<FeedbackImageUploadComponent>;
   const base64Image =
-  'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+    'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+  let localizeServiceMock: jasmine.SpyObj<AppLocalizationService>;
+  localizeServiceMock = jasmine.createSpyObj('localization', [
+    'getStringLaserficheObservable',
+    'getStringComponentsObservable',
+    'getResourceStringComponents',
+  ]);
+  localizeServiceMock.getStringLaserficheObservable.and.callFake((value: string) => {
+    return of(value);
+  });
+  localizeServiceMock.getStringComponentsObservable.and.callFake((value: string) => {
+    return of(value);
+  });
+  localizeServiceMock.getResourceStringComponents.and.callFake((value: string) => {
+    return value;
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [FeedbackImageUploadComponent],
+      providers: [{ provide: AppLocalizationService, useValue: localizeServiceMock }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FeedbackImageUploadComponent);
@@ -43,7 +60,7 @@ describe('FeedbackImageUploadComponent', () => {
   });
 
   it('if tryReadAndValidateImageAsync is called with a valid image, should should attach image, and should emit event feedbackImageBase64', async () => {
-    // Arrange   
+    // Arrange
     // convert base64 to byte array
     const file = base64ToImage(base64Image);
     spyOn(component.feedbackImageBase64, 'emit');
@@ -72,7 +89,7 @@ describe('FeedbackImageUploadComponent', () => {
 
     // Assert
     expect(component.imageUploadError.emit).toHaveBeenCalledWith(
-      'Image not attached. The image exceeds the maximum file size of 2.9 MB.'
+      'IMAGE_NOT_ATTACHED IMAGE_EXCEEDS_MAX_FILE_SIZE_2DOT9MB'
     );
     expect(component.imageUploaded).toBe(undefined);
   });
@@ -90,7 +107,7 @@ describe('FeedbackImageUploadComponent', () => {
 
     // Assert
     expect(component.imageUploadError.emit).toHaveBeenCalledWith(
-      'Image not attached. The image is corrupted or in an unrecognized format. The accepted formats are: JPEG, PNG, GIF, WebP.'
+      'IMAGE_NOT_ATTACHED IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT ACCEPTED_FORMATS_ARE_0'
     );
     expect(component.imageUploaded).toBe(undefined);
   });
@@ -111,7 +128,7 @@ describe('FeedbackImageUploadComponent', () => {
     fixture.detectChanges();
     // @ts-ignore
     expect(component.tryReadAndValidateImageAsync).not.toHaveBeenCalled();
-    expect(component.imageUploadError.emit).toHaveBeenCalledWith('Image not attached. Please attach only one image.');
+    expect(component.imageUploadError.emit).toHaveBeenCalledWith('IMAGE_NOT_ATTACHED PLEASE_ATTACH_ONLY_ONE_IMAGE');
   });
 
   it('if one image is dropped to the file drop zone, should call tryReadAndValidateImageAsync', () => {

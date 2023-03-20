@@ -16,8 +16,9 @@ export class FeedbackImageUploadComponent {
   imageUploaded?: File;
   rawImageBase64: string = '';  
   acceptedImageTypes: string = '.jpg,.jpeg,.png,.gif,.webp';
+  private acceptedImageFormats: string = 'JPEG, PNG, GIF, WebP';
   private imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
-  private supportedImageTypes: string[] = this.acceptedImageTypes.split(',').map(imgType => imgType.replace('.','image/'));
+  private supportedImageTypeArray: string[] = this.acceptedImageTypes.split(',').map(imgType => imgType.replace('.','image/'));
 
   localizedStrings = {
     OR: this.localizationService.getStringComponentsObservable('OR'),
@@ -67,7 +68,7 @@ export class FeedbackImageUploadComponent {
       return false;
     }
     try {
-      const isImageSupported = this.supportedImageTypes.includes(image.type);
+      const isImageSupported = this.supportedImageTypeArray.includes(image.type);
       if (!isImageSupported) {
         throw new ImageUploadError('ImageUploadErrorType.UnsupportedFormat', ImageUploadErrorType.UnsupportedFormat);
       }
@@ -91,7 +92,7 @@ export class FeedbackImageUploadComponent {
             errorMessage = this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT');
             errorMessage +=
               ' ' +
-              this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', ['JPEG, PNG, GIF, WebP']);
+              this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', [this.acceptedImageFormats]);
             break;
           default:
             errorMessage = error.message ?? this.localizedStrings.UNKNOWN_ERROR;
