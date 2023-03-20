@@ -15,8 +15,7 @@ class MockFeedbackImageUploadComponent {}
 describe('FeedbackSubmissionComponent', () => {
   let component: FeedbackSubmissionComponent;
   let fixture: ComponentFixture<FeedbackSubmissionComponent>;
-  let localizeServiceMock: jasmine.SpyObj<AppLocalizationService>;
-  localizeServiceMock = jasmine.createSpyObj('localization', [
+  const localizeServiceMock: jasmine.SpyObj<AppLocalizationService> = jasmine.createSpyObj('localization', [
     'getStringLaserficheObservable',
     'getStringComponentsObservable',
   ]);

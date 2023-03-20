@@ -9,8 +9,7 @@ describe('FeedbackImageUploadComponent', () => {
   let fixture: ComponentFixture<FeedbackImageUploadComponent>;
   const base64Image =
     'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
-  let localizeServiceMock: jasmine.SpyObj<AppLocalizationService>;
-  localizeServiceMock = jasmine.createSpyObj('localization', [
+  const localizeServiceMock: jasmine.SpyObj<AppLocalizationService> = jasmine.createSpyObj('localization', [
     'getStringLaserficheObservable',
     'getStringComponentsObservable',
     'getResourceStringComponents',
