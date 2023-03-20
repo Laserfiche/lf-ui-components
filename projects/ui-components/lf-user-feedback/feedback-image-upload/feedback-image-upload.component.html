@@ -6,7 +6,7 @@
     <input
       id="browseFileInput"
       type="file"
-      accept=".jpg,.jpeg,.png,.gif,.webp"
+      [accept]="acceptedImageTypes"
       tabindex="-1"
       title=""
       (change)="onFileSelectedAsync($event)"

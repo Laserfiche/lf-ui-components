@@ -14,9 +14,10 @@ export class FeedbackImageUploadComponent {
   @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
 
   imageUploaded?: File;
-  rawImageBase64: string = '';
+  rawImageBase64: string = '';  
+  acceptedImageTypes: string = '.jpg,.jpeg,.png,.gif,.webp';
   private imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
-  private supportedImageTypes: string[] = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  private supportedImageTypes: string[] = this.acceptedImageTypes.split(',').map(imgType => imgType.replace('.','image/'));
 
   localizedStrings = {
     OR: this.localizationService.getStringComponentsObservable('OR'),
@@ -25,24 +26,23 @@ export class FeedbackImageUploadComponent {
     REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
     BROWSE: this.localizationService.getStringLaserficheObservable('BROWSE'),
     OPTIONAL: this.localizationService.getStringComponentsObservable('OPTIONAL'),
+    UNKNOWN_ERROR: this.localizationService.getStringLaserficheObservable('UNKNOWN_ERROR'),
   };
-  constructor(private localizationService: AppLocalizationService) {}
+  constructor(private localizationService: AppLocalizationService) {
+  }
 
   async dropHandler(ev: DragEvent): Promise<void> {
     let file: File | undefined;
     let numFiles = 0;
-    // Prevent default behavior (Prevent file from being opened)
     ev.preventDefault();
 
     if (ev?.dataTransfer?.items) {
-      // Use DataTransferItemList interface to access the file
       numFiles = ev.dataTransfer.items.length;
       const item = ev.dataTransfer.items[0];
       if (item.kind === 'file') {
         file = item.getAsFile() ?? undefined;
       }
     } else {
-      // Use DataTransfer interface to access the file(s)
       numFiles = ev.dataTransfer?.files.length ?? 0;
       file = ev.dataTransfer?.files.item(0) ?? undefined;
     }
@@ -59,7 +59,6 @@ export class FeedbackImageUploadComponent {
   }
 
   dragOverHandler(ev: DragEvent) {
-    // Prevent default behavior (Prevent file from being opened)
     ev.preventDefault();
   }
 
@@ -95,11 +94,11 @@ export class FeedbackImageUploadComponent {
               this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', ['JPEG, PNG, GIF, WebP']);
             break;
           default:
-            errorMessage = error.message;
+            errorMessage = error.message ?? this.localizedStrings.UNKNOWN_ERROR;
             break;
         }
       } else {
-        errorMessage = error.message;
+        errorMessage = error.message ?? this.localizedStrings.UNKNOWN_ERROR;
       }
       this.imageUploadError.emit(
         this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') + ' ' + errorMessage
@@ -111,6 +110,7 @@ export class FeedbackImageUploadComponent {
 
   onInputClickArea(): void {
     if (!this.inputFile) {
+      console.warn('Input Element unexpectedly does not exist.');
       return;
     }
     this.inputFile.nativeElement.click();
@@ -136,20 +136,20 @@ export class FeedbackImageUploadComponent {
           resolve(imgBase64);
         };
         image.onerror = (error) => {
-          reject(new ImageUploadError((error as string) ?? 'error event', ImageUploadErrorType.UnsupportedFormat));
+          console.warn(error);
+          reject(new ImageUploadError('ImageUploadErrorType.UnsupportedFormat', ImageUploadErrorType.UnsupportedFormat));
         };
         image.src = imgBase64;
       };
       reader.onerror = (error: any) => {
-        //TODO: is message the expected property?
-        reject(new ImageUploadError(error?.message ?? 'error event', ImageUploadErrorType.UnsupportedFormat));
+        console.warn(error);
+        reject(new ImageUploadError('ImageUploadErrorType.UnsupportedFormat', ImageUploadErrorType.UnsupportedFormat));
       };
       reader.readAsDataURL(file);
     });
   }
 
   removeImage(): void {
-    // this is to clear the selection of the input element
     this.imageUploaded = undefined;
   }
 }
@@ -167,6 +167,5 @@ class ImageUploadError extends Error {
   name = ImageUploadError_name;
   constructor(message: string, public imageUploadErrorType: ImageUploadErrorType) {
     super(message);
-    // Set the prototype explicitly.
   }
 }

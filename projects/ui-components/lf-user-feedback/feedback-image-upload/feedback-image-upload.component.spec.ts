@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StringUtils } from '@laserfiche/lf-js-utils';
 
 import { FeedbackImageUploadComponent } from './feedback-image-upload.component';
@@ -42,7 +42,7 @@ describe('FeedbackImageUploadComponent', () => {
     expect(fileDropZone.length).toBe(1);
   });
 
-  it('if tryReadAndValidateImageAsync is called with a valid image, should should attach image, and should emit event feedbackImageBase64', fakeAsync(async () => {
+  it('if tryReadAndValidateImageAsync is called with a valid image, should should attach image, and should emit event feedbackImageBase64', async () => {
     // Arrange   
     // convert base64 to byte array
     const file = base64ToImage(base64Image);
@@ -57,9 +57,9 @@ describe('FeedbackImageUploadComponent', () => {
     expect(success).toBe(true);
     expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(base64Image);
     expect(component.imageUploaded).toBe(file);
-  }));
+  });
 
-  it('if tryReadAndValidateImageAsync is called with a file above 2.9MB, should emit warning, and should not attach image', fakeAsync(async () => {
+  it('if tryReadAndValidateImageAsync is called with a file above 2.9MB, should emit warning, and should not attach image', async () => {
     // Arrange
     const fileSize = 3 * Math.pow(1024, 2); // 3 MB
     const file = createInvalidImageWithSize(fileSize);
@@ -75,9 +75,9 @@ describe('FeedbackImageUploadComponent', () => {
       'Image not attached. The image exceeds the maximum file size of 2.9 MB.'
     );
     expect(component.imageUploaded).toBe(undefined);
-  }));
+  });
 
-  it('if tryReadAndValidateImageAsync is called with an invalid image, should emit warning, and should not attach image', fakeAsync(async () => {
+  it('if tryReadAndValidateImageAsync is called with an invalid image, should emit warning, and should not attach image', async () => {
     // Arrange
     const fileSize = Math.pow(1024, 2); // 1 MB
     const file = createInvalidImageWithSize(fileSize);
@@ -93,7 +93,7 @@ describe('FeedbackImageUploadComponent', () => {
       'Image not attached. The image is corrupted or in an unrecognized format. The accepted formats are: JPEG, PNG, GIF, WebP.'
     );
     expect(component.imageUploaded).toBe(undefined);
-  }));
+  });
 
   it('if multiple images are dropped to the file drop zone, should emit warning', () => {
     const file1 = new File([''], 'dummy1.png');
@@ -102,7 +102,7 @@ describe('FeedbackImageUploadComponent', () => {
     dataTransfer.items.add(file1);
     dataTransfer.items.add(file2);
     // @ts-ignore
-    spyOn(component, 'tryReadAndValidateImageAsync').and.callThrough();
+    spyOn(component, 'tryReadAndValidateImageAsync');
 
     const event = new DragEvent('drop', { dataTransfer });
     spyOn(component.imageUploadError, 'emit');
@@ -120,7 +120,7 @@ describe('FeedbackImageUploadComponent', () => {
     dataTransfer.items.add(file1);
 
     // @ts-ignore
-    spyOn(component, 'tryReadAndValidateImageAsync').and.callThrough();
+    spyOn(component, 'tryReadAndValidateImageAsync');
 
     const event = new DragEvent('drop', { dataTransfer });
 
