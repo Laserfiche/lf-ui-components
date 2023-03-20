@@ -1,7 +1,7 @@
 <lf-general-dialog-layout>
   <span class="lf-dialog-title lf-popup-dialog-title dialog-header">{{ USER_FEEDBACK_TITLE | async }}</span>
   <button class="dialog-header lf-close-button" [title]="localizedStrings.CLOSE | async" (click)="onCloseDialog()">
-    <span id="pop-up-dialog-close" class="material-icons-outlined"> close </span>
+    <span class="material-icons-outlined"> close </span>
   </button>
   <div *ngIf="isFirstPane" class="dialog-content">
     <lf-feedback-suggestion-selection
