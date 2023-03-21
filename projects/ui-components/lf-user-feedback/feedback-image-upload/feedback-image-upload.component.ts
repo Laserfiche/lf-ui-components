@@ -14,11 +14,13 @@ export class FeedbackImageUploadComponent {
   @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
 
   imageUploaded?: File;
-  rawImageBase64: string = '';  
+  rawImageBase64: string = '';
   acceptedImageTypes: string = '.jpg,.jpeg,.png,.gif,.webp';
   private acceptedImageFormats: string = 'JPEG, PNG, GIF, WebP';
+  private supportedImageTypeArray: string[] = this.acceptedImageTypes
+    .split(',')
+    .map((imgType) => imgType.replace('.', 'image/'));
   private imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
-  private supportedImageTypeArray: string[] = this.acceptedImageTypes.split(',').map(imgType => imgType.replace('.','image/'));
 
   localizedStrings = {
     OR: this.localizationService.getStringComponentsObservable('OR'),
@@ -29,8 +31,8 @@ export class FeedbackImageUploadComponent {
     OPTIONAL: this.localizationService.getStringComponentsObservable('OPTIONAL'),
     UNKNOWN_ERROR: this.localizationService.getStringLaserficheObservable('UNKNOWN_ERROR'),
   };
-  constructor(private localizationService: AppLocalizationService) {
-  }
+
+  constructor(private localizationService: AppLocalizationService) {}
 
   async dropHandler(ev: DragEvent): Promise<void> {
     let file: File | undefined;
@@ -70,7 +72,7 @@ export class FeedbackImageUploadComponent {
     try {
       const isImageSupported = this.supportedImageTypeArray.includes(image.type);
       if (!isImageSupported) {
-        throw new ImageUploadError('ImageUploadErrorType.UnsupportedFormat', ImageUploadErrorType.UnsupportedFormat);
+        throw new ImageUploadError(ImageUploadErrorType.UnsupportedFormat);
       }
       if (image.size <= this.imageSizeLimitBytes) {
         const encodingData = await this.getBase64Async(image);
@@ -79,7 +81,7 @@ export class FeedbackImageUploadComponent {
         this.imageUploaded = image;
         return true;
       } else {
-        throw new ImageUploadError('ImageUploadErrorType.TooLarge', ImageUploadErrorType.TooLarge);
+        throw new ImageUploadError(ImageUploadErrorType.TooLarge);
       }
     } catch (error: any) {
       let errorMessage: string;
@@ -89,10 +91,12 @@ export class FeedbackImageUploadComponent {
             errorMessage = this.localizationService.getResourceStringComponents('IMAGE_EXCEEDS_MAX_FILE_SIZE_2DOT9MB');
             break;
           case ImageUploadErrorType.UnsupportedFormat:
-            errorMessage = this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT');
-            errorMessage +=
+            errorMessage =
+              this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT') +
               ' ' +
-              this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', [this.acceptedImageFormats]);
+              this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', [
+                this.acceptedImageFormats,
+              ]);
             break;
           default:
             errorMessage = error.message ?? this.localizedStrings.UNKNOWN_ERROR;
@@ -138,13 +142,13 @@ export class FeedbackImageUploadComponent {
         };
         image.onerror = (error) => {
           console.warn(error);
-          reject(new ImageUploadError('ImageUploadErrorType.UnsupportedFormat', ImageUploadErrorType.UnsupportedFormat));
+          reject(new ImageUploadError(ImageUploadErrorType.UnsupportedFormat));
         };
         image.src = imgBase64;
       };
       reader.onerror = (error: any) => {
         console.warn(error);
-        reject(new ImageUploadError('ImageUploadErrorType.UnsupportedFormat', ImageUploadErrorType.UnsupportedFormat));
+        reject(new ImageUploadError(ImageUploadErrorType.UnsupportedFormat));
       };
       reader.readAsDataURL(file);
     });
@@ -166,7 +170,7 @@ const ImageUploadError_name = 'ImageUploadError';
 /** @internal */
 class ImageUploadError extends Error {
   name = ImageUploadError_name;
-  constructor(message: string, public imageUploadErrorType: ImageUploadErrorType) {
-    super(message);
+  constructor(public imageUploadErrorType: ImageUploadErrorType, message?: string) {
+    super(message ?? imageUploadErrorType.toString());
   }
 }

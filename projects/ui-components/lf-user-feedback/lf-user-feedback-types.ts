@@ -37,6 +37,7 @@ export interface IUserTrackingEvent {
   userId: string;
 }
 
+/** @internal */
 export interface UserFeedbackUserTrackingEvent extends IUserTrackingEvent {
   hosting_module: string;
   hosting_context: string;
