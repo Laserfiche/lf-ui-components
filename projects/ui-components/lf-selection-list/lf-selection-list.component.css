@@ -82,14 +82,14 @@
   padding: 0 0 0 15px;
 }
 
-::ng-deep .lf-ellipsis-label .mat-sort-header-content {
+::ng-deep .lf-table-selection-list .lf-ellipsis-label .mat-sort-header-content {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   display: block;
 }
 
-::ng-deep .lf-ellipsis-label .mat-sort-header-container {
+::ng-deep .lf-table-selection-list .lf-ellipsis-label .mat-sort-header-container {
   width: 100%;
 }
 
@@ -143,7 +143,7 @@
   padding: 2px; /** TODO is there a better way to account for border */
 }
 
-.column-text-div {
+.lf-table-selection-list .column-text-div {
   display: flex;
   align-items: center;
   user-select: none;
@@ -155,16 +155,12 @@
   min-height: 100%;
 }
 
-table th .resize-handle:hover {
+.lf-table-selection-list th .resize-handle:hover {
   opacity: 1;
   background: linear-gradient(#000, #000) no-repeat center/2px 100%;
 }
 
-::ng-deep .lf-table-selection-list th.placeholder {
-  height: 20px;
-}
-
-::ng-deep .mat-sort-header .mat-sort-header-arrow {
+::ng-deep .lf-table-selection-list .mat-sort-header .mat-sort-header-arrow {
   display: none;
 }
 
@@ -173,7 +169,7 @@ table th .resize-handle:hover {
   display: flex;
 }
 
-.resize-handle {
+.lf-table-selection-list .resize-handle {
   display: inline-block;
   position: absolute;
   top: 0;
@@ -181,7 +177,7 @@ table th .resize-handle:hover {
   cursor: col-resize;
   opacity: 0;
   width: 15px;
-  right: -17.5px;
+  right: -17.5px; /* 10px padding + 1/2 width */
 }
 
 .lf-hidden-column-header {
