@@ -623,50 +623,21 @@ describe('LfRepositoryBrowserComponent', () => {
     expect(trEl.style.gridTemplateColumns).toBe(gridTemplateColumnsWidth);
   }));
 
-  it('if attempt to resize, write in localstorage the new width in pixel', fakeAsync(async () => {
+    it('if attempt to resize, write in localstorage the new width in pixel', fakeAsync(async () => {
     // Arrange
-    localStorage.clear();
-    // need to reset create columneDef to have the defaultWidth because the test
-    const propIdCreateDate: string = 'create_date';
-    const createDateInitialWidth = '35%';
-    const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth, minWidth: 100, resizable: true, sortable: true  };
-    const name : ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '65%', minWidth: 100, resizable: true, sortable: true };
-    const initialNameColumnWidth = parseFloat('65%')*containerWidth/100;
-    const moveX = 100;
+    // TODO: mock the directive move this to selection-list
     await setupRepoBrowserWithColumns([name, create]);
+    const newNameWidth = 200;
+    // @ts-ignore
+    component.entryList.onColumnWidthChanges(newNameWidth, 0);
     flush();
 
-    // click the resize-handle
-    const resizeHandleEls = Array.from(
-      document.getElementsByClassName('resize-handle')
-    );
-    const initialClientX = (resizeHandleEls[0].getBoundingClientRect().right + resizeHandleEls[0].getBoundingClientRect().left)/2 ;
-    const mouseDownEvent  = new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true
-    });
-    const mouseMoveEvent = new MouseEvent('mousemove', {
-      clientX: initialClientX + moveX,
-      movementX: moveX,
-      bubbles: true,
-      cancelable: true,
-      view: window,
-      buttons: 2
-    });
-    const mouseupEvent = new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    });
-    resizeHandleEls[0].dispatchEvent(mouseDownEvent);
-    resizeHandleEls[0].dispatchEvent(mouseMoveEvent);
-    resizeHandleEls[0].dispatchEvent(mouseupEvent);
-    flush();
 
-    // Assert
-
-    const newColumnWidth = initialNameColumnWidth + moveX;
+    const nameColEl = document.getElementsByClassName('mat-column-name')[0] as HTMLDivElement;
+    const nameColWidth = nameColEl.offsetWidth;
+    expect(nameColWidth).toBe(newNameWidth);
     const storedItem : RepositoryBrowserData = JSON.parse(localStorage.getItem(component.repoBrowserUniqueId) ?? '{}');
-    expect(storedItem.columns['name']).toBe(newColumnWidth+'px');
+    expect(storedItem.columns['name']).toBe(newNameWidth+'px');
   }));
 
   it('initialize the columns to have the same size with localstorage data', fakeAsync(async () => {

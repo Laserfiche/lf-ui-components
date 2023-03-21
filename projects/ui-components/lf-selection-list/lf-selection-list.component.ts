@@ -10,7 +10,6 @@ import {
   Input,
   OnDestroy,
   Output,
-  Renderer2,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
