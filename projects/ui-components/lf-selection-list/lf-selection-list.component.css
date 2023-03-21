@@ -102,6 +102,10 @@
   border-right-style: solid;
 }
 
+::ng-deep .lf-table-selection-list th.mat-header-cell {
+  overflow: visible;
+}
+
 .repository-browser-resize-overlay {
   position: absolute;
   top: 0;

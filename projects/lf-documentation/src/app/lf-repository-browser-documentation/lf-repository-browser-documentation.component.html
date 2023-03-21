@@ -121,12 +121,12 @@
   <tr>
     <td>item_size</td>
     <td>number</td>
-    <td>allows user to set the item height in pixels for the scrollable section</td>
+    <td>Allows user to set the item height in pixels for the scrollable section. Default value is 42</td>
   </tr>
   <tr>
     <td>page_size</td>
     <td>number</td>
-    <td>sets number of items rendered, should be set to more than then number of visible items</td>
+    <td>Sets number of items rendered, should be set to more than then number of visible items. Default value is 50</td>
   </tr>
   <tr>
     <td>isSelectable</td>
@@ -144,7 +144,7 @@
   <tr>
     <td>always_show_header</td>
     <td>boolean | undefined</td>
-    <td>Specify whether to always show header, by default it will not show if there is only a name column</td>
+    <td>Specify whether to always show header, by default it will not show if there is only one column</td>
   </tr>
 </table>
 <br />
@@ -235,7 +235,9 @@
   <tr>
     <td>setAdditionalColumnsToDisplay</td>
     <td>(ColumnDef[]) => void</td>
-    <td>allows user to set additional columns to display. You can specify a specific definition for the name column, or accept the default.</td>
+    <td>allows user to set additional columns to display. You can specify a specific definition for the name column, or accept the default.
+      If you are adding a property that did not yet exist in the attributes object, you should call refreshAsync to get the new data.
+    </td>
   </tr>
 </table>
 
