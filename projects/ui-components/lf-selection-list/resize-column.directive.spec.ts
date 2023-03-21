@@ -97,7 +97,7 @@ describe('ResizeColumnDirective', () => {
       );
       const headerEls = Array.from(
         document.getElementsByTagName('th')
-      )
+      );
       const initialClientRight = headerEls[0].getBoundingClientRect().right;
       const initialClientLeft = headerEls[0].getBoundingClientRect().left;
       console.log('initialClientX', initialClientRight);
@@ -138,7 +138,7 @@ describe('ResizeColumnDirective', () => {
       );
       const headerEls = Array.from(
         document.getElementsByTagName('th')
-      )
+      );
       const initialClientRight = headerEls[0].getBoundingClientRect().right;
       const initialClientLeft = headerEls[0].getBoundingClientRect().left;
       const mouseDownEvent  = new MouseEvent('mousedown', {
