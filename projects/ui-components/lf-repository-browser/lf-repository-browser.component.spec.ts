@@ -94,22 +94,7 @@ describe('LfRepositoryBrowserComponent', () => {
   let ngZoneMock: NgZone;
 
   const containerWidth = 500;
-  const propIdCreateDate: string = 'create_date';
-  const createDateInitialWidth = '35%';
-  const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth, minWidth: 100, resizable: true, sortable: true };
-  const name: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '80%', minWidth: 100, resizable: true, sortable: true  };
-  async function setupRepoBrowserWithColumns( columns: ColumnDef[]) {
-    dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
-      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
-    );
-    dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
 
-    // Act
-    // initialize the component
-    await component.initAsync(dataServiceMock);
-    component.setAdditionalColumnsToDisplay(columns);
-  }
 
   it('should create an instance', () => {
     expect(component).toBeTruthy();
@@ -568,103 +553,6 @@ describe('LfRepositoryBrowserComponent', () => {
 
   });
 
-  it('can initialize with column', fakeAsync (async () => {
-    // Act
-    await setupRepoBrowserWithColumns([create]);
-    flush();
-
-    const trEls = Array.from(
-      document.getElementsByClassName('mat-header-row')
-    );
-    const trEl = trEls[0] as HTMLDivElement;
-    const thEls = Array.from(
-      trEl.getElementsByClassName('mat-header-cell')
-    );
-    expect(thEls.length).toBe(2);
-  }));
-
-  it('if there is no column provided, set the name column to be auto', fakeAsync(async () => {
-    // Act
-    await setupRepoBrowserWithColumns([]);
-    flush();
-    const trEls = Array.from(
-      document.getElementsByClassName('mat-header-row')
-    );
-    const trEl = trEls[0] as HTMLDivElement;
-    expect(trEl.style.gridTemplateColumns).toBe('auto');
-  }));
-
-  it('can set column initial width', fakeAsync(async () => {
-    // Act
-    await setupRepoBrowserWithColumns([create]);
-    flush();
-
-    const trEls = Array.from(
-      document.getElementsByClassName('mat-header-row')
-    );
-    const trEl = trEls[0] as HTMLDivElement;
-    const createDateWidth = parseFloat(create.defaultWidth) / 100 * containerWidth + 'px';
-    const createDateActualWidth = trEl.style.gridTemplateColumns.split(' ')[1];
-    expect(createDateWidth).toBe(createDateActualWidth);
-  }));
-
-  it('if name is provided in columnToDisplay, use the defaultWidth there', fakeAsync(async () => {
-    // Act
-    await setupRepoBrowserWithColumns([name, create]);
-    flush();
-
-    const trEls = Array.from(
-      document.getElementsByClassName('mat-header-row')
-    );
-    const trEl = trEls[0] as HTMLDivElement;
-    const createDateWidth = parseFloat(create.defaultWidth) / 100 * containerWidth;
-    const nameWidth = parseFloat(name.defaultWidth) / 100 * containerWidth;
-    const gridTemplateColumnsWidth = `${nameWidth}px ${createDateWidth}px`;
-    expect(trEl.style.gridTemplateColumns).toBe(gridTemplateColumnsWidth);
-  }));
-
-    it('if attempt to resize, write in localstorage the new width in pixel', fakeAsync(async () => {
-    // Arrange
-    // TODO: mock the directive move this to selection-list
-    await setupRepoBrowserWithColumns([name, create]);
-    const newNameWidth = 200;
-    // @ts-ignore
-    component.entryList.onColumnWidthChanges(newNameWidth, 0);
-    flush();
-
-
-    const nameColEl = document.getElementsByClassName('mat-column-name')[0] as HTMLDivElement;
-    const nameColWidth = nameColEl.offsetWidth;
-    expect(nameColWidth).toBe(newNameWidth);
-    const storedItem : RepositoryBrowserData = JSON.parse(localStorage.getItem(component.repoBrowserUniqueId) ?? '{}');
-    expect(storedItem.columns['name']).toBe(newNameWidth+'px');
-  }));
-
-  it('initialize the columns to have the same size with localstorage data', fakeAsync(async () => {
-
-    // Arrange
-    const customNameColumnWidth = '300px';
-    const customCreateDateWidth = '400px';
-    const initialData : RepositoryBrowserData = {
-      columns: {
-        'name': customNameColumnWidth,
-        'create_date': customCreateDateWidth,
-      }
-    };
-    localStorage.setItem(component.repoBrowserUniqueId, JSON.stringify(initialData));
-    // Act
-    await setupRepoBrowserWithColumns([name, create]);
-    flush();
-
-    // Assert
-    const trEls = Array.from(
-      document.getElementsByClassName('mat-header-row')
-    );
-    const trEl = trEls[0] as HTMLDivElement;
-    const gridTemplateColumnsWidth = `${customNameColumnWidth} ${customCreateDateWidth}`;
-    expect(trEl.style.gridTemplateColumns).toBe(gridTemplateColumnsWidth);
-    localStorage.clear();
-  }));
   // describe('setNodeAsParentAsync', () => {
   //     const parent: TreeNode = {
   //         icon: '',

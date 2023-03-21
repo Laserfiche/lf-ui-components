@@ -1,9 +1,5 @@
 import { ColumnOrderBy } from '@laserfiche/lf-ui-components/lf-selection-list';
-export interface PropertyValue {
-  value: string | Date | number;
-  displayValue: string;
-}
-
+import { PropertyValue } from '@laserfiche/lf-ui-components/shared';
 export interface LfTreeNode {
   id: string;
   icon: string | string[];

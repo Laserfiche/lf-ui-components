@@ -3,6 +3,12 @@
  */
 export interface ItemWithId {
   id: string;
+  attributes?: Map<string, PropertyValue>;
+}
+
+export interface PropertyValue {
+  value: string | Date | number;
+  displayValue: string;
 }
 
 /**
