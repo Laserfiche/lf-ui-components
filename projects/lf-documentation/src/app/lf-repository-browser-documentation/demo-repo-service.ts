@@ -4,8 +4,8 @@ import {
   LfTreeNodeService,
   LfTreeNode,
   LfTreeNodePage,
-  PropertyValue,
 } from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
+import { PropertyValue } from './../../../../ui-components/shared/lf-shared-public-api';
 
 export const propIdCreateDate: string = 'create_date';
 export const propIdNumberCol: string = 'number_col';
