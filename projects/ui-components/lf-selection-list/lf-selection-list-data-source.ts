@@ -3,10 +3,10 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Subscription, BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 
-const PAGESIZE = 50;
-
 export class GridSelectionListDataSource extends DataSource<any> {
   private _data: ILfSelectable[];
+  private readonly visibleData: BehaviorSubject<ILfSelectable[]> = new BehaviorSubject<ILfSelectable[]>([]);
+
   checkForData: Subject<void> = new Subject<void>();
   indexChangeSub: Subscription;
   currentScrollIndex: number = 0;
@@ -16,8 +16,8 @@ export class GridSelectionListDataSource extends DataSource<any> {
   offset = 0;
   offsetChange = new BehaviorSubject(0);
 
-  extraData: number = PAGESIZE / 2;
-  bufferToEnd: number = PAGESIZE / 4;
+  extraData: number = this.pageSize / 2;
+  bufferToEnd: number = this.pageSize / 4;
 
   get allData(): ILfSelectable[] {
     return this._data.slice();
@@ -33,15 +33,19 @@ export class GridSelectionListDataSource extends DataSource<any> {
   }
 
   private resetView() {
-    this.visibleData.next(this._data.slice(0, PAGESIZE));
+    this.dataStart = 0;
+    this.dataEnd = this.pageSize;
+    this.visibleData.next(this._data.slice(this.dataStart, this.dataEnd));
     this.viewport.scrollTo({ top: 0 });
   }
 
-  constructor(initialData: ILfSelectable[], private viewport: CdkVirtualScrollViewport, private itemSize: number) {
+  constructor(initialData: ILfSelectable[], private viewport: CdkVirtualScrollViewport, private itemSize: number, public pageSize: number) {
     super();
     this._data = initialData;
     this.viewport.setTotalContentSize(this.itemSize * initialData.length);
-    this.visibleData.next(this._data.slice(0, PAGESIZE));
+    this.dataStart = 0;
+    this.dataEnd = this.pageSize;
+    this.visibleData.next(this._data.slice(this.dataStart, this.dataEnd));
 
     this.indexChangeSub = this.viewport.scrolledIndexChange.subscribe((currentScrollIndex) => {
       const numItemsInView = this.viewport.elementRef.nativeElement.getBoundingClientRect().height / this.itemSize;
@@ -68,8 +72,6 @@ export class GridSelectionListDataSource extends DataSource<any> {
       }
     });
   }
-
-  private readonly visibleData: BehaviorSubject<ILfSelectable[]> = new BehaviorSubject<ILfSelectable[]>([]);
 
   connect(collectionViewer: CollectionViewer): Observable<any[] | ReadonlyArray<any>> {
     return this.visibleData;

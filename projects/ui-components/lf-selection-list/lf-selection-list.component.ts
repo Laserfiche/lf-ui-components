@@ -49,6 +49,18 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() itemSize: number = 42;
+  private _pageSize: number = 50;
+  @Input() 
+  set pageSize(value: number) {
+    this._pageSize = value;
+    if (this.dataSource) {
+      this.dataSource.pageSize = value;
+    }
+  }
+  get pageSize(): number {
+    return this._pageSize;
+  }
+
   @Input() listItemRef?: TemplateRef<unknown>;
   @Input() alwaysShowHeader?: boolean;
   @Input() set listItems(items: ILfSelectable[]) {
@@ -111,6 +123,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.ref.detectChanges();
     this.setNewWidths();
   }
+  get columns(): ColumnDef[] {
+    return this.additionalColumnDefs;
+  }
 
   private setDefaultWidths() {
     const widths: string[] = [];
@@ -124,10 +139,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.columnsWidth = templateCOls;
     }
     this.ref.detectChanges();
-  }
-
-  get columns(): ColumnDef[] {
-    return this.additionalColumnDefs;
   }
 
   /** @internal */
@@ -176,7 +187,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   /** @internal */
   ngAfterViewInit(): void {
-    this.dataSource = new GridSelectionListDataSource(this.items, this.viewport!, this.itemSize);
+    this.dataSource = new GridSelectionListDataSource(this.items, this.viewport!, this.itemSize, this._pageSize);
     const dataSourceSub = this.dataSource.checkForData.subscribe(() => {
       this.scrollChanged.emit();
     });
@@ -186,6 +197,11 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.allSubscriptions?.add(dataSourceSub);
     this.allSubscriptions?.add(dataOffsetSub);
 
+    if (this.columns.length > 1 || this.alwaysShowHeader === true) {
+      this._showHeader = true;
+    } else {
+      this._showHeader = false;
+    }
     if (this.viewport?.elementRef.nativeElement) {
       this.focusMonitor.monitor(this.viewport?.elementRef.nativeElement, true).subscribe((origin: FocusOrigin) => {
         if (!origin || document.activeElement?.nodeName.toLowerCase() === 'cdk-virtual-scroll-viewport') {

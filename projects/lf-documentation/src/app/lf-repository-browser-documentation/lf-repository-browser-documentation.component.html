@@ -86,6 +86,7 @@
     multiple="true"
     id="repo-browser"
     [isSelectable]="selectable"
+    page_size="100"
     (entrySelected)="onEntrySelected($event)"
     (entryDblClicked)="onEntryOpened($event)"
     (entryFocused)="onEntryFocused($event)"
@@ -118,9 +119,14 @@
     <td>allows multiple entries to be selected</td>
   </tr>
   <tr>
-    <td>itemSize</td>
+    <td>item_size</td>
     <td>number</td>
     <td>allows user to set the item height in pixels for the scrollable section</td>
+  </tr>
+  <tr>
+    <td>page_size</td>
+    <td>number</td>
+    <td>sets number of items rendered, should be set to more than then number of visible items</td>
   </tr>
   <tr>
     <td>isSelectable</td>
@@ -131,12 +137,12 @@
     </td>
   </tr>
   <tr>
-    <td>columnOrderBy</td>
+    <td>column_order_by</td>
     <td>ColumnOrderBy | undefined</td>
     <td>set the column to order by programmatically</td>
   </tr>
   <tr>
-    <td>alwaysShowHeader</td>
+    <td>always_show_header</td>
     <td>boolean | undefined</td>
     <td>Specify whether to always show header, by default it will not show if there is only a name column</td>
   </tr>

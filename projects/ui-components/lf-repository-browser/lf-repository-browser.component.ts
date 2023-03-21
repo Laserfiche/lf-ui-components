@@ -65,16 +65,37 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   /**
    * Property to set height in pixels of each item in lf-repository-browser
    */
-  @Input() itemSize: number = 42;
+  @Input() set item_size(value: number | string) {
+    if (typeof value === 'string') {
+      value = parseInt(value, 10);
+    }
+    this._itemSize = value;
+  }
+  get item_size(): number {
+    return this._itemSize;
+  }
+
+  /**
+   * Property to set number of items rendered, should be set to more than the number of visible nodes
+   */
+  @Input() set page_size(value: number | string) {
+    if (typeof value === 'string') {
+      value = parseInt(value, 10);
+    }
+    this._pageSize = value;
+  }
+  get page_size(): number {
+    return this._pageSize;
+  }
 
   /**
    * Property to get and set the current column to order by
    */
   @Input()
-  get columnOrderBy(): ColumnOrderBy | undefined {
+  get column_order_by(): ColumnOrderBy | undefined {
     return this.entryList?.columnOrderBy;
   }
-  set columnOrderBy(orderBy: ColumnOrderBy | undefined) {
+  set column_order_by(orderBy: ColumnOrderBy | undefined) {
     if (this.entryList) {
       this.entryList.columnOrderBy = orderBy;
     }
@@ -84,7 +105,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * Property to set whether or not to always show header. By default will only show header if there is more than one column
    */
   @Input()
-  set alwaysShowHeader(showHeader: boolean | undefined) {
+  set always_show_header(showHeader: boolean | undefined | string) {
+    if (typeof showHeader === 'string') {
+      if (showHeader.toLowerCase() === 'true') {
+        showHeader = true;
+      } else {
+        showHeader = false;
+      }
+    }
     if (this.entryList) {
       this.entryList.alwaysShowHeader = showHeader;
     }
@@ -266,6 +294,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   private focusedEntry: ItemWithId | undefined;
   /** @internal */
   private _multipleSelectEnabled: boolean = false;
+  /** @internal */
+  private _pageSize: number = 50;
+  /** @internal */
+  private _itemSize: number = 42;
   /** @internal */
   repoBrowserUniqueId: string = '';
 
@@ -688,8 +720,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    */
   private async updateFolderChildrenAsync(parentEntry: LfTreeNode): Promise<ILfSelectable[]> {
     this.lastCalledPage = this.nextPage;
-    const sortState: ColumnOrderBy | undefined = this.columnOrderBy;
-    const dataPage: LfTreeNodePage = await this.treeNodeService.getFolderChildrenAsync(parentEntry, this.nextPage, sortState);
+    const sortState: ColumnOrderBy | undefined = this.column_order_by;
+    const dataPage: LfTreeNodePage = await this.treeNodeService.getFolderChildrenAsync(
+      parentEntry,
+      this.nextPage,
+      sortState
+    );
     let selectablePage: ILfSelectable[] = [];
     this.nextPage = dataPage.nextPage;
     const pageTreeNodes: LfTreeNode[] = dataPage.page;

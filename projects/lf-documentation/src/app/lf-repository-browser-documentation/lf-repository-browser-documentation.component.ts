@@ -51,8 +51,8 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     }
     this.singleColChange();
     await this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
-    this.singleSelectRepoBrowser.nativeElement.columnOrderBy = {columnId: 'name', isDesc: false};
-    this.singleSelectRepoBrowser.nativeElement.alwaysShowHeader = true;
+    this.singleSelectRepoBrowser.nativeElement.column_order_by = {columnId: 'name', isDesc: false};
+    this.singleSelectRepoBrowser.nativeElement.always_show_header = true;
   }
 
   onEntrySelected(event: CustomEvent<LfTreeNode[] | undefined>) {
