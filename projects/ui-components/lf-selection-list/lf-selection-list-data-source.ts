@@ -3,6 +3,9 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Subscription, BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 
+/**
+ * @internal
+ */
 export class GridSelectionListDataSource extends DataSource<any> {
   private _data: ILfSelectable[];
   private readonly visibleData: BehaviorSubject<ILfSelectable[]> = new BehaviorSubject<ILfSelectable[]>([]);
