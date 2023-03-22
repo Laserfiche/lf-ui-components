@@ -552,7 +552,41 @@ describe('LfRepositoryBrowserComponent', () => {
     expect(component.selectedItems).toEqual([rootTreeNodeChildren[1]]);
 
   });
+  it('if there is no column provided, set the name column to be auto', () => {
+    component.setAdditionalColumnsToDisplay([]);
+    expect(component.entryList?.columns).toEqual([{
+      id: 'name',
+      displayName: 'Name',
+      defaultWidth: 'auto',
+      minWidth: 100,
+      resizable: true,
+      sortable: true,
+  }]);
+});
 
+  it('if a column other than a name column is provided, set the name column to be width to be 50ch', () => {
+
+    const create : ColumnDef = { id: 'creation_date', displayName: 'Creation Date', defaultWidth: '40%', minWidth: 100, resizable: true, sortable: true };
+    component.setAdditionalColumnsToDisplay([create]);
+    expect(component.entryList?.columns).toEqual([
+      {
+      id: 'name',
+      displayName: 'Name',
+      defaultWidth: '50ch',
+      minWidth: 100,
+      resizable: true,
+      sortable: true,
+      },
+      create
+    ]);
+  });
+
+  it('if name column is passed into setAdditionalColumnsToDisplay, set the name column to width to be be the default width', () => {
+
+    const nameCol: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '80%', minWidth: 100, resizable: true, sortable: true };
+    component.setAdditionalColumnsToDisplay([nameCol]);
+    expect(component.entryList?.columns).toEqual([nameCol]);
+  });
   // describe('setNodeAsParentAsync', () => {
   //     const parent: TreeNode = {
   //         icon: '',
