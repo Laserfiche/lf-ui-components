@@ -232,7 +232,7 @@ describe('LfListComponent single select', () => {
     it('if alwaysShowHeader is set to true, header is not hidden', fakeAsync(() => {
       // Arrange
       component.list!.alwaysShowHeader = true; // has to be called first
-      setupRepoBrowserWithColumns([create])
+      setupRepoBrowserWithColumns([create]);
       fixture.detectChanges();
       flush();
 
