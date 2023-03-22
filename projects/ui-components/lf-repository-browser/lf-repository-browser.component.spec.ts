@@ -8,7 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { LfBreadcrumbsComponent, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
+import { LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -66,9 +66,6 @@ describe('LfRepositoryBrowserComponent', () => {
 
   beforeEach(async () => {
     changeRefMock = jasmine.createSpyObj('ref', ['detectChanges']);
-    localizeServiceMock = jasmine.createSpyObj('localizationService', {
-      getStringLaserficheObservable: (value: string) => value,
-    });
     matDialogMock = jasmine.createSpyObj('popupDialog', ['open']);
     ngZoneMock = jasmine.createSpyObj('zone', {
       run: (cb: Function) => cb(),
@@ -89,7 +86,6 @@ describe('LfRepositoryBrowserComponent', () => {
     'getParentTreeNodeAsync',
     'getTreeNodeByIdAsync',
   ]);
-  let localizeServiceMock: AppLocalizationService;
   let matDialogMock: MatDialog;
   let ngZoneMock: NgZone;
 
