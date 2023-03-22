@@ -228,6 +228,44 @@ describe('LfListComponent single select', () => {
       expect(component.list!._columnOrderBy).toEqual({ columnId: 'name', isDesc: false });
       expect(component.list!.refreshData.emit).toHaveBeenCalled();
     }));
+
+    it('if alwaysShowHeader is set to true, header is not hidden', fakeAsync(() => {
+      // Arrange
+      component.list!.alwaysShowHeader = true; // has to be called first
+      setupRepoBrowserWithColumns([create])
+      fixture.detectChanges();
+      flush();
+
+      // Assert
+      const headerHidden = document.getElementsByClassName('lf-hidden-column-header')[0];
+      expect(headerHidden).toBeUndefined();
+    }));
+
+    it('if alwaysShowHeader is set to false, header is not hidden even if there are more than one column', fakeAsync(() => {
+      // Arrange
+      component.list!.alwaysShowHeader = false;
+      setupRepoBrowserWithColumns([name, create]);
+      fixture.detectChanges();
+      flush();
+
+      // Assert
+      const headerHidden = document.getElementsByClassName('lf-hidden-column-header')[0];
+      expect(headerHidden).toBeUndefined();
+    }));
+
+
+    it('if alwaysShowHeader is set to false, header is hidden if there is only one column', fakeAsync(() => {
+      // Arrange
+      component.list!.alwaysShowHeader = false;
+      setupRepoBrowserWithColumns([create]);
+      fixture.detectChanges();
+      flush();
+
+      // Assert
+      const headerHidden = document.getElementsByClassName('lf-hidden-column-header')[0];
+      expect(headerHidden).toBeTruthy();
+    }));
+
   });
 
   describe('keydown interactions', () => {
