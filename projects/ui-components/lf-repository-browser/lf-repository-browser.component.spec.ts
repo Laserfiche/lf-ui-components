@@ -60,6 +60,39 @@ describe('LfRepositoryBrowserComponent', () => {
   let component: LfRepositoryBrowserComponent;
   let fixture: ComponentFixture<LfRepositoryBrowserComponent>;
 
+  async function setupRepoBrowserWithSelectedNodes(selectedNode: LfTreeNode[]) {
+    const id = '7';
+    const entry: LfTreeNode = {
+      icon: '',
+      id,
+      isContainer: true,
+      isLeaf: true,
+      name: 'test entry (7)',
+      path: '8',
+    };
+    const parent: LfTreeNode = {
+      icon: '',
+      id: '8',
+      isContainer: true,
+      isLeaf: false,
+      name: 'test entry (8)',
+      path: '',
+    };
+    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
+    );
+    dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
+      if (treeNode.id === id) {
+        return Promise.resolve(parent);
+      }
+      return Promise.resolve(undefined);
+    });
+    await component.initAsync(dataServiceMock, entry);
+
+    // Act
+    await component.setSelectedNodesAsync(selectedNode);
+  }
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(moduleDef).compileComponents();
   }));
@@ -472,36 +505,7 @@ describe('LfRepositoryBrowserComponent', () => {
 
   it('setSelectedNodesAsync should clear previous selected nodes that are not in the nodesToSelect param', async () => {
     // Arrange
-    const id = '7';
-    const entry: LfTreeNode = {
-      icon: '',
-      id,
-      isContainer: true,
-      isLeaf: true,
-      name: 'test entry (7)',
-      path: '8',
-    };
-    const parent: LfTreeNode = {
-      icon: '',
-      id: '8',
-      isContainer: true,
-      isLeaf: false,
-      name: 'test entry (8)',
-      path: '',
-    };
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
-      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
-    );
-    dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
-      if (treeNode.id === id) {
-        return Promise.resolve(parent);
-      }
-      return Promise.resolve(undefined);
-    });
-    await component.initAsync(dataServiceMock, entry);
-
-    // Act
-    await component.setSelectedNodesAsync([]);
+    await setupRepoBrowserWithSelectedNodes([]);
 
     // Assert
     // @ts-ignore
@@ -510,42 +514,13 @@ describe('LfRepositoryBrowserComponent', () => {
   });
 
   it('setSelectedNodesAsync should set selectedNode', async () => {
-    // TODO: this will fail because component.entryList is undefined
     // Arrange
-    const id = '7';
-    const entry: LfTreeNode = {
-      icon: '',
-      id,
-      isContainer: true,
-      isLeaf: true,
-      name: 'test entry (7)',
-      path: '8',
-    };
-    const parent: LfTreeNode = {
-      icon: '',
-      id: '8',
-      isContainer: true,
-      isLeaf: false,
-      name: 'test entry (8)',
-      path: '',
-    };
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
-      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
-    );
-    dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
-      if (treeNode.id === id) {
-        return Promise.resolve(parent);
-      }
-      return Promise.resolve(undefined);
-    });
-    await component.initAsync(dataServiceMock, entry);
-
-    // Act
-    await component.setSelectedNodesAsync([rootTreeNodeChildren[1]]);
+    const selectedNode = [rootTreeNodeChildren[1]];
+    await setupRepoBrowserWithSelectedNodes(selectedNode);
 
     // Assert
     // @ts-ignore
-    expect(component.selectedItems).toEqual([rootTreeNodeChildren[1]]);
+    expect(component.selectedItems).toEqual(selectedNode);
 
   });
   it('if there is no column provided, set the name column to be auto', () => {
@@ -751,3 +726,4 @@ describe('LfRepositoryBrowserComponent', () => {
   //     });
   // });
 });
+
