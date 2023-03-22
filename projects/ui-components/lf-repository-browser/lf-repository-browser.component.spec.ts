@@ -12,7 +12,7 @@ import { LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared'
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ColumnDef, LfSelectionListComponent, LfSelectionListModule, RepositoryBrowserData } from '@laserfiche/lf-ui-components/lf-selection-list';
+import { ColumnDef, LfSelectionListModule } from '@laserfiche/lf-ui-components/lf-selection-list';
 
 const rootTreeNode: LfTreeNode = {
   icon: '',
@@ -53,7 +53,7 @@ const moduleDef: TestModuleMetadata = {
     MatDialogModule,
     LfSelectionListModule,
   ],
-  declarations: [LfRepositoryBrowserComponent, LfBreadcrumbsComponent, LfLoaderComponent, LfSelectionListComponent],
+  declarations: [LfRepositoryBrowserComponent, LfBreadcrumbsComponent, LfLoaderComponent],
 };
 
 describe('LfRepositoryBrowserComponent', () => {
