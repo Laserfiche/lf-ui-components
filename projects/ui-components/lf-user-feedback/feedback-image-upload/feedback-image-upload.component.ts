@@ -23,12 +23,12 @@ export class FeedbackImageUploadComponent {
   private imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
 
   localizedStrings = {
-    OR: this.localizationService.getStringComponentsObservable('OR'),
+    OR: this.localizationService.getStringLaserficheObservable('OR'),
     ATTACH_IMAGE: this.localizationService.getStringComponentsObservable('ATTACH_IMAGE'),
-    DRAG_DROP_FILE: this.localizationService.getStringComponentsObservable('DRAG_DROP_FILE'),
+    DRAG_DROP_FILE: this.localizationService.getStringLaserficheObservable('DRAG_DROP_FILE'),
     REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
     BROWSE: this.localizationService.getStringLaserficheObservable('BROWSE'),
-    OPTIONAL: this.localizationService.getStringComponentsObservable('OPTIONAL'),
+    OPTIONAL: this.localizationService.getStringLaserficheObservable('OPTIONAL'),
     UNKNOWN_ERROR: this.localizationService.getStringLaserficheObservable('UNKNOWN_ERROR'),
   };
 
