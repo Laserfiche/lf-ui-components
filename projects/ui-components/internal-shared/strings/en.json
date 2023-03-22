@@ -13,7 +13,7 @@
    "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "If you'd like to join our Customer Panel, ",
    "PLEASE_CLICK_HERE": "please click here.",
    "SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER": "Something went wrong. Please try again later.",
-   "IMAGE_EXCEEDS_MAX_FILE_SIZE_2DOT9MB": "The image exceeds the maximum file size of 2.9 MB.",
+   "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "The image exceeds the maximum file size of {0}.",
    "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "The image is corrupted or in an unrecognized format.",
    "ACCEPTED_FORMATS_ARE_0": "The accepted formats are: {0}.",
    "IMAGE_NOT_ATTACHED": "Image not attached.",

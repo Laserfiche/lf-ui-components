@@ -15,7 +15,8 @@ export class FeedbackImageUploadComponent {
 
   imageUploaded?: File;
   rawImageBase64: string = '';
-  private imageSizeLimitBytes: number = 2.9 * 1024 * 1024; // limit is 2.9MB
+  private megabyteLimit = 2.9;
+  private imageSizeLimitBytes: number = this.megabyteLimit * 1024 * 1024; // limit is 2.9MB
   private supportedImageTypes: string[] = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
   localizedStrings = {
@@ -86,7 +87,7 @@ export class FeedbackImageUploadComponent {
       if (error.name === ImageUploadError_name) {
         switch ((<ImageUploadError>error).imageUploadErrorType) {
           case ImageUploadErrorType.TooLarge:
-            errorMessage = this.localizationService.getResourceStringComponents('IMAGE_EXCEEDS_MAX_FILE_SIZE_2DOT9MB');
+            errorMessage = this.localizationService.getResourceStringComponents('IMAGE_EXCEEDS_MAX_FILE_SIZE_0', [`${this.megabyteLimit} MB`]);
             break;
           case ImageUploadErrorType.UnsupportedFormat:
             errorMessage = this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT');
