@@ -1,4 +1,4 @@
-import { ComponentFixture, flush, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { FeedbackSubmissionComponent } from './feedback-submission.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,27 +10,27 @@ import { of } from 'rxjs';
   selector: 'lf-feedback-image-upload',
   template: '<p>Mock Image Attach Component</p>',
 })
-class MockFeedbackImageUploadComponent { }
+class MockFeedbackImageUploadComponent {}
 
 describe('FeedbackSubmissionComponent', () => {
   let component: FeedbackSubmissionComponent;
   let fixture: ComponentFixture<FeedbackSubmissionComponent>;
-  let localizeServiceMock: jasmine.SpyObj<AppLocalizationService>;
+  const localizeServiceMock: jasmine.SpyObj<AppLocalizationService> = jasmine.createSpyObj('localization', [
+    'getStringLaserficheObservable',
+    'getStringComponentsObservable',
+  ]);
+  localizeServiceMock.getStringLaserficheObservable.and.callFake((value: string) => {
+    return of(value);
+  });
+  localizeServiceMock.getStringComponentsObservable.and.callFake((value: string) => {
+    return of(value);
+  });
+
   beforeEach(async () => {
-    localizeServiceMock = jasmine.createSpyObj('localization',
-      ['getStringLaserficheObservable', 'getStringComponentsObservable']);
-    localizeServiceMock.getStringLaserficheObservable.and.callFake((value: string) => {
-      return of(value);
-    });
-    localizeServiceMock.getStringComponentsObservable.and.callFake((value: string) => {
-      return of(value);
-    });
     await TestBed.configureTestingModule({
       declarations: [FeedbackSubmissionComponent, MockFeedbackImageUploadComponent],
       imports: [MatCheckboxModule],
-      providers: [
-        { provide: AppLocalizationService, useValue: localizeServiceMock },
-      ],
+      providers: [{ provide: AppLocalizationService, useValue: localizeServiceMock }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FeedbackSubmissionComponent);
@@ -53,7 +53,7 @@ describe('FeedbackSubmissionComponent', () => {
 
         noIcon: false,
         hideMessage: false,
-      }
+      },
     ]);
   });
 
@@ -87,7 +87,9 @@ describe('FeedbackSubmissionComponent', () => {
     component.isFeedback = false;
     fixture.detectChanges();
     const feedbackDescription = fixture.debugElement.query(By.css('.lf-user-feedback-description'));
-    expect(feedbackDescription.nativeElement.innerText).toBe('DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING');
+    expect(feedbackDescription.nativeElement.innerText).toBe(
+      'DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING'
+    );
     const textLabel = fixture.debugElement.query(By.css('.lf-text-label'));
     expect(textLabel.nativeElement.innerText).toBe('TELL_US_ABOUT_IDEA (REQUIRED)');
   });

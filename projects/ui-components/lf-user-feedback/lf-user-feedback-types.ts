@@ -1,8 +1,10 @@
+/** @internal */
 export enum UserFeedbackTrackingEventType {
   Feedback = 'Feedback',
-  Suggestion = 'Suggestion'
+  Suggestion = 'Suggestion',
 }
 
+/** @internal */
 export interface UserFeedbackDialogData {
   userFeedbackTrackingEventType: UserFeedbackTrackingEventType;
   feedbackText: string;
@@ -11,9 +13,11 @@ export interface UserFeedbackDialogData {
 }
 
 /**
-* Contains required and custom properties to be tracked.
-* Custom properties are snake_case because camelCase and PascalCase are not respected when sending to tracking service
-*/
+ * @internal
+ * Contains required and custom properties to be tracked.
+ * Custom properties are snake_case because camelCase and PascalCase are not respected when sending to tracking service
+ */
+
 export interface IUserTrackingEvent {
   /**
    * required property by Product Intelligence
@@ -33,6 +37,7 @@ export interface IUserTrackingEvent {
   userId: string;
 }
 
+/** @internal */
 export interface UserFeedbackUserTrackingEvent extends IUserTrackingEvent {
   hosting_module: string;
   hosting_context: string;

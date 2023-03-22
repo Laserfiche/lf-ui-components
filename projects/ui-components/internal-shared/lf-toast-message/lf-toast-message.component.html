@@ -41,12 +41,8 @@
       [ngClass]="{
         warningIcon: message.type === 'Warning'
       }"
-      test-selector="toast-close-btn"
     >
       <span class="material-icons-outlined" aria-label="close"> close </span>
     </button>
-  </div>
-  <div *ngIf="getCheckboxControl(message.id) && message.doNotShowLabel" class="do-not-show-container">
-    <mat-checkbox [formControl]="getCheckboxControl(message.id)">{{ message.doNotShowLabel }}</mat-checkbox>
   </div>
 </div>

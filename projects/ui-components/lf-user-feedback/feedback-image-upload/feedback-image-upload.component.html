@@ -1,44 +1,40 @@
 <label for="image-upload" class="lf-text-label"
-  >{{ localizedStrings.ATTACH_IMAGE | async }} ({{ localizedStrings.OPTIONAL | async}})</label
+  >{{ localizedStrings.ATTACH_IMAGE | async }} ({{ localizedStrings.OPTIONAL | async }})</label
 >
-<div
-  id="image-upload"
-  class="file-drop-zone"
-  *ngIf="!imageUploaded; else showSelectedFile"
-  (drop)="dropHandler($event)"
-  (dragover)="dragOverHandler($event)"
->
-  <input
-    id="browseFileInput"
-    type="file"
-    accept=".jpg,.jpeg,.png,.gif,.webp"
-    tabindex="-1"
-    title=""
-    (change)="onFileSelectedAsync($event)"
-    #uploadFile
-  />
+<div (drop)="dropHandler($event)" (dragover)="dragOverHandler($event)">
+  <div id="image-upload" class="file-drop-zone" *ngIf="!imageUploaded; else showSelectedFile">
+    <input
+      id="browseFileInput"
+      type="file"
+      [accept]="acceptedImageTypes"
+      tabindex="-1"
+      title=""
+      (change)="onFileSelectedAsync($event)"
+      #uploadFile
+    />
 
-  <div id="file-upload-area">
-    <span id="upload-icon" class="material-icons"> file_upload </span>
-    <label for="uploadFile">
-      <button class="sec-button lf-button" (click)="onInputClickArea()">{{ localizedStrings.BROWSE | async }}</button>
-    </label>
-    <div class="file-upload-sub-text lf-text-body">{{ localizedStrings.OR | async }}</div>
-    <div class="file-upload-sub-text lf-text-body">{{ localizedStrings.DRAG_DROP_FILE | async }}</div>
-  </div>
-</div>
-<ng-template #showSelectedFile>
-  <div class="picked-file-zone" (drop)="dropHandler($event)" (dragover)="dragOverHandler($event)">
-    <div class="selected-file-info">
-      <div class="image-preview">
-        <img [src]="rawImageBase64" style="max-width: 100%; max-height: 100%; object-fit: contain" />
-      </div>
-      <div id="uploaded-file-name" class="lf-text-body" title="{{ imageUploaded?.name }}">
-        {{ imageUploaded?.name }}
-      </div>
-      <button class="lf-close-button" title="{{ localizedStrings.REMOVE | async }}" (click)="removeImage()">
-        <span class="material-icons-outlined"> close </span>
-      </button>
+    <div id="file-upload-area">
+      <span id="upload-icon" class="material-icons"> file_upload </span>
+      <label for="uploadFile">
+        <button class="sec-button lf-button" (click)="onInputClickArea()">{{ localizedStrings.BROWSE | async }}</button>
+      </label>
+      <div class="file-upload-sub-text lf-text-body">{{ localizedStrings.OR | async }}</div>
+      <div class="file-upload-sub-text lf-text-body">{{ localizedStrings.DRAG_DROP_FILE | async }}</div>
     </div>
   </div>
-</ng-template>
+  <ng-template #showSelectedFile>
+    <div class="picked-file-zone">
+      <div class="selected-file-info">
+        <div class="image-preview">
+          <img [src]="rawImageBase64" style="max-width: 100%; max-height: 100%; object-fit: contain" />
+        </div>
+        <div id="uploaded-file-name" class="lf-text-body" title="{{ imageUploaded?.name }}">
+          {{ imageUploaded?.name }}
+        </div>
+        <button class="lf-close-button" title="{{ localizedStrings.REMOVE | async }}" (click)="removeImage()">
+          <span class="material-icons-outlined"> close </span>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

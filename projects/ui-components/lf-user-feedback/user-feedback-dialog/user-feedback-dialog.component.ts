@@ -61,12 +61,12 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
     SUGGESTION: this.localizationService.getStringLaserficheObservable('SUGGESTION'),
     FEEDBACK: this.localizationService.getStringLaserficheObservable('FEEDBACK'),
     CLOSE: this.localizationService.getStringLaserficheObservable('CLOSE'),
-    THANK_YOU_FOR_SUBMISSION: this.localizationService.getStringComponentsObservable('THANK_YOU_FOR_SUBMISSION'),
+    THANK_YOU_FOR_SUBMISSION: this.localizationService.getStringLaserficheObservable('THANK_YOU_FOR_SUBMISSION'),
     IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL: this.localizationService.getStringComponentsObservable(
       'IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL'
     ),
     PLEASE_CLICK_HERE: this.localizationService.getStringComponentsObservable('PLEASE_CLICK_HERE'),
-    SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER: this.localizationService.getStringComponentsObservable(
+    SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER: this.localizationService.getStringLaserficheObservable(
       'SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER'
     ),
     SUBMIT: this.localizationService.getStringLaserficheObservable('SUBMIT'),
