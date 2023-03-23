@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ILfSelectable, ItemWithId, PropertyValue } from '@laserfiche/lf-ui-components/shared';
 import { ColumnDef, SelectedItemEvent } from './lf-selection-list-types';
 import { LfSelectionListComponent, RepositoryBrowserData } from './lf-selection-list.component';
+
 const propIdCreateDate: string = 'create_date';
   const createDateInitialWidth = '35%';
   const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth, minWidth: 100, resizable: true, sortable: true };

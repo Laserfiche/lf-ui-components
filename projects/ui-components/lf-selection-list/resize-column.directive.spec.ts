@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ResizeColumnDirective } from './resize-column.directive';
+import { ColumnDef } from './lf-selection-list-types';
+import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directive';
 
 @Component({
   template: `
@@ -8,7 +9,7 @@ import { ResizeColumnDirective } from './resize-column.directive';
     <table>
       <tr [style.gridTemplateColumns]="gridTemplateColumns">
         <th>
-          <div style="width:100%; height: 100%; position: relative" [lfResizeColumn]="true" (widthChanged)="onWidthChange($event)">
+          <div style="width:100%; height: 100%; position: relative" [lfResizeColumn]="columnResizable" [columnDef]="columnDef" (widthChanged)="onWidthChange($event)">
         Header 1</div>
         </th>
         <th>Header 2</th>
@@ -65,9 +66,10 @@ import { ResizeColumnDirective } from './resize-column.directive';
 })
 class TestComponent {
   widthChanged: number = 100;
+  columnResizable: boolean = true;
   gridTemplateColumns: string = `${this.widthChanged}px 100px 100px`;
+  columnDef: ColumnDef =  { id: 'mock_column_def', displayName: 'Mock Column Def', defaultWidth: '100px', minWidth: 50, resizable: true, sortable: true };
   onWidthChange(width: number) {
-    console.log('width changed', width);
     this.widthChanged = width;
     this.gridTemplateColumns = `${this.widthChanged}px 100px 100px`;
   }
@@ -85,100 +87,136 @@ describe('ResizeColumnDirective', () => {
       fixture.detectChanges();
   });
 
+  function resizeFirstHandler(moveX: number) {
+    const resizeHandleEls = Array.from(
+      document.getElementsByClassName('resize-handle')
+    );
+    const headerEls = Array.from(
+      document.getElementsByTagName('th')
+    );
+    const initialClientRight = headerEls[0].getBoundingClientRect().right;
+    const initialClientLeft = headerEls[0].getBoundingClientRect().left;
+    console.log('initialClientX', initialClientRight);
+    const mouseDownEvent = new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true
+    });
+    const mouseMoveEvent = new MouseEvent('mousemove', {
+      clientX: initialClientRight + moveX,
+      movementX: moveX,
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      buttons: 2
+    });
+    const mouseupEvent = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+    });
+    resizeHandleEls[0].dispatchEvent(mouseDownEvent);
+    resizeHandleEls[0].dispatchEvent(mouseMoveEvent);
+    resizeHandleEls[0].dispatchEvent(mouseupEvent);
+    fixture.detectChanges();
+
+    let resizedWidth: number = moveX + initialClientRight - initialClientLeft;
+    let resizeMinWidth = fixture.componentInstance.columnDef.minWidth ?? COLUMN_MIN_WIDTH;
+    return Math.max(resizedWidth, resizeMinWidth);
+  }
+
+  function mouseDownResizeHandler(resizeHandleEl: HTMLElement) {
+    const mouseDownEvent = new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true
+    });
+
+    resizeHandleEl.dispatchEvent(mouseDownEvent);
+  }
+
+  function mouseMoveResizeHandler(resizeHandleEl: HTMLElement, moveX: number) {
+    const initialClientRight = resizeHandleEl.closest('th')?.getBoundingClientRect().right ?? 0;
+    const mouseMoveEvent = new MouseEvent('mousemove', {
+      clientX: initialClientRight + moveX,
+      movementX: moveX,
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      buttons: 2
+    });
+    resizeHandleEl.dispatchEvent(mouseMoveEvent);
+  }
+
+  function mouseUpResizeHandler(resizeHandleEl: HTMLElement) {
+    const mouseupEvent = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    resizeHandleEl.dispatchEvent(mouseupEvent);
+  }
+
+  it('resized column should not be smaller than min width', () => {
+    // Arrange
+    const moveX = -75;
+    const resizeHandleEl = Array.from(
+      document.getElementsByClassName('resize-handle')
+    )[0] as HTMLElement;
+    const initialWidth = resizeHandleEl.closest('th')?.getBoundingClientRect().width ?? 0;
+
+    // Act
+    mouseDownResizeHandler(resizeHandleEl);
+    mouseMoveResizeHandler(resizeHandleEl, moveX);
+    mouseUpResizeHandler(resizeHandleEl);
+    fixture.detectChanges();
+
+    // Assert
+
+    expect(fixture.componentInstance.widthChanged).toBe(fixture.componentInstance.columnDef.minWidth ?? 0);
+  });
 
   it('should emit widthChange on mouse up',  () => {
       // Arrange
-      localStorage.clear();
       const moveX = 100;
-
-      // click the resize-handle
-      const resizeHandleEls = Array.from(
+      const resizeHandleEl = Array.from(
         document.getElementsByClassName('resize-handle')
-      );
-      const headerEls = Array.from(
-        document.getElementsByTagName('th')
-      );
-      const initialClientRight = headerEls[0].getBoundingClientRect().right;
-      const initialClientLeft = headerEls[0].getBoundingClientRect().left;
-      console.log('initialClientX', initialClientRight);
-      const mouseDownEvent  = new MouseEvent('mousedown', {
-        bubbles: true,
-        cancelable: true
-      });
-      const mouseMoveEvent = new MouseEvent('mousemove', {
-        clientX: initialClientRight + moveX,
-        movementX: moveX,
-        bubbles: true,
-        cancelable: true,
-        view: window,
-        buttons: 2
-      });
-      const mouseupEvent = new MouseEvent('mouseup', {
-        bubbles: true,
-        cancelable: true,
-      });
-      resizeHandleEls[0].dispatchEvent(mouseDownEvent);
-      resizeHandleEls[0].dispatchEvent(mouseMoveEvent);
-      resizeHandleEls[0].dispatchEvent(mouseupEvent);
+      )[0] as HTMLElement;
+      const initialWidth = resizeHandleEl.closest('th')?.getBoundingClientRect().width ?? 0;
+
+      // Act
+      mouseDownResizeHandler(resizeHandleEl);
+      mouseMoveResizeHandler(resizeHandleEl, moveX);
+      mouseUpResizeHandler(resizeHandleEl);
       fixture.detectChanges();
 
-      // Assert
 
-      expect(fixture.componentInstance.widthChanged).toBe(moveX + initialClientRight - initialClientLeft);
+      // Assert
+      expect(fixture.componentInstance.widthChanged).toBe(initialWidth + moveX);
     });
 
     it('should set repository-browser-resize-overlay left with mousemove',  () => {
       // Arrange
-      localStorage.clear();
       const moveX = 100;
 
-      // click the resize-handle
-      const resizeHandleEls = Array.from(
+      const resizeHandleEl = Array.from(
         document.getElementsByClassName('resize-handle')
-      );
-      const headerEls = Array.from(
-        document.getElementsByTagName('th')
-      );
-      const initialClientRight = headerEls[0].getBoundingClientRect().right;
-      const initialClientLeft = headerEls[0].getBoundingClientRect().left;
-      const mouseDownEvent  = new MouseEvent('mousedown', {
-        bubbles: true,
-        cancelable: true
-      });
-      const mouseMoveEvent = new MouseEvent('mousemove', {
-        clientX: initialClientRight + moveX,
-        movementX: moveX,
-        bubbles: true,
-        cancelable: true,
-        view: window,
-        buttons: 2
-      });
+      )[0] as HTMLElement;
+      const initialWidth = resizeHandleEl.closest('th')?.getBoundingClientRect().width ?? 0;
 
-      resizeHandleEls[0].dispatchEvent(mouseDownEvent);
-      resizeHandleEls[0].dispatchEvent(mouseMoveEvent);
-
+      // Act
+      mouseDownResizeHandler(resizeHandleEl);
+      mouseMoveResizeHandler(resizeHandleEl, moveX);
       fixture.detectChanges();
 
       // Assert
       const resize = Array.from(
         document.getElementsByClassName('repository-browser-resize-overlay')
       );
-      expect((resize[0] as HTMLDivElement).style.left).toBe(`${moveX + initialClientRight - initialClientLeft}px`);
+      expect((resize[0] as HTMLDivElement).style.left).toBe(`${moveX + initialWidth}px`);
 
       // Move the mouse again
-      const mouseMoveEvent2 = new MouseEvent('mousemove', {
-        clientX: initialClientRight + 2*moveX,
-        movementX: moveX,
-        bubbles: true,
-        cancelable: true,
-        view: window,
-        buttons: 2
-      });
-
-      resizeHandleEls[0].dispatchEvent(mouseMoveEvent2);
+      mouseMoveResizeHandler(resizeHandleEl, 2*moveX);
       fixture.detectChanges();
-      expect((resize[0] as HTMLDivElement).style.left).toBe(`${2*moveX + initialClientRight - initialClientLeft}px`);
 
-
+      // Assert
+      expect((resize[0] as HTMLDivElement).style.left).toBe(`${2*moveX + initialWidth}px`);
     });
 });
