@@ -88,7 +88,7 @@ describe('FeedbackImageUploadComponent', () => {
 
     // Assert
     expect(component.imageUploadError.emit).toHaveBeenCalledWith(
-      'IMAGE_NOT_ATTACHED IMAGE_EXCEEDS_MAX_FILE_SIZE_2DOT9MB'
+      'IMAGE_NOT_ATTACHED IMAGE_EXCEEDS_MAX_FILE_SIZE_0'
     );
     expect(component.imageUploaded).toBe(undefined);
   });
