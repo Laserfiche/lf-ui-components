@@ -63,6 +63,9 @@ export class LfAnalyticsService {
     && _url.host != 'signin.eu.laserfiche.com'
     && _url.host != 'accounts.eu.laserfiche.com'
     && _url.host != 'lfxstatic.com'
+    && _url.host != 'app.clouddemo.laserfiche.com'
+    && _url.host != 'accounts.clouddemo.laserfiche.com'
+    && _url.host != 'signin.clouddemo.laserfiche.com'
     ) {
       return true; // not production
     } else {
