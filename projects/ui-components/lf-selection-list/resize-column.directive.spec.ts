@@ -96,7 +96,6 @@ describe('ResizeColumnDirective', () => {
     );
     const initialClientRight = headerEls[0].getBoundingClientRect().right;
     const initialClientLeft = headerEls[0].getBoundingClientRect().left;
-    console.log('initialClientX', initialClientRight);
     const mouseDownEvent = new MouseEvent('mousedown', {
       bubbles: true,
       cancelable: true
