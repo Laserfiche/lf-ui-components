@@ -87,40 +87,6 @@ describe('ResizeColumnDirective', () => {
       fixture.detectChanges();
   });
 
-  function resizeFirstHandler(moveX: number) {
-    const resizeHandleEls = Array.from(
-      document.getElementsByClassName('resize-handle')
-    );
-    const headerEls = Array.from(
-      document.getElementsByTagName('th')
-    );
-    const initialClientRight = headerEls[0].getBoundingClientRect().right;
-    const initialClientLeft = headerEls[0].getBoundingClientRect().left;
-    const mouseDownEvent = new MouseEvent('mousedown', {
-      bubbles: true,
-      cancelable: true
-    });
-    const mouseMoveEvent = new MouseEvent('mousemove', {
-      clientX: initialClientRight + moveX,
-      movementX: moveX,
-      bubbles: true,
-      cancelable: true,
-      view: window,
-      buttons: 2
-    });
-    const mouseupEvent = new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    });
-    resizeHandleEls[0].dispatchEvent(mouseDownEvent);
-    resizeHandleEls[0].dispatchEvent(mouseMoveEvent);
-    resizeHandleEls[0].dispatchEvent(mouseupEvent);
-    fixture.detectChanges();
-
-    let resizedWidth: number = moveX + initialClientRight - initialClientLeft;
-    let resizeMinWidth = fixture.componentInstance.columnDef.minWidth ?? COLUMN_MIN_WIDTH;
-    return Math.max(resizedWidth, resizeMinWidth);
-  }
 
   function mouseDownResizeHandler(resizeHandleEl: HTMLElement) {
     const mouseDownEvent = new MouseEvent('mousedown', {
