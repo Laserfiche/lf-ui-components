@@ -1,11 +1,19 @@
 import { IconUtils } from '@laserfiche/lf-js-utils';
-import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
+import { ColumnOrderBy } from './../../../../ui-components/lf-selection-list/lf-selection-list-public-api';
+import {
+  LfTreeNodeService,
+  LfTreeNode,
+  LfTreeNodePage,
+} from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
+import { PropertyValue } from './../../../../ui-components/shared/lf-shared-public-api';
+
+export const propIdCreateDate: string = 'create_date';
+export const propIdNumberCol: string = 'number_col';
+export const propIdNameCol: string = 'name';
 
 export class DemoRepoService implements LfTreeNodeService {
   breadCrumb: LfTreeNode[] = [];
   currentFolder: LfTreeNode | undefined;
-
-  filter: string = '';
 
   _rootEntry: LfTreeNode = {
     icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
@@ -15,6 +23,7 @@ export class DemoRepoService implements LfTreeNodeService {
     name: 'root',
     path: '/',
   };
+  currentDate = Date.now();
   _entries: { [key: string]: LfTreeNode } = {
     '2': {
       icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
@@ -23,6 +32,9 @@ export class DemoRepoService implements LfTreeNodeService {
       isLeaf: false,
       name: 'folder2',
       path: '/2',
+      attributes: new Map<string, PropertyValue>([
+        [propIdCreateDate, { value: this.currentDate, displayValue: Intl.DateTimeFormat().format(this.currentDate) }],
+      ]),
     },
     '3': {
       icon: IconUtils.getDocumentIconUrlFromIconId('document-20'),
@@ -199,7 +211,7 @@ export class DemoRepoService implements LfTreeNodeService {
       isLeaf: false,
       name: 'folder',
       path: '/',
-    }
+    },
   };
   _testData: { [key: string]: LfTreeNode[] } = {
     '1': [
@@ -233,13 +245,14 @@ export class DemoRepoService implements LfTreeNodeService {
     '19': [this._entries['1900']],
     '20': [this._entries['21']],
     '21': [],
-    '1900': []
+    '1900': [],
   };
 
   private lastFolder: string | undefined;
 
   constructor() {
     for (let i = 0; i < 10000; i++) {
+      const number = i % 1000;
       this._testData['17'].push({
         icon: IconUtils.getDocumentIconUrlFromIconId('document-20'),
         id: i.toString(),
@@ -247,11 +260,12 @@ export class DemoRepoService implements LfTreeNodeService {
         isLeaf: true,
         name: `generated entry ${i}`,
         path: `/17/${i}`,
+        attributes: new Map<string, PropertyValue>([[propIdNumberCol, { value: number, displayValue: `${number}` }]]),
       });
     }
   }
 
-  getFolderChildrenAsync(folder: LfTreeNode, nextPage?: string): Promise<LfTreeNodePage> {
+  getFolderChildrenAsync(folder: LfTreeNode, nextPage?: string, sort?: ColumnOrderBy): Promise<LfTreeNodePage> {
     const folderId: string = folder.id;
     if (folderId != null && this._testData[folderId]) {
       if (folderId === '16') {
@@ -267,8 +281,9 @@ export class DemoRepoService implements LfTreeNodeService {
         }
         this.lastFolder = folderId;
         const newEntries: LfTreeNode[] = this.createDynamicItems(nextPage);
+        const sorted = this.sortItems(newEntries, sort);
         return Promise.resolve({
-          page: newEntries,
+          page: sorted,
           nextPage: (Number.parseInt(nextPage ?? '0', 10) + 20).toString(),
         });
       }
@@ -280,9 +295,7 @@ export class DemoRepoService implements LfTreeNodeService {
           });
         }
         this.lastFolder = folderId;
-        const testData = this._testData['19'].filter((data: LfTreeNode) => {
-          return data.name.indexOf(this.filter) >= 0;
-        });
+        const testData = this._testData['19'];
         return new Promise((resolve, reject) => {
           setTimeout(() => {
             resolve({
@@ -294,11 +307,10 @@ export class DemoRepoService implements LfTreeNodeService {
       }
 
       this.lastFolder = folderId;
-      const testData = this._testData[folderId].filter((data: LfTreeNode) => {
-        return data.name.indexOf(this.filter) >= 0;
-      });
+      const testData = this._testData[folderId];
+      const sortData = this.sortItems(testData, sort);
       return Promise.resolve({
-        page: testData,
+        page: sortData,
         nextPage: undefined,
       });
     }
@@ -307,8 +319,42 @@ export class DemoRepoService implements LfTreeNodeService {
   getRootTreeNodeAsync(): Promise<LfTreeNode> {
     return Promise.resolve(this._rootEntry);
   }
+
+  private compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  sortItems(data: LfTreeNode[], sortState: ColumnOrderBy | undefined) {
+    if (!sortState) {
+      return data;
+    }
+    const sortedData = data?.sort((a, b) => {
+      const isAsc = !sortState.isDesc;
+      if (sortState.columnId === propIdNameCol) {
+        return this.compare(a.name.toLowerCase(), b.name.toLowerCase(), isAsc);
+      } else if (sortState.columnId !== undefined) {
+        const aVal = a.attributes?.get(sortState?.columnId)?.value;
+        const bVal = b.attributes?.get(sortState?.columnId)?.value;
+        // hp tp sort if undefined..
+        if (Object.prototype.toString.call(aVal) === '[object Date]') {
+          return this.compare((aVal as Date).getTime(), (bVal as Date)?.getTime(), isAsc);
+        } else if (typeof aVal === 'number') {
+          return this.compare(aVal, bVal as number, isAsc);
+        } else if (typeof aVal === 'string') {
+          return this.compare(aVal.toLowerCase(), (bVal as string).toLowerCase(), isAsc);
+        } else {
+          // No value or unsupported value
+          return 0;
+        }
+      } else {
+        return 0;
+      }
+    });
+    return sortedData;
+  }
+
   async getParentTreeNodeAsync(entry: LfTreeNode): Promise<LfTreeNode | undefined> {
-    if(entry.path === '/') {
+    if (entry.path === '/') {
       return undefined;
     }
     const path = entry.path.split('/');

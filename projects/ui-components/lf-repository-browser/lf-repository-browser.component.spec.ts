@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, NgZone } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync, TestModuleMetadata } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync, TestModuleMetadata, flush, fakeAsync } from '@angular/core/testing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
@@ -8,10 +8,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { LfBreadcrumbsComponent, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
 import { MatDialog } from '@angular/material/dialog';
-import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
+import { LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
-import { LfSelectionListModule } from '../lf-selection-list/lf-selection-list.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ColumnDef, LfSelectionListModule } from '@laserfiche/lf-ui-components/lf-selection-list';
 
 const rootTreeNode: LfTreeNode = {
   icon: '',
@@ -28,7 +29,7 @@ const rootTreeNodeChildren: LfTreeNode[] = [
     id: '2',
     isContainer: false,
     isLeaf: false,
-    name: 'tree node (2)',
+    name: 'tree node a realllllllllllllllllllllllllllllllllllllllllllllllllllllllly long name (2)',
     path: '',
   },
   {
@@ -43,6 +44,7 @@ const rootTreeNodeChildren: LfTreeNode[] = [
 
 const moduleDef: TestModuleMetadata = {
   imports: [
+    BrowserAnimationsModule,
     MatListModule,
     MatIconModule,
     FormsModule,
@@ -58,22 +60,54 @@ describe('LfRepositoryBrowserComponent', () => {
   let component: LfRepositoryBrowserComponent;
   let fixture: ComponentFixture<LfRepositoryBrowserComponent>;
 
+  async function setupRepoBrowserWithSelectedNodes(selectedNode: LfTreeNode[]) {
+    const id = '7';
+    const entry: LfTreeNode = {
+      icon: '',
+      id,
+      isContainer: true,
+      isLeaf: true,
+      name: 'test entry (7)',
+      path: '8',
+    };
+    const parent: LfTreeNode = {
+      icon: '',
+      id: '8',
+      isContainer: true,
+      isLeaf: false,
+      name: 'test entry (8)',
+      path: '',
+    };
+    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
+    );
+    dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
+      if (treeNode.id === id) {
+        return Promise.resolve(parent);
+      }
+      return Promise.resolve(undefined);
+    });
+    await component.initAsync(dataServiceMock, entry);
+
+    // Act
+    await component.setSelectedNodesAsync(selectedNode);
+  }
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(moduleDef).compileComponents();
   }));
 
   beforeEach(async () => {
-    changeRefMock = jasmine.createSpyObj('changeDetectorRef', ['detectChanges']);
-    localizeServiceMock = jasmine.createSpyObj('localizeion', {
-      getStringLaserficheObservable: (value: string) => value,
-    });
-    matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
-    ngZoneMock = jasmine.createSpyObj('ngZone', {
+    changeRefMock = jasmine.createSpyObj('ref', ['detectChanges']);
+    matDialogMock = jasmine.createSpyObj('popupDialog', ['open']);
+    ngZoneMock = jasmine.createSpyObj('zone', {
       run: (cb: Function) => cb(),
     });
 
     fixture = TestBed.createComponent(LfRepositoryBrowserComponent);
     component = fixture.componentInstance;
+    // @ts-ignore
+    component.el.nativeElement.style = `height: 500px; width: 500px`;
     // await component.initAsync(repoService);
     fixture.detectChanges();
   });
@@ -85,9 +119,9 @@ describe('LfRepositoryBrowserComponent', () => {
     'getParentTreeNodeAsync',
     'getTreeNodeByIdAsync',
   ]);
-  let localizeServiceMock: AppLocalizationService;
   let matDialogMock: MatDialog;
   let ngZoneMock: NgZone;
+
 
   it('should create an instance', () => {
     expect(component).toBeTruthy();
@@ -304,26 +338,27 @@ describe('LfRepositoryBrowserComponent', () => {
   it('entrySelected should not emit if node was last selected', async () => {
     spyOn(component.entrySelected, 'emit');
     const selectedItems = [{
-        isSelected: true,
-        isSelectable: true,
-        value: {
+      isSelected: true,
+      isSelectable: true,
+      value: {
         icon: '',
         id: '10',
         isContainer: true,
         isLeaf: true,
         name: 'test entry (10)',
         path: '9',
-      }}];
+      }
+    }];
     await component.onItemSelected({
-        selected: selectedItems[0],
-        selectedItems
+      selected: selectedItems[0],
+      selectedItems
     });
 
     expect(component.entrySelected.emit).toHaveBeenCalledTimes(1);
 
     await component.onItemSelected({
-        selected: selectedItems[0],
-        selectedItems
+      selected: selectedItems[0],
+      selectedItems
     });
 
     expect(component.entrySelected.emit).toHaveBeenCalledTimes(1);
@@ -415,38 +450,38 @@ describe('LfRepositoryBrowserComponent', () => {
   });
 
   it('openSelectedItemsAsync should emit event if multiple folders selected', async () => {
-        // Arrange
-        dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
-        dataServiceMock.getFolderChildrenAsync.and.returnValue(
-          Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
-        );
-        dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+    // Arrange
+    dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
+    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
+    );
+    dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
 
-        // Act
-        await component.initAsync(dataServiceMock);
-        // @ts-ignore
-        component.selectedItems = [
-          {
-            name: 'Test folder 2',
-            icon: '',
-            id: '4',
-            isContainer: true,
-            isLeaf: false,
-            path: '',
-          },
-          {
-            name: 'Test folder',
-            icon: '',
-            id: '3',
-            isContainer: true,
-            isLeaf: false,
-            path: '',
-          },
-        ];
-        spyOn(component.entryDblClicked, 'emit');
-        await component.openSelectedItemsAsync();
-        expect(component.currentFolder).toBe(rootTreeNode);
-        expect(component.entryDblClicked.emit).toHaveBeenCalled();
+    // Act
+    await component.initAsync(dataServiceMock);
+    // @ts-ignore
+    component.selectedItems = [
+      {
+        name: 'Test folder 2',
+        icon: '',
+        id: '4',
+        isContainer: true,
+        isLeaf: false,
+        path: '',
+      },
+      {
+        name: 'Test folder',
+        icon: '',
+        id: '3',
+        isContainer: true,
+        isLeaf: false,
+        path: '',
+      },
+    ];
+    spyOn(component.entryDblClicked, 'emit');
+    await component.openSelectedItemsAsync();
+    expect(component.currentFolder).toBe(rootTreeNode);
+    expect(component.entryDblClicked.emit).toHaveBeenCalled();
   });
 
   it('openSelectedItemsAsync should emit event and open folder if single folder selected', async () => {
@@ -469,42 +504,67 @@ describe('LfRepositoryBrowserComponent', () => {
 
   it('setSelectedNodesAsync should clear previous selected nodes that are not in the nodesToSelect param', async () => {
     // Arrange
-    const id = '7';
-    const entry: LfTreeNode = {
-      icon: '',
-      id,
-      isContainer: true,
-      isLeaf: true,
-      name: 'test entry (7)',
-      path: '8',
-    };
-    const parent: LfTreeNode = {
-      icon: '',
-      id: '8',
-      isContainer: true,
-      isLeaf: false,
-      name: 'test entry (8)',
-      path: '',
-    };
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
-      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
-    );
-    dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
-      if (treeNode.id === id) {
-        return Promise.resolve(parent);
-      }
-      return Promise.resolve(undefined);
-    });
-    await component.initAsync(dataServiceMock, entry);
-
-    // Act
-    await component.setSelectedNodesAsync([]);
+    await setupRepoBrowserWithSelectedNodes([]);
 
     // Assert
     // @ts-ignore
     expect(component.selectedItems).toEqual([]);
 
   });
+
+  it('setSelectedNodesAsync should set selectedNode', async () => {
+    // Arrange
+    const selectedNode = [rootTreeNodeChildren[1]];
+    await setupRepoBrowserWithSelectedNodes(selectedNode);
+
+    // Assert
+    // @ts-ignore
+    expect(component.selectedItems).toEqual(selectedNode);
+
+  });
+  it('if there is no column provided, set the name column to be auto', () => {
+    component.setAdditionalColumnsToDisplay([]);
+    expect(component.entryList?.columns).toEqual([{
+      id: 'name',
+      displayName: 'Name',
+      defaultWidth: 'auto',
+      minWidth: 100,
+      resizable: true,
+      sortable: true,
+    }]);
+  });
+
+  it('if a column other than a name column is provided, set the name column to be width to be 50ch', () => {
+
+    const create: ColumnDef = { id: 'creation_date', displayName: 'Creation Date', defaultWidth: '40%', minWidth: 100, resizable: true, sortable: true };
+    component.setAdditionalColumnsToDisplay([create]);
+    expect(component.entryList?.columns).toEqual([
+      {
+        id: 'name',
+        displayName: 'Name',
+        defaultWidth: '50ch',
+        minWidth: 100,
+        resizable: true,
+        sortable: true,
+      },
+      create
+    ]);
+  });
+
+  it('if name column is passed into setAdditionalColumnsToDisplay, set the name column to width to be be the default width', () => {
+
+    const nameCol: ColumnDef = {
+      id: 'name',
+      displayName: 'Name',
+      defaultWidth: '80%',
+      minWidth: 100, resizable:
+      true,
+      sortable: true
+    };
+    component.setAdditionalColumnsToDisplay([nameCol]);
+    expect(component.entryList?.columns).toEqual([nameCol]);
+  });
+
   // describe('setNodeAsParentAsync', () => {
   //     const parent: TreeNode = {
   //         icon: '',
@@ -673,3 +733,4 @@ describe('LfRepositoryBrowserComponent', () => {
   //     });
   // });
 });
+
