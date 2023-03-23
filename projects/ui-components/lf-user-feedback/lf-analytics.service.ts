@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { init } from './business-intelligence-analytics';
-import { IUserTrackingEvent } from './lf-user-feedback-types';
+import { IUserTrackingEvent, UserFeedbackUserTrackingEvent } from './lf-user-feedback-types';
 
 /** @internal */
 @Injectable({
@@ -19,6 +19,10 @@ export class LfAnalyticsService {
     try {
       const analytics = this.getAnalytics();
       if (analytics && event.accountId && event.module && event.userId) {
+        const isHostEmpower = this.isHostEmpower(window.origin);
+        if (isHostEmpower) {
+          (event as UserFeedbackUserTrackingEvent).hosting_context = 'Empower';
+        }
         console.log(`track ${event.eventName}`);
         const eventWithoutName: Partial<IUserTrackingEvent> = { ...event };
         delete eventWithoutName.eventName;
@@ -66,6 +70,18 @@ export class LfAnalyticsService {
     && _url.host != 'app.clouddemo.laserfiche.com'
     && _url.host != 'accounts.clouddemo.laserfiche.com'
     && _url.host != 'signin.clouddemo.laserfiche.com'
+    ) {
+      return true; // not production
+    } else {
+      return false; // production
+    }
+  }
+
+private isHostEmpower(url: string) {
+  const _url = new URL(url.toLowerCase());
+  if (_url.host == 'accounts.clouddemo.laserfiche.com'
+  || _url.host == 'signin.clouddemo.laserfiche.com'
+  || _url.host == 'app.clouddemo.laserfiche.com'
     ) {
       return true; // not production
     } else {
