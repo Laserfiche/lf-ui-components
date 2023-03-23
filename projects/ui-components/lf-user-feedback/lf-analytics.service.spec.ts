@@ -62,4 +62,9 @@ describe('LfAnalyticsService', () => {
     const biInfo = service['getBusinessIntelligenceInfo']('https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/index.html#/');
     expect(biInfo?.environment).toEqual('production');
   });
+
+  it('getBusinessIntelligenceInfo should return production env for empower url', () => {
+    const biInfo = service['getBusinessIntelligenceInfo']('https://app.clouddemo.laserfiche.com/home');
+    expect(biInfo?.environment).toEqual('production');
+  });
 });
