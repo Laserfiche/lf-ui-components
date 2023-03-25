@@ -29,7 +29,7 @@ const SELECT_COL: ColumnDef = {
   id: 'select',
   displayName: '',
   defaultWidth: '35px',
-  minWidth: 35,
+  minWidthPx: 35,
   resizable: false,
   sortable: false,
 };
@@ -397,9 +397,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
               this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
             );
             const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
-            const minWidth = col.minWidth ?? COLUMN_MIN_WIDTH;
+            const minWidthPx = col.minWidthPx ?? COLUMN_MIN_WIDTH;
             const columnWidthInPixel =
-              col.id !== 'select' ? Math.max(columnWidthOffset, minWidth) + 'px' : SELECT_COL.defaultWidth;
+              col.id !== 'select' ? Math.max(columnWidthOffset, minWidthPx) + 'px' : SELECT_COL.defaultWidth;
             widthsInPixel.push(columnWidthInPixel);
           });
 

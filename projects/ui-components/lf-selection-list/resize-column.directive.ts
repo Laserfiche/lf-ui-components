@@ -78,11 +78,11 @@ export class ResizeColumnDirective implements OnInit, OnDestroy {
     if (this.pressed && event.buttons) {
       const currentPositionWithScroll =
         event.clientX - this.viewport.getBoundingClientRect().left + this.viewport.scrollLeft;
-      const minWidth = this.columnDef?.minWidth ?? COLUMN_MIN_WIDTH;
-      if (currentPositionWithScroll - this.resizedColumnInitialOffsetLeft > minWidth) {
+      const minWidthPx = this.columnDef?.minWidthPx ?? COLUMN_MIN_WIDTH;
+      if (currentPositionWithScroll - this.resizedColumnInitialOffsetLeft > minWidthPx) {
         this.resizePosition = currentPositionWithScroll;
       } else {
-        this.resizePosition = this.resizedColumnInitialOffsetLeft + minWidth;
+        this.resizePosition = this.resizedColumnInitialOffsetLeft + minWidthPx;
       }
       this.verticalResizeBar!.style.left = this.resizePosition + 'px';
     }

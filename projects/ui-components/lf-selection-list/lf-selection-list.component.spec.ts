@@ -13,8 +13,8 @@ import { LfSelectionListComponent, RepositoryBrowserData } from './lf-selection-
 
 const propIdCreateDate: string = 'create_date';
   const createDateInitialWidth = '35%';
-  const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth, minWidth: 100, resizable: true, sortable: true };
-  const name: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '80%', minWidth: 100, resizable: true, sortable: true  };
+  const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth, minWidthPx: 100, resizable: true, sortable: true };
+  const name: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '80%', minWidthPx: 100, resizable: true, sortable: true  };
 const itemList: ILfSelectable[] = [
   {isSelectable: true, isSelected: false, value: {id: '1', attributes: new Map<string, PropertyValue>([
     [propIdCreateDate, { value: Date.now(), displayValue: Intl.DateTimeFormat().format(Date.now()) }],

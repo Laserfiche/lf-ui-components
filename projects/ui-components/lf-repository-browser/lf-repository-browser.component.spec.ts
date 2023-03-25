@@ -528,7 +528,7 @@ describe('LfRepositoryBrowserComponent', () => {
       id: 'name',
       displayName: 'Name',
       defaultWidth: 'auto',
-      minWidth: 100,
+      minWidthPx: 100,
       resizable: true,
       sortable: true,
     }]);
@@ -536,14 +536,14 @@ describe('LfRepositoryBrowserComponent', () => {
 
   it('if a column other than a name column is provided, set the name column to be width to be 50ch', () => {
 
-    const create: ColumnDef = { id: 'creation_date', displayName: 'Creation Date', defaultWidth: '40%', minWidth: 100, resizable: true, sortable: true };
+    const create: ColumnDef = { id: 'creation_date', displayName: 'Creation Date', defaultWidth: '40%', minWidthPx: 100, resizable: true, sortable: true };
     component.setAdditionalColumnsToDisplay([create]);
     expect(component.entryList?.columns).toEqual([
       {
         id: 'name',
         displayName: 'Name',
         defaultWidth: '50ch',
-        minWidth: 100,
+        minWidthPx: 100,
         resizable: true,
         sortable: true,
       },
@@ -557,7 +557,7 @@ describe('LfRepositoryBrowserComponent', () => {
       id: 'name',
       displayName: 'Name',
       defaultWidth: '80%',
-      minWidth: 100, resizable:
+      minWidthPx: 100, resizable:
       true,
       sortable: true
     };

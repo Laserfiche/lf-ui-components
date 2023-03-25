@@ -68,7 +68,7 @@ class TestComponent {
   widthChanged: number = 100;
   columnResizable: boolean = true;
   gridTemplateColumns: string = `${this.widthChanged}px 100px 100px`;
-  columnDef: ColumnDef =  { id: 'mock_column_def', displayName: 'Mock Column Def', defaultWidth: '100px', minWidth: 50, resizable: true, sortable: true };
+  columnDef: ColumnDef =  { id: 'mock_column_def', displayName: 'Mock Column Def', defaultWidth: '100px', minWidthPx: 50, resizable: true, sortable: true };
   onWidthChange(width: number) {
     this.widthChanged = width;
     this.gridTemplateColumns = `${this.widthChanged}px 100px 100px`;
@@ -135,7 +135,7 @@ describe('ResizeColumnDirective', () => {
 
     // Assert
 
-    expect(fixture.componentInstance.widthChanged).toBe(fixture.componentInstance.columnDef.minWidth ?? 0);
+    expect(fixture.componentInstance.widthChanged).toBe(fixture.componentInstance.columnDef.minWidthPx ?? 0);
   });
 
   it('should emit widthChange on mouse up',  () => {

@@ -7,8 +7,8 @@ export interface ItemWithId {
 }
 
 export interface PropertyValue {
-  value: string | Date | number;
-  displayValue: string;
+  value?: string | Date | number;
+  displayValue?: string;
 }
 
 /**

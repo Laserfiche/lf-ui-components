@@ -9,7 +9,7 @@ export interface ColumnDef {
   id: string;
   displayName: string;
   defaultWidth: string;
-  minWidth?: number;
+  minWidthPx?: number;
   sortable?: boolean;
   resizable?: boolean;
 }

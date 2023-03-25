@@ -28,7 +28,7 @@ const NAME_COL_AUTO: ColumnDef = {
   id: 'name',
   displayName: 'Name',
   defaultWidth: 'auto',
-  minWidth: 100,
+  minWidthPx: 100,
   resizable: true,
   sortable: true,
 };
@@ -37,7 +37,7 @@ const NAME_COL_50CH: ColumnDef = {
   id: 'name',
   displayName: 'Name',
   defaultWidth: '50ch',
-  minWidth: 100,
+  minWidthPx: 100,
   resizable: true,
   sortable: true,
 };

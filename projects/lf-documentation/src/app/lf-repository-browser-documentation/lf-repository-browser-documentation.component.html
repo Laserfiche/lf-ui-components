@@ -24,7 +24,7 @@
     <span>document.querySelector('lf-repository-browser');</span>
     <p>repoBrowser.addEventListener('entrySelected', onElementNodeSelected(event));</p>
     <p>await repoBrowser.initAsync(treeProvidersObject);</p>
-    <p>const create: ColumnDef = 	&#123; id: 'creationTime', displayName: 'Creation Date', defaultWidth: '40%', minWidth: 100, resizable: true, sortable: true &#125;;</p>
+    <p>const create: ColumnDef = 	&#123; id: 'creationTime', displayName: 'Creation Date', defaultWidth: '40%', minWidthPx: 100, resizable: true, sortable: true &#125;;</p>
     <p>const columns: ColumnDef[] = [create];</p>
     <p>repoBrowser.setAdditionalColumnsToDisplay(columns);</p>
   </code>
@@ -116,7 +116,7 @@
   <tr>
     <td>multiple</td>
     <td>boolean</td>
-    <td>allows multiple entries to be selected</td>
+    <td>Allows multiple entries to be selected</td>
   </tr>
   <tr>
     <td>item_size</td>
@@ -139,7 +139,7 @@
   <tr>
     <td>column_order_by</td>
     <td>ColumnOrderBy | undefined</td>
-    <td>set the column to order by programmatically</td>
+    <td>Sets the column to order by programmatically</td>
   </tr>
   <tr>
     <td>always_show_header</td>
@@ -157,17 +157,17 @@
   <tr>
     <td>entrySelected</td>
     <td>(event: CustomEvent&lt;LfTreeNode[] | undefined&gt;) => Promise&lt;void&gt;</td>
-    <td>event raised when node(s) is selected</td>
+    <td>Event raised when node(s) is selected</td>
   </tr>
   <tr>
     <td>entryFocused</td>
     <td>(event: CustomEvent&lt;LfTreeNode | undefined&gt;) => Promise&lt;void&gt;</td>
-    <td>event raised when node is focused (this will display in the UI as a thick blue line surrounding the item)</td>
+    <td>Event raised when node is focused (this will display in the UI as a thick blue line surrounding the item)</td>
   </tr>
   <tr>
     <td>entryDblClicked</td>
     <td>(event: CustomEvent&lt;LfTreeNode[] | undefined&gt;) => Promise&lt;void&gt;</td>
-    <td>event raised when node(s) is opened (Ex/ when double clicked)</td>
+    <td>Event raised when node(s) is opened (Ex/ when double clicked)</td>
   </tr>
 </table>
 <br />
@@ -181,7 +181,7 @@
     <td>initAsync</td>
     <td>(treeNodeService: LfTreeNodeService, selectedEntry?: LfTreeNode) => Promise&lt;void&gt;</td>
     <td>
-      initializes the lf-repository-browser with a LfRepositoryProvider You <b>must</b> call this method. Each time this
+      Initializes the lf-repository-browser with a LfRepositoryProvider You <b>must</b> call this method. Each time this
       is called, the state of lf-repository-browser is reset. If selectedEntry is specified, the tree is directly opened
       to that node.
     </td>
@@ -220,23 +220,24 @@
   <tr>
     <td>focus</td>
     <td>() => void</td>
-    <td>focuses the first item in the lf-repository-browser</td>
+    <td>Focuses the first item in the lf-repository-browser</td>
   </tr>
   <tr>
     <td>breadcrumbs</td>
     <td>LfTreeNode[] | undefined</td>
-    <td>read-only property that contains the breadcrumbs of the currently opened folder</td>
+    <td>Read-only property that contains the breadcrumbs of the currently opened folder</td>
   </tr>
   <tr>
     <td>currentFolder</td>
     <td>LfTreeNode | undefined</td>
-    <td>read-only property that allows the user to see what the currently open LfTreeNode is</td>
+    <td>Read-only property that allows the user to see what the currently open LfTreeNode is</td>
   </tr>
   <tr>
-    <td>setAdditionalColumnsToDisplay</td>
+    <td>setColumnsToDisplay</td>
     <td>(ColumnDef[]) => void</td>
-    <td>allows user to set additional columns to display. You can specify a specific definition for the name column, or accept the default.
-      If you are adding a property that did not yet exist in the attributes object, you should call refreshAsync to get the new data.
+    <td>Set the columns to display.<br/>
+      Note 1: The default column with id = 'name' cannot be removed but its definition can be updated.<br/>
+      Note 2: It may be necessary ta call refreshAsync after adding new columns to fetch the data.
     </td>
   </tr>
 </table>
@@ -280,9 +281,9 @@
   <li>id: string</li>
   <li>displayName: string</li>
   <li>defaultWidth: string</li>
-  <li>minWidth: number | undefined</li>
-  <li>sortable: string | undefined</li>
-  <li>resizable: string | undefined</li>
+  <li>minWidthPx: number | undefined</li>
+  <li>sortable: boolean | undefined</li>
+  <li>resizable: boolean | undefined</li>
 </ul>
 <p class="documentation-sub-header">ColumnOrderBy Interface</p>
 <ul>
@@ -291,6 +292,6 @@
 </ul>
 <p class="documentation-sub-header">PropertyValue Interface</p>
 <ul>
-  <li>value: string | Date | number</li>
-  <li>displayValue: string</li>
+  <li>value: string | Date | number | undefined</li>
+  <li>displayValue: string | undefined</li>
 </ul>
