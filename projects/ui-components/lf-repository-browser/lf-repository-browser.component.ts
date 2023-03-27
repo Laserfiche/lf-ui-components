@@ -209,8 +209,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         maxFetchIterations
       );
       const selectedItems = this.convertSelectedItemsToTreeNode(selectedNodes);
-      this.selectedItems = selectedItems;
-      this.entrySelected.emit(this.selectedItems);
+      if (selectedItems?.length === 0 && this.selectedItems?.length === 0) {
+        // do nothing
+      } else {
+        this.selectedItems = selectedItems;
+        this.entrySelected.emit(this.selectedItems);
+      }
     }
   };
 
@@ -649,6 +653,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
     if (parentEntry && parentEntry.id) {
       try {
+        const lastSelectedItems = this.selectedItems;
         this.isLoading = true;
         this.hasError = false;
         const previousSelectedItems: ILfSelectable[] = await this.getCurrentlySelectedItemsAsync();
@@ -658,7 +663,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         if (!clearSelected) {
           this.selectedItems = await this.resetPreviouslySelectedItemsAsync(previousSelectedItems);
         }
-        this.entrySelected.emit(this.selectedItems);
+        if (lastSelectedItems?.length === 0 && this.selectedItems?.length === 0) {
+          // do nothing
+        } else {
+          this.entrySelected.emit(this.selectedItems);
+        }
       } catch (error) {
         console.error(error);
         this.lastDataCall = undefined;

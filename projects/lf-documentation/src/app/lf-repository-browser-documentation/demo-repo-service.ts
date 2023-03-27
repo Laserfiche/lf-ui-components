@@ -33,7 +33,7 @@ export class DemoRepoService implements LfTreeNodeService {
       name: 'folder2',
       path: '/2',
       attributes: new Map<string, PropertyValue>([
-        [propIdCreateDate, { value: this.currentDate, displayValue: Intl.DateTimeFormat().format(this.currentDate) }],
+        [propIdCreateDate, { value: undefined, displayValue: undefined}],
       ]),
     },
     '3': {
