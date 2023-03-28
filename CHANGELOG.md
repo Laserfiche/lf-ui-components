@@ -11,6 +11,7 @@
   - updated method `refreshAsync`: interface updated to `(clearSelectedValues?: boolean) => Promise<void>`. Added an option to opt out of clearing currently selected values when refreshes the current folder.
   - updated interface `LfTreeNNodeService`: 
   `getFolderChildrenAsync` interface updated to `folder: LfTreeNode, nextPage?: string, orderBy?: ColumnOrderBy) => Promise<LfTeeNodePage>`. Added an option to pass in the column sorting preference.
+- `[lf-user-feedback]`: add empower context and set Business Intelligence environment to production for feedback submitted in the empower environment.
 ### Fixes
 
 ### Chore & Maintenance
