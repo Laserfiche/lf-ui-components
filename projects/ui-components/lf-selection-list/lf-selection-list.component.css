@@ -1,12 +1,198 @@
 :root {
-    display: block;
-    height: 100%;
+  display: block;
+  height: 100%;
 }
 
 #lf-list-viewport {
-    height: 100%;
+  height: 100%;
 }
 
-::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper {
-    padding: 2px 0;
+.mat-table.lf-table-selection-list {
+  font-family: 'Open Sans';
+}
+
+.lf-name-col-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.item-holder {
+  color: var(--lf-body-text-color, #333333);
+}
+
+.item-holder:not("lf-list-item-disabled") {
+  cursor: pointer;
+  outline: none;
+}
+
+.node-selected.item-holder, .node-selected.item-holder:focus {
+  background-color: var(--lf-menu-item-selected-color, #eaf5ff);
+}
+
+.item-holder:hover {
+  background-color: var(--lf-menu-item-hover-color, #f5fbff);
+}
+
+.item-holder:focus {
+  outline: var(--lf-menu-item-active-outline-color, #1783d6) auto 2px;
+  background-color: var(--lf-menu-item-hover-color, #f5fbff);
+}
+
+::ng-deep mat-checkbox.lf-no-ripple .mat-checkbox-layout .mat-checkbox-inner-container .mat-checkbox-ripple {
+  width: 0;
+  height: 0;
+}
+
+.multiselect-column .multiselect-indicator {
+  padding-right: 8px;
+  display: inline-grid;
+}
+
+:host .lf-table-selection-list th.mat-header-cell:has(.mat-sort-header-sorted) {
+  background-color: #e2e2e2;
+}
+
+:host .lf-table-selection-list th.mat-header-cell {
+  border-left-color: rgb(0, 0, 0, 0.12);
+  border-left-width: 1px;
+  border-left-style: solid;
+}
+
+:host .lf-table-selection-list th.mat-header-cell,
+:host .lf-table-selection-list td.mat-cell,
+:host .lf-table-selection-list td.mat-footer-cell {
+  border-bottom: none;
+  padding: 0px 10px;
+  box-sizing: border-box;
+}
+
+:host .lf-table-selection-list tr.item-holder#lf-row-0.lf-row-border-top {
+  border-top: 1px solid rgb(0, 0, 0, 0.12);
+}
+
+:host .lf-table-selection-list tr.item-holder {
+  border-bottom: 1px solid rgb(0, 0, 0, 0.12);
+}
+
+:host .lf-table-selection-list th.mat-header-cell.multiselect-column,
+:host .lf-table-selection-list td.mat-cell.multiselect-column,
+:host .lf-table-selection-list td.mat-footer-cell.multiselect-column {
+  padding: 0 0 0 15px;
+}
+
+::ng-deep .lf-table-selection-list .lf-ellipsis-label .mat-sort-header-content {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+::ng-deep .lf-table-selection-list .lf-ellipsis-label .mat-sort-header-container {
+  width: 100%;
+}
+
+:host .lf-table-selection-list th.mat-header-cell {
+  background-color: #f3f3f3;
+}
+
+:host .lf-table-selection-list th.mat-header-cell:last-of-type {
+  border-right-color: rgb(0, 0, 0, 0.12);
+  border-right-width: 1px;
+  border-right-style: solid;
+}
+
+::ng-deep .lf-table-selection-list th.mat-header-cell {
+  overflow: visible;
+}
+
+.repository-browser-resize-overlay {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background-color: #aeaeae;
+  user-select: none;
+  z-index: 1;
+  cursor: col-resize;
+}
+
+.lf-resize-wrapper-div {
+  width: 100%;
+  position: relative;
+}
+
+::ng-deep cdk-virtual-scroll-viewport#lf-list-viewport .cdk-virtual-scroll-content-wrapper .lf-table-selection-list {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+::ng-deep .lf-table-selection-list tr {
+  display: grid;
+}
+
+::ng-deep .lf-table-selection-list thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+
+::ng-deep .lf-table-selection-list tbody {
+  padding: 2px; /** TODO is there a better way to account for border */
+}
+
+.lf-table-selection-list .column-text-div {
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+::ng-deep #lf-list-viewport.cdk-virtual-scroll-orientation-vertical .cdk-virtual-scroll-content-wrapper {
+  transform: translateY(0px) !important;
+  width: fit-content;
+  min-height: 100%;
+}
+
+.lf-table-selection-list th .resize-handle:hover {
+  opacity: 1;
+  background: linear-gradient(#000, #000) no-repeat center/2px 100%;
+}
+
+::ng-deep .lf-table-selection-list .mat-sort-header .mat-sort-header-arrow {
+  display: none;
+}
+
+::ng-deep .lf-table-selection-list .mat-sort-header:hover .mat-sort-header-arrow,
+::ng-deep .lf-table-selection-list .mat-sort-header-sorted .mat-sort-header-arrow {
+  display: flex;
+}
+
+.lf-table-selection-list .resize-handle {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  cursor: col-resize;
+  opacity: 0;
+  width: 15px;
+  right: -17.5px; /* 10px padding + 1/2 width */
+}
+
+.lf-hidden-column-header {
+  height: 0px !important;
+}
+
+.lf-hidden-column-header .mat-header-cell {
+  font-size: 0;
+  border-bottom-style: hidden;
+}
+
+.lf-hidden-column-header .mat-sort-header {
+  display: none;
+}
+
+.multiselect-column.mat-column-select {
+  display: flex;
+  align-items: center;
 }

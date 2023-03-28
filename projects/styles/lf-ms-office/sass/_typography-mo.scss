@@ -1,20 +1,29 @@
-$body-stack: 400 14px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
-$label-stack: 600 14px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+$body-stack: 400 14px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+  "Helvetica Neue", sans-serif;
+$label-stack: 600 14px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+  "Helvetica Neue", sans-serif;
 
 $font-color: #323130;
 $primary-color: #0079d6;
 $disabled-font-color: #a19f9d;
 $disabled-background-color: #f3f2f1;
 $hover-color: #605e5c;
+$error-color: #eb3237;
 
 .lf-text-body {
   font: $body-stack;
   color: $font-color;
+  &.lf-text-error {
+    color: $error-color;
+  }
 }
 
 .lf-text-label {
   font: $label-stack;
   color: $font-color;
+  &.lf-text-error {
+    color: $error-color;
+  }
 }
 
 .lf-ellipsis-label {

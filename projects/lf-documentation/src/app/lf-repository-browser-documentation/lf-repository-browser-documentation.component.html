@@ -1,17 +1,18 @@
 <p class="documentation-title">LfRepositoryBrowser</p>
 <p class="documentation-text code-container">
   <label>Web Element</label>
-  <br>
+  <br />
   <code>
     <span class="code-html-tagname">&lt;lf-repository-browser&gt;&lt;/lf-repository-browser&gt;</span>
   </code>
-
 </p>
 <p class="documentation-text code-container">
   <label>Angular Component</label>
-  <br>
+  <br />
   <code>
-    <span class="code-html-tagname">&lt;lf-repository-browser-component&gt;&lt;/lf-repository-browser-component&gt;</span>
+    <span class="code-html-tagname"
+      >&lt;lf-repository-browser-component&gt;&lt;/lf-repository-browser-component&gt;</span
+    >
   </code>
 </p>
 
@@ -23,6 +24,9 @@
     <span>document.querySelector('lf-repository-browser');</span>
     <p>repoBrowser.addEventListener('entrySelected', onElementNodeSelected(event));</p>
     <p>await repoBrowser.initAsync(treeProvidersObject);</p>
+    <p>const create: ColumnDef = 	&#123; id: 'creationTime', displayName: 'Creation Date', defaultWidth: '40%', minWidthPx: 100, resizable: true, sortable: true &#125;;</p>
+    <p>const columns: ColumnDef[] = [create];</p>
+    <p>repoBrowser.setAdditionalColumnsToDisplay(columns);</p>
   </code>
 </p>
 <label>
@@ -36,9 +40,18 @@
     &gt;&lt;/lf-repository-browser&gt;
   </pre>
 </label>
+<div class="column-checkbox-section documentation-text">
+  Columns to display:
+  <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="singleColChange()" [(ngModel)]="creation_col_single"
+    >Creation Date</mat-checkbox
+  >
+  <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="singleColChange()" [(ngModel)]="number_col_single"
+    >Number Column</mat-checkbox
+  ></div>
 <app-card>
   <lf-repository-browser
     multiple="false"
+    id="single-select-repo-browser"
     (entrySelected)="onEntrySelected($event)"
     (entryDblClicked)="onEntryOpened($event)"
     (entryFocused)="onEntryFocused($event)"
@@ -58,12 +71,22 @@
     &gt;&lt;/lf-repository-browser&gt;
   </pre>
 </label>
+<button class="lf-button primary-button" (click)="onRefresh()">Refresh and clear selected</button>
+<div class="column-checkbox-section documentation-text">
+  Columns to display:
+  <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="multiColChange()" [(ngModel)]="creation_col_multi"
+    >Creation Date</mat-checkbox
+  >
+  <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="multiColChange()" [(ngModel)]="number_col_multi"
+    >Number Column</mat-checkbox
+  >
+</div>
 <app-card>
-  <input (change)="onFilterChange($event)">
-  <button (click)="onRefresh()">Refresh</button>
   <lf-repository-browser
     multiple="true"
+    id="repo-browser"
     [isSelectable]="selectable"
+    page_size="100"
     (entrySelected)="onEntrySelected($event)"
     (entryDblClicked)="onEntryOpened($event)"
     (entryFocused)="onEntryFocused($event)"
@@ -72,7 +95,9 @@
   ></lf-repository-browser>
 </app-card>
 <button (click)="setSelectedValue()">Set Selected Values</button>
-<button (click)="toggleSelectable()">{{allSelectable ? 'Set Only Documents Selectable' : 'Set All Entries Selectable'}}</button>
+<button (click)="toggleSelectable()">
+  {{ allSelectable ? "Set Only Documents Selectable" : "Set All Entries Selectable" }}
+</button>
 
 <p class="documentation-text">lf-repository-browser entrySelected:</p>
 <textarea disabled cols="80" rows="10">{{ elementSelectedEntry | json }}</textarea>
@@ -91,12 +116,35 @@
   <tr>
     <td>multiple</td>
     <td>boolean</td>
-    <td>allows multiple entries to be selected</td>
+    <td>Allows multiple entries to be selected</td>
   </tr>
   <tr>
-    <td>itemSize</td>
+    <td>item_size</td>
     <td>number</td>
-    <td>allows user to set the itemSize for the scrollable section</td>
+    <td>Allows user to set the item height in pixels for the scrollable section. Default value is 42</td>
+  </tr>
+  <tr>
+    <td>page_size</td>
+    <td>number</td>
+    <td>Sets number of items rendered, should be set to more than then number of visible items. Default value is 50</td>
+  </tr>
+  <tr>
+    <td>isSelectable</td>
+    <td>(treeNode: LfTreeNode) => Promise&lt;boolean&gt;</td>
+    <td>
+      Lambda function that can be used to specify if specific tree nodes are selectable. This is called whenever new
+      data is added.
+    </td>
+  </tr>
+  <tr>
+    <td>column_order_by</td>
+    <td>ColumnOrderBy | undefined</td>
+    <td>Sets the column to order by programmatically</td>
+  </tr>
+  <tr>
+    <td>always_show_header</td>
+    <td>boolean | undefined</td>
+    <td>Specify whether to always show header, by default it will not show if there is only one column</td>
   </tr>
 </table>
 <br />
@@ -109,17 +157,17 @@
   <tr>
     <td>entrySelected</td>
     <td>(event: CustomEvent&lt;LfTreeNode[] | undefined&gt;) => Promise&lt;void&gt;</td>
-    <td>event raised when node(s) is selected</td>
+    <td>Event raised when node(s) is selected</td>
   </tr>
   <tr>
     <td>entryFocused</td>
     <td>(event: CustomEvent&lt;LfTreeNode | undefined&gt;) => Promise&lt;void&gt;</td>
-    <td>event raised when node is focused (this will display in the UI as a thick blue line surrounding the item)</td>
+    <td>Event raised when node is focused (this will display in the UI as a thick blue line surrounding the item)</td>
   </tr>
   <tr>
     <td>entryDblClicked</td>
     <td>(event: CustomEvent&lt;LfTreeNode[] | undefined&gt;) => Promise&lt;void&gt;</td>
-    <td>event raised when node(s) is opened (Ex/ when double clicked)</td>
+    <td>Event raised when node(s) is opened (Ex/ when double clicked)</td>
   </tr>
 </table>
 <br />
@@ -133,8 +181,9 @@
     <td>initAsync</td>
     <td>(treeNodeService: LfTreeNodeService, selectedEntry?: LfTreeNode) => Promise&lt;void&gt;</td>
     <td>
-      initializes the lf-repository-browser with a LfRepositoryProvider You <b>must</b> call this method. Each time this is called, the
-      state of lf-repository-browser is reset. If selectedEntry is specified, the tree is directly opened to that node.
+      Initializes the lf-repository-browser with a LfRepositoryProvider You <b>must</b> call this method. Each time this
+      is called, the state of lf-repository-browser is reset. If selectedEntry is specified, the tree is directly opened
+      to that node.
     </td>
   </tr>
   <tr>
@@ -146,54 +195,49 @@
   </tr>
   <tr>
     <td>refreshAsync</td>
-    <td>() => Promise&lt;void&gt;</td>
-    <td>
-      Refreshes the current folder. Calls for all of the data again.
-    </td>
+    <td>(clearSelectedValues?: boolean) => Promise&lt;void&gt;</td>
+    <td>Refreshes the current folder. Calls for all of the data again. By default will clear all currently selected values.</td>
   </tr>
   <tr>
     <td>openSelectedNodesAsync</td>
     <td>() => Promise&lt;void&gt;</td>
     <td>
-      Opens the selected nodes. If one container is selected it will open that folder in the UI, if multiple items or an item that is not a container
-      is selected, then this function will just emit the entryOpened event with the selected nodes.
+      Opens the selected nodes. If one container is selected it will open that folder in the UI and emit the entryDblClicked event, if multiple items or an
+      item that is not a container is selected, then this function will just emit the entryDblClicked event with the
+      selected nodes.
     </td>
   </tr>
   <tr>
     <td>openFocusedNodeAsync</td>
     <td>() => Promise&lt;void&gt;</td>
     <td>
-      Opens the focused node (the one with a thick blue line around it in the UI). If a container is focused it will open that folder in the UI, if an item that is not a container
-      is selected, then this function will just emit the entryOpened event with the focused node. Note: Be sure to call this when the focus is still on the item. This may require adding
-      preventDefault on a click event to stop the item from losing focus
+      Opens the focused node (the one with a thick blue line around it in the UI). If a container is focused it will
+      open that folder in the UI, if an item that is not a container is selected, then this function will just emit the
+      entryDblClicked event with the focused node. Note: Be sure to call this when the focus is still on the item. This may
+      require adding preventDefault on a click event to stop the item from losing focus
     </td>
   </tr>
   <tr>
     <td>focus</td>
     <td>() => void</td>
-    <td>
-      focuses the first item in the lf-repository-browser
-    </td>
-  </tr>
-  <tr>
-    <td>isSelectable</td>
-    <td>(treeNode: LfTreeNode) => Promise&lt;boolean&gt;</td>
-    <td>
-      Lambda function that can be used to specify if specific tree nodes are selectable. This is called whenever new data is added.
-    </td>
+    <td>Focuses the first item in the lf-repository-browser</td>
   </tr>
   <tr>
     <td>breadcrumbs</td>
     <td>LfTreeNode[] | undefined</td>
-    <td>
-      read-only property that contains the breadcrumbs of the currently opened folder
-    </td>
+    <td>Read-only property that contains the breadcrumbs of the currently opened folder</td>
   </tr>
   <tr>
     <td>currentFolder</td>
     <td>LfTreeNode | undefined</td>
-    <td>
-      read-only property that allows the user to see what the currently open LfTreeNode is
+    <td>Read-only property that allows the user to see what the currently open LfTreeNode is</td>
+  </tr>
+  <tr>
+    <td>setColumnsToDisplay</td>
+    <td>(ColumnDef[]) => void</td>
+    <td>Set the columns to display.<br/>
+      Note 1: The default column with id = 'name' cannot be removed but its definition can be updated.<br/>
+      Note 2: It may be necessary ta call refreshAsync after adding new columns to fetch the data.
     </td>
   </tr>
 </table>
@@ -201,11 +245,10 @@
 <p class="documentation-sub-header">LfTreeNodeService Interface</p>
 <ul>
   <li>getRootTreeNodeAsync() : Promise&lt;LfTreeNode&gt;</li>
-  <li>getFolderChildrenAsync(folder: LfTreeNode, nextPage: string | undefined): Promise&lt;LfTreeNodePage&gt;
+  <li>
+    getFolderChildrenAsync(folder: LfTreeNode, nextPage: string | undefined, orderBy?: ColumnOrderBy): Promise&lt;LfTreeNodePage&gt;
     <ul>
-      <li>
-        The LfTreeNodePage that this returns represents one page of data, not the cumulative data
-      </li>
+      <li>The LfTreeNodePage that this returns represents one page of data, not the cumulative data</li>
     </ul>
   </li>
   <li>
@@ -225,10 +268,30 @@
 </ul>
 <p class="documentation-sub-header">LfTreeNode Interface</p>
 <ul>
-  <li>id : string</li>
-  <li>icon : string | string[]</li>
-  <li>isContainer : boolean</li>
-  <li>isLeaf : boolean</li>
-  <li>name : string</li>
-  <li>path : string</li>
+  <li>id: string</li>
+  <li>icon: string | string[]</li>
+  <li>isContainer: boolean</li>
+  <li>isLeaf: boolean</li>
+  <li>name: string</li>
+  <li>path: string</li>
+  <li>attributes: Map&lt;string, PropertyValue&gt; | undefined</li>
+</ul>
+<p class="documentation-sub-header">ColumnDef Interface</p>
+<ul>
+  <li>id: string</li>
+  <li>displayName: string</li>
+  <li>defaultWidth: string</li>
+  <li>minWidthPx: number | undefined</li>
+  <li>sortable: boolean | undefined</li>
+  <li>resizable: boolean | undefined</li>
+</ul>
+<p class="documentation-sub-header">ColumnOrderBy Interface</p>
+<ul>
+  <li>columnId: string</li>
+  <li>isDesc: boolean</li>
+</ul>
+<p class="documentation-sub-header">PropertyValue Interface</p>
+<ul>
+  <li>value: string | Date | number | undefined</li>
+  <li>displayValue: string | undefined</li>
 </ul>

@@ -1,7 +1,7 @@
 <div id="lf-checklist-item-container" class="lf-checklist-item-container">
     <div id="lf-checklist-item" class="lf-checklist-item" *ngFor="let item of items; index as currentIndex">
         <mat-checkbox color="primary" ngDefaultControl [labelPosition]="labelPosition" [(ngModel)]="item.checked"
-            [disabled]="item.disabled" (change)="onItemCheckboxChanged(currentIndex)" class="lf-checkbox">
+            [disabled]="item.disabled" (change)="onItemCheckboxChanged(currentIndex)" class="lf-checkbox full-width-checkbox">
             <div id="lf-checklist-item-label" class="fixed-width-label" (click)="doNothing($event)">
                 <div *ngIf="getIcons(item).length>0" class="fixed-size-icon-container">
                     <img *ngFor="let icon of getIcons(item)" src="{{icon}}" alt="" class='lf-checklist-item-icon' />

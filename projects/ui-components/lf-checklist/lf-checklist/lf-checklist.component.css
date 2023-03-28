@@ -31,3 +31,7 @@
 ::ng-deep .checklist-expansion-panel div.mat-expansion-panel-body {
   padding: 0;
 }
+
+mat-checkbox.lf-checkbox.full-width-checkbox {
+  width: 100%;
+}

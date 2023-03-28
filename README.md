@@ -62,7 +62,7 @@ npm run sass-lf
 npm run sass-ms
 ```
 
-### Build lf-documentation in watch mode
+### For interactive development: Build lf-documentation in watch mode
 
 This allows you to see changes you make to the ui components quickly. You can run the two commands in different windows so that you can see any changes in the browser, even those that are shared across components.
 

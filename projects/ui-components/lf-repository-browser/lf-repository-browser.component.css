@@ -1,77 +1,61 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 100%;
-    max-height: 100%;
-    cursor: pointer;
-    flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  max-height: 100%;
+  cursor: pointer;
+  flex-grow: 1;
 }
 
 .lf-repo-entry-container {
-    padding-bottom: 10px;
-    overflow: auto;
-    flex: 1 1 auto;
+  padding-bottom: 10px;
+  overflow: auto;
+  flex: 1 1 auto;
 }
 
 #message-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 20px 10px 10px 10px;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px 10px 10px 10px;
+  box-sizing: border-box;
 }
 
-.no-entries-text, .error-entries-text {
-    font-size: 14px;
+.lf-repository-browser-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 32px;
 }
 
-.no-entries-text {
-    color: #333333;
+.lf-repository-browser-header lf-breadcrumbs-component {
+  width: 100%;
+  min-width: 50px;
 }
 
-.error-entries-text {
-    color: #AB2227;
-}
-
-.lf-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 32px;
-}
-
-lf-breadcrumbs-component {
-    width: 100%;
-    min-width: 50px;
-}
-
-.lf-entry-name,
-.fixed-size-icon-container,
-.lf-entry-icon,
-.error-entries-text,
-.no-entries-text{
-    user-select: none;
+.lf-no-user-select {
+  user-select: none;
 }
 
 .fixed-size-icon-container {
-    position: relative;
-    width: 24px;
-    min-width: 24px;
-    height: 24px;
-    margin: 5px 10px 5px 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  margin: 5px 10px 5px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lf-entry-icon {
-    display: block;
-    height: 24px;
-    width: 24px;
-    overflow: hidden;
-    position: absolute;
+  display: block;
+  height: 24px;
+  width: 24px;
+  overflow: hidden;
+  position: absolute;
 }
