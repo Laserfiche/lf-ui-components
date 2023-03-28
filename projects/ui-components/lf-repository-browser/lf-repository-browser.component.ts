@@ -122,7 +122,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * Function to set additional columns to display. You can use this to set a specific name column as well, or accept the default.
    */
   @Input()
-  setAdditionalColumnsToDisplay: (cols: ColumnDef[]) => void = (cols: ColumnDef[]) => {
+  setColumnsToDisplay: (cols: ColumnDef[]) => void = (cols: ColumnDef[]) => {
     if (this.entryList) {
       const nameColumnDef = cols.find((col) => col.id === 'name');
       if (!nameColumnDef) {
@@ -561,7 +561,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
     this.initialized = true;
     await this.setNodeAsParentAsync(currentEntry);
-    this.setAdditionalColumnsToDisplay(this.entryList?.columns ?? []);
+    this.setColumnsToDisplay(this.entryList?.columns ?? []);
   }
 
   /**

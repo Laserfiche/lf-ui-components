@@ -81,7 +81,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     if (this.number_col_single) {
       columns.push(NUMBER_COL);
     }
-    this.singleSelectRepoBrowser!.nativeElement.setAdditionalColumnsToDisplay(columns);
+    this.singleSelectRepoBrowser!.nativeElement.setColumnsToDisplay(columns);
   }
 
   multiColChange() {
@@ -92,7 +92,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     if (this.number_col_multi) {
       columns.push(NUMBER_COL);
     }
-    this.repoBrowser!.nativeElement.setAdditionalColumnsToDisplay(columns);
+    this.repoBrowser!.nativeElement.setColumnsToDisplay(columns);
   }
 
   private _selectable(node: LfTreeNode): Promise<boolean> {
