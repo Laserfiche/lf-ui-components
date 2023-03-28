@@ -5,6 +5,8 @@
 
 ### Fixes
 
+### Chore & Maintenance
+- Update `@laserfiche/lf-js-utils` to version `4.0.7`
 
 ## 13.1.7
 
