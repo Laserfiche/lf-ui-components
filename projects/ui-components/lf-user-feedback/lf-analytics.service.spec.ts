@@ -62,4 +62,19 @@ describe('LfAnalyticsService', () => {
     const biInfo = service['getBusinessIntelligenceInfo']('https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/index.html#/');
     expect(biInfo?.environment).toEqual('production');
   });
+
+  it('getBusinessIntelligenceInfo should return production env for empower url', () => {
+    const biInfo = service['getBusinessIntelligenceInfo']('https://app.clouddemo.laserfiche.com/home');
+    expect(biInfo?.environment).toEqual('production');
+  });
+
+  it('isHostEmpower should return true for empower url', () => {
+    const isEmpower = service['isHostEmpower']('https://app.clouddemo.laserfiche.com/home');
+    expect(isEmpower).toBeTrue();
+  });
+
+  it('isHostEmpower should return false for not empower url', () => {
+    const isEmpower = service['isHostEmpower']('https://lfxstatic.com/Site/laserfiche-ui-components/2.0.2/index.html#/');
+    expect(isEmpower).toBeFalse();
+  });
 });
