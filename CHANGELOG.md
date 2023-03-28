@@ -11,9 +11,11 @@
   - updated method `refreshAsync`: interface updated to `(clearSelectedValues?: boolean) => Promise<void>`. Added an option to opt out of clearing currently selected values when refreshes the current folder.
   - updated interface `LfTreeNNodeService`: 
   `getFolderChildrenAsync` interface updated to `folder: LfTreeNode, nextPage?: string, orderBy?: ColumnOrderBy) => Promise<LfTeeNodePage>`. Added an option to pass in the column sorting preference.
+
 ### Fixes
 
 ### Chore & Maintenance
+- Update `@laserfiche/lf-js-utils` to version `4.0.7`: Support localization based on Language cookie, if exists
 
 ## 14.0.0
 
