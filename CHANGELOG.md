@@ -4,7 +4,7 @@
 - `[lf-repository-browser]`: add support for displaying column and sorting by column value
 - `[lf-repository-browser]`: updated interface (no breaking change)
   - added method/properties
-    - method `setAdditionalColumnsToDisplay` to set columns
+    - method `setColumnsToDisplay` to set columns
     - property `column_order_by`
     - property `page_size` for number of items rendered
     - property `always_show_header` for whether or not to show header if there is only one column
@@ -12,9 +12,11 @@
   - updated interface `LfTreeNNodeService`: 
   `getFolderChildrenAsync` interface updated to `folder: LfTreeNode, nextPage?: string, orderBy?: ColumnOrderBy) => Promise<LfTeeNodePage>`. Added an option to pass in the column sorting preference.
 - `[lf-user-feedback]`: add empower context and set Business Intelligence environment to production for feedback submitted in the empower environment.
+
 ### Fixes
 
 ### Chore & Maintenance
+- Update `@laserfiche/lf-js-utils` to version `4.0.7`: Support localization based on Language cookie, if exists
 
 ## 14.0.0
 
