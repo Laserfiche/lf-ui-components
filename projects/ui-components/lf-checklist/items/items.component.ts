@@ -10,7 +10,7 @@ import { ChecklistItem } from './checklist-item';
 @Component({
   selector: 'lf-items-component',
   templateUrl: './items.component.html',
-  styleUrls: ['./items.component.css']
+  styleUrls: ['./items.component.css', './../lf-checklist/lf-checklist.component.css']
 })
 export class ItemsComponent implements OnInit {
 

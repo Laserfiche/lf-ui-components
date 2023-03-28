@@ -1,3 +1,20 @@
+## 14.1.0
+
+### Features
+- `[lf-repository-browser]`: add support for displaying column and sorting by column value
+- `[lf-repository-browser]`: updated interface (no breaking change)
+  - added method/properties
+    - method `setColumnsToDisplay` to set columns
+    - property `column_order_by`
+    - property `page_size` for number of items rendered
+    - property `always_show_header` for whether or not to show header if there is only one column
+  - updated method `refreshAsync`: interface updated to `(clearSelectedValues?: boolean) => Promise<void>`. Added an option to opt out of clearing currently selected values when refreshes the current folder.
+  - updated interface `LfTreeNNodeService`: 
+  `getFolderChildrenAsync` interface updated to `folder: LfTreeNode, nextPage?: string, orderBy?: ColumnOrderBy) => Promise<LfTeeNodePage>`. Added an option to pass in the column sorting preference.
+### Fixes
+
+### Chore & Maintenance
+
 ## 14.0.0
 
 ### Features

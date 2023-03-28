@@ -1,34 +1,33 @@
-<div class="lf-header">
+<div class="lf-repository-browser-header">
   <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbClicked)="onBreadcrumbClicked($event)">
   </lf-breadcrumbs-component>
 </div>
 <div class="lf-repo-entry-container">
-    <lf-loader-component *ngIf="isLoading" class="no-entries-text"></lf-loader-component>
-    <ng-container *ngIf="!isLoading">
-        <div id="message-display" *ngIf="shouldShowErrorMessage || shouldShowEmptyMessage; else showList">
-            <div *ngIf="shouldShowErrorMessage" class="error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
-            <div *ngIf="shouldShowEmptyMessage" class="no-entries-text">{{ THIS_FOLDER_IS_EMPTY | async }}</div>
-        </div>
-        <ng-template #showList>
-            <lf-selection-list-component
-                [listItems]="currentFolderChildren"
-                [multiple]="multiple"
-                [listItemRef]="listOption"
-                [itemSize]="itemSize"
-                (scrollChanged)="onScroll()"
-                (itemDoubleClicked)="onDblClickAsync($event)"
-                (itemSelected)="onItemSelected($event)"
-                (itemFocused)="onEntryFocused($event)"
-                >
-                <ng-template #listOption let-item="value">
-                    <div *ngIf="getIcons(item).length > 0" class="fixed-size-icon-container">
-                        <img *ngFor="let icon of getIcons(item)" src="{{ icon }}" alt="" class="lf-entry-icon" />
-                    </div>
-                    <p matLine class="lf-entry-name" title="{{ item?.name }}">
-                        <span>{{ item?.name }}</span>
-                    </p>
-                </ng-template>
-            </lf-selection-list-component>
-        </ng-template>
-    </ng-container>
+  <lf-loader-component *ngIf="isLoading" class="lf-text-body lf-no-user-select"></lf-loader-component>
+  <div id="message-display" *ngIf="!isLoading && (shouldShowErrorMessage || shouldShowEmptyMessage)">
+    <div *ngIf="shouldShowErrorMessage" class="lf-text-body lf-text-error lf-no-user-select">{{ AN_ERROR_OCCURED | async }}</div>
+    <div *ngIf="shouldShowEmptyMessage" class="lf-text-body lf-no-user-select">{{ THIS_FOLDER_IS_EMPTY | async }}</div>
+  </div>
+
+  <lf-selection-list-component
+    [hidden]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage"
+    [uniqueIdentifier]="repoBrowserUniqueId"
+    [listItems]="currentFolderChildren"
+    [multipleSelection]="multiple"
+    [itemSize]="item_size"
+    [pageSize]="page_size"
+    (scrollChanged)="onScroll()"
+    [listItemRef]="listOption"
+    (itemDoubleClicked)="onDblClickAsync($event)"
+    (itemSelected)="onItemSelected($event)"
+    (itemFocused)="onEntryFocused($event)"
+    (refreshData)="refreshAsync(false)"
+  >
+    <ng-template #listOption let-item="value">
+      <div *ngIf="getIcons(item).length > 0" class="fixed-size-icon-container  lf-no-user-select">
+        <img *ngFor="let icon of getIcons(item)" src="{{ icon }}" alt="" class="lf-entry-icon" />
+      </div>
+      <div title="{{ item?.name }}" class="lf-ellipsis-label lf-no-user-select">{{ item?.name }}</div>
+    </ng-template>
+  </lf-selection-list-component>
 </div>

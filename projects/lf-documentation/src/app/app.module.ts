@@ -41,7 +41,7 @@ import { LfUserFeedbackModule } from '../../../ui-components/lf-user-feedback/lf
 
 import { LfRepositoryBrowserModule } from '../../../ui-components/lf-repository-browser/lf-repository-browser.module';
 import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-browser-documentation/lf-repository-browser-documentation.component';
-import { LfBreadcrumbsModule, LfToolbarModule } from '@laserfiche/lf-ui-components/shared';
+import { LfBreadcrumbsModule, LfToolbarModule } from './../../../ui-components/shared/lf-shared-public-api';
 
 @NgModule({
   declarations: [

@@ -1,0 +1,9 @@
+.checkbox-left-padding {
+    padding-left: 20px;
+}
+
+.column-checkbox-section {
+    padding: 10px 0px;
+    display: flex;
+    align-items: center;
+}
