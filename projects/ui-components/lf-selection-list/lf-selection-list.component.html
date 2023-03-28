@@ -1,27 +1,131 @@
-<ng-container *ngIf="listItems" #displayedEntryList>
-    <cdk-virtual-scroll-viewport id="lf-list-viewport" [itemSize]="itemSize"
-        tabindex="0"
-        (scrolledIndexChange)="onScroll($event)"
-        (keydown)="onViewportKeyDown($event)">
-        <lf-list-option-component
-            *cdkVirtualFor="let item of listItems; let index = index;"
-            [attr.id]="_computeRowId(index)"
-            [item]="item"
-            [ngClass]="{
-                'non-selectable-option': !item.isSelectable,
-                'selectable-option': item.isSelectable,
-                'node-selected': item.isSelected
-            }"
-            class="lf-entry-option"
-            [focused]="_checkFocused(index)"
-            (focusin)="onFocused(index)"
-            [selected]="item.isSelected"
-            [listItemRef]="listItemRef"
-            [multipleSelection]="multiple"
-            (click)="onClickMatListOption($event, item, index)"
-            (dblclick)="onDblClick($event, item)"
-            (keydown)="onItemKeyDown($event, item)"
-            (keyup)="onItemKeyUp($event, item)">
-        </lf-list-option-component>
-    </cdk-virtual-scroll-viewport>
-</ng-container>
+<cdk-virtual-scroll-viewport
+  #viewport
+  id="lf-list-viewport"
+  tabindex="-1"
+  [itemSize]="itemSize"
+  (keydown)="onViewportKeyDown($event)"
+>
+  <table
+    #matTable
+    role="grid"
+    mat-table
+    [dataSource]="dataSource"
+    class="lf-table-selection-list"
+    matSort
+    (matSortChange)="sortData($event)"
+    multiTemplateDataRows="true"
+  >
+    <ng-container [matColumnDef]="column.id" *ngFor="let column of allColumnDefs; let i = index">
+      <ng-container [ngSwitch]="column.id">
+        <ng-container *ngSwitchCase="'name'">
+          <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
+            <div
+              class="lf-resize-wrapper-div"
+              [lfResizeColumn]="column.resizable"
+              [columnDef]="column"
+              (widthChanged)="onColumnWidthChanges($event, i)"
+            >
+              <div
+                class="column-text-div"
+                [ngStyle]="{ height: itemSize + 'px' }"
+                mat-sort-header
+                [disabled]="!column.sortable"
+              >
+                {{ column.displayName }}
+              </div>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let item">
+            <div class="lf-name-col-container">
+              <ng-container *ngIf="listItemRef; else defaultItem">
+                <ng-container *ngTemplateOutlet="listItemRef; context: item"></ng-container>
+              </ng-container>
+              <ng-template #defaultItem
+                ><span class="lf-ellipsis-label">{{ item.value.name ?? item.value.id }}</span></ng-template
+              >
+            </div>
+          </td></ng-container
+        >
+        <ng-container *ngSwitchCase="'select'">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell class="multiselect-column" *matCellDef="let row">
+            <mat-checkbox
+              class="lf-checkbox multiselect-indicator lf-no-ripple"
+              *ngIf="multipleSelection && row?.isSelectable"
+              tabindex="-1"
+              [checked]="row?.isSelected"
+              color="primary"
+              (click)="onCheckboxClicked($event)"
+              disableRipple
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
+            <div
+              class="lf-resize-wrapper-div"
+              [lfResizeColumn]="column.resizable"
+              [columnDef]="column"
+              (widthChanged)="onColumnWidthChanges($event, i)"
+            >
+              <div
+                class="column-text-div"
+                [ngStyle]="{ height: itemSize + 'px' }"
+                mat-sort-header
+                [disabled]="!column.sortable"
+              >
+                {{ column.displayName }}
+              </div>
+            </div>
+          </th>
+          <td mat-cell class="lf-ellipsis-label" *matCellDef="let row">
+            <div class="column-text-div" [ngStyle]="{ height: itemSize + 'px' }">
+              {{ row.value.attributes?.get(column.id)?.displayValue }}
+            </div>
+          </td>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <tr
+      class="lf-selection-list-header-row"
+      [ngClass]="{ 'lf-hidden-column-header': !_showHeader }"
+      [ngStyle]="{ height: itemSize + 'px' }"
+      mat-header-row
+      tabindex="-1"
+      [style.gridTemplateColumns]="columnsWidth"
+      *matHeaderRowDef="allColumnHeaders"
+    ></tr>
+
+    <tr
+      [style.height.px]="placeholderHeight"
+      mat-row
+      *matRowDef="let row; let index = index; columns: []; when: placeholderWhen"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; let i = dataIndex; columns: allColumnHeaders"
+      [tabindex]="i === currentFocusIndex ? 0 : -1"
+      class="item-holder"
+      [ngStyle]="{
+        height: itemSize + 'px',
+        'min-height': itemSize + 'px',
+        'max-height': itemSize + 'px'
+      }"
+      [ngClass]="{
+        'non-selectable-option': !row.isSelectable,
+        'selectable-option': row.isSelectable,
+        'node-selected': row.isSelected,
+        'lf-row-border-top': !_showHeader
+      }"
+      [attr.id]="_computeRowId(i + (dataSource?.dataStart ?? 0))"
+      (click)="onClickMatListOption($event, row, i + (dataSource?.dataStart ?? 0))"
+      (dblclick)="onDblClick($event, row)"
+      (focusin)="onFocused(i + (dataSource?.dataStart ?? 0))"
+      (keydown)="onItemKeyDown($event, row)"
+      (keyup)="onItemKeyUp($event, row)"
+      [style.gridTemplateColumns]="columnsWidth"
+    ></tr>
+  </table>
+</cdk-virtual-scroll-viewport>

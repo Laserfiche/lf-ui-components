@@ -3,6 +3,12 @@
  */
 export interface ItemWithId {
   id: string;
+  attributes?: Map<string, PropertyValue>;
+}
+
+export interface PropertyValue {
+  value?: string | Date | number;
+  displayValue?: string;
 }
 
 /**
@@ -93,6 +99,7 @@ export class Selectable {
     }
     const itemIndex = list.findIndex((selectable) => selectable.value.id === item.value.id);
     if (!this.multiSelectable) {
+      // clear all selectedItems doesn't work if list has been reordered
       this.clearAllSelectedItems(list);
       const itemInList = list[itemIndex];
       if (itemInList.isSelectable) {
@@ -152,7 +159,9 @@ export class Selectable {
   /** @internal */
   private clearAllSelectedItems(list: ILfSelectable[]) {
     this.selectedItemsIndices.forEach((val) => {
-      list[val].isSelected = false;
+      if (list[val]) {
+        list[val].isSelected = false;
+      }
     });
     this.selectedItemsIndices = [];
     this._selectedItems = [];

@@ -6,7 +6,7 @@ import { LfChecklistModule } from '../../../ui-components/lf-checklist/lf-checkl
 import { LfLoginModule } from '../../../ui-components/lf-login/lf-login-public-api';
 import { LfMetadataModule } from '../../../ui-components/lf-metadata/lf-metadata-public-api';
 import { LfUserFeedbackModule } from '../../../ui-components/lf-user-feedback/lf-user-feedback-public-api';
-import { LfBreadcrumbsModule, LfToolbarModule } from '@laserfiche/lf-ui-components/shared';
+import { LfBreadcrumbsModule, LfToolbarModule } from './../../../ui-components/shared/lf-shared-public-api';
 
 @NgModule({
   imports: [

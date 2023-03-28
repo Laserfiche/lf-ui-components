@@ -13,7 +13,6 @@ import { LfSelectionListModule } from '@laserfiche/lf-ui-components/lf-selection
   imports: [
     CommonModule,
     FormsModule,
-    ScrollingModule,
     LfBreadcrumbsModule,
     LfLoaderModule,
     LfSelectionListModule,
