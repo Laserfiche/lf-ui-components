@@ -1,3 +1,11 @@
+## 13.1.8
+
+### Features
+- `[lf-user-feedback]`: add empower context and set Business Intelligence environment to production for feedback submitted in the empower environment.
+
+### Fixes
+
+
 ## 13.1.7
 
 ### Features
