@@ -84,9 +84,9 @@ export class LfAnalyticsService {
       || _url.host == 'signin.clouddemo.laserfiche.com'
       || _url.host == 'app.clouddemo.laserfiche.com'
     ) {
-      return true; // not production
+      return true; // empower
     } else {
-      return false; // production
+      return false; // not empower
     }
   }
 }
