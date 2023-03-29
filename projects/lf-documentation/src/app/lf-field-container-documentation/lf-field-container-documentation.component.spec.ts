@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LfFieldContainerDocumentationComponent } from './lf-field-container-documentation.component';
+import { LfMetadataModule } from './../../../../ui-components/lf-metadata/lf-metadata.module';
 
 describe('LfFieldContainerDocumentationComponent', () => {
   let component: LfFieldContainerDocumentationComponent;
@@ -10,6 +11,9 @@ describe('LfFieldContainerDocumentationComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [
         LfFieldContainerDocumentationComponent,
+       ],
+       imports: [
+        LfMetadataModule,
        ],
        schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

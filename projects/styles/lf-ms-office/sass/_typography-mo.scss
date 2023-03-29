@@ -1,14 +1,20 @@
-$body-stack: 400 14px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
-  "Helvetica Neue", sans-serif;
-$label-stack: 600 14px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
-  "Helvetica Neue", sans-serif;
+$body-stack: 400 14px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+$label-stack: 600 14px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+$title-stack: 600 18px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+$placeholder-stack: 400 14px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
 
 $font-color: #323130;
 $primary-color: #0079d6;
 $disabled-font-color: #a19f9d;
+$placeholder-color: #6D6D6D;
 $disabled-background-color: #f3f2f1;
 $hover-color: #605e5c;
 $error-color: #eb3237;
+
+.lf-dialog-title {
+  font: $title-stack;
+  color: $font-color;
+}
 
 .lf-text-body {
   font: $body-stack;
@@ -30,4 +36,9 @@ $error-color: #eb3237;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.lf-text-placeholder::placeholder {
+  font: $placeholder-stack;
+  color: $placeholder-color;
 }

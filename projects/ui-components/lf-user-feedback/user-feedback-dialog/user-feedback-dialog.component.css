@@ -1,40 +1,20 @@
-.lf-popup-dialog-title {
-  font-family: 'Open Sans';
-  display: inline;
-  color: #606060;
-  font-weight: 600;
-  margin: 0;
-}
-
-span#pop-up-dialog-close {
-  color: rgb(170, 170, 170);
-  opacity: 0.6;
-}
-
-span#pop-up-dialog-close:hover {
-  opacity: 1;
-}
-
 .lf-close-button {
   cursor: pointer;
-  float: right;
-  display: inline;
-  background-color: inherit;
+  display: flex;
+  height: 24px;
+  width: 24px;
+  align-items: center;
   border: none;
-  padding: 0;
-  margin-right: 1px;
-  margin-left: 2px;
-  margin-top: 4px;
-  line-height: 16px;
-  outline-color: #6D6D6D;
+  background: inherit;
+  justify-content: center;
+  color: #646464;
 }
 
 .lf-textarea {
   width: 100%;
   display: block;
-  border: 1px solid #6D6D6D;
+  border: 1px solid #aaaaaa;
   border-radius: 2px;
-  margin-top: 5px;
   padding: 7px 10px 8px 10px;
   box-sizing: border-box;
 }
@@ -48,7 +28,7 @@ span#pop-up-dialog-close:hover {
 }
 
 .lf-textarea::-webkit-scrollbar-thumb {
-  background: #6D6D6D;
+  background: #6d6d6d;
   border-radius: 10px;
 }
 
@@ -59,40 +39,16 @@ span#pop-up-dialog-close:hover {
 .character-count {
   width: 100%;
   text-align: right;
-  float: right;
   font-size: 12px;
   margin-top: 2px;
-}
-
-.user-feedback-content-container {
-  padding-right: 30px;
 }
 
 .feedback-suggestion-textbox {
   resize: none;
 }
 
-.lf-dialog-content {
-  border-bottom-color:rgb(224, 224, 224);
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-top-color:rgb(224, 224, 224);
-  border-top-width: 1px;
-  border-top-style: solid;
-  padding-bottom: 20px;
-}
-
-.lf-dialog-footer {
-  padding: 7px 0px;
-}
-
 .lf-user-feedback-description {
-  margin: 10px 0px;
-}
-
-.lf-user-feedback-thank-you {
-  padding-top: 10px;
-  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .feedback-suggestion-button {
@@ -104,42 +60,47 @@ span#pop-up-dialog-close:hover {
   display: block;
   width: 80%;
   height: 60px;
-  margin-bottom: 5px;
   background-color: inherit;
-  border: 1px solid #CFCFCF;
+  border: 1px solid #cfcfcf;
   border-radius: 4px;
   line-height: 16px;
 }
 
+#lf-user-feedback-suggestion-mode-button {
+  margin-top: 5px;
+}
+
 .feedback-suggestion-button:hover {
-  background-color: rgb(224, 224, 224);
+  background-color: #E0E0E0;
 }
 
 .email-checkbox-container {
-  margin-top: 5px;
-  display: inline-block;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
 }
 
-::ng-deep .lf-user-feedback-checkbox.mat-checkbox .mat-checkbox-layout {
+.email-checkbox-container.checkbox-less-margin {
+  margin-top: 10px;
+}
+
+::ng-deep .user-feedback-content-container .lf-user-feedback-checkbox.mat-checkbox .mat-checkbox-layout {
   white-space: normal;
-}
-
-::ng-deep .mat-dialog-content.lf-dialog-content {
-  margin: 0;
 }
 
 ::ng-deep .lf-user-feedback-panel .mat-dialog-container {
   padding: 0;
 }
 
-::ng-deep .mat-dialog-actions.lf-dialog-footer {
-  margin-bottom: 0;
+.dialog-content {
+  position: relative;
 }
 
-::ng-deep .mat-dialog-title.user-feedback-title {
-  margin: 20px;
+#messages {
+  top: -15px;
 }
 
-.lf-user-feedback-close-feedback-button {
-  margin-right: 20px;
+.lf-text-label {
+  display: block;
+  padding-bottom: 5px;
 }

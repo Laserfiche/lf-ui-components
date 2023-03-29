@@ -1,7 +1,18 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { LocalizedString } from '@angular/compiler';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnDestroy,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
-import { Observable } from 'rxjs';
+import { debounceTime, Observable, Subscription } from 'rxjs';
+import { FeedbackSubmissionComponent } from '../feedback-submission/feedback-submission.component';
 import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-user-feedback-types';
 
 /** @internal */
@@ -10,7 +21,7 @@ export enum FeedbackDialogState {
   FEEDBACK,
   SUGGESTION,
   THANK_YOU,
-  ERROR
+  ERROR,
 }
 
 /**
@@ -19,51 +30,51 @@ export enum FeedbackDialogState {
 @Component({
   selector: 'lf-user-feedback-dialog-component',
   templateUrl: './user-feedback-dialog.component.html',
-  styleUrls: ['./user-feedback-dialog.component.css']
+  styleUrls: ['./user-feedback-dialog.component.css'],
 })
-export class UserFeedbackDialogComponent implements AfterViewInit {
-
+export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   @Output() submitFeedback: EventEmitter<UserFeedbackDialogData> = new EventEmitter();
+  @ViewChild(FeedbackSubmissionComponent) feedbackSubmission?: FeedbackSubmissionComponent;
 
-  dialogState: FeedbackDialogState = FeedbackDialogState.FIRST_PANE;
-  readonly maxFeedbackLength: number = 2048;
-  feedbackTextBox: string = '';
-  feedbackEmailCheckbox: boolean = false;
+  private dialogState: FeedbackDialogState = FeedbackDialogState.FIRST_PANE;
+  private feedbackText: string | undefined;
+  private allSubscriptions: Subscription = new Subscription();
+  isSubmitDisabled: boolean = true;
 
-  get isSubmitDisabled(): boolean {
-    return this.isEmptyOrWhitespace(this.feedbackTextBox);
+  get isFirstPane(): boolean {
+    return this.dialogState === FeedbackDialogState.FIRST_PANE;
   }
-
-  get isFirstPane(): boolean { return this.dialogState === FeedbackDialogState.FIRST_PANE; }
-  get isFeedback(): boolean { return this.dialogState === FeedbackDialogState.FEEDBACK; }
-  get isSuggestion(): boolean { return this.dialogState === FeedbackDialogState.SUGGESTION; }
-  get isThankYou(): boolean { return this.dialogState === FeedbackDialogState.THANK_YOU; }
-  get isError(): boolean { return this.dialogState === FeedbackDialogState.ERROR; }
+  get isFeedback(): boolean {
+    return this.dialogState === FeedbackDialogState.FEEDBACK;
+  }
+  get isSuggestion(): boolean {
+    return this.dialogState === FeedbackDialogState.SUGGESTION;
+  }
+  get isThankYou(): boolean {
+    return this.dialogState === FeedbackDialogState.THANK_YOU;
+  }
+  get isError(): boolean {
+    return this.dialogState === FeedbackDialogState.ERROR;
+  }
 
   localizedStrings = {
     SUGGESTION: this.localizationService.getStringLaserficheObservable('SUGGESTION'),
     FEEDBACK: this.localizationService.getStringLaserficheObservable('FEEDBACK'),
     CLOSE: this.localizationService.getStringLaserficheObservable('CLOSE'),
-    YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT: this.localizationService.getStringComponentsObservable('YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT'),  
-    TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP: this.localizationService.getStringComponentsObservable('TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP'),
-    FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW: this.localizationService.getStringComponentsObservable('FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW'),
-    DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING: this.localizationService.getStringComponentsObservable('DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING'),
-    PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK: this.localizationService.getStringComponentsObservable('PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK'),
-    TELL_US_ABOUT_EXPERIENCE: this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_EXPERIENCE'),
-    TELL_US_ABOUT_IDEA: this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_IDEA'),
-    I_HAVE_FEEDBACK: this.localizationService.getStringComponentsObservable('I_HAVE_FEEDBACK'),
-    I_HAVE_SUGGESTION: this.localizationService.getStringComponentsObservable('I_HAVE_SUGGESTION'),
-    THANK_YOU_FOR_SUBMISSION: this.localizationService.getStringComponentsObservable('THANK_YOU_FOR_SUBMISSION'),
-    YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK: this.localizationService.getStringComponentsObservable('YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK'),
-    IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL: this.localizationService.getStringComponentsObservable('IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL'),
+    THANK_YOU_FOR_SUBMISSION: this.localizationService.getStringLaserficheObservable('THANK_YOU_FOR_SUBMISSION'),
+    IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL: this.localizationService.getStringComponentsObservable(
+      'IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL'
+    ),
     PLEASE_CLICK_HERE: this.localizationService.getStringComponentsObservable('PLEASE_CLICK_HERE'),
-    SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER: this.localizationService.getStringComponentsObservable('SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER'),
+    SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER: this.localizationService.getStringLaserficheObservable(
+      'SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER'
+    ),
     SUBMIT: this.localizationService.getStringLaserficheObservable('SUBMIT'),
-    CANCEL: this.localizationService.getStringLaserficheObservable('CANCEL')
+    CANCEL: this.localizationService.getStringLaserficheObservable('CANCEL'),
   };
 
   USER_FEEDBACK_TITLE: Observable<string> = this.localizedStrings.FEEDBACK;
-  
+
   constructor(
     public dialogRef: MatDialogRef<UserFeedbackDialogComponent>,
     private ref: ChangeDetectorRef,
@@ -75,6 +86,10 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
     elem?.focus();
   }
 
+  ngOnDestroy(): void {
+    this.allSubscriptions.unsubscribe();
+  }
+
   setError(): void {
     this.dialogState = FeedbackDialogState.ERROR;
   }
@@ -82,38 +97,63 @@ export class UserFeedbackDialogComponent implements AfterViewInit {
   onClickFeedback(): void {
     this.dialogState = FeedbackDialogState.FEEDBACK;
     this.USER_FEEDBACK_TITLE = this.localizedStrings.FEEDBACK;
-    this.ref.detectChanges();
     document.getElementById('feedback-suggestion-textbox')?.focus();
+    this.onTextChanges();
   }
 
   onClickSuggestion(): void {
     this.dialogState = FeedbackDialogState.SUGGESTION;
     this.USER_FEEDBACK_TITLE = this.localizedStrings.SUGGESTION;
-    this.ref.detectChanges();
     document.getElementById('feedback-suggestion-textbox')?.focus();
+    this.onTextChanges();
+  }
+
+  private onTextChanges(): void {
+    this.ref.detectChanges();
+    const feedbackTextSub = this.feedbackSubmission?.feedbackTextChanged
+      .asObservable()
+      .pipe(debounceTime(250))
+      .subscribe((text) => {
+        this.feedbackText = text;
+        this.isSubmitDisabled = this.isEmptyOrWhitespace(text);
+      });
+    this.allSubscriptions.add(feedbackTextSub);
   }
 
   async onClickSubmitAsync(): Promise<void> {
-    const dialogData = this.getFeedbackDialogData();
-    this.submitFeedback.emit(dialogData);
-    if (!this.isError) {
-      this.dialogState = FeedbackDialogState.THANK_YOU;
+    try {
+      const dialogData = this.getFeedbackDialogData();
+      this.submitFeedback.emit(dialogData);
+      if (!this.isError) {
+        this.dialogState = FeedbackDialogState.THANK_YOU;
+      }
+    } catch (error: any) {
+      console.warn(error.message);
+      this.setError();
     }
   }
 
-  private isEmptyOrWhitespace(value: string): boolean {
-    return !(value.trim().length > 0);
+  onCloseDialog(): void {
+    this.dialogRef.close();
+  }
+
+  private isEmptyOrWhitespace(value: string | undefined): boolean {
+    return !value || !(value.trim().length > 0);
   }
 
   private getFeedbackDialogData(): UserFeedbackDialogData {
+    if (!this.feedbackSubmission || !this.feedbackText) {
+      throw new Error('feedbackSubmission unexpectedly does not exist. Cannot submit');
+    }
     let userFeedbackTrackingEventType: UserFeedbackTrackingEventType = UserFeedbackTrackingEventType.Feedback;
     if (this.isSuggestion) {
       userFeedbackTrackingEventType = UserFeedbackTrackingEventType.Suggestion;
     }
     const dialogData: UserFeedbackDialogData = {
-      canContact: this.feedbackEmailCheckbox,
+      canContact: this.feedbackSubmission.feedbackEmailCheckbox,
       userFeedbackTrackingEventType,
-      feedbackText: this.feedbackTextBox
+      feedbackText: this.feedbackText,
+      feedbackImageBase64: this.feedbackSubmission.feedbackImageBase64,
     };
     return dialogData;
   }

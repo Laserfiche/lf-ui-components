@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -10,7 +11,8 @@ describe('AppComponent', () => {
       imports: [
         RouterTestingModule,
         MatToolbarModule,
-        MatTreeModule
+        MatTreeModule,
+        MatCheckboxModule
       ],
       declarations: [
         AppComponent
