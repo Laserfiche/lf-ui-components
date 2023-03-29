@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { AppLocalizationService, LfMessageToastTypes, LfToastMessage } from '@laserfiche/lf-ui-components/internal-shared';
 
 /** @internal */
@@ -7,7 +7,7 @@ import { AppLocalizationService, LfMessageToastTypes, LfToastMessage } from '@la
   templateUrl: './feedback-submission.component.html',
   styleUrls: ['./feedback-submission.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
 })
-export class FeedbackSubmissionComponent {
+export class FeedbackSubmissionComponent implements AfterViewInit {
   @Input() isFeedback?: boolean;
   @Output() feedbackTextChanged: EventEmitter<string> = new EventEmitter<string>();
 
@@ -17,6 +17,7 @@ export class FeedbackSubmissionComponent {
   feedbackLength: number = 0;
   feedbackEmailCheckbox: boolean = false;
   feedbackImageBase64: string | undefined;
+  shouldShowImageUpload: boolean = false;
 
   localizedStrings = {
     FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW: this.localizationService.getStringComponentsObservable(
@@ -39,6 +40,12 @@ export class FeedbackSubmissionComponent {
   };
 
   constructor(private localizationService: AppLocalizationService) { }
+
+  ngAfterViewInit() {
+    if(window?.location?.href?.includes('clouddev')) {
+      this.shouldShowImageUpload = true;
+    }
+  }
 
   onFeedbackImageBase64(imageBase64: string) {
     this.feedbackImageBase64 = imageBase64;

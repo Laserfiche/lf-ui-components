@@ -20,8 +20,8 @@ export class FeedbackImageUploadComponent {
   private supportedImageTypeArray: string[] = this.acceptedImageTypes
     .split(',')
     .map((imgType) => imgType.replace('.', 'image/'));
-  private megabyteLimit = 2.9;
-  private imageSizeLimitBytes: number = this.megabyteLimit * 1024 * 1024; // limit is 2.9MB
+  private megabyteLimit = 3;
+  private imageSizeLimitBytes: number = this.megabyteLimit * 1024 * 1024;
 
   localizedStrings = {
     OR: this.localizationService.getStringLaserficheObservable('OR'),

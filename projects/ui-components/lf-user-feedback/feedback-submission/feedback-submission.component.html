@@ -15,7 +15,7 @@
   >
   <textarea
     id="feedback-suggestion-textbox"
-    rows="10"
+    rows="{{shouldShowImageUpload ? 10 : 12}}"
     [attr.maxlength]="maxFeedbackLength"
     (input)="feedbackTextBoxChange($event)"
     class="lf-textarea lf-text-placeholder lf-text-body feedback-suggestion-textbox"
@@ -26,12 +26,12 @@
     <span> / </span>
     <span>{{ maxFeedbackLength }}</span>
   </div>
-  <lf-feedback-image-upload
+  <lf-feedback-image-upload *ngIf="shouldShowImageUpload"
     id="image-upload-block"
     (feedbackImageBase64)="onFeedbackImageBase64($event)"
     (imageUploadError)="onImageUploadError($event)"
   ></lf-feedback-image-upload>
-  <div class="email-checkbox-container">
+  <div class="email-checkbox-container" [ngClass]="{'checkbox-less-margin': !shouldShowImageUpload}">
     <mat-checkbox
       color="primary"
       class="lf-user-feedback-checkbox lf-checkbox"
