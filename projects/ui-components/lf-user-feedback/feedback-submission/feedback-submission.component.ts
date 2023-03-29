@@ -42,7 +42,7 @@ export class FeedbackSubmissionComponent implements AfterViewInit {
   constructor(private localizationService: AppLocalizationService) { }
 
   ngAfterViewInit() {
-    if(window?.location?.href?.includes('clouddev')) {
+    if(window?.location?.host?.includes('clouddev')) {
       this.shouldShowImageUpload = true;
     }
   }
