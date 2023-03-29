@@ -75,9 +75,9 @@ describe('FeedbackImageUploadComponent', () => {
     expect(component.imageUploaded).toBe(file);
   });
 
-  it('if tryReadAndValidateImageAsync is called with a file above 2.9MB, should emit warning, and should not attach image', async () => {
+  it('if tryReadAndValidateImageAsync is called with a file above 3MB, should emit warning, and should not attach image', async () => {
     // Arrange
-    const fileSize = 3 * Math.pow(1024, 2); // 3 MB
+    const fileSize = 4 * Math.pow(1024, 2); // 4 MB
     const file = createInvalidImageWithSize(fileSize);
     spyOn(component.imageUploadError, 'emit');
 
