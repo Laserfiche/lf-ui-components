@@ -61,6 +61,9 @@ $dialog-title-color: #606060;
 .lf-text-body {
   font: $body-stack;
   color: $body-color;
+  &.lf-text-error {
+    color: $error-color;
+  }
 }
 
 .lf-text-placeholder::placeholder {
@@ -71,6 +74,9 @@ $dialog-title-color: #606060;
 .lf-text-label {
   font: $label-stack;
   color: $label-color;
+  &.lf-text-error {
+    color: $error-color;
+  }
 }
 
 .lf-ellipsis-label {

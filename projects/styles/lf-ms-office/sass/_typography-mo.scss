@@ -9,6 +9,7 @@ $disabled-font-color: #a19f9d;
 $placeholder-color: #6D6D6D;
 $disabled-background-color: #f3f2f1;
 $hover-color: #605e5c;
+$error-color: #eb3237;
 
 .lf-dialog-title {
   font: $title-stack;
@@ -18,11 +19,17 @@ $hover-color: #605e5c;
 .lf-text-body {
   font: $body-stack;
   color: $font-color;
+  &.lf-text-error {
+    color: $error-color;
+  }
 }
 
 .lf-text-label {
   font: $label-stack;
   color: $font-color;
+  &.lf-text-error {
+    color: $error-color;
+  }
 }
 
 .lf-ellipsis-label {

@@ -4,7 +4,7 @@ import { ChecklistOption } from './checklist-option';
 @Component({
   selector: 'lf-options-component',
   templateUrl: './options.component.html',
-  styleUrls: ['./options.component.css'],  
+  styleUrls: ['./options.component.css', './../lf-checklist/lf-checklist.component.css'],  
 })
 export class OptionsComponent {
 
