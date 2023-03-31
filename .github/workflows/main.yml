@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  NPM_VERSION: "14.1.0"
+  NPM_VERSION: "14.1.1"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:

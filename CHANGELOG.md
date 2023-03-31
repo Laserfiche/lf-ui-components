@@ -1,9 +1,10 @@
-## 14.1.x
+## 14.1.1
 
 ### Features
 
 ### Fixes
 - Fix issue with column resizer event handlers
+- Fix overflow when displaying column contents
 
 ### Chore & Maintenance
 
