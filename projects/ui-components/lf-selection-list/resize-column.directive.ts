@@ -42,8 +42,6 @@ export class ResizeColumnDirective implements OnInit, OnDestroy {
       this.renderer.appendChild(this.column, resizeHandle);
 
       this.mouseDownListener = this.renderer.listen(resizeHandle, 'mousedown', this.onMouseDown.bind(this));
-      this.mouseMoveListener = this.renderer.listen('document', 'mousemove', this.resizableMousemove.bind(this));
-      this.mouseUpListener = this.renderer.listen('document', 'mouseup', this.resizableMouseup.bind(this));
     }
   }
 
@@ -66,6 +64,8 @@ export class ResizeColumnDirective implements OnInit, OnDestroy {
     this.viewport.appendChild(this.verticalResizeBar);
     this.verticalResizeBar.style.left = this.resizePosition + 'px';
     this.resizedColumnInitialOffsetLeft = this.th?.offsetLeft ?? 0;
+    this.mouseMoveListener = this.renderer.listen('document', 'mousemove', this.resizableMousemove.bind(this));
+    this.mouseUpListener = this.renderer.listen('document', 'mouseup', this.resizableMouseup.bind(this));
   };
 
   resizableMousemove = (event: MouseEvent) => {
@@ -100,5 +100,7 @@ export class ResizeColumnDirective implements OnInit, OnDestroy {
       this.widthChanged.emit(width);
       this.renderer.removeChild(this.viewport, this.verticalResizeBar);
     }
+    if (this.mouseMoveListener) this.mouseMoveListener();
+    if (this.mouseUpListener) this.mouseUpListener();
   }
 }

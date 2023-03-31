@@ -1,3 +1,12 @@
+## 14.1.x
+
+### Features
+
+### Fixes
+- Fix issue with column resizer event handlers
+
+### Chore & Maintenance
+
 ## 14.1.0
 
 ### Features
