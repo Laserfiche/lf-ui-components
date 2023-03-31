@@ -43,6 +43,10 @@ export class DemoRepoService implements LfTreeNodeService {
       isLeaf: true,
       name: 'entry1',
       path: '/3',
+      attributes: new Map<string, PropertyValue>([
+        [propIdCreateDate, { value: this.currentDate, displayValue: Intl.DateTimeFormat().format(this.currentDate)}],
+        [propIdNumberCol, {value: 123456123456, displayValue: '123456123456'}]
+      ]),
     },
     '4': {
       icon: IconUtils.getDocumentIconUrlFromIconId('folder-20'),
