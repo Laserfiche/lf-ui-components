@@ -3,8 +3,8 @@
 ### Features
 
 ### Fixes
-- Fix issue with column resizer event handlers
-- Fix overflow when displaying column contents
+- `[lf-repository-browser]`: Fix issue with column resizer event handlers
+- `[lf-repository-browser]`: Fix overflow when displaying column contents
 
 ### Chore & Maintenance
 
