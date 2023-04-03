@@ -47,7 +47,7 @@ export class FeedbackSubmissionComponent implements AfterViewInit {
     }
   }
 
-  onFeedbackImageBase64(imageBase64: string) {
+  onFeedbackImageBase64(imageBase64: string | undefined) {
     this.feedbackImageBase64 = imageBase64;
   }
 

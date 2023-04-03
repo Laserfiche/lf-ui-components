@@ -9,12 +9,12 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-sh
 })
 export class FeedbackImageUploadComponent {
   @Output() imageUploadError: EventEmitter<string> = new EventEmitter<string>();
-  @Output() feedbackImageBase64: EventEmitter<string> = new EventEmitter<string>();
+  @Output() feedbackImageBase64: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
 
   @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
 
   imageUploaded?: File;
-  rawImageBase64: string = '';
+  rawImageBase64?: string;
   acceptedImageTypes: string = '.jpg,.jpeg,.png,.gif,.webp';
   private acceptedImageFormats: string = 'JPEG, PNG, GIF, WebP';
   private supportedImageTypeArray: string[] = this.acceptedImageTypes
@@ -157,6 +157,8 @@ export class FeedbackImageUploadComponent {
 
   removeImage(): void {
     this.imageUploaded = undefined;
+    this.rawImageBase64 = undefined;
+    this.feedbackImageBase64.emit(undefined);
   }
 }
 

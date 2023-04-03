@@ -73,6 +73,7 @@ describe('FeedbackImageUploadComponent', () => {
     expect(success).toBe(true);
     expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(base64Image);
     expect(component.imageUploaded).toBe(file);
+    expect(component.rawImageBase64).toBeDefined();
   });
 
   it('if tryReadAndValidateImageAsync is called with a file above 3MB, should emit warning, and should not attach image', async () => {
@@ -90,7 +91,9 @@ describe('FeedbackImageUploadComponent', () => {
     expect(component.imageUploadError.emit).toHaveBeenCalledWith(
       'IMAGE_NOT_ATTACHED IMAGE_EXCEEDS_MAX_FILE_SIZE_0'
     );
-    expect(component.imageUploaded).toBe(undefined);
+    expect(component.imageUploaded).toBeUndefined();
+    expect(component.rawImageBase64).toBeUndefined();
+    expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(undefined);
   });
 
   it('if tryReadAndValidateImageAsync is called with an invalid image, should emit warning, and should not attach image', async () => {
@@ -108,7 +111,9 @@ describe('FeedbackImageUploadComponent', () => {
     expect(component.imageUploadError.emit).toHaveBeenCalledWith(
       'IMAGE_NOT_ATTACHED IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT ACCEPTED_FORMATS_ARE_0'
     );
-    expect(component.imageUploaded).toBe(undefined);
+    expect(component.imageUploaded).toBeUndefined();
+    expect(component.rawImageBase64).toBeUndefined();
+    expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(undefined);
   });
 
   it('if multiple images are dropped to the file drop zone, should emit warning', () => {
@@ -159,7 +164,9 @@ describe('FeedbackImageUploadComponent', () => {
     fixture.detectChanges();
 
     // Assert
-    expect(component.imageUploaded).toBe(undefined);
+    expect(component.imageUploaded).toBeUndefined();
+    expect(component.rawImageBase64).toBeUndefined();
+    expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(undefined);
     expect(component.inputFile?.nativeElement.value).toBe('');
     expect(component.inputFile?.nativeElement.files?.length).toBe(0);
   });

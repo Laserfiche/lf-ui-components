@@ -2,7 +2,7 @@
   >{{ localizedStrings.ATTACH_IMAGE | async }} ({{ localizedStrings.OPTIONAL | async }})</label
 >
 <div (drop)="dropHandler($event)" (dragover)="dragOverHandler($event)">
-  <div id="image-upload" class="file-drop-zone" *ngIf="!imageUploaded; else showSelectedFile">
+  <div id="image-upload" class="file-drop-zone" *ngIf="!(imageUploaded || rawImageBase64); else showSelectedFile">
     <input
       id="browseFileInput"
       type="file"
