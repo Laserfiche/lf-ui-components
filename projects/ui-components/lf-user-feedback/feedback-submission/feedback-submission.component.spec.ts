@@ -65,6 +65,14 @@ describe('FeedbackSubmissionComponent', () => {
     expect(component.feedbackImageBase64).toEqual(testBase64);
   });
 
+  it('if the feedback image upload emits feedbackImageBase64 with undefined, should clear feedbackImageBase64', () => {
+    const mockImageUploadComponent = fixture.debugElement.query(By.directive(MockFeedbackImageUploadComponent));
+    const testUndefined = undefined;
+    mockImageUploadComponent.triggerEventHandler('feedbackImageBase64', testUndefined);
+    expect(component.feedbackImageBase64).toEqual(testUndefined);
+  });
+
+
   it('if textarea input changes, should emit feedbackTextChanged', () => {
     spyOn(component.feedbackTextChanged, 'emit');
     const textAreaInput = document.getElementsByTagName('textarea')[0];

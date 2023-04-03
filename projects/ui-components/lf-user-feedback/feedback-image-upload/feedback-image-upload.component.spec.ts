@@ -81,6 +81,7 @@ describe('FeedbackImageUploadComponent', () => {
     const fileSize = 4 * Math.pow(1024, 2); // 4 MB
     const file = createInvalidImageWithSize(fileSize);
     spyOn(component.imageUploadError, 'emit');
+    spyOn(component.feedbackImageBase64, 'emit');
 
     // Act
     // @ts-ignore
@@ -101,6 +102,7 @@ describe('FeedbackImageUploadComponent', () => {
     const fileSize = Math.pow(1024, 2); // 1 MB
     const file = createInvalidImageWithSize(fileSize);
     spyOn(component.imageUploadError, 'emit');
+    spyOn(component.feedbackImageBase64, 'emit');
 
     // Act
     // @ts-ignore
@@ -155,6 +157,7 @@ describe('FeedbackImageUploadComponent', () => {
     // Arrange
     // convert base64 to byte array
     const file = base64ToImage(base64Image);
+    spyOn(component.feedbackImageBase64, 'emit');
 
     // Act
     // @ts-ignore
