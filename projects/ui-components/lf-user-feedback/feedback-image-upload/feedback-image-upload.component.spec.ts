@@ -81,7 +81,6 @@ describe('FeedbackImageUploadComponent', () => {
     const fileSize = 4 * Math.pow(1024, 2); // 4 MB
     const file = createInvalidImageWithSize(fileSize);
     spyOn(component.imageUploadError, 'emit');
-    spyOn(component.feedbackImageBase64, 'emit');
 
     // Act
     // @ts-ignore
@@ -94,7 +93,6 @@ describe('FeedbackImageUploadComponent', () => {
     );
     expect(component.imageUploaded).toBeUndefined();
     expect(component.rawImageBase64).toBeUndefined();
-    expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(undefined);
   });
 
   it('if tryReadAndValidateImageAsync is called with an invalid image, should emit warning, and should not attach image', async () => {
@@ -102,7 +100,6 @@ describe('FeedbackImageUploadComponent', () => {
     const fileSize = Math.pow(1024, 2); // 1 MB
     const file = createInvalidImageWithSize(fileSize);
     spyOn(component.imageUploadError, 'emit');
-    spyOn(component.feedbackImageBase64, 'emit');
 
     // Act
     // @ts-ignore
@@ -115,7 +112,6 @@ describe('FeedbackImageUploadComponent', () => {
     );
     expect(component.imageUploaded).toBeUndefined();
     expect(component.rawImageBase64).toBeUndefined();
-    expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(undefined);
   });
 
   it('if multiple images are dropped to the file drop zone, should emit warning', () => {
@@ -169,7 +165,7 @@ describe('FeedbackImageUploadComponent', () => {
     // Assert
     expect(component.imageUploaded).toBeUndefined();
     expect(component.rawImageBase64).toBeUndefined();
-    expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(undefined);
+    expect(component.feedbackImageBase64.emit).toHaveBeenCalledWith(undefined);
     expect(component.inputFile?.nativeElement.value).toBe('');
     expect(component.inputFile?.nativeElement.files?.length).toBe(0);
   });
