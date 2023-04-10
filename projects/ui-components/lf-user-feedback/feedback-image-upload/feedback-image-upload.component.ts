@@ -9,12 +9,11 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-sh
 })
 export class FeedbackImageUploadComponent {
   @Output() imageUploadError: EventEmitter<string> = new EventEmitter<string>();
-  @Output() feedbackImageBase64: EventEmitter<string> = new EventEmitter<string>();
+  @Output() feedbackImageBase64: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
 
   @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
 
-  imageUploaded?: File;
-  rawImageBase64: string = '';
+  imageUploaded?: {name: string; rawBase64: string};
   acceptedImageTypes: string = '.jpg,.jpeg,.png,.gif,.webp';
   private acceptedImageFormats: string = 'JPEG, PNG, GIF, WebP';
   private supportedImageTypeArray: string[] = this.acceptedImageTypes
@@ -77,9 +76,10 @@ export class FeedbackImageUploadComponent {
       }
       if (image.size <= this.imageSizeLimitBytes) {
         const encodingData = await this.getBase64Async(image);
-        this.rawImageBase64 = encodingData;
         this.feedbackImageBase64.emit(encodingData?.split(',')[1]);
-        this.imageUploaded = image;
+        this.imageUploaded = {
+          name: image.name, rawBase64: encodingData
+        };
         return true;
       } else {
         throw new ImageUploadError(ImageUploadErrorType.TooLarge);
@@ -109,6 +109,7 @@ export class FeedbackImageUploadComponent {
       this.imageUploadError.emit(
         this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') + ' ' + errorMessage
       );
+      this.feedbackImageBase64.emit(undefined);
       this.imageUploaded = undefined;
     }
     return false;
@@ -157,6 +158,7 @@ export class FeedbackImageUploadComponent {
 
   removeImage(): void {
     this.imageUploaded = undefined;
+    this.feedbackImageBase64.emit(undefined);
   }
 }
 

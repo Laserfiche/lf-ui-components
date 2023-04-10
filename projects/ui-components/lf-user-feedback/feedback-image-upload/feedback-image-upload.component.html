@@ -2,7 +2,7 @@
   >{{ localizedStrings.ATTACH_IMAGE | async }} ({{ localizedStrings.OPTIONAL | async }})</label
 >
 <div (drop)="dropHandler($event)" (dragover)="dragOverHandler($event)">
-  <div id="image-upload" class="file-drop-zone" *ngIf="!imageUploaded; else showSelectedFile">
+  <div id="image-upload" class="file-drop-zone" *ngIf="!(imageUploaded); else showSelectedFile">
     <input
       id="browseFileInput"
       type="file"
@@ -26,7 +26,7 @@
     <div class="picked-file-zone">
       <div class="selected-file-info">
         <div class="image-preview">
-          <img [src]="rawImageBase64" style="max-width: 100%; max-height: 100%; object-fit: contain" />
+          <img [src]="imageUploaded?.rawBase64" style="max-width: 100%; max-height: 100%; object-fit: contain" />
         </div>
         <div id="uploaded-file-name" class="lf-text-body" title="{{ imageUploaded?.name }}">
           {{ imageUploaded?.name }}
