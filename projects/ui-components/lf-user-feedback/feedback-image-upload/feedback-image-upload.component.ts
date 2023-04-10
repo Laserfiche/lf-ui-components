@@ -13,7 +13,7 @@ export class FeedbackImageUploadComponent {
 
   @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
 
-  imageUploaded?: {name: string; rawBase64: string} | undefined;
+  imageUploaded?: {name: string; rawBase64: string};
   acceptedImageTypes: string = '.jpg,.jpeg,.png,.gif,.webp';
   private acceptedImageFormats: string = 'JPEG, PNG, GIF, WebP';
   private supportedImageTypeArray: string[] = this.acceptedImageTypes
