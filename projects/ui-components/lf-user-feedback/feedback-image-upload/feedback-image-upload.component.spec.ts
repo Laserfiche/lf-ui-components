@@ -72,7 +72,7 @@ describe('FeedbackImageUploadComponent', () => {
     // Assert
     expect(success).toBe(true);
     expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(base64Image);
-    expect(component.imageUploaded).toBe({name: 'test.png', rawBase64: base64Image});
+    expect(component.imageUploaded).toBe({name: 'test.png', rawBase64: `data:image/png;base64,${base64Image}`});
   });
 
   it('if tryReadAndValidateImageAsync is called with a file above 3MB, should emit warning, and should not attach image', async () => {
