@@ -50,7 +50,7 @@ describe('FeedbackImageUploadComponent', () => {
 
   it('if there is image attached, should show the picked file zone', () => {
     // Act
-    component.imageUploaded = new File([''], 'test.png');
+    component.imageUploaded = {name: 'test.png', rawBase64: ''};
     fixture.detectChanges();
 
     // Assert
@@ -72,8 +72,7 @@ describe('FeedbackImageUploadComponent', () => {
     // Assert
     expect(success).toBe(true);
     expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(base64Image);
-    expect(component.imageUploaded).toBe(file);
-    expect(component.rawImageBase64).toBeDefined();
+    expect(component.imageUploaded).toBe({name: 'test.png', rawBase64: base64Image});
   });
 
   it('if tryReadAndValidateImageAsync is called with a file above 3MB, should emit warning, and should not attach image', async () => {
@@ -92,7 +91,6 @@ describe('FeedbackImageUploadComponent', () => {
       'IMAGE_NOT_ATTACHED IMAGE_EXCEEDS_MAX_FILE_SIZE_0'
     );
     expect(component.imageUploaded).toBeUndefined();
-    expect(component.rawImageBase64).toBeUndefined();
   });
 
   it('if tryReadAndValidateImageAsync is called with an invalid image, should emit warning, and should not attach image', async () => {
@@ -111,7 +109,6 @@ describe('FeedbackImageUploadComponent', () => {
       'IMAGE_NOT_ATTACHED IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT ACCEPTED_FORMATS_ARE_0'
     );
     expect(component.imageUploaded).toBeUndefined();
-    expect(component.rawImageBase64).toBeUndefined();
   });
 
   it('if multiple images are dropped to the file drop zone, should emit warning', () => {
@@ -164,7 +161,6 @@ describe('FeedbackImageUploadComponent', () => {
 
     // Assert
     expect(component.imageUploaded).toBeUndefined();
-    expect(component.rawImageBase64).toBeUndefined();
     expect(component.feedbackImageBase64.emit).toHaveBeenCalledWith(undefined);
     expect(component.inputFile?.nativeElement.value).toBe('');
     expect(component.inputFile?.nativeElement.files?.length).toBe(0);
