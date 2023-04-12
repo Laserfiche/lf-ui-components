@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
+import { ChangeDetectorRef, Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
 import { ColumnDef } from './lf-selection-list-types';
 
 export const COLUMN_MIN_WIDTH: number = 100;
@@ -23,7 +23,7 @@ export class ResizeColumnDirective implements OnInit, OnDestroy {
   mouseMoveListener?: () => void;
   mouseUpListener?: () => void;
 
-  constructor(private renderer: Renderer2, private el: ElementRef) {
+  constructor(private renderer: Renderer2, private el: ElementRef, private ref: ChangeDetectorRef) {
     this.column = this.el.nativeElement;
   }
 
@@ -99,6 +99,7 @@ export class ResizeColumnDirective implements OnInit, OnDestroy {
       const width = this.resizePosition - this.resizedColumnInitialOffsetLeft;
       this.widthChanged.emit(width);
       this.renderer.removeChild(this.viewport, this.verticalResizeBar);
+      this.ref.detectChanges();
     }
     if (this.mouseMoveListener) this.mouseMoveListener();
     if (this.mouseUpListener) this.mouseUpListener();

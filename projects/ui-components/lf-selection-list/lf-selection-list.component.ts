@@ -264,6 +264,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.selectable.onItemClicked(event, option, this.items);
     }
     this.currentFocusIndex = index;
+    this.ref.detectChanges();
 
     this.itemSelected.emit({ selected: option, selectedItems: this.selectable.selectedItems });
   }
