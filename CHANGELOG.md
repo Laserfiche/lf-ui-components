@@ -7,6 +7,7 @@
 - `[lf-repository-browser]`: Fix overflow when displaying column contents
 
 ### Chore & Maintenance
+- Update `@laserfiche/lf-resource-library` to version `4.0.6`: Add additional localized strings
 
 ## 14.1.0
 
