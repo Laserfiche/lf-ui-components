@@ -29,6 +29,16 @@
 ### Chore & Maintenance
 - Update `@laserfiche/lf-js-utils` to version `4.0.7`: Support localization based on Language cookie, if exists
 
+## 13.1.8
+
+### Features
+- `[lf-user-feedback]`: add empower context and set Business Intelligence environment to production for feedback submitted in the empower environment.
+
+### Fixes
+
+### Chore & Maintenance
+- Update `@laserfiche/lf-js-utils` to version `4.0.7`
+
 ## 14.0.0
 
 ### Features
