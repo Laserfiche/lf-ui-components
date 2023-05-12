@@ -179,11 +179,12 @@
   </tr>
   <tr>
     <td>initAsync</td>
-    <td>(treeNodeService: LfTreeNodeService, selectedEntry?: LfTreeNode) => Promise&lt;void&gt;</td>
+    <td>(treeNodeService: LfTreeNodeService, initialOpenedNode?: LfTreeNode | string) => Promise&lt;void&gt;</td>
     <td>
-      Initializes the lf-repository-browser with a LfRepositoryProvider You <b>must</b> call this method. Each time this
-      is called, the state of lf-repository-browser is reset. If selectedEntry is specified, the tree is directly opened
-      to that node.
+      Initializes the lf-repository-browser with an LfTreeNodeService. You <b>must</b> call this method. Each time this
+      is called, the state of lf-repository-browser is reset. If an initialOpenedNode is specified, the tree is directly opened
+      to that node. The initialOpenedNode can be a LfTreeNode or an identifier for a node. The identifier should match the implementation
+      for the service method getTreeNodeById (i.e. path, id, etc.).
     </td>
   </tr>
   <tr>
@@ -257,6 +258,16 @@
       <li>
         If an entry does not have a parent (i.e. a root node), then we expect getParentTreeNodeAsync will return
         Promise&lt;undefined&gt;
+      </li>
+    </ul>
+  </li>
+  <li>
+    getTreeNodeById(identifier: string): Promise&lt;LfTreeNode | undefined&gt;
+    <ul>
+      <li>
+        Returns the LfTreeNode specified by the identifier. The identifier should be unique but what is used can
+        be implementation specific (i.e. path, id, etc.). If you use initAsync with an initialOpenedNode specified by string, it should
+        match the implemenation of identifier for this function.
       </li>
     </ul>
   </li>
