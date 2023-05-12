@@ -141,16 +141,32 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
 
   /**
    * Function to initialize the lf-repository-browser component
-   * @param provider LfRepositoryService service
-   * @param selectedNode the id of the node to select, or a Entry starting from the selected entry
+   * @param treeNodeService LfRepositoryService service
+   * @param initialOpenedNode The LfTreeNode that you would like to open, or the identifier of the LfTreeNode. The identifier should match the implementation of service.getTreeNodeById(..) (i.e. id, path, etc.)
    */
-  @Input() initAsync = async (treeNodeService: LfTreeNodeService, selectedNode?: LfTreeNode): Promise<void> => {
+  @Input() initAsync = async (treeNodeService: LfTreeNodeService, initialOpenedNode?: LfTreeNode | string): Promise<void> => {
     await this.zone.run(async () => {
       try {
         this.hasError = false;
         this.isLoading = true;
         this.treeNodeService = treeNodeService;
-        await this.initializeAsync(selectedNode);
+        if (typeof(initialOpenedNode) === 'string') {
+          if (this.treeNodeService.getTreeNodeById) {
+            try{
+              initialOpenedNode = await this.treeNodeService.getTreeNodeById(initialOpenedNode);
+            }
+            catch {
+              console.warn('Unable to determine LfTreeNode by id. Will initialize to root');
+              initialOpenedNode = undefined;
+            }
+          }
+          else {
+            console.warn('initialOpenNode is specified by an id, but getTreeNodeById1 is not implement. Will initialize to root');
+            initialOpenedNode = undefined;
+          }
+        }
+
+        await this.initializeAsync(initialOpenedNode);
       } catch (error) {
         console.error(error);
         this.hasError = true;
