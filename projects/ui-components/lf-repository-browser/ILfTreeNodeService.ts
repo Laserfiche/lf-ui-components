@@ -42,5 +42,5 @@ export interface LfTreeNodeService {
    * Gets the LfTreeNode referenced by the identifier. This can be specific to the implementation of the service (i.e. id, path, etc.)
    * @param id Identifier for the LfTreeNode.
    */
-  getTreeNodeById?(id: string): Promise<LfTreeNode | undefined>;
+  getTreeNodeByIdAsync?(id: string): Promise<LfTreeNode | undefined>;
 }
