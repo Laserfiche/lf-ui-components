@@ -151,18 +151,23 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         this.isLoading = true;
         this.treeNodeService = treeNodeService;
         if (typeof(initialOpenedNode) === 'string') {
-          if (this.treeNodeService.getTreeNodeByIdAsync) {
-            try{
-              initialOpenedNode = await this.treeNodeService.getTreeNodeByIdAsync(initialOpenedNode);
-            }
-            catch {
-              console.warn('Unable to determine LfTreeNode by id. Will initialize to root.');
-              initialOpenedNode = undefined;
-            }
+          if(!initialOpenedNode || initialOpenedNode.trim().length === 0) {
+            initialOpenedNode = undefined;
           }
           else {
-            console.warn('initialOpenedNode is specified by an id, but getTreeNodeById is not implemented. Will initialize to root.');
-            initialOpenedNode = undefined;
+            if (this.treeNodeService.getTreeNodeByIdAsync) {
+              try{
+                initialOpenedNode = await this.treeNodeService.getTreeNodeByIdAsync(initialOpenedNode);
+              }
+              catch {
+                console.warn('Unable to determine LfTreeNode by id. Will initialize to root.');
+                initialOpenedNode = undefined;
+              }
+            }
+            else {
+              console.warn('initialOpenedNode is specified by an id, but getTreeNodeById is not implemented. Will initialize to root.');
+              initialOpenedNode = undefined;
+            }
           }
         }
 
