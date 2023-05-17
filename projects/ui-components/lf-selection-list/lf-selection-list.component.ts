@@ -387,7 +387,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         this.ref.detectChanges();
 
         const shouldFillLastColumn = this.allColumnDefs[this.allColumnDefs.length - 1]?.defaultWidth === 'auto';
-        if (!shouldFillLastColumn) {
+        // if (!shouldFillLastColumn) {
           const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
           tableEl.style.width = containerWidth + 'px';
           this.ref.detectChanges();
@@ -412,7 +412,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
           tableEl.style.width = 'fit-content';
           this.ref.detectChanges();
         }
-      }
+      // }
     });
   }
 
@@ -485,6 +485,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   onColumnWidthChanges(width: number, index: number) {
     this.updateRepositoryBrowserData(width, index);
     this.setColumnWidthChanges(width, index);
+    const tableEl = this.matTable?.nativeElement;
+    tableEl.style.width = 'fit-content';
   }
 
   private updateRepositoryBrowserData(width: number, index: number) {

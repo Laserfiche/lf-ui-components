@@ -1,13 +1,13 @@
 ## 14.1.1
 
 ### Features
-
-### Fixes
 - `[lf-repository-browser]`: Add function `getTreeNodeByIdAsync` to `LfTreeNodeService` interface
 - `[lf-repository-browser]`: Add ability to call open the browser to a specific folder by calling `initAsync` with a string identifier. That identifier will be used to call `getTreeNodeByIdAsync`.
 
+### Fixes
+- `[lf-repository-browser]`: Add fixes for various bugs surrounding setting the column width to auto
+
 ### Chore & Maintenance
-- Update `@laserfiche/lf-resource-library` to version `4.0.6`: Add additional localized strings
 
 ## 14.1.1
 
@@ -32,7 +32,7 @@
     - property `always_show_header` for whether or not to show header if there is only one column
   - updated method `refreshAsync`: interface updated to `(clearSelectedValues?: boolean) => Promise<void>`. Added an option to opt out of clearing currently selected values when refreshes the current folder.
   - updated interface `LfTreeNNodeService`: 
-  `getFolderChildrenAsync` interface updated to `folder: LfTreeNode, nextPage?: string, orderBy?: ColumnOrderBy) => Promise<LfTeeNodePage>`. Added an option to pass in the column sorting preference.
+  `getFolderChildrenAsync` interface updated to `folder: LfTreeNode, nextPage?: string, orderBy?: ColumnOrderBy) => Promise<LfTreeNodePage>`. Added an option to pass in the column sorting preference.
 - `[lf-user-feedback]`: add empower context and set Business Intelligence environment to production for feedback submitted in the empower environment.
 
 ### Fixes
