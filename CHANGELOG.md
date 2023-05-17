@@ -3,6 +3,17 @@
 ### Features
 
 ### Fixes
+- `[lf-repository-browser]`: Add function `getTreeNodeByIdAsync` to `LfTreeNodeService` interface
+- `[lf-repository-browser]`: Add ability to call open the browser to a specific folder by calling `initAsync` with a string identifier. That identifier will be used to call `getTreeNodeByIdAsync`.
+
+### Chore & Maintenance
+- Update `@laserfiche/lf-resource-library` to version `4.0.6`: Add additional localized strings
+
+## 14.1.1
+
+### Features
+
+### Fixes
 - `[lf-repository-browser]`: Fix issue with column resizer event handlers
 - `[lf-repository-browser]`: Fix overflow when displaying column contents
 
