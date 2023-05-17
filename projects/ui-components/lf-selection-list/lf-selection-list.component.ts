@@ -50,7 +50,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   @Input() itemSize: number = 42;
   private _pageSize: number = 50;
-  @Input() 
+  @Input()
   set pageSize(value: number) {
     this._pageSize = value;
     if (this.dataSource) {
@@ -101,8 +101,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (this.sort && orderBy?.columnId && this.allColumnDefs.find((c) => c.id === orderBy.columnId)) {
       this.sort.sort({ id: orderBy?.columnId, start: orderBy?.isDesc ? 'desc' : 'asc', disableClear: true });
       this._columnOrderBy = orderBy;
-    }
-    else {
+    } else {
       console.debug('Unable to set new sort header');
     }
   }
@@ -386,33 +385,30 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         }
         this.ref.detectChanges();
 
-        const shouldFillLastColumn = this.allColumnDefs[this.allColumnDefs.length - 1]?.defaultWidth === 'auto';
-        // if (!shouldFillLastColumn) {
-          const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
-          tableEl.style.width = containerWidth + 'px';
-          this.ref.detectChanges();
-          const widthsInPixel: string[] = [];
+        const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
+        tableEl.style.width = containerWidth + 'px';
+        this.ref.detectChanges();
+        const widthsInPixel: string[] = [];
 
-          this.allColumnDefs.forEach((col) => {
-            const columnEls = Array.from(
-              this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
-            );
-            const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
-            const minWidthPx = col.minWidthPx ?? COLUMN_MIN_WIDTH;
-            const columnWidthInPixel =
-              col.id !== 'select' ? Math.max(columnWidthOffset, minWidthPx) + 'px' : SELECT_COL.defaultWidth;
-            widthsInPixel.push(columnWidthInPixel);
-          });
+        this.allColumnDefs.forEach((col) => {
+          const columnEls = Array.from(
+            this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
+          );
+          const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
+          const minWidthPx = col.minWidthPx ?? COLUMN_MIN_WIDTH;
+          const columnWidthInPixel =
+            col.id !== 'select' ? Math.max(columnWidthOffset, minWidthPx) + 'px' : SELECT_COL.defaultWidth;
+          widthsInPixel.push(columnWidthInPixel);
+        });
 
-          if (this.matTable) {
-            const templateCOls = widthsInPixel.join(' ');
-            this.columnsWidth = templateCOls;
-          }
-
-          tableEl.style.width = 'fit-content';
-          this.ref.detectChanges();
+        if (this.matTable) {
+          const templateCOls = widthsInPixel.join(' ');
+          this.columnsWidth = templateCOls;
         }
-      // }
+
+        tableEl.style.width = 'fit-content';
+        this.ref.detectChanges();
+      }
     });
   }
 
@@ -485,8 +481,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   onColumnWidthChanges(width: number, index: number) {
     this.updateRepositoryBrowserData(width, index);
     this.setColumnWidthChanges(width, index);
-    const tableEl = this.matTable?.nativeElement;
-    tableEl.style.width = 'fit-content';
   }
 
   private updateRepositoryBrowserData(width: number, index: number) {
