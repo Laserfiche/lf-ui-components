@@ -45,7 +45,6 @@ export class FeedbackSubmissionComponent implements AfterViewInit {
     if(window?.location?.host?.includes('clouddev')) {
       this.shouldShowImageUpload = true;
     }
-    this.shouldShowImageUpload = true;
   }
 
   onFeedbackImageBase64(imageBase64: string | undefined) {
