@@ -42,7 +42,9 @@ export class FeedbackSubmissionComponent implements AfterViewInit {
   constructor(private localizationService: AppLocalizationService) { }
 
   ngAfterViewInit() {
-    this.shouldShowImageUpload = true;
+    if(window?.location?.host?.includes('clouddev')) {
+      this.shouldShowImageUpload = true;
+    }
   }
 
   onFeedbackImageBase64(imageBase64: string | undefined) {
