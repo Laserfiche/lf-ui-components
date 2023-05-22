@@ -71,7 +71,7 @@ describe('FeedbackImageUploadComponent', () => {
 
     // Assert
     expect(success).toBe(true);
-    expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(base64Image);
+    expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(`data:image/png;base64,${base64Image}`);
     expect(component.imageUploaded).toEqual({name: 'test.png', rawBase64: `data:image/png;base64,${base64Image}`});
   });
 
