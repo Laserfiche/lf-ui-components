@@ -144,30 +144,28 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * @param treeNodeService LfRepositoryService service
    * @param initialOpenedNode The LfTreeNode that you would like to open, or the identifier of the LfTreeNode. The identifier should match the implementation of service.getTreeNodeById(..) (i.e. id, path, etc.)
    */
-  @Input() initAsync = async (
-    treeNodeService: LfTreeNodeService,
-    initialOpenedNode?: LfTreeNode | string
-  ): Promise<void> => {
+  @Input() initAsync = async (treeNodeService: LfTreeNodeService, initialOpenedNode?: LfTreeNode | string): Promise<void> => {
     await this.zone.run(async () => {
       try {
         this.hasError = false;
         this.isLoading = true;
         this.treeNodeService = treeNodeService;
-        if (typeof initialOpenedNode === 'string') {
-          if (!initialOpenedNode || initialOpenedNode.trim().length === 0) {
+        if (typeof(initialOpenedNode) === 'string') {
+          if(!initialOpenedNode || initialOpenedNode.trim().length === 0) {
             initialOpenedNode = undefined;
-          } else {
+          }
+          else {
             if (this.treeNodeService.getTreeNodeByIdAsync) {
-              try {
+              try{
                 initialOpenedNode = await this.treeNodeService.getTreeNodeByIdAsync(initialOpenedNode);
-              } catch {
+              }
+              catch {
                 console.warn('Unable to determine LfTreeNode by id. Will initialize to root.');
                 initialOpenedNode = undefined;
               }
-            } else {
-              console.warn(
-                'initialOpenedNode is specified by an id, but getTreeNodeById is not implemented. Will initialize to root.'
-              );
+            }
+            else {
+              console.warn('initialOpenedNode is specified by an id, but getTreeNodeById is not implemented. Will initialize to root.');
               initialOpenedNode = undefined;
             }
           }
@@ -732,12 +730,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   private async makeDataCall(parentEntry: LfTreeNode): Promise<ILfSelectable[] | undefined> {
     try {
       this.hasError = false;
-      let selectable: ILfSelectable[] = [];
-      do {
-        this.lastDataCall = this.updateFolderChildrenAsync(parentEntry);
-        selectable.push(...(await this.lastDataCall));
-        this.lastDataCall = undefined;
-      } while (this.currentFolderChildren.length < this._pageSize && !this.maximumChildrenReceived);
+      this.lastDataCall = this.updateFolderChildrenAsync(parentEntry);
+      const selectable: ILfSelectable[] = await this.lastDataCall;
+      this.lastDataCall = undefined;
       return selectable;
     } catch (error) {
       this.hasError = true;
