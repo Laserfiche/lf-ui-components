@@ -732,7 +732,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   private async makeDataCall(parentEntry: LfTreeNode): Promise<ILfSelectable[] | undefined> {
     try {
       this.hasError = false;
-      let selectable: ILfSelectable[] = [];
+      const selectable: ILfSelectable[] = [];
       while (!this.maximumChildrenReceived && selectable.length < this.page_size) {
         this.lastDataCall = this.updateFolderChildrenAsync(parentEntry);
         const additionalData = await this.lastDataCall;
