@@ -390,15 +390,20 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         this.ref.detectChanges();
         const widthsInPixel: string[] = [];
 
-        this.allColumnDefs.forEach((col) => {
-          const columnEls = Array.from(
-            this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
-          );
-          const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
-          const minWidthPx = col.minWidthPx ?? COLUMN_MIN_WIDTH;
-          const columnWidthInPixel =
-            col.id !== 'select' ? Math.max(columnWidthOffset, minWidthPx) + 'px' : SELECT_COL.defaultWidth;
-          widthsInPixel.push(columnWidthInPixel);
+        this.allColumnDefs.forEach((col, index) => {
+          const lastColumnWidthAuto = index === this.allColumnDefs.length - 1 && col.defaultWidth === 'auto';
+          if (lastColumnWidthAuto) {
+            widthsInPixel.push('auto');
+          } else {
+            const columnEls = Array.from(
+              this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
+            );
+            const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
+            const minWidthPx = col.minWidthPx ?? COLUMN_MIN_WIDTH;
+            const columnWidthInPixel =
+              col.id !== 'select' ? Math.max(columnWidthOffset, minWidthPx) + 'px' : SELECT_COL.defaultWidth;
+            widthsInPixel.push(columnWidthInPixel);
+          }
         });
 
         if (this.matTable) {
