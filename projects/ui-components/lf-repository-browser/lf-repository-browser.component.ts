@@ -733,12 +733,13 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     try {
       this.hasError = false;
       let selectable: ILfSelectable[] = [];
-      while (!this.maximumChildrenReceived && selectable.length < this.page_size){
+      while (!this.maximumChildrenReceived && selectable.length < this.page_size) {
         this.lastDataCall = this.updateFolderChildrenAsync(parentEntry);
         const additionalData = await this.lastDataCall;
         selectable.push(...additionalData);
         this.lastDataCall = undefined;
       }
+      this.currentFolderChildren = this.currentFolderChildren.concat(...selectable);
       return selectable;
     } catch (error) {
       this.hasError = true;
@@ -765,7 +766,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     this.nextPage = dataPage.nextPage;
     const pageTreeNodes: LfTreeNode[] = dataPage.page;
     const selectablePage: ILfSelectable[] = await this.mapTreeNodesToLfSelectableAsync(pageTreeNodes);
-    this.currentFolderChildren = this.currentFolderChildren.concat(...selectablePage);
     if (this.nextPage) {
       this.maximumChildrenReceived = false;
     } else {
