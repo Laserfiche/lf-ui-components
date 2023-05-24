@@ -45,4 +45,5 @@ export interface UserFeedbackUserTrackingEvent extends IUserTrackingEvent {
   message: string;
   email_address: string;
   image?: string;
+  attachment_entry_id: string;
 }

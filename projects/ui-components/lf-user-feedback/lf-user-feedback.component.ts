@@ -100,7 +100,8 @@ export class LfUserFeedbackComponent {
       is_willing_to_be_contacted: dialogData.canContact,
       message: dialogData.feedbackText,
       email_address: '', // dummy empty value to satisfy the schema requirements
-      image: dialogData.feedbackImageBase64 ?? undefined
+      image: dialogData.feedbackImageBase64 ?? undefined,
+      attachment_entry_id: '', // dummy empty value
     };
     return data;
   }

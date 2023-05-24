@@ -76,7 +76,7 @@ export class FeedbackImageUploadComponent {
       }
       if (image.size <= this.imageSizeLimitBytes) {
         const encodingData = await this.getBase64Async(image);
-        this.feedbackImageBase64.emit(encodingData?.split(',')[1]);
+        this.feedbackImageBase64.emit(encodingData);
         this.imageUploaded = {
           name: image.name, rawBase64: encodingData
         };
