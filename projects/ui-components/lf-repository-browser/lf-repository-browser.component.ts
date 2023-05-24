@@ -682,8 +682,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         const previousSelectedItems: ILfSelectable[] = await this.getCurrentlySelectedItemsAsync();
         this.resetFolderProperties();
         await this.makeDataCall(parentEntry);
+        this.isLoading = false;
         this.selectedItems = [];
         if (!clearSelected) {
+          this.ref.detectChanges();
           this.selectedItems = await this.resetPreviouslySelectedItemsAsync(previousSelectedItems);
         }
         if (lastSelectedItems?.length === 0 && this.selectedItems?.length === 0) {
@@ -718,11 +720,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   private async resetPreviouslySelectedItemsAsync(
     previousSelectedItems: ILfSelectable[]
   ): Promise<LfTreeNode[] | undefined> {
-    this.ref.detectChanges();
+    const largeMaxFetchIterations = 1000;
     const resetSelectedNodes: ILfSelectable[] = await this.entryList!.setSelectedNodesAsync(
       previousSelectedItems,
       this.checkForMoreDataCallback.bind(this),
-      0
+      largeMaxFetchIterations
     );
     const currentSelectedItems: LfTreeNode[] | undefined = this.convertSelectedItemsToTreeNode(resetSelectedNodes);
     return currentSelectedItems;
