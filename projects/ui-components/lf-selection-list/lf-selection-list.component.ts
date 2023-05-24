@@ -371,7 +371,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         const tableEl = this.matTable?.nativeElement;
         const widths: string[] = [];
         this.allColumnDefs.forEach((col) => {
-          const columnWidth = repositoryBrowserData?.columns[col.id];
+          const columnWidth = repositoryBrowserData?.columns ? repositoryBrowserData?.columns[col.id] : undefined;
           if (columnWidth) {
             widths.push(columnWidth);
           } else {
@@ -496,6 +496,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         repoData = {
           columns: {},
         };
+      } else if (!repoData.columns) {
+        repoData.columns = {};
       }
       repoData.columns[key] = width + 'px';
       localStorage.setItem(this._uniqueIdentifier, JSON.stringify(repoData));
