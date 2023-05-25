@@ -39,32 +39,28 @@ export class Selectable {
   }
 
   async setSelectedNodesAsync(
-    selected: ILfSelectable[],
+    selected: Set<string>,
     list: ILfSelectable[],
     maxFetchIterations: number,
     lastCheckedIdx: number = 0
   ) {
     for (let index = 0; index < list.length; index++) {
       const selectableItem = list[index];
-      let selectedLength = selected.length;
-      for (let i = 0; i < selectedLength; i++) {
-        const toSelect = selected[i];
-        if (selectableItem.value.id === toSelect.value.id) {
-          if (selectableItem.isSelectable) {
-            const findValue = this._selectedItems.find((value) => value.value.id === toSelect.value.id);
-            if (!findValue) {
-              this.selectedItemsIndices.push(index + lastCheckedIdx);
-              this._selectedItems.push(toSelect);
-            }
-            selectableItem.isSelected = true;
-            selected.splice(i, 1);
-            --selectedLength;
+      const wantToSelect = selected.has(selectableItem.value.id);
+      if (wantToSelect) {
+        if (selectableItem.isSelectable) {
+          const findValue = this._selectedItems.find((value) => value.value.id === selectableItem.value.id);
+          if (!findValue) {
+            this.selectedItemsIndices.push(index + lastCheckedIdx);
+            this._selectedItems.push(selectableItem);
           }
+          selectableItem.isSelected = true;
+          selected.delete(selectableItem.value.id);
         }
       }
     }
     lastCheckedIdx += list.length;
-    if (selected.length > 0) {
+    if (selected.size > 0) {
       if (this.callback) {
         if (maxFetchIterations > 0) {
           --maxFetchIterations;
@@ -75,7 +71,7 @@ export class Selectable {
           await this.setSelectedNodesAsync(selected, value, maxFetchIterations, lastCheckedIdx);
         } else {
           console.debug('MaxFetchIterations reached. Not all nodes selected');
-          }
+        }
       }
     } else {
       return;
