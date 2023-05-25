@@ -142,7 +142,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   /**
    * Function to initialize the lf-repository-browser component
    * @param treeNodeService LfRepositoryService service
-   * @param initialOpenedNode The LfTreeNode that you would like to open, or the identifier of the LfTreeNode. The identifier should match the implementation of service.getTreeNodeById(..) (i.e. id, path, etc.)
+   * @param initialOpenedNode The LfTreeNode that you would like to open, or the identifier of the LfTreeNode. The identifier should match the implementation of service.getTreeNodeByIdentifierAsync(..) (i.e. id, path, etc.)
    */
   @Input() initAsync = async (
     treeNodeService: LfTreeNodeService,
@@ -157,16 +157,16 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
           if (!initialOpenedNode || initialOpenedNode.trim().length === 0) {
             initialOpenedNode = undefined;
           } else {
-            if (this.treeNodeService.getTreeNodeByIdAsync) {
+            if (this.treeNodeService.getTreeNodeByIdentifierAsync) {
               try {
-                initialOpenedNode = await this.treeNodeService.getTreeNodeByIdAsync(initialOpenedNode);
+                initialOpenedNode = await this.treeNodeService.getTreeNodeByIdentifierAsync(initialOpenedNode);
               } catch {
                 console.warn('Unable to determine LfTreeNode by id. Will initialize to root.');
                 initialOpenedNode = undefined;
               }
             } else {
               console.warn(
-                'initialOpenedNode is specified by an id, but getTreeNodeById is not implemented. Will initialize to root.'
+                'initialOpenedNode is specified by an id, but getTreeNodeByIdentifierAsync is not implemented. Will initialize to root.'
               );
               initialOpenedNode = undefined;
             }

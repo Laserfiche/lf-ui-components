@@ -184,7 +184,7 @@
       Initializes the lf-repository-browser with an LfTreeNodeService. You <b>must</b> call this method. Each time this
       is called, the state of lf-repository-browser is reset. If an initialOpenedNode is specified, the tree is directly opened
       to that node. The initialOpenedNode can be a LfTreeNode or an identifier for a node. The identifier should match the implementation
-      for the service method getTreeNodeByIdAsync (i.e. path, id, etc.).
+      for the service method getTreeNodeByIdentifierAsync (i.e. path, id, etc.).
     </td>
   </tr>
   <tr>
@@ -262,7 +262,7 @@
     </ul>
   </li>
   <li>
-    getTreeNodeByIdAsync(identifier: string): Promise&lt;LfTreeNode | undefined&gt;
+    getTreeNodeByIdentifierAsync(identifier: string): Promise&lt;LfTreeNode | undefined&gt;
     <ul>
       <li>
         Returns the LfTreeNode specified by the identifier. The identifier should be unique but what is used can

@@ -1,8 +1,8 @@
 ## 14.1.1
 
 ### Features
-- `[lf-repository-browser]`: Add function `getTreeNodeByIdAsync` to `LfTreeNodeService` interface
-- `[lf-repository-browser]`: Add ability to call open the browser to a specific folder by calling `initAsync` with a string identifier. That identifier will be used to call `getTreeNodeByIdAsync`.
+- `[lf-repository-browser]`: Add function `getTreeNodeByIdentifierAsync` to `LfTreeNodeService` interface
+- `[lf-repository-browser]`: Add ability to call open the browser to a specific folder by calling `initAsync` with a string identifier. That identifier will be used to call `getTreeNodeByIdentifierAsync`.
 
 ### Fixes
 - `[lf-repository-browser]`: Add fixes for various bugs surrounding setting the column width to auto
