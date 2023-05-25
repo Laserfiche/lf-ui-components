@@ -683,9 +683,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         this.resetFolderProperties();
         await this.makeDataCall(parentEntry);
         this.isLoading = false;
+        this.ref.detectChanges();
         this.selectedItems = [];
         if (!clearSelected) {
-          this.ref.detectChanges();
           this.selectedItems = await this.resetPreviouslySelectedItemsAsync(previousSelectedItems);
         }
         if (lastSelectedItems?.length === 0 && this.selectedItems?.length === 0) {
