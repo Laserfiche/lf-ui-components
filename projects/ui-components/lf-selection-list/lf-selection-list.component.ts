@@ -385,16 +385,16 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         }
         this.ref.detectChanges();
 
-        const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
-        tableEl.style.width = containerWidth + 'px';
-        this.ref.detectChanges();
-        const widthsInPixel: string[] = [];
+        const onlyColumnWidthAuto = this.columns.length === 1 && this.columnsWidth?.includes('auto');
+        if (onlyColumnWidthAuto) {
+          this.setDefaultWidths();
+        } else {
+          const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
+          tableEl.style.width = containerWidth + 'px';
+          this.ref.detectChanges();
+          const widthsInPixel: string[] = [];
 
-        this.allColumnDefs.forEach((col, index) => {
-          const lastColumnWidthAuto = index === this.allColumnDefs.length - 1 && col.defaultWidth === 'auto';
-          if (lastColumnWidthAuto) {
-            widthsInPixel.push('auto');
-          } else {
+          this.allColumnDefs.forEach((col) => {
             const columnEls = Array.from(
               this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
             );
@@ -403,16 +403,16 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
             const columnWidthInPixel =
               col.id !== 'select' ? Math.max(columnWidthOffset, minWidthPx) + 'px' : SELECT_COL.defaultWidth;
             widthsInPixel.push(columnWidthInPixel);
+          });
+
+          if (this.matTable) {
+            const templateCOls = widthsInPixel.join(' ');
+            this.columnsWidth = templateCOls;
           }
-        });
 
-        if (this.matTable) {
-          const templateCOls = widthsInPixel.join(' ');
-          this.columnsWidth = templateCOls;
+          tableEl.style.width = 'fit-content';
+          this.ref.detectChanges();
         }
-
-        tableEl.style.width = 'fit-content';
-        this.ref.detectChanges();
       }
     });
   }

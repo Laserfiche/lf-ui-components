@@ -40,6 +40,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
         throw new Error('repoBrowser is undefined');
       }
       await this.repoBrowser.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
+      this.repoBrowser.nativeElement.always_show_header = true;
       this.multiColChange() ;
       if (this.repoBrowser != null) {
         this.repoBrowser.nativeElement.focus();
@@ -52,7 +53,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.singleColChange();
     await this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
     this.singleSelectRepoBrowser.nativeElement.column_order_by = {columnId: 'name', isDesc: false};
-    this.singleSelectRepoBrowser.nativeElement.always_show_header = true;
   }
 
   onEntrySelected(event: CustomEvent<LfTreeNode[] | undefined>) {
