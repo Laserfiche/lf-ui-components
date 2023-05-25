@@ -512,6 +512,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     widthsA[index] = width + 'px';
     const stringWidths = widthsA.join(' ');
     this.columnsWidth = stringWidths;
+    if (this.matTable) {
+      this.matTable.nativeElement.style.width = 'fit-content';
+    }
     this.ref.detectChanges();
   }
 }
