@@ -28,6 +28,10 @@ export class Selectable {
   get selectedItems(): ILfSelectable[] {
     return this._selectedItems;
   }
+
+  // goal is to have selected Items list that includes nodes that may not be selected in the UI yet
+  // but as we scroll we will select them
+
   callback?: () => Promise<ILfSelectable[] | undefined>;
 
   private _selectedItems: ILfSelectable[] = [];
