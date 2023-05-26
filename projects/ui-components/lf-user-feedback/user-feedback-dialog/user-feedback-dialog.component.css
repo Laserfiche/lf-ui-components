@@ -80,10 +80,6 @@
   justify-content: flex-start;
 }
 
-.email-checkbox-container.checkbox-less-margin {
-  margin-top: 10px;
-}
-
 ::ng-deep .user-feedback-content-container .lf-user-feedback-checkbox.mat-checkbox .mat-checkbox-layout {
   white-space: normal;
 }
