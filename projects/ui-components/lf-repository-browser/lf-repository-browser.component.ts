@@ -630,10 +630,11 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * @internal
    * Resets the errors, selected values, currentFolderChildren and nextPage
    */
-  private resetFolderProperties() {
+  private resetFolderProperties(clearCache: boolean) {
     this.hasError = false;
     this.currentFolderChildren = [];
     this.ref.detectChanges();
+    this.entryList?.clearSelectedValues(clearCache);
 
     //this._focused_node = undefined;
     this.nextPage = undefined;
@@ -680,15 +681,13 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         const lastSelectedItems = this.selectedItems;
         this.isLoading = true;
         this.hasError = false;
-        this.resetFolderProperties();
+        this.resetFolderProperties(clearSelected);
         await this.makeDataCall(parentEntry);
         this.isLoading = false;
         this.ref.detectChanges();
         this.selectedItems = [];
         if (!clearSelected) {
           this.selectedItems = await this.resetPreviouslySelectedItemsAsync();
-        } else {
-          this.entryList?.clearSelectedValues();
         }
         if (lastSelectedItems?.length === 0 && this.selectedItems?.length === 0) {
           // do nothing

@@ -36,8 +36,8 @@ export class Selectable {
 
   toSelect: Set<string> = new Set<string>();
 
-  clearSelectedValues(list: ILfSelectable[]) {
-    this.clearAllSelectedItems(list);
+  clearSelectedValues(list: ILfSelectable[], clearCached?: boolean) {
+    this.clearAllSelectedItems(list, clearCached);
   }
 
   async setSelectedNodesAsync(
@@ -158,7 +158,7 @@ export class Selectable {
   }
 
   /** @internal */
-  private clearAllSelectedItems(list: ILfSelectable[]) {
+  private clearAllSelectedItems(list: ILfSelectable[], clearAll: boolean = true) {
     this.selectedItemsIndices.forEach((val) => {
       if (list[val]) {
         list[val].isSelected = false;
@@ -166,7 +166,9 @@ export class Selectable {
     });
     this.selectedItemsIndices = [];
     this._selectedItems = [];
-    this.toSelect?.clear();
+    if (clearAll) {
+      this.toSelect?.clear();
+    }
   }
 
   /** @internal */

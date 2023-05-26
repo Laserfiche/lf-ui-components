@@ -215,8 +215,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
   }
 
-  clearSelectedValues() {
-    this.selectable.clearSelectedValues(this.items);
+  clearSelectedValues(clearCached?: boolean) {
+    this.selectable.clearSelectedValues(this.items, clearCached);
   }
 
   placeholderWhen(index: number, _: any) {
