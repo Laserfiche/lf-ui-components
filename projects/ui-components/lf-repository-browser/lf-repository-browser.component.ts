@@ -632,9 +632,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    */
   private resetFolderProperties(clearCache: boolean) {
     this.hasError = false;
+    this.entryList?.clearSelectedValues(clearCache);
     this.currentFolderChildren = [];
     this.ref.detectChanges();
-    this.entryList?.clearSelectedValues(clearCache);
 
     //this._focused_node = undefined;
     this.nextPage = undefined;
@@ -719,11 +719,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   /** @internal */
   private async resetPreviouslySelectedItemsAsync(previousSelectedNodes: LfTreeNode[] | undefined): Promise<LfTreeNode[] | undefined> {
     const selected = await this.getCurrentlySelectedItemsAsync(previousSelectedNodes);
-    const largeMaxFetchIterations = 0;
     const resetSelectedNodes: ILfSelectable[] = await this.entryList!.setSelectedNodesAsync(
       selected,
       this.checkForMoreDataCallback.bind(this),
-      largeMaxFetchIterations
+      0
     );
     const selectedItems = this.convertSelectedItemsToTreeNode(resetSelectedNodes);
     if (selectedItems?.length === 0 && this.selectedItems?.length === 0) {
