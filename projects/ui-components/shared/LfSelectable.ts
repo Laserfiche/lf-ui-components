@@ -34,6 +34,8 @@ export class Selectable {
   private lastSelectedIndex: number = 0;
   private selectedItemsIndices: number[] = [];
 
+  toSelect: Set<string> = new Set<string>();
+
   clearSelectedValues(list: ILfSelectable[]) {
     this.clearAllSelectedItems(list);
   }
@@ -44,9 +46,11 @@ export class Selectable {
     maxFetchIterations: number,
     lastCheckedIdx: number = 0
   ) {
+    const allToSelect = selected;
+    this.toSelect?.forEach(v => allToSelect.add(v));
     for (let index = 0; index < list.length; index++) {
       const selectableItem = list[index];
-      const wantToSelect = selected.has(selectableItem.value.id);
+      const wantToSelect = allToSelect.has(selectableItem.value.id);
       if (wantToSelect) {
         if (selectableItem.isSelectable) {
           const findValue = this._selectedItems.find((value) => value.value.id === selectableItem.value.id);
@@ -55,12 +59,12 @@ export class Selectable {
             this._selectedItems.push(selectableItem);
           }
           selectableItem.isSelected = true;
-          selected.delete(selectableItem.value.id);
+          allToSelect.delete(selectableItem.value.id);
         }
       }
     }
     lastCheckedIdx += list.length;
-    if (selected.size > 0) {
+    if (allToSelect.size > 0) {
       if (this.callback) {
         if (maxFetchIterations > 0) {
           --maxFetchIterations;
@@ -68,7 +72,7 @@ export class Selectable {
           if (!value || value.length === 0) {
             return;
           }
-          await this.setSelectedNodesAsync(selected, value, maxFetchIterations, lastCheckedIdx);
+          await this.setSelectedNodesAsync(allToSelect, value, maxFetchIterations, lastCheckedIdx);
         } else {
           console.debug('MaxFetchIterations reached. Not all nodes selected');
         }
@@ -149,6 +153,7 @@ export class Selectable {
     );
 
     this.selectedItemsIndices.splice(indexIndex, 1);
+    this.toSelect?.delete(itemInList.value.id);
     itemInList.isSelected = false;
   }
 
@@ -161,6 +166,7 @@ export class Selectable {
     });
     this.selectedItemsIndices = [];
     this._selectedItems = [];
+    this.toSelect?.clear();
   }
 
   /** @internal */
@@ -171,5 +177,6 @@ export class Selectable {
     itemInList.isSelected = true;
     this._selectedItems.push(itemInList);
     this.selectedItemsIndices.push(itemIndex);
+    this.toSelect?.delete(itemInList.value.id);
   }
 }

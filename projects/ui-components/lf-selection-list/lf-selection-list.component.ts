@@ -237,6 +237,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     const sortState: ColumnOrderBy = { columnId: sort.active, isDesc: sort.direction === 'desc' };
     this._columnOrderBy = sortState;
+    const selectedItems = this.selectable.selectedItems;
+    selectedItems.forEach(v => this.selectable.toSelect?.add(v.value.id));
     this.refreshData.emit();
   }
 
