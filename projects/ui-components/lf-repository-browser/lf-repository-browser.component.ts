@@ -402,7 +402,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         }
         await this.makeDataCall(this._currentFolder);
         this.ref.detectChanges();
-        this.resetPreviouslySelectedItemsAsync(this.selectedItems);
+        this.resetPreviouslySelectedItemsAsync();
       }
     });
   }
@@ -686,7 +686,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         this.isLoading = false;
         this.ref.detectChanges();
         if (!clearSelected) {
-          this.selectedItems = await this.resetPreviouslySelectedItemsAsync(lastSelectedItems);
+          this.selectedItems = await this.resetPreviouslySelectedItemsAsync();
         } else {
           this.selectedItems = [];
         }
@@ -710,20 +710,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   }
 
   /** @internal */
-  private async getCurrentlySelectedItemsAsync(previousSelectedNodes: LfTreeNode[] | undefined) {
-    const previousSelectedItems: ILfSelectable[] = await this.mapTreeNodesToLfSelectableAsync(
-      previousSelectedNodes ?? []
-    );
-    return previousSelectedItems;
-  }
-
-  /** @internal */
-  private async resetPreviouslySelectedItemsAsync(
-    previousSelectedNodes: LfTreeNode[] | undefined
-  ): Promise<LfTreeNode[] | undefined> {
-    const selected = await this.getCurrentlySelectedItemsAsync(previousSelectedNodes);
+  private async resetPreviouslySelectedItemsAsync(): Promise<LfTreeNode[] | undefined> {
     const resetSelectedNodes: ILfSelectable[] = await this.entryList!.setSelectedNodesAsync(
-      selected,
+      undefined,
       this.checkForMoreDataCallback.bind(this),
       0
     );

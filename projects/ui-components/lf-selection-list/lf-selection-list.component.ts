@@ -433,12 +433,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   }
 
   async setSelectedNodesAsync(
-    values: ILfSelectable[],
+    values: ILfSelectable[] | undefined,
     checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>,
     maxFetchIterations: number
   ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
-    const ids: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(values.map(v => [v.value.id, v]));
+    const ids: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(values?.map(v => [v.value.id, v]));
     await this.selectable.setSelectedNodesAsync(ids, this.items, maxFetchIterations);
     return this.selectable.selectedItems;
   }
