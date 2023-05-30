@@ -1,3 +1,12 @@
+## 14.1.2
+
+### Features
+- `[lf-user-feedback]`: Add ability to upload an image up to 3MB.
+
+### Fixes
+
+### Chore & Maintenance
+
 ## 14.1.1
 
 ### Features
