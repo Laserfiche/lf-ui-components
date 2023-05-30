@@ -25,46 +25,45 @@ export interface ILfSelectable {
  */
 export class Selectable {
   multiSelectable: boolean = false;
+
   get selectedItems(): ILfSelectable[] {
-    return this._selectedItems;
+    return [...this.allSelected.values()];
   }
+
   callback?: () => Promise<ILfSelectable[] | undefined>;
 
-  private _selectedItems: ILfSelectable[] = [];
   private lastSelectedIndex: number = 0;
   private selectedItemsIndices: number[] = [];
 
-  clearSelectedValues(list: ILfSelectable[]) {
-    this.clearAllSelectedItems(list);
+  allSelected: Map<string, ILfSelectable> = new Map<string, ILfSelectable>();
+
+  clearSelectedValues(list: ILfSelectable[], clearCached?: boolean) {
+    this.clearAllSelectedItems(list, clearCached);
   }
 
   async setSelectedNodesAsync(
-    selected: ILfSelectable[],
+    selected: Map<string, ILfSelectable>,
     list: ILfSelectable[],
     maxFetchIterations: number,
     lastCheckedIdx: number = 0
   ) {
     for (let index = 0; index < list.length; index++) {
       const selectableItem = list[index];
-      let selectedLength = selected.length;
-      for (let i = 0; i < selectedLength; i++) {
-        const toSelect = selected[i];
-        if (selectableItem.value.id === toSelect.value.id) {
-          if (selectableItem.isSelectable) {
-            const findValue = this._selectedItems.find((value) => value.value.id === toSelect.value.id);
-            if (!findValue) {
-              this.selectedItemsIndices.push(index + lastCheckedIdx);
-              this._selectedItems.push(toSelect);
-            }
-            selectableItem.isSelected = true;
-            selected.splice(i, 1);
-            --selectedLength;
+      const wantToSelect = selected.has(selectableItem.value.id) || this.allSelected.has(selectableItem.value.id);
+      if (wantToSelect) {
+        if (selectableItem.isSelectable) {
+          const findValue = this.selectedItemsIndices.find((value) => value === index + lastCheckedIdx);
+          if (!findValue) {
+            this.selectedItemsIndices.push(index + lastCheckedIdx);
           }
+          this.allSelected.set(selectableItem.value.id, selectableItem);
+          selectableItem.isSelected = true;
+          selected.delete(selectableItem.value.id);
         }
       }
     }
     lastCheckedIdx += list.length;
-    if (selected.length > 0) {
+    if (selected.size > 0) {
       if (this.callback) {
         if (maxFetchIterations > 0) {
           --maxFetchIterations;
@@ -75,7 +74,7 @@ export class Selectable {
           await this.setSelectedNodesAsync(selected, value, maxFetchIterations, lastCheckedIdx);
         } else {
           console.debug('MaxFetchIterations reached. Not all nodes selected');
-          }
+        }
       }
     } else {
       return;
@@ -99,7 +98,6 @@ export class Selectable {
     }
     const itemIndex = list.findIndex((selectable) => selectable.value.id === item.value.id);
     if (!this.multiSelectable) {
-      // clear all selectedItems doesn't work if list has been reordered
       this.clearAllSelectedItems(list);
       const itemInList = list[itemIndex];
       if (itemInList.isSelectable) {
@@ -146,25 +144,26 @@ export class Selectable {
 
   /** @internal */
   private unselectItem(list: ILfSelectable[], itemInList: ILfSelectable) {
-    const index = this._selectedItems.findIndex((selectable) => selectable.value.id === itemInList.value.id);
-    this._selectedItems.splice(index, 1);
     const indexIndex = this.selectedItemsIndices.findIndex(
       (selectable) => list[selectable].value.id === itemInList.value.id
     );
 
     this.selectedItemsIndices.splice(indexIndex, 1);
+    this.allSelected.delete(itemInList.value.id);
     itemInList.isSelected = false;
   }
 
   /** @internal */
-  private clearAllSelectedItems(list: ILfSelectable[]) {
+  private clearAllSelectedItems(list: ILfSelectable[], clearAll: boolean = true) {
     this.selectedItemsIndices.forEach((val) => {
       if (list[val]) {
         list[val].isSelected = false;
       }
     });
     this.selectedItemsIndices = [];
-    this._selectedItems = [];
+    if (clearAll) {
+      this.allSelected.clear();
+    }
   }
 
   /** @internal */
@@ -173,7 +172,7 @@ export class Selectable {
       return;
     }
     itemInList.isSelected = true;
-    this._selectedItems.push(itemInList);
     this.selectedItemsIndices.push(itemIndex);
+    this.allSelected.set(itemInList.value.id, itemInList);
   }
 }

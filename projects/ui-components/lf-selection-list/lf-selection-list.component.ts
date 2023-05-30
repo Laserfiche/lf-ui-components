@@ -215,8 +215,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
   }
 
-  clearSelectedValues() {
-    this.selectable.clearSelectedValues(this.items);
+  clearSelectedValues(clearCached?: boolean) {
+    this.selectable.clearSelectedValues(this.items, clearCached);
   }
 
   placeholderWhen(index: number, _: any) {
@@ -430,13 +430,21 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  async resetCachedNodesAsync() {
+    await this.selectable.setSelectedNodesAsync(new Map<string, ILfSelectable>(), this.items, 0);
+    this.ref.detectChanges();
+    return this.selectable.selectedItems;
+  }
+
   async setSelectedNodesAsync(
-    values: ILfSelectable[],
+    nodesToSelect: ILfSelectable[] | undefined,
     checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>,
     maxFetchIterations: number
   ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
-    await this.selectable.setSelectedNodesAsync(values, this.items, maxFetchIterations);
+    const idsToSelectable: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(nodesToSelect?.map(v => [v.value.id, v]));
+    await this.selectable.setSelectedNodesAsync(idsToSelectable, this.items, maxFetchIterations);
+    this.ref.detectChanges();
     return this.selectable.selectedItems;
   }
 
