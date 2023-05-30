@@ -237,8 +237,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     const sortState: ColumnOrderBy = { columnId: sort.active, isDesc: sort.direction === 'desc' };
     this._columnOrderBy = sortState;
-    const selectedItems = this.selectable.selectedItems;
-    selectedItems.forEach(v => this.selectable.allSelected?.set(v.value.id, v));
     this.refreshData.emit();
   }
 
@@ -432,14 +430,20 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  async resetCachedNodesAsync() {
+    await this.selectable.setSelectedNodesAsync(new Map<string, ILfSelectable>(), this.items, 0);
+    this.ref.detectChanges();
+    return this.selectable.selectedItems;
+  }
+
   async setSelectedNodesAsync(
-    values: ILfSelectable[] | undefined,
+    nodesToSelect: ILfSelectable[] | undefined,
     checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>,
     maxFetchIterations: number
   ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
-    const ids: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(values?.map(v => [v.value.id, v]));
-    await this.selectable.setSelectedNodesAsync(ids, this.items, maxFetchIterations);
+    const idsToSelectable: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(nodesToSelect?.map(v => [v.value.id, v]));
+    await this.selectable.setSelectedNodesAsync(idsToSelectable, this.items, maxFetchIterations);
     this.ref.detectChanges();
     return this.selectable.selectedItems;
   }

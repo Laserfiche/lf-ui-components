@@ -402,7 +402,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         }
         await this.makeDataCall(this._currentFolder);
         this.ref.detectChanges();
-        this.resetPreviouslySelectedItemsAsync();
+        this.resetSelectedItemsAsync();
       }
     });
   }
@@ -686,7 +686,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         this.isLoading = false;
         this.ref.detectChanges();
         if (!clearSelected) {
-          this.selectedItems = await this.resetPreviouslySelectedItemsAsync();
+          this.selectedItems = await this.resetSelectedItemsAsync();
         } else {
           this.selectedItems = [];
         }
@@ -710,12 +710,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   }
 
   /** @internal */
-  private async resetPreviouslySelectedItemsAsync(): Promise<LfTreeNode[] | undefined> {
-    const resetSelectedNodes: ILfSelectable[] = await this.entryList!.setSelectedNodesAsync(
-      undefined,
-      this.checkForMoreDataCallback.bind(this),
-      0
-    );
+  private async resetSelectedItemsAsync(): Promise<LfTreeNode[] | undefined> {
+    const resetSelectedNodes: ILfSelectable[] = await this.entryList!.resetCachedNodesAsync();
     const selectedItems = this.convertSelectedItemsToTreeNode(resetSelectedNodes);
     return selectedItems;
   }

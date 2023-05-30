@@ -25,12 +25,10 @@ export interface ILfSelectable {
  */
 export class Selectable {
   multiSelectable: boolean = false;
+
   get selectedItems(): ILfSelectable[] {
     return [...this.allSelected.values()];
   }
-
-  // goal is to have selected Items list that includes nodes that may not be selected in the UI yet
-  // but as we scroll we will select them
 
   callback?: () => Promise<ILfSelectable[] | undefined>;
 
