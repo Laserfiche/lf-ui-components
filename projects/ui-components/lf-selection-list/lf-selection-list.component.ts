@@ -440,6 +440,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.selectable.callback = checkForMoreDataCallback;
     const ids: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(values?.map(v => [v.value.id, v]));
     await this.selectable.setSelectedNodesAsync(ids, this.items, maxFetchIterations);
+    this.ref.detectChanges();
     return this.selectable.selectedItems;
   }
 

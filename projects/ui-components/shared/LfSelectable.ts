@@ -59,6 +59,7 @@ export class Selectable {
           if (!findValue) {
             this.selectedItemsIndices.push(index + lastCheckedIdx);
             this._selectedItems.push(selectableItem);
+            this.allSelected.set(selectableItem.value.id, selectableItem);
           }
           selectableItem.isSelected = true;
           selected.delete(selectableItem.value.id);
