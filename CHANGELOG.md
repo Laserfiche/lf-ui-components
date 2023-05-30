@@ -1,20 +1,20 @@
+## 14.1.3
+
+### Features
+- `[lf-repository-browser]`: Add function `getTreeNodeByIdentifierAsync` to `LfTreeNodeService` interface
+- `[lf-repository-browser]`: Add ability to open the browser to a specific folder by calling `initAsync` with a string identifier. That identifier will be used to call `getTreeNodeByIdentifierAsync`.
+
+### Fixes
+- `[lf-repository-browser]`: Add fixes for various bugs surrounding setting the column width to auto
+
+### Chore & Maintenance
+
 ## 14.1.2
 
 ### Features
 - `[lf-user-feedback]`: Add ability to upload an image up to 3MB.
 
 ### Fixes
-
-### Chore & Maintenance
-
-## 14.1.1
-
-### Features
-- `[lf-repository-browser]`: Add function `getTreeNodeByIdentifierAsync` to `LfTreeNodeService` interface
-- `[lf-repository-browser]`: Add ability to call open the browser to a specific folder by calling `initAsync` with a string identifier. That identifier will be used to call `getTreeNodeByIdentifierAsync`.
-
-### Fixes
-- `[lf-repository-browser]`: Add fixes for various bugs surrounding setting the column width to auto
 
 ### Chore & Maintenance
 
