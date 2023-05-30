@@ -35,7 +35,6 @@ describe('FeedbackSubmissionComponent', () => {
 
     fixture = TestBed.createComponent(FeedbackSubmissionComponent);
     component = fixture.componentInstance;
-    component.shouldShowImageUpload = true;
     fixture.detectChanges();
   });
 
