@@ -34,7 +34,6 @@ export class Selectable {
 
   callback?: () => Promise<ILfSelectable[] | undefined>;
 
-  private _selectedItems: ILfSelectable[] = [];
   private lastSelectedIndex: number = 0;
   private selectedItemsIndices: number[] = [];
 
@@ -55,12 +54,11 @@ export class Selectable {
       const wantToSelect = selected.has(selectableItem.value.id) || this.allSelected.has(selectableItem.value.id);
       if (wantToSelect) {
         if (selectableItem.isSelectable) {
-          const findValue = this._selectedItems.find((value) => value.value.id === selectableItem.value.id);
+          const findValue = this.selectedItemsIndices.find((value) => value === index + lastCheckedIdx);
           if (!findValue) {
             this.selectedItemsIndices.push(index + lastCheckedIdx);
-            this._selectedItems.push(selectableItem);
-            this.allSelected.set(selectableItem.value.id, selectableItem);
           }
+          this.allSelected.set(selectableItem.value.id, selectableItem);
           selectableItem.isSelected = true;
           selected.delete(selectableItem.value.id);
         }
@@ -102,7 +100,6 @@ export class Selectable {
     }
     const itemIndex = list.findIndex((selectable) => selectable.value.id === item.value.id);
     if (!this.multiSelectable) {
-      // clear all selectedItems doesn't work if list has been reordered
       this.clearAllSelectedItems(list);
       const itemInList = list[itemIndex];
       if (itemInList.isSelectable) {
@@ -149,8 +146,6 @@ export class Selectable {
 
   /** @internal */
   private unselectItem(list: ILfSelectable[], itemInList: ILfSelectable) {
-    const index = this._selectedItems.findIndex((selectable) => selectable.value.id === itemInList.value.id);
-    this._selectedItems.splice(index, 1);
     const indexIndex = this.selectedItemsIndices.findIndex(
       (selectable) => list[selectable].value.id === itemInList.value.id
     );
@@ -168,7 +163,6 @@ export class Selectable {
       }
     });
     this.selectedItemsIndices = [];
-    this._selectedItems = [];
     if (clearAll) {
       this.allSelected.clear();
     }
@@ -180,7 +174,6 @@ export class Selectable {
       return;
     }
     itemInList.isSelected = true;
-    this._selectedItems.push(itemInList);
     this.selectedItemsIndices.push(itemIndex);
     this.allSelected.set(itemInList.value.id, itemInList);
   }
