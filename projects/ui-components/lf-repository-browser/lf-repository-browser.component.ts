@@ -232,7 +232,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         maxFetchIterations
       );
       const selectedItems = this.convertSelectedItemsToTreeNode(selectedNodes);
-      if (selectedItems?.length === 0 && this.selectedItems?.length === 0) {
+      if (selectedItems?.length === 0 && this.selectedItems?.length === 0  || JSON.stringify(selectedItems) === JSON.stringify(this.selectedItems)) {
         // do nothing
       } else {
         this.selectedItems = selectedItems;
@@ -685,11 +685,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         await this.makeDataCall(parentEntry);
         this.isLoading = false;
         this.ref.detectChanges();
-        this.selectedItems = [];
         if (!clearSelected) {
           this.selectedItems = await this.resetPreviouslySelectedItemsAsync(lastSelectedItems);
+        } else {
+          this.selectedItems = [];
         }
-        if (lastSelectedItems?.length === 0 && this.selectedItems?.length === 0) {
+        if (lastSelectedItems?.length === 0 && this.selectedItems?.length === 0  || JSON.stringify(lastSelectedItems) === JSON.stringify(this.selectedItems)) {
           // do nothing
         } else {
           this.entrySelected.emit(this.selectedItems);
@@ -717,7 +718,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   }
 
   /** @internal */
-  private async resetPreviouslySelectedItemsAsync(previousSelectedNodes: LfTreeNode[] | undefined): Promise<LfTreeNode[] | undefined> {
+  private async resetPreviouslySelectedItemsAsync(
+    previousSelectedNodes: LfTreeNode[] | undefined
+  ): Promise<LfTreeNode[] | undefined> {
     const selected = await this.getCurrentlySelectedItemsAsync(previousSelectedNodes);
     const resetSelectedNodes: ILfSelectable[] = await this.entryList!.setSelectedNodesAsync(
       selected,
@@ -725,12 +728,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       0
     );
     const selectedItems = this.convertSelectedItemsToTreeNode(resetSelectedNodes);
-    if (selectedItems?.length === 0 && this.selectedItems?.length === 0) {
-      // do nothing
-    } else {
-      this.selectedItems = selectedItems;
-      this.entrySelected.emit(this.selectedItems);
-    }
     return selectedItems;
   }
 

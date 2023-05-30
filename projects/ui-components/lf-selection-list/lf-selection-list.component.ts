@@ -238,7 +238,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     const sortState: ColumnOrderBy = { columnId: sort.active, isDesc: sort.direction === 'desc' };
     this._columnOrderBy = sortState;
     const selectedItems = this.selectable.selectedItems;
-    selectedItems.forEach(v => this.selectable.toSelect?.add(v.value.id));
+    selectedItems.forEach(v => this.selectable.allSelected?.set(v.value.id, v));
     this.refreshData.emit();
   }
 
@@ -438,7 +438,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     maxFetchIterations: number
   ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
-    const ids: Set<string> = new Set<string>(values.map(v => v.value.id));
+    const ids: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(values.map(v => [v.value.id, v]));
     await this.selectable.setSelectedNodesAsync(ids, this.items, maxFetchIterations);
     return this.selectable.selectedItems;
   }

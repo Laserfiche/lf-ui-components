@@ -26,7 +26,7 @@ export interface ILfSelectable {
 export class Selectable {
   multiSelectable: boolean = false;
   get selectedItems(): ILfSelectable[] {
-    return this._selectedItems;
+    return [...this.allSelected.values()];
   }
 
   // goal is to have selected Items list that includes nodes that may not be selected in the UI yet
@@ -38,23 +38,21 @@ export class Selectable {
   private lastSelectedIndex: number = 0;
   private selectedItemsIndices: number[] = [];
 
-  toSelect: Set<string> = new Set<string>();
+  allSelected: Map<string, ILfSelectable> = new Map<string, ILfSelectable>();
 
   clearSelectedValues(list: ILfSelectable[], clearCached?: boolean) {
     this.clearAllSelectedItems(list, clearCached);
   }
 
   async setSelectedNodesAsync(
-    selected: Set<string>,
+    selected: Map<string, ILfSelectable>,
     list: ILfSelectable[],
     maxFetchIterations: number,
     lastCheckedIdx: number = 0
   ) {
-    const allToSelect = selected;
-    this.toSelect?.forEach(v => allToSelect.add(v));
     for (let index = 0; index < list.length; index++) {
       const selectableItem = list[index];
-      const wantToSelect = allToSelect.has(selectableItem.value.id);
+      const wantToSelect = selected.has(selectableItem.value.id) || this.allSelected.has(selectableItem.value.id);
       if (wantToSelect) {
         if (selectableItem.isSelectable) {
           const findValue = this._selectedItems.find((value) => value.value.id === selectableItem.value.id);
@@ -63,12 +61,12 @@ export class Selectable {
             this._selectedItems.push(selectableItem);
           }
           selectableItem.isSelected = true;
-          allToSelect.delete(selectableItem.value.id);
+          selected.delete(selectableItem.value.id);
         }
       }
     }
     lastCheckedIdx += list.length;
-    if (allToSelect.size > 0) {
+    if (selected.size > 0) {
       if (this.callback) {
         if (maxFetchIterations > 0) {
           --maxFetchIterations;
@@ -76,7 +74,7 @@ export class Selectable {
           if (!value || value.length === 0) {
             return;
           }
-          await this.setSelectedNodesAsync(allToSelect, value, maxFetchIterations, lastCheckedIdx);
+          await this.setSelectedNodesAsync(selected, value, maxFetchIterations, lastCheckedIdx);
         } else {
           console.debug('MaxFetchIterations reached. Not all nodes selected');
         }
@@ -157,7 +155,7 @@ export class Selectable {
     );
 
     this.selectedItemsIndices.splice(indexIndex, 1);
-    this.toSelect?.delete(itemInList.value.id);
+    this.allSelected.delete(itemInList.value.id);
     itemInList.isSelected = false;
   }
 
@@ -171,7 +169,7 @@ export class Selectable {
     this.selectedItemsIndices = [];
     this._selectedItems = [];
     if (clearAll) {
-      this.toSelect?.clear();
+      this.allSelected.clear();
     }
   }
 
@@ -183,6 +181,6 @@ export class Selectable {
     itemInList.isSelected = true;
     this._selectedItems.push(itemInList);
     this.selectedItemsIndices.push(itemIndex);
-    this.toSelect?.delete(itemInList.value.id);
+    this.allSelected.set(itemInList.value.id, itemInList);
   }
 }
