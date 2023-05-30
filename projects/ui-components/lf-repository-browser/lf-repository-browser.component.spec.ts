@@ -117,7 +117,7 @@ describe('LfRepositoryBrowserComponent', () => {
     'getFolderChildrenAsync',
     'getRootTreeNodeAsync',
     'getParentTreeNodeAsync',
-    'getTreeNodeByIdAsync',
+    'getTreeNodeByIdentifierAsync',
   ]);
   let matDialogMock: MatDialog;
   let ngZoneMock: NgZone;

@@ -50,7 +50,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   @Input() itemSize: number = 42;
   private _pageSize: number = 50;
-  @Input() 
+  @Input()
   set pageSize(value: number) {
     this._pageSize = value;
     if (this.dataSource) {
@@ -101,8 +101,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (this.sort && orderBy?.columnId && this.allColumnDefs.find((c) => c.id === orderBy.columnId)) {
       this.sort.sort({ id: orderBy?.columnId, start: orderBy?.isDesc ? 'desc' : 'asc', disableClear: true });
       this._columnOrderBy = orderBy;
-    }
-    else {
+    } else {
       console.debug('Unable to set new sort header');
     }
   }
@@ -216,8 +215,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     this.focusMonitor.stopMonitoring(this.viewport!.elementRef.nativeElement);
   }
 
-  clearSelectedValues() {
-    this.selectable.clearSelectedValues(this.items);
+  clearSelectedValues(clearCached?: boolean) {
+    this.selectable.clearSelectedValues(this.items, clearCached);
   }
 
   placeholderWhen(index: number, _: any) {
@@ -372,7 +371,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         const tableEl = this.matTable?.nativeElement;
         const widths: string[] = [];
         this.allColumnDefs.forEach((col) => {
-          const columnWidth = repositoryBrowserData?.columns[col.id];
+          const columnWidth = repositoryBrowserData?.columns ? repositoryBrowserData?.columns[col.id] : undefined;
           if (columnWidth) {
             widths.push(columnWidth);
           } else {
@@ -386,8 +385,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         }
         this.ref.detectChanges();
 
-        const shouldFillLastColumn = this.allColumnDefs[this.allColumnDefs.length - 1]?.defaultWidth === 'auto';
-        if (!shouldFillLastColumn) {
+        const onlyColumnWidthAuto = this.columns.length === 1 && this.columnsWidth?.includes('auto');
+        if (onlyColumnWidthAuto) {
+          this.setDefaultWidths();
+        } else {
           const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
           tableEl.style.width = containerWidth + 'px';
           this.ref.detectChanges();
@@ -429,13 +430,21 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  async resetCachedNodesAsync() {
+    await this.selectable.setSelectedNodesAsync(new Map<string, ILfSelectable>(), this.items, 0);
+    this.ref.detectChanges();
+    return this.selectable.selectedItems;
+  }
+
   async setSelectedNodesAsync(
-    values: ILfSelectable[],
+    nodesToSelect: ILfSelectable[] | undefined,
     checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>,
     maxFetchIterations: number
   ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
-    await this.selectable.setSelectedNodesAsync(values, this.items, maxFetchIterations);
+    const idsToSelectable: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(nodesToSelect?.map(v => [v.value.id, v]));
+    await this.selectable.setSelectedNodesAsync(idsToSelectable, this.items, maxFetchIterations);
+    this.ref.detectChanges();
     return this.selectable.selectedItems;
   }
 
@@ -495,6 +504,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         repoData = {
           columns: {},
         };
+      } else if (!repoData.columns) {
+        repoData.columns = {};
       }
       repoData.columns[key] = width + 'px';
       localStorage.setItem(this._uniqueIdentifier, JSON.stringify(repoData));
@@ -509,6 +520,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     widthsA[index] = width + 'px';
     const stringWidths = widthsA.join(' ');
     this.columnsWidth = stringWidths;
+    if (this.matTable) {
+      this.matTable.nativeElement.style.width = 'fit-content';
+    }
     this.ref.detectChanges();
   }
 }
