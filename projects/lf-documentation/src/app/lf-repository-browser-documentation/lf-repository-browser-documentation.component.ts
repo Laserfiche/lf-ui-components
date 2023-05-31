@@ -8,9 +8,9 @@ import { DemoRepoService, propIdCreateDate, propIdNameCol, propIdNumberCol } fro
 
 
 
-const CREATE_COL: ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: '30%', minWidthPx: 100, resizable: false };
-const NUMBER_COL: ColumnDef = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: '60%', minWidthPx: 100, resizable: true, sortable: true  };
-const NAME_COL: ColumnDef = { id: propIdNameCol, displayName: 'Name', defaultWidth: '50%', minWidthPx: 100, resizable: true, sortable: true  };
+const CREATE_COL: ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: 'auto', minWidthPx: 100, resizable: true, sortable: true };
+const NUMBER_COL: ColumnDef = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: 'auto', minWidthPx: 100, resizable: true, sortable: true  };
+const NAME_COL: ColumnDef = { id: propIdNameCol, displayName: 'Name', defaultWidth: 'auto', minWidthPx: 100, resizable: true, sortable: true  };
 
 @Component({
   selector: 'app-lf-repository-browser-documentation',
@@ -40,6 +40,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
         throw new Error('repoBrowser is undefined');
       }
       await this.repoBrowser.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
+      this.repoBrowser.nativeElement.always_show_header = true;
       this.multiColChange() ;
       if (this.repoBrowser != null) {
         this.repoBrowser.nativeElement.focus();
@@ -52,7 +53,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     this.singleColChange();
     await this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
     this.singleSelectRepoBrowser.nativeElement.column_order_by = {columnId: 'name', isDesc: false};
-    this.singleSelectRepoBrowser.nativeElement.always_show_header = true;
   }
 
   onEntrySelected(event: CustomEvent<LfTreeNode[] | undefined>) {

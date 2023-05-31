@@ -90,6 +90,7 @@
 
 ::ng-deep .lf-table-selection-list .lf-ellipsis-label .mat-sort-header-container {
   width: 100%;
+  justify-content: space-between;
 }
 
 :host .lf-table-selection-list th.mat-header-cell {
@@ -137,11 +138,6 @@
   z-index: 1;
 }
 
-
-::ng-deep .lf-table-selection-list tbody {
-  padding: 2px; /** TODO is there a better way to account for border */
-}
-
 .lf-table-selection-list .column-text-div {
   display: flex;
   align-items: center;
@@ -157,15 +153,6 @@
 .lf-table-selection-list th .resize-handle:hover {
   opacity: 1;
   background: linear-gradient(#000, #000) no-repeat center/2px 100%;
-}
-
-::ng-deep .lf-table-selection-list .mat-sort-header .mat-sort-header-arrow {
-  display: none;
-}
-
-::ng-deep .lf-table-selection-list .mat-sort-header:hover .mat-sort-header-arrow,
-::ng-deep .lf-table-selection-list .mat-sort-header-sorted .mat-sort-header-arrow {
-  display: flex;
 }
 
 .lf-table-selection-list .resize-handle {
