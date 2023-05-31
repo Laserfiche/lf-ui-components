@@ -6,6 +6,9 @@
 
 ### Fixes
 - `[lf-repository-browser]`: Add fixes for various bugs surrounding setting the column width to auto
+- `[lf-repository-browser]`: Add fix for bug in which sorting creates an empty page when insufficient entries returned from service
+- `[lf-repository-browser]`: Add fix for bug in which sorting after scrolling doesn't reset the scroll bar to the top.
+- `[lf-repository-browser]`: Add fix for bug in which data entry width exceeding total header width
 
 ### Chore & Maintenance
 
