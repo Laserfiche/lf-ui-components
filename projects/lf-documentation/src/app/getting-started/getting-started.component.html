@@ -3,7 +3,10 @@
   <p class="toc-container-header">Contents</p>
   <ul>
     <li>
-      <a (click)="navigateToElements('cdn-usage')">Using Via CDN</a>
+      <a (click)="navigateToElements('cdn-jsdelivr-usage')">Using Via CDN From jsdelivr</a>
+    </li>
+    <li>
+      <a (click)="navigateToElements('cdn-lfxstatic-usage')">Using Via CDN From lfxstatic</a>
     </li>
     <li>
       <a (click)="navigateToElements('npm-usage')">Using Via NPM</a>
@@ -16,15 +19,16 @@
     </li>
   </ul>
 </div>
-<h2 id="cdn-usage">Using Via CDN</h2>
+<h2 id="cdn-jsdelivr-usage">Using Via CDN From jsdelivr</h2>
+<p>If you are using UI-components via CDN, we recommend getting them from jsdelivr because lfxstatic is not intended to be a public service and may not reliably deliver the files you want.</p>
 <ol>
   <li>
     <p class="documentation-text">Add the following script tags to <code>index.html</code>.</p>
     <pre class="code-container">
 <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
-      >"https://lfxstatic.com/npm/-/zone.js@0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+      >"https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
 <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
->"https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
+>"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
 > defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
 </pre>
     <p class="documentation-text">
@@ -48,7 +52,7 @@
         <span class="code-html-attribute-name">href</span>
         <span>=</span>
         <span class="code-html-attribute-value"
-          >"https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"
+          >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"
         </span>
         <span class="code-html-attribute-name">rel</span>
         <span>=</span>
@@ -64,7 +68,7 @@
         <span class="code-html-attribute-name">href</span>
         <span>=</span>
         <span class="code-html-attribute-value"
-          >"https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css"
+          >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css"
         </span>
         <span class="code-html-attribute-name">rel</span>
         <span>=</span>
@@ -84,7 +88,7 @@
         <span class="code-html-attribute-name">href</span>
         <span>=</span>
         <span class="code-html-attribute-value"
-          >"https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"
+          >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"
         </span>
         <span class="code-html-attribute-name">rel</span>
         <span>=</span>
@@ -99,6 +103,68 @@
     version matches the version of the script you added above.
     <p class="documentation-text">
       <code class="code-container"> npm install @laserfiche/types-lf-ui-components@NPM_VERSION --save-dev</code>
+      <br /><br />
+    </p>
+  </li>
+</ol>
+<h2 id="cdn-lfxstatic-usage">Using Via CDN From lfxstatic</h2>
+If you wish to use lfxstatic, the instructions are the same, but the urls are different:
+<ol>
+  <li>
+    <pre class="code-container">
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+      >"https://lfxstatic.com/npm/-/zone.js@0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
+>"https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
+> defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+</pre>
+  </li>
+  <li>
+    <p class="documentation-text">
+      <code class="code-container">
+        <span class="code-html-tagname"> &lt;link </span>
+        <span class="code-html-attribute-name">href</span>
+        <span>=</span>
+        <span class="code-html-attribute-value"
+          >"https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"
+        </span>
+        <span class="code-html-attribute-name">rel</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"stylesheet" </span>
+        <span class="code-html-tagname">/&gt;</span>
+      </code>
+      <br /><br />
+    </p>
+    <p class="documentation-text">
+      <code class="code-container">
+        <span class="code-html-tagname"> &lt;link </span>
+        <span class="code-html-attribute-name">href</span>
+        <span>=</span>
+        <span class="code-html-attribute-value"
+          >"https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css"
+        </span>
+        <span class="code-html-attribute-name">rel</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"stylesheet" </span>
+        <span class="code-html-tagname">/&gt;</span>
+      </code>
+      <br /><br />
+    </p>
+  </li>
+  <li>
+    <p class="documentation-text">
+      <code class="code-container">
+        <span class="code-html-tagname"> &lt;link </span>
+        <span class="code-html-attribute-name">href</span>
+        <span>=</span>
+        <span class="code-html-attribute-value"
+          >"https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"
+        </span>
+        <span class="code-html-attribute-name">rel</span>
+        <span>=</span>
+        <span class="code-html-attribute-value">"stylesheet" </span>
+        <span class="code-html-tagname">/&gt;</span>
+      </code>
       <br /><br />
     </p>
   </li>
