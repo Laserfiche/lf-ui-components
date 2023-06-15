@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
-import { debounceTime, Observable, Subscription } from 'rxjs';
+import { debounceTime, map, Observable, Subscription } from 'rxjs';
 import { FeedbackSubmissionComponent } from '../feedback-submission/feedback-submission.component';
 import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-user-feedback-types';
 
@@ -64,7 +64,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
     THANK_YOU_FOR_SUBMISSION: this.localizationService.getStringLaserficheObservable('THANK_YOU_FOR_SUBMISSION'),
     IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL: this.localizationService.getStringComponentsObservable(
       'IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL'
-    ),
+    ).pipe(map((value: string) => {return `${value} `})),
     PLEASE_CLICK_HERE: this.localizationService.getStringComponentsObservable('PLEASE_CLICK_HERE'),
     SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER: this.localizationService.getStringLaserficheObservable(
       'SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER'
