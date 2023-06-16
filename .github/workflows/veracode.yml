@@ -1,11 +1,6 @@
 name: lf-ui-components-veracode
 
 on:
-  push:
-    branches: [ '\d+.x' ]
-  pull_request:
-    branches: [ '\d+.x' ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -69,7 +64,16 @@ jobs:
 
       - name: 'Compress Documentation'
         run: tar -czvf ./veracode/lf-documentation.tar.gz ./dist/lf-documentation
-  
+
+      - name: Veracode Upload And Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.6
+        with:
+          appname: 'lf-ui-components'
+          createprofile: true
+          filepath: 'veracode'
+          vid: '${{ secrets.VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY }}'
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
         with:
