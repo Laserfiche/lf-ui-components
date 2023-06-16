@@ -52,11 +52,11 @@ jobs:
 
       - name: 'move lf-ui-components.js to ui-components/cdn'
         run: mv -t ../ui-components/cdn lf-ui-components.js main.js.map runtime.js.map polyfills.js.map
-        working-directory: ./dist/lf-cdn
+        working-directory: dist/lf-cdn
 
       - name: 'move lf-documentation/styles to ui-components/cdn'
         run: mv -t  ../ui-components/cdn/ lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
-        working-directory: ./dist/lf-documentation
+        working-directory: dist/lf-documentation
 
       - name: 'move README to ui-components'
         run: mv -t ./dist/ui-components README.md
