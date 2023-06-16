@@ -32,8 +32,8 @@ jobs:
       - name: Npm run build-ui-components
         run: npm run build-ui-components-dev
 
-      - name: Npm run create-lf-cdn-dev
-        run: npm run create-lf-cdn-dev
+      - name: Npm run build-lf-cdn-dev
+        run: npm run build-lf-cdn-dev
 
       - name: Npm run build-lf-documentation-dev
         run: npm run build-lf-documentation-dev
