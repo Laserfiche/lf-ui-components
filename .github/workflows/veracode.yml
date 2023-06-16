@@ -60,6 +60,9 @@ jobs:
 
       - name: 'move README to ui-components'
         run: mv -t ./dist/ui-components README.md
+      
+      - name: 'create an empty ./veracode folder'
+        run: 'mkdir -p ./veracode'
         
       - name: 'Compress UI Components'
         run: tar -czvf ./veracode/ui-components.tar.gz ./dist/ui-components
