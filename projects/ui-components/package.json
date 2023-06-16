@@ -23,7 +23,7 @@
     "@angular/router": "^14.2.12",
     "@laserfiche/lf-api-client-core": "^1.1.3",
     "@laserfiche/lf-js-utils": "^4.0.7",
-    "@laserfiche/lf-resource-library": "^5",
+    "@laserfiche/lf-resource-library": "^5.0.0",
     "moment": "^2.29.1",
     "ngx-mask": "^14.2.4",
     "rxjs": "^6.5.3 || ^7.4.0",
