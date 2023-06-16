@@ -32,8 +32,8 @@ jobs:
       - name: Npm run build-ui-components
         run: npm run build-ui-components-dev
 
-      - name: Npm run create-lf-cdn
-        run: npm run 
+      - name: Npm run create-lf-cdn-dev
+        run: npm run create-lf-cdn-dev
 
       - name: Npm run build-lf-documentation-dev
         run: npm run build-lf-documentation-dev
@@ -51,7 +51,7 @@ jobs:
         run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
 
       - name: 'move lf-ui-components.js to ui-components/cdn'
-        run: mv -t ../ui-components/cdn lf-ui-components.js main.js.map runtime.js.map polyfills.js.map
+        run: mv -t ../ui-components/cdn main.js runtime.js polyfills.js main.js.map runtime.js.map polyfills.js.map
         working-directory: dist/lf-cdn
 
       - name: 'move lf-documentation/styles to ui-components/cdn'
