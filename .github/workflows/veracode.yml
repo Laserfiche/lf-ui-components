@@ -1,4 +1,4 @@
-name: lf-ui-components-CI
+name: lf-ui-components-veracode
 
 on:
   push:
