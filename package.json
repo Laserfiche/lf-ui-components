@@ -13,6 +13,7 @@
     "build-lf-documentation-dev-watch": "npm run sass-lf && npm run sass-ms && ng build lf-documentation --configuration development --delete-output-path false --watch",
     "build-lf-documentation-prod": "ng build lf-documentation --configuration production --output-hashing=none",
     "build-lf-cdn-prod": "ng build lf-cdn --configuration production --output-hashing=none",
+    "build-lf-cdn-dev": "ng build lf-cdn --configuration development --output-hashing=none",
     "build-ui-components-prod": "ng build ui-components --configuration production",
     "build-ui-components-dev": "ng build ui-components --configuration development",
     "build-ui-components-dev-watch": "ng build ui-components --configuration development --watch",
