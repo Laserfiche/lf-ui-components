@@ -5,7 +5,7 @@ import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from '.
 import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfLoginService } from './login-utils/lf-login.service';
-import { ApiException, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-core';
+import { ApiException, PKCEUtils, TokenClient, BeforeFetchResult, HttpRequestHandler } from '@laserfiche/lf-api-client-core';
 
 const LOGIN_REDIRECT_STATE = 'lf-login-redirect';
 const CODE_CHALLENGE_METHOD = 'S256';
@@ -21,6 +21,16 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   private readonly CLOUDTEST = 'cloudtest';
 
   @Input() mode: LoginMode = LoginMode.Button;
+
+  /**
+   * @return {HttpRequestHandler}
+   * Returns the HttpRequestHandler that can be used
+   * to instantiate a repository API client.
+   */
+  @Input() authorizationRequestHandler: HttpRequestHandler = {
+    beforeFetchRequestAsync: this.beforeFetchRequestAsync,
+    afterFetchResponseAsync: this.afterFetchResponseAsync,
+  }
 
   /** @internal */
   get isMenuMode(): boolean {
@@ -184,6 +194,11 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   @Output() loginCompleted = new EventEmitter<void>();
   @Output() logoutCompleted = new EventEmitter<AbortedLoginError | void>();
 
+/**
+ * Refreshes and returns the access token
+ * @param initiateLoginFlowOnRefreshFailure
+ * @returns  {Promise<string | undefined>}
+ */
   @Input()
   refreshTokenAsync: (initiateLoginFlowOnRefreshFailure: boolean) => Promise<string | undefined> = async (
     initiateLoginFlowOnRefreshFailure: boolean = true
@@ -678,6 +693,33 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       return firstString + secondString;
     } else {
       return secondString;
+    }
+  }
+
+  private async afterFetchResponseAsync(url: string, response: Response, request: RequestInit): Promise<boolean> {
+    if (response.status === 401) {
+      // this will initialize the login flow if refresh is unsuccessful
+      const accessToken = await this.refreshTokenAsync(
+        true // is it okay to always assume true?
+      );
+      const retry = accessToken !== undefined;
+      return retry;
+    }
+    return false;
+  }
+
+  private async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<BeforeFetchResult> {
+    // need to get accessToken each time
+    const accessToken =
+      this.authorization_credentials?.accessToken;
+    if (accessToken) {
+      const headers = request.headers as Record<string,string>;
+      headers['Authorization'] = 'Bearer ' + accessToken;
+      const regionalDomain: string | undefined =
+        this.account_endpoints?.regionalDomain;
+      return { regionalDomain };
+    } else {
+      throw new Error('Access Token undefined.');
     }
   }
 }
