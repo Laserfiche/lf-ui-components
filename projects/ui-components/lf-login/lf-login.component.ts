@@ -30,7 +30,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   @Input() authorizationRequestHandler: HttpRequestHandler = {
     beforeFetchRequestAsync: this.beforeFetchRequestAsync,
     afterFetchResponseAsync: this.afterFetchResponseAsync,
-  }
+  };
 
   /** @internal */
   get isMenuMode(): boolean {
@@ -717,7 +717,12 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       headers['Authorization'] = 'Bearer ' + accessToken;
       const regionalDomain: string | undefined =
         this.account_endpoints?.regionalDomain;
-      return { regionalDomain };
+      if (regionalDomain){
+        return { regionalDomain };
+      }
+      else {
+        throw new Error('Account Endpoints undefined');
+      }
     } else {
       throw new Error('Access Token undefined.');
     }
