@@ -1,4 +1,4 @@
-## 5.0.1
+## 14.1.4
 
 ### Features
 - `[lf-login]`: Add function `beforeFetchRequestAsync` to login component
@@ -10,16 +10,10 @@
 
 ### Chore & Maintenance
 
-## 5.0.0
-### Features
-
-### Fixes
-
-### Chore & Maintenance
-
 - Update `@laserfiche/lf-resource-library` to version 5.0.0
 - trimmed string resources of whitespace
 - changed the key `DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES` to `DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES` in order to match expectation in lf-resource-library
+
 ## 14.1.3
 
 ### Features
