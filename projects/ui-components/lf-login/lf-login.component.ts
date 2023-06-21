@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
-import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from './login-utils/lf-login-types';
+import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials,  LfBeforeFetchResult, LfHttpRequestHandler } from './login-utils/lf-login-types';
 import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfLoginService } from './login-utils/lf-login.service';
-import { ApiException, PKCEUtils, TokenClient, BeforeFetchResult, HttpRequestHandler } from '@laserfiche/lf-api-client-core';
+import { ApiException, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-core';
 
 const LOGIN_REDIRECT_STATE = 'lf-login-redirect';
 const CODE_CHALLENGE_METHOD = 'S256';
@@ -27,7 +27,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
    * Returns the HttpRequestHandler that can be used
    * to instantiate a repository API client.
    */
-  @Input() authorizationRequestHandler: HttpRequestHandler = {
+  @Input() authorizationRequestHandler: LfHttpRequestHandler = {
     beforeFetchRequestAsync: this.beforeFetchRequestAsync.bind(this),
     afterFetchResponseAsync: this.afterFetchResponseAsync.bind(this),
   };
@@ -696,6 +696,21 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     }
   }
 
+  private async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<LfBeforeFetchResult> {
+    // need to get accessToken each time
+    const accessToken =
+      this.authorization_credentials?.accessToken;
+    if (accessToken) {
+      const headers = request.headers as Record<string,string>;
+      headers['Authorization'] = 'Bearer ' + accessToken;
+      const regionalDomain: string =
+        this.account_endpoints?.regionalDomain ?? '';
+      return { regionalDomain };
+    } else {
+      throw new Error('Access Token undefined.');
+    }
+  }
+
   private async afterFetchResponseAsync(url: string, response: Response, request: RequestInit): Promise<boolean> {
     if (response.status === 401) {
       // this will initialize the login flow if refresh is unsuccessful
@@ -708,23 +723,4 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     return false;
   }
 
-  private async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<BeforeFetchResult> {
-    // need to get accessToken each time
-    const accessToken =
-      this.authorization_credentials?.accessToken;
-    if (accessToken) {
-      const headers = request.headers as Record<string,string>;
-      headers['Authorization'] = 'Bearer ' + accessToken;
-      const regionalDomain: string | undefined =
-        this.account_endpoints?.regionalDomain;
-      if (regionalDomain){
-        return { regionalDomain };
-      }
-      else {
-        throw new Error('Account Endpoints undefined');
-      }
-    } else {
-      throw new Error('Access Token undefined.');
-    }
-  }
 }
