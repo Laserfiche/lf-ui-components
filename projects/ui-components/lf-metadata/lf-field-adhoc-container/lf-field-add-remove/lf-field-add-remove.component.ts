@@ -32,7 +32,7 @@ export enum AddRemoveState {
 })
 export class LfFieldAddRemoveComponent implements AfterViewInit {
   private readonly APPLY_CHANGES = this.localizationService.getStringLaserficheObservable('APPLY_CHANGES');
-  private readonly DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES = this.localizationService.getStringLaserficheObservable('DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES');
+  private readonly DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES = this.localizationService.getStringLaserficheObservable('DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES');
   private readonly YES = this.localizationService.getStringLaserficheObservable('YES');
   private readonly NO = this.localizationService.getStringLaserficheObservable('NO');
   readonly CANCEL: Observable<string> = this.localizationService.getStringLaserficheObservable('CANCEL');
@@ -112,7 +112,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
     if (this.areCheckboxChanges) {
       const popupModalData: PopupModalData = {
         popupTitle: this.APPLY_CHANGES,
-        popupMessage: this.DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES,
+        popupMessage: this.DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES,
         cancelButtonText: this.CANCEL,
         confirmButtonText: this.YES,
         noButtonText: this.NO
