@@ -1,3 +1,15 @@
+## 14.1.4
+
+### Features
+- `[lf-login]`: Add function `beforeFetchRequestAsync` to login component
+- `[lf-login]`: Add function `afterFetchResponseAsync` to login component
+- `[lf-login]`: Add property `authorizationRequestHandler` to login component
+- `[lf-login-types]` Added new types to support `authorizeRequestHandler`
+
+### Fixes
+
+### Chore & Maintenance
+
 ## 14.1.3
 
 ### Features
