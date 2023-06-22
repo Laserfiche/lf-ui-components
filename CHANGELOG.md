@@ -1,16 +1,15 @@
 ## 14.1.4
 
 ### Features
-- added a simpler way to use the lf-login component with the `authorizationRequestHandler` automatically defining required `beforeFetchRequestAsync` and `afterFetchResponseAsync` methods
 - `[lf-login]`: Add property `authorizationRequestHandler` to lf-login component and added related types `LfHttpRequestHandler` and `LfBeforeFetchResult`
-
+  - This property is a default `LfHttpRequestHandler` which can be used with the Laserfiche JS api client
 ### Fixes
 
 ### Chore & Maintenance
 
 - Update `@laserfiche/lf-resource-library` to version 5.0.0
-- trimmed string resources of whitespace
-- changed the key `DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES` to `DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES` in order to match expectation in lf-resource-library
+- Trimmed string resources of whitespace
+- Changed the key `DO_YOU_WANT_TO_YOUR_APPLY_FIELD_CHANGES` to `DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES` in order to match expectation in lf-resource-library
 
 ## 14.1.3
 

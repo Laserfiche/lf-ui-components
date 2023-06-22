@@ -27,10 +27,13 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
    * Returns the HttpRequestHandler that can be used
    * to instantiate a repository API client.
    */
-  @Input() authorizationRequestHandler: LfHttpRequestHandler = {
-    beforeFetchRequestAsync: this.beforeFetchRequestAsync.bind(this),
-    afterFetchResponseAsync: this.afterFetchResponseAsync.bind(this),
-  };
+  @Input()
+  get authorizationRequestHandler(): LfHttpRequestHandler {
+    return {
+      beforeFetchRequestAsync: this.beforeFetchRequestAsync.bind(this),
+      afterFetchResponseAsync: this.afterFetchResponseAsync.bind(this),
+    };
+  }
 
   /** @internal */
   get isMenuMode(): boolean {
