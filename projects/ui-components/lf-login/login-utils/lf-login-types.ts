@@ -17,6 +17,10 @@ export interface AbortedLoginError {
     ErrorMessage: string;
 }
 
+/**
+ * interface defined by Laserfiche API providing
+ * return type of beforeFetchRequestAsync
+ */
 export interface LfBeforeFetchResult {
   regionalDomain: string;
 }
