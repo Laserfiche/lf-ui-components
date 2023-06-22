@@ -1,11 +1,6 @@
 name: lf-ui-components-veracode
 
 on:
-  push:
-    branches: [ '\d+.x' ]
-  pull_request:
-    branches: [ '\d+.x' ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   schedule:
@@ -49,19 +44,13 @@ jobs:
       - name: 'create an empty ./dist/ui-components/cdn folder'
         run: 'mkdir -p ./dist/ui-components/cdn'
 
-      - name: 'move indigo-pink to ui-components/cdn'
-        run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
-
-      - name: 'move lf-ui-components.js to ui-components/cdn'
+      - name: 'move js to ui-components/cdn'
         run: mv -t ../ui-components/cdn main.js runtime.js polyfills.js main.js.map runtime.js.map polyfills.js.map
         working-directory: dist/lf-cdn
 
       - name: 'move lf-documentation/styles to ui-components/cdn'
         run: mv -t  ../ui-components/cdn/ lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
         working-directory: dist/lf-documentation
-
-      - name: 'move README to ui-components'
-        run: mv -t ./dist/ui-components README.md
       
       - name: 'create an empty ./veracode folder'
         run: 'mkdir -p ./veracode'
@@ -88,15 +77,3 @@ jobs:
         with:
           create-issues: false
           allow-dirty: true
-
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: npm-publish-artifact
-          # A file, directory or wildcard pattern that describes what to upload
-          path: |
-            ./veracode
-
-      - name: echo github run attempt
-        run: echo ${{ github.run_attempt }} ${{  github.event.pull_request.head.repo.owner.login }}
-
