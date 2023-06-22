@@ -61,7 +61,7 @@ jobs:
       - name: 'Compress Documentation'
         run: tar -czvf ./veracode/lf-documentation.tar.gz ./dist/lf-documentation
 
-      - name: Veracode Upload And Scan
+      - name: Veracode Upload And Scan (Static application security testing)
         uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
           appname: 'lf-ui-components'
@@ -70,7 +70,7 @@ jobs:
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
 
-      - name: Run Veracode SCA
+      - name: Run Veracode Software Composition Analysis (srccclr)
         env:
           SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
         uses: veracode/veracode-sca@v2.1.6
