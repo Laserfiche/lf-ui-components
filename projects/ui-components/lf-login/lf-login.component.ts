@@ -696,6 +696,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     }
   }
 
+  /** @internal */
   private async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<LfBeforeFetchResult> {
     // need to get accessToken each time
     const accessToken =
@@ -711,6 +712,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     }
   }
 
+  /** @internal */
   private async afterFetchResponseAsync(url: string, response: Response, request: RequestInit): Promise<boolean> {
     if (response.status === 401) {
       // this will initialize the login flow if refresh is unsuccessful
