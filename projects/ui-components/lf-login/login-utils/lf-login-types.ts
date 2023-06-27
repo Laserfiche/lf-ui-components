@@ -18,7 +18,7 @@ export interface AbortedLoginError {
 }
 
 /**
- * interface defined by Laserfiche API providing
+ * Interface defined by Laserfiche API providing
  * return type of beforeFetchRequestAsync
  */
 export interface LfBeforeFetchResult {
