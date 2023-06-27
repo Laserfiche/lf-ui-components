@@ -263,13 +263,6 @@ sign_in_text and sign_out_text.
             <th>Description</th>
       </tr>
       <tr>
-        <td>authorizationRequestHandler</td>
-        <td>LfHttpRequestHandler</td>
-        <td>
-              specify pre-login-request and post-login-response behavior, default implementation provided.
-        </td>
-      </tr>
-      <tr>
             <td>refreshTokenAsync</td>
             <td>
                   (initiateLoginFlowOnRefreshFailure: boolean) => Promise&lt;string | undefined&gt;
@@ -305,6 +298,14 @@ sign_in_text and sign_out_text.
                   If RedirectBehavior is None you have to explicitly call this method to simulate redirection back to
                   the callbackUrl.
             </td>
+      </tr>
+      <tr>
+        <td>authorizationRequestHandler</td>
+        <td>LfHttpRequestHandler</td>
+        <td>
+          read-only implementation of HttpRequestHandler that can be used to initialize an instance of the <a href="https://laserfiche.github.io/lf-repository-api-client-js/docs/1.x/classes/RepositoryApiClient.html#createFromHttpRequestHandler">RepositoryApiClient</a>.
+          This handler adds an API authorization request header representing the current logged-in user.
+        </td>
       </tr>
       <tr>
             <td>authorization_credentials</td>
