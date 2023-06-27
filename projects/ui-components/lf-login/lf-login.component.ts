@@ -200,6 +200,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 /**
  * Refreshes and returns the access token
  * @param initiateLoginFlowOnRefreshFailure
+ * if true, attempts to login using OAuth flow if refresh fails, as if the login button had been reclicked.
  * @returns  {Promise<string | undefined>}
  */
   @Input()
