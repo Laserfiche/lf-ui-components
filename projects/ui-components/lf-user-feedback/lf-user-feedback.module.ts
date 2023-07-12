@@ -10,7 +10,7 @@ import { FeedbackSuggestionSelectionComponent } from './feedback-suggestion-sele
 import { FeedbackSubmissionComponent } from './feedback-submission/feedback-submission.component';
 import { FeedbackImageUploadComponent } from './feedback-image-upload/feedback-image-upload.component';
 import { MatIconModule } from '@angular/material/icon';
-import { GeneralDialogLayoutModule, LfToastMessageModule } from '@laserfiche/lf-ui-components/internal-shared';
+import { GeneralDialogLayoutModule, LfToastMessageModule, LfLoaderModule } from '@laserfiche/lf-ui-components/internal-shared';
 
 @NgModule({
   declarations: [LfUserFeedbackComponent, UserFeedbackDialogComponent, FeedbackSuggestionSelectionComponent, FeedbackSubmissionComponent, FeedbackImageUploadComponent],
@@ -22,6 +22,7 @@ import { GeneralDialogLayoutModule, LfToastMessageModule } from '@laserfiche/lf-
     MatIconModule,
     GeneralDialogLayoutModule,
     LfToastMessageModule,
+    LfLoaderModule,
   ],
   providers: [],
   bootstrap: [LfUserFeedbackComponent],

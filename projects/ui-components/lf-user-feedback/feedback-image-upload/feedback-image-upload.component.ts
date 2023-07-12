@@ -12,7 +12,7 @@ export class FeedbackImageUploadComponent {
   @Output() feedbackImageBase64: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
 
   @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
-
+  showLoader: boolean = false;
   imageUploaded?: {name: string; rawBase64: string};
   acceptedImageTypes: string = '.jpg,.jpeg,.png,.gif,.webp';
   private acceptedImageFormats: string = 'JPEG, PNG, GIF, WebP';
@@ -66,7 +66,9 @@ export class FeedbackImageUploadComponent {
   }
 
   private async tryReadAndValidateImageAsync(image: File | undefined): Promise<boolean> {
+    this.showLoader = true;
     if (!image) {
+      this.showLoader = false;
       return false;
     }
     try {
@@ -80,6 +82,7 @@ export class FeedbackImageUploadComponent {
         this.imageUploaded = {
           name: image.name, rawBase64: encodingData
         };
+        this.showLoader = false;
         return true;
       } else {
         throw new ImageUploadError(ImageUploadErrorType.TooLarge);
@@ -111,6 +114,7 @@ export class FeedbackImageUploadComponent {
       );
       this.feedbackImageBase64.emit(undefined);
       this.imageUploaded = undefined;
+      this.showLoader = false;
     }
     return false;
   }
