@@ -105,7 +105,7 @@ export class FeedbackImageUploadComponent {
   }
 
   private handleImageUploadError(error: any){
-    let errorMessage = this.getImageUploadErrorMessage(error);
+    const errorMessage = this.getImageUploadErrorMessage(error);
     this.imageUploadError.emit(
       this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') + ' ' + errorMessage
     );
