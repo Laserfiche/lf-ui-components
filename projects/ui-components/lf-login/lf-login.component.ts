@@ -23,8 +23,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   @Input() mode: LoginMode = LoginMode.Button;
 
   /**
-   * @return {HttpRequestHandler}
-   * Returns the HttpRequestHandler that can be used
+   * @return {LfHttpRequestHandler}
+   * Returns the LfHttpRequestHandler that can be used
    * to instantiate a repository API client.
    */
   @Input()
@@ -200,7 +200,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 /**
  * Refreshes and returns the access token
  * @param initiateLoginFlowOnRefreshFailure
- * if true, attempts to login using OAuth flow if refresh fails, as if the login button had been reclicked.
+ * Indicates whether an attempt should be made to login using OAuth flow upon encountering an inability to refresh the access token.
  * @returns  {Promise<string | undefined>}
  */
   @Input()
@@ -702,7 +702,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
 
   /** @internal */
   private async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<LfBeforeFetchResult> {
-    // need to get accessToken each time
+    // must get accessToken each time
     const accessToken =
       this.authorization_credentials?.accessToken;
     if (accessToken) {
@@ -720,9 +720,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   private async afterFetchResponseAsync(url: string, response: Response, request: RequestInit): Promise<boolean> {
     if (response.status === 401) {
       // this will initialize the login flow if refresh is unsuccessful
-      const accessToken = await this.refreshTokenAsync(
-        true // is it okay to always assume true?
-      );
+      const accessToken = await this.refreshTokenAsync(true);
       const retry = accessToken !== undefined;
       return retry;
     }
