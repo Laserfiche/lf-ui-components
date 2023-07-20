@@ -77,7 +77,7 @@ export class FeedbackImageUploadComponent {
     }
   }
 
-  private async uploadImageOrThrow(image: File | undefined) {
+  private async uploadImageOrThrow(image: File | undefined): Promise<void> {
     this.checkImageForErrors(image);
     const encodingData = await this.getBase64Async(image as File);
     this.feedbackImageBase64.emit(encodingData);
@@ -86,7 +86,7 @@ export class FeedbackImageUploadComponent {
     };
   }
 
-  private checkImageForErrors(image: File | undefined){
+  private checkImageForErrors(image: File | undefined): void {
     if (!image) {
       throw new Error("image does not exist");
     }
@@ -99,7 +99,7 @@ export class FeedbackImageUploadComponent {
     }
   }
 
-  private handleImageUploadError(error: any){
+  private handleImageUploadError(error: any): void {
     const errorMessage = this.getImageUploadErrorMessage(error);
     this.imageUploadError.emit(
       this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') + ' ' + errorMessage
