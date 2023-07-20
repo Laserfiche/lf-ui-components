@@ -78,30 +78,25 @@ export class FeedbackImageUploadComponent {
   }
 
   private async uploadImageOrThrow(image: File | undefined) {
-    const imageValidationError = this.validateImage(image);
-    if (imageValidationError) {
-      throw imageValidationError;
-    } else {
-      const encodingData = await this.getBase64Async(image as File);
-      this.feedbackImageBase64.emit(encodingData);
-      this.imageUploaded = {
-        name: (<File>image).name, rawBase64: encodingData
-      };
-    }
+    this.checkImageForErrors(image);
+    const encodingData = await this.getBase64Async(image as File);
+    this.feedbackImageBase64.emit(encodingData);
+    this.imageUploaded = {
+      name: (<File>image).name, rawBase64: encodingData
+    };
   }
 
-  private validateImage(image: File | undefined): Error | undefined{
+  private checkImageForErrors(image: File | undefined){
     if (!image) {
-      return new Error("image does not exist");
+      throw new Error("image does not exist");
     }
     const isImageSupported = this.supportedImageTypeArray.includes(image.type);
     if (!isImageSupported) {
-      return new ImageUploadError(ImageUploadErrorType.UnsupportedFormat);
+      throw new ImageUploadError(ImageUploadErrorType.UnsupportedFormat);
     }
     if (image.size > this.imageSizeLimitBytes){
-      return new ImageUploadError(ImageUploadErrorType.TooLarge);
+      throw new ImageUploadError(ImageUploadErrorType.TooLarge);
     }
-    return undefined;
   }
 
   private handleImageUploadError(error: any){
