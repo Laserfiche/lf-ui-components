@@ -66,3 +66,8 @@ input#browseFileInput {
   display: flex;
   justify-content: center;
 }
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+}
