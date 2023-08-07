@@ -9,7 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { debounceTime, map, Observable, Subscription } from 'rxjs';
 import { FeedbackSubmissionComponent } from '../feedback-submission/feedback-submission.component';

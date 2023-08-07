@@ -5,9 +5,9 @@ import { LfFieldAdhocContainerComponent } from './lf-field-adhoc-container/lf-fi
 import { LfFieldTemplateContainerComponent } from './lf-field-template-container/lf-field-template-container.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { createCustomElement } from '@angular/elements';
 import { LfLoaderModule, LfModalsModule } from '@laserfiche/lf-ui-components/internal-shared';

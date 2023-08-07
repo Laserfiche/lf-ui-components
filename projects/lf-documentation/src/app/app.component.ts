@@ -1,6 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { RouterLinks } from './app-routing.module';
 import { ThemeService } from './theme.service';
