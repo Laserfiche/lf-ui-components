@@ -55,14 +55,12 @@
     "karma-jasmine": "^4.0.0",
     "karma-jasmine-html-reporter": "^1.7.0",
     "karma-junit-reporter": "^2.0.1",
-    "ng-packagr": "^14.2.2",
     "puppeteer": "^14.1.1",
     "tslib": "^2.4.0",
     "typescript": "^4.8.4",
     "yargs": "^17.1.0"
   },
   "peerDependencies": {
-    "@angular-material-components/moment-adapter": "^8.0.0",
     "@angular/animations": "^14.2.12",
     "@angular/cdk": "^14.2.7",
     "@angular/cli": "^14.2.12",
