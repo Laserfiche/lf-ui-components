@@ -34,7 +34,6 @@
     "create-types-lf-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run move-enums-to-types && cd ./types-lf-ui-components-publish && npm pack"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.2.12",
     "@angular-eslint/builder": "^14.4.0",
     "@angular-eslint/eslint-plugin": "^14.4.0",
     "@angular-eslint/eslint-plugin-template": "^14.4.0",
@@ -63,7 +62,6 @@
     "yargs": "^17.1.0"
   },
   "peerDependencies": {
-    "@angular-material-components/datetime-picker": "^8.0.0",
     "@angular-material-components/moment-adapter": "^8.0.0",
     "@angular/animations": "^14.2.12",
     "@angular/cdk": "^14.2.7",
@@ -75,7 +73,6 @@
     "@angular/elements": "^14.2.12",
     "@angular/forms": "^14.2.12",
     "@angular/material": "^14.2.7",
-    "@angular/material-moment-adapter": "^14.2.7",
     "@angular/platform-browser": "^14.2.12",
     "@angular/platform-browser-dynamic": "^14.2.12",
     "@angular/router": "^14.2.12",
