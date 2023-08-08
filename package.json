@@ -34,9 +34,11 @@
     "create-types-lf-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run move-enums-to-types && cd ./types-lf-ui-components-publish && npm pack"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^15.2.9",
     "@angular-eslint/builder": "^14.4.0",
     "@angular-eslint/eslint-plugin": "^14.4.0",
     "@angular-eslint/eslint-plugin-template": "^14.4.0",
+    "@angular-eslint/schematics": "^15.2.1",
     "@angular-eslint/template-parser": "^14.4.0",
     "@microsoft/api-extractor": "^7.36.3",
     "@types/jasmine": "^3.6.0",
@@ -55,12 +57,16 @@
     "karma-jasmine": "^4.0.0",
     "karma-jasmine-html-reporter": "^1.7.0",
     "karma-junit-reporter": "^2.0.1",
+    "ng-packagr": "^15.2.2",
     "puppeteer": "^14.1.1",
     "tslib": "^2.4.0",
     "typescript": "^4.8.4",
     "yargs": "^17.1.0"
   },
   "peerDependencies": {
+    "@angular-material-components/datetime-picker": "^15.0.0",
+    "@angular-material-components/moment-adapter": "^15.0.0",
+    "@angular/material-moment-adapter": "^15.2.9",
     "@angular/animations": "^15.2.9",
     "@angular/cdk": "^15.2.9",
     "@angular/cli": "^15.2.9",
