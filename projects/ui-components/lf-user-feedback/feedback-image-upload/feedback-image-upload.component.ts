@@ -12,7 +12,7 @@ export class FeedbackImageUploadComponent {
   @Output() feedbackImageBase64: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
 
   @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
-
+  showLoader: boolean = false;
   imageUploaded?: {name: string; rawBase64: string};
   acceptedImageTypes: string = '.jpg,.jpeg,.png,.gif,.webp';
   private acceptedImageFormats: string = 'JPEG, PNG, GIF, WebP';
@@ -66,53 +66,61 @@ export class FeedbackImageUploadComponent {
   }
 
   private async tryReadAndValidateImageAsync(image: File | undefined): Promise<boolean> {
-    if (!image) {
-      return false;
-    }
     try {
-      const isImageSupported = this.supportedImageTypeArray.includes(image.type);
-      if (!isImageSupported) {
-        throw new ImageUploadError(ImageUploadErrorType.UnsupportedFormat);
-      }
-      if (image.size <= this.imageSizeLimitBytes) {
-        const encodingData = await this.getBase64Async(image);
-        this.feedbackImageBase64.emit(encodingData);
-        this.imageUploaded = {
-          name: image.name, rawBase64: encodingData
-        };
-        return true;
-      } else {
-        throw new ImageUploadError(ImageUploadErrorType.TooLarge);
-      }
+      this.showLoader = true;
+      await this.uploadImageOrThrow(image);
     } catch (error: any) {
-      let errorMessage: string;
-      if (error.name === ImageUploadError_name) {
-        switch ((<ImageUploadError>error).imageUploadErrorType) {
-          case ImageUploadErrorType.TooLarge:
-            errorMessage = this.localizationService.getResourceStringComponents('IMAGE_EXCEEDS_MAX_FILE_SIZE_0', [`${this.megabyteLimit} MB`]);
-            break;
-          case ImageUploadErrorType.UnsupportedFormat:
-            errorMessage =
-              this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT') +
-              ' ' +
-              this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', [
-                this.acceptedImageFormats,
-              ]);
-            break;
-          default:
-            errorMessage = error.message ?? this.localizedStrings.UNKNOWN_ERROR;
-            break;
-        }
-      } else {
-        errorMessage = error.message ?? this.localizedStrings.UNKNOWN_ERROR;
-      }
-      this.imageUploadError.emit(
-        this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') + ' ' + errorMessage
-      );
-      this.feedbackImageBase64.emit(undefined);
-      this.imageUploaded = undefined;
+      this.handleImageUploadError(error);
+    } finally {
+      this.showLoader = false;
+      return !!this.imageUploaded;
     }
-    return false;
+  }
+
+  private async uploadImageOrThrow(image: File | undefined): Promise<void> {
+    this.checkImageForErrors(image);
+    const encodingData = await this.getBase64Async(image as File);
+    this.feedbackImageBase64.emit(encodingData);
+    this.imageUploaded = {
+      name: (<File>image).name, rawBase64: encodingData
+    };
+  }
+
+  private checkImageForErrors(image: File | undefined): void {
+    if (!image) {
+      throw new Error("image does not exist");
+    }
+    const isImageSupported = this.supportedImageTypeArray.includes(image.type);
+    if (!isImageSupported) {
+      throw new ImageUploadError(ImageUploadErrorType.UnsupportedFormat);
+    }
+    if (image.size > this.imageSizeLimitBytes){
+      throw new ImageUploadError(ImageUploadErrorType.TooLarge);
+    }
+  }
+
+  private handleImageUploadError(error: any): void {
+    const errorMessage = this.getImageUploadErrorMessage(error);
+    this.imageUploadError.emit(
+      this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') + ' ' + errorMessage
+    );
+    this.feedbackImageBase64.emit(undefined);
+    this.imageUploaded = undefined;
+  }
+
+  private getImageUploadErrorMessage(error: any): string{
+    if (error.name === ImageUploadError_name) {
+      switch ((<ImageUploadError>error).imageUploadErrorType) {
+        case ImageUploadErrorType.TooLarge:
+          return this.localizationService.getResourceStringComponents('IMAGE_EXCEEDS_MAX_FILE_SIZE_0', [`${this.megabyteLimit} MB`]);
+        case ImageUploadErrorType.UnsupportedFormat:
+          return this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT') + ' ' + this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', [this.acceptedImageFormats,]);
+        default:
+          return error.message ?? this.localizedStrings.UNKNOWN_ERROR;
+      }
+    } else {
+      return error.message ?? this.localizedStrings.UNKNOWN_ERROR;
+    }
   }
 
   onInputClickArea(): void {

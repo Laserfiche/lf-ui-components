@@ -234,64 +234,81 @@ sign_out_text.
 </table>
 <br />
 <table>
-  <tr>
-    <th>Method/Property</th>
-    <th>Signature</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>refreshTokenAsync</td>
-    <td>(initiateLoginFlowOnRefreshFailure: boolean) => Promise&lt;string | undefined&gt;</td>
-    <td>
-      Prompts a refresh of the access token. Call this when you receive a 401 from the API you are using. If
-      initiateLoginFlowOnRefreshFailure is true, component will attempt to login again with OAuth service, if refresh
-      token is expired (refresh doesn't work). If initiateLoginFlowOnRefreshFailure is false, if refresh token is
-      expired, the component will show as logged out.
-    </td>
-  </tr>
-  <tr>
-    <td>initLoginAsync</td>
-    <td>() => Promise&lt;string | undefined&gt;</td>
-    <td>
-      Prompts the login flow to begin. The use case for this is if you want to start the login flow on page load, rather
-      than making the user click the button. If the user is already logged in, the function will return the current
-      access token. If the user is not logged in, it will return undefined and start the OAuth login flow.
-    </td>
-  </tr>
-  <tr>
-    <td>handleRedirectURICallbackAsync</td>
-    <td>(url: string) => Promise&lt;void&gt;</td>
-    <td>
-      Parses the callbackUrl containing the parameters from the authorization service and exchanges the authorization
-      code for an access token. If RedirectBehavior is None you have to explicitly call this method to simulate
-      redirection back to the callbackUrl.
-    </td>
-  </tr>
-  <tr>
-    <td>authorization_credentials</td>
-    <td>AuthorizationCredentials</td>
-    <td>read-only property to get the current AuthorizationCredentials</td>
-  </tr>
-  <tr>
-    <td>account_id</td>
-    <td>string</td>
-    <td>read-only property to get the current accountId</td>
-  </tr>
-  <tr>
-    <td>trustee_id</td>
-    <td>string</td>
-    <td>read-only property to get the current trusteeId</td>
-  </tr>
-  <tr>
-    <td>account_endpoints</td>
-    <td>AccountEndpoints</td>
-    <td>read-only property to get the current accountEndpoints</td>
-  </tr>
-  <tr>
-    <td>state</td>
-    <td>LoginState</td>
-    <td>read-only property to get the current state</td>
-  </tr>
+      <tr>
+            <th>Method/Property</th>
+            <th>Signature</th>
+            <th>Description</th>
+      </tr>
+      <tr>
+            <td>refreshTokenAsync</td>
+            <td>
+                  (initiateLoginFlowOnRefreshFailure: boolean) => Promise&lt;string | undefined&gt;
+            </td>
+            <td>
+                  Prompts a refresh of the access token. Call this when you receive a 401 from the API you are using.
+                  If initiateLoginFlowOnRefreshFailure is true, component will attempt to login again with OAuth
+                  service, if refresh token is
+                  expired (refresh doesn't work).
+                  If initiateLoginFlowOnRefreshFailure is false, if refresh token is expired, the component will show as
+                  logged out.
+            </td>
+      </tr>
+      <tr>
+            <td>initLoginFlowAsync</td>
+            <td>
+                  () => Promise&lt;string | undefined&gt;
+            </td>
+            <td>
+                  Prompts the login flow to begin. The use case for this is if you want to start the login flow on page load, rather
+                  than making the user click the button. If the user is already logged in, the function will return the current access token.
+                  If the user is not logged in, it will return undefined and start the OAuth login flow.
+            </td>
+      </tr>
+      <tr>
+            <td>handleRedirectURICallbackAsync</td>
+            <td>
+                  (url: string) => Promise&lt;void&gt;
+            </td>
+            <td>
+                  Parses the callbackUrl containing the parameters from the authorization service and exchanges the
+                  authorization code for an access token.
+                  If RedirectBehavior is None you have to explicitly call this method to simulate redirection back to
+                  the callbackUrl.
+            </td>
+      </tr>
+      <tr>
+        <td>authorizationRequestHandler</td>
+        <td>LfHttpRequestHandler</td>
+        <td>
+          Read-only implementation of HttpRequestHandler that can be used to initialize an instance of the <a href="https://laserfiche.github.io/lf-repository-api-client-js/docs/1.x/classes/RepositoryApiClient.html#createFromHttpRequestHandler">RepositoryApiClient</a>.
+          This handler adds an API authorization request header representing the current logged-in user.
+        </td>
+      </tr>
+      <tr>
+            <td>authorization_credentials</td>
+            <td>AuthorizationCredentials</td>
+            <td>read-only property to get the current AuthorizationCredentials</td>
+      </tr>
+      <tr>
+            <td>account_id</td>
+            <td>string</td>
+            <td>read-only property to get the current accountId</td>
+      </tr>
+      <tr>
+            <td>trustee_id</td>
+            <td>string</td>
+            <td>read-only property to get the current trusteeId</td>
+      </tr>
+      <tr>
+            <td>account_endpoints</td>
+            <td>AccountEndpoints</td>
+            <td>read-only property to get the current accountEndpoints</td>
+      </tr>
+      <tr>
+            <td>state</td>
+            <td>LoginState</td>
+            <td>read-only property to get the current state</td>
+      </tr>
 </table>
 
 <p class="documentation-sub-header">RedirectBehavior Enum</p>

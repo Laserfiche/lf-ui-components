@@ -348,8 +348,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   treeNodeService!: LfTreeNodeService;
 
   /** @internal */
-  readonly OPEN = this.localizationService.getStringLaserficheObservable('OPEN');
-  /** @internal */
   readonly AN_ERROR_OCCURED = this.localizationService.getStringLaserficheObservable('AN_ERROR_OCCURED');
 
   /** @internal */

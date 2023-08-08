@@ -241,9 +241,9 @@ export enum LfFieldTokenId {
   ENTRY_ID,
   PARENT_ID,
   PARENT_FIELD,
-  FILE_MODIFIED,
   FILE_NAME,
-  FILE_EXTENSION
+  FILE_EXTENSION,
+  FILE_MODIFIED
 }
 
 export interface LfFieldTokenData {

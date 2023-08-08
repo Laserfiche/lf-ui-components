@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
-import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from './login-utils/lf-login-types';
+import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials,  LfBeforeFetchResult, LfHttpRequestHandler } from './login-utils/lf-login-types';
 import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfLoginService } from './login-utils/lf-login.service';
@@ -30,6 +30,19 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   private readonly CLOUDTEST = 'cloudtest';
 
   @Input() mode: LoginMode = LoginMode.Button;
+
+  /**
+   * @return {LfHttpRequestHandler}
+   * Returns the LfHttpRequestHandler that can be used
+   * to instantiate a repository API client.
+   */
+  @Input()
+  get authorizationRequestHandler(): LfHttpRequestHandler {
+    return {
+      beforeFetchRequestAsync: this.beforeFetchRequestAsync.bind(this),
+      afterFetchResponseAsync: this.afterFetchResponseAsync.bind(this),
+    };
+  }
 
   /** @internal */
   get isMenuMode(): boolean {
@@ -193,6 +206,12 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   @Output() loginCompleted = new EventEmitter<void>();
   @Output() logoutCompleted = new EventEmitter<AbortedLoginError | void>();
 
+/**
+ * Refreshes and returns the access token
+ * @param initiateLoginFlowOnRefreshFailure
+ * Indicates whether an attempt should be made to login using OAuth flow upon encountering an inability to refresh the access token.
+ * @returns  {Promise<string | undefined>}
+ */
   @Input()
   refreshTokenAsync: (initiateLoginFlowOnRefreshFailure: boolean) => Promise<string | undefined> = async (
     initiateLoginFlowOnRefreshFailure: boolean = true
@@ -686,4 +705,32 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       return secondString;
     }
   }
+
+  /** @internal */
+  private async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<LfBeforeFetchResult> {
+    // must get accessToken each time
+    const accessToken =
+      this.authorization_credentials?.accessToken;
+    if (accessToken) {
+      const headers = request.headers as Record<string,string>;
+      headers['Authorization'] = 'Bearer ' + accessToken;
+      const regionalDomain: string =
+        this.account_endpoints?.regionalDomain ?? '';
+      return { regionalDomain };
+    } else {
+      throw new Error('Access Token undefined.');
+    }
+  }
+
+  /** @internal */
+  private async afterFetchResponseAsync(url: string, response: Response, request: RequestInit): Promise<boolean> {
+    if (response.status === 401) {
+      // this will initialize the login flow if refresh is unsuccessful
+      const accessToken = await this.refreshTokenAsync(true);
+      const retry = accessToken !== undefined;
+      return retry;
+    }
+    return false;
+  }
+
 }
