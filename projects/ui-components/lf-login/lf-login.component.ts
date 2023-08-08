@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
 import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials } from './login-utils/lf-login-types';
@@ -25,7 +34,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   /** @internal */
   get isMenuMode(): boolean {
     return this.mode === LoginMode.Menu;
-  };
+  }
 
   /** @internal */
   _sign_in_text: Observable<string> = this.localizationService.getStringLaserficheObservable('SIGN_IN');
@@ -40,13 +49,13 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     this._sign_in_text = of(text);
   }
   @Input() set sign_out_text(text: string) {
-    this._sign_in_text = of(text);
+    this._sign_out_text = of(text);
   }
   @Input() set signing_in_text(text: string) {
-    this._sign_in_text = of(text);
+    this._signing_in_text = of(text);
   }
   @Input() set signing_out_text(text: string) {
-    this._sign_in_text = of(text);
+    this._signing_out_text = of(text);
   }
 
   /** @internal */
@@ -196,9 +205,10 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
           await this.startOAuthLoginFlowAsync();
         } else if (this.state === LoginState.LoggingIn) {
           console.log('Logging in. Will not attempt to refresh');
-        }
-        else {
-          console.warn('Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false');
+        } else {
+          console.warn(
+            'Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false'
+          );
           this._state = LoginState.LoggedOut;
           this.logoutCompleted.emit({
             ErrorType: 'Refresh Token Error',
@@ -228,9 +238,10 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
             if (initiateLoginFlowOnRefreshFailure && !this.hasLoginError && this.state === LoginState.LoggedOut) {
               console.warn('Unable to refresh. Will attempt to start the OAuth login flow');
               await this.startOAuthLoginFlowAsync();
-            }
-            else {
-              console.warn(`Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`);
+            } else {
+              console.warn(
+                `Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`
+              );
               this._state = LoginState.LoggedOut;
               this.ref.detectChanges();
               this.loginService.removeFromLocalStorage();
@@ -239,8 +250,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
           throw e;
         }
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       this._state = LoginState.LoggedOut;
       this.ref.detectChanges();
       this.loginService.removeFromLocalStorage();
@@ -263,8 +273,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       } else {
         return accessToken;
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       this._state = LoginState.LoggedOut;
       this.ref.detectChanges();
       this.loginService.removeFromLocalStorage();
@@ -315,14 +324,11 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   private setButtonText() {
     if (this.state === LoginState.LoggedIn) {
       this.buttonText = this._sign_out_text;
-    }
-    else if (this.state === LoginState.LoggingIn) {
+    } else if (this.state === LoginState.LoggingIn) {
       this.buttonText = this._signing_in_text;
-    }
-    else if (this.state === LoginState.LoggingOut) {
+    } else if (this.state === LoginState.LoggingOut) {
       this.buttonText = this._signing_out_text;
-    }
-    else {
+    } else {
       this.buttonText = this._sign_in_text;
     }
   }
