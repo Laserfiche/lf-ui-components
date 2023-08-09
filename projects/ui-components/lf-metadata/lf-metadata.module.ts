@@ -15,6 +15,7 @@ import { FieldComponentsModule } from './field-components/field-components.modul
 import { GetFieldTypePipe } from './lf-field-adhoc-container/lf-field-add-remove/get-field-type.pipe';
 import { LfFieldViewDirective } from './lf-field-view.directive';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
     LfModalsModule,
     LfLoaderModule,
     ScrollingModule,
+    MatDialogModule
   ],
   bootstrap: [
     LfFieldAdhocContainerComponent,

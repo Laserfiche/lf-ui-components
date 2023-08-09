@@ -76,6 +76,8 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
     switch (validationRuleName) {
       case ValidationRule.MAT_DATETIME_PICKER_PARSE:
         return this.DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0;
+      case ValidationRule.MAT_DATEPICKER_PARSE:
+        return this.DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0;
     }
     return undefined;
   }

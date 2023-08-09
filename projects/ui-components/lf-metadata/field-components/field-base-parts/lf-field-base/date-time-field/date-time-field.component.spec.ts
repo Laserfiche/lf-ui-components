@@ -178,7 +178,7 @@ describe('DateTimeFieldComponent', () => {
     optionalDateTimeFixture.detectChanges();
 
     // assert
-    const expectedBrokenRule = ValidationRule.MAT_DATETIME_PICKER_PARSE;
+    const expectedBrokenRule = ValidationRule.MAT_DATEPICKER_PARSE;
     const expectedError = optionalDateTimeComponent.localizationService.getString('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', ['MM/DD/YYYY, HH:mm:ss']);
     expect(optionalDateTimeComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
