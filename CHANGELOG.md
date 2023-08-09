@@ -7,7 +7,6 @@
 ### Chore & Maintenance
 
 - **[BREAKING]**: Update to Angular 15
-- Update build pipeline tasks to use Node 16 or 18
 
 
 ## 14.1.4
