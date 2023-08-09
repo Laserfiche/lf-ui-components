@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, NgZone } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync, TestModuleMetadata, flush, fakeAsync } from '@angular/core/testing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { LfBreadcrumbsComponent, ILfSelectable } from '@laserfiche/lf-ui-components/shared';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';

@@ -9,9 +9,9 @@ import { LfTokenService } from '../../lf-token-picker/lf-token.service';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
 import { CommonModule } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 

@@ -1,3 +1,14 @@
+## 15.0.0
+
+### Features
+
+### Fixes
+
+### Chore & Maintenance
+
+- **[BREAKING]**: Update to Angular 15
+
+
 ## 14.1.4
 
 ### Features

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { CardComponent } from '../card/card.component';
 
 import { StylingDocumentationComponent } from './styling-documentation.component';

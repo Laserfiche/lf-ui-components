@@ -10,14 +10,14 @@ import { LfUserFeedbackDocumentationComponent } from './lf-user-feedback-documen
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 import { MatTreeModule } from '@angular/material/tree';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { LfChecklistDocumentationComponent } from './lf-checklist-documentation/lf-checklist-documentation.component';
 import { LfFieldDocumentationComponent } from './lf-field-documentation/lf-field-documentation.component';
 import { LfFieldAdhocContainerDocumentationComponent } from './lf-field-adhoc-container-documentation/lf-field-adhoc-container-documentation.component';
@@ -27,7 +27,7 @@ import { LfBreadcrumbsDocumentationComponent } from './lf-breadcrumbs-documentat
 import { LfToolbarDocumentationComponent } from './lf-toolbar-documentation/lf-toolbar-documentation.component';
 import { ConvertComponentToElementComponent } from './convert-component-to-element/convert-component-to-element.component';
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
 import { ExampleUsageInAngularComponent } from './example-usage-in-angular/example-usage-in-angular.component';
 import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
