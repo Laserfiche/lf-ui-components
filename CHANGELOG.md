@@ -1,7 +1,13 @@
 ## 15.0.0
 
 ### Features
-No 15 packages were published. This update is a stepping stone to a 16.0.0 version.
+
+### Fixes
+
+### Chore & Maintenance
+
+- **[BREAKING]**: Update to Angular 15
+- Update build pipeline tasks to use Node 16 or 18
 
 
 ## 14.1.4
