@@ -1,3 +1,15 @@
+## 15.0.1
+
+### Features
+
+### Fixes
+- `lf-laserfiche-lite.css`, `lf-ms-office-lite.css`, `indigo-pink.css`
+  - Fixed issue with importing stylesheet.
+
+### Chore & Maintenance
+
+
+
 ## 15.0.0
 
 ### Features
