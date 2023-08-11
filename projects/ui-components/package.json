@@ -39,6 +39,9 @@
     },
     "./cdn/lf-laserfiche-lite.css": {
       "style": "./cdn/lf-laserfiche-lite.css"
+    },
+    "./cdn/lf-ms-office-lite.css": {
+      "styles": "./cdn/lf-ms-office-lite.css"
     }
   }
 }
