@@ -38,7 +38,6 @@
     "@angular-eslint/builder": "^15.2.1",
     "@angular-eslint/eslint-plugin": "^15.2.1",
     "@angular-eslint/eslint-plugin-template": "^15.2.1",
-    "@angular-eslint/schematics": "^15.2.1",
     "@angular-eslint/template-parser": "^15.2.1",
     "@microsoft/api-extractor": "^7.36.3",
     "@types/jasmine": "^3.6.0",
