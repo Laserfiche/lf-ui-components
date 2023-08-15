@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { FeedbackSubmissionComponent } from './feedback-submission.component';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { By } from '@angular/platform-browser';
 import { AppLocalizationService, LfMessageToastTypes } from '@laserfiche/lf-ui-components/internal-shared';
 import { of } from 'rxjs';

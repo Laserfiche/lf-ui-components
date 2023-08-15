@@ -2,7 +2,8 @@
   padding: 5px 0 5px 45px;
 }
 
-::ng-deep .lf-checklist-option-container .lf-checkbox.mat-checkbox .mat-checkbox-label {
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
+::ng-deep .lf-checklist-option-container .lf-checkbox.mat-mdc-checkbox .mat-checkbox-label {
   text-overflow: ellipsis;
   overflow: hidden;
 }

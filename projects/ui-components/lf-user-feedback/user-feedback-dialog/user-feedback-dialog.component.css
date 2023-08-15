@@ -80,11 +80,12 @@
   justify-content: flex-start;
 }
 
-::ng-deep .user-feedback-content-container .lf-user-feedback-checkbox.mat-checkbox .mat-checkbox-layout {
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
+::ng-deep .user-feedback-content-container .lf-user-feedback-checkbox.mat-mdc-checkbox .mat-checkbox-layout {
   white-space: normal;
 }
 
-::ng-deep .lf-user-feedback-panel .mat-dialog-container {
+::ng-deep .lf-user-feedback-panel .mat-mdc-dialog-container {
   padding: 0;
 }
 

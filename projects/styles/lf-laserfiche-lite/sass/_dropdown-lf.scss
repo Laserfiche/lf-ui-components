@@ -64,11 +64,13 @@ mat-form-field.lf-dropdown {
   display: none;
 }
 
-.lf-dropdown div.mat-select-arrow-wrapper {
+// TODO AddedCSS -mdc-
+.lf-dropdown div.mat-mdc-select-arrow-wrapper {
   padding-top: 0px;
 }
 
-.lf-dropdown div.mat-select-value {
+// TODO AddedCSS -mdc-
+.lf-dropdown div.mat-mdc-select-value {
   padding-top: 0px;
 }
 

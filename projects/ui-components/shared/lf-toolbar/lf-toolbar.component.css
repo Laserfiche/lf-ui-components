@@ -38,7 +38,7 @@
   width: 18px;
 }
 
-::ng-deep .mat-menu-panel.lf-dropdown-menu {
+::ng-deep .mat-mdc-menu-panel.lf-dropdown-menu {
   list-style: none;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.15);
