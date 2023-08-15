@@ -38,6 +38,7 @@
     "@angular-eslint/builder": "^15.2.1",
     "@angular-eslint/eslint-plugin": "^15.2.1",
     "@angular-eslint/eslint-plugin-template": "^15.2.1",
+    "@angular-eslint/schematics": "^16.1.0",
     "@angular-eslint/template-parser": "^15.2.1",
     "@microsoft/api-extractor": "^7.36.3",
     "@types/jasmine": "^3.6.0",
@@ -63,6 +64,8 @@
     "yargs": "^17.1.0"
   },
   "peerDependencies": {
+    "@angular-material-components/datetime-picker": "^16.0.1",
+    "@angular-material-components/moment-adapter": "^16.0.1",
     "@angular/animations": "^16.2.0",
     "@angular/cdk": "^16.2.0",
     "@angular/cli": "^16.2.0",
@@ -73,6 +76,7 @@
     "@angular/elements": "^16.2.0",
     "@angular/forms": "^16.2.0",
     "@angular/material": "^16.2.0",
+    "@angular/material-moment-adapter": "^16.2.0",
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
