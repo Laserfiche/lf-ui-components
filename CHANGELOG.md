@@ -1,3 +1,11 @@
+## 15.0.2
+
+### Features
+
+### Fixes
+  - Changed the version of the `indigo-pink.css` style sheet to the `legacy-indigo-pink.css` stylesheet for Angular 15. This fixes style issues across mat-select components.
+### Chore & Maintenance
+
 ## 15.0.1
 
 ### Features
