@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable } from 'rxjs';
 import { LfAnalyticsService } from './lf-analytics.service';

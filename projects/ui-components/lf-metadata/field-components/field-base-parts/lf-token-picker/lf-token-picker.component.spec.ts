@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfFieldTokenData, LfFieldTokenService } from '../lf-field-base/lf-field-token.service';
 import { LfTokenPickerComponent } from './lf-token-picker.component';

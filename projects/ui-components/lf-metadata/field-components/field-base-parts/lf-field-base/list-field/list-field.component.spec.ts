@@ -5,8 +5,8 @@ import { ListFieldComponent } from './list-field.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldInfo } from '../../../utils/lf-field-types';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ListFieldComponent', () => {

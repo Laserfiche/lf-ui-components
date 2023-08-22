@@ -28,7 +28,7 @@
   width: 100%;
 }
 
-.mat-mdc-input-element {
+.mat-input-element {
   caret-color: black;
 }
 
@@ -49,7 +49,7 @@
 
 /** Angular Material input content (this is where the text goes) */
 ::ng-deep mat-form-field.lf-checklist-field >
-.mat-mdc-form-field-wrapper >
+.mat-form-field-wrapper >
 .mat-form-field-flex >
 .mat-form-field-infix {
   border-top: 0px;
@@ -57,61 +57,47 @@
   width: inherit;
 }
 
-::ng-deep mat-form-field.lf-checklist-field .mat-mdc-form-field-underline {
+::ng-deep mat-form-field.lf-checklist-field .mat-form-field-underline {
   display: none;
 }
 
 
 ::ng-deep mat-form-field.lf-checklist-field >
-.mat-mdc-form-field-wrapper >
+.mat-form-field-wrapper >
 .mat-form-field-flex >
 .mat-form-field-infix input{
   margin-top: 5px;
 }
 
-/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-/* Could not see in CSS */
-::ng-deep .lf-checklist-item .mat-mdc-form-field-appearance-standard .mat-mdc-form-field-flex {
+::ng-deep .lf-checklist-item .mat-form-field-appearance-standard .mat-form-field-flex {
   align-items: center;
   border-radius: 2px;
   border-color: #6D6D6D;
   border-width: 1px;
   border-style: solid;
   box-sizing: border-box;
-  border-width: 100px;
-
-  background-color: black;
 }
 
-/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-::ng-deep .lf-checklist-item .mat-mdc-form-field-subscript-wrapper {
+::ng-deep .lf-checklist-item .mat-form-field-subscript-wrapper {
   position: static;
   margin-top: 0px;
 }
 
-/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-/* Could not see in CSS */
-::ng-deep .lf-checklist-item .mat-mdc-form-field-invalid .mat-mdc-form-field-subscript-wrapper {
+::ng-deep .lf-checklist-item .mat-form-field-invalid .mat-form-field-subscript-wrapper {
   padding-top: 5px;
 }
 
-/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-/* Could not see in CSS */
-::ng-deep .lf-checklist-item .mat-mdc-form-field-wrapper {
+::ng-deep .lf-checklist-item .mat-form-field-wrapper {
   padding-bottom: 0;
   display: inline;
-
-  background-color: black;
 }
 
-/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-::ng-deep .lf-checklist-item .mat-mdc-form-field-disabled .mat-mdc-form-field-flex {
+::ng-deep .lf-checklist-item .mat-form-field-disabled .mat-form-field-flex {
   border-color: #F3F3F3;
   background-color: #F3F3F3;
   color: #8A8A8A;
 }
 
-/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-::ng-deep .lf-checklist-item .mat-focused .mat-mdc-form-field-flex {
+::ng-deep .lf-checklist-item .mat-focused .mat-form-field-flex {
   outline-offset: 0px;
 }

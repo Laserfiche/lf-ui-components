@@ -52,7 +52,7 @@
   height: 26px;
 }
 
-::ng-deep .token-picker-dropdown.mat-mdc-menu-panel {
+::ng-deep .token-picker-dropdown.mat-menu-panel {
   min-height: auto;
 }
 

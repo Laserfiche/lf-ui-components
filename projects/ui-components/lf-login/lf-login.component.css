@@ -3,14 +3,12 @@
   border: none;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of menu that may no longer apply for the MDC version. */
-::ng-deep .lf-login-mat-menu .mat-mdc-menu-item {
+::ng-deep .lf-login-mat-menu .mat-menu-item {
   line-height: 34px;
   height: 34px;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of menu that may no longer apply for the MDC version. */
-::ng-deep .lf-login-mat-menu.mat-mdc-menu-panel {
+::ng-deep .lf-login-mat-menu.mat-menu-panel {
   min-height: 0;
   width: 200px;
 }
