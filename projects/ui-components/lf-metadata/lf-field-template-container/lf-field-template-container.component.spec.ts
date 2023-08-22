@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';;
+import { MatSelectModule } from '@angular/material/select';;
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldTemplateContainerComponent } from './lf-field-template-container.component';
 import { LfFieldTemplateContainerService } from './lf-field-template-container.service';

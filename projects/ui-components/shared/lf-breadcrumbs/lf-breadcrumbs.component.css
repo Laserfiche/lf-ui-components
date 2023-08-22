@@ -3,6 +3,7 @@
   height: 34px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 .lf-breadcrumbs-container .mat-button-toggle-button,
 .lf-breadcrumbs-container .mat-button-toggle,
 .lf-breadcrumbs-container {
@@ -26,18 +27,21 @@
   font-weight: bolder;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep
   .breadcrumb-split-button.breadcrumb-select.mat-button-toggle-appearance-standard
   .mat-button-toggle-label-content {
   color: var(--lf-label-text-color, #605e5c);
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep
   .breadcrumb-split-button.breadcrumb-clickable-parent.mat-button-toggle-appearance-standard
   .mat-button-toggle-label-content {
   color: var(--lf-link-color, #605e5c);
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
   font-weight: 600;
   font-size: 14px;
@@ -46,10 +50,12 @@
   text-align: left;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-label-content:hover {
   color: black;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep
   .breadcrumb-clickable-parent.breadcrumb-split-button.mat-button-toggle-appearance-standard
   .mat-button-toggle-label-content {
@@ -63,6 +69,7 @@
   height: 25px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep
   .single-selectable.breadcrumb-clickable-parent.breadcrumb-split-button.mat-button-toggle-appearance-standard
   .mat-button-toggle-label-content {
@@ -70,6 +77,7 @@
   max-width: 125px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep .breadcrumb-split-button-group.mat-button-toggle-group-appearance-standard {
   border: none;
   border-radius: 2px;
@@ -79,6 +87,7 @@
 ::ng-deep .breadcrumb-split-button .breadcrumb-select {
   color: var(--lf-label-text-color, #605e5c);
 }
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep
   .breadcrumb-split-button.mat-button-toggle-appearance-standard.breadcrumb-select
   .mat-button-toggle-label-content {
@@ -96,16 +105,19 @@
   color: black;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-checked {
   background-color: inherit;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-focus-overlay,
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard,
 ::ng-deep .breadcrumb-split-button .mat-button-toggle-button {
   height: 25px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard {
   height: 25px;
 }
