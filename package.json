@@ -34,6 +34,7 @@
     "create-types-lf-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run move-enums-to-types && cd ./types-lf-ui-components-publish && npm pack"
   },
   "devDependencies": {
+    "@angular/cli": "^15.2.9",
     "@angular-devkit/build-angular": "^15.2.9",
     "@angular-eslint/builder": "^15.2.1",
     "@angular-eslint/eslint-plugin": "^15.2.1",
@@ -68,7 +69,6 @@
     "@angular-material-components/moment-adapter": "^9.0.0",
     "@angular/animations": "^15.2.9",
     "@angular/cdk": "^15.2.9",
-    "@angular/cli": "^15.2.9",
     "@angular/common": "^15.2.9",
     "@angular/compiler": "^15.2.9",
     "@angular/compiler-cli": "^15.2.9",
