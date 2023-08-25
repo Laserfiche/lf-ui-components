@@ -1,3 +1,15 @@
+## 15.0.3
+
+### Features
+
+### Fixes
+
+### Chore & Maintenance
+  - `karma` update to 6.4.2
+  - `@angular/cli` switched to devDependency from peerDependency
+
+
+
 ## 15.0.2
 
 ### Features
