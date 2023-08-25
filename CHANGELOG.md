@@ -1,3 +1,13 @@
+## 14.1.5
+
+### Features
+
+### Fixes
+  - `karma` update to 6.4.2
+  - `@angular/cli` switched to devDependency from peerDependency
+  
+### Chore & Maintenance
+
 ## 14.1.4
 
 ### Features

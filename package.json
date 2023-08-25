@@ -34,13 +34,13 @@
     "create-types-lf-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run move-enums-to-types && cd ./types-lf-ui-components-publish && npm pack"
   },
   "devDependencies": {
-    "@angular/cli": "^14.2.12",
     "@angular-devkit/build-angular": "^14.2.12",
     "@angular-eslint/builder": "^14.4.0",
     "@angular-eslint/eslint-plugin": "^14.4.0",
     "@angular-eslint/eslint-plugin-template": "^14.4.0",
     "@angular-eslint/schematics": "^14.4.0",
     "@angular-eslint/template-parser": "^14.4.0",
+    "@angular/cli": "^14.2.12",
     "@microsoft/api-extractor": "^7.36.3",
     "@types/jasmine": "^3.6.0",
     "@types/node": "^16.18.11",
