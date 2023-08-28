@@ -16,5 +16,6 @@
   "ACCEPTED_FORMATS_ARE_0": "Les formats acceptés sont : {0}.",
   "IMAGE_NOT_ATTACHED": "Image non jointe.",
   "ATTACH_IMAGE": "Joindre l’image",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Veuillez joindre une seule image."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Veuillez joindre une seule image.",
+  "TEST": "test"
 }
