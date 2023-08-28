@@ -3,6 +3,8 @@
 ### Features
 
 ### Fixes
+  - Fixed bug where Required input field was not recognizing the character "s" as a valid input because of Regex issues. 
+    Changed to use LfMetadataValidationUtils.isNullOrEmpty to in the requiredValidator function in [validation-utils.ts](projects\ui-components\internal-shared\validation-utils.ts) instead of Regex.
 
 ### Chore & Maintenance
   - `karma` update to 6.4.2
