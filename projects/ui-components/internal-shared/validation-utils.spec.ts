@@ -18,31 +18,25 @@ describe('ValidationUtils', () => {
     expect(badFC.hasError('twoDigit')).toBeTruthy();
   });
 
-  fit('should create requiredValidator that tests if the input is empty spaces', () => {
-    // const validator = ValidationUtils.requiredValidator();
-    // validator()
+  it('should create requiredValidator that tests if the input is empty spaces', () => {
 
-    // const goodFC: FormControl = new FormControl('12', [validator]);
-    // const badFC: FormControl = new FormControl('123', [validator]);
-    // expect(goodFC.hasError('twoDigit')).toBeFalse();
-    // expect(badFC.hasError('twoDigit')).toBeTruthy();
-    expect(tempFunction('')).toBeTrue();
-    expect(tempFunction('     ')).toBeTrue();
-    expect(tempFunction('   ')).toBeTrue();
-    expect(tempFunction(' ')).toBeTrue();
-    expect(tempFunction('s')).toBeFalse();
-    expect(tempFunction(' s')).toBeFalse();
-    expect(tempFunction(' s ')).toBeFalse();
-    expect(tempFunction('s ')).toBeFalse();
-    expect(tempFunction('s\n')).toBeFalse();
+    const validator = ValidationUtils.requiredValidator();
+    let formControl: FormControl = new FormControl('', [validator]);
+    expect(formControl.hasError('required')).toBeTrue();
 
-    expect(tempFunction('\n')).toBeTrue();
+    formControl = new FormControl('  ', [validator]);
+    expect(formControl.hasError('required')).toBeTrue();
+    
+    formControl = new FormControl(null, [validator]);
+    expect(formControl.hasError('required')).toBeTrue();
+
+    formControl = new FormControl(undefined, [validator]);
+    expect(formControl.hasError('required')).toBeTrue();
+
+    formControl = new FormControl('123', [validator]);
+    expect(formControl.hasError('required')).toBeFalse();
 
   });
 
 });
 
-function tempFunction(txt: any) {
-  const trimmed = txt.trim();
-  return trimmed.length === 0;
-}

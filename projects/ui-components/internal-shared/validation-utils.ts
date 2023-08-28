@@ -71,14 +71,10 @@ export class ValidationUtils {
             if (!control.value) {
                 return validationFailedExplanation;
             }
-            const isEmptyString = ValidationUtils.isEmpty(control.value);
+            const isEmptyString = LfMetadataValidationUtils.isNullOrEmpty(control.value);
             return isEmptyString ? validationFailedExplanation : null;
         };
         return validatorFn;
-    }
-    static isEmpty(str: string): boolean {
-      const trimmed = str.trim();
-      return trimmed.length === 0;
     }
 
     static createTimeValidator(): ValidatorFn {
