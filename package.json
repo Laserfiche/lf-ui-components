@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.2.9",
+    "@angular/cli": "^15.2.9",
     "@angular-eslint/builder": "^15.2.1",
     "@angular-eslint/eslint-plugin": "^15.2.1",
     "@angular-eslint/eslint-plugin-template": "^15.2.1",
@@ -68,7 +69,6 @@
     "@angular-material-components/moment-adapter": "^9.0.0",
     "@angular/animations": "^15.2.9",
     "@angular/cdk": "^15.2.9",
-    "@angular/cli": "^15.2.9",
     "@angular/common": "^15.2.9",
     "@angular/compiler": "^15.2.9",
     "@angular/compiler-cli": "^15.2.9",
