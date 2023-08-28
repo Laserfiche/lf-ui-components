@@ -71,11 +71,14 @@ export class ValidationUtils {
             if (!control.value) {
                 return validationFailedExplanation;
             }
-            const regex = new RegExp('^[\s ]*$');
-            const isEmptyString = regex.test(control.value);
+            const isEmptyString = ValidationUtils.isEmpty(control.value);
             return isEmptyString ? validationFailedExplanation : null;
         };
         return validatorFn;
+    }
+    static isEmpty(str: string): boolean {
+      const trimmed = str.trim();
+      return trimmed.length === 0;
     }
 
     static createTimeValidator(): ValidatorFn {
