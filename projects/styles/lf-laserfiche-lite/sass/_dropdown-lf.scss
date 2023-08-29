@@ -76,7 +76,7 @@ mat-form-field.lf-dropdown {
 }
 
 // TODO(check: verify if mdc needed)
-.lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+.lf-dropdown.mat-form-field-appearance-legacy .mat-mdc-text-field-wrapper {
   padding-bottom: 0px;
 }
 
@@ -95,4 +95,9 @@ mat-form-field.lf-dropdown {
 // TODO(check: verify if mdc needed)
 .lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-label {
   top: 0;
+}
+
+
+.mat-mdc-form-field {
+  line-height: 1.125;
 }
