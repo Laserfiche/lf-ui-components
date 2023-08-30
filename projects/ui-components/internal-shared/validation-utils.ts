@@ -71,8 +71,7 @@ export class ValidationUtils {
             if (!control.value) {
                 return validationFailedExplanation;
             }
-            const regex = new RegExp('^[\s ]*$');
-            const isEmptyString = regex.test(control.value);
+            const isEmptyString = LfMetadataValidationUtils.isNullOrEmpty(control.value);
             return isEmptyString ? validationFailedExplanation : null;
         };
         return validatorFn;
