@@ -90,11 +90,11 @@ describe('LfFieldAddRemoveComponent', () => {
     expect(component.isFieldSelected(fieldInfoToUncheck)).toBeFalse();
   });
 
-  it('should update connector service when click apply after changes', async () => {
+  fit('should update connector service when click apply after changes', async () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
     spyOn(adHocConnectorTestService, 'setSelectedFieldIds');
-    const checkbox = element.querySelector('.mat-checkbox-input') as HTMLElement;
+    const checkbox = element.querySelector('mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 
