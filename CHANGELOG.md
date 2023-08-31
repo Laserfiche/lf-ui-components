@@ -7,6 +7,8 @@
     Changed to use LfMetadataValidationUtils.isNullOrEmpty to in the requiredValidator function in [validation-utils.ts](projects\ui-components\internal-shared\validation-utils.ts) instead of Regex.
 ### Chore & Maintenance
   - Updated `@laserfiche/lf-js-utils` to version `4.0.8` to use newly added LfMetadataValidationUtils.isNullOrEmpty for field validation.
+  - `karma` update to 6.4.2
+  - `@angular/cli` switched to devDependency from peerDependency
 
 ## 14.1.4
 
