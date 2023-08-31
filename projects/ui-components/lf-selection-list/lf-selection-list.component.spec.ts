@@ -151,11 +151,11 @@ describe('LfListComponent single select', () => {
       flush();
 
       const trEls = Array.from(
-        document.getElementsByClassName('mat-header-row')
+        document.getElementsByClassName('mat-mdc-header-row')
       );
       const trEl = trEls[0] as HTMLDivElement;
       const thEls = Array.from(
-        trEl.getElementsByClassName('mat-header-cell')
+        trEl.getElementsByClassName('mat-mdc-header-cell')
       );
       expect(thEls.length).toBe(2);
     }));
@@ -166,7 +166,7 @@ describe('LfListComponent single select', () => {
       flush();
 
       const trEls = Array.from(
-        document.getElementsByClassName('mat-header-row')
+        document.getElementsByClassName('mat-mdc-header-row')
       );
       const trEl = trEls[0] as HTMLDivElement;
       const createDateWidth = parseFloat(create.defaultWidth) / 100 * component.containerWidth + 'px';
@@ -207,7 +207,7 @@ describe('LfListComponent single select', () => {
 
       // Assert
       const trEls = Array.from(
-        document.getElementsByClassName('mat-header-row')
+        document.getElementsByClassName('mat-mdc-header-row')
       );
       const trEl = trEls[0] as HTMLDivElement;
       const gridTemplateColumnsWidth = `${customNameColumnWidth} ${customCreateDateWidth}`;
