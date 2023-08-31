@@ -1,3 +1,13 @@
+## 16.0.0
+
+### Features
+
+### Fixes
+
+### Chore & Maintenance
+- **[BREAKING]**: Update to Angular 15
+- **[BREAKING]**: Migrated `@angular/material` to version 16. 
+
 ## 15.0.3
 
 ### Features
