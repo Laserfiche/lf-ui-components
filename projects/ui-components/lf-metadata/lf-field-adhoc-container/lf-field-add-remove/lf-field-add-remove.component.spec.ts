@@ -94,7 +94,7 @@ describe('LfFieldAddRemoveComponent', () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
     spyOn(adHocConnectorTestService, 'setSelectedFieldIds');
-    const checkbox = element.querySelector('mdc-checkbox__native-control') as HTMLElement;
+    const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 
@@ -111,7 +111,7 @@ describe('LfFieldAddRemoveComponent', () => {
 
   it('should not update connector service when click cancel after changes', async () => {
     // Arrange
-    const checkbox = element.querySelector('.mat-checkbox-input') as HTMLElement;
+    const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 
@@ -129,7 +129,7 @@ describe('LfFieldAddRemoveComponent', () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
     spyOn(adHocConnectorTestService, 'setSelectedFieldIds');
-    const checkbox = element.querySelector('.mat-checkbox-input') as HTMLElement;
+    const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 
@@ -147,7 +147,7 @@ describe('LfFieldAddRemoveComponent', () => {
   it('should not update connector service when confirm no after press back with changes', async () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
-    const checkbox = element.querySelector('.mat-checkbox-input') as HTMLElement;
+    const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 
@@ -164,7 +164,7 @@ describe('LfFieldAddRemoveComponent', () => {
   it('should not update connector service when confirm cancel after press back with changes', async () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
-    const checkbox = element.querySelector('.mat-checkbox-input') as HTMLElement;
+    const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 
