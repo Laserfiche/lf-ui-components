@@ -179,3 +179,11 @@
 .mat-mdc-form-field-error {
     transform: translateY(-80%)
 }
+
+::ng-deep .lf-field.lf-dropdown.lf-template-picker > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex {
+  height: 35px;
+}
+
+::ng-deep .lf-field.lf-dropdown.lf-template-picker > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
+  height: 35px;
+}
