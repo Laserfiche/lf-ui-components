@@ -241,7 +241,7 @@
     "ui-components": {
       "projectType": "library",
       "root": "projects/ui-components",
-      "sourceRoot": "projects/ui-components/src",
+      "sourceRoot": "projects/ui-components",
       "prefix": "lib",
       "architect": {
         "build": {
@@ -278,5 +278,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
