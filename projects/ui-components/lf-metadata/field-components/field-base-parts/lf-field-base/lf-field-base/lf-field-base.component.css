@@ -30,7 +30,7 @@
 /* Change made.  */
 ::ng-deep mat-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix,
 ::ng-deep mat-form-field.lf-textarea > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
-  padding: 11px 0 7px 0;
+  padding: 0 0 0 0;
   border: none;
 }
 
@@ -41,7 +41,7 @@
 /* Change made.  */
 ::ng-deep mat-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex >
 .mat-mdc-form-field-infix > .mat-mdc-select > .mat-mdc-select-trigger > .mat-mdc-select-arrow-wrapper {
-  padding-top: 8px;
+  padding-top: 0px;
 }
 
 
@@ -92,9 +92,17 @@
   position: static;
 }
 
+
 ::ng-deep mat-form-field.lf-field > .mat-mdc-text-field-wrapper,
 ::ng-deep mat-form-field.lf-textarea > .mat-mdc-text-field-wrapper {
   padding-bottom: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+::ng-deep lf-field-template-container-component .lf-template-picker > .mat-mdc-text-field-wrapper {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 /* dont know about suffix */
@@ -102,11 +110,12 @@
   top: -.2em;
 }
 
+/* TODO(CSS: the line height causes the button to be not aligned with top of lf-field-token-picker. originally 50) */
 .lf-field-token-picker {
   flex-grow: 0;
   flex-shrink: 0;
   margin-left: 1px;
-  line-height: 50px;
+  /* line-height: 40px; */
   vertical-align: top;
 }
 
@@ -129,4 +138,44 @@
 
 ::ng-deep .mdc-floating-label.mat-mdc-floating-label {
   display: none;
+}
+
+
+::ng-deep .lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex {
+  height: 28px;
+}
+
+::ng-deep .mat-mdc-form-field-infix {
+  height: inherit;
+  min-height: 0px;
+}
+
+::ng-deep mat-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex >
+.mat-mdc-form-field-infix > .mat-mdc-select, 
+::ng-deep mat-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex >
+.mat-mdc-form-field-infix > .mat-mdc-select > .mat-mdc-select-trigger {
+  height: inherit
+}
+
+::ng-deep mat-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex >
+.mat-mdc-form-field-infix > .mat-mdc-input-element {
+  height: inherit;
+}
+
+/* Remove the underline under the form */
+::ng-deep .mdc-line-ripple {
+    display: none;
+}
+
+::ng-deep .mat-mdc-option {
+  font-size: 14px;
+}
+
+::ng-deep .mat-mdc-form-field-error-wrapper {
+  position: relative;
+  /* transform: translateY(-60%); */
+}
+
+.mat-mdc-form-field-error {
+    transform: translateY(-80%)
 }

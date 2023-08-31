@@ -9,7 +9,7 @@
       </mat-label>
     </ng-template>
     <mat-select
-      placeholder="No Template assigned"
+      [placeholder]="emptyTemplateName | async"
       name="template-dropdown"
       id="template-dropdown"
       class="lf-dropdown"

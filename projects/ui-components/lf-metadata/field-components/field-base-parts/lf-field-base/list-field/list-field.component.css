@@ -1,0 +1,10 @@
+/* TODO: Remove this comment, perhaps rename the class if need be.
+New classes added so that the dropdown for food (burrito etc) has same font. Did not want to use lf-dropdown
+class because then the size changes. */
+.dropdown-option {
+    font-size: 14px;
+}
+
+.dropdown-select {
+    font-size: 14px;
+}

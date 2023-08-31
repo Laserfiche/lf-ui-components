@@ -1,3 +1,14 @@
+/* NOTES: 
+.lf-checklist-item .mat-mdc-text-field-wrapper {} in items.css - remove display inline 
+ng-deep override the folowing .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: var(--mdc-filled-text-field-container-color);
+}
+ mdccheckbox mdc form field width 100%
+
+
+*/
+
+
 .lf-checklist-item {
   margin: 5px;
 }
@@ -30,6 +41,7 @@
 
 .mat-mdc-input-element {
   caret-color: black;
+  padding-left: 8px;
 }
 
 .field-box {
@@ -41,6 +53,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  font-size: 100;
 }
 
 ::ng-deep .lf-checklist-item-name {
@@ -57,20 +70,22 @@
   width: inherit;
 }
 
-::ng-deep mat-form-field.lf-checklist-field .mat-mdc-form-field-underline {
+::ng-deep mat-form-field.lf-checklist-field .mdc-line-ripple {
   display: none;
 }
 
 
 ::ng-deep mat-form-field.lf-checklist-field >
-.mat-mdc-form-field-wrapper >
-.mat-form-field-flex >
-.mat-form-field-infix input{
+.mat-mdc-text-field-wrapper >
+.mat-mdc-form-field-flex >
+.mat-mdc-form-field-infix input{
   margin-top: 5px;
 }
 
 /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-::ng-deep .lf-checklist-item .mat-form-field-appearance-standard .mat-form-field-flex {
+/* Addressed */
+/* ::ng-deep .lf-checklist-item .mat-form-field-appearance-standard .mat-mdc-form-field-flex  { */
+::ng-deep .lf-checklist-item .mat-mdc-form-field-type-mat-input .mat-mdc-form-field-flex  {
   align-items: center;
   border-radius: 2px;
   border-color: #6D6D6D;
@@ -80,30 +95,57 @@
 }
 
 /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-::ng-deep .lf-checklist-item .mat-form-field-subscript-wrapper {
+/* Addressed */
+::ng-deep .lf-checklist-item .mat-mdc-form-field-subscript-wrapper {
   position: static;
   margin-top: 0px;
 }
 
 /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-::ng-deep .lf-checklist-item .mat-form-field-invalid .mat-form-field-subscript-wrapper {
+/* dont know what is form field invalid */
+::ng-deep .lf-checklist-item .mat-form-field-invalid .mat-mdc-form-field-subscript-wrapper {
   padding-top: 5px;
 }
 
 /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-::ng-deep .lf-checklist-item .mat-form-field-wrapper {
+/* Addressed */
+::ng-deep .lf-checklist-item .mat-mdc-text-field-wrapper {
   padding-bottom: 0;
-  display: inline;
+  padding-left: 0;
+  padding-right: 0;
+  /* display: inline; */
 }
 
 /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-::ng-deep .lf-checklist-item .mat-form-field-disabled .mat-form-field-flex {
+/* Addressed */
+::ng-deep .lf-checklist-item .mat-form-field-disabled .mat-mdc-form-field-flex {
   border-color: #F3F3F3;
   background-color: #F3F3F3;
   color: #8A8A8A;
 }
 
 /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-::ng-deep .lf-checklist-item .mat-focused .mat-form-field-flex {
+/* cannot find mat focused */
+::ng-deep .lf-checklist-item .mat-focused .mat-mdc-form-field-flex {
   outline-offset: 0px;
+}
+
+::ng-deep .lf-checklist-field > .mat-mdc-text-field-wrapper {
+  height: auto;
+}
+
+/* ::ng-deep .lf-checklist-item > .lf-checkbox > .mdc-form-field > .mdc-checkbox > .mdc-label {
+  width: inherit;
+} */
+::ng-deep .mdc-label {
+  width: inherit;
+}
+
+::ng-deep .lf-checkbox.mat-mdc-checkbox > .mdc-form-field {
+  width: 100%;
+}
+
+This is not working for some reason
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white;
 }
