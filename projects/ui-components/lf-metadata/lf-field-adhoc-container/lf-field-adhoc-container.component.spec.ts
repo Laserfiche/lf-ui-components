@@ -100,7 +100,7 @@ describe('LfFieldAdhocContainerComponent', () => {
 
     // Act
     // const attendanceListField = (element.querySelectorAll('.mat-checkbox-input') as any)[2];
-    const attendanceListField = (element.querySelectorAll('.mdc-checkbox_native-control') as any)[2];
+    const attendanceListField = (element.querySelectorAll('.mdc-checkbox__native-control') as any)[2];
     attendanceListField.click();
      fixture.detectChanges();
     const applyButton = element.querySelector('#adhoc-apply-button') as HTMLButtonElement;
@@ -134,7 +134,7 @@ describe('LfFieldAdhocContainerComponent', () => {
     component.addRemoveComponent.ref.detectChanges();
 
     // Act
-    const fieldCheckboxes = element.querySelectorAll('.mat-checkbox-input') as any;
+    const fieldCheckboxes = element.querySelectorAll('.mdc-checkbox__native-control') as any;
     const requiredField = fieldCheckboxes[1];
     requiredField.click();
     flush();

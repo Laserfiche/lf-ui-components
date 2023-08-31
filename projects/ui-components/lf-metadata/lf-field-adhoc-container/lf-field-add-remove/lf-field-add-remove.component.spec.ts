@@ -90,7 +90,7 @@ describe('LfFieldAddRemoveComponent', () => {
     expect(component.isFieldSelected(fieldInfoToUncheck)).toBeFalse();
   });
 
-  fit('should update connector service when click apply after changes', async () => {
+  it('should update connector service when click apply after changes', async () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
     spyOn(adHocConnectorTestService, 'setSelectedFieldIds');
