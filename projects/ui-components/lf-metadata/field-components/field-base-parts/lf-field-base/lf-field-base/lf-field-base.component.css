@@ -45,8 +45,8 @@
 }
 
 
-::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: inherit;
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white;
 }
 ::ng-deep mat-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex >
 .mat-mdc-form-field-infix > .mat-mdc-select > .mat-mdc-select-trigger > .mat-mdc-select-arrow-wrapper > .mat-mdc-select-arrow {
