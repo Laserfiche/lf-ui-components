@@ -42,3 +42,20 @@ mat-checkbox.lf-checkbox.full-width-checkbox {
 ::ng-deep .lf-checklist-field > .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: white;
 }
+
+
+
+
+::ng-deep .lf-checklist-field .mat-mdc-form-field-flex {
+  height: inherit;
+}
+
+::ng-deep .lf-checklist-field .mat-mdc-form-field-infix {
+  height: inherit;
+  padding: 0;
+}
+
+/* ::ng-deep .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
+    padding-top: 0;
+    padding-bottom: 0;
+} */

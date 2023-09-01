@@ -37,6 +37,7 @@ ng-deep override the folowing .mdc-text-field--filled:not(.mdc-text-field--disab
 
 .lf-checklist-field {
   width: 100%;
+  height: 34px;
 }
 
 .mat-mdc-input-element {
@@ -79,7 +80,7 @@ ng-deep override the folowing .mdc-text-field--filled:not(.mdc-text-field--disab
 .mat-mdc-text-field-wrapper >
 .mat-mdc-form-field-flex >
 .mat-mdc-form-field-infix input{
-  margin-top: 5px;
+  font-size: 14px;
 }
 
 /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
@@ -131,7 +132,7 @@ ng-deep override the folowing .mdc-text-field--filled:not(.mdc-text-field--disab
 }
 
 ::ng-deep .lf-checklist-field > .mat-mdc-text-field-wrapper {
-  height: auto;
+  height: inherit;
 }
 
 /* ::ng-deep .lf-checklist-item > .lf-checkbox > .mdc-form-field > .mdc-checkbox > .mdc-label {
