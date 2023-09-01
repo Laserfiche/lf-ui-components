@@ -106,7 +106,7 @@
 }
 
 /* dont know about suffix */
-::ng-deep mat-form-field.lf-date-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-form-field-suffix {
+::ng-deep mat-form-field.lf-date-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-icon-suffix {
   top: -.2em;
 }
 
