@@ -1,3 +1,13 @@
+## 15.0.4
+
+### Features
+
+### Fixes
+  - Fixed bug where LfMetadataValidationUtils.isNullOrEmpty was being passed a `Moment` Object, when it only expected types `String`, `null` and `undefined` 
+    Made sure to only pass in String types by casing Moment object to a `String`.
+
+### Chore & Maintenance
+
 ## 15.0.3
 
 ### Features
