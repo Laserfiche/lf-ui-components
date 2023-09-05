@@ -108,6 +108,7 @@
 /* dont know about suffix */
 ::ng-deep mat-form-field.lf-date-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-icon-suffix {
   top: -.2em;
+  position: unset;
 }
 
 /* TODO(CSS: the line height causes the button to be not aligned with top of lf-field-token-picker. originally 50) */
@@ -182,6 +183,7 @@
 
 ::ng-deep .lf-field.lf-dropdown.lf-template-picker > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex {
   height: 35px;
+  background-color: white;
 }
 
 ::ng-deep .lf-field.lf-dropdown.lf-template-picker > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {

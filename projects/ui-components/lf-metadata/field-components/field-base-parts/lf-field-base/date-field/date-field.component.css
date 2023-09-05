@@ -8,3 +8,9 @@
   position: absolute;
   height: 100%;
 }
+
+::ng-deep .mat-mdc-icon-button.mat-mdc-button-base {
+    padding-top: 12px;
+    padding-right: 0px;
+}
+
