@@ -71,7 +71,7 @@ export class ValidationUtils {
             if (!control.value) {
                 return validationFailedExplanation;
             }
-            const isEmptyString = LfMetadataValidationUtils.isNullOrEmpty(control.value);
+            const isEmptyString = LfMetadataValidationUtils.isNullOrEmpty(control.value.toString());
             return isEmptyString ? validationFailedExplanation : null;
         };
         return validatorFn;
