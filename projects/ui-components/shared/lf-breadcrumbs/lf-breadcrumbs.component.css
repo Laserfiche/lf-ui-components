@@ -140,4 +140,5 @@
 
 ::ng-deep .mat-mdc-menu-content > .mat-mdc-menu-item.folder-dropdown > .mat-mdc-menu-item-text {
   font-size: inherit;
+  white-space: nowrap;
 }
