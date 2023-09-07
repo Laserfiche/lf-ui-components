@@ -1,3 +1,13 @@
+## 15.0.5
+
+### Features
+
+### Fixes
+
+### Chore & Maintenance
+  - Added documentation for [lf-login](projects/lf-documentation/src/app/lf-login-documentation/lf-login-documentation.component.html) to direct a developer 
+    to the sample app on how to implement the component in a Popup window.
+
 ## 15.0.4
 
 ### Features
