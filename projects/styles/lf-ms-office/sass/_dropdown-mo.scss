@@ -60,32 +60,34 @@ mat-form-field.lf-dropdown {
   width: 100%;
 }
 
-.lf-field .mat-form-field-underline {
-  display: none;
+.lf-field .mdc-line-ripple {
+    display: none;
 }
 
-.lf-dropdown div.mat-select-arrow-wrapper {
+.lf-dropdown div.mat-mdc-select-arrow-wrapper {
   padding-top: 0px;
 }
 
-.lf-dropdown div.mat-select-value {
+.lf-dropdown div.mat-mdc-select-value {
   padding-top: 0px;
 }
 
+// TODO no more form-field-appearance-legacy. Can remove this style
 .lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding-bottom: 0px;
 }
 
-.lf-dropdown .mat-form-field-infix {
+.lf-dropdown .mat-mdc-form-field-infix {
   height: 28px;
   padding: 0px;
   border-top: 0 solid transparent;
 }
 
-.lf-dropdown.mat-form-field.lf-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix {
+.lf-dropdown.mat-mdc-form-field.lf-field > .mat-mdc-form-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
   padding: 0px;
 }
 
+// TODO no more form-field-appearance-legacy or mat-form-field-label. Can remove this style
 .lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-label {
   top: 0;
 }
