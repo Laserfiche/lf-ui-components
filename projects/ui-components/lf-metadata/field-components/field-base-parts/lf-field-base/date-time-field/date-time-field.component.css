@@ -22,7 +22,7 @@
   font-size: 22px;
 } */
 
-/* TODO: this is only a temporary fix for Angular datetime picker style issues. Remove this if there is better solution.*/
+/* TODO: this is only a temporary fix for Angular datetime picker style issues. Remove this if there is better solution. */
 ::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-body-cell {
   position: absolute;
   height: 100%;
@@ -42,7 +42,6 @@
 
 
 ::ng-deep .mat-calendar-table-header-divider:after {
-  /* background: var(--mat-datepicker-calendar-header-divider-color); */
   background: rgba(0, 0, 0, 0.12); 
 }
 
