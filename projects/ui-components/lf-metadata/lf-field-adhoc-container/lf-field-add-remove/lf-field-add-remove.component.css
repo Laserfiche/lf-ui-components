@@ -168,3 +168,27 @@ i.loader {
 .error-entries-text {
   color: #AB2227;
 }
+
+/* // TODO for left alighment try to remove ngdeep  */
+/* ::ng-deep .mdc-form-field > label {
+  padding-left: 8px;
+  padding-bottom: 1px;
+} */
+
+/* ::ng-deep .lf-checkbox .mdc-form-field {
+  max-height: 40px;
+} */
+
+
+/* To align to the left
+.mdc-checkbox { 
+  padding: calc
+  padding-left: 0px
+  padding-right: 22px;
+  flex: 0 0; // no flex basis
+
+
+  .mdc-checkbox__background {
+    left, right change
+  }
+*/
