@@ -12,37 +12,59 @@ $ripple-size: 0px;
 
 .lf-checkbox {
   
-  .mat-checkbox-inner-container {
+  // .mat-checkbox-inner-container {
+  //   width: $checkbox-size;
+  //   height: $checkbox-size;
+
+  //   .mat-checkbox-frame {
+  //     border-width: $border-width;
+  //     border-color: $border-color;
+  //   }
+  & .mdc-checkbox__background {
+    border-width: $border-width;
+    border-color: $border-color;
     width: $checkbox-size;
     height: $checkbox-size;
+    // This is for left alignment
+    // position: initial;
+  }
 
-    .mat-checkbox-frame {
-      border-width: $border-width;
-      border-color: $border-color;
-    }
 
-    &:hover {
-      .mat-checkbox-checkmark-path {
+  &:hover .mdc-checkbox__checkmark-path {
         stroke-dashoffset: 0;
-        stroke: typography-mo.$hover-color !important;
-      }
+        stroke: typography-mo.$hover-color;
     }
-  }
 
-  &.cdk-focused .mat-checkbox-frame {
-    border-color: typography-mo.$primary-color;
+  // &.cdk-focused .mat-checkbox-frame {
+  //   border-color: typography-mo.$primary-color;
+  //   border-width: 2px;
+  // }
+  &.cdk-focused .mdc-checkbox__background {
     border-width: 2px;
+    border-color: typography-mo.$primary-color;
   }
 
-  &.mat-checkbox-checked.mat-primary {
-    .mat-checkbox-background {
+  // &.mat-checkbox-checked.mat-primary {
+  //   .mat-checkbox-background {
+  //     background-color: typography-mo.$primary-color;
+  //   }
+  &.mat-mdc-checkbox-checked.mat-primary {
+    .mdc-checkbox__background {
       background-color: typography-mo.$primary-color;
     }
-    .mat-checkbox-inner-container:hover .mat-checkbox-background {
+  }
+  &:hover .mdc-checkox--selected .mdc-checkbox__background {
       background-color: $checked-hover-color;
-      .mat-checkbox-checkmark-path {
+      .mdc-checkbox__checkmark-path {
         stroke: $checkmark-color !important;
       }
+    }
+
+  &.mat-mdc-checkbox-disabled {
+    &.mat-mdc-checkbox-checked .mdc-checkbox__background{
+      background-color: $disabled-color;
+      opacity: 0.33;
+      border-color: none;
     }
   }
 
@@ -72,17 +94,26 @@ $ripple-size: 0px;
     }
   }
 
-  .mat-checkbox-ripple.mat-ripple {
+  // .mat-checkbox-ripple.mat-ripple {
+  //   width: $ripple-size;
+  //   height: $ripple-size;
+  // }
+  .mat-mdc-checkbox-ripple.mat-ripple, .mdc-checkbox__ripple {
     width: $ripple-size;
     height: $ripple-size;
   }
 
-  .mat-checkbox-checkmark-path {
+  // .mat-checkbox-checkmark-path {
+  //   stroke-width: $checkmark-width;
+  //   stroke: $checkmark-color !important;
+  // }
+
+  .mdc-checkbox__checkmark-path {
     stroke-width: $checkmark-width;
-    stroke: $checkmark-color !important;
+    stroke: $checkmark-color;
   }
 
-  &.mat-checkbox .mat-checkbox-label {
+  &.mat-mdc-checkbox .mdc-label {
     font: typography-mo.$body-stack;
   }
 }
