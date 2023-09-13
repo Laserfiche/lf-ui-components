@@ -9,7 +9,8 @@
   height: 100%;
 }
 
-::ng-deep .mat-mdc-icon-button.mat-mdc-button-base {
+::ng-deep mat-datepicker-toggle.mat-datepicker-toggle.lf-datepicker-toggle >.mat-mdc-icon-button.mat-mdc-button-base {
     padding-top: 12px;
+    padding-right: 0px;
 }
 
