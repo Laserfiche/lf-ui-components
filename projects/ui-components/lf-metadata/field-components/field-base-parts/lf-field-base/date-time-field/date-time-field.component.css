@@ -71,3 +71,7 @@
 ::ng-deep .mat-datepicker-content .mat-datepicker-close-button {
   position: relative;
 }
+
+::ng-deep .ngx-mat-timepicker .mat-mdc-form-field .mat-mdc-form-field-subscript-wrapper {
+  height: 0px;
+}
