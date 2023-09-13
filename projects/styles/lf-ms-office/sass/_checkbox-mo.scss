@@ -30,9 +30,9 @@ $ripple-size: 0px;
   }
 
 
-  &:hover .mdc-checkbox__checkmark-path {
+  & .mdc-checkbox:hover .mdc-checkbox__checkmark-path {
         stroke-dashoffset: 0;
-        stroke: typography-mo.$hover-color;
+        stroke: typography-mo.$hover-color !important;
     }
 
   // &.cdk-focused .mat-checkbox-frame {
@@ -110,7 +110,7 @@ $ripple-size: 0px;
 
   .mdc-checkbox__checkmark-path {
     stroke-width: $checkmark-width;
-    stroke: $checkmark-color;
+    // stroke: $checkmark-color;
   }
 
   &.mat-mdc-checkbox .mdc-label {

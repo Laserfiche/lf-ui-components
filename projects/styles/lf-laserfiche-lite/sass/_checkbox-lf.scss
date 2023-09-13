@@ -23,7 +23,7 @@ $ripple-size: 0px;
     // position: initial;
   }
 
-  &:hover .mdc-checkbox__background {
+  & .mdc-checkbox:hover .mdc-checkbox__background {
     border-width: $hover-border-width;
   }
 

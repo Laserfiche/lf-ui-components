@@ -187,9 +187,9 @@ i.loader {
   padding-bottom: 1px;
 } */
 
-::ng-deep .lf-checkbox .mdc-form-field {
+/* ::ng-deep .lf-checkbox .mdc-form-field {
   max-height: 25px;
-}
+} */
 
 
 /* To align to the left
