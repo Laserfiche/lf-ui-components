@@ -6,6 +6,7 @@ $border-radius: 2px;
 $focus-border-width: 2px;
 $hover-border-color: black;
 $padding-left: 8px;
+$padding-right: 8px;
 $height: 32px;
 $options-height: 36px;
 $options-padding-stack: 7px 10px 8px;
@@ -25,6 +26,7 @@ mat-select.lf-dropdown, select.lf-dropdown{
   font: typography-mo.$body-stack;
   color: typography-mo.$hover-color;
   padding-left: $padding-left;
+  padding-right: $padding-right;
   cursor: pointer;
   height: $height;
   line-height: $height - 2*$border-width;

@@ -5,6 +5,7 @@ $border-width: 1px;
 $border-radius: 2px;
 
 $padding-left: 8px;
+$padding-right: 8px;
 $height: 34px;
 
 $focus-box-shadow: rgba(32, 124, 185, 0.637) 0px 0px 3px 1.5px;
@@ -29,6 +30,7 @@ select.lf-dropdown {
   font: typography-lf.$body-stack;
   color: typography-lf.$body-color;
   padding-left: $padding-left;
+  padding-right: $padding-right;
   cursor: pointer;
   height: $height;
   line-height: $height - 2 * $border-width;
