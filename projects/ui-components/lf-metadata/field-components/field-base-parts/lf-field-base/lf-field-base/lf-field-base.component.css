@@ -43,6 +43,13 @@
 }
 
 
+::ng-deep .mdc-text-field--outlined  {
+  --mdc-outlined-text-field-focus-outline-color: black;
+  &:hover {
+    --mdc-outlined-text-field-outline-width: 2px;
+  }
+}
+
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: white;
 }

@@ -9,6 +9,9 @@
   height: 100%;
 }
 
+::ng-deep .lf-datepicker-toggle > .mdc-icon-button:hover {
+  color: rgba(0, 0, 0, 0.8);
+}
 ::ng-deep mat-datepicker-toggle.mat-datepicker-toggle.lf-datepicker-toggle >.mat-mdc-icon-button.mat-mdc-button-base {
     padding-top: 12px;
     padding-right: 0px;
