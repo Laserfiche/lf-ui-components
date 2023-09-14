@@ -193,3 +193,7 @@ i.loader {
     left: 0px;
   }
 }
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+  padding: 24px;
+}
