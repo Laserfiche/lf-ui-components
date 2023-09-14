@@ -75,7 +75,7 @@
 }
 
 .email-checkbox-container {
-  margin-top: 20px;
+  /* margin-top: 20px; */
   display: flex;
   justify-content: flex-start;
 }
@@ -102,3 +102,21 @@
   display: block;
   padding-bottom: 5px;
 }
+
+::ng-deep .lf-user-feedback-checkbox.mat-mdc-checkbox .mdc-checkbox {
+  margin-right: 4px;
+  padding-left: 0px;
+  padding-right: 0px;
+
+  .mat-mdc-checkbox-touch-target {
+    width: 20px;
+    height: 20px;
+  }
+ 
+  .mdc-checkbox__background {
+    left: 0px
+  }
+
+
+}
+
