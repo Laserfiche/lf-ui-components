@@ -75,7 +75,7 @@
 }
 
 .email-checkbox-container {
-  /* margin-top: 20px; */
+  margin-top: 20px;
   display: flex;
   justify-content: flex-start;
 }
@@ -107,14 +107,22 @@
   margin-right: 4px;
   padding-left: 0px;
   padding-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 
   .mat-mdc-checkbox-touch-target {
     width: 20px;
     height: 20px;
   }
+
+  .mdc-checkbox__native-control {
+    width: 18px;
+    height: 18px;
+  }
  
   .mdc-checkbox__background {
-    left: 0px
+    left: 0px;
+    top: 0px;
   }
 
 

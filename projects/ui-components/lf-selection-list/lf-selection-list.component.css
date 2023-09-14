@@ -78,7 +78,7 @@
 :host .lf-table-selection-list th.mat-mdc-header-cell.multiselect-column,
 :host .lf-table-selection-list td.mat-mdc-cell.multiselect-column,
 :host .lf-table-selection-list td.mat-mdc-footer-cell.multiselect-column {
-  padding: 0 0 0 15px;
+  padding: 0 0 0 0px;
 }
 
 ::ng-deep .lf-table-selection-list .lf-ellipsis-label .mat-sort-header-content {

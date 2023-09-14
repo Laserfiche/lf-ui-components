@@ -50,7 +50,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   line-height: 1.428571429;
+  min-height: unset;
   height: 26px;
+}
+
+::ng-deep .mat-mdc-menu-content > .token-picker-option.mat-mdc-menu-item > .mat-mdc-menu-item-text {
+  font-size: 14px;
 }
 
 ::ng-deep .token-picker-dropdown.mat-mdc-menu-panel {
