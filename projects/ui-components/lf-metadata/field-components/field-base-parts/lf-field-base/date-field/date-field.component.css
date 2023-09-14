@@ -17,3 +17,9 @@
     padding-right: 0px;
 }
 
+/* ::ng-deep .lf-date-picker-overlay .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  background-color: unset;
+} */
+/* ::ng-deep .lf-date-picker-overlay .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  background-color: var(--mat-datepicker-calendar-date-hover-state-background-color);
+} */

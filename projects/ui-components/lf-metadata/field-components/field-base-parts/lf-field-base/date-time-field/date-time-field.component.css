@@ -68,6 +68,11 @@
   background-color: #3f51b5;
 }
 
+
+::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  background-color: var(--mat-datepicker-calendar-date-hover-state-background-color);
+}
+
 ::ng-deep .mat-datepicker-content .mat-datepicker-close-button {
   position: relative;
 }
