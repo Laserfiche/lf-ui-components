@@ -44,6 +44,7 @@
   font-weight: bold;
   display: inline-block;
   cursor: pointer;
+  font-size: 14px;
 }
 
 i.loader {
@@ -181,29 +182,6 @@ i.loader {
   width: 20px;
   height: 20px;
 }
-/* // TODO for left alighment try to remove ngdeep  */
-/* ::ng-deep .mdc-form-field > label {
-  padding-left: 8px;
-  padding-bottom: 1px;
-} */
-
-/* ::ng-deep .lf-checkbox .mdc-form-field {
-  max-height: 25px;
-} */
-
-
-/* To align to the left
-.mdc-checkbox { 
-  padding: calc
-  padding-left: 0px
-  padding-right: 22px;
-  flex: 0 0; // no flex basis
-
-
-  .mdc-checkbox__background {
-    left, right change
-  }
-*/
 
 ::ng-deep .add-remove-container .mat-mdc-checkbox {
   & .mdc-checkbox {
