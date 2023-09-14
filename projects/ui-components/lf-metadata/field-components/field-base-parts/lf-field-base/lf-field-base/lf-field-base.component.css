@@ -44,7 +44,7 @@
 }
 
 ::ng-deep .lf-field {
-  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading, .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch, .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__leading, .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__notch, .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__trailing {
     border-color: #ccc;
   }
 }
