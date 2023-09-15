@@ -9,75 +9,56 @@ $hover-border-width: 2px;
 $border-width: 1px;
 $ripple-size: 0px;
 
-.lf-checkbox {
+mat-checkbox {
+  &.lf-checkbox {
 
-  &.cdk-focused .mdc-checkbox__background {
-    border-width: $hover-border-width;
-  }
-  & .mdc-checkbox__background {
-    border-width: $border-width;
-    border-color: $border-color !important;
-    width: $checkbox-size;
-    height: $checkbox-size;
-    // This is for left alignment
-    // position: initial;
-  }
-
-  & .mdc-checkbox:hover .mdc-checkbox__background {
-    border-width: $hover-border-width;
-  }
-
-  & .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background, .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
-    border-color: $border-color !important;
-    background-color: $checked-color !important;
-  }
-
-  &.mat-mdc-checkbox-checked.mat-primary {
-    .mdc-checkbox__background {
-      background-color: $checked-color;
+    &.cdk-focused .mdc-checkbox__background {
+      border-width: $hover-border-width;
+    }
+    & .mdc-checkbox__background {
       border-width: $border-width;
-      border-color: $border-color;
+      border-color: $border-color !important;
+      width: $checkbox-size;
+      height: $checkbox-size;
     }
-  }
 
-  &.mat-mdc-checkbox-disabled {
-    &.mat-mdc-checkbox-checked .mdc-checkbox__background{
-      background-color: $disabled-color;
-      opacity: 0.33;
+    & .mdc-checkbox:hover .mdc-checkbox__background {
+      border-width: $hover-border-width;
     }
-  }
 
-  .mat-mdc-checkbox-ripple.mat-ripple, .mdc-checkbox__ripple {
-    width: $ripple-size;
-    height: $ripple-size;
-  }
-
-  &.mat-mdc-checkbox {
-    .mdc-label {
-    font: typography-lf.$body-stack;
+    & .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background, .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+      border-color: $border-color !important;
+      background-color: $checked-color !important;
     }
-    // To make alignment to the left
-    // .mat-mdc-checkbox-touch-target {
-    //   height: 20px;
-    //   width: 20px;
-    // }
-    // .mdc-checkbox__native-control {
-    //   height: inherit;
-    //   width: inherit;
-    //   top: unset;
-    //   right: unset;
-    //   left: unset;
-    // }
-    // .mdc-checkbox__background {
-    //   position: initial
-    // }
 
-      // mdc-form-field > label {
-      //   padding-bottom: 1px;
-      //   padding-left 4px -> 8px;
-  }
+    &.mat-mdc-checkbox-checked.mat-primary {
+      .mdc-checkbox__background {
+        background-color: $checked-color;
+        border-width: $border-width;
+        border-color: $border-color;
+      }
+    }
 
-  input[type=checkbox] {
-    opacity: 0;
+    &.mat-mdc-checkbox-disabled {
+      &.mat-mdc-checkbox-checked .mdc-checkbox__background{
+        background-color: $disabled-color;
+        opacity: 0.33;
+      }
+    }
+
+    .mat-mdc-checkbox-ripple.mat-ripple, .mdc-checkbox__ripple {
+      width: $ripple-size;
+      height: $ripple-size;
+    }
+
+    &.mat-mdc-checkbox {
+      .mdc-label {
+      font: typography-lf.$body-stack;
+      }
+    }
+
+    input[type=checkbox] {
+      opacity: 0;
+    }
   }
 }

@@ -115,6 +115,7 @@
   padding-right: 8px;
 }
 
+/* TODO(mdc-migration): check if can remove this */
 /* ::ng-deep lf-field-template-container-component .lf-template-picker > .mat-mdc-text-field-wrapper {
   padding-left: 0px;
   padding-right: 0px;
