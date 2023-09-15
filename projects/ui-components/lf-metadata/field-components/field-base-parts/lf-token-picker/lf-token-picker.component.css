@@ -3,6 +3,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 2px 5px;
+  padding-top: 0px;
   width: 34px;
   height: 28px;
   cursor: pointer;
@@ -49,10 +50,15 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   line-height: 1.428571429;
+  min-height: unset;
   height: 26px;
 }
 
-::ng-deep .token-picker-dropdown.mat-menu-panel {
+::ng-deep .mat-mdc-menu-content > .token-picker-option.mat-mdc-menu-item > .mat-mdc-menu-item-text {
+  font-size: 14px;
+}
+
+::ng-deep .token-picker-dropdown.mat-mdc-menu-panel {
   min-height: auto;
 }
 
