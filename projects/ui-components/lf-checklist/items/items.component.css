@@ -1,14 +1,3 @@
-/* NOTES: 
-.lf-checklist-item .mat-mdc-text-field-wrapper {} in items.css - remove display inline 
-ng-deep override the folowing .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-    background-color: var(--mdc-filled-text-field-container-color);
-}
- mdccheckbox mdc form field width 100%
-
-
-*/
-
-
 .lf-checklist-item {
   margin: 5px;
 }
@@ -61,7 +50,6 @@ ng-deep override the folowing .mdc-text-field--filled:not(.mdc-text-field--disab
   max-width: calc(100% - 35px);
 }
 
-/** Angular Material input content (this is where the text goes) */
 ::ng-deep mat-form-field.lf-checklist-field >
 .mat-mdc-form-field-wrapper >
 .mat-form-field-flex >
@@ -83,10 +71,7 @@ ng-deep override the folowing .mdc-text-field--filled:not(.mdc-text-field--disab
   font-size: 14px;
 }
 
-/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-/* Addressed */
-/* ::ng-deep .lf-checklist-item .mat-form-field-appearance-standard .mat-mdc-form-field-flex  { */
-::ng-deep .lf-checklist-item .mat-mdc-form-field-type-mat-input .mat-mdc-form-field-flex  {
+::ng-deep .lf-checklist-item .mat-form-field-appearance-fill .mat-mdc-form-field-flex {
   align-items: center;
   border-radius: 2px;
   border-color: #6D6D6D;
@@ -100,8 +85,6 @@ ng-deep override the folowing .mdc-text-field--filled:not(.mdc-text-field--disab
   margin-top: 0px;
 }
 
-/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-/* dont know what is form field invalid */
 ::ng-deep .lf-checklist-item .mat-form-field-invalid .mat-mdc-form-field-subscript-wrapper {
   padding-top: 5px;
 }
