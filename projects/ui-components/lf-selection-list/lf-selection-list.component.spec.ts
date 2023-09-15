@@ -2,9 +2,9 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { Component, Directive, EventEmitter,  Input,  Output,  ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ILfSelectable, ItemWithId, PropertyValue } from '@laserfiche/lf-ui-components/shared';
@@ -151,11 +151,11 @@ describe('LfListComponent single select', () => {
       flush();
 
       const trEls = Array.from(
-        document.getElementsByClassName('mat-header-row')
+        document.getElementsByClassName('mat-mdc-header-row')
       );
       const trEl = trEls[0] as HTMLDivElement;
       const thEls = Array.from(
-        trEl.getElementsByClassName('mat-header-cell')
+        trEl.getElementsByClassName('mat-mdc-header-cell')
       );
       expect(thEls.length).toBe(2);
     }));
@@ -166,7 +166,7 @@ describe('LfListComponent single select', () => {
       flush();
 
       const trEls = Array.from(
-        document.getElementsByClassName('mat-header-row')
+        document.getElementsByClassName('mat-mdc-header-row')
       );
       const trEl = trEls[0] as HTMLDivElement;
       const createDateWidth = parseFloat(create.defaultWidth) / 100 * component.containerWidth + 'px';
@@ -207,7 +207,7 @@ describe('LfListComponent single select', () => {
 
       // Assert
       const trEls = Array.from(
-        document.getElementsByClassName('mat-header-row')
+        document.getElementsByClassName('mat-mdc-header-row')
       );
       const trEl = trEls[0] as HTMLDivElement;
       const gridTemplateColumnsWidth = `${customNameColumnWidth} ${customCreateDateWidth}`;

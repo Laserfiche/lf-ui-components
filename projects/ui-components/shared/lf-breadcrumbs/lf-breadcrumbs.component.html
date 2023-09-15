@@ -15,7 +15,7 @@
       </mat-button-toggle-group>
 
       <mat-menu #breadcrumbDropdownMenu="matMenu" xPosition="before">
-          <button class="lf-menu-item" mat-menu-item *ngFor="let breadcrumbOption of breadcrumbs.slice(1)"
+          <button class="lf-menu-item folder-dropdown" mat-menu-item *ngFor="let breadcrumbOption of breadcrumbs.slice(1)"
               title="{{breadcrumbOption?.name}}" (click)="onBreadcrumbSelected(breadcrumbOption)">
               {{breadcrumbOption?.name}}</button>
       </mat-menu>

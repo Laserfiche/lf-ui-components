@@ -9,11 +9,11 @@ import { LfFieldAddRemoveComponent } from './lf-field-add-remove/lf-field-add-re
 import { LfFieldAdhocContainerDemoService } from './lf-field-adhoc-container-demo.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
 import { LfFieldAdhocContainerComponent } from './lf-field-adhoc-container.component';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { LfFieldBaseModule } from '../field-components/field-base-parts/lf-field-base/lf-field-base.module';
 import { GetFieldTypePipe } from './lf-field-add-remove/get-field-type.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('LfFieldAdhocContainerComponent', () => {
   let component: LfFieldAdhocContainerComponent;
@@ -99,7 +99,8 @@ describe('LfFieldAdhocContainerComponent', () => {
     component.addRemoveComponent.ref.detectChanges();
 
     // Act
-    const attendanceListField = (element.querySelectorAll('.mat-checkbox-input') as any)[2];
+    // const attendanceListField = (element.querySelectorAll('.mat-checkbox-input') as any)[2];
+    const attendanceListField = (element.querySelectorAll('.mdc-checkbox__native-control') as any)[2];
     attendanceListField.click();
      fixture.detectChanges();
     const applyButton = element.querySelector('#adhoc-apply-button') as HTMLButtonElement;
@@ -133,7 +134,7 @@ describe('LfFieldAdhocContainerComponent', () => {
     component.addRemoveComponent.ref.detectChanges();
 
     // Act
-    const fieldCheckboxes = element.querySelectorAll('.mat-checkbox-input') as any;
+    const fieldCheckboxes = element.querySelectorAll('.mdc-checkbox__native-control') as any;
     const requiredField = fieldCheckboxes[1];
     requiredField.click();
     flush();

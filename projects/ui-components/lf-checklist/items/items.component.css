@@ -26,10 +26,12 @@
 
 .lf-checklist-field {
   width: 100%;
+  height: 34px;
 }
 
-.mat-input-element {
+.mat-mdc-input-element {
   caret-color: black;
+  padding-left: 8px;
 }
 
 .field-box {
@@ -41,15 +43,15 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  font-size: 100;
 }
 
 ::ng-deep .lf-checklist-item-name {
   max-width: calc(100% - 35px);
 }
 
-/** Angular Material input content (this is where the text goes) */
 ::ng-deep mat-form-field.lf-checklist-field >
-.mat-form-field-wrapper >
+.mat-mdc-form-field-wrapper >
 .mat-form-field-flex >
 .mat-form-field-infix {
   border-top: 0px;
@@ -57,19 +59,19 @@
   width: inherit;
 }
 
-::ng-deep mat-form-field.lf-checklist-field .mat-form-field-underline {
+::ng-deep mat-form-field.lf-checklist-field .mdc-line-ripple {
   display: none;
 }
 
 
 ::ng-deep mat-form-field.lf-checklist-field >
-.mat-form-field-wrapper >
-.mat-form-field-flex >
-.mat-form-field-infix input{
-  margin-top: 5px;
+.mat-mdc-text-field-wrapper >
+.mat-mdc-form-field-flex >
+.mat-mdc-form-field-infix input{
+  font-size: 14px;
 }
 
-::ng-deep .lf-checklist-item .mat-form-field-appearance-standard .mat-form-field-flex {
+::ng-deep .lf-checklist-item .mat-form-field-appearance-fill .mat-mdc-form-field-flex {
   align-items: center;
   border-radius: 2px;
   border-color: #6D6D6D;
@@ -78,26 +80,46 @@
   box-sizing: border-box;
 }
 
-::ng-deep .lf-checklist-item .mat-form-field-subscript-wrapper {
+::ng-deep .lf-checklist-item .mat-mdc-form-field-subscript-wrapper {
   position: static;
   margin-top: 0px;
 }
 
-::ng-deep .lf-checklist-item .mat-form-field-invalid .mat-form-field-subscript-wrapper {
+::ng-deep .lf-checklist-item .mat-form-field-invalid .mat-mdc-form-field-subscript-wrapper {
   padding-top: 5px;
 }
 
-::ng-deep .lf-checklist-item .mat-form-field-wrapper {
+::ng-deep .lf-checklist-item .mat-mdc-text-field-wrapper {
   padding-bottom: 0;
-  display: inline;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-::ng-deep .lf-checklist-item .mat-form-field-disabled .mat-form-field-flex {
+::ng-deep .lf-checklist-item .mat-form-field-disabled .mat-mdc-form-field-flex {
   border-color: #F3F3F3;
   background-color: #F3F3F3;
   color: #8A8A8A;
 }
 
-::ng-deep .lf-checklist-item .mat-focused .mat-form-field-flex {
+/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+/* cannot find mat focused */
+::ng-deep .lf-checklist-item .mat-focused .mat-mdc-form-field-flex {
   outline-offset: 0px;
+}
+
+::ng-deep .lf-checklist-field > .mat-mdc-text-field-wrapper {
+  height: inherit;
+}
+
+::ng-deep .mdc-label {
+  width: inherit;
+}
+
+::ng-deep .lf-checkbox.mat-mdc-checkbox > .mdc-form-field {
+  width: 100%;
+}
+
+::ng-deep .lf-checklist-item .mdc-text-field,
+::ng-deep .lf-checklist-item .mdc-text-field--filled {
+  border-radius: 0px;
 }

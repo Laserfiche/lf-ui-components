@@ -4,7 +4,7 @@ import { LfFieldMultivalueComponent } from './lf-field-multivalue.component';
 import { LfFieldInfo, LfFieldValue } from '../../field-components/utils/lf-field-types';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { CommonModule } from '@angular/common';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { LfFieldBaseModule } from '../field-base-parts/lf-field-base/lf-field-base.module';
 
 describe('LfFieldMultivalueComponent', () => {

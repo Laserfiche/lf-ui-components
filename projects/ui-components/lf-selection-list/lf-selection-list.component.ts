@@ -223,9 +223,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     return index === 0;
   }
 
-  onCheckboxClicked(event: MouseEvent) {
-    event.preventDefault();
-  }
 
   focus() {
     this._focus();
