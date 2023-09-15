@@ -16,6 +16,8 @@
         "createDefaultProgram": true
       },
       "rules": {
+        "@typescript-eslint/member-delimiter-style": "off", 
+        "@typescript-eslint/semi": "off",
         "@angular-eslint/directive-selector": [
           "error",
           {
