@@ -1,4 +1,4 @@
-::ng-deep .template-adhoc-expansion-panel.mat-expansion-panel {
+.template-adhoc-expansion-panel.mat-expansion-panel {
   position: static;
   border-radius: 0;
   box-shadow: none;

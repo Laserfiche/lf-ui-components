@@ -10,9 +10,9 @@ import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.co
 import { NgxMatNativeDateModule, NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
@@ -178,7 +178,7 @@ describe('DateTimeFieldComponent', () => {
     optionalDateTimeFixture.detectChanges();
 
     // assert
-    const expectedBrokenRule = ValidationRule.MAT_DATETIME_PICKER_PARSE;
+    const expectedBrokenRule = ValidationRule.MAT_DATEPICKER_PARSE;
     const expectedError = optionalDateTimeComponent.localizationService.getString('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', ['MM/DD/YYYY, HH:mm:ss']);
     expect(optionalDateTimeComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;

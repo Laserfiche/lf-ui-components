@@ -3,7 +3,7 @@ import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import moment from 'moment';
-import { NgxMatDateAdapter, NgxMatDatetimePicker } from '@angular-material-components/datetime-picker';
+import { NgxMatDateAdapter, NgxMatDatetimepicker } from '@angular-material-components/datetime-picker';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable } from 'rxjs';
@@ -27,7 +27,7 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
   }));
   private readonly DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringLaserficheWithObservableParams('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', [this.LOCALE_DATE_TIME]);
 
-  @ViewChild('picker') picker?: NgxMatDatetimePicker<any>;
+  @ViewChild('picker') picker?: NgxMatDatetimepicker<any>;
 
   constructor(
     public tokenService: LfFieldTokenService,

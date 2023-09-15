@@ -8,3 +8,18 @@
   position: absolute;
   height: 100%;
 }
+
+::ng-deep .lf-datepicker-toggle > .mdc-icon-button:hover {
+  color: rgba(0, 0, 0, 0.8);
+}
+::ng-deep mat-datepicker-toggle.mat-datepicker-toggle.lf-datepicker-toggle >.mat-mdc-icon-button.mat-mdc-button-base {
+    padding-top: 12px;
+    padding-right: 0px;
+}
+
+/* ::ng-deep .lf-date-picker-overlay .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  background-color: unset;
+} */
+/* ::ng-deep .lf-date-picker-overlay .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  background-color: var(--mat-datepicker-calendar-date-hover-state-background-color);
+} */

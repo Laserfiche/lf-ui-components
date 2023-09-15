@@ -1,10 +1,10 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MatLegacyCheckboxChange as MatCheckboxChange, MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdhocFieldConnectorService } from '../lf-field-adhoc-connector.service';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { FieldValues, LfFieldInfo } from '../../field-components/utils/lf-field-types';
 import { LfFieldAddRemoveComponent } from './lf-field-add-remove.component';
 import { LfFieldAdhocContainerDemoService } from '../lf-field-adhoc-container-demo.service';
@@ -94,7 +94,7 @@ describe('LfFieldAddRemoveComponent', () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
     spyOn(adHocConnectorTestService, 'setSelectedFieldIds');
-    const checkbox = element.querySelector('.mat-checkbox-input') as HTMLElement;
+    const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 
@@ -111,7 +111,7 @@ describe('LfFieldAddRemoveComponent', () => {
 
   it('should not update connector service when click cancel after changes', async () => {
     // Arrange
-    const checkbox = element.querySelector('.mat-checkbox-input') as HTMLElement;
+    const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 
@@ -129,7 +129,7 @@ describe('LfFieldAddRemoveComponent', () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
     spyOn(adHocConnectorTestService, 'setSelectedFieldIds');
-    const checkbox = element.querySelector('.mat-checkbox-input') as HTMLElement;
+    const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 
@@ -147,7 +147,7 @@ describe('LfFieldAddRemoveComponent', () => {
   it('should not update connector service when confirm no after press back with changes', async () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
-    const checkbox = element.querySelector('.mat-checkbox-input') as HTMLElement;
+    const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 
@@ -164,7 +164,7 @@ describe('LfFieldAddRemoveComponent', () => {
   it('should not update connector service when confirm cancel after press back with changes', async () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
-    const checkbox = element.querySelector('.mat-checkbox-input') as HTMLElement;
+    const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
 

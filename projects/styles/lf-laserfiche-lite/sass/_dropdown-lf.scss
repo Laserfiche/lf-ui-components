@@ -4,7 +4,8 @@ $border-color: #e0e0e0;
 $border-width: 1px;
 $border-radius: 2px;
 
-$padding-left: 10px;
+$padding-left: 8px;
+$padding-right: 8px;
 $height: 34px;
 
 $focus-box-shadow: rgba(32, 124, 185, 0.637) 0px 0px 3px 1.5px;
@@ -29,6 +30,7 @@ select.lf-dropdown {
   font: typography-lf.$body-stack;
   color: typography-lf.$body-color;
   padding-left: $padding-left;
+  padding-right: $padding-right;
   cursor: pointer;
   height: $height;
   line-height: $height - 2 * $border-width;
@@ -60,32 +62,57 @@ mat-form-field.lf-dropdown {
   width: 100%;
 }
 
-.lf-field .mat-form-field-underline {
-  display: none;
+.lf-field .mdc-line-ripple {
+    display: none;
 }
 
-.lf-dropdown div.mat-select-arrow-wrapper {
+.lf-dropdown div.mat-mdc-select-arrow-wrapper {
   padding-top: 0px;
 }
 
-.lf-dropdown div.mat-select-value {
+.lf-dropdown div.mat-mdc-select-value {
   padding-top: 0px;
 }
 
-.lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+// TODO no more form-field-appearance-legacy. Can remove this style
+.lf-dropdown.mat-form-field-appearance-legacy .mat-mdc-text-field-wrapper {
   padding-bottom: 0px;
 }
 
-.lf-dropdown .mat-form-field-infix {
+.lf-dropdown .mat-mdc-form-field-infix {
   height: 28px;
   padding: 0px;
   border-top: 0 solid transparent;
 }
 
-.lf-dropdown.mat-form-field.lf-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix {
+.lf-dropdown.mat-mdc-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
   padding: 0px;
 }
 
+// TODO no more form-field-appearance-legacy or mat-form-field-label. Can remove this style
 .lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-label {
   top: 0;
+}
+
+
+.mat-mdc-form-field {
+  line-height: 1.125;
+}
+
+.lf-template-picker .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.lf-field.lf-dropdown.lf-template-picker > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex {
+  height: 35px;
+  background-color: white;
+}
+
+.lf-field.lf-dropdown.lf-template-picker > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
+  height: 35px;
+}
+
+.mat-mdc-option {
+  font-size: 14px;
 }

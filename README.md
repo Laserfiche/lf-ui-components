@@ -14,7 +14,7 @@ See CHANGELOG [here](https://github.com/Laserfiche/lf-ui-components/blob/15.x/CH
 
 ## Contribution
 
-We welcome contributions and feedback. Please follow our [contributing guidelines](https://github.com/Laserfiche/lf-ui-components/blob/15.x/CONTRIBUTING.md).
+We welcome contributions and feedback. Please follow our [contributing guidelines](https://github.com/Laserfiche/lf-ui-components/blob/16.x/CONTRIBUTING.md).
 
 ## Development Setup
 
