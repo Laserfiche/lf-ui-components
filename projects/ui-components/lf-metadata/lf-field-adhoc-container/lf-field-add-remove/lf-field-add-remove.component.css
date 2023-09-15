@@ -44,6 +44,7 @@
   font-weight: bold;
   display: inline-block;
   cursor: pointer;
+  font-size: 14px;
 }
 
 i.loader {
@@ -119,7 +120,7 @@ i.loader {
 
 .search {
   position: relative;
-  padding-bottom: 15px;
+  /* padding-bottom: 15px; */
   display: flex;
 }
 
@@ -167,4 +168,32 @@ i.loader {
 
 .error-entries-text {
   color: #AB2227;
+}
+
+::ng-deep .add-remove-container .mat-mdc-checkbox-touch-target {
+  height: 20px;
+  width: 20px;
+}
+
+::ng-deep .add-remove-container .mdc-checkbox__native-control {
+  top: 10px;
+  /* left: 10px;
+  right: 10px; */
+  width: 20px;
+  height: 20px;
+}
+
+::ng-deep .add-remove-container .mat-mdc-checkbox {
+  & .mdc-checkbox {
+  padding-left: 0px;
+  padding-right: 0px;
+  }
+
+  & .mdc-checkbox__background {
+    left: 0px;
+  }
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+  padding: 24px;
 }

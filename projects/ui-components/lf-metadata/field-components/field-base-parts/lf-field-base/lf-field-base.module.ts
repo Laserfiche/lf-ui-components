@@ -11,15 +11,15 @@ import { TimeFieldComponent } from './time-field/time-field.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LfFieldTokenService } from './lf-field-token.service';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { NgxMaskModule } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { LfTokenPickerModule } from '../lf-token-picker/lf-token-picker.module';
 
@@ -51,10 +51,12 @@ import { LfTokenPickerModule } from '../lf-token-picker/lf-token-picker.module';
     NgxMatTimepickerModule,
     MatMomentDateModule,
     NgxMatMomentModule,
-    NgxMaskModule.forRoot(),
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [
-    LfFieldTokenService
+    LfFieldTokenService,
+    provideNgxMask()
   ],
   exports: [
     LfFieldBaseComponent,
