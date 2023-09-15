@@ -19,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LfFieldTokenService } from './lf-field-token.service';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { NgxMaskModule } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { LfTokenPickerModule } from '../lf-token-picker/lf-token-picker.module';
 
@@ -51,10 +51,12 @@ import { LfTokenPickerModule } from '../lf-token-picker/lf-token-picker.module';
     NgxMatTimepickerModule,
     MatMomentDateModule,
     NgxMatMomentModule,
-    NgxMaskModule.forRoot(),
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [
-    LfFieldTokenService
+    LfFieldTokenService,
+    provideNgxMask()
   ],
   exports: [
     LfFieldBaseComponent,

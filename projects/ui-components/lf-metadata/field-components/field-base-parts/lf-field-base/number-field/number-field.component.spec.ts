@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxMaskModule } from 'ngx-mask';
+import {NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 describe('NumberFieldComponent', () => {
@@ -66,9 +66,10 @@ describe('NumberFieldComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         ReactiveFormsModule,
-        NgxMaskModule.forRoot()
+        NgxMaskDirective,
+        NgxMaskPipe
       ],
-      providers: [LfFieldTokenService, AppLocalizationService]
+      providers: [LfFieldTokenService, AppLocalizationService, provideNgxMask()]
     })
       .compileComponents();
   }));
