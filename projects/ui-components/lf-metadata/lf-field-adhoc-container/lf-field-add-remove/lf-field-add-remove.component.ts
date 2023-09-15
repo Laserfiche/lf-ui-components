@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output, Input, ChangeDetectorRef, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
 import { AdhocFieldConnectorService } from '../lf-field-adhoc-connector.service';
-import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { AdhocFieldInfo } from '../lf-field-adhoc-container-types';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { LfFieldAdhocContainerService } from '../lf-field-adhoc-container.service';
