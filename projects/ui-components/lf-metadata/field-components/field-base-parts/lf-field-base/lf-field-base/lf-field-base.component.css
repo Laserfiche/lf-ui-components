@@ -206,9 +206,6 @@
   height: 35px;
 }
 
-/* ::ng-deep .mat-mdc-select {
-  font-size: 14px;
-} */
-/* ::ng-deep .mat-mdc-select {
-  font-size: 14px;
-} */
+::ng-deep .lf-field .mdc-text-field {
+  border-radius: 0px;
+}

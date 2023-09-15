@@ -135,3 +135,8 @@ ng-deep override the folowing .mdc-text-field--filled:not(.mdc-text-field--disab
 ::ng-deep .lf-checkbox.mat-mdc-checkbox > .mdc-form-field {
   width: 100%;
 }
+
+::ng-deep .lf-checklist-item .mdc-text-field,
+::ng-deep .lf-checklist-item .mdc-text-field--filled {
+  border-radius: 0px;
+}
