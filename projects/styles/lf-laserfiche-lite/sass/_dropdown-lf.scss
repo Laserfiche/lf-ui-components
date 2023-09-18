@@ -79,7 +79,8 @@ mat-form-field.lf-dropdown {
   padding-bottom: 0px;
 }
 
-.lf-dropdown .mat-mdc-form-field-infix {
+// TODO added the not 
+.lf-dropdown:not(.lf-mat-dropdown) .mat-mdc-form-field-infix {
   height: 28px;
   padding: 0px;
   border-top: 0 solid transparent;
