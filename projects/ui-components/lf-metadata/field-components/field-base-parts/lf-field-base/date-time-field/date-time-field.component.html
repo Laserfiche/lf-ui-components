@@ -10,8 +10,8 @@
     </button>
     <ngx-mat-datetime-picker panelClass="lf-datetime-picker-overlay" [showSeconds]=true [enableMeridian]="shouldEnableMeridian" #picker>
       <ngx-mat-datepicker-actions>
-        <button mat-button ngxMatDatepickerCancel>Cancel</button>
-        <button mat-raised-button color="primary" ngxMatDatepickerApply>Apply</button>
+        <!-- <button mat-button ngxMatDatepickerCancel>Cancel</button> -->
+        <button mat-raised-button color="primary" ngxMatDatepickerApply class="lf-button primary-button">Apply</button>
       </ngx-mat-datepicker-actions>
     </ngx-mat-datetime-picker>
     <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
