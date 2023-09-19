@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ChangeDetectorRef, Input, ViewChild, OnDestroy, ComponentRef, AfterViewInit, EventEmitter, Output, NgZone } from '@angular/core';
+import { Component, ChangeDetectorRef, Input, ViewChild, OnDestroy, ComponentRef, AfterViewInit, EventEmitter, Output, NgZone } from '@angular/core';
 import { LfFieldAdhocContainerService as LfFieldAdhocContainerService } from './lf-field-adhoc-container.service';
 import { AdhocFieldConnectorService } from './lf-field-adhoc-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
@@ -49,8 +49,6 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     private adhocFieldConnectorService: AdhocFieldConnectorService,
     /** @internal */
     public metadataFieldConnectorService: LfFieldMetadataConnectorService,
-    // /** @internal */
-    // public viewContainerRef: ViewContainerRef,
     /** @internal */
     private zone: NgZone,
     /** @internal */
