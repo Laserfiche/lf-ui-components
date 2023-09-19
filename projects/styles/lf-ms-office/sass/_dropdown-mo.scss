@@ -74,11 +74,6 @@ mat-form-field.lf-dropdown {
   padding-top: 0px;
 }
 
-// TODO no more form-field-appearance-legacy. Can remove this style
-.lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-wrapper {
-  padding-bottom: 0px;
-}
-
 .lf-dropdown .mat-mdc-form-field-infix {
   height: 28px;
   padding: 0px;
@@ -88,12 +83,6 @@ mat-form-field.lf-dropdown {
 .lf-dropdown.mat-mdc-form-field.lf-field > .mat-mdc-form-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
   padding: 0px;
 }
-
-// TODO no more form-field-appearance-legacy or mat-form-field-label. Can remove this style
-.lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-label {
-  top: 0;
-}
-
 
 mat-option.mat-mdc-option {
   font-size: 14px;
