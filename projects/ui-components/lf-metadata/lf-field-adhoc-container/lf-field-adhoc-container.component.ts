@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ChangeDetectorRef, Input, ViewChild, OnDestroy, ComponentRef, AfterViewInit, EventEmitter, Output, NgZone } from '@angular/core';
+import { Component, ViewContainerRef, ChangeDetectorRef, Input, ViewChild, OnDestroy, ComponentRef, AfterViewInit, EventEmitter, Output, NgZone } from '@angular/core';
 import { LfFieldAdhocContainerService as LfFieldAdhocContainerService } from './lf-field-adhoc-container.service';
 import { AdhocFieldConnectorService } from './lf-field-adhoc-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
@@ -49,14 +49,14 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     private adhocFieldConnectorService: AdhocFieldConnectorService,
     /** @internal */
     public metadataFieldConnectorService: LfFieldMetadataConnectorService,
-    /** @internal */
-    public resolver: ComponentFactoryResolver,
+    // /** @internal */
+    // public viewContainerRef: ViewContainerRef,
     /** @internal */
     private zone: NgZone,
     /** @internal */
     private localizationService: AppLocalizationService
   ) {
-    super(resolver, metadataFieldConnectorService);
+    super(metadataFieldConnectorService);
   }
 
   /** @internal */
@@ -143,18 +143,19 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     this.componentRefs = [];
     this.groupComponentRefs = [];
 
-    const fieldFactory = this.resolver.resolveComponentFactory(LfFieldComponent);
-    const multivalueFieldFactory = this.resolver.resolveComponentFactory(LfFieldMultivalueComponent);
+    // const fieldFactory = this.resolver.resolveComponentFactory(LfFieldComponent);
+    // const multivalueFieldFactory = this.resolver.resolveComponentFactory(LfFieldMultivalueComponent);
 
+    // this.viewContainerRef.clear()
     for (const fieldInfo of fieldInfos) {
       const values = this.getValuesById(fieldInfo.id) ?? [];
       if (fieldInfo.isMultiValue) {
-        const multivalueComponentRef = vf.createComponent(multivalueFieldFactory);
+        const multivalueComponentRef = vf.createComponent(LfFieldMultivalueComponent);
         this.componentRefs.push(multivalueComponentRef);
         await this.initializeMultivalueComponentAsync(multivalueComponentRef, fieldInfo, values);
       }
       else {
-        const fieldComponentRef = vf.createComponent(fieldFactory);
+        const fieldComponentRef = vf.createComponent(LfFieldComponent);
         this.componentRefs.push(fieldComponentRef);
         await this.initializeFieldComponentAsync(fieldComponentRef, fieldInfo, (values?.length > 0) ? values[0] : '');
       }
