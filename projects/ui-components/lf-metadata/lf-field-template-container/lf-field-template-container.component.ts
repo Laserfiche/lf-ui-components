@@ -1,13 +1,11 @@
 import {
   Component,
-  ComponentFactoryResolver,
   Input,
   Output,
   EventEmitter,
   OnDestroy,
   ComponentRef,
   ViewContainerRef,
-  ComponentFactory,
   AfterViewInit,
   NgZone,
   ChangeDetectorRef,
@@ -209,11 +207,6 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       this.componentRefs = [];
       this.groupComponentRefs = [];
 
-      // const fieldFactory = this.resolver.resolveComponentFactory(LfFieldComponent);
-      // const multivalueFieldFactory = this.resolver.resolveComponentFactory(LfFieldMultivalueComponent);
-      // const fieldGroupFactory = this.resolver.resolveComponentFactory(LfFieldGroupComponent);
-
-      // this.viewContainerRef.clear()
       const fieldGroups: Map<number, FieldDefinition[]> = new Map<number, FieldDefinition[]>();
       for (const fieldInfo of fieldInfos) {
         const values = this.getValuesById(fieldInfo.id) ?? [];

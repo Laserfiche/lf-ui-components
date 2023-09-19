@@ -143,10 +143,6 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     this.componentRefs = [];
     this.groupComponentRefs = [];
 
-    // const fieldFactory = this.resolver.resolveComponentFactory(LfFieldComponent);
-    // const multivalueFieldFactory = this.resolver.resolveComponentFactory(LfFieldMultivalueComponent);
-
-    // this.viewContainerRef.clear()
     for (const fieldInfo of fieldInfos) {
       const values = this.getValuesById(fieldInfo.id) ?? [];
       if (fieldInfo.isMultiValue) {
