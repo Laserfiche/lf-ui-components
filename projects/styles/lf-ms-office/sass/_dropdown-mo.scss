@@ -93,3 +93,19 @@ mat-form-field.lf-dropdown {
 .lf-dropdown.mat-form-field-appearance-legacy .mat-form-field-label {
   top: 0;
 }
+
+
+mat-option.mat-mdc-option {
+  font-size: 14px;
+}
+
+.lf-field.lf-dropdown.lf-template-picker > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex {
+  height: 35px;
+  background-color: white;
+}
+
+.lf-template-picker .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white;
+  padding-left: 0px;
+  padding-right: 0px;
+}
