@@ -80,12 +80,6 @@
   justify-content: flex-start;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
-/*TODO: there seems to be no more mat-checkbox-layout in our DOM. Can delete this style*/
-::ng-deep .user-feedback-content-container .lf-user-feedback-checkbox.mat-mdc-checkbox .mat-checkbox-layout {
-  white-space: normal;
-}
-
 ::ng-deep .lf-user-feedback-panel .mat-mdc-dialog-container {
   padding: 0;
 }

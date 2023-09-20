@@ -11,9 +11,7 @@
 .dropdown-error-message {
   color: red;
 }
-/* .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: white;
-} */
+
 ::ng-deep lf-field-template-container .lf-template-picker > .mat-mdc-text-field-wrapper {
   padding-left: 0px;
   padding-right: 0px;
