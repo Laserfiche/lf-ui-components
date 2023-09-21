@@ -111,8 +111,8 @@
 ::ng-deep mat-form-field.lf-field > .mat-mdc-text-field-wrapper,
 ::ng-deep mat-form-field.lf-textarea > .mat-mdc-text-field-wrapper {
   padding-bottom: 0;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 ::ng-deep mat-form-field.lf-date-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-icon-suffix {
