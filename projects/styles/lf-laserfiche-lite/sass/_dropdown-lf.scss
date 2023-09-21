@@ -105,3 +105,7 @@ mat-form-field.lf-dropdown {
 mat-option.mat-mdc-option {
   font-size: 14px;
 }
+
+.cdk-overlay-container .mat-mdc-option {
+  min-height: 42px;
+}

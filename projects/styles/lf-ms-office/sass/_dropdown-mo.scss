@@ -98,3 +98,7 @@ mat-option.mat-mdc-option {
   padding-left: 0px;
   padding-right: 0px;
 }
+
+.cdk-overlay-container .mat-mdc-option {
+  min-height: 42px;
+}

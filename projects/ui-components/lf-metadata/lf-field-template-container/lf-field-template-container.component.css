@@ -23,3 +23,7 @@
   height: 0px;
  }
 }
+
+mat-option.mat-mdc-option {
+  min-height: 42px;
+}
