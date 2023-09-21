@@ -3,6 +3,7 @@
 ### Features
 
 ### Fixes
+  - `[lf-field-adhoc-container.component.ts]`, `[lf-field-template-container.component.ts]`, `[lf-field-container.directive.ts]`: Removed dependencies on deprecated ComponentFactoryResolver and ComponentFactory. Can now call `viewContainerRef.creatComponent` directly on a Component, rather than resolving a `ComonentFactory` first. 
 
 ### Chore & Maintenance
 - **[BREAKING]**: Update to Angular 15
