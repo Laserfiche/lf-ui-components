@@ -194,6 +194,6 @@ i.loader {
   }
 }
 
-::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface:has(lf-popup-modal-component) {
   padding: 24px;
 }
