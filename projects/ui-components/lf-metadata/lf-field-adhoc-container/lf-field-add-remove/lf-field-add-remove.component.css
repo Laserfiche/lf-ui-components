@@ -183,15 +183,13 @@ i.loader {
   height: 20px;
 }
 
-::ng-deep .add-remove-container .mat-mdc-checkbox {
-  & .mdc-checkbox {
+::ng-deep .add-remove-container .mat-mdc-checkbox .mdc-checkbox {
   padding-left: 0px;
   padding-right: 0px;
-  }
+}
 
-  & .mdc-checkbox__background {
+::ng-deep .add-remove-container .mat-mdc-checkbox .mdc-checkbox__background {
     left: 0px;
-  }
 }
 
 ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface:has(lf-popup-modal-component) {
