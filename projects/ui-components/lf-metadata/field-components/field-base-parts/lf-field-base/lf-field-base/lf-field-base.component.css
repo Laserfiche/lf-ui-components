@@ -21,32 +21,6 @@
   width: 100%;
 }
 
-::ng-deep
-  ngx-mat-timepicker
-  > form
-  > table
-  > tbody
-  > tr
-  > td
-  > mat-form-field.mat-mdc-form-field-appearance-legacy
-  > .mat-mdc-text-field-wrapper {
-  padding: 1em 0;
-}
-
-::ng-deep
-  ngx-mat-timepicker
-  > form
-  > table
-  > tbody
-  > tr
-  > td
-  > mat-form-field.mat-mdc-form-field-appearance-legacy
-  > .mat-mdc-text-field-wrapper
-  > .mat-mdc-form-field-flex
-  > .mat-mdc-form-field-infix {
-  border-top: 0 solid transparent;
-}
-
 ::ng-deep mat-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix,
 ::ng-deep
   mat-form-field.lf-textarea
@@ -67,7 +41,10 @@
 
 ::ng-deep .lf-field .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__leading,
 ::ng-deep .lf-field .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__notch,
-::ng-deep .lf-field .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__trailing {
+::ng-deep .lf-field .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__trailing, 
+::ng-deep .lf-textarea .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__leading,
+::ng-deep .lf-textarea .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__notch,
+::ng-deep .lf-textarea .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__trailing {
   border-color: #ccc;
 }
 
@@ -136,16 +113,6 @@
   > .mat-mdc-form-field-flex
   > .mat-form-field-outline-thick {
   color: black;
-}
-
-::ng-deep mat-form-field.lf-field.mat-mdc-form-field-appearance-outline .mat-form-field-outline-start,
-::ng-deep mat-form-field.lf-textarea.mat-form-field-appearance-outline .mat-form-field-outline-start {
-  border-radius: 4px 0 0 4px;
-}
-
-::ng-deep mat-form-field.lf-field.mat-mdc-form-field-appearance-outline .mat-form-field-outline-end,
-::ng-deep mat-form-field.lf-textarea.mat-form-field-appearance-outline .mat-form-field-outline-end {
-  border-radius: 0 4px 4px 0;
 }
 
 ::ng-deep mat-form-field.lf-field .mat-mdc-form-field-subscript-wrapper,
