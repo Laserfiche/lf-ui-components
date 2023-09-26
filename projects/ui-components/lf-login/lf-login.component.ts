@@ -7,10 +7,17 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
+  AfterViewInit,
 } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
-import { AbortedLoginError, AccountEndpoints, AuthorizationCredentials,  LfBeforeFetchResult, LfHttpRequestHandler } from './login-utils/lf-login-types';
+import {
+  AbortedLoginError,
+  AccountEndpoints,
+  AuthorizationCredentials,
+  LfBeforeFetchResult,
+  LfHttpRequestHandler,
+} from './login-utils/lf-login-types';
 import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfLoginService } from './login-utils/lf-login.service';
@@ -23,7 +30,7 @@ const CODE_CHALLENGE_METHOD = 'S256';
   templateUrl: './lf-login.component.html',
   styleUrls: ['./lf-login.component.css'],
 })
-export class LfLoginComponent implements OnChanges, OnDestroy {
+export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   /** @internal */
   private readonly CLOUDDEV = 'clouddev';
   /** @internal */
@@ -206,12 +213,12 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   @Output() loginCompleted = new EventEmitter<void>();
   @Output() logoutCompleted = new EventEmitter<AbortedLoginError | void>();
 
-/**
- * Refreshes and returns the access token
- * @param initiateLoginFlowOnRefreshFailure
- * Indicates whether an attempt should be made to login using OAuth flow upon encountering an inability to refresh the access token.
- * @returns  {Promise<string | undefined>}
- */
+  /**
+   * Refreshes and returns the access token
+   * @param initiateLoginFlowOnRefreshFailure
+   * Indicates whether an attempt should be made to login using OAuth flow upon encountering an inability to refresh the access token.
+   * @returns  {Promise<string | undefined>}
+   */
   @Input()
   refreshTokenAsync: (initiateLoginFlowOnRefreshFailure: boolean) => Promise<string | undefined> = async (
     initiateLoginFlowOnRefreshFailure: boolean = true
@@ -325,6 +332,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   private code_challenge?: string;
   /** @internal */
   private hasLoginError: boolean = false;
+  /** @internal */
+  private initialized: boolean = false;
 
   /** @internal */
   constructor(
@@ -405,18 +414,18 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   }
 
   /** @internal */
+  async ngAfterViewInit() {
+    // duplicate of ngOnChanges code to support angular elements and components
+    await this.initializeLoginAsync();
+  }
+
+  /** @internal */
   async ngOnChanges(changes: SimpleChanges) {
     const currentClientId = changes['client_id'];
-    if (currentClientId?.currentValue && currentClientId?.isFirstChange()) {
-      this.logoutCompleteSub = this.loginService.logoutCompletedInService.subscribe((error) => {
-        this.hasLoginError = true;
-        this.setButtonText();
-        this.logoutCompleted.emit(error);
-      });
-      this.loginCompleteSub = this.loginService.loginCompletedInService.subscribe(() => {
-        this.setButtonText();
-        this.loginCompleted.emit();
-      });
+    if (
+      (currentClientId?.currentValue && currentClientId?.isFirstChange()) ||
+      currentClientId?.previousValue !== currentClientId?.currentValue
+    ) {
       await this.initializeLoginAsync();
     }
   }
@@ -430,10 +439,23 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   /** @internal */
   private async initializeLoginAsync() {
     try {
-      const callBackURIParams = this.parseCallbackURI(window.location.href);
-      this._state = this.determineCurrentState(callBackURIParams);
-      if (this.loginService._state === LoginState.LoggingIn) {
-        await this.loginService.exchangeCodeForTokenAsync(callBackURIParams!);
+      if (!this.initialized) {
+        this.logoutCompleteSub = this.loginService.logoutCompletedInService.subscribe((error) => {
+          this.hasLoginError = true;
+          this.setButtonText();
+          this.logoutCompleted.emit(error);
+        });
+        this.loginCompleteSub = this.loginService.loginCompletedInService.subscribe(() => {
+          this.setButtonText();
+          this.loginCompleted.emit();
+        });
+        const callBackURIParams = this.parseCallbackURI(window.location.href);
+        this._state = this.determineCurrentState(callBackURIParams);
+        this.ref.detectChanges();
+        if (this.loginService._state === LoginState.LoggingIn) {
+          await this.loginService.exchangeCodeForTokenAsync(callBackURIParams!);
+        }
+        this.initialized = true;
       }
     } catch (err: any) {
       this.logoutCompleted.emit({
@@ -709,13 +731,11 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   /** @internal */
   private async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<LfBeforeFetchResult> {
     // must get accessToken each time
-    const accessToken =
-      this.authorization_credentials?.accessToken;
+    const accessToken = this.authorization_credentials?.accessToken;
     if (accessToken) {
-      const headers = request.headers as Record<string,string>;
+      const headers = request.headers as Record<string, string>;
       headers['Authorization'] = 'Bearer ' + accessToken;
-      const regionalDomain: string =
-        this.account_endpoints?.regionalDomain ?? '';
+      const regionalDomain: string = this.account_endpoints?.regionalDomain ?? '';
       return { regionalDomain };
     } else {
       throw new Error('Access Token undefined.');
@@ -732,5 +752,4 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     }
     return false;
   }
-
 }

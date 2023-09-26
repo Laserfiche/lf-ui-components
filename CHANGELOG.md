@@ -3,6 +3,7 @@
 ### Features
 
 ### Fixes
+- `[lf-login]`: Fixed bug where the component would not get initialized if using the Angular element version in some cases
 
 ### Chore & Maintenance
   - Added documentation for [lf-login](projects/lf-documentation/src/app/lf-login-documentation/lf-login-documentation.component.html) to direct a developer 
