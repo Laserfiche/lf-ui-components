@@ -6,11 +6,11 @@ UI Components are compatible with many web frameworks including Angular, React, 
 
 ## Using @laserfiche/lf-ui-components
 
-See documentation [here](https://developer.laserfiche.com/client_reference/lf-ui-components/docs/15.x/index.html#/).
+See documentation [here](https://developer.laserfiche.com/client_reference/lf-ui-components/docs/16.x/index.html#/).
 
 ## Change Log
 
-See CHANGELOG [here](https://github.com/Laserfiche/lf-ui-components/blob/15.x/CHANGELOG.md).
+See CHANGELOG [here](https://github.com/Laserfiche/lf-ui-components/blob/16.x/CHANGELOG.md).
 
 ## Contribution
 
