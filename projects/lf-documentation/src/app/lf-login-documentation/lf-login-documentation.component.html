@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p class="documentation-title">LfLogin</p>
 <b> **Note: Please review Security Considerations on this page** </b>
 
@@ -349,3 +350,374 @@ sign_out_text.
   <li>expiresIn: string</li>
   <li>tokenType: string</li>
 </ul>
+=======
+<p class="documentation-title">LfLogin</p>
+<b> **Note: Please review Security Considerations on this page** </b>
+
+<p class="documentation-header">Overview</p>
+<div class="documentation-text">
+  Web Component to login to Laserfiche using OAuth
+  <ul>
+    <li>App must be registered in the <a href="https://app.laserfiche.com/devconsole/">Laserfiche dev console</a>.</li>
+    <li>The application must be registered as a Single Page Application (SPA)</li>
+  </ul>
+</div>
+<p class="documentation-text">
+  There are two versions of the login component. You can change the UI by changing the `mode` attribute.
+</p>
+<ul>
+  <li>
+    In order for the component to work properly, the page the redirect_uri points to should have a login component on it
+    OR you should call handleRedirectURICallbackAsync with the url that the redirect_uri receives containing the
+    authorization code or error.
+  </li>
+</ul>
+<p class="documentation-header">Use Case</p>
+<p class="documentation-text">Logging into Laserfiche</p>
+<p class="documentation-header">Security Considerations</p>
+<ul class="documentation-text">
+  <li>
+    Each application should be served by it's own origin (or subdomain) and redirect uri should be in same subdomain as
+    application
+  </li>
+  <li>
+    Both should be in origin (subdomain) that is not shared with other applications so you don't make your accesstoken
+    accessible by code outside your app
+  </li>
+</ul>
+<p class="documentation-header">Examples</p>
+
+<span class="code-html-tagname">&lt;lf-login&gt;</span> contains only a button that displays the sign_in_text and
+sign_out_text.
+<p class="documentation-text code-container">
+  <code>
+    <span class="code-html-tagname">&lt;lf-login </span>
+    <span class="code-html-attribute-name">id</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"login-button" </span>
+    <span class="code-html-attribute-name">client_id</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"clientId" </span>
+    <span class="code-html-attribute-name">redirect_uri</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"https://computername.domain.com/app" </span>
+    <span class="code-html-tagname">&gt;&lt;/lf-login&gt;</span>
+  </code>
+</p>
+<p class="documentation-text code-container">
+  <code>
+    <span class="code-html-tagname">const </span>
+    <span>login</span>
+    <span> = </span>
+    <span>document.querySelector('#login-button');</span>
+    <p>login.addEventListener('loginCompleted', onLoginCompleted);</p>
+    <p>login.addEventListener('loginInitiated', onLoginInitiated);</p>
+    <p>login.addEventListener('logoutInitiated', onLogoutInitiated);</p>
+    <p>login.addEventListener('logoutCompleted', onLogoutCompleted);</p>
+  </code>
+</p>
+<app-card>
+  <lf-login
+    *ngIf="client_id"
+    [client_id]="client_id"
+    [redirect_uri]="redirect_uri"
+    [scope]="scope"
+    sign_in_text="SIGN_IN"
+    sign_out_text="SIGN_OUT"
+    [redirect_behavior]="redirect_behavior"
+    [authorize_url_host_name]="authorizeUrlHostName"
+    (loginInitiated)="loginInitHandler($event)"
+    (logoutInitiated)="logoutInitHandler($event)"
+    (loginCompleted)="loginCompleteHandler($event)"
+    (logoutCompleted)="logoutCompleteHandler($event)"
+  >
+  </lf-login>
+</app-card>
+
+<p class="documentation-text">
+  <span class="code-html-tagname">&lt;lf-login&gt; mode="Menu"</span> displays a circular icon that enables you to sign
+  in and sign out via a menu.
+</p>
+<p class="documentation-text code-container">
+  <code>
+    <span class="code-html-tagname">&lt;lf-login </span>
+    <span class="code-html-attribute-name">id</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"login-menu" </span>
+    <span class="code-html-attribute-name">mode</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"Menu" </span>
+    <span class="code-html-attribute-name">client_id</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"clientId" </span>
+    <span class="code-html-attribute-name">redirect_uri</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"https://computername.domain.com/app" </span>
+    <span class="code-html-tagname">&gt;&lt;/lf-login&gt;</span>
+  </code>
+</p>
+<p class="documentation-text code-container">
+  <code>
+    <span class="code-html-tagname">const </span>
+    <span>login</span>
+    <span> = </span>
+    <span>document.querySelector('#login-menu');</span>
+    <p>login.addEventListener('loginCompleted', onLoginCompleted);</p>
+    <p>login.addEventListener('loginInitiated', onLoginInitiated);</p>
+    <p>login.addEventListener('logoutInitiated', onLogoutInitiated);</p>
+    <p>login.addEventListener('logoutCompleted', onLogoutCompleted);</p>
+  </code>
+</p>
+<app-card>
+  <lf-login
+    [mode]="menuMode"
+    #loginMenu
+    *ngIf="client_id"
+    [client_id]="client_id"
+    [redirect_uri]="redirect_uri"
+    [scope]="scope"
+    [redirect_behavior]="redirect_behavior"
+    [authorize_url_host_name]="authorizeUrlHostName"
+    (loginInitiated)="loginInitHandler($event)"
+    (logoutInitiated)="logoutInitHandler($event)"
+    (loginCompleted)="loginCompleteHandler($event)"
+    (logoutCompleted)="logoutCompleteHandler($event)"
+  >
+  </lf-login>
+</app-card>
+
+<p class="documentation-text">lf-login state: {{ menuState }}</p>
+
+<button (click)="refresh()">Refresh lf-login Token</button>
+
+<p class="documentation-header">How to use &lt;lf-login&gt; component in a Popup Window</p>
+
+<div class="documentation-text">
+  <ul>
+    <li>
+      Refer to our <a href="https://github.com/Laserfiche/lf-sample-OAuth-SPA-angular-npm">Sample App</a> that
+      demonstrates how to implement our login component in a popup window as an option if desired. 
+    </li>
+
+    <li>
+      Refer to this <a href="https://github.com/Laserfiche/lf-sample-OAuth-SPA-angular-npm/pull/20">Pull Request</a> for
+      our implementation details.
+    </li>
+  </ul>
+</div>
+
+<p class="documentation-header">HTML Element</p>
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>mode</td>
+    <td>LoginMode</td>
+    <td>specify the UI to display, default is LoginMode.Button</td>
+  </tr>
+  <tr>
+    <td>sign_in_text</td>
+    <td>string</td>
+    <td>(optional) specify the text for the sign in button when signed out</td>
+  </tr>
+  <tr>
+    <td>sign_out_text</td>
+    <td>string</td>
+    <td>(optional) specify the text for the sign out button when signed in</td>
+  </tr>
+  <tr>
+    <td>signing_in_text</td>
+    <td>string</td>
+    <td>(optional) specify the text for the button while signing in</td>
+  </tr>
+  <tr>
+    <td>signing_out_text</td>
+    <td>string</td>
+    <td>(optional) specify the text for the button while signing out</td>
+  </tr>
+  <tr>
+    <td>client_id</td>
+    <td>string</td>
+    <td>the client_id you received when registering your application in LF developer console</td>
+  </tr>
+  <tr>
+    <td>redirect_uri</td>
+    <td>string</td>
+    <td>redirect uri passed to OAuth service, page will redirect to this uri once authentication occurs</td>
+  </tr>
+  <tr>
+    <td>scope</td>
+    <td>string</td>
+    <td>
+      scope is passed to OAuth service, will determine which rights are requested from user and what the API able to
+      access with the corresponding token
+    </td>
+  </tr>
+  <tr>
+    <td>redirect_behavior</td>
+    <td>RedirectBehavior</td>
+    <td>specify the redirect behavior of the component, default is Replace</td>
+  </tr>
+  <tr>
+    <td>authorize_url_host_name</td>
+    <td>string</td>
+    <td>pass in a specific host name (i.e. "a.clouddev.laserfiche.com"), defaults to production ("laserfiche.com")</td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>loginInitiated</td>
+    <td>(event: CustomEvent&lt;string&gt;) => Promise&lt;void&gt;</td>
+    <td>event raised when the login button is clicked, string event is the full OAuth Authorize uri</td>
+  </tr>
+  <tr>
+    <td>loginCompleted</td>
+    <td>(event: CustomEvent&lt;void&gt;) => Promise&lt;void&gt;</td>
+    <td>event raised when login has completed, and token has been successfully retrieved</td>
+  </tr>
+  <tr>
+    <td>logoutInitiated</td>
+    <td>(event: CustomEvent&lt;string&gt;) => Promise&lt;void&gt;</td>
+    <td>
+      event raised when the logout button is clicked. Event contains the full acs logout url, with redirect to the
+      redirect_uri input
+    </td>
+  </tr>
+  <tr>
+    <td>logoutCompleted</td>
+    <td>(event: CustomEvent&lt;AbortedLoginError | void&gt;) => Promise&lt;void&gt;</td>
+    <td>
+      event raised when logout is completed. If this was due to an error, there will be an AbortedLoginError object
+      passed in the Custom Event
+    </td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Method/Property</th>
+    <th>Signature</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>refreshTokenAsync</td>
+    <td>(initiateLoginFlowOnRefreshFailure: boolean) => Promise&lt;string | undefined&gt;</td>
+    <td>
+      Prompts a refresh of the access token. Call this when you receive a 401 from the API you are using. If
+      initiateLoginFlowOnRefreshFailure is true, component will attempt to login again with OAuth service, if refresh
+      token is expired (refresh doesn't work). If initiateLoginFlowOnRefreshFailure is false, if refresh token is
+      expired, the component will show as logged out.
+    </td>
+  </tr>
+  <tr>
+    <td>initLoginFlowAsync</td>
+    <td>() => Promise&lt;string | undefined&gt;</td>
+    <td>
+      Prompts the login flow to begin. The use case for this is if you want to start the login flow on page load, rather
+      than making the user click the button. If the user is already logged in, the function will return the current
+      access token. If the user is not logged in, it will return undefined and start the OAuth login flow.
+    </td>
+  </tr>
+  <tr>
+    <td>handleRedirectURICallbackAsync</td>
+    <td>(url: string) => Promise&lt;void&gt;</td>
+    <td>
+      Parses the callbackUrl containing the parameters from the authorization service and exchanges the authorization
+      code for an access token. If RedirectBehavior is None you have to explicitly call this method to simulate
+      redirection back to the callbackUrl.
+    </td>
+  </tr>
+  <tr>
+    <td>authorizationRequestHandler</td>
+    <td>LfHttpRequestHandler</td>
+    <td>
+      Read-only implementation of HttpRequestHandler that can be used to initialize an instance of the
+      <a
+        href="https://laserfiche.github.io/lf-repository-api-client-js/docs/1.x/classes/RepositoryApiClient.html#createFromHttpRequestHandler"
+        >RepositoryApiClient</a
+      >. This handler adds an API authorization request header representing the current logged-in user.
+    </td>
+  </tr>
+  <tr>
+    <td>authorization_credentials</td>
+    <td>AuthorizationCredentials</td>
+    <td>read-only property to get the current AuthorizationCredentials</td>
+  </tr>
+  <tr>
+    <td>account_id</td>
+    <td>string</td>
+    <td>read-only property to get the current accountId</td>
+  </tr>
+  <tr>
+    <td>trustee_id</td>
+    <td>string</td>
+    <td>read-only property to get the current trusteeId</td>
+  </tr>
+  <tr>
+    <td>account_endpoints</td>
+    <td>AccountEndpoints</td>
+    <td>read-only property to get the current accountEndpoints</td>
+  </tr>
+  <tr>
+    <td>state</td>
+    <td>LoginState</td>
+    <td>read-only property to get the current state</td>
+  </tr>
+</table>
+
+<p class="documentation-sub-header">RedirectBehavior Enum</p>
+<ul>
+  <li>
+    Replace - if you use this behavior the flow will happen automatically and redirect in place back to the redirect url
+  </li>
+  <li>Popup (not implemented yet)</li>
+  <li>
+    None - if you use this behavior, you must call handleRedirectURICallbackAsync so you can parse the callback url
+  </li>
+</ul>
+
+<p class="documentation-sub-header">LoginMode Enum</p>
+<ul>
+  <li>Button - default</li>
+  <li>Menu</li>
+</ul>
+
+<p class="documentation-sub-header">LoginState Enum</p>
+<ul>
+  <li>LoggedOut</li>
+  <li>LoggingIn</li>
+  <li>LoggedIn</li>
+  <li>LoggingOut</li>
+</ul>
+
+<p class="documentation-sub-header">AbortedLoginError Interface</p>
+<ul>
+  <li>ErrorType: string</li>
+  <li>ErrorMessage: string</li>
+</ul>
+
+<p class="documentation-sub-header">AccountEndpoints Interface</p>
+<ul>
+  <li>webClientUrl: string</li>
+  <li>wsignoutUrl: string</li>
+  <li>regionalDomain: string</li>
+  <li>oauthAuthorizeUrl: string</li>
+</ul>
+
+<p class="documentation-sub-header">AuthorizationCredentials Interface</p>
+<ul>
+  <li>accessToken: string</li>
+  <li>refreshToken: string</li>
+  <li>expiresIn: string</li>
+  <li>tokenType: string</li>
+</ul>
+>>>>>>> origin/16.x

@@ -9,6 +9,27 @@
 - **[BREAKING]**: Update to Angular 16
 - **[BREAKING]**: Migrated `@angular/material` to version 16. 
 
+## 15.0.5
+
+### Features
+
+### Fixes
+- `[lf-login]`: Fixed bug where the component would not get initialized if using the Angular element version in some cases
+
+### Chore & Maintenance
+  - Added documentation for [lf-login](projects/lf-documentation/src/app/lf-login-documentation/lf-login-documentation.component.html) to direct a developer 
+    to the sample app on how to implement the component in a Popup window.
+
+## 15.0.4
+
+### Features
+
+### Fixes
+  - Fixed bug where LfMetadataValidationUtils.isNullOrEmpty was being passed a `Moment` Object, when it only expected types `String`, `null` and `undefined` 
+    Made sure to only pass in String types by casing Moment object to a `String`.
+
+### Chore & Maintenance
+
 ## 15.0.3
 
 ### Features
