@@ -1,8 +1,8 @@
 <mat-form-field title="{{lf_field_info.displayName}}" appearance="outline" class="lf-field lf-dropdown">
-  <mat-select class="dropdown-select" [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
+  <mat-select panelClass="lf-dropdown-overlay" [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
       (selectionChange)="onValueChanged()">
       <mat-option>--</mat-option>
-      <mat-option class="dropdown-option" *ngFor="let listOption of lf_field_info.listValues" [value]="listOption">
+      <mat-option *ngFor="let listOption of lf_field_info.listValues" [value]="listOption">
           {{listOption}}
       </mat-option>
   </mat-select>

@@ -24,7 +24,3 @@
 ::ng-deep lf-field-template-container .lf-template-picker > .mat-mdc-form-field-subscript-wrapper {
   height: 0px;
 } 
-
-mat-option.mat-mdc-option {
-  min-height: 42px;
-}
