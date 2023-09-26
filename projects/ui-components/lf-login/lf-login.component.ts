@@ -460,6 +460,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
     try {
       const callBackURIParams = this.parseCallbackURI(window.location.href);
       this._state = this.determineCurrentState(callBackURIParams);
+      this.ref.detectChanges();
       if (this.loginService._state === LoginState.LoggingIn) {
         await this.loginService.exchangeCodeForTokenAsync(callBackURIParams!);
       }
