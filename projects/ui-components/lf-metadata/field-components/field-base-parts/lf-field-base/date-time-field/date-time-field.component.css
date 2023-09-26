@@ -11,21 +11,19 @@
 .datetime-button-toggle:hover {
   color: rgba(0, 0, 0, 0.8);
 }
+::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-previous-button, 
+::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-next-button {
+  color: var(--mat-datepicker-calendar-navigation-button-icon-color);
+}
+
+::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-arrow {
+  fill: var(--mat-datepicker-calendar-navigation-button-icon-color);
+}
 
 .datetime-button-toggle:focus {
   color: rgba(0, 0, 0, 0.8);
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 24px;
-}
-
-/* TODO: this is only a temporary fix for Angular datetime picker style issues. Remove this if there is better solution. */
-::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-body-cell {
-  position: absolute;
-  height: 100%;
-}
-
-::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-arrow {
-  width: 0;
 }
 
 ::ng-deep .mat-datepicker-content {
