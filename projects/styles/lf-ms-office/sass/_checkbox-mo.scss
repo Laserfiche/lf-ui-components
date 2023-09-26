@@ -7,6 +7,7 @@ $checkmark-width: 1.5px;
 $checkmark-color: #fafafa;
 $checkbox-size: 20px;
 $border-width: 1px;
+$hover-border-width: 2px;
 $focus-border-width: 2px;
 $ripple-size: 0px;
 
@@ -28,7 +29,10 @@ $ripple-size: 0px;
     // This is for left alignment
     // position: initial;
   }
-
+  & .mdc-checkbox:hover .mdc-checkbox__background {
+    border-width: $hover-border-width;
+    border-color: typography-mo.$primary-color;
+  }
 
   & .mdc-checkbox:hover .mdc-checkbox__checkmark-path {
         stroke-dashoffset: 0;
@@ -53,7 +57,7 @@ $ripple-size: 0px;
       background-color: typography-mo.$primary-color;
     }
   }
-  &:hover .mdc-checkox--selected .mdc-checkbox__background {
+  &:hover .mdc-checkbox--selected .mdc-checkbox__background {
       background-color: $checked-hover-color;
       .mdc-checkbox__checkmark-path {
         stroke: $checkmark-color !important;
