@@ -84,7 +84,7 @@ mat-form-field.lf-dropdown {
   padding: 0px;
 }
 
-mat-option.mat-mdc-option {
+.lf-dropdown-overlay mat-option.mat-mdc-option {
   font-size: 14px;
 }
 
@@ -99,6 +99,6 @@ mat-option.mat-mdc-option {
   padding-right: 0px;
 }
 
-.cdk-overlay-container .mat-mdc-option {
+.cdk-overlay-container .lf-dropdown-overlay .mat-mdc-option {
   min-height: 42px;
 }
