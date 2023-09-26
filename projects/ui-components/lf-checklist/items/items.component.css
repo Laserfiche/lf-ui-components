@@ -111,7 +111,7 @@
   height: inherit;
 }
 
-::ng-deep .mdc-label {
+::ng-deep .lf-checkbox.full-width-checkbox .mdc-label {
   width: inherit;
 }
 
