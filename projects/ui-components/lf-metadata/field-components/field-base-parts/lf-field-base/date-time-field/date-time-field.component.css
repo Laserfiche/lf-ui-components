@@ -34,17 +34,17 @@
 }
 
 
-::ng-deep .mat-calendar-table-header-divider:after {
+::ng-deep .lf-datetime-picker-overlay .mat-calendar-table-header-divider:after {
   background: rgba(0, 0, 0, 0.12); 
 }
 
-::ng-deep .mat-calendar-table-header th {
+::ng-deep .lf-datetime-picker-overlay .mat-calendar-table-header th {
   font-weight: 400;
   font-size: 11px;
   color: rgba(0, 0, 0, 0.54);
 }
 
-::ng-deep .mat-calendar-body-label {
+::ng-deep .lf-datetime-picker-overlay .mat-calendar-body-label {
   color: rgba(0, 0, 0, 0.54);
 }
 
