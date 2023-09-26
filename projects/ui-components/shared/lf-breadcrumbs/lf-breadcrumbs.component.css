@@ -121,3 +121,7 @@
   font-size: inherit;
   white-space: nowrap;
 }
+
+::ng-deep .breadcrumb-select.mat-button-toggle-appearance-standard.mat-button-toggle-checked {
+  background-color: transparent;
+}
