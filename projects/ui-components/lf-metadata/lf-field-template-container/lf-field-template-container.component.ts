@@ -75,8 +75,6 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
   /** @internal */
   constructor(
-    // /** @internal */
-    // public viewContainerRef: ViewContainerRef,
     /** @internal */
     public metadataConnectorService: LfFieldMetadataConnectorService,
     /** @internal */

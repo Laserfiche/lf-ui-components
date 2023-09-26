@@ -16,7 +16,6 @@
   height: 48px;
 }
 
-
 ::ng-deep .checklist-expansion-panel.mat-expansion-panel {
   position: static;
   border-radius: 0;
@@ -37,13 +36,9 @@ mat-checkbox.lf-checkbox.full-width-checkbox {
   width: 100%;
 }
 
-
 ::ng-deep .lf-checklist-field > .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: white;
 }
-
-
-
 
 ::ng-deep .lf-checklist-field .mat-mdc-form-field-flex {
   height: inherit;
@@ -54,10 +49,6 @@ mat-checkbox.lf-checkbox.full-width-checkbox {
   padding: 0;
 }
 
-/* ::ng-deep .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
-    padding-top: 0;
-    padding-bottom: 0;
-} */
 ::ng-deep .lf-checklist-option .mat-mdc-checkbox-touch-target {
   height: 20px;
   width: 20px;
