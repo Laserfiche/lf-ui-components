@@ -13,42 +13,23 @@ $ripple-size: 0px;
 
 .lf-checkbox {
   
-  // .mat-checkbox-inner-container {
-  //   width: $checkbox-size;
-  //   height: $checkbox-size;
-
-  //   .mat-checkbox-frame {
-  //     border-width: $border-width;
-  //     border-color: $border-color;
-  //   }
   & .mdc-checkbox__background {
     border-width: $border-width;
     border-color: $border-color;
     width: $checkbox-size;
     height: $checkbox-size;
-    // This is for left alignment
-    // position: initial;
   }
+
   & .mdc-checkbox:hover .mdc-checkbox__background {
     border-width: $hover-border-width;
-    border-color: typography-mo.$primary-color;
+    border-color: typography-mo.$primary-color !important;
   }
 
-  & .mdc-checkbox:hover .mdc-checkbox__checkmark-path {
-        stroke-dashoffset: 0;
-        stroke: typography-mo.$hover-color !important;
-    }
-
-  // &.cdk-focused .mat-checkbox-frame {
-  //   border-color: typography-mo.$primary-color;
-  //   border-width: 2px;
-  // }
   &.cdk-focused .mdc-checkbox__background {
     border-width: 2px;
     border-color: typography-mo.$primary-color;
   }
 
-  
   & .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background, .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
     background-color: typography-mo.$primary-color !important;
   }
@@ -58,6 +39,7 @@ $ripple-size: 0px;
       background-color: typography-mo.$primary-color;
     }
   }
+
   &:hover .mdc-checkbox--selected .mdc-checkbox__background {
       background-color: $checked-hover-color;
       .mdc-checkbox__checkmark-path {
@@ -72,50 +54,13 @@ $ripple-size: 0px;
       border-color: none;
     }
   }
-
-  &.mat-checkbox-disabled {
-    &.mat-checkbox-checked {
-      .mat-checkbox-inner-container:hover {
-        .mat-checkbox-background {
-          background-color: $disabled-color;
-        }
-
-        .mat-checkbox-checkmark-path {
-          stroke-dashoffset: 0;
-        }
-      }
-
-      .mat-checkbox-background {
-        background-color: $disabled-color;
-      }
-    }
-
-    .mat-checkbox-inner-container:hover .mat-checkbox-checkmark-path {
-      stroke-dashoffset: 22.910259;
-    }
-
-    .mat-checkbox-inner-container .mat-checkbox-frame {
-      border-color: $disabled-color;
-    }
-  }
-
-  // .mat-checkbox-ripple.mat-ripple {
-  //   width: $ripple-size;
-  //   height: $ripple-size;
-  // }
   .mat-mdc-checkbox-ripple.mat-ripple, .mdc-checkbox__ripple {
     width: $ripple-size;
     height: $ripple-size;
   }
 
-  // .mat-checkbox-checkmark-path {
-  //   stroke-width: $checkmark-width;
-  //   stroke: $checkmark-color !important;
-  // }
-
   .mdc-checkbox__checkmark-path {
     stroke-width: $checkmark-width;
-    // stroke: $checkmark-color;
   }
 
   &.mat-mdc-checkbox .mdc-label {
