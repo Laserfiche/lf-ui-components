@@ -48,10 +48,11 @@ $ripple-size: 0px;
     border-color: typography-mo.$primary-color;
   }
 
-  // &.mat-checkbox-checked.mat-primary {
-  //   .mat-checkbox-background {
-  //     background-color: typography-mo.$primary-color;
-  //   }
+  
+  & .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background, .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+    background-color: typography-mo.$primary-color !important;
+  }
+
   &.mat-mdc-checkbox-checked.mat-primary {
     .mdc-checkbox__background {
       background-color: typography-mo.$primary-color;
