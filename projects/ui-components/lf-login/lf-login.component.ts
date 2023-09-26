@@ -7,6 +7,7 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
+  AfterViewInit,
 } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
@@ -29,7 +30,7 @@ const CODE_CHALLENGE_METHOD = 'S256';
   templateUrl: './lf-login.component.html',
   styleUrls: ['./lf-login.component.css'],
 })
-export class LfLoginComponent implements OnChanges, OnDestroy {
+export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   /** @internal */
   private readonly CLOUDDEV = 'clouddev';
   /** @internal */
@@ -331,6 +332,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   private code_challenge?: string;
   /** @internal */
   private hasLoginError: boolean = false;
+  /** @internal */
+  private initialized: boolean = false;
 
   /** @internal */
   constructor(
@@ -413,19 +416,6 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   /** @internal */
   async ngAfterViewInit() {
     // duplicate of ngOnChanges code to support angular elements and components
-    if (!this.logoutCompleteSub) {
-      this.logoutCompleteSub = this.loginService.logoutCompletedInService.subscribe((error) => {
-        this.hasLoginError = true;
-        this.setButtonText();
-        this.logoutCompleted.emit(error);
-      });
-    }
-    if (!this.loginCompleteSub) {
-      this.loginCompleteSub = this.loginService.loginCompletedInService.subscribe(() => {
-        this.setButtonText();
-        this.loginCompleted.emit();
-      });
-    }
     await this.initializeLoginAsync();
   }
 
@@ -436,15 +426,6 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
       (currentClientId?.currentValue && currentClientId?.isFirstChange()) ||
       currentClientId?.previousValue !== currentClientId?.currentValue
     ) {
-      this.logoutCompleteSub = this.loginService.logoutCompletedInService.subscribe((error) => {
-        this.hasLoginError = true;
-        this.setButtonText();
-        this.logoutCompleted.emit(error);
-      });
-      this.loginCompleteSub = this.loginService.loginCompletedInService.subscribe(() => {
-        this.setButtonText();
-        this.loginCompleted.emit();
-      });
       await this.initializeLoginAsync();
     }
   }
@@ -458,11 +439,23 @@ export class LfLoginComponent implements OnChanges, OnDestroy {
   /** @internal */
   private async initializeLoginAsync() {
     try {
-      const callBackURIParams = this.parseCallbackURI(window.location.href);
-      this._state = this.determineCurrentState(callBackURIParams);
-      this.ref.detectChanges();
-      if (this.loginService._state === LoginState.LoggingIn) {
-        await this.loginService.exchangeCodeForTokenAsync(callBackURIParams!);
+      if (!this.initialized) {
+        this.logoutCompleteSub = this.loginService.logoutCompletedInService.subscribe((error) => {
+          this.hasLoginError = true;
+          this.setButtonText();
+          this.logoutCompleted.emit(error);
+        });
+        this.loginCompleteSub = this.loginService.loginCompletedInService.subscribe(() => {
+          this.setButtonText();
+          this.loginCompleted.emit();
+        });
+        const callBackURIParams = this.parseCallbackURI(window.location.href);
+        this._state = this.determineCurrentState(callBackURIParams);
+        this.ref.detectChanges();
+        if (this.loginService._state === LoginState.LoggingIn) {
+          await this.loginService.exchangeCodeForTokenAsync(callBackURIParams!);
+        }
+        this.initialized = true;
       }
     } catch (err: any) {
       this.logoutCompleted.emit({
