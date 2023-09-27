@@ -113,7 +113,7 @@
   height: 25px;
 }
 
-.mat-mdc-menu-item.lf-menu-item {
+::ng-deep .mat-mdc-menu-item.lf-menu-item {
   font-size: 14px;
 }
 
