@@ -439,7 +439,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   /** @internal */
   private async initializeLoginAsync() {
     try {
-      if (!this.initialized) {
+      if (!this.initialized && this.client_id) {
         this.logoutCompleteSub = this.loginService.logoutCompletedInService.subscribe((error) => {
           this.hasLoginError = true;
           this.setButtonText();
