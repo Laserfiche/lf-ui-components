@@ -11,3 +11,16 @@
 .dropdown-error-message {
   color: red;
 }
+
+::ng-deep lf-field-template-container .lf-template-picker > .mat-mdc-text-field-wrapper {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+::ng-deep lf-field-template-container  {
+  font-size: 14px;
+}
+
+::ng-deep lf-field-template-container .lf-template-picker > .mat-mdc-form-field-subscript-wrapper {
+  height: 0px;
+} 

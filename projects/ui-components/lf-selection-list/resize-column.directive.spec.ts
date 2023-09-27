@@ -29,40 +29,40 @@ import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directi
   </div>`,
   styles: [
     `
-    table {
-      border-spacing: 0;
-    }
-
-    tr {
-      display: grid;
-    }
-
-    th {
-      padding: 0 10px;
-    }
-
-    .resize-handle {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    height: 100%;
-    cursor: col-resize;
-    opacity: 0;
-    width: 15px;
-    right: -17.5px;
-  }
-
-  .repository-browser-resize-overlay {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 1px;
-    background-color: #aeaeae;
-    user-select: none;
-    z-index: 1;
-    cursor: col-resize;
-  }
-  `]
+        table {
+          border-spacing: 0;
+        }
+    
+        tr {
+          display: grid;
+        }
+    
+        th {
+          padding: 0 10px;
+        }
+    
+        .resize-handle {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        height: 100%;
+        cursor: col-resize;
+        opacity: 0;
+        width: 15px;
+        right: -17.5px;
+      }
+    
+      .repository-browser-resize-overlay {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 1px;
+        background-color: #aeaeae;
+        user-select: none;
+        z-index: 1;
+        cursor: col-resize;
+      }
+      `]
 })
 class TestComponent {
   widthChanged: number = 100;

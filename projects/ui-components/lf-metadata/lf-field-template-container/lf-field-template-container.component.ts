@@ -1,18 +1,16 @@
 import {
   Component,
-  ComponentFactoryResolver,
   Input,
   Output,
   EventEmitter,
   OnDestroy,
   ComponentRef,
   ViewContainerRef,
-  ComponentFactory,
   AfterViewInit,
   NgZone,
   ChangeDetectorRef,
 } from '@angular/core';
-import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
+import { MatSelectChange } from '@angular/material/select';
 import { Observable, Subscription } from 'rxjs';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldContainerDirective } from '../lf-field-container.directive';
@@ -78,8 +76,6 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   constructor(
     /** @internal */
-    public resolver: ComponentFactoryResolver,
-    /** @internal */
     public metadataConnectorService: LfFieldMetadataConnectorService,
     /** @internal */
     private zone: NgZone,
@@ -88,7 +84,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     /** @internal */
     private ref: ChangeDetectorRef
   ) {
-    super(resolver, metadataConnectorService);
+    super(metadataConnectorService);
   }
 
   /** @internal */
@@ -209,10 +205,6 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       this.componentRefs = [];
       this.groupComponentRefs = [];
 
-      const fieldFactory = this.resolver.resolveComponentFactory(LfFieldComponent);
-      const multivalueFieldFactory = this.resolver.resolveComponentFactory(LfFieldMultivalueComponent);
-      const fieldGroupFactory = this.resolver.resolveComponentFactory(LfFieldGroupComponent);
-
       const fieldGroups: Map<number, FieldDefinition[]> = new Map<number, FieldDefinition[]>();
       for (const fieldInfo of fieldInfos) {
         const values = this.getValuesById(fieldInfo.id) ?? [];
@@ -226,14 +218,14 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           if (groupCurrentFieldDefinitions) {
             this.addDefinitionToExistingGroup(groupCurrentFieldDefinitions, newDef);
           } else {
-            this.createAndAddNewGroupRef(vf, fieldGroupFactory, templateFieldInfo.groupId, fieldGroups, newDef);
+            this.createAndAddNewGroupRef(vf, templateFieldInfo.groupId, fieldGroups, newDef);
           }
         } else if (fieldInfo.isMultiValue) {
-          const multivalueComponentRef = vf.createComponent(multivalueFieldFactory);
+          const multivalueComponentRef = vf.createComponent(LfFieldMultivalueComponent);
           this.componentRefs.push(multivalueComponentRef);
           await this.initializeMultivalueComponentAsync(multivalueComponentRef, fieldInfo, values);
         } else {
-          const fieldComponentRef = vf.createComponent(fieldFactory);
+          const fieldComponentRef = vf.createComponent(LfFieldComponent);
           this.componentRefs.push(fieldComponentRef);
           await this.initializeFieldComponentAsync(fieldComponentRef, fieldInfo, values?.length > 0 ? values[0] : '');
         }
@@ -267,12 +259,11 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   private createAndAddNewGroupRef(
     vf: ViewContainerRef,
-    fieldGroupFactory: ComponentFactory<LfFieldGroupComponent>,
     groupId: number,
     fieldGroups: Map<number, FieldDefinition[]>,
     newDef: FieldDefinition
   ) {
-    const fieldGroupComponentRef = vf.createComponent(fieldGroupFactory);
+    const fieldGroupComponentRef = vf.createComponent(LfFieldGroupComponent);
     fieldGroupComponentRef.instance.groupId = groupId;
     this.groupComponentRefs.push(fieldGroupComponentRef);
     fieldGroups.set(groupId, [newDef]);

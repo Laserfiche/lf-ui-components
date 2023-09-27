@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, ComponentRef, Directive, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ComponentRef, Directive, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { LfFieldMetadataConnectorService } from './lf-field-metadata-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container/lf-field-adhoc-container-types';
 import { LfFieldViewDirective } from './lf-field-view.directive';
@@ -27,8 +27,6 @@ export abstract class LfFieldContainerDirective {
 
   /** @internal */
   constructor(
-    /** @internal */
-    public resolver: ComponentFactoryResolver,
     /** @internal */
     public metadataConnectorService: LfFieldMetadataConnectorService) { }
 

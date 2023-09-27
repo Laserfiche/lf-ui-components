@@ -1,14 +1,13 @@
 <div [hidden]="hideTemplate">
-  <mat-form-field floatLabel="never" class="lf-field lf-template-picker lf-dropdown">
-    <mat-label *ngIf="isDropdownLoading; else showDefaultEmptyTemplate" class="lf-dropdown-label">
-      <lf-loader-component></lf-loader-component>
-    </mat-label>
+  <mat-form-field class="lf-field lf-template-picker lf-dropdown">
     <ng-template #showDefaultEmptyTemplate>
       <mat-label class="lf-dropdown-label">
         {{ emptyTemplateName | async }}
       </mat-label>
     </ng-template>
     <mat-select
+      panelClass="lf-dropdown-overlay" 
+      [placeholder]="emptyTemplateName | async"
       name="template-dropdown"
       id="template-dropdown"
       class="lf-dropdown"

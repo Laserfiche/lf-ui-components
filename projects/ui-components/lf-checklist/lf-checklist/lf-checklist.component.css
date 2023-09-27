@@ -35,3 +35,33 @@
 mat-checkbox.lf-checkbox.full-width-checkbox {
   width: 100%;
 }
+
+::ng-deep .lf-checklist-field > .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white;
+}
+
+::ng-deep .lf-checklist-field .mat-mdc-form-field-flex {
+  height: inherit;
+}
+
+::ng-deep .lf-checklist-field .mat-mdc-form-field-infix {
+  height: inherit;
+  padding: 0;
+}
+
+::ng-deep .lf-checklist-option .mat-mdc-checkbox-touch-target {
+  height: 20px;
+  width: 20px;
+}
+
+::ng-deep .lf-checklist-option .mdc-checkbox__native-control {
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.lf-checklist-option > .lf-checkbox {
+  height: 25px;
+}
