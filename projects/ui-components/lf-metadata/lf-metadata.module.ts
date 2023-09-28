@@ -5,9 +5,9 @@ import { LfFieldAdhocContainerComponent } from './lf-field-adhoc-container/lf-fi
 import { LfFieldTemplateContainerComponent } from './lf-field-template-container/lf-field-template-container.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { createCustomElement } from '@angular/elements';
 import { LfLoaderModule, LfModalsModule } from '@laserfiche/lf-ui-components/internal-shared';
@@ -15,7 +15,7 @@ import { FieldComponentsModule } from './field-components/field-components.modul
 import { GetFieldTypePipe } from './lf-field-adhoc-container/lf-field-add-remove/get-field-type.pipe';
 import { LfFieldViewDirective } from './lf-field-view.directive';
 import {ScrollingModule} from '@angular/cdk/scrolling';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [

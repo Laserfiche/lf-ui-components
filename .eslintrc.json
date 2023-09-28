@@ -26,6 +26,7 @@
       "extends": [
         "plugin:@angular-eslint/recommended"
       ],
+      "plugins": ["@typescript-eslint", "@angular-eslint"],
       "rules": {
         "@typescript-eslint/member-delimiter-style": [
           "error",

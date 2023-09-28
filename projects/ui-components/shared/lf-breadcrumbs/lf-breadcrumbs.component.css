@@ -17,6 +17,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  font-size: 14px;
 }
 
 .breadcrumb-arrow_right {
@@ -70,6 +71,7 @@
   max-width: 125px;
 }
 
+
 ::ng-deep .breadcrumb-split-button-group.mat-button-toggle-group-appearance-standard {
   border: none;
   border-radius: 2px;
@@ -79,6 +81,7 @@
 ::ng-deep .breadcrumb-split-button .breadcrumb-select {
   color: var(--lf-label-text-color, #605e5c);
 }
+
 ::ng-deep
   .breadcrumb-split-button.mat-button-toggle-appearance-standard.breadcrumb-select
   .mat-button-toggle-label-content {
@@ -108,4 +111,17 @@
 
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard {
   height: 25px;
+}
+
+::ng-deep .mat-mdc-menu-item.lf-menu-item {
+  font-size: 14px;
+}
+
+::ng-deep .mat-mdc-menu-content > .mat-mdc-menu-item.folder-dropdown > .mat-mdc-menu-item-text {
+  font-size: inherit;
+  white-space: nowrap;
+}
+
+::ng-deep .breadcrumb-select.mat-button-toggle-appearance-standard.mat-button-toggle-checked {
+  background-color: transparent;
 }

@@ -6,11 +6,11 @@ import { LfFieldTemplateContainerComponent } from '../lf-field-template-containe
 import { LfFieldContainerComponent } from './lf-field-container.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { LfModalsModule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfFieldContainerDemoService } from 'projects/lf-documentation/src/app/lf-field-container-documentation/lf-field-container-demo.service';
 import { LfMetadataModule } from '../lf-metadata.module';

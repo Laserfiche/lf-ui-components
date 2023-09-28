@@ -7,7 +7,7 @@
                     <img *ngFor="let icon of getIcons(item)" src="{{icon}}" alt="" class='lf-checklist-item-icon' />
                 </div>
                 <div id="lf-checklist-item-name" class="lf-checklist-item-name">
-                    <mat-form-field appearance="standard" class="lf-checklist-field stretch-width lf-text-field">
+                    <mat-form-field class="lf-checklist-field stretch-width lf-text-field">
                         <input matInput type="text" title="{{item.name}}" [formControl]="getSingleField(currentIndex)"
                             (change)="onItemValueChanged(currentIndex)" (focusout)="onItemValueChanged(currentIndex)">
                         <mat-error *ngIf="!getSingleField(currentIndex).valid"

@@ -121,7 +121,7 @@ export class ItemsComponent implements OnInit {
         if (item.editable && item.checked) {
           this.addValidators(item, formControl);
         }
-        if (!item.editable) {
+        if (!item.editable || item.disabled) {
           formControl.disable();
         }
         this.getArray().push(formControl);

@@ -38,7 +38,7 @@
   width: 18px;
 }
 
-::ng-deep .mat-menu-panel.lf-dropdown-menu {
+::ng-deep .mat-mdc-menu-panel.lf-dropdown-menu {
   list-style: none;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -47,7 +47,7 @@
   min-height: 0px;
 }
 
-.lf-dropdown-menu-option {
+::ng-deep .lf-dropdown-menu-option.mat-mdc-menu-item {
   position: relative;
   box-sizing: border-box;
   display: block;
@@ -60,8 +60,12 @@
   white-space: nowrap;
   line-height: 1.428571429;
   height: 26px;
+  min-height: unset;
 }
 
+::ng-deep .mat-mdc-menu-content > .lf-dropdown-menu-option.mat-mdc-menu-item > .mat-mdc-menu-item-text {
+  font-size: 14px;
+}
 .lf-dropdown-menu-option:disabled {
   color: #999;
   pointer-events: all;
