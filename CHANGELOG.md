@@ -9,6 +9,16 @@
 - **[BREAKING]**: Update to Angular 16
 - **[BREAKING]**: Migrated `@angular/material` to version 16. 
 
+## 15.0.6
+
+### Features
+
+### Fixes
+- `[lf-login]`: Fixed related bug where the component would not get initialized if using the Angular component
+
+### Chore & Maintenance
+
+
 ## 15.0.5
 
 ### Features
