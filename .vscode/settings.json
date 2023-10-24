@@ -1,0 +1,15 @@
+{
+  "powerHeader.commentMode": "line",
+  "powerHeader.autoInsert.enable": true,
+  "powerHeader.autoInsert.allow": "all",
+  "powerHeader.template": "Copyright (c) <author>\\nLicensed under the <licenseType> License. See LICENSE in the project root for license information.",
+  "powerHeader.variables": ["<author>='Laserfiche'", "<licenseType>='MIT'"],
+  "[html]": {
+    "powerHeader.commentMode": "block",
+    "powerHeader.template": "\\nCopyright (c) <author>\\nLicensed under the <licenseType> License. See LICENSE in the project root for license information.\\n"
+  },
+  "[css]": {
+    "powerHeader.commentMode": "block",
+    "powerHeader.template": "\\n * Copyright (c) <author>\\n * Licensed under the <licenseType> License. See LICENSE in the project root for license information.\\n"
+  }
+}
