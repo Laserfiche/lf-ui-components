@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { ValidatorFn, AbstractControl } from '@angular/forms';
 import { LfMetadataValidationUtils } from '@laserfiche/lf-js-utils';
 

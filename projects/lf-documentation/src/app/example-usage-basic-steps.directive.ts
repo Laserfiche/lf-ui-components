@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Directive } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { RouterLinks } from './app-routing.module';

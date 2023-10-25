@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
 import { LfUserFeedbackComponent } from './lf-user-feedback.component';
 import { UserFeedbackDialogComponent } from './user-feedback-dialog/user-feedback-dialog.component';

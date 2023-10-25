@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { ComponentRef, Directive, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { LfFieldMetadataConnectorService } from './lf-field-metadata-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container/lf-field-adhoc-container-types';

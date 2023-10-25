@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NgElement, WithProperties } from '@angular/elements';
 import { LfBreadcrumb, LfBreadcrumbsComponent } from './../../../../ui-components/shared/lf-breadcrumbs/lf-breadcrumbs-public-api';

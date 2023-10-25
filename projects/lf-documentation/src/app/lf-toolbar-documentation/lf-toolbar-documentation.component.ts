@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Component } from '@angular/core';
 import { IconUtils } from '@laserfiche/lf-js-utils';
 import { ToolbarOption } from './../../../../ui-components/shared/lf-toolbar/lf-toolbar-public-api'; 

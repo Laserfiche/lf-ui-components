@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { AppLocalizationService, LfMessageToastTypes, LfToastMessage } from '@laserfiche/lf-ui-components/internal-shared';
 

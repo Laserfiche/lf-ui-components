@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Component, ChangeDetectorRef, Input, ViewChild, OnDestroy, ComponentRef, AfterViewInit, EventEmitter, Output, NgZone } from '@angular/core';
 import { LfFieldAdhocContainerService as LfFieldAdhocContainerService } from './lf-field-adhoc-container.service';
 import { AdhocFieldConnectorService } from './lf-field-adhoc-connector.service';

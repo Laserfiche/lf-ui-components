@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';

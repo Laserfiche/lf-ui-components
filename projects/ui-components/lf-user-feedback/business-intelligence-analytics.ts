@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 export function init(environment: string) {
   // Create a queue, but don't obliterate an existing one!
   const analytics = (window as any).analytics = (window as any).analytics || [];

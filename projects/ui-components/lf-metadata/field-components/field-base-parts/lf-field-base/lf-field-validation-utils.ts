@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { ValidatorFn, Validators } from '@angular/forms';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';

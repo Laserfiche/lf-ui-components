@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Injectable } from '@angular/core';
 import { init } from './business-intelligence-analytics';
 import { IUserTrackingEvent, UserFeedbackUserTrackingEvent } from './lf-user-feedback-types';

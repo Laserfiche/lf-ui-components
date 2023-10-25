@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Checklist, LfChecklistComponent, LfChecklistService } from './../../../../ui-components/lf-checklist/lf-checklist-public-api';
 import { LfChecklistDemoService } from './lf-checklist-demo.service';

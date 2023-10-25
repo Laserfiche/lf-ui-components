@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 const { src, dest } = require('gulp');
 const replace = require('gulp-replace');
 const concat = require('gulp-concat');

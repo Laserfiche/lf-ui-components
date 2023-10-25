@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AbortedLoginError, LfLoginComponent } from './../../../../ui-components/lf-login/lf-login-public-api';
 import { LoginMode, LoginState, RedirectBehavior } from './../../../../ui-components/shared/lf-shared-public-api';

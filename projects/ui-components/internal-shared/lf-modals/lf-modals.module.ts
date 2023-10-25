@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { NgModule } from '@angular/core';
 import { LfPopupModalComponent } from './lf-popup-modal/lf-popup-modal.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
