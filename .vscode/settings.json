@@ -11,5 +11,10 @@
   "[css]": {
     "powerHeader.commentMode": "block",
     "powerHeader.template": "\\n * Copyright (c) <author>.\\n * Licensed under the <licenseType> License. See LICENSE in the project root for license information.\\n"
-  }
+  },
+  "powerHeader.autoInsert.languages": [
+      "plaintext",
+      "Log",
+      "json"
+  ] 
 }
