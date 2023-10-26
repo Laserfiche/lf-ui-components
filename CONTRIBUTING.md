@@ -1,3 +1,6 @@
+<!--Copyright (c) Laserfiche.
+Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
 # Contributing to lf-ui-components
 
 We encourage and appreciate feedback and contribution from the community!

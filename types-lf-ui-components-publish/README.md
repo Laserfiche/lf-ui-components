@@ -1,3 +1,6 @@
+<!--Copyright (c) Laserfiche.
+Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
 # @laserfiche/type-lf-ui-components
 
 This is the type NPM package that contains the declaration files for lf-prefixed elements.

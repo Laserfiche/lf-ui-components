@@ -1,3 +1,6 @@
+<!--Copyright (c) Laserfiche.
+Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
 # @laserfiche/lf-ui-components
 
 A collection of UI Components to be used to build apps that interact with Laserfiche.
