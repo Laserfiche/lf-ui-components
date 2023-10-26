@@ -1,3 +1,6 @@
+<!--Copyright (c) Laserfiche.
+Licensed under the MIT License. See LICENSE.md in the project root for license information.-->
+
 # lf-cdn
 
 ## What this project does
