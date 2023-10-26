@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { LfFieldAdhocContainerComponent } from './../../../../ui-components/lf-metadata/lf-field-adhoc-container/public-api';
 import { LfFieldAdhocContainerDemoService } from './lf-field-adhoc-container-demo.service';

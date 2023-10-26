@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { TestBed } from '@angular/core/testing';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';

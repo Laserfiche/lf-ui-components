@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';

@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { of } from 'rxjs';
 import { LfFieldGroupIndexDisplayPipe } from './lf-field-group-index-display.pipe';

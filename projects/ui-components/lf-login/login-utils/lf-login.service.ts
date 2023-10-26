@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AccountInfo, RedirectUriQueryParams } from './lf-login-internal-types';
 import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';

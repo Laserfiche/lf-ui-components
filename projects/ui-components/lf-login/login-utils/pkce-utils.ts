@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 export function arrayBufferToBase64(buffer: ArrayBuffer) {
     var binary = '';
     var bytes = new Uint8Array(buffer);

@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 // This file is an intentional duplication of lf-documentation/src/app/lf-field-template-datetime-utils.ts
 
 export class DatetimeUtils {

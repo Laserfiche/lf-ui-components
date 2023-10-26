@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { LfFieldTemplateContainerComponent, LfFieldTemplateProviders } from './../../../../ui-components/lf-metadata/lf-field-template-container/public-api';
 import { LfFieldTemplateContainerDemoService, TemplateIds } from './../../../../ui-components/lf-metadata/lf-field-template-container/lf-field-template-container-demo.service';

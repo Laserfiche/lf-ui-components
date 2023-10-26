@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';

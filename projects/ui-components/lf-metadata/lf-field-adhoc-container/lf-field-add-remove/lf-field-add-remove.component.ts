@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Component, EventEmitter, Output, Input, ChangeDetectorRef, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
 import { AdhocFieldConnectorService } from '../lf-field-adhoc-connector.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';

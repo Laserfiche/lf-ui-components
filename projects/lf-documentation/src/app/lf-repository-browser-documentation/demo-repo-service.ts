@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { IconUtils } from '@laserfiche/lf-js-utils';
 import { ColumnOrderBy } from './../../../../ui-components/lf-selection-list/lf-selection-list-public-api';
 import {

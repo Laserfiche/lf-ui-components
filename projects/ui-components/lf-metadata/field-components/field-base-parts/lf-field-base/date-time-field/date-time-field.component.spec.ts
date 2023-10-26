@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateTimeFieldComponent } from './date-time-field.component';
 import { LfFieldBaseComponent } from '../lf-field-base/lf-field-base.component';

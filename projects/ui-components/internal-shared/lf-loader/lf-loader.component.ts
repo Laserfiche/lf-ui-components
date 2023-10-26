@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppLocalizationService } from '../app-localization.service';

@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TextFieldComponent } from './text-field.component';
 import { LfFieldInfo } from '../../../utils/lf-field-types';

@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
 import { LfFieldContainerComponent } from './lf-field-container/lf-field-container.component';
 import { LfFieldAddRemoveComponent } from './lf-field-adhoc-container/lf-field-add-remove/lf-field-add-remove.component';

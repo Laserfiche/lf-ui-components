@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { FieldValue, LfFieldInfo } from "./../../../../ui-components/lf-metadata/field-components/utils/lf-field-types";
 import { LfFieldAdhocContainerService } from "./../../../../ui-components/lf-metadata/lf-field-adhoc-container/public-api";
 import { FieldFormat, FieldType } from "./../../../../ui-components/shared/lf-shared-public-api";

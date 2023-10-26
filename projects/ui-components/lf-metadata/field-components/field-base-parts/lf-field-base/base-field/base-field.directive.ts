@@ -1,3 +1,6 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { OnInit, Output, EventEmitter, Input, Directive, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { LfFieldInfo, LfFieldValue } from '../../../utils/lf-field-types';
 import { FormControl, ValidatorFn, FormGroup } from '@angular/forms';
