@@ -1,3 +1,6 @@
+<!--Copyright (c) Laserfiche.
+Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
 <div id="lf-checklist-option-container" class="lf-checklist-option-container">
     <div id="lf-checklist-option" class="lf-checklist-option" *ngFor="let option of options">
         <mat-checkbox color="primary" ngDefaultControl [(ngModel)]="option.checked" [disabled]="option.disabled"
