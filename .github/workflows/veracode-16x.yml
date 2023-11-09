@@ -1,7 +1,7 @@
 # Copyright (c) Laserfiche.
 # Licensed under the MIT License. See LICENSE in the project root for license information.
 
-name: lf-ui-components-veracode
+name: lf-ui-components-veracode-16x
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -76,7 +76,5 @@ jobs:
       - name: Run Veracode Software Composition Analysis (srccclr)
         env:
           SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
-        uses: veracode/veracode-sca@v2.1.6
-        with:
-          create-issues: false
-          allow-dirty: true
+        run: curl --silent --show-error --location https://download.sourceclear.com/ci.sh | sh -s -- scan --project-name "lf-ui-components 16.x" --scm-uri https://github.com/Laserfiche/lf-ui-components --allow-dirty --scm-rev ${{ github.sha }} --scm-ref-type branch --scm-ref origin/16.x
+
