@@ -1,4 +1,4 @@
-name: lf-ui-components-veracode
+name: lf-ui-components-veracode-v15
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -64,7 +64,7 @@ jobs:
       - name: Veracode Upload And Scan (Static application security testing)
         uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
-          appname: 'lf-ui-components'
+          appname: 'lf-ui-components-v15'
           createprofile: true
           filepath: 'veracode'
           vid: '${{ secrets.VERACODE_API_ID }}'
