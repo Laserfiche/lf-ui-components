@@ -63,15 +63,15 @@ jobs:
       - name: "Compress Documentation"
         run: tar -czvf ./veracode/lf-documentation.tar.gz ./dist/lf-documentation
 
-      - name: Veracode Upload And Scan (Static application security testing)
-        uses: veracode/veracode-uploadandscan-action@0.2.6
-        with:
-          appname: "lf-ui-components-v15"
-          createprofile: true
-          filepath: "veracode"
-          vid: "${{ secrets.VERACODE_API_ID }}"
-          vkey: "${{ secrets.VERACODE_API_KEY }}"
-          teams: "GitHub - Open Source"
+      # - name: Veracode Upload And Scan (Static application security testing)
+      #   uses: veracode/veracode-uploadandscan-action@0.2.6
+      #   with:
+      #     appname: "lf-ui-components-v15"
+      #     createprofile: true
+      #     filepath: "veracode"
+      #     vid: "${{ secrets.VERACODE_API_ID }}"
+      #     vkey: "${{ secrets.VERACODE_API_KEY }}"
+      #     teams: "GitHub - Open Source"
 
       - name: Run Veracode Software Composition Analysis (srccclr)
         env:
