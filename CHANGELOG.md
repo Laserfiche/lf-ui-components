@@ -1,3 +1,12 @@
+## 15.0.7
+
+### Features
+
+### Fixes
+- `[AppLocalizationService]`: Do not console.warn on all message events
+
+### Chore & Maintenance
+
 ## 15.0.6
 
 ### Features
