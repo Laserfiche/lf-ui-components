@@ -76,4 +76,4 @@ jobs:
       - name: Run Veracode Software Composition Analysis (srccclr)
         env:
           SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
-        run: curl --silent --show-error --location https://download.sourceclear.com/ci.sh sh -s -- scan . --project-name "lf-ui-components 15.x" --url https://github.com/Laserfiche/lf-ui-components --allow-dirty --ref origin/15.x
+        run: curl --silent --show-error --location https://download.sourceclear.com/ci.sh sh -s -- scan --project-name "lf-ui-components 15.x" --scm-uri https://github.com/Laserfiche/lf-ui-components --allow-dirty --scm-ref-type branch --scm-ref origin/15.x
