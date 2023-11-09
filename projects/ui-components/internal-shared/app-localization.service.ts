@@ -76,11 +76,8 @@ export class AppLocalizationService {
           }
         }
         catch (err: any) {
-          console.warn(`AppLocalizationService unable to parse message event: ${err.message}`);
+          // Do not log. Will log on every message event
         }
-      }
-      else {
-        console.warn(`Origin does not match: event origin: ${ev.origin}, window origin: ${window.origin}`);
       }
     });
   }
