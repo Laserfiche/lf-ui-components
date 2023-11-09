@@ -2,11 +2,11 @@ name: lf-ui-components-veracode-15x
 
 on:
   # Allows you to run this workflow manually from the Actions tab
-  push: 
-    branches: ['alex/add-vercode-15']
+  push:
+    branches: ["alex/add-vercode-15"]
   workflow_dispatch:
   schedule:
-    - cron: '0 12 * * 6'
+    - cron: "0 12 * * 6"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: "16"
 
       - name: npm ci
         run: npm ci
@@ -43,35 +43,35 @@ jobs:
       - name: Npm run sass-ms
         run: npm run sass-ms
 
-      - name: 'create an empty ./dist/ui-components/cdn folder'
-        run: 'mkdir -p ./dist/ui-components/cdn'
+      - name: "create an empty ./dist/ui-components/cdn folder"
+        run: "mkdir -p ./dist/ui-components/cdn"
 
-      - name: 'move js to ui-components/cdn'
+      - name: "move js to ui-components/cdn"
         run: mv -t ../ui-components/cdn main.js runtime.js polyfills.js main.js.map runtime.js.map polyfills.js.map
         working-directory: dist/lf-cdn
 
-      - name: 'move lf-documentation/styles to ui-components/cdn'
+      - name: "move lf-documentation/styles to ui-components/cdn"
         run: mv -t  ../ui-components/cdn/ lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
         working-directory: dist/lf-documentation
-      
-      - name: 'create an empty ./veracode folder'
-        run: 'mkdir -p ./veracode'
-        
-      - name: 'Compress UI Components'
+
+      - name: "create an empty ./veracode folder"
+        run: "mkdir -p ./veracode"
+
+      - name: "Compress UI Components"
         run: tar -czvf ./veracode/ui-components.tar.gz ./dist/ui-components
 
-      - name: 'Compress Documentation'
+      - name: "Compress Documentation"
         run: tar -czvf ./veracode/lf-documentation.tar.gz ./dist/lf-documentation
 
       - name: Veracode Upload And Scan (Static application security testing)
         uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
-          appname: 'lf-ui-components-v15'
+          appname: "lf-ui-components-v15"
           createprofile: true
-          filepath: 'veracode'
-          vid: '${{ secrets.VERACODE_API_ID }}'
-          vkey: '${{ secrets.VERACODE_API_KEY }}'
-          teams: 'GitHub - Open Source'
+          filepath: "veracode"
+          vid: "${{ secrets.VERACODE_API_ID }}"
+          vkey: "${{ secrets.VERACODE_API_KEY }}"
+          teams: "GitHub - Open Source"
 
       - name: Run Veracode Software Composition Analysis (srccclr)
         env:
