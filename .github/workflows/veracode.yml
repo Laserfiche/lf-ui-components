@@ -1,4 +1,4 @@
-name: lf-ui-components-veracode-v15
+name: lf-ui-components-veracode
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -56,20 +56,19 @@ jobs:
         run: 'mkdir -p ./veracode'
         
       - name: 'Compress UI Components'
-        run: tar -czvf ./veracode/ui-components-15.tar.gz ./dist/ui-components
+        run: tar -czvf ./veracode/ui-components.tar.gz ./dist/ui-components
 
       - name: 'Compress Documentation'
-        run: tar -czvf ./veracode/lf-documentation-15.tar.gz ./dist/lf-documentation
+        run: tar -czvf ./veracode/lf-documentation.tar.gz ./dist/lf-documentation
 
       - name: Veracode Upload And Scan (Static application security testing)
         uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
-          appname: 'lf-ui-components-v15'
+          appname: 'lf-ui-components'
           createprofile: true
           filepath: 'veracode'
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
-          teams: 'GitHub - Open Source'
 
       - name: Run Veracode Software Composition Analysis (srccclr)
         env:
