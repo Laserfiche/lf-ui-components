@@ -1,17 +1,17 @@
-import { ILfSelectable, Selectable } from "./LfSelectable";
+import { ILfSelectable, Selectable } from './LfSelectable';
 
 class SelectionTesting {
-  testItems: {[key: string]: ILfSelectable} = {
-    "selectable": {
+  testItems: { [key: string]: ILfSelectable } = {
+    selectable: {
       isSelectable: true,
       isSelected: false,
-      value: {id: ''}
+      value: { id: '' },
     },
-    "notSelectable": {
+    notSelectable: {
       isSelectable: false,
       isSelected: false,
-      value: { id: ''}
-    }
+      value: { id: '' },
+    },
   };
 
   getItem(name: string): ILfSelectable {
@@ -35,7 +35,7 @@ describe('LfListComponent single select', () => {
   describe('onItemClicked single select', () => {
     it('should select the item that was passed', () => {
       // Arrange
-      const toSelect = valueFactory.getItem("selectable");
+      const toSelect = valueFactory.getItem('selectable');
       const list = [toSelect];
 
       // Act
@@ -43,21 +43,20 @@ describe('LfListComponent single select', () => {
 
       // Assert
       expect(underTest.selectedItems).toContain(toSelect);
-      expect(toSelect.isSelected).toBeTrue(); 
+      expect(toSelect.isSelected).toBeTrue();
     });
 
     it('should select the current item when also holding ctrl', () => {
       // Arrange
-      const toSelect = valueFactory.getItem("selectable");
+      const toSelect = valueFactory.getItem('selectable');
       const list = [toSelect];
 
       // Act
-      underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), toSelect, list);
+      underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), toSelect, list);
 
       // Assert
       expect(underTest.selectedItems).toContain(toSelect);
-      expect(toSelect.isSelected).toBeTrue(); 
-
+      expect(toSelect.isSelected).toBeTrue();
     });
 
     it('should not multi-select when holding ctrl', () => {
@@ -68,10 +67,10 @@ describe('LfListComponent single select', () => {
 
       underTest.onItemClicked(new MouseEvent('click'), toSelectFirst, list);
 
-      expect(underTest.selectedItems[0]).toEqual(toSelectFirst); 
+      expect(underTest.selectedItems[0]).toEqual(toSelectFirst);
 
       // Act
-      underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), toSelectSecond, list);
+      underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), toSelectSecond, list);
 
       //Assert
       expect(underTest.selectedItems[0]).toBe(toSelectSecond);
@@ -80,15 +79,15 @@ describe('LfListComponent single select', () => {
 
     it('should select the current item when also holding shift', () => {
       // Arrange
-      const toSelect = valueFactory.getItem("selectable");
+      const toSelect = valueFactory.getItem('selectable');
       const list = [toSelect];
 
       // Act
-      underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), toSelect, list);
+      underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), toSelect, list);
 
       // Assert
       expect(underTest.selectedItems).toContain(toSelect);
-      expect(toSelect.isSelected).toBeTrue(); 
+      expect(toSelect.isSelected).toBeTrue();
     });
 
     it('should not multi-select when holding shift', () => {
@@ -99,10 +98,10 @@ describe('LfListComponent single select', () => {
 
       underTest.onItemClicked(new MouseEvent('click'), toSelectFirst, list);
 
-      expect(underTest.selectedItems[0]).toEqual(toSelectFirst); 
+      expect(underTest.selectedItems[0]).toEqual(toSelectFirst);
 
       // Act
-      underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), toSelectSecond, list);
+      underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), toSelectSecond, list);
 
       //Assert
       expect(underTest.selectedItems[0]).toBe(toSelectSecond);
@@ -117,7 +116,7 @@ describe('LfListComponent single select', () => {
 
       underTest.onItemClicked(new MouseEvent('click'), toSelectFirst, list);
 
-      expect(underTest.selectedItems[0]).toEqual(toSelectFirst); 
+      expect(underTest.selectedItems[0]).toEqual(toSelectFirst);
 
       // Act
       underTest.onItemClicked(new MouseEvent('click'), toSelectSecond, list);
@@ -143,7 +142,7 @@ describe('LfListComponent single select', () => {
     it('should not de-select an item that was already selected when a not selectable item is clicked', () => {
       // Arrange
       const cannotSelect = valueFactory.getItem('notSelectable');
-      const toSelect = valueFactory.getItem("selectable");
+      const toSelect = valueFactory.getItem('selectable');
       const list = [cannotSelect, toSelect];
 
       underTest.onItemClicked(new MouseEvent('click'), toSelect, list);
@@ -158,7 +157,7 @@ describe('LfListComponent single select', () => {
   });
 
   describe('onItemClicked multi-select', () => {
-    beforeEach( () => {
+    beforeEach(() => {
       underTest.multiSelectable = true;
     });
 
@@ -175,7 +174,7 @@ describe('LfListComponent single select', () => {
         expect(underTest.selectedItems.length).toBe(1);
         expect(toSelect.isSelected).toBeTrue();
       });
-  
+
       it('should de-select other selected items and select the new passed in item', () => {
         // Arrange
         const toSelectFirst = valueFactory.getItem('selectable');
@@ -184,7 +183,7 @@ describe('LfListComponent single select', () => {
 
         underTest.onItemClicked(new MouseEvent('click'), toSelectFirst, list);
 
-        expect(underTest.selectedItems[0]).toEqual(toSelectFirst); 
+        expect(underTest.selectedItems[0]).toEqual(toSelectFirst);
 
         // Act
         underTest.onItemClicked(new MouseEvent('click'), toSelectSecond, list);
@@ -198,10 +197,10 @@ describe('LfListComponent single select', () => {
         // Arrange
         const cannotSelect = valueFactory.getItem('notSelectable');
         const list = [cannotSelect];
-  
+
         // Act
         underTest.onItemClicked(new MouseEvent('click'), cannotSelect, list);
-  
+
         //Assert
         expect(underTest.selectedItems.length).toBe(0);
         expect(cannotSelect.isSelected).toBeFalse();
@@ -215,7 +214,7 @@ describe('LfListComponent single select', () => {
         const list = [toSelect];
 
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), toSelect, list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), toSelect, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(1);
@@ -224,11 +223,15 @@ describe('LfListComponent single select', () => {
 
       it('should append the new item that was clicked into the list of selected items', () => {
         // Arrange
-        const list = [valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), valueFactory.getItem('selectable')];
+        const list = [
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+        ];
 
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), list[0], list);
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), list[1], list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), list[0], list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), list[1], list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(2);
@@ -237,15 +240,18 @@ describe('LfListComponent single select', () => {
         expect(list[2].isSelected).toBeFalse();
       });
 
-
       it('should de-select the same item if its clicked on twice', () => {
         // Arrange
-        const list = [valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), valueFactory.getItem('selectable')];
+        const list = [
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+        ];
 
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), list[0], list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), list[0], list);
         expect(list[0].isSelected).toBeTrue();
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), list[0], list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), list[0], list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(0);
@@ -254,12 +260,16 @@ describe('LfListComponent single select', () => {
 
       it('should de-select an item that was already selected', () => {
         // Arrange
-        const list = [valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), valueFactory.getItem('selectable')];
+        const list = [
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+        ];
 
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), list[0], list);
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), list[1], list);
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), list[0], list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), list[0], list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), list[1], list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), list[0], list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(1);
@@ -271,10 +281,10 @@ describe('LfListComponent single select', () => {
         // Arrange
         const cannotSelect = valueFactory.getItem('notSelectable');
         const list = [cannotSelect];
-  
+
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), cannotSelect, list);
-  
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), cannotSelect, list);
+
         //Assert
         expect(underTest.selectedItems.length).toBe(0);
         expect(cannotSelect.isSelected).toBeFalse();
@@ -284,11 +294,11 @@ describe('LfListComponent single select', () => {
         // Arrange
         const cannotSelect = valueFactory.getItem('notSelectable');
         const list = [valueFactory.getItem('selectable'), cannotSelect];
-  
+
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), list[0], list);
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), cannotSelect, list);
-  
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), list[0], list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true }), cannotSelect, list);
+
         //Assert
         expect(underTest.selectedItems.length).toBe(1);
         expect(list[0].isSelected).toBeTrue();
@@ -302,7 +312,7 @@ describe('LfListComponent single select', () => {
         const list = [toSelect];
 
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), toSelect, list);
+        underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), toSelect, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(1);
@@ -312,16 +322,21 @@ describe('LfListComponent single select', () => {
       it('should select all the items from the start of the list to the passed item', () => {
         // Arrange
         const toSelect = valueFactory.getItem('selectable');
-        const list = [valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), 
-          valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), toSelect];
+        const list = [
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          toSelect,
+        ];
 
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), toSelect, list);
+        underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), toSelect, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(5);
         list.forEach((item: ILfSelectable) => {
-           expect(item.isSelected).toBeTrue();
+          expect(item.isSelected).toBeTrue();
         });
       });
 
@@ -329,12 +344,18 @@ describe('LfListComponent single select', () => {
         // Arrange
         const toSelect = valueFactory.getItem('selectable');
         const firstClickItem = valueFactory.getItem('selectable');
-        const list = [valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), 
-        firstClickItem, valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), toSelect];
+        const list = [
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          firstClickItem,
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          toSelect,
+        ];
 
         // Act
         underTest.onItemClicked(new MouseEvent('click'), firstClickItem, list);
-        underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), toSelect, list);
+        underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), toSelect, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(4);
@@ -351,12 +372,18 @@ describe('LfListComponent single select', () => {
         // Arrange
         const toSelect = valueFactory.getItem('selectable');
         const firstClickItem = valueFactory.getItem('selectable');
-        const list = [valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), 
-        toSelect, valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), firstClickItem];
+        const list = [
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          toSelect,
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          firstClickItem,
+        ];
 
         // Act
         underTest.onItemClicked(new MouseEvent('click'), firstClickItem, list);
-        underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), toSelect, list);
+        underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), toSelect, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(4);
@@ -374,18 +401,25 @@ describe('LfListComponent single select', () => {
         const toSelect = valueFactory.getItem('selectable');
         const pivotItem = valueFactory.getItem('selectable');
         const firstShiftClickItem = valueFactory.getItem('selectable');
-        const list = [valueFactory.getItem('selectable'), toSelect, valueFactory.getItem('selectable'), 
-        pivotItem, valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), firstShiftClickItem];
+        const list = [
+          valueFactory.getItem('selectable'),
+          toSelect,
+          valueFactory.getItem('selectable'),
+          pivotItem,
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          firstShiftClickItem,
+        ];
 
         // Act
         underTest.onItemClicked(new MouseEvent('click'), pivotItem, list);
-        underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), firstShiftClickItem, list);
-        underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), toSelect, list);
+        underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), firstShiftClickItem, list);
+        underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), toSelect, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(3);
         list.forEach((item: ILfSelectable, index: number) => {
-          if ([1,2,3].indexOf(index) === -1) {
+          if ([1, 2, 3].indexOf(index) === -1) {
             expect(item.isSelected).toBeFalse();
           } else {
             expect(item.isSelected).toBeTrue();
@@ -397,10 +431,10 @@ describe('LfListComponent single select', () => {
         // Arrange
         const cannotSelect = valueFactory.getItem('notSelectable');
         const list = [cannotSelect];
-  
+
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), cannotSelect, list);
-  
+        underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), cannotSelect, list);
+
         //Assert
         expect(underTest.selectedItems.length).toBe(0);
         expect(cannotSelect.isSelected).toBeFalse();
@@ -408,12 +442,16 @@ describe('LfListComponent single select', () => {
 
       it('should not select a any items that are not selectable', () => {
         // Arrange
-        
-        const list = [valueFactory.getItem('selectable'), valueFactory.getItem('notSelectable'), valueFactory.getItem('selectable')];
-  
+
+        const list = [
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('notSelectable'),
+          valueFactory.getItem('selectable'),
+        ];
+
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), list[2], list);
-  
+        underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), list[2], list);
+
         //Assert
         expect(underTest.selectedItems.length).toBe(2);
         list.forEach((item: ILfSelectable) => {
@@ -427,13 +465,17 @@ describe('LfListComponent single select', () => {
 
       it('should not select a any items that are not selectable (inital selected is after the selected)', () => {
         // Arrange
-        
-        const list = [valueFactory.getItem('selectable'), valueFactory.getItem('notSelectable'), valueFactory.getItem('selectable')];
-  
+
+        const list = [
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('notSelectable'),
+          valueFactory.getItem('selectable'),
+        ];
+
         // Act
         underTest.onItemClicked(new MouseEvent('click'), list[2], list);
-        underTest.onItemClicked(new MouseEvent('click', {shiftKey: true}), list[0], list);
-  
+        underTest.onItemClicked(new MouseEvent('click', { shiftKey: true }), list[0], list);
+
         //Assert
         expect(underTest.selectedItems.length).toBe(2);
         list.forEach((item: ILfSelectable) => {
@@ -453,7 +495,7 @@ describe('LfListComponent single select', () => {
         const list = [toSelect];
 
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true, shiftKey: true}), toSelect, list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true, shiftKey: true }), toSelect, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(1);
@@ -466,7 +508,7 @@ describe('LfListComponent single select', () => {
         const list = [valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), toSelect];
 
         // Act
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true, shiftKey: true}), toSelect, list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true, shiftKey: true }), toSelect, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(3);
@@ -479,11 +521,16 @@ describe('LfListComponent single select', () => {
         // Arrange
         const firstClickedItem = valueFactory.getItem('selectable');
         const toSelect = valueFactory.getItem('selectable');
-        const list = [valueFactory.getItem('selectable'), firstClickedItem, valueFactory.getItem('selectable'), toSelect];
+        const list = [
+          valueFactory.getItem('selectable'),
+          firstClickedItem,
+          valueFactory.getItem('selectable'),
+          toSelect,
+        ];
 
         // Act
         underTest.onItemClicked(new MouseEvent('click'), firstClickedItem, list);
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true, shiftKey: true}), toSelect, list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true, shiftKey: true }), toSelect, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(3);
@@ -501,14 +548,24 @@ describe('LfListComponent single select', () => {
         const firstClickedItem = valueFactory.getItem('selectable');
         const secondClickedItem = valueFactory.getItem('selectable');
         const thirdClickedItem = valueFactory.getItem('selectable');
-        const list = [valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), valueFactory.getItem('selectable'),
-          thirdClickedItem, valueFactory.getItem('selectable'), valueFactory.getItem('selectable'), firstClickedItem, 
-          valueFactory.getItem('selectable'), secondClickedItem, valueFactory.getItem('selectable'), valueFactory.getItem('selectable')];
+        const list = [
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          thirdClickedItem,
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+          firstClickedItem,
+          valueFactory.getItem('selectable'),
+          secondClickedItem,
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('selectable'),
+        ];
 
         // Act
         underTest.onItemClicked(new MouseEvent('click'), firstClickedItem, list);
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true, shiftKey: true}), secondClickedItem, list);
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true, shiftKey: true}), thirdClickedItem, list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true, shiftKey: true }), secondClickedItem, list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true, shiftKey: true }), thirdClickedItem, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(6);
@@ -525,12 +582,18 @@ describe('LfListComponent single select', () => {
         // Arrange
         const firstClickedItem = valueFactory.getItem('selectable');
         const toSelect = valueFactory.getItem('selectable');
-        const list = [valueFactory.getItem('selectable'), firstClickedItem, valueFactory.getItem('selectable'),
-          valueFactory.getItem('notSelectable'), valueFactory.getItem('notSelectable'), toSelect];
+        const list = [
+          valueFactory.getItem('selectable'),
+          firstClickedItem,
+          valueFactory.getItem('selectable'),
+          valueFactory.getItem('notSelectable'),
+          valueFactory.getItem('notSelectable'),
+          toSelect,
+        ];
 
         // Act
         underTest.onItemClicked(new MouseEvent('click'), firstClickedItem, list);
-        underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true, shiftKey: true}), toSelect, list);
+        underTest.onItemClicked(new MouseEvent('click', { ctrlKey: true, shiftKey: true }), toSelect, list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(3);
@@ -547,6 +610,5 @@ describe('LfListComponent single select', () => {
         });
       });
     });
-
   });
 });
