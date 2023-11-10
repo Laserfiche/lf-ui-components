@@ -69,7 +69,7 @@ jobs:
       - name: Veracode Upload And Scan (Static application security testing)
         uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
-          appname: 'lf-ui-components-16x'
+          appname: 'lf-ui-components-v16'
           createprofile: true
           filepath: 'veracode'
           vid: '${{ secrets.VERACODE_API_ID }}'
