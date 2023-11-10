@@ -3,7 +3,7 @@ name: lf-ui-components-veracode-15x
 on:
   # Allows you to run this workflow manually from the Actions tab
   push:
-    branches: ["alex/add-vercode-15"]
+    branches: ["15.x"]
   workflow_dispatch:
   schedule:
     - cron: "0 12 * * 6"
