@@ -1,3 +1,12 @@
+## 15.0.7
+
+### Features
+
+### Fixes
+
+### Chore & Maintenance
+- Update `@babel/traverse` dependency
+
 ## 15.0.6
 
 ### Features
