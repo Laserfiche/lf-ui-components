@@ -1,7 +1,9 @@
-name: lf-ui-components-veracode
+name: lf-ui-components-veracode-14x
 
 on:
   # Allows you to run this workflow manually from the Actions tab
+  push:
+    branches: ["14.x"]
   workflow_dispatch:
   schedule:
     - cron: '0 12 * * 6'
@@ -64,15 +66,16 @@ jobs:
       - name: Veracode Upload And Scan (Static application security testing)
         uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
-          appname: 'lf-ui-components'
+          appname: 'lf-ui-components-v14'
           createprofile: true
           filepath: 'veracode'
           vid: '${{ secrets.VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY }}'
+          teams: 'GitHub - Open Source'
 
       - name: Run Veracode Software Composition Analysis (srccclr)
         env:
-          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_TOKEN_UICOMPONENTS_14 }}
         uses: veracode/veracode-sca@v2.1.6
         with:
           create-issues: false
