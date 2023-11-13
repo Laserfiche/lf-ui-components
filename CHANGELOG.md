@@ -3,6 +3,7 @@
 ### Features
 
 ### Fixes
+- `[AppLocalizationService]`: Do not console.warn on all message events
 
 ### Chore & Maintenance
 - Update `@babel/traverse` dependency
