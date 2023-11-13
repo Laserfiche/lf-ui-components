@@ -6,6 +6,7 @@
 - `[AppLocalizationService]`: Do not console.warn on all message events
 
 ### Chore & Maintenance
+- Update `@babel/traverse` dependency
 
 ## 15.0.6
 
