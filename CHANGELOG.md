@@ -1,6 +1,12 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
+## 16.0.2
+
+### Chore & Maintenance
+
+- Updated version of `lf-api-client-core` to `1.1.10` due to jsrsasign transitive dependency vulnerability
+
 ## 16.0.1
 
 ### Fixes
