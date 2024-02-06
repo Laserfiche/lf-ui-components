@@ -80,7 +80,7 @@
     "@angular/platform-browser": "^14.2.12",
     "@angular/platform-browser-dynamic": "^14.2.12",
     "@angular/router": "^14.2.12",
-    "@laserfiche/lf-api-client-core": "^1.1.3",
+    "@laserfiche/lf-api-client-core": "^1.1.10",
     "@laserfiche/lf-js-utils": "^4.0.8",
     "@laserfiche/lf-resource-library": "^5.0.0",
     "ngx-mask": "^14.2.4",
