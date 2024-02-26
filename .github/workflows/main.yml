@@ -144,7 +144,7 @@ jobs:
         working-directory: ./types-lf-ui-components-publish
 
       - name: Npm publish @laserfiche/types-lf-ui-components
-        run: npm publish  --access public  --tag next
+        run: npm publish  --access public
         working-directory: ./types-lf-ui-components-publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -154,7 +154,7 @@ jobs:
         working-directory: ./dist/ui-components
 
       - name: Npm publish @laserfiche/lf-ui-components
-        run: npm publish  --access public  --tag next
+        run: npm publish  --access public
         working-directory: ./dist/ui-components
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -198,7 +198,7 @@ jobs:
         working-directory: ./types-lf-ui-components-publish
 
       - name: Npm publish @laserfiche/types-lf-ui-components
-        run: npm publish  --access public  --tag latest
+        run: npm publish  --access public
         working-directory: ./types-lf-ui-components-publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -208,7 +208,7 @@ jobs:
         working-directory: ./dist/ui-components
 
       - name: Npm publish @laserfiche/lf-ui-components
-        run: npm publish  --access public  --tag latest
+        run: npm publish  --access public
         working-directory: ./dist/ui-components
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
