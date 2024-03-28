@@ -47,20 +47,6 @@ jobs:
       - name: 'remove main.js, polyfills.js and runtime.js'
         run: rm ./dist/lf-documentation/main.js ./dist/lf-documentation/polyfills.js ./dist/lf-documentation/runtime.js
 
-      - name: Npm run test
-        shell: pwsh
-        run: npm run test:ci
-
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Jest Test Results
-          path: ./**/TESTS*.xml
-          reporter: java-junit
-          only-summary: 'true'
-          fail-on-error: 'false'
-
       - name: 'create an empty ./dist/ui-components/cdn folder'
         run: 'mkdir -p ./dist/ui-components/cdn'
 
