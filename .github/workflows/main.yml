@@ -15,6 +15,11 @@ on:
 env:
   NPM_VERSION: "16.0.2"
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
@@ -225,7 +230,6 @@ jobs:
 
   publish_documentation:
     runs-on: ubuntu-latest
-    environment: publish_to_S3
     if: ${{ github.run_attempt != 1 }}
     needs: [ build ]
     steps:
@@ -253,12 +257,11 @@ jobs:
       - name: 'gulp replaceVersionInIndexHtml'
         run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2 # Use your bucket region here
+          path: ./dist/lf-documentation
 
-      - name: Upload docs to S3 bucket
-        run: aws s3 sync ./dist/lf-documentation s3://apiserver-publish-client-library-docs/${GITHUB_REPOSITORY##*/}/docs/${GITHUB_REF##*/} --delete
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
