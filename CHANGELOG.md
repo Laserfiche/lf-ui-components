@@ -1,7 +1,11 @@
-## 15.0.8
+## 15.0.9
 
 ### Chore & Maintenance
 - Updated minor versions of some transitive dependencies due to vulnerabilities
+
+## 15.0.8
+
+### Chore & Maintenance
 - Updated `@laserfiche/lf-api-client-core` dependency due to `jsrsasign` transitive dependency vulnerability
 
 ## 15.0.7
