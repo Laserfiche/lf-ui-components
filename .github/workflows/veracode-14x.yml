@@ -3,7 +3,7 @@ name: lf-ui-components-veracode-14x
 on:
   # Allows you to run this workflow manually from the Actions tab
   push:
-    branches: ["alex/update-pipelines"]
+    branches: ["14.x"]
   workflow_dispatch:
   schedule:
     - cron: '0 12 * * 6'
@@ -13,7 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout 14.x branch
+        uses: actions/checkout@v3
         with:
           ref: 14.x
 

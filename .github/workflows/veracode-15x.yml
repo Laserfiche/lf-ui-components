@@ -13,16 +13,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout 15.x branch
+        uses: actions/checkout@v3
         with:
           ref: 15.x
-
-      - name: Exit if the branch is not 15.x
-        run: |
-          if [[ "${{ github.ref }}" != "refs/heads/15.x" ]]; then
-            echo "Branch is not 15.x, exiting."
-            exit 0
-          fi
 
       - name: Echo build number
         run: echo ${{github.run_id}}
