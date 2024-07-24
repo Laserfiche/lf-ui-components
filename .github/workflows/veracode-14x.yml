@@ -17,7 +17,7 @@ jobs:
         run: |
           if [[ "${{ github.ref }}" != "refs/heads/14.x" ]]; then
             echo "Branch is not 14.x, exiting."
-            exit 0
+            exit -1
           fi
 
       - uses: actions/checkout@v3
