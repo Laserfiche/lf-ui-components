@@ -21,7 +21,9 @@ jobs:
           fi
 
       - uses: actions/checkout@v3
-          ref: ${{github.sha}}
+        with:
+          ref: ${{ github.sha }}
+
       - name: Echo build number
         run: echo ${{github.run_id}}
 
