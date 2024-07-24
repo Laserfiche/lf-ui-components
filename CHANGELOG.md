@@ -1,3 +1,8 @@
+## 15.0.8
+
+### Chore & Maintenance
+- Updated minor versions of some transitive dependencies due to vulnerabilities
+
 ## 15.0.7
 
 ### Features
