@@ -1,3 +1,9 @@
+## 14.1.9
+
+### Chore & Maintenance
+
+- Updated minor versions of some transitive dependencies due to vulnerabilities
+
 ## 14.1.8
 
 ### Chore & Maintenance
