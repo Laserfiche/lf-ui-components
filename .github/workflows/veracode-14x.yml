@@ -3,7 +3,7 @@ name: lf-ui-components-veracode-14x
 on:
   # Allows you to run this workflow manually from the Actions tab
   push:
-    branches: ["14.x"]
+    branches: ["alex/update-pipelines"]
   workflow_dispatch:
   schedule:
     - cron: '0 12 * * 6'
