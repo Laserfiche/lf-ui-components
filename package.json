@@ -34,7 +34,7 @@
     "create-types-lf-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run move-enums-to-types && cd ./types-lf-ui-components-publish && npm pack"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.0",
+    "@angular-devkit/build-angular": "^16.2.15",
     "@angular-eslint/builder": "^16.1.2",
     "@angular-eslint/eslint-plugin": "^16.1.2",
     "@angular-eslint/eslint-plugin-template": "^16.1.2",
