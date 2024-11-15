@@ -1,5 +1,9 @@
 ## 14.1.9
 
+### Features
+
+- Updated version of `@laserfiche/lf-js-utils` to `4.0.11` to support localization of user feedback component
+
 ### Chore & Maintenance
 
 - Updated minor versions of some transitive dependencies due to vulnerabilities
