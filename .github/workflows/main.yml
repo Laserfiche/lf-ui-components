@@ -106,7 +106,7 @@ jobs:
         run: mv -t ./dist/ui-components README.md
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: npm-publish-artifact
           # A file, directory or wildcard pattern that describes what to upload
@@ -130,7 +130,7 @@ jobs:
           ref: ${{ github.sha }}
 
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: npm-publish-artifact
 
@@ -187,7 +187,7 @@ jobs:
           ref: ${{ github.sha }}
 
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: npm-publish-artifact
 
@@ -239,7 +239,7 @@ jobs:
           ref: ${{ github.sha }}
 
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: npm-publish-artifact
 
