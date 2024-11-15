@@ -17,7 +17,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
 
@@ -25,7 +25,7 @@ jobs:
         run: echo ${{github.run_id}}
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
 
@@ -97,7 +97,7 @@ jobs:
         run: mv -t ./dist/ui-components README.md
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: npm-publish-artifact
           # A file, directory or wildcard pattern that describes what to upload
@@ -116,17 +116,17 @@ jobs:
     if: ${{ github.run_attempt != 1 }}
     needs: [ build ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
 
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: npm-publish-artifact
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
@@ -173,17 +173,17 @@ jobs:
     if: ${{ github.run_attempt != 1 }}
     needs: [ build ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
 
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: npm-publish-artifact
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
@@ -226,17 +226,17 @@ jobs:
     if: ${{ github.run_attempt != 1 }}
     needs: [ build ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
 
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: npm-publish-artifact
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
