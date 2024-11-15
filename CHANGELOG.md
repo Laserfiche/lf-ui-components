@@ -1,5 +1,8 @@
 ## 15.0.9
 
+### Features
+- Update version of `lf-js-utils` to support localization of user feedback component
+
 ### Chore & Maintenance
 - Updated minor versions of some transitive dependencies due to vulnerabilities
 
