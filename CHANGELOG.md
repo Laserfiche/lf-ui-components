@@ -3,6 +3,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 ## 16.0.3
 
+### Features
+- Update version of `lf-js-utils` to support localization of user feedback component
+
 ### Chore & Maintenance
 
 - Updated minor versions of some other transitive dependencies due to vulnerabilities
