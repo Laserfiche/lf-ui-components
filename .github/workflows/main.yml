@@ -68,6 +68,7 @@ jobs:
       - name: 'remove main.js, polyfills.js and runtime.js'
         run: rm ./dist/lf-documentation/main.js ./dist/lf-documentation/polyfills.js ./dist/lf-documentation/runtime.js
 
+      - uses: browser-actions/setup-chrome@v1
       - name: Npm run test
         shell: pwsh
         run: npm run test:ci
