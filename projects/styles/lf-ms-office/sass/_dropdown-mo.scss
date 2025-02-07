@@ -93,6 +93,10 @@ mat-form-field.lf-dropdown {
   background-color: white;
 }
 
+.lf-dropdown.mat-mdc-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
+  padding: 0px;
+}
+
 .lf-template-picker .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: white;
   padding-left: 0px;
