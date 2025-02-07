@@ -1,6 +1,12 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
+## 16.0.4
+
+### Fixes
+
+- `lf-ms-office-lite.css`: Fixed template selector styling issue
+
 ## 16.0.3
 
 ### Features
