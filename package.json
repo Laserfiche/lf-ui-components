@@ -36,7 +36,7 @@
     "gulp-replace-placeholders-in-documentation": "gulp replacePlaceholdersInDocumentation"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.16",
+    "@angular-devkit/build-angular": "^19.2.1",
     "@angular-eslint/builder": "^16.1.2",
     "@angular-eslint/eslint-plugin": "^16.1.2",
     "@angular-eslint/eslint-plugin-template": "^16.1.2",
@@ -60,7 +60,7 @@
     "karma-jasmine": "^4.0.0",
     "karma-jasmine-html-reporter": "^1.7.0",
     "karma-junit-reporter": "^2.0.1",
-    "ng-packagr": "^16.2.0",
+    "ng-packagr": "^19.2.0",
     "puppeteer": "^23.8.0",
     "tslib": "^2.4.0",
     "typescript": "^4.9.3",
