@@ -390,27 +390,3 @@ describe('LfListComponent single select', () => {
     }));
   });
 });
-
-describe('LfListComponent multi select', () => {
-  let component: LfListTestComponent;
-  let fixture: ComponentFixture<LfListTestComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ LfListTestComponent, LfSelectionListComponent ],
-      imports: [
-        CommonModule,
-        ScrollingModule
-      ]
-    })
-    .compileComponents();
-  });
-
-  beforeEach(fakeAsync(() => {
-    fixture = TestBed.createComponent(LfListTestComponent);
-    component = fixture.componentInstance;
-    component.items = itemList;
-    fixture.autoDetectChanges();
-    flush(); // Need to add this so we can allow the list to render
-  }));
-});

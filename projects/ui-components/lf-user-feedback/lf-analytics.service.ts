@@ -11,16 +11,17 @@ import { IUserTrackingEvent, UserFeedbackUserTrackingEvent } from './lf-user-fee
 })
 export class LfAnalyticsService {
 
-  constructor() {
-    const businessIntelligenceInfo = this.getBusinessIntelligenceInfo(window.origin);
-    if (businessIntelligenceInfo) {
-      init(businessIntelligenceInfo.environment);
-    }
-  }
+  private businessIntelligenceInitialized: boolean = false;
+  constructor() {}
 
   track(event: IUserTrackingEvent): boolean {
     try {
-      const analytics = this.getAnalytics();
+      const businessIntelligenceInfo = this.getBusinessIntelligenceInfo(window.origin);
+      if (businessIntelligenceInfo && !this.businessIntelligenceInitialized) {
+        init(businessIntelligenceInfo.environment);
+        this.businessIntelligenceInitialized = true;
+      }
+      const analytics = this.getAnalytics(businessIntelligenceInfo);
       if (analytics && event.accountId && event.module && event.userId) {
         const isHostEmpower = this.isHostEmpower(window.origin);
         if (isHostEmpower) {
@@ -40,8 +41,7 @@ export class LfAnalyticsService {
     }
   }
 
-  private getAnalytics(): any {
-    const businessIntelligenceInfo = this.getBusinessIntelligenceInfo(window.origin);
+  private getAnalytics(businessIntelligenceInfo: BusinessIntelligenceInfo | undefined): any {
     if (!businessIntelligenceInfo) {
       return undefined;
     } else {
