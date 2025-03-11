@@ -413,4 +413,8 @@ describe('LfListComponent multi select', () => {
     fixture.autoDetectChanges();
     flush(); // Need to add this so we can allow the list to render
   }));
+
+  it('do nothing', () => {
+    expect(true).toBe(true);
+  });
 });
