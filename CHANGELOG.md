@@ -1,5 +1,10 @@
-<!--Copyright (c) Laserfiche.
+<!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+## 16.0.5
+
+### Fixes
+
+- `[lf-user-feedback]`: Fixed the tracking script initialization issue
 
 ## 16.0.4
 

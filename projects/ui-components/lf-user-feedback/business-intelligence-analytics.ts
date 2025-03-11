@@ -1,9 +1,9 @@
-// Copyright (c) Laserfiche.
+// Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 export function init(environment: string) {
   // Create a queue, but don't obliterate an existing one!
-  const analytics = (window as any).analytics = (window as any).analytics || [];
+  const analytics = ((window as any).analytics = (window as any).analytics || []);
 
   // If the real analytics.js is already on the page return.
   if (analytics.initialize) return;
@@ -61,7 +61,7 @@ export function init(environment: string) {
 
   // Define a method to load Analytics.js from our CDN,
   // and that will be sure to only ever load it once.
-  analytics.load = function ( env: string, options: any) {
+  analytics.load = function (env: string, options: any) {
     // Create an async script element based on your key.
     var script = document.createElement('script');
     script.type = 'text/javascript';
@@ -86,4 +86,4 @@ export function init(environment: string) {
   // you'd like to manually name or tag the page, edit or
   // move this call however you'd like.
   analytics.page();
-};
+}
