@@ -32,6 +32,7 @@ See .github/workflows/main.yml for Node and NPM version used.
 1. Build ui-components using: `npm run build-ui-components-prod`
 1. Run: `npm run create-lf-cdn`
    - This command will generate the CDN entry file `dist/lf-cdn/lf-ui-components.js`.
+   - If need to output the CDN entry file to a different directory or project for said project local test, change `SCRIPT_DEST` in the root `gulpfile.js`. **Important**: don't commit this change to Pull Request
 
 ### Build types-lf-ui-components NPM
 
