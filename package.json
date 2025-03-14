@@ -60,7 +60,7 @@
     "karma-junit-reporter": "^2.0.1",
     "puppeteer": "^23.8.0",
     "tslib": "^2.4.0",
-    "typescript": "5.4",
+    "typescript": "5.4.5",
     "yargs": "^17.1.0"
   },
   "peerDependencies": {
