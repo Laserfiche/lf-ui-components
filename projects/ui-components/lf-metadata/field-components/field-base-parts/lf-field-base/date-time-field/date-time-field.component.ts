@@ -4,9 +4,8 @@
 import { ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher, DateAdapter  } from '@angular/material/core';
 import moment from 'moment';
-import { NgxMatDateAdapter, NgxMatDatetimepicker } from '@angular-material-components/datetime-picker';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable } from 'rxjs';
@@ -30,11 +29,12 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
   }));
   private readonly DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringLaserficheWithObservableParams('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', [this.LOCALE_DATE_TIME]);
 
-  @ViewChild('picker') picker?: NgxMatDatetimepicker<any>;
+  // @ViewChild('picker') picker?: NgxMatDatetimepicker<any>;
 
   constructor(
     public tokenService: LfFieldTokenService,
-    private dateAdapter: NgxMatDateAdapter<any>,
+    private dateAdapter: DateAdapter<any> ,
+    // private dateAdapter: NgxMatDateAdapter<any>,
     public ref: ChangeDetectorRef,
     public localizationService: AppLocalizationService,
     private zone: NgZone) {
@@ -46,7 +46,7 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
 
   onTogglePicker() {
     this.zone.run(() => {
-      this.picker?.open();
+      // this.picker?.open();
     });
   }
 

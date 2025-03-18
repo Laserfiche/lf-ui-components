@@ -10,7 +10,6 @@ import { LfFieldTokenService } from '../lf-field-token.service';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
-import { NgxMatNativeDateModule, NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -58,8 +57,6 @@ describe('DateTimeFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        NgxMatNativeDateModule,
-        NgxMatDatetimePickerModule,
         MatDatepickerModule
       ],
       providers: [
