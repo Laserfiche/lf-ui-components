@@ -2,22 +2,23 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <span class="token-picker-field-box" *ngIf="!isDynamic else dynamic">
+
   <mat-form-field *ngIf="!showTokenTextBox" title="{{lf_field_info.displayName}}" appearance="outline" class="lf-field">
-    <input #tokenTarget matInput [ngxMatDatetimePicker]="picker" [formControl]="lf_field_form_control"
+
+    <input #tokenTarget matInput
       title="{{lf_field_form_control.value}}" (dateChange)="onDateOrTimeChanged()" (dateInput)="onDateOrTimeChanged(false)">
-    <button class="datetime-button-toggle" mat-icon-button matSuffix
-      (click)="onTogglePicker(); $event.stopPropagation();">
-      <span class="material-icons datetime-icon">
-        today
-      </span>
-    </button>
-    <ngx-mat-datetime-picker panelClass="lf-datetime-picker-overlay" [showSeconds]=true [enableMeridian]="shouldEnableMeridian" #picker>
-      <ngx-mat-datepicker-actions>
-        <button mat-raised-button color="primary" ngxMatDatepickerApply class="lf-button primary-button">Apply</button>
-      </ngx-mat-datepicker-actions>
-    </ngx-mat-datetime-picker>
+
+      <uni-date-time class="lf-datetime-picker-overlay" #newStartDatePicker id="newStartDatePicker" [abstractControl]="form"
+      dateControlName="pickerStartDate" timeControlName="pickerStartTime" dateTimeControlName="pickerStartDateTime"
+      [config]="uniDateConfig" [settings]="startDateSettings"
+      (onValueChangedEvent)="onDateTimePickerChange($event)"
+      (onDateIconClickEvent)="onPickerIconClick($event)"
+      (onTimeIconClickEvent)="onPickerIconClick($event)">
+      </uni-date-time>
     <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
   </mat-form-field>
+
+
   <mat-form-field *ngIf="showTokenTextBox" title="{{lf_field_info.displayName}}" appearance="outline" class="lf-field">
     <input #tokenTarget matInput [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
       (change)="onDateOrTimeTokenValueChanged()">

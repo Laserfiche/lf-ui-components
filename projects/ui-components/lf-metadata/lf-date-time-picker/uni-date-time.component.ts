@@ -26,9 +26,9 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     @HostBinding("class.readonly") isReadonly = false;
     @HostBinding("class.disabled") isDisabled = false;
 
-    @Input("config") config: UniComponentConfig;
-    @Input("settings") settings: UniComponentSettings;
-    @Input("strings") customStrings: {  // Revise
+    @Input("config") config!: UniComponentConfig;
+    @Input("settings") settings!: UniComponentSettings;
+    @Input("strings") customStrings?: {  // Revise
         dateTimeCapturedInBackend?: string, // if useBackendDateTimeForCurrentDateTime=true, useCurrentDate: true, readOnly: true, showTime: true
         dateCapturedInBackend?: string, // if useBackendDateTimeForCurrentDateTime=true, useCurrentDate: true, readOnly: true
         timeCapturedInBackend?: string, // if useBackendDateTimeForCurrentDateTime=true, useCurrentTime: true, readOnly: true, showTimeOnly: true
@@ -39,11 +39,11 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     };
 
     // Copied from base
-    @Input("component-id") id: string;
-    @Input("abstractControl") abstractControl: AbstractControl;
-    @Input("dateControlName") dateControlName: string;
-    @Input("timeControlName") timeControlName: string;
-    @Input("dateTimeControlName") dateTimeControlName: string;
+    @Input("component-id") id?: string;
+    @Input("abstractControl") abstractControl?: AbstractControl;
+    @Input("dateControlName") dateControlName?: string;
+    @Input("timeControlName") timeControlName?: string;
+    @Input("dateTimeControlName") dateTimeControlName?: string;
 
     // Events // Revise
     @Output() onValueChangedEvent: EventEmitter<{ newValue: StateData, newState: UniState, controlType: UniControlType, source: FormChangeSource, event: FormChangeEvent, component: UniDateTimeComponent }> = new EventEmitter();
@@ -68,7 +68,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     errorMessage = "";
     customErrorMessages: { [errorType: string]: string } = {};
 
-    strings: {
+    strings?: {
         dateTimeCapturedInBackend?: string,
         dateCapturedInBackend?: string,
         timeCapturedInBackend?: string,
@@ -80,34 +80,34 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
 
     showLoadingSpinner = false;
 
-    date: Instance;
-    time: Instance;
+    date?: Instance;
+    time?: Instance;
     defaultDateFormat: string = "YYYY-MM-DD";
     defaultTimeFormat: string = "hh:mm:ss A";
     defaultDateTimeFormat: string = "YYYY-MM-DD hh:mm:ss A";
 
-    dateControl: FormControl<string | null>;
-    timeControl: FormControl<string | null>;
-    dateTimeControl: FormControl<string | null>;
-    controls: {
+    dateControl?: FormControl<string | null>;
+    timeControl?: FormControl<string | null>;
+    dateTimeControl?: FormControl<string | null>;
+    controls!: {
         date?: FormControl<string | null>;
         time?: FormControl<string | null>;
         dateTime?: FormControl<string | null>;
-    } = { date: null, time: null };
-    errorMessages: { date?: string; time?: string; dateTime?: string }; // Revise
+    };
+    errorMessages?: { date?: string; time?: string; dateTime?: string }; // Revise
     showDateTimeErrorMessage = false; // Revise
-    prevSettings: UniComponentSettings;
+    prevSettings!: UniComponentSettings;
     useBackendDateTimeForCurrentDateTime = false;
-    minDateTime: Date;
-    minDateTimeStr: string;
-    minTime: string; // HH:mm
-    maxDateTime: Date;
-    maxDateTimeStr: string;
-    maxTime: string; // HH:mm
+    minDateTime?: Date;
+    minDateTimeStr?: string;
+    minTime?: string; // HH:mm
+    maxDateTime?: Date;
+    maxDateTimeStr?: string;
+    maxTime?: string; // HH:mm
 
-    @ViewChild("dateDiv") dateDiv: ElementRef;
-    @ViewChild("timedateDiv") timedateDiv: ElementRef;
-    @ViewChild("dateTimeInput") dateTimeInput: ElementRef;
+    @ViewChild("dateDiv") dateDiv!: ElementRef;
+    @ViewChild("timedateDiv") timedateDiv!: ElementRef;
+    @ViewChild("dateTimeInput") dateTimeInput?: ElementRef;
     supportedLanguage = 'en';
 
     constructor(public dateTimeService: UniDateTimeService) {
@@ -123,18 +123,21 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         if (!this.config.isDisplayOnly) {
             this.customErrorMessages = this.settings.customErrorMessages; // revise
         } else {
-            const dateTimeData = this.dateTimeService.createDataForDateTime(null, this.settings, this.config, true, null, this.defaultDateFormat, this.defaultTimeFormat);
-            const dateStr = dateTimeData.dateStr !== "" ? dateTimeData.dateStr : this.settings.defaultDate;
-            const timeStr = dateTimeData.timeStr !== "" ? dateTimeData.timeStr : this.settings.defaultTimeOfDate;
+            const dateTimeData = this.dateTimeService.createDataForDateTime(
+              null, this.settings, this.config, null, this.defaultDateFormat, this.defaultTimeFormat);
+            // const dateStr = dateTimeData.dateStr !== "" ? dateTimeData.dateStr : (this.settings.defaultDate ? this.settings.defaultDate: null);
+            const dateStr = dateTimeData.dateStr || this.settings?.defaultDate || null; // Shiyuan TODO: verify this change since dateTimeData.dateStr !== "" returns true when datastr undefined or null
+            // const timeStr = dateTimeData.timeStr !== "" ? dateTimeData.timeStr : this.settings.defaultTimeOfDate; // Shiyuan TODO: same as dateStr
+            const timeStr = dateTimeData.timeStr || this.settings.defaultTimeOfDate || null;
             this.dateControl?.setValue(dateStr);
             this.timeControl?.setValue(timeStr);
-            this.dateTimeControl?.setValue(this.dateTimeService.formatDateTimeForStoredValue(dateTimeData.dateTimeObj, dateStr, timeStr, this.config, this.settings.combinedDateTime));
+            const formattedDateTime = this.dateTimeService.formatDateTimeForStoredValue(
+              dateTimeData.dateTimeObj, dateStr, timeStr, this.config, this.settings.combinedDateTime);
+            this.dateTimeControl?.setValue(formattedDateTime ? formattedDateTime : null);
         }
     }
 
     ngAfterViewInit() {
-
-
         if (!this.config.isDisplayOnly && !this.state.readonly) {
 
             this.localize(); // Also sets this.supportedLanguage
@@ -183,15 +186,16 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
             const timeData = this.state.data as StateDataTime;
             const defaultDate = isNil(dateTimeData?.dateStr) ? defaultDateToSet : dateTimeData.dateStr;
             const defaultTime = isNil(timeData?.timeStr) ? defaultTimeToSet : timeData?.timeStr;
-
+            const timeFormatContainsSecond: boolean = !!this.settings.timeFormat && this.settings.timeFormat.indexOf("s") > -1;
+            const timeFormatContainsHour: boolean = !!this.settings.timeFormat && this.settings.timeFormat.indexOf("H") > -1;
             //-- Setting up flatpickr elements
             if (!this.settings.showTimeOnly && this.dateDiv.nativeElement) {
                 this.date = flatpickr(this.dateDiv.nativeElement, {
                     locale: this.dateTimeService.getFlatpickrLocale(this.supportedLanguage),
 
                     enableTime: this.settings.combinedDateTime,  // if combined
-                    enableSeconds: this.settings.combinedDateTime && this.settings.timeFormat.indexOf("s") > -1,
-                    time_24hr: this.settings.combinedDateTime && this.settings.timeFormat.indexOf("H") > -1, // Revise
+                    enableSeconds: this.settings.combinedDateTime && timeFormatContainsSecond,
+                    time_24hr: this.settings.combinedDateTime && timeFormatContainsHour,
 
                     allowInput: true,
                     allowInvalidPreload: true,
@@ -226,9 +230,9 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
                     locale: this.dateTimeService.getFlatpickrLocale(this.supportedLanguage),
                     allowInput: true,
                     enableTime: true,
-                    enableSeconds: this.settings.timeFormat.indexOf("s") > -1,
+                    enableSeconds: timeFormatContainsSecond,
                     noCalendar: true,
-                    time_24hr: this.settings.timeFormat.indexOf("H") > -1, // Revise
+                    time_24hr: timeFormatContainsHour,
                     defaultDate: defaultTime,
                     plugins: [LFTimePickerPlugin()],
                     onChange: (selectedDates: Date[], dateStr: string, instance: Instance) => {
@@ -237,14 +241,13 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
                     onClose: (selectedDates: Date[], dateStr: string, instance: Instance) => {
                         this.onDateTimeChange(selectedDates[0], false, FormChangeEvent.TimeClose);
                     },
-                    formatDate: undefined,
-                    dateFormat: undefined,
+                    formatDate: undefined, // Shiyuan TODO: null or remove?
+                    dateFormat: this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(this.settings.timeFormat),
                     wrap: true,
                     minTime: this.minTime,
                     maxTime: this.maxTime
                 };
 
-                flatpickrConfig.dateFormat = this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(this.settings.timeFormat);
                 this.time = flatpickr(this.timedateDiv.nativeElement, flatpickrConfig);
             }
 
@@ -257,13 +260,13 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
                     this.timeControl?.setValue(this.time.input.value);
                 }
                 if (!this.settings.showTimeOnly) {
-                    this.processDateTimeValues(this.date.input.value, true);
+                    this.processDateTimeValues(this.date?.input.value, true);
                 } else {
-                    this.processDateTimeValues(this.time.input.value, false);
+                    this.processDateTimeValues(this.time?.input.value, false);
                 }
                 this.state.readonly = this.settings.readOnly; // Revise
-                this.isReadonly = this.settings.readOnly;
-                this.isRequired = this.settings.required;
+                this.isReadonly = this.settings.readOnly ? this.settings.readOnly : this.isReadonly;
+                this.isRequired = this.settings.required ? this.settings.required : this.isRequired;
             }, 0);
 
         }
@@ -311,8 +314,8 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
 
         this.assignSubAbstractControl();
         if (this.config.isDisplayOnly) {
-            this.dateControl.disable();
-            this.timeControl.disable();
+            this.dateControl?.disable();
+            this.timeControl?.disable();
         }
 
         if (this.config.setDisplayFormatByLocale == true) {
@@ -359,7 +362,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
 
         // For information only
         // Adjust 24h
-        if (this.settings.timeFormat.indexOf('H') > -1) {
+        if (this.settings.timeFormat && this.settings.timeFormat.indexOf('H') > -1) {
             this.settings.isAMPM = false;
             this.settings.isTwentyfour = true;
         }
@@ -368,9 +371,21 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
 
     private populateConfig() {
         this.config = !this.config ? this.dateTimeService.getDefaultConfig() : { ...this.dateTimeService.getDefaultConfig(), ...this.config };
-        this.defaultDateFormat = this.config.defaultDateFormat;
-        this.defaultTimeFormat = this.config.defaultTimeFormat;
-        this.defaultDateTimeFormat = this.config.defaultDateTimeFormat;
+        if (this.config.defaultDateFormat)
+        {
+          this.defaultDateFormat = this.config.defaultDateFormat;
+        }
+        else{
+          // unexpected code path shiyuan TODO: error handling
+        }
+        if (this.config.defaultTimeFormat)
+        {
+          this.defaultTimeFormat = this.config.defaultTimeFormat;
+        }
+        if (this.config.defaultDateTimeFormat)
+        {
+          this.defaultDateTimeFormat = this.config.defaultDateTimeFormat;
+        }
 
         if (this.config.tokensPatternRegex) {
             this.dateTimeService.setTokensPatternRegex(this.config.tokensPatternRegex);
@@ -398,13 +413,13 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
                         strToReplace = options.max;
                     }
                     else {
-                        strToReplace = this.settings[token.settingName];
+                        strToReplace = (this.settings as any)[token.settingName];
                     }
                 } else {
-                    strToReplace = this.settings[token.settingName];
+                    strToReplace = (this.settings as any)[token.settingName];
                 }
             } else {
-                strToReplace = this.settings[token.settingName];
+                strToReplace = (this.settings as any)[token.settingName];
             }
             message = message.replace(regex, strToReplace);
         });
@@ -422,7 +437,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     }
 
     touch() {
-        this.abstractControl.markAsTouched();
+        this.abstractControl?.markAsTouched();
         if (this.abstractControl instanceof FormGroup) {
             const formGroup = this.abstractControl as FormGroup;
             formGroup.markAllAsTouched();
@@ -457,30 +472,33 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         }
     }
 
-    processDateTimeValues(value: string | Date, isDate: boolean) {
+    processDateTimeValues(value: string | Date | undefined | null, isDate: boolean) {
         let v = value ? value : "";
 
         if (this.settings.acceptTokens) {
+          if(this.config.tokensPatternRegex)
+          {
             this.dateTimeService.setTokensPatternRegex(this.config.tokensPatternRegex);
+          }
             if (isDate && this.date) {
                 if (this.dateTimeService.isToken(this.date.input.value)) {
                     v = this.date.input.value;
                 }
-            } else {
+            } else if(this.time) {
                 if (this.dateTimeService.isToken(this.time.input.value)) {
                     v = this.time.input.value;
                 }
             }
         }
 
-        let result: { dateStr: string; timeStr: string; dateTimeObj: Date },
-            dateStr: string,
-            timeStr: string,
-            dateTimeObj: Date;
+        let result: { dateStr: string; timeStr: string; dateTimeObj: Date | undefined | null},
+            dateStr: string | undefined | null,
+            timeStr: string | undefined | null,
+            dateTimeObj: Date | undefined | null;
         const { timeFormat, dateFormat, showTime, combinedDateTime } = this.settings;
         const { dateStr: oldDateStr, timeStr: oldTimeStr } = this.state.data as StateDataDateTime;
+
         if (showTime) {
-            const stringSource = (typeof v === "string");
             if (typeof v === "string") {
                 dateStr = isDate ? v : oldDateStr;
                 timeStr = isDate ? oldTimeStr : v;
@@ -493,23 +511,23 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
             if (combinedDateTime) {
                 // parse using current language
                 dateTimeObj = dateStr || timeStr ? this.dateTimeService.parse({
-                    dateTimeStr: this.substituteTokens(dateStr, false) + (timeStr ? " " + this.substituteTokens(timeStr, false) : ""),
+                    dateTimeStr: (dateStr? this.substituteTokens(dateStr, false) : "") + (timeStr ? " " + this.substituteTokens(timeStr, false) : ""),
                     dateTimeFormat: dateFormat + (timeStr ? " " + timeFormat : ""),
                     language: this.config.language
                 }) : null;
             } else {
                 // parse using current language
                 dateTimeObj = dateStr || timeStr ? this.dateTimeService.parse({
-                    dateStr: this.substituteTokens(dateStr, false),
-                    timeStr: this.substituteTokens(timeStr, false),
+                    dateStr: dateStr? this.substituteTokens(dateStr, false) : "",
+                    timeStr: timeStr ? this.substituteTokens(timeStr, false) : "",
                     dateFormat,
                     timeFormat,
                     language: this.config.language
                 }) : null;
             }
 
-            dateStr = this.substituteTokens(dateStr, true);
-            timeStr = this.substituteTokens(timeStr, true);
+            dateStr = dateStr? this.substituteTokens(dateStr, true) : "";
+            timeStr = timeStr? this.substituteTokens(timeStr, true) : "";
             const formatDateStr = dateTimeObj && dateStr && !this.dateTimeService.isToken(dateStr);
             const formatTimeStr = combinedDateTime && this.dateTimeService.isToken(dateStr) ? false : dateTimeObj && timeStr && !this.dateTimeService.isToken(timeStr);
 
@@ -527,7 +545,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
             } else {
                 dateTimeObj = v;
             }
-            dateStr = this.substituteTokens(dateStr, true);
+            dateStr = dateStr? this.substituteTokens(dateStr, true) : "";
             // format using current language
             result = {
                 dateStr: dateTimeObj && !this.dateTimeService.isToken(dateStr) ? this.dateTimeService.format({ dateTimeObj, dateFormat, language: this.config.language }) : (this.dateTimeService.isToken(dateStr) ? dateStr : ""),
@@ -535,19 +553,19 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
                 dateTimeObj
             };
         }
-
-        this.dateTimeControl?.setValue(this.dateTimeService.formatDateTimeForStoredValue(result.dateTimeObj, result.dateStr, result.timeStr, this.config, this.settings.combinedDateTime));
+        const formattedDateTime = this.dateTimeService.formatDateTimeForStoredValue(result.dateTimeObj, result.dateStr, result.timeStr, this.config, this.settings.combinedDateTime);
+        this.dateTimeControl?.setValue(formattedDateTime ? formattedDateTime : null);
 
         return result;
     }
 
     // Revise
-    onDateTimeChange(value: string | Date, isDate: boolean, event: FormChangeEvent) {
+    onDateTimeChange(value: string | Date | undefined | null, isDate: boolean, event: FormChangeEvent) {
         if (this.state.readonly || this.state.disabled) {
             return;
         }
 
-        const result: { dateStr: string; timeStr: string; dateTimeObj: Date } = this.processDateTimeValues(value, isDate);
+        const result = this.processDateTimeValues(value, isDate);
 
         // emit event?
         const controlType = this.settings.combinedDateTime ? UniControlType.DateTime :
@@ -559,7 +577,6 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         this.updateErrorDisplay();
         this.state.data = result;
         this.onValueChangedEvent.emit({ newValue: result, newState: newState, controlType: controlType, source: FormChangeSource.User, event: event, component: this });
-
     }
 
     // Revise
@@ -571,9 +588,9 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
 
         if (!this.abstractControl) {
             const defaultControls = {};
-            defaultControls[this.dateControlName] = new FormControl();
-            defaultControls[this.timeControlName] = new FormControl();
-            defaultControls[this.dateTimeControlName] = new FormControl();
+            (defaultControls as any)[this.dateControlName] = new FormControl();
+            (defaultControls as any)[this.timeControlName] = new FormControl();
+            (defaultControls as any)[this.dateTimeControlName] = new FormControl();
 
             this.abstractControl = new FormGroup(defaultControls);
         }
@@ -611,7 +628,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     private getControl(controlName: string) {
         let control: any;
         try {
-            control = this.abstractControl.get(controlName) as FormControl<string | null>;
+            control = this.abstractControl?.get(controlName) as FormControl<string | null>;
         }
         catch (ex) {
             console.log('Could not locate control ' + controlName);
@@ -632,21 +649,21 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     // Update default date/time using defaultDateFormat and defaultTimeFormat
     setDateTime(newDate?: string | Date, newTime?: string | Date) {
         if (newDate && newTime) {
-            let dateStr = '';
-            let timeStr = '';
+            let dateStr: string;
+            let timeStr: string;
 
             if (typeof newTime == 'string') {
                 timeStr = newTime;
             } else {
                 const dataFromTime = this.dateTimeService.generateDateTimeData('', '', newTime, '*', this.config.defaultTimeFormat );
-                timeStr = dataFromTime.timeStr;
+                timeStr = dataFromTime.timeStr ? dataFromTime.timeStr : "";
             }
 
             if (typeof newDate == 'string') {
                 dateStr = newDate;
             } else {
                 const dataFromDate = this.dateTimeService.generateDateTimeData('*', this.config.defaultDateFormat , newDate);
-                dateStr = dataFromDate.dateStr;
+                dateStr = dataFromDate.dateStr ? dataFromDate.dateStr : "";
             }
             let dateTimeObj = this.dateTimeService.createDateTimeObject(dateStr, this.config.defaultDateFormat, timeStr, this.config.defaultTimeFormat);
 
@@ -671,7 +688,10 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
                 dateStr = newDate;
             } else {
                 const dataFromDate = this.dateTimeService.generateDateTimeData('*', this.config.defaultDateFormat, newDate);
-                dateStr = dataFromDate.dateStr;
+                if (dataFromDate.dateStr)
+                {
+                  dateStr = dataFromDate.dateStr;
+                }
             }
 
             this.updateSettings({
@@ -683,20 +703,20 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     // Update default time using defaultTimeFormat
     setTime(newTime: string | Date) {
         if (newTime) {
-            let dateStr = this.state.data ? this.state.data.dateStr : '';;
-            let timeStr = '';
+          let dateStr = this.state.data?.dateStr;
+          let timeStr : string;
 
-            let dateTimeObj = (typeof newTime == 'string') ? this.dateTimeService.createDateTimeObject(null, null, timeStr, this.config.defaultTimeFormat) : newTime;
-            if (typeof newTime == 'string') {
-                timeStr = newTime;
-            } else {
-                const dataFromTime = this.dateTimeService.generateDateTimeData(null, null, newTime, '*', this.config.defaultTimeFormat );
-                timeStr = dataFromTime.timeStr;
-            }
+          let dateTimeObj = (typeof newTime == 'string') ? this.dateTimeService.createDateTimeObject(null, null, null, this.config.defaultTimeFormat) : newTime;
+          if (typeof newTime == 'string') {
+              timeStr = newTime;
+          } else {
+              const dataFromTime = this.dateTimeService.generateDateTimeData(null, null, newTime, '*', this.config.defaultTimeFormat );
+              timeStr = dataFromTime.timeStr ? dataFromTime.timeStr :  "";
+          }
 
-            this.updateSettings({
-                default: { dateStr, timeStr, dateTimeObj }
-            });
+          this.updateSettings({
+              default: { dateStr, timeStr, dateTimeObj }
+          });
         } // ToDo: reset if empty
     }
 
@@ -714,8 +734,14 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         }
 
         this.state.readonly = this.settings.readOnly; // Revise
-        this.isReadonly = this.settings.readOnly;
-        this.isRequired = this.settings.required;
+        if (this.settings.readOnly != null)
+        {
+          this.isReadonly = this.settings.readOnly;
+        }
+        if (this.settings.required != null)
+        {
+          this.isRequired = this.settings.required;
+        }
 
         this.autoCorrectSettings();
 
@@ -723,21 +749,32 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
             this.localizeFormat();
         }
 
-        const dateTimeData = this.state.data.dateTimeObj ? this.state.data :  this.dateTimeService.createDataForDateTime(null, this.settings, this.config, true, null, this.defaultDateFormat, this.defaultTimeFormat);
+        const dateTimeData = this.state?.data?.dateTimeObj ? this.state.data :  this.dateTimeService.createDataForDateTime(
+          null, this.settings, this.config, null, this.defaultDateFormat, this.defaultTimeFormat);
         const timeStr = this.settings.combinedDateTime ? "" : (dateTimeData.timeStr !== "" ? dateTimeData.timeStr : settings.defaultTimeOfDate);
-        const dateStr = dateTimeData.dateStr !== "" ? dateTimeData.dateStr : settings.defaultDate
-            + (!this.settings.combinedDateTime || !timeStr) ? "" : " " + timeStr;
+        const dateStr =
+          dateTimeData.dateStr !== ''
+            ? dateTimeData.dateStr
+            : settings.defaultDate ? settings.defaultDate : '' + (!this.settings.combinedDateTime || !timeStr)
+            ? ''
+            : ' ' + timeStr;
 
-        this.dateControl?.setValue(dateStr);
-        this.timeControl?.setValue(timeStr);
-
-        this.date.setDate(dateTimeData.dateTimeObj);
-        if (this.settings.showTime && !this.settings.combinedDateTime) {
-            this.time.setDate(dateTimeData.dateTimeObj);
+        this.dateControl?.setValue(dateStr ? dateStr : null);
+        this.timeControl?.setValue(timeStr ? timeStr : null);
+        if (dateTimeData.dateTimeObj) {
+          this.date?.setDate(dateTimeData.dateTimeObj);
         }
-
-        this.dateTimeControl?.setValue(this.dateTimeService.formatDateTimeForStoredValue(dateTimeData.dateTimeObj, dateStr, timeStr, this.config, this.settings.combinedDateTime));
-
+        if (this.settings.showTime && !this.settings.combinedDateTime && dateTimeData.dateTimeObj) {
+            this.time?.setDate(dateTimeData.dateTimeObj);
+        }
+        const formattedDateTime = this.dateTimeService.formatDateTimeForStoredValue(
+          dateTimeData.dateTimeObj,
+          dateStr,
+          timeStr,
+          this.config,
+          this.settings.combinedDateTime
+        );
+        this.dateTimeControl?.setValue(formattedDateTime? formattedDateTime : null);
     }
 
     onStateChange(newState: UniState) { // Revise
@@ -750,9 +787,18 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         }
 
         if (!this.config.isDisplayOnly) {
+          if(newState.settings?.required != null )
+          {
             this.isRequired = newState.settings?.required;
-            this.isReadonly = newState.readonly;
+          }
+          if(newState.readonly != null )
+          {
+            this.isReadonly = newState.readonly ;
+          }
+          if(newState.disabled != null )
+          {
             this.isDisabled = newState.disabled;
+          }
         }
 
         this.assignMinMaxForPicker(newState);
@@ -796,8 +842,20 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         }
 
         // Format using current language
-        let formattedDate = dateTimeObj ? this.dateTimeService.format({ dateTimeObj, dateFormat: this.settings.dateFormat, language: this.config.language }) : data?.dateStr;
-        const formattedTime = dateTimeObj ? this.dateTimeService.format({ dateTimeObj, timeFormat: this.settings.timeFormat, language: this.config.language }) : (this.state.data as StateDataTime)?.timeStr;
+        let formattedDate = dateTimeObj
+          ? this.dateTimeService.format({
+              dateTimeObj,
+              dateFormat: this.settings.dateFormat,
+              language: this.config.language,
+            })
+          : data?.dateStr as string;
+        const formattedTime = dateTimeObj
+          ? this.dateTimeService.format({
+              dateTimeObj,
+              timeFormat: this.settings.timeFormat,
+              language: this.config.language,
+            })
+          : (this.state.data as StateDataTime)?.timeStr;
 
         formattedDate += this.settings.combinedDateTime ? (" " + formattedTime) : "";
 
@@ -819,7 +877,15 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
             this.timeControl?.setValue(formattedTime);
         }
 
-        this.dateTimeControl?.setValue(this.dateTimeService.formatDateTimeForStoredValue(dateTimeObj, data?.dateStr, data?.timeStr, this.config, this.settings.combinedDateTime));
+        this.dateTimeControl?.setValue(
+          this.dateTimeService.formatDateTimeForStoredValue(
+            dateTimeObj,
+            data?.dateStr,
+            data?.timeStr,
+            this.config,
+            this.settings.combinedDateTime
+          ) as string
+        );
     }
 
     private assignMinMaxForPicker(state: UniState) { // Revise
@@ -856,7 +922,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
             if (this.time && this.minDateTimeStr) {
                 this.time.set("minTime", "");
             }
-            this.minDateTime = null;
+            this.minDateTime = undefined;
             this.minDateTimeStr = "";
             this.minTime = "";
         }
@@ -893,7 +959,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
             if (this.time && this.maxDateTimeStr) {
                 this.time.set("maxTime", "");
             }
-            this.maxDateTime = null;
+            this.maxDateTime = undefined;
             this.maxDateTimeStr = "";
             this.maxTime = "";
         }
@@ -924,9 +990,9 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
             min: settings.min,
             max: settings.max
         }
-
-        if (errorType in this.dateTimeService.defaultErrorMessages) {
-            message = this.dateTimeService.defaultErrorMessages[errorType](params);
+        const errorTypeKey = errorType as keyof typeof this.dateTimeService.defaultErrorMessages;
+        if (errorTypeKey in this.dateTimeService.defaultErrorMessages) {
+            message = this.dateTimeService.defaultErrorMessages[errorTypeKey](params);
         }
         return message;
     }
@@ -934,30 +1000,33 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     updateErrorDisplay() { // Revise
         this.errorMessages = { date: "", time: "", dateTime: "" };
         if (!this.config.silent) {
-            forEach(this.controls, (control: FormControl<string | null>, key: string) => {
+            forEach(this.controls, (control?: FormControl<string | null>, key?: string) => {
                 if (control && control.touched && control.invalid) {
                     const errorType = this.getErrorTypeWithHighestPriority(control);
                     let message = errorType ? this.customErrorMessages[errorType] : "";
                     if (!message) {
                         message = this.getDefaultErrorMessage(errorType, this.settings);
                     } else {
-                        const min = this.settings.min.trim();
-                        const max = this.settings.max.trim();
+                        const min = this.settings.min?.trim();
+                        const max = this.settings.max?.trim();
                         message = this.processInternalTokens(message, { min, max });
                     }
-                    this.errorMessages[key] = message;
+                    if (this.errorMessages && key && key in this.errorMessages)
+                    {
+                      this.errorMessages[key as keyof typeof this.errorMessages] = message;
+                    }
                 }
             });
         }
     }
 
     markAsTouched(key?: string) {
-        if (key && this.controls[key]) {
-            this.controls[key].markAsTouched();
-            this.controls.dateTime.markAsTouched();
+        if (key && key in this.controls) {
+            this.controls[key as keyof typeof this.controls]?.markAsTouched();
+            this.controls.dateTime?.markAsTouched();
         }
         else {
-            forEach(this.controls, (control: FormControl<string | null>, key: string) => {
+            forEach(this.controls, (control?: FormControl<string | null>, key?: string) => {
                 if (control) {
                     control.markAsTouched();
                 }
@@ -969,12 +1038,17 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     private localize() {
         // en is default
         const supportedLanguages = this.dateTimeService.getSupportedLanguages();
-        const langLCase = this.config.language.toLowerCase();
-        let langShort = langLCase.substring(0, 2);
+        const langLCase = this.config.language?.toLowerCase();
+        let langShort = langLCase?.substring(0, 2);
 
-        langShort = langShort == 'zh' && langLCase.length > 2 ? langLCase.substring(0, 7) : langShort;
+        langShort = langShort == 'zh' && langLCase && langLCase.length > 2 ? langLCase.substring(0, 7) : langShort;
 
-        this.supportedLanguage = supportedLanguages.indexOf(langLCase) > -1 ? langLCase : (supportedLanguages.indexOf(langShort) > -1 ? langShort : 'en');
+        this.supportedLanguage =
+          langLCase && supportedLanguages.indexOf(langLCase) > -1
+            ? langLCase
+            : langShort && supportedLanguages.indexOf(langShort) > -1
+            ? langShort
+            : 'en';
         flatpickr.localize(this.dateTimeService.getFlatpickrLocale(this.supportedLanguage));
     }
 
@@ -1022,7 +1096,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     }
 
     // Helpers
-    getCombinedStyles(settings) {
+    getCombinedStyles(settings: UniComponentSettings | undefined) {
         settings = settings ? settings : this.settings;
         let style = '';
 

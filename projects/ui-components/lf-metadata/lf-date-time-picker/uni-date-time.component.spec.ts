@@ -1,4 +1,3 @@
-// ToDo: This is a placeholder 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniDateTimeComponent } from './uni-date-time.component';
 

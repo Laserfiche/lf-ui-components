@@ -16,3 +16,4 @@ import { UniDateTimeComponent } from './uni-date-time.component';
   ]
 })
 export class UniDateTimeModule { }
+export { UniDateTimeComponent };

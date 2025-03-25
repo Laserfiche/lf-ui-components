@@ -6,7 +6,7 @@ import { Portuguese } from 'flatpickr/dist/l10n/pt.js';
 import { Mandarin } from 'flatpickr/dist/l10n/zh.js';
 import { MandarinTraditional } from 'flatpickr/dist/l10n/zh-tw.js';
 
-export var FlatpickrLocales = {
+export const FlatpickrLocales = {
   en: Flatpickr.l10ns.en,
   ar: Arabic,
   es: Spanish,

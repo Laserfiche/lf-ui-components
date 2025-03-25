@@ -4,7 +4,7 @@
 		<input type="text" #dateTimeInput [formControlName]="dateTimeControlName" hidden />
 		<br />
 		<span *ngIf="settings.capturedInBackend else datePickerView">
-			{{settings.showTimeOnly ? strings.timeCapturedInBackend : settings.showTime ? strings.dateTimeCapturedInBackend : strings.dateCapturedInBackend}}
+			{{settings.showTimeOnly ? strings?.timeCapturedInBackend : settings.showTime ? strings?.dateTimeCapturedInBackend : strings?.dateCapturedInBackend}}
 		</span>
 		<ng-template #datePickerView>
 			<div class="fl-date-container" [ngClass]="settings.combinedDateTime ? 'combined-datetime' : ''" *ngIf="settings.showTimeOnly!=true">
@@ -13,7 +13,7 @@
 						   class="fl-datetime-input-date"
 						   type="text"
 						   id="{{settings.fieldId}}"
-						   value="{{strings.currentDate}}"
+						   value="{{strings?.currentDate}}"
 						   disabled />
 					<input class="fl-datetime-input-date"
 						   id="{{settings.fieldId}}"
@@ -29,7 +29,7 @@
                   'ng-wrapper-touched': dateTimeControl?.touched}" />
 					<a *ngIf="!state.readonly"
 					   class="datetime-icon"
-					   title="{{strings.selectDate}}"
+					   title="{{strings?.selectDate}}"
 					   [ngClass]="{'isDisabled': config.isDisplayOnly || state.disabled, 'hidden': showLoadingSpinner}"
 					   [attr.disabled]="config.isDisplayOnly"
 					   data-toggle (click)="onIconClick('date')">
@@ -59,7 +59,7 @@
 					<input *ngIf="settings.useCurrentDate && config.isDisplayOnly"
 						   class="fl-datetime-input-time"
 						   type="text"
-						   value="{{strings.currentTime}}"
+						   value="{{strings?.currentTime}}"
 						   disabled />
 					<input class="fl-datetime-input-time"
 						   id="DateTime{{settings.fieldId}}"
@@ -75,7 +75,7 @@
               'ng-wrapper-touched': dateTimeControl?.touched}" />
 					<a *ngIf="!state.readonly"
 					   class="datetime-icon"
-					   title="{{strings.selectTime}}"
+					   title="{{strings?.selectTime}}"
 					   [ngClass]="{'isDisabled': config.isDisplayOnly || state.disabled, 'hidden': showLoadingSpinner}"
 					   data-toggle (click)="onIconClick('time')">
 
@@ -94,14 +94,14 @@
 						<ng-content select="[loading-spinner]"></ng-content>
 					</div>
 				</div>
-				<div class="error-message" *ngIf="timeControl?.invalid && timeControl?.touched">{{errorMessages.time}}</div>
+				<div class="error-message" *ngIf="timeControl?.invalid && timeControl?.touched">{{errorMessages?.time}}</div>
 			</div>
 
 			<ng-content></ng-content>
 
 		</ng-template>
 	</div>
-	<div class="error-message" *ngIf="dateTimeControl?.invalid && dateTimeControl?.touched && errorMessages.dateTime">
-		{{errorMessages.dateTime}}
+	<div class="error-message" *ngIf="dateTimeControl?.invalid && dateTimeControl?.touched && errorMessages?.dateTime">
+		{{errorMessages?.dateTime}}
 	</div>
 </div>

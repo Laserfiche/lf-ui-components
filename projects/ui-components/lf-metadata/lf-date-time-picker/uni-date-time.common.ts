@@ -42,7 +42,6 @@ export enum FormChangeSource { // Revise, remove unused
     InitializeComponent = "InitializeComponent"
 }
 
-
 export interface UniState {
     data?: StateData;
     hidden?: boolean;

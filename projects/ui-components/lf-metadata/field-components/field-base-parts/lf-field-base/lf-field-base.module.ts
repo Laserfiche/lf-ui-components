@@ -25,6 +25,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 // import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { LfTokenPickerModule } from '../lf-token-picker/lf-token-picker.module';
+import { UniDateTimeModule, UniDateTimeComponent } from "../../../lf-date-time-picker/uni-date-time.module";
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { LfTokenPickerModule } from '../lf-token-picker/lf-token-picker.module';
     // NgxMatMomentModule,
     NgxMaskDirective,
     NgxMaskPipe,
-  ],
+    UniDateTimeModule,
+],
   providers: [
     LfFieldTokenService,
     provideNgxMask()
@@ -69,6 +71,7 @@ import { LfTokenPickerModule } from '../lf-token-picker/lf-token-picker.module';
     NumberFieldComponent,
     TextFieldComponent,
     TimeFieldComponent,
+    UniDateTimeComponent
   ]
 })
 export class LfFieldBaseModule { }

@@ -64,8 +64,12 @@ export class UniDateTimeService {
         return false;
     }
 
-    public fromDisplayDateTimeFormatToFlatpickrFormat(displayFormat: string, checkFirst: boolean = false): string {
-        if (checkFirst) {
+    public fromDisplayDateTimeFormatToFlatpickrFormat(displayFormat: string | undefined, checkFirst: boolean = false): string {
+      if (!displayFormat) // shiyuan TODO: verify
+      {
+        return "";
+      }
+      if (checkFirst) {
             if (!this.isInDisplayDateTimeFormat(displayFormat)) {
                 return displayFormat; // already converted or not convertable
             }
@@ -93,24 +97,20 @@ export class UniDateTimeService {
     constructor() {
         const today = new Date();
         this.referenceDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        this.TokensPatternRegex = window["TokenPatternRegex"] ? window["TokenPatternRegex"] : this.TokensPatternRegex;
+        this.TokensPatternRegex = "TokenPatternRegex" in window ? (window["TokenPatternRegex"] as string) : this.TokensPatternRegex;
     }
 
     public parse(info: {
-        dateStr?: string;
-        timeStr?: string;
-        dateTimeStr?: string;
-        dateFormat?: string;
+        dateStr?: string | null;
+        timeStr?: string | null;
+        dateTimeStr?: string | null;
+        dateFormat?: string | null;
         timeFormat?: string;
         dateTimeFormat?: string;
         language?: string;
         locale?: string
     }): Date | null {
-        if (!info) {
-            return null;
-        }
-
-        // Parse datetime if present
+         // Parse datetime if present
         if (info.dateTimeStr && info.dateTimeFormat) {
 
             const obj = df_parse(
@@ -173,9 +173,9 @@ export class UniDateTimeService {
     }
 
     public format(info: {
-        dateTimeObj: Date;
-        dateFormat?: string;
-        timeFormat?: string;
+        dateTimeObj: Date | null;
+        dateFormat?: string | null;
+        timeFormat?: string | null;
         dateTimeFormat?: string;
         language?: string;
     }): string {
@@ -208,14 +208,16 @@ export class UniDateTimeService {
         ) : "";
     }
 
-    public flatpickrParseDate(date: DateOption, format?: string, timeless?: boolean, customLocale?: CustomLocale | string): Date | undefined {
+    public flatpickrParseDate(date: DateOption, format?: string | undefined, timeless?: boolean |undefined, customLocale?: CustomLocale | string): Date | undefined {
         customLocale = typeof customLocale == "string" ? this.getFlatpickrLocale(customLocale) : customLocale;
-        return flatpickr.parseDate.apply(flatpickr, [date, format, timeless, customLocale]);
+        // return flatpickr.parseDate.apply(flatpickr, [date, format, timeless, customLocale]); //shiyuan TODO: see how customLocale is used
+        return flatpickr.parseDate.apply(flatpickr, [date, format, timeless]);
     }
 
-    public flatpickrFormatDate(date: Date, format?: string, customLocale?: CustomLocale | string): string {
+    public flatpickrFormatDate(date: Date, format: string, customLocale?: CustomLocale | string): string {
         customLocale = typeof customLocale == "string" ? this.getFlatpickrLocale(customLocale) : customLocale;
-        return flatpickr.formatDate.apply(flatpickr, [date, format, customLocale]);
+        // return flatpickr.formatDate.apply(flatpickr, [date, format, customLocale]); //shiyuan TODO: see how customLocale is used
+        return flatpickr.formatDate.apply(flatpickr, [date, format]);
     }
 
     public isValid(date: Date): boolean {
@@ -252,7 +254,7 @@ export class UniDateTimeService {
         return df_isLeapYear(date);
     }
     public tryParse(dateTimeStr: string, formats: string[]): Date | null {
-        let date = null;
+        let date: Date | null = null;
         formats.forEach(f => {
             if (f === "ISO_8601") {
                 date = df_parseISO(dateTimeStr);
@@ -261,7 +263,7 @@ export class UniDateTimeService {
                 date = df_parse(dateTimeStr, this.fromDisplayDateTimeFormatToUnicodeTokens(f) || f, this.referenceDate);
             }
             if (date && df_isValid(date)) {
-                return false;
+                // return false; // shiyuan TODO: verify why return false here
             }
             else {
                 date = null;
@@ -297,7 +299,7 @@ export class UniDateTimeService {
         return df_intervalToDuration({
             start: df_startOfDay(this.referenceDate),
             end: endDate
-        });
+        }); // shiyuan: how does the interface matches here?
     }
     public getWeek(
         date: Date,
@@ -319,15 +321,21 @@ export class UniDateTimeService {
     }
 
     //-----------------
-    createDateTimeObject(dateStr: string, dateFormat: string, timeStr?: string, timeFormat?: string): Date {
+    createDateTimeObject(
+      dateStr: string | undefined | null,
+      dateFormat: string | undefined | null,
+      timeStr?: string | null,
+      timeFormat?: string): Date | null
+    {
         return this.parse({ dateStr, dateFormat, timeStr, timeFormat });
     }
+
     generateDateTimeData(
-        dateStr: string,
-        dateFormat: string,
-        dateTimeObj?: Date,
-        timeStr?: string,
-        timeFormat?: string
+        dateStr: string | null,
+        dateFormat: string | null | undefined,
+        dateTimeObj?: Date | null,
+        timeStr?: string | null,
+        timeFormat?: string |null
     ): StateDataDateTime {
         const result = { dateStr: "", timeStr: "", dateTimeObj };
         if (dateStr) {
@@ -339,16 +347,17 @@ export class UniDateTimeService {
         return result;
     }
     public createDataForDateTime(
-        dataValue: string | StateDataDateTime,
+        dataValue: string | null,
         settings: UniComponentSettings,
         config: UniComponentConfig,
-        fromDefault: boolean,
-        format?: string,
+        format?: string | null,
         defaultDateFormat?: string,
         defaultTimeFormat?: string
-    ): StateDataDateTime {
+    ): StateDataDateTime
+    {
+      const fromDefault: boolean = typeof dataValue === "string";
         if (fromDefault) {
-            // TO-REFACTOR: 
+            // TO-REFACTOR:
             const { dateFormat, timeFormat, showTime, useCurrentDate, defaultDate, defaultTimeOfDate } = settings;
             let dateStr, timeStr = "";
             if (useCurrentDate) {
@@ -360,10 +369,7 @@ export class UniDateTimeService {
                     timeStr: (showTime ? this.format({ dateTimeObj, timeFormat, language: config.language }) : ""),
                     dateTimeObj
                 };
-
-
             } else {
-
                 // parse using config.defaultDateLanguage
                 const dateTimeObj = this.parse({
                     dateStr: defaultDate,
@@ -395,7 +401,7 @@ export class UniDateTimeService {
                 };
             }
 
-        } else if (typeof dataValue === "string") {
+        } else {
             // parse using current language
             const dateTimeObj = this.parse({
                 dateTimeStr: dataValue,
@@ -410,26 +416,24 @@ export class UniDateTimeService {
 
             // format using current language
             return dateTimeObj
-                ? {
-                    dateStr: this.format({
+              ? {
+                  dateStr: this.format({
+                    dateTimeObj,
+                    dateFormat: settings.dateFormat,
+                    language: config.language,
+                  }),
+                  timeStr: settings.showTime
+                    ? this.format({
                         dateTimeObj,
-                        dateFormat: settings.dateFormat,
-                        language: config.language
-                    }),
-                    timeStr: settings.showTime
-                        ? this.format({
-                            dateTimeObj,
-                            timeFormat: settings.timeFormat,
-                            language: config.language
-                        })
-                        : "",
-                    dateTimeObj
+                        timeFormat: settings.timeFormat,
+                        language: config.language,
+                      })
+                    : '',
+                  dateTimeObj,
                 }
-                : { dateStr: "", timeStr: "", dateTimeObj: null };
-        } else {
-            return dataValue;
+              : { dateStr: '', timeStr: '', dateTimeObj: null };
         }
-    }    
+    }
 
     public generateGUID(): string {
         // Creating fake (but still pretty good) guid based on date
@@ -453,7 +457,7 @@ export class UniDateTimeService {
 
     public getDefaultSettings(): UniComponentSettings {
         return {
-            // Input 
+            // Input
             required: false, // * Common setting
             readOnly: false, // * Common setting
             fieldId: "",
@@ -475,11 +479,11 @@ export class UniDateTimeService {
             useCurrentTime: false, // * Common setting
             datePlaceholder: "YYYY-MM-DD",
             timePlaceholder: "hh:mm:ss A",
-            
+
             // ReadOnly
             isAMPM: true,  // auto set
             isTwentyfour: false, // auto set
-            capturedInBackend: false, 
+            capturedInBackend: false,
 
             // Style and Display
             minWidth: 440,
@@ -510,25 +514,25 @@ export class UniDateTimeService {
             isDisplayOnly: false,  // * Common setting
             silent: false,
 
-            // Data            
+            // Data
             defaultDateFormat: 'YYYY-MM-DD',
             defaultTimeFormat: 'hh:mm:ss A',
             defaultDateTimeFormat: 'YYYY-MM-DD hh:mm:ss A',
-            storedValueDateFormat: 'YYYY-MM-DD', 
-            storedValueTimeFormat: 'hh:mm:ss A',  
-            storedValueDateTimeFormat: '{DATE}T{TIME}', 
+            storedValueDateFormat: 'YYYY-MM-DD',
+            storedValueTimeFormat: 'hh:mm:ss A',
+            storedValueDateTimeFormat: '{DATE}T{TIME}',
             tokensPatternRegex: "{/[^{}]+}", // Forms style tokens, or %\([^\(\)]+\) for Workflow style tokens
 
-            // Globalization            
+            // Globalization
             locale: 'en-US',  // * Common setting
-            language: 'en',  // * Common setting      
-            setDisplayFormatByLocale: false,  // * Common setting            
-            setDisplayFormatByLocaleSeconds: true,            
+            language: 'en',  // * Common setting
+            setDisplayFormatByLocale: false,  // * Common setting
+            setDisplayFormatByLocaleSeconds: true,
             defaultDateLocale: 'en-US',
             defaultDateLanguage: 'en',
             storedValueLanguage: 'en',
             storedValueLocale: 'en-US',
-            
+
             // Validation
             errorsPriorityOrder: [
                 { errorType: 'required', mappedErrorType: 'required' },
@@ -564,7 +568,7 @@ export class UniDateTimeService {
         }
     }
 
-    private fixLocaleCase = function (locale: string, extractLanguage: boolean = false) {
+    private fixLocaleCase = function (locale: string, extractLanguage: boolean = false): string {
         locale = locale.toLowerCase();
         let parts = locale.split('-');
         if (extractLanguage) {
@@ -576,21 +580,27 @@ export class UniDateTimeService {
         }
     }
 
-    public getFormatByLocale(locale, formatType: FormatType, withSeconds: boolean = false): string {
-        locale = this.fixLocaleCase(locale);
-        const localizedFormats = uniLocalizedFormats[locale] ? uniLocalizedFormats[locale] : uniLocalizedFormats['en-US'];
-        switch (formatType) {
-            case FormatType.DATE_FORMAT:
-                return localizedFormats['DateFormat'];
-            case FormatType.TIME_FORMAT:
-                return withSeconds ? localizedFormats['TimeFormatWithSeconds'] : localizedFormats['TimeFormat'];
-            case FormatType.DATETIME_FORMAT:
-                return withSeconds ? localizedFormats['DateFormat'] + " " + localizedFormats['TimeFormatWithSeconds'] : localizedFormats['DateFormat'] + " " + localizedFormats['TimeFormat'];
-        }
+    public getFormatByLocale(locale: string | undefined, formatType: FormatType, withSeconds: boolean = false): string {
+      if (!locale)
+      {
+        locale = 'en-Us';
+      }
+      locale = this.fixLocaleCase(locale);
+      const localizedFormats = uniLocalizedFormats[locale] ? uniLocalizedFormats[locale] : uniLocalizedFormats['en-US'];
+      switch (formatType) {
+        case FormatType.DATE_FORMAT:
+          return localizedFormats['DateFormat'];
+        case FormatType.TIME_FORMAT:
+          return withSeconds ? localizedFormats['TimeFormatWithSeconds'] : localizedFormats['TimeFormat'];
+        case FormatType.DATETIME_FORMAT:
+          return withSeconds
+            ? localizedFormats['DateFormat'] + ' ' + localizedFormats['TimeFormatWithSeconds']
+            : localizedFormats['DateFormat'] + ' ' + localizedFormats['TimeFormat'];
+      }
     }
 
     public applyLocaleCorrections(language: string, locale: any) {
-        locale.amPM = locale.amPM ? locale.amPM : FlatpickrLocales.en.amPM;
+        locale.amPM = locale.amPM ? locale.amPM : FlatpickrLocales?.en?.amPM;
         // Add other corrections if any
         return locale;
     }
@@ -616,23 +626,28 @@ export class UniDateTimeService {
         }
     }
 
-    public formatDateTimeForStoredValue(dateTime: Date, dateStr: string, timeStr: string, config: UniComponentConfig, combinedDateTime: boolean) {
+    public formatDateTimeForStoredValue(
+      dateTime: Date | undefined | null,
+      dateStr: string | undefined | null ,
+      timeStr: string | undefined | null ,
+      config: UniComponentConfig,
+      combinedDateTime: boolean | undefined) : string | undefined | null {
         const storedValueDateFormat = config.storedValueDateFormat ? config.storedValueDateFormat : this.getFormatByLocale(config.storedValueLocale, FormatType.DATE_FORMAT, true);
         const storedValueTimeFormat = config.storedValueTimeFormat ? config.storedValueTimeFormat : this.getFormatByLocale(config.storedValueLocale, FormatType.TIME_FORMAT, true);
-
+        const storedValueLanguage: string = config.storedValueLanguage? config.storedValueLanguage : this.getDefaultConfig().storedValueLanguage as string; // shiyuan TODO ask Alex if better way to handle the default config not null
         if (this.isToken(dateStr) || this.isToken(timeStr)) {
             if (!this.isToken(dateStr) && dateTime) {
-                dateStr = this.flatpickrFormatDate(dateTime, this.fromDisplayDateTimeFormatToFlatpickrFormat(storedValueDateFormat), this.getFlatpickrLocale(config.storedValueLanguage))
+                dateStr = this.flatpickrFormatDate(dateTime, this.fromDisplayDateTimeFormatToFlatpickrFormat(storedValueDateFormat), this.getFlatpickrLocale(storedValueLanguage))
             }
             if (!this.isToken(timeStr) && !combinedDateTime && dateTime) {
-                timeStr = this.flatpickrFormatDate(dateTime, this.fromDisplayDateTimeFormatToFlatpickrFormat(storedValueTimeFormat), this.getFlatpickrLocale(config.storedValueLanguage))
+                timeStr = this.flatpickrFormatDate(dateTime, this.fromDisplayDateTimeFormatToFlatpickrFormat(storedValueTimeFormat), this.getFlatpickrLocale(storedValueLanguage))
             }
 
             if (combinedDateTime && !timeStr) {
                 return dateStr;
             } else {
                 return config.storedValueDateTimeFormat ?
-                    config.storedValueDateTimeFormat.replace("{DATE}", dateStr).replace("{TIME}", timeStr)
+                    config.storedValueDateTimeFormat.replace("{DATE}", dateStr? dateStr : "").replace("{TIME}", timeStr? timeStr : "")
                     : dateStr + " " + timeStr; // default to "{DATE} {TIME}" for backend if tokens are present
             }
         } else {
@@ -640,18 +655,19 @@ export class UniDateTimeService {
                 return "";
             }
             const storedValueFormat = config.storedValueDateTimeFormat ?
-                config.storedValueDateTimeFormat.replace("{DATE}", config.storedValueDateFormat).replace("{TIME}", config.storedValueTimeFormat)
+                config.storedValueDateTimeFormat.replace("{DATE}", storedValueDateFormat).replace("{TIME}", storedValueTimeFormat)
                 : this.getFormatByLocale(config.storedValueLocale, FormatType.DATETIME_FORMAT, true);
-            return this.flatpickrFormatDate(dateTime, this.fromDisplayDateTimeFormatToFlatpickrFormat(storedValueFormat), this.getFlatpickrLocale(config.storedValueLanguage));
+            return this.flatpickrFormatDate(
+              dateTime, this.fromDisplayDateTimeFormatToFlatpickrFormat(storedValueFormat), this.getFlatpickrLocale(storedValueLanguage));
         }
     }
 
     public setTokensPatternRegex(newPatternRegex: string) {
         this.TokensPatternRegex = newPatternRegex;
-        window["TokenPatternRegex"] = newPatternRegex;
+        (window as { [key: string]: any })["TokenPatternRegex"] = newPatternRegex;
     }
 
-    public isToken(value: string) {
+    public isToken(value: string | null | undefined) {
         const tokenRegex: RegExp = new RegExp(this.TokensPatternRegex, "g");
         return value && tokenRegex.test(value);
     }
