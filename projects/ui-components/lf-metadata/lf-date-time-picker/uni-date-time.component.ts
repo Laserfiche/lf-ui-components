@@ -89,11 +89,11 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     dateControl?: FormControl<string | null>;
     timeControl?: FormControl<string | null>;
     dateTimeControl?: FormControl<string | null>;
-    controls!: {
+    controls: {
         date?: FormControl<string | null>;
         time?: FormControl<string | null>;
         dateTime?: FormControl<string | null>;
-    };
+    } = {};
     errorMessages?: { date?: string; time?: string; dateTime?: string }; // Revise
     showDateTimeErrorMessage = false; // Revise
     prevSettings!: UniComponentSettings;
@@ -1021,7 +1021,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     }
 
     markAsTouched(key?: string) {
-        if (key && key in this.controls) {
+        if (key && this.controls[key as keyof typeof this.controls]) {
             this.controls[key as keyof typeof this.controls]?.markAsTouched();
             this.controls.dateTime?.markAsTouched();
         }

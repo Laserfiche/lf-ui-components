@@ -568,22 +568,56 @@ export class UniDateTimeService {
         }
     }
 
-    private fixLocaleCase = function (locale: string, extractLanguage: boolean = false): string {
-        locale = locale.toLowerCase();
-        let parts = locale.split('-');
-        if (extractLanguage) {
-            return (parts.length == 2 && parts[1] != 'hans' && parts[1] != 'hant') ? parts[0] :
-                (parts.length == 3) ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) : locale;
-        } else {
-            return (parts.length == 2 && parts[1] != 'hans' && parts[1] != 'hant') ? parts[0] + '-' + parts[1].toUpperCase() :
-                (parts.length == 3) ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) + '-' + parts[2].toUpperCase() : ('hans' || parts[1] != 'hant') ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) : locale;
-        }
+    private fixLocaleCase = function (locale: string, extractLanguageOnly: boolean = false): string {
+      locale = locale.toLowerCase();
+
+      // let language: string;
+      // let region: string;
+      // let parts: string[] = locale.split('-');
+      // let specialCode: boolean = locale.startsWith('zh-');
+      // if (!specialCode && parts.length > 2)
+      // {
+      //   return locale; // shiyuan TODO: how Grant's code treat the un-recognized format
+      // }
+      // if (specialCode) {
+      //   language = parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1);
+      // }
+      // else{
+      //   language = parts[0];
+      // }
+
+      // if (extractLanguageOnly) {
+      //   return language;
+      // } else {
+
+      //   region = !specialCode
+      //     ?  parts[1].toUpperCase() :
+
+      //       parts[2].toUpperCase()
+
+      // }
+      // return language + '-' + region;
+      let parts = locale.split('-');
+      if (extractLanguageOnly) {
+          return (parts.length == 2 && parts[1] != 'hans' && parts[1] != 'hant') ? parts[0] :
+              (parts.length == 3) ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) : locale;
+      } else {
+          return (parts.length == 2 && parts[1] != 'hans' && parts[1] != 'hant') ?
+            parts[0] + '-' + parts[1].toUpperCase() :
+              (parts.length == 3) ?
+              parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) + '-' + parts[2].toUpperCase() :
+               ('hans' || parts[1] != 'hant') ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) : locale;
+      }
+    }
+    private getRegion = function (language: string): string
+    {
+      return '';
     }
 
     public getFormatByLocale(locale: string | undefined, formatType: FormatType, withSeconds: boolean = false): string {
       if (!locale)
       {
-        locale = 'en-Us';
+        locale = 'en-US';
       }
       locale = this.fixLocaleCase(locale);
       const localizedFormats = uniLocalizedFormats[locale] ? uniLocalizedFormats[locale] : uniLocalizedFormats['en-US'];

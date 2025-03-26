@@ -149,7 +149,8 @@
               }
             ],
             "styles": [
-              "projects/lf-documentation/src/styles.css"
+              "projects/lf-documentation/src/styles.css",
+              "./node_modules/flatpickr/dist/flatpickr.min.css"
             ],
             "scripts": []
           },
