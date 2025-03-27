@@ -124,7 +124,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
             this.customErrorMessages = this.settings.customErrorMessages; // revise
         } else {
             const dateTimeData = this.dateTimeService.createDataForDateTime(
-              null, this.settings, this.config, null, this.defaultDateFormat, this.defaultTimeFormat);
+               null, this.settings, this.config, null, this.defaultDateFormat, this.defaultTimeFormat);
             // const dateStr = dateTimeData.dateStr !== "" ? dateTimeData.dateStr : (this.settings.defaultDate ? this.settings.defaultDate: null);
             const dateStr = dateTimeData.dateStr || this.settings?.defaultDate || null; // Shiyuan TODO: verify this change since dateTimeData.dateStr !== "" returns true when datastr undefined or null
             // const timeStr = dateTimeData.timeStr !== "" ? dateTimeData.timeStr : this.settings.defaultTimeOfDate; // Shiyuan TODO: same as dateStr
