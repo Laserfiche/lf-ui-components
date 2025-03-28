@@ -16,5 +16,6 @@
   "ACCEPTED_FORMATS_ARE_0": "The accepted formats are: {0}.",
   "IMAGE_NOT_ATTACHED": "Image not attached.",
   "ATTACH_IMAGE": "Attach Image",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Please attach only one image."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Please attach only one image.",
+  "BOTH_DATE_AND_TIME_FIELDS_ARE_REQUIRED": "Both date and time fields are required."
 }

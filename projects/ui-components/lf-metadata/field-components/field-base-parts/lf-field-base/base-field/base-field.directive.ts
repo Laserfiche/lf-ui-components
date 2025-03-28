@@ -207,7 +207,7 @@ export abstract class BaseFieldDirective implements OnInit {
     if (dateTimeObject?.newValue)
     {
       const combinedDateTime : boolean = !!(dateTimeObject.newValue.dateStr && dateTimeObject.newValue.timeStr);
-      const dateTimeStr: string | undefined | null = this.uniDateTimeService.formatDateTimeForStoredValue(
+      const dateTimeStr: string | undefined | null = this.uniDateTimeService.formatDateTimeForStoredValue( // shiyuan TODO: get formatted value from component.controls.datetimecontorl
         combinedDateTime ? dateTimeObject?.newValue?.dateTimeObj : null,
         dateTimeObject?.newValue?.dateStr,
         dateTimeObject.newValue.timeStr,

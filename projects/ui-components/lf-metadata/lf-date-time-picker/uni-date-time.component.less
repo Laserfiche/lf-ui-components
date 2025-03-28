@@ -10,7 +10,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    font-size: 13px
+    // font-size: 13px
 }
 
 .fl-component input[disabled] {
@@ -24,10 +24,11 @@
 
 .fl-component input:not([type=checkbox]):not([type=radio]) {
     padding: 1px 4px;
-    border: 1px solid #6d6d6d;
+    // border: 1px solid #6d6d6d;
     border-radius: 2px;
     background-color: #fff;
-    width: 100%
+    width: 100%;
+    box-sizing:border-box;
 }
 
 .fl-component input:not([type=checkbox]):not([type=radio]).ng-invalid.ng-touched,
@@ -78,19 +79,18 @@
 
 .fl-component .fl-datetime-inputs {
     width: 100%;
-    max-width: 350px;
     display: flex
 }
 
 .fl-component .fl-datetime-inputs .fl-date-container {
+
     width: 100%;
-    max-width: 150px;
     margin-right: 4px
 }
 
 .fl-component .fl-datetime-inputs .fl-time-container {
+
     width: 100%;
-    max-width: 120px
 }
 
 .fl-component .time .time-picker {
@@ -201,4 +201,8 @@ div.flatpickr-current-month .flatpickr-monthDropdown-months option.flatpickr-mon
 [dir=rtl] .lib-datetime-picker a.datetime-icon {
     right: auto;
     left: 0;
+}
+.lf-datepicker-input-box {
+  width: 100%;
+  font-size: unset;
 }

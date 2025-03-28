@@ -487,12 +487,8 @@ export class UniDateTimeService {
 
             // Style and Display
             minWidth: 440,
-            minHeight: 28,
+            minHeight: 26,
             padding: 0,
-            height: 28,
-            maxHeight: 100,
-            width: 440,
-            maxWidth: 600,
 
             // Validation
             min: "", // Revise
