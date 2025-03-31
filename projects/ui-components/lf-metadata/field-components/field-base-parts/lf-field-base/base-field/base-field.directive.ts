@@ -13,11 +13,11 @@ import { map, mergeMap, startWith } from 'rxjs/operators';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { UniDateTimeService } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.service';
 import { StateData, UniComponentConfig, UniComponentSettings } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.common';
+import { UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.component';
 
 /** @internal */
 @Directive()
 export abstract class BaseFieldDirective implements OnInit {
-
   @Input() lf_field_info!: LfFieldInfo;
   @Input() lf_field_form_control!: FormControl;
   @Input() lf_field_value: LfFieldValue | undefined;
@@ -30,20 +30,26 @@ export abstract class BaseFieldDirective implements OnInit {
   showTokenTextBox: boolean = false;
 
   private readonly CHARACTER_COUNT = this.localizationService.getStringLaserficheObservable('CHARACTER_COUNT');
-  private readonly NOT_AVAILABLE_WITH_TOKENS = this.localizationService.getStringLaserficheObservable('NOT_AVAILABLE_WITH_TOKENS');
+  private readonly NOT_AVAILABLE_WITH_TOKENS =
+    this.localizationService.getStringLaserficheObservable('NOT_AVAILABLE_WITH_TOKENS');
 
-  private readonly REQUIRED_FIELD_IS_EMPTY = this.localizationService.getStringLaserficheObservable('REQUIRED_FIELD_IS_EMPTY');
+  private readonly REQUIRED_FIELD_IS_EMPTY =
+    this.localizationService.getStringLaserficheObservable('REQUIRED_FIELD_IS_EMPTY');
   private THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS?: Observable<string>;
 
   get containsToken(): boolean {
-    return this.tokenService.containsTokenForFieldType(this.lf_field_form_control.value ?? '', this.lf_field_info.fieldType, this.is_import_mode);
+    return this.tokenService.containsTokenForFieldType(
+      this.lf_field_form_control.value ?? '',
+      this.lf_field_info.fieldType,
+      this.is_import_mode
+    );
   }
 
   get lfFieldTokenData(): LfFieldTokenData {
     return {
-      fieldType: this.lf_field_info?.fieldType
+      fieldType: this.lf_field_info?.fieldType,
     };
-  };
+  }
 
   get isDynamic(): boolean {
     return isDynamicField(this.lf_field_info);
@@ -54,31 +60,33 @@ export abstract class BaseFieldDirective implements OnInit {
   readonly noTokenCharacterCountHint = this.getNoTokenCharacterCountHint();
 
   private getConcatenatedTokenLabel(firstVal: string): Observable<string> {
-    return this.NOT_AVAILABLE_WITH_TOKENS.pipe(map(value => firstVal.concat(` ${value}`)));
+    return this.NOT_AVAILABLE_WITH_TOKENS.pipe(map((value) => firstVal.concat(` ${value}`)));
   }
 
   private getTokenCharacterCountHint(): Observable<string> {
-    return this.CHARACTER_COUNT.pipe(
-      mergeMap((value) => this.getConcatenatedTokenLabel(value))
-    );
+    return this.CHARACTER_COUNT.pipe(mergeMap((value) => this.getConcatenatedTokenLabel(value)));
   }
 
   private getNoTokenCharacterCountHint(): Observable<string> {
-    const obs = this.CHARACTER_COUNT.pipe(mergeMap((value) => {
-      const startValue = `${value}
+    const obs = this.CHARACTER_COUNT.pipe(
+      mergeMap((value) => {
+        const startValue = `${value}
       ${this.lf_field_form_control.value ? this.lf_field_form_control.value.length : 0}
       / ${this.lf_field_info?.length}`;
-      return this.getFieldLengthRatio(value).pipe(startWith(startValue));
-    }));
+        return this.getFieldLengthRatio(value).pipe(startWith(startValue));
+      })
+    );
     return obs;
   }
 
   private getFieldLengthRatio(value: string): Observable<string> {
-    return this.lf_field_form_control.valueChanges.pipe(map((thisVal) => {
-      return `${value}
+    return this.lf_field_form_control.valueChanges.pipe(
+      map((thisVal) => {
+        return `${value}
       ${thisVal ? this.lf_field_form_control.value.length : 0}
       / ${this.lf_field_info?.length}`;
-    }));
+      })
+    );
   }
 
   protected uniDateConfig: UniComponentConfig;
@@ -88,28 +96,29 @@ export abstract class BaseFieldDirective implements OnInit {
   constructor(
     public tokenService: LfFieldTokenService,
     public ref: ChangeDetectorRef,
-    public localizationService: AppLocalizationService) {
-      const internalDateFormat = 'MM/DD/YYYY'; //shiyuan TODO:get from en-US
-      const internalTimeFormat = 'HH:mm:ss'; // shiyuan TODO:get from en-US
-      this.uniDateConfig = {
-        storedValueDateFormat: internalDateFormat,
-        storedValueTimeFormat: internalTimeFormat,
-        storedValueDateTimeFormat: '{DATE}T{TIME}',// shiyuan TODO: can change by derevied by class
-        defaultDateFormat: internalDateFormat,
-        defaultTimeFormat: internalTimeFormat,
-        language: navigator.language,
-        locale: navigator.language,
-        setDisplayFormatByLocale: true,
-        silent: true, // no internal strings and no custom error messages
-      };
+    public localizationService: AppLocalizationService
+  ) {
+    const internalDateFormat = 'MM/DD/YYYY'; //shiyuan TODO:get from en-US
+    const internalTimeFormat = 'HH:mm:ss'; // shiyuan TODO:get from en-US
+    this.uniDateConfig = {
+      storedValueDateFormat: internalDateFormat,
+      storedValueTimeFormat: internalTimeFormat,
+      storedValueDateTimeFormat: '{DATE}T{TIME}', // shiyuan TODO: can change by derevied by class
+      defaultDateFormat: internalDateFormat,
+      defaultTimeFormat: internalTimeFormat,
+      language: navigator.language,
+      locale: navigator.language,
+      setDisplayFormatByLocale: true,
+      silent: true, // no internal strings and no custom error messages
+    };
 
-      this.uniDateTimeSettings = {
-        showTime: true, //shiyuan TODO pass in or can overwrite by derived class,
-        showTimeOnly: undefined, // shiyuan TODO: can change by derived class
-        showLabel: false,
-        readOnly: false,
-      };
-    }
+    this.uniDateTimeSettings = {
+      showTime: true, //shiyuan TODO pass in or can overwrite by derived class,
+      showTimeOnly: undefined, // shiyuan TODO: can change by derived class
+      showLabel: false,
+      readOnly: false,
+    };
+  }
 
   fieldValidationErrorMsg!: Observable<string | undefined>;
 
@@ -118,17 +127,27 @@ export abstract class BaseFieldDirective implements OnInit {
     this.lf_field_form_control = CoreUtils.validateDefined(this.lf_field_form_control, 'lfFieldFormControl');
     this.setLfFieldFormControlValue(this.lf_field_value);
 
-    this.THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS = this.localizationService.getStringLaserficheObservable('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', [this.lf_field_info?.length?.toString() ?? '0']);
+    this.THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS = this.localizationService.getStringLaserficheObservable(
+      'THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS',
+      [this.lf_field_info?.length?.toString() ?? '0']
+    );
 
-    this.fieldValidationErrorMsg = this.lf_field_form_control.valueChanges.pipe(mergeMap((value) => {
-      const validationRuleName = this.getBrokenValidationRule();
-      return this.getValidationErrorMsg(validationRuleName) ?? of(undefined);
-    }));
+    this.fieldValidationErrorMsg = this.lf_field_form_control.valueChanges.pipe(
+      mergeMap((value) => {
+        const validationRuleName = this.getBrokenValidationRule();
+        return this.getValidationErrorMsg(validationRuleName) ?? of(undefined);
+      })
+    );
 
-    if (this.tokenService.containsTokenForFieldType(this.lf_field_value ?? '', this.lf_field_info.fieldType, this.is_import_mode)) {
+    if (
+      this.tokenService.containsTokenForFieldType(
+        this.lf_field_value ?? '',
+        this.lf_field_info.fieldType,
+        this.is_import_mode
+      )
+    ) {
       this.showTokenTextBox = true;
-    }
-    else {
+    } else {
       this.resetToDefaultValidators();
     }
   }
@@ -160,8 +179,7 @@ export abstract class BaseFieldDirective implements OnInit {
     if (this.lf_field_form_control.valid) {
       const currentValue = this.serializeFieldFormControlValue();
       this.lf_field_value = currentValue;
-    }
-    else {
+    } else {
       this.lf_field_value = '';
       this.fieldOnValueChanged();
     }
@@ -188,33 +206,34 @@ export abstract class BaseFieldDirective implements OnInit {
     if (this.containsToken) {
       this.showTokenTextBox = true;
       this.setLfFieldFormControlValue(this.lf_field_value);
-    }
-    else {
+    } else {
       this.showTokenTextBox = false;
       this.setLfFieldFormControlValue('');
       this.resetToDefaultValidators();
     }
   }
 
-  onDateOrTimeChanged(emitEvent:boolean=true) { // shiyuan TODO: delete when update in date and time fields
+  onDateOrTimeChanged(emitEvent: boolean = true) {
+    // shiyuan TODO: delete when update in date and time fields
     this.ref.detectChanges();
     this.lf_field_form_control.updateValueAndValidity();
     this.showTokenTextBox = false;
     this.onValueChanged(emitEvent);
   }
 
-  onUniDateOrTimeChanged(dateTimeObject : {newValue: StateData}) {
-    if (dateTimeObject?.newValue)
-    {
-      const combinedDateTime : boolean = !!(dateTimeObject.newValue.dateStr && dateTimeObject.newValue.timeStr);
-      const dateTimeStr: string | undefined | null = this.uniDateTimeService.formatDateTimeForStoredValue( // shiyuan TODO: get formatted value from component.controls.datetimecontorl
+  onUniDateOrTimeChanged(dateTimeObject: { newValue: StateData, component:UniDateTimeComponent }) {
+    if (dateTimeObject?.newValue) {
+      const combinedDateTime: boolean = !!(dateTimeObject.newValue.dateStr && dateTimeObject.newValue.timeStr);
+      const dateTimeStr: string | undefined | null = this.uniDateTimeService.formatDateTimeForStoredValue(
+        // shiyuan TODO: get formatted value from component.controls.datetimecontorl
         combinedDateTime ? dateTimeObject?.newValue?.dateTimeObj : null,
         dateTimeObject?.newValue?.dateStr,
         dateTimeObject.newValue.timeStr,
         this.uniDateConfig,
-        combinedDateTime);
-
-      this.setLfFieldFormControlValue(dateTimeStr ?? undefined);
+        combinedDateTime
+      );
+      const dateTimeStrFromControl: string | undefined | null = combinedDateTime ? dateTimeObject.component?.dateTimeControl?.value : undefined;
+      this.setLfFieldFormControlValue(dateTimeStrFromControl ?? undefined);
       this.ref.detectChanges();
       this.lf_field_form_control.updateValueAndValidity();
       this.onValueChanged(true);
@@ -224,8 +243,7 @@ export abstract class BaseFieldDirective implements OnInit {
   private getValidationErrorMsg(validationRuleName: ValidationRule | undefined): Observable<string> | undefined {
     if (validationRuleName === undefined) {
       return undefined;
-    }
-    else {
+    } else {
       const errorMessage: Observable<string> | undefined = this.getValidationTextForFieldType(validationRuleName);
       if (errorMessage) return errorMessage;
       switch (validationRuleName) {

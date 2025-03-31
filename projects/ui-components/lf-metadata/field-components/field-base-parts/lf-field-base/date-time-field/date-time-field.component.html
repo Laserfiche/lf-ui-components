@@ -7,13 +7,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       (change)="onDateOrTimeTokenValueChanged()">
     <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
   </mat-form-field>
+
   <uni-date-time #tokenTarget class="lf-field" *ngIf="!showTokenTextBox" [config]="uniDateConfig"
     [settings]="uniDateTimeSettings" (onValueChangedEvent)="onUniDateOrTimeChanged($event)">
   </uni-date-time>
   <lf-token-picker-component class="lf-field-token-picker" (tokenPicked)="onTokenChosen($event)"
     [data]="lfFieldTokenData"></lf-token-picker-component>
 </span>
-<mat-error class="token-picker-field-box"  *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
+<mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
 
 <ng-template #dynamic>
   <lf-dynamic-field-component ngDefaultControl [options]="dynamic_field_value_options"
