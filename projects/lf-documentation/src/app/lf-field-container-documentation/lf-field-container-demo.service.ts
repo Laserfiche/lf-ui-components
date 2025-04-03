@@ -113,6 +113,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         fieldType: FieldType.Blob,
         displayName: 'Test Blob',
       },
+      {
+        name: 'Time Only',
+        id: 18,
+        fieldType: FieldType.Time,
+        format: FieldFormat.LongTime,
+        isRequired: true,
+        displayName: 'Time Only',
+      },
     ];
     return allFieldInfos;
   }

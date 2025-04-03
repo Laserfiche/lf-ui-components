@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { LocaleDatetimeUtils } from '../locale-datetime-utils';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { map } from 'rxjs/operators';
+import { FieldFormat } from '@laserfiche/lf-ui-components/shared';
 
 @Component({
   selector: 'lf-date-time-field-component',
@@ -42,6 +43,23 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
     public localizationService: AppLocalizationService
   ) {
     super(tokenService, ref, localizationService);
+
+    const internalDateFormat = 'MM/DD/YYYY';
+    const internalTimeFormat = 'HH:mm:ss';
+    this.uniDateTimeSettings = {
+      showLabel: false,
+      readOnly: false,
+      combinedDateTime: true,
+      isAMPM:false
+    };
+    this.uniDateConfig = {
+      storedValueDateFormat: internalDateFormat,
+      storedValueTimeFormat: internalTimeFormat,
+      storedValueDateTimeFormat: '{DATE}T{TIME}',
+      language: navigator.language,
+      setDisplayFormatByLocale: true,
+      silent: false, // no internal strings and no custom error messages
+    };
   }
 
   compareDateStrings = LfMetadataDatetimeUtils.compareDateStrings;

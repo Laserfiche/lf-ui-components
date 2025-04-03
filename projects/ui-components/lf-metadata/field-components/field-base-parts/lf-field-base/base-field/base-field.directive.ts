@@ -11,7 +11,6 @@ import { isDynamicField } from '../../../utils/metadata-utils';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import { UniDateTimeService } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.service';
 import { StateData, UniComponentConfig, UniComponentSettings } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.common';
 import { UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.component';
 
@@ -89,36 +88,14 @@ export abstract class BaseFieldDirective implements OnInit {
     );
   }
 
-  protected uniDateConfig: UniComponentConfig;
-  protected uniDateTimeSettings: UniComponentSettings;
-  protected uniDateTimeService: UniDateTimeService = new UniDateTimeService();
+  uniDateConfig!: UniComponentConfig;
+  uniDateTimeSettings!: UniComponentSettings;
 
   constructor(
     public tokenService: LfFieldTokenService,
     public ref: ChangeDetectorRef,
     public localizationService: AppLocalizationService
-  ) {
-    const internalDateFormat = 'MM/DD/YYYY'; //shiyuan TODO:get from en-US
-    const internalTimeFormat = 'HH:mm:ss'; // shiyuan TODO:get from en-US
-    this.uniDateConfig = {
-      storedValueDateFormat: internalDateFormat,
-      storedValueTimeFormat: internalTimeFormat,
-      storedValueDateTimeFormat: '{DATE}T{TIME}', // shiyuan TODO: can change by derevied by class
-      defaultDateFormat: internalDateFormat,
-      defaultTimeFormat: internalTimeFormat,
-      language: navigator.language,
-      locale: navigator.language,
-      setDisplayFormatByLocale: true,
-      silent: true, // no internal strings and no custom error messages
-    };
-
-    this.uniDateTimeSettings = {
-      showTime: true, //shiyuan TODO pass in or can overwrite by derived class,
-      showTimeOnly: undefined, // shiyuan TODO: can change by derived class
-      showLabel: false,
-      readOnly: false,
-    };
-  }
+  ) {}
 
   fieldValidationErrorMsg!: Observable<string | undefined>;
 
@@ -221,23 +198,15 @@ export abstract class BaseFieldDirective implements OnInit {
     this.onValueChanged(emitEvent);
   }
 
-  onUniDateOrTimeChanged(dateTimeObject: { newValue: StateData, component:UniDateTimeComponent }) {
+  onUniDateOrTimeChanged(dateTimeObject: { newValue: StateData; component: UniDateTimeComponent;
+  settings:UniComponentSettings}) {
     if (dateTimeObject?.newValue) {
-      const combinedDateTime: boolean = !!(dateTimeObject.newValue.dateStr && dateTimeObject.newValue.timeStr);
-      const dateTimeStr: string | undefined | null = this.uniDateTimeService.formatDateTimeForStoredValue(
-        // shiyuan TODO: get formatted value from component.controls.datetimecontorl
-        combinedDateTime ? dateTimeObject?.newValue?.dateTimeObj : null,
-        dateTimeObject?.newValue?.dateStr,
-        dateTimeObject.newValue.timeStr,
-        this.uniDateConfig,
-        combinedDateTime
-      );
-      const dateTimeStrFromControl: string | undefined | null = combinedDateTime ? dateTimeObject.component?.dateTimeControl?.value : undefined;
+      const dateTimeStrFromControl: string | undefined | null = dateTimeObject.component?.dateTimeControl?.value
       this.setLfFieldFormControlValue(dateTimeStrFromControl ?? undefined);
       this.ref.detectChanges();
       this.lf_field_form_control.updateValueAndValidity();
-      this.onValueChanged(true);
       this.showTokenTextBox = false;
+      this.onValueChanged(true);
     }
   }
   private getValidationErrorMsg(validationRuleName: ValidationRule | undefined): Observable<string> | undefined {

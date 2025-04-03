@@ -125,12 +125,10 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         } else {
             const dateTimeData = this.dateTimeService.createDataForDateTime(
                null, this.settings, this.config, null, this.defaultDateFormat, this.defaultTimeFormat);
-            // const dateStr = dateTimeData.dateStr !== "" ? dateTimeData.dateStr : (this.settings.defaultDate ? this.settings.defaultDate: null);
-            const dateStr = dateTimeData.dateStr || this.settings?.defaultDate || null; // Shiyuan TODO: verify this change since dateTimeData.dateStr !== "" returns true when datastr undefined or null
-            // const timeStr = dateTimeData.timeStr !== "" ? dateTimeData.timeStr : this.settings.defaultTimeOfDate; // Shiyuan TODO: same as dateStr
-            const timeStr = dateTimeData.timeStr || this.settings.defaultTimeOfDate || null;
-            this.dateControl?.setValue(dateStr);
-            this.timeControl?.setValue(timeStr);
+            const dateStr = dateTimeData.dateStr !== "" ? dateTimeData.dateStr : (this.settings.defaultDate ? this.settings.defaultDate: null);
+            const timeStr = dateTimeData.timeStr !== "" ? dateTimeData.timeStr : this.settings.defaultTimeOfDate;
+            this.dateControl?.setValue(dateStr ?? null);
+            this.timeControl?.setValue(timeStr ?? null);
             const formattedDateTime = this.dateTimeService.formatDateTimeForStoredValue(
               dateTimeData.dateTimeObj, dateStr, timeStr, this.config, this.settings.combinedDateTime);
             this.dateTimeControl?.setValue(formattedDateTime ? formattedDateTime : null);
@@ -241,8 +239,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
                     onClose: (selectedDates: Date[], dateStr: string, instance: Instance) => {
                         this.onDateTimeChange(selectedDates[0], false, FormChangeEvent.TimeClose);
                     },
-                    formatDate: undefined, // Shiyuan TODO: null or remove?
-                    dateFormat: this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(this.settings.timeFormat),
+                    dateFormat: this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(this.settings.timeFormat ?? ''),
                     wrap: true,
                     minTime: this.minTime,
                     maxTime: this.maxTime
@@ -374,9 +371,6 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         if (this.config.defaultDateFormat)
         {
           this.defaultDateFormat = this.config.defaultDateFormat;
-        }
-        else{
-          // unexpected code path shiyuan TODO: error handling
         }
         if (this.config.defaultTimeFormat)
         {

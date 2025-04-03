@@ -1,4 +1,9 @@
-export const uniLocalizedFormats: Record<string, Record<string, string>> = { // shiyuan TODO: data contract change, check with Alex if any better options
+export class uniLocalizedFormat {
+  DateFormat!: string;
+  TimeFormat!:string;
+  TimeFormatWithSeconds!: string
+}
+export const uniLocalizedFormats: Record<string, uniLocalizedFormat> = {
     "ar-AE": {
         "DateFormat": "D/M/YYYY",
         "TimeFormat": "h:mm A",
