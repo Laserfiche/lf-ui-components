@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 import { LocaleDatetimeUtils } from '../locale-datetime-utils';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { map } from 'rxjs/operators';
-import { FieldFormat } from '@laserfiche/lf-ui-components/shared';
 
 @Component({
   selector: 'lf-date-time-field-component',
@@ -28,13 +27,9 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
     })
   );
   private readonly DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 =
-    this.localizationService.getStringLaserficheWithObservableParams('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', [
+    this.localizationService.getStringComponentsWithObservableParams('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', [
       this.LOCALE_DATE_TIME,
     ]);
-  private readonly DATETIME_FIELDS_INVALID = this.localizationService.getStringComponentsWithObservableParams(
-    'BOTH_DATE_AND_TIME_FIELDS_ARE_REQUIRED',
-    [this.LOCALE_DATE_TIME]
-  );
 
   constructor(
     public tokenService: LfFieldTokenService,
@@ -50,7 +45,8 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
       showLabel: false,
       readOnly: false,
       combinedDateTime: true,
-      isAMPM:false
+      showTimeOnly: true,
+      acceptTokens:true
     };
     this.uniDateConfig = {
       storedValueDateFormat: internalDateFormat,
@@ -78,8 +74,6 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
 
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
     switch (validationRuleName) {
-      case ValidationRule.REQUIRED:
-        return this.DATETIME_FIELDS_INVALID;
       case ValidationRule.MAT_DATETIME_PICKER_PARSE:
         return this.DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0;
       case ValidationRule.MAT_DATEPICKER_PARSE:

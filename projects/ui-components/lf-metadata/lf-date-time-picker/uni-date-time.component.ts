@@ -467,7 +467,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     }
 
     processDateTimeValues(value: string | Date | undefined | null, isDate: boolean) {
-        let v = value ? value : "";
+        let v = value ? value : null;
 
         if (this.settings.acceptTokens) {
           if(this.config.tokensPatternRegex)

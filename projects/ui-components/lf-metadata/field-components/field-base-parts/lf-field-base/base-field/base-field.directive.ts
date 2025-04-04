@@ -1,7 +1,16 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { OnInit, Output, EventEmitter, Input, Directive, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import {
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  Directive,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { LfFieldInfo, LfFieldValue } from '../../../utils/lf-field-types';
 import { FormControl, ValidatorFn, FormGroup } from '@angular/forms';
 import { LfFieldTokenData, LfFieldTokenService } from '../lf-field-token.service';
@@ -11,7 +20,11 @@ import { isDynamicField } from '../../../utils/metadata-utils';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import { StateData, UniComponentConfig, UniComponentSettings } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.common';
+import {
+  StateData,
+  UniComponentConfig,
+  UniComponentSettings,
+} from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.common';
 import { UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.component';
 
 /** @internal */
@@ -198,23 +211,38 @@ export abstract class BaseFieldDirective implements OnInit {
     this.onValueChanged(emitEvent);
   }
 
-  onUniDateOrTimeChanged(dateTimeObject: { newValue: StateData; component: UniDateTimeComponent;
-  settings:UniComponentSettings}) {
-    if (dateTimeObject?.newValue) {
-      const dateTimeStrFromControl: string | undefined | null = dateTimeObject.component?.dateTimeControl?.value
-      this.setLfFieldFormControlValue(dateTimeStrFromControl ?? undefined);
+  onUniDateOrTimeChanged(dateTimeObject: { newValue: StateData; component: UniDateTimeComponent }) {
+    if (dateTimeObject?.component) {
+      this.setLfDateTimeFieldControl(dateTimeObject);
       this.ref.detectChanges();
-      this.lf_field_form_control.updateValueAndValidity();
       this.showTokenTextBox = false;
       this.onValueChanged(true);
     }
   }
+
+  private setLfDateTimeFieldControl(dateTimeObject: { component: UniDateTimeComponent }) {
+    if (dateTimeObject.component.dateTimeControl?.value || !!dateTimeObject.component.settings.showTimeOnly) {
+      this.setLfFieldFormControlValue(dateTimeObject.component.dateTimeControl?.value ?? undefined);
+      this.lf_field_form_control.updateValueAndValidity();
+    } else {
+      if (dateTimeObject.component.dateControl?.value &&  dateTimeObject.component.dateControl?.value.trim() !== '') {
+        this.setLfFieldFormControlValue(dateTimeObject.component.dateControl?.value);
+        this.lf_field_form_control.setErrors({
+          [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value },
+        });
+      } else {
+        this.setLfFieldFormControlValue(undefined);
+        this.lf_field_form_control.updateValueAndValidity();
+      }
+      const validationRuleName = this.getBrokenValidationRule();
+      this.fieldValidationErrorMsg =  this.getValidationErrorMsg(validationRuleName) ?? of(undefined);
+    }
+  }
+
   private getValidationErrorMsg(validationRuleName: ValidationRule | undefined): Observable<string> | undefined {
     if (validationRuleName === undefined) {
       return undefined;
     } else {
-      const errorMessage: Observable<string> | undefined = this.getValidationTextForFieldType(validationRuleName);
-      if (errorMessage) return errorMessage;
       switch (validationRuleName) {
         case ValidationRule.REQUIRED:
           return this.REQUIRED_FIELD_IS_EMPTY;
@@ -223,7 +251,7 @@ export abstract class BaseFieldDirective implements OnInit {
         case ValidationRule.PATTERN:
           return this.lf_field_info.constraintError ? of(this.lf_field_info.constraintError) : undefined;
       }
-      return undefined;
+      return this.getValidationTextForFieldType(validationRuleName);
     }
   }
 

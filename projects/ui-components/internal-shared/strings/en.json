@@ -17,5 +17,5 @@
   "IMAGE_NOT_ATTACHED": "Image not attached.",
   "ATTACH_IMAGE": "Attach Image",
   "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Please attach only one image.",
-  "BOTH_DATE_AND_TIME_FIELDS_ARE_REQUIRED": "Both date and time fields are required"
+  "DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0": "Date/time fields must be in the format M/D/YYYY HH:mm:ss."
 }
