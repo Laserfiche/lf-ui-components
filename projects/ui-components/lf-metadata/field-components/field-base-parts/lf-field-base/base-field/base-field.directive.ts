@@ -101,7 +101,7 @@ export abstract class BaseFieldDirective implements OnInit {
     );
   }
 
-  uniDateConfig!: UniComponentConfig;
+  uniDateTimeConfig!: UniComponentConfig;
   uniDateTimeSettings!: UniComponentSettings;
 
   constructor(
@@ -213,8 +213,8 @@ export abstract class BaseFieldDirective implements OnInit {
 
   onUniDateOrTimeChanged(dateTimeObject: { newValue: StateData; component: UniDateTimeComponent }) {
     if (dateTimeObject?.component) {
-      this.setLfDateTimeFieldControl(dateTimeObject);
       this.ref.detectChanges();
+      this.setLfDateTimeFieldControl(dateTimeObject);
       this.showTokenTextBox = false;
       this.onValueChanged(true);
     }
@@ -227,9 +227,17 @@ export abstract class BaseFieldDirective implements OnInit {
     } else {
       if (dateTimeObject.component.dateControl?.value &&  dateTimeObject.component.dateControl?.value.trim() !== '') {
         this.setLfFieldFormControlValue(dateTimeObject.component.dateControl?.value);
+        if (!!dateTimeObject.component.settings.combinedDateTime)
+        {
         this.lf_field_form_control.setErrors({
           [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value },
         });
+      }
+      else {
+        this.lf_field_form_control.setErrors({
+          [ValidationRule.MAT_DATEPICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value },
+        });
+      }
       } else {
         this.setLfFieldFormControlValue(undefined);
         this.lf_field_form_control.updateValueAndValidity();

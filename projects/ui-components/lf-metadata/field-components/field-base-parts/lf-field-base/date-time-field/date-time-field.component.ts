@@ -33,7 +33,6 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
 
   constructor(
     public tokenService: LfFieldTokenService,
-
     public ref: ChangeDetectorRef,
     public localizationService: AppLocalizationService
   ) {
@@ -46,9 +45,8 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
       readOnly: false,
       combinedDateTime: true,
       showTimeOnly: true,
-      acceptTokens:true
     };
-    this.uniDateConfig = {
+    this.uniDateTimeConfig = {
       storedValueDateFormat: internalDateFormat,
       storedValueTimeFormat: internalTimeFormat,
       storedValueDateTimeFormat: '{DATE}T{TIME}',

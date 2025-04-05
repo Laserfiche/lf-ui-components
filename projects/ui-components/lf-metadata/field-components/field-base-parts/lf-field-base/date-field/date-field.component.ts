@@ -1,23 +1,14 @@
-// Copyright (c) Laserfiche.
+// Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
 import {
-  DateAdapter,
   ErrorStateMatcher,
   ShowOnDirtyErrorStateMatcher,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE
 } from '@angular/material/core';
 import { ValidatorFn } from '@angular/forms';
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter,
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS
-} from '@angular/material-moment-adapter';
 import { LfFieldTokenService } from '../lf-field-token.service';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable } from 'rxjs';
@@ -31,9 +22,6 @@ import { map } from 'rxjs/operators';
   providers: [
     { provide: BaseFieldDirective, useExisting: DateFieldComponent },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { strict: true } }
   ]
 })
 export class DateFieldComponent extends BaseFieldDirective implements OnInit {
@@ -44,20 +32,24 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
 
   constructor(
     public tokenService: LfFieldTokenService,
-    private dateAdapter: DateAdapter<any>,
     public ref: ChangeDetectorRef,
     public localizationService: AppLocalizationService,
-    private zone: NgZone
   ) {
     super(tokenService, ref, localizationService);
-    this.dateAdapter.setLocale(navigator.language);
-  }
-  @ViewChild('picker') picker?: MatDatepicker<any>;
-
-  onTogglePicker() {
-    this.zone.run(() => {
-      this.picker?.open();
-    });
+    const internalDateFormat = 'MM/DD/YYYY';
+    this.uniDateTimeSettings = {
+      showLabel: false,
+      readOnly: false,
+      combinedDateTime: false,
+      showTime: false,
+    };
+    this.uniDateTimeConfig = {
+      storedValueDateFormat: internalDateFormat,
+      storedValueDateTimeFormat: '{DATE}T00:00:00',
+      language: navigator.language,
+      setDisplayFormatByLocale: true,
+      silent: false, // no internal strings and no custom error messages
+    };
   }
 
   compareDateStrings = LfMetadataDatetimeUtils.compareDateStrings;
