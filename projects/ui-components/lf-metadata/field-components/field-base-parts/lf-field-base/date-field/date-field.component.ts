@@ -76,7 +76,7 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
       case ValidationRule.MAT_DATEPICKER_PARSE:
         if (
           this.lf_field_form_control.errors &&
-          ValidationRule.MAT_DATEPICKER_PARSE in this.lf_field_form_control?.errors
+          ValidationRule.MAT_DATEPICKER_PARSE in this.lf_field_form_control.errors
         ) {
           this.LOCALE_DATE = of(this.lf_field_form_control.errors[ValidationRule.MAT_DATEPICKER_PARSE].dateTimeFormat);
           var errorMessage = this.localizationService.getStringLaserficheWithObservableParams(

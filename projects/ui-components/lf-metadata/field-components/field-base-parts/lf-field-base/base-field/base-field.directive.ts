@@ -221,7 +221,7 @@ export abstract class BaseFieldDirective implements OnInit {
       if (dateTimeObject.component.dateControl?.value && dateTimeObject.component.dateControl?.value.trim() !== '') {
         this.setLfFieldFormControlValue(dateTimeObject.component.dateControl?.value);
         if (!!dateTimeObject.component.settings.combinedDateTime) {
-          var dateTimeFormat:string = dateTimeObject.component.settings.dateFormat ?? '' + ' ' + dateTimeObject.component.settings.timeFormat ?? '';
+          var dateTimeFormat: string = dateTimeObject.component.settings.dateFormat + ' ' + dateTimeObject.component.settings.timeFormat;
           this.lf_field_form_control.setErrors({
             [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value, dateTimeFormat: dateTimeFormat},
           });

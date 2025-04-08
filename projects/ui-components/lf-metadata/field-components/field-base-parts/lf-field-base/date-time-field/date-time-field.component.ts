@@ -8,7 +8,6 @@ import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-compon
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
 import { LfFieldTokenService } from '../lf-field-token.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'lf-date-time-field-component',

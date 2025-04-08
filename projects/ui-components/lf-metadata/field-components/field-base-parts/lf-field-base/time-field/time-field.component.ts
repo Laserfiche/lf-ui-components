@@ -19,7 +19,7 @@ import { Observable, of } from 'rxjs';
   ]
 })
 export class TimeFieldComponent extends BaseFieldDirective implements OnInit  {
-  timeDisplayFormat: string | undefined;
+  private timeDisplayFormat: string | undefined;
   private TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 : Observable<string> | undefined;
 
   async ngOnInit(): Promise<void> {
