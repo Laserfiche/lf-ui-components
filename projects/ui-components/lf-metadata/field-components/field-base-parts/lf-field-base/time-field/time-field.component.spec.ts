@@ -10,7 +10,6 @@ import { LfFieldTokenService } from '../lf-field-token.service';
 import { FieldType, FieldFormat } from '@laserfiche/lf-ui-components/shared';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
 import { CommonModule } from '@angular/common';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
@@ -57,7 +56,6 @@ describe('TimeFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        MatDatepickerModule
       ],
       providers:[
         LfFieldTokenService,
@@ -175,12 +173,12 @@ describe('TimeFieldComponent', () => {
 
   it('should include seconds if format is LongTime', () => {
     expect(optionalTimeComponent.lf_field_info.format).toEqual(FieldFormat.LongTime);
-    expect(optionalTimeComponent.getTimeDisplayFormat()).toEqual('hh:mm:ss A');
+    expect(optionalTimeComponent.timeDisplayFormat).toEqual('hh:mm:ss A');
   });
 
   it('should not include seconds if format is ShortTime', () => {
     expect(requiredTimeComponent.lf_field_info.format).toEqual(FieldFormat.ShortTime);
-    expect(requiredTimeComponent.getTimeDisplayFormat()).toEqual('hh:mm A');
+    expect(requiredTimeComponent.timeDisplayFormat).toEqual('hh:mm A');
   });
 
 });

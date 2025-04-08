@@ -8,7 +8,7 @@ import { ValidatorFn } from '@angular/forms';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 
 @Component({
   selector: 'lf-date-field-component',
@@ -20,10 +20,7 @@ import { Observable, map } from 'rxjs';
   ],
 })
 export class DateFieldComponent extends BaseFieldDirective implements OnInit {
-  private readonly LOCALE_DATE = this.localizationService.languageChanged().pipe(map(() => {
-    return 'M/D/YYYY';
-  }));
-  private readonly DATE_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringLaserficheWithObservableParams('DATE_FIELDS_MUST_BE_IN_FORMAT_0', [this.LOCALE_DATE]);
+  private LOCALE_DATE: Observable<string> | undefined;
 
   constructor(
     public tokenService: LfFieldTokenService,
@@ -77,7 +74,17 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
     switch (validationRuleName) {
       case ValidationRule.MAT_DATEPICKER_PARSE:
-        return this.DATE_FIELDS_MUST_BE_IN_THE_FORMAT_0;
+        if (
+          this.lf_field_form_control.errors &&
+          ValidationRule.MAT_DATEPICKER_PARSE in this.lf_field_form_control?.errors
+        ) {
+          this.LOCALE_DATE = of(this.lf_field_form_control.errors[ValidationRule.MAT_DATEPICKER_PARSE].dateTimeFormat);
+          var errorMessage = this.localizationService.getStringLaserficheWithObservableParams(
+            'DATE_FIELDS_MUST_BE_IN_FORMAT_0',
+            [this.LOCALE_DATE]
+          );
+          return errorMessage;
+        }
     }
     return undefined;
   }

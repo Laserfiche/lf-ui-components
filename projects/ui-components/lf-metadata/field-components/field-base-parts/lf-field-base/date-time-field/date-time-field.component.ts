@@ -2,12 +2,11 @@
 
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
-import { Observable } from 'rxjs';
-import { LocaleDatetimeUtils } from '../locale-datetime-utils';
+import { Observable, of } from 'rxjs';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { map } from 'rxjs/operators';
 
@@ -21,15 +20,7 @@ import { map } from 'rxjs/operators';
   ],
 })
 export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit {
-  private readonly LOCALE_DATE_TIME = this.localizationService.languageChanged().pipe(
-    map(() => {
-      return 'M/D/YYYY HH:mm:ss';
-    })
-  );
-  private readonly DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 =
-    this.localizationService.getStringLaserficheWithObservableParams('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', [
-      this.LOCALE_DATE_TIME,
-    ]);
+  private LOCALE_DATE_TIME: Observable<string> | undefined;
 
   constructor(
     public tokenService: LfFieldTokenService,
@@ -46,14 +37,13 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
       showLabel: false,
       readOnly: false,
       combinedDateTime: true,
-
     };
     this.uniDateTimeConfig = {
       storedValueDateFormat: this.internalDateFormat,
       storedValueTimeFormat: this.internalTimeFormat,
       storedValueDateTimeFormat: '{DATE}T{TIME}',
       language: navigator.language,
-      locale:navigator.language,
+      locale: navigator.language,
       setDisplayFormatByLocale: true,
       silent: false, // no internal strings and no custom error messages
     };
@@ -74,11 +64,22 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
   }
 
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
-    switch (validationRuleName) {
-      case ValidationRule.MAT_DATETIME_PICKER_PARSE:
-        return this.DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0;
-      case ValidationRule.MAT_DATEPICKER_PARSE:
-        return this.DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0;
+    if (
+      this.lf_field_form_control.errors &&
+      (ValidationRule.MAT_DATETIME_PICKER_PARSE in this.lf_field_form_control.errors ||
+        ValidationRule.MAT_DATEPICKER_PARSE in this.lf_field_form_control.errors)
+    ) {
+      this.LOCALE_DATE_TIME = of(this.lf_field_form_control.errors[validationRuleName].dateTimeFormat);
+      var errorMessage = this.localizationService.getStringLaserficheWithObservableParams(
+        'DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0',
+        [this.LOCALE_DATE_TIME]
+      );
+      switch (validationRuleName) {
+        case ValidationRule.MAT_DATETIME_PICKER_PARSE:
+          return errorMessage;
+        case ValidationRule.MAT_DATEPICKER_PARSE:
+          return errorMessage;
+      }
     }
     return undefined;
   }

@@ -19,12 +19,9 @@ import { Observable, of } from 'rxjs';
   ]
 })
 export class TimeFieldComponent extends BaseFieldDirective implements OnInit  {
-  private timeDisplayFormat: string = '';
+  timeDisplayFormat: string | undefined;
   private TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 : Observable<string> | undefined;
-  getTimeDisplayFormat() : string
-  {
-    return this.timeDisplayFormat;
-  }
+
   async ngOnInit(): Promise<void> {
     super.ngOnInit();
     this.timeDisplayFormat = this.getTimeFormat();
@@ -63,7 +60,6 @@ export class TimeFieldComponent extends BaseFieldDirective implements OnInit  {
     return validators;
   }
 
-
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
     switch (validationRuleName) {
       case ValidationRule.TIME:
@@ -73,6 +69,9 @@ export class TimeFieldComponent extends BaseFieldDirective implements OnInit  {
   }
 
   private getTimeFormat(): string {
+    if (this.timeDisplayFormat)
+      return this.timeDisplayFormat;
+
     switch (this.lf_field_info?.format) {
       case FieldFormat.ShortTime:
         return 'hh:mm A'

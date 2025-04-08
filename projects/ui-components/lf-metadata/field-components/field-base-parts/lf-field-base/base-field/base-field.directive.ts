@@ -12,7 +12,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { LfFieldInfo, LfFieldValue } from '../../../utils/lf-field-types';
-import { FormControl, ValidatorFn, FormGroup } from '@angular/forms';
+import { FormControl, ValidatorFn, FormGroup, ValidationErrors } from '@angular/forms';
 import { LfFieldTokenData, LfFieldTokenService } from '../lf-field-token.service';
 import { LfFieldValidationUtils } from '../lf-field-validation-utils';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
@@ -102,8 +102,6 @@ export abstract class BaseFieldDirective implements OnInit {
   }
   protected readonly internalDateFormat: string = 'MM/DD/YYYY';
   protected readonly internalTimeFormat: string = 'HH:mm:ss';
-  protected displayDateFormat: string | undefined;
-  protected displayTimeFormat: string | undefined;
   uniDateTimeConfig!: UniComponentConfig;
   uniDateTimeSettings!: UniComponentSettings;
 
@@ -223,12 +221,13 @@ export abstract class BaseFieldDirective implements OnInit {
       if (dateTimeObject.component.dateControl?.value && dateTimeObject.component.dateControl?.value.trim() !== '') {
         this.setLfFieldFormControlValue(dateTimeObject.component.dateControl?.value);
         if (!!dateTimeObject.component.settings.combinedDateTime) {
+          var dateTimeFormat:string = dateTimeObject.component.settings.dateFormat ?? '' + ' ' + dateTimeObject.component.settings.timeFormat ?? '';
           this.lf_field_form_control.setErrors({
-            [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value },
+            [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value, dateTimeFormat: dateTimeFormat},
           });
         } else {
           this.lf_field_form_control.setErrors({
-            [ValidationRule.MAT_DATEPICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value },
+            [ValidationRule.MAT_DATEPICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value, dateTimeFormat: dateTimeObject.component.settings.dateFormat},
           });
         }
       } else {

@@ -12,15 +12,12 @@ import { NumberFieldComponent } from './number-field/number-field.component';
 import { TextFieldComponent } from './text-field/text-field.component';
 import { TimeFieldComponent } from './time-field/time-field.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LfFieldTokenService } from './lf-field-token.service';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { LfTokenPickerModule } from '../lf-token-picker/lf-token-picker.module';
 import { UniDateTimeModule, UniDateTimeComponent } from "../../../lf-date-time-picker/uni-date-time.module";
@@ -40,15 +37,12 @@ import { UniDateTimeModule, UniDateTimeComponent } from "../../../lf-date-time-p
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
     MatSelectModule,
     MatIconModule,
     LfTokenPickerModule,
-    MatMomentDateModule,
     NgxMaskDirective,
     NgxMaskPipe,
     UniDateTimeModule,

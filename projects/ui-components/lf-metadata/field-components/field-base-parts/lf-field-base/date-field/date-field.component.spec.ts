@@ -5,15 +5,12 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateFieldComponent } from './date-field.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldInfo } from '../../../utils/lf-field-types';
-import moment from 'moment';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
@@ -54,8 +51,6 @@ describe('DateFieldComponent', () => {
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
         MatFormFieldModule,
         MatInputModule,
         MatMenuModule,
@@ -176,7 +171,6 @@ describe('DateFieldComponent', () => {
   it('should respect en-us locale', async () => {
     // arrange
     const validDateValue = '2020-12-29';
-    moment.locale('en-us');
 
     // act
     requiredDateComponent.setLfFieldFormControlValue(validDateValue);
@@ -191,7 +185,6 @@ describe('DateFieldComponent', () => {
   it('should respect en-gb locale', async () => {
     // arrange
     const validDateValue = '2020-12-29';
-    moment.locale('en-gb');
 
     // act
     requiredDateComponent.setLfFieldFormControlValue(validDateValue);
