@@ -53,6 +53,7 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
       storedValueTimeFormat: this.internalTimeFormat,
       storedValueDateTimeFormat: '{DATE}T{TIME}',
       language: navigator.language,
+      locale:navigator.language,
       setDisplayFormatByLocale: true,
       silent: false, // no internal strings and no custom error messages
     };
