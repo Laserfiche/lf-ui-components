@@ -16,6 +16,5 @@
   "ACCEPTED_FORMATS_ARE_0": "The accepted formats are: {0}.",
   "IMAGE_NOT_ATTACHED": "Image not attached.",
   "ATTACH_IMAGE": "Attach Image",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Please attach only one image.",
-  "DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0": "Date/time fields must be in the format M/D/YYYY HH:mm:ss."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Please attach only one image."
 }

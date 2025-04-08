@@ -119,7 +119,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         fieldType: FieldType.Time,
         format: FieldFormat.LongTime,
         isRequired: true,
-        displayName: 'Time Only',
+        displayName: 'Long Time',
       },
     ];
     return allFieldInfos;
@@ -236,6 +236,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             format: FieldFormat.ShortDate,
             isRequired: true,
             displayName: 'Date Sent',
+          },
+          {
+            name: 'Time Only',
+            id: 16,
+            fieldType: FieldType.Time,
+            format: FieldFormat.ShortTime,
+            isRequired: true,
+            displayName: 'Time Sent',
           },
         ];
         return emailFields;

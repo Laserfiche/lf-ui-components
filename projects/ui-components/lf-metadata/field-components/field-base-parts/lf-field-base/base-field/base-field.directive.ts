@@ -25,7 +25,7 @@ import {
   UniComponentConfig,
   UniComponentSettings,
 } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.common';
-import { UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.component';
+import { UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
 
 /** @internal */
 @Directive()
@@ -100,7 +100,10 @@ export abstract class BaseFieldDirective implements OnInit {
       })
     );
   }
-
+  protected readonly internalDateFormat: string = 'MM/DD/YYYY';
+  protected readonly internalTimeFormat: string = 'HH:mm:ss';
+  protected displayDateFormat: string | undefined;
+  protected displayTimeFormat: string | undefined;
   uniDateTimeConfig!: UniComponentConfig;
   uniDateTimeSettings!: UniComponentSettings;
 
@@ -203,15 +206,7 @@ export abstract class BaseFieldDirective implements OnInit {
     }
   }
 
-  onDateOrTimeChanged(emitEvent: boolean = true) {
-    // shiyuan TODO: delete when update in date and time fields
-    this.ref.detectChanges();
-    this.lf_field_form_control.updateValueAndValidity();
-    this.showTokenTextBox = false;
-    this.onValueChanged(emitEvent);
-  }
-
-  onUniDateOrTimeChanged(dateTimeObject: { newValue: StateData; component: UniDateTimeComponent }) {
+  onUniDateOrTimeChanged(dateTimeObject: { component: UniDateTimeComponent }) {
     if (dateTimeObject?.component) {
       this.ref.detectChanges();
       this.setLfDateTimeFieldControl(dateTimeObject);
@@ -225,25 +220,23 @@ export abstract class BaseFieldDirective implements OnInit {
       this.setLfFieldFormControlValue(dateTimeObject.component.dateTimeControl?.value ?? undefined);
       this.lf_field_form_control.updateValueAndValidity();
     } else {
-      if (dateTimeObject.component.dateControl?.value &&  dateTimeObject.component.dateControl?.value.trim() !== '') {
+      if (dateTimeObject.component.dateControl?.value && dateTimeObject.component.dateControl?.value.trim() !== '') {
         this.setLfFieldFormControlValue(dateTimeObject.component.dateControl?.value);
-        if (!!dateTimeObject.component.settings.combinedDateTime)
-        {
-        this.lf_field_form_control.setErrors({
-          [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value },
-        });
-      }
-      else {
-        this.lf_field_form_control.setErrors({
-          [ValidationRule.MAT_DATEPICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value },
-        });
-      }
+        if (!!dateTimeObject.component.settings.combinedDateTime) {
+          this.lf_field_form_control.setErrors({
+            [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value },
+          });
+        } else {
+          this.lf_field_form_control.setErrors({
+            [ValidationRule.MAT_DATEPICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value },
+          });
+        }
       } else {
         this.setLfFieldFormControlValue(undefined);
         this.lf_field_form_control.updateValueAndValidity();
       }
       const validationRuleName = this.getBrokenValidationRule();
-      this.fieldValidationErrorMsg =  this.getValidationErrorMsg(validationRuleName) ?? of(undefined);
+      this.fieldValidationErrorMsg = this.getValidationErrorMsg(validationRuleName) ?? of(undefined);
     }
   }
 

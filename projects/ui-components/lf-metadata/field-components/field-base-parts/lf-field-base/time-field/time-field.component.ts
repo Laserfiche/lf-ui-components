@@ -1,15 +1,13 @@
-// Copyright (c) Laserfiche.
+// Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { FieldFormat } from '@laserfiche/lf-ui-components/shared';
-import { ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
-import { Observable } from 'rxjs';
-import { LocaleDatetimeUtils } from '../locale-datetime-utils';
-import { map } from 'rxjs/operators';
+import {  ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'lf-time-field-component',
@@ -20,13 +18,35 @@ import { map } from 'rxjs/operators';
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ]
 })
-export class TimeFieldComponent extends BaseFieldDirective {
-  private readonly LOCALE_TIME = this.localizationService.languageChanged().pipe(map((language) => {
-    return LocaleDatetimeUtils.getLocaleTimePattern(language);
-  }));
-  private readonly TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringLaserficheWithObservableParams('TIME_FIELDS_MUST_BE_IN_FORMAT_0', [this.LOCALE_TIME]);
+export class TimeFieldComponent extends BaseFieldDirective implements OnInit  {
+  private timeDisplayFormat: string = '';
+  private TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 : Observable<string> | undefined;
+  getTimeDisplayFormat() : string
+  {
+    return this.timeDisplayFormat;
+  }
+  async ngOnInit(): Promise<void> {
+    super.ngOnInit();
+    this.timeDisplayFormat = this.getTimeFormat();
+    this.TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringLaserficheWithObservableParams(
+      'TIME_FIELDS_MUST_BE_IN_FORMAT_0', [of(this.timeDisplayFormat)]);
+    this.uniDateTimeSettings = {
+      showLabel: false,
+      readOnly: false,
+      combinedDateTime: false,
+      showTimeOnly: true,
+      timeFormat: this.timeDisplayFormat,
+      timePlaceholder: this.timeDisplayFormat,
+    };
 
-  step: string | undefined = '1'; // hh:mm:ss by default
+    this.uniDateTimeConfig = {
+      storedValueTimeFormat: this.internalTimeFormat,
+      storedValueDateTimeFormat: '{TIME}',
+      language: navigator.language,
+      silent: false, // no internal strings and no custom error messages
+    };
+}
+
 
   deserializeLfFieldValue(): string {
     return this.lf_field_value ?? ''; // TODO: check what format the API gives us Time in
@@ -37,11 +57,12 @@ export class TimeFieldComponent extends BaseFieldDirective {
   }
 
   getAdditionalValidatorsForFieldType(): ValidatorFn[] {
-    this.setTimeFormat();
+
     const validators: ValidatorFn[] = [];
     validators.push(ValidationUtils.createTimeValidator());
     return validators;
   }
+
 
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
     switch (validationRuleName) {
@@ -51,20 +72,16 @@ export class TimeFieldComponent extends BaseFieldDirective {
     return undefined;
   }
 
-  // Determines if format should contain seconds
-  private setTimeFormat(): void {
+  private getTimeFormat(): string {
     switch (this.lf_field_info?.format) {
       case FieldFormat.ShortTime:
-        this.step = undefined; // hh:mm
-        break;
+        return 'hh:mm A'
       case FieldFormat.LongTime:
-        this.step = '1'; // hh:mm:ss
-        break;
+        return 'hh:mm:ss A';
       default:
-        break;
+        return 'hh:mm:ss A';
     }
   }
-
   async onTimeValueChangedAsync() {
     if (this.containsToken) {
       this.lf_field_form_control.clearValidators();
@@ -72,8 +89,8 @@ export class TimeFieldComponent extends BaseFieldDirective {
     else {
       this.resetToDefaultValidators();
     }
+    super.onDateOrTimeTokenValueChanged();
     this.lf_field_form_control.updateValueAndValidity();
-    super.onValueChanged();
   }
 
   onTimeTokenChosen(token: string) {

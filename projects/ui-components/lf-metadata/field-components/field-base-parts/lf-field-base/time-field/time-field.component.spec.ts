@@ -9,7 +9,6 @@ import { AppLocalizationService,ValidationRule } from '@laserfiche/lf-ui-compone
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { FieldType, FieldFormat } from '@laserfiche/lf-ui-components/shared';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
-import { NgxMatDatetimePickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -58,8 +57,6 @@ describe('TimeFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        NgxMatDatetimePickerModule,
-        NgxMatNativeDateModule,
         MatDatepickerModule
       ],
       providers:[
@@ -178,12 +175,12 @@ describe('TimeFieldComponent', () => {
 
   it('should include seconds if format is LongTime', () => {
     expect(optionalTimeComponent.lf_field_info.format).toEqual(FieldFormat.LongTime);
-    expect(optionalTimeComponent.step).toEqual('1');
+    expect(optionalTimeComponent.getTimeDisplayFormat()).toEqual('hh:mm:ss A');
   });
 
   it('should not include seconds if format is ShortTime', () => {
     expect(requiredTimeComponent.lf_field_info.format).toEqual(FieldFormat.ShortTime);
-    expect(requiredTimeComponent.step).toBeUndefined();
+    expect(requiredTimeComponent.getTimeDisplayFormat()).toEqual('hh:mm A');
   });
 
 });

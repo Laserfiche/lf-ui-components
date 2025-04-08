@@ -2,8 +2,8 @@
 
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
-import { ValidatorFn, } from '@angular/forms';
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher  } from '@angular/material/core';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable } from 'rxjs';
@@ -22,12 +22,12 @@ import { map } from 'rxjs/operators';
 })
 export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit {
   private readonly LOCALE_DATE_TIME = this.localizationService.languageChanged().pipe(
-    map((language) => {
-      return LocaleDatetimeUtils.getLocaleDateTimePattern(language);
+    map(() => {
+      return 'M/D/YYYY HH:mm:ss';
     })
   );
   private readonly DATETIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 =
-    this.localizationService.getStringComponentsWithObservableParams('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', [
+    this.localizationService.getStringLaserficheWithObservableParams('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', [
       this.LOCALE_DATE_TIME,
     ]);
 
@@ -37,18 +37,20 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
     public localizationService: AppLocalizationService
   ) {
     super(tokenService, ref, localizationService);
+  }
 
-    const internalDateFormat = 'MM/DD/YYYY';
-    const internalTimeFormat = 'HH:mm:ss';
+  async ngOnInit(): Promise<void> {
+    super.ngOnInit();
+
     this.uniDateTimeSettings = {
       showLabel: false,
       readOnly: false,
       combinedDateTime: true,
-      showTimeOnly: true,
+
     };
     this.uniDateTimeConfig = {
-      storedValueDateFormat: internalDateFormat,
-      storedValueTimeFormat: internalTimeFormat,
+      storedValueDateFormat: this.internalDateFormat,
+      storedValueTimeFormat: this.internalTimeFormat,
       storedValueDateTimeFormat: '{DATE}T{TIME}',
       language: navigator.language,
       setDisplayFormatByLocale: true,

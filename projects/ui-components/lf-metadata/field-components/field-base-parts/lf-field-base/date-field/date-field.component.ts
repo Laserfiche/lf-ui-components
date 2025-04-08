@@ -3,17 +3,12 @@
 
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
-import {
-  ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher,
-} from '@angular/material/core';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { ValidatorFn } from '@angular/forms';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
-import { Observable } from 'rxjs';
-import { LocaleDatetimeUtils } from '../locale-datetime-utils';
-import { map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'lf-date-field-component',
@@ -22,21 +17,23 @@ import { map } from 'rxjs/operators';
   providers: [
     { provide: BaseFieldDirective, useExisting: DateFieldComponent },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-  ]
+  ],
 })
 export class DateFieldComponent extends BaseFieldDirective implements OnInit {
-  private readonly LOCALE_DATE = this.localizationService.languageChanged().pipe(map((language) => {
-    return LocaleDatetimeUtils.getLocaleDatePattern(language);
+  private readonly LOCALE_DATE = this.localizationService.languageChanged().pipe(map(() => {
+    return 'M/D/YYYY';
   }));
   private readonly DATE_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringLaserficheWithObservableParams('DATE_FIELDS_MUST_BE_IN_FORMAT_0', [this.LOCALE_DATE]);
 
   constructor(
     public tokenService: LfFieldTokenService,
     public ref: ChangeDetectorRef,
-    public localizationService: AppLocalizationService,
+    public localizationService: AppLocalizationService
   ) {
     super(tokenService, ref, localizationService);
-    const internalDateFormat = 'MM/DD/YYYY';
+  }
+  async ngOnInit(): Promise<void> {
+    super.ngOnInit();
     this.uniDateTimeSettings = {
       showLabel: false,
       readOnly: false,
@@ -44,7 +41,7 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
       showTime: false,
     };
     this.uniDateTimeConfig = {
-      storedValueDateFormat: internalDateFormat,
+      storedValueDateFormat: this.internalDateFormat,
       storedValueDateTimeFormat: '{DATE}T00:00:00',
       language: navigator.language,
       setDisplayFormatByLocale: true,
@@ -61,8 +58,7 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
     const fieldControlValue = this.getLfFieldFormControlValue();
     if (!fieldControlValue) {
       return '';
-    }
-    else {
+    } else {
       const date: Date = new Date(fieldControlValue);
       const serializedDate: string = LfMetadataDatetimeUtils.serializeDateValue(date) ?? '';
       return serializedDate;
