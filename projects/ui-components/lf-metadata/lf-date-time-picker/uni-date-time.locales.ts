@@ -1,7 +1,7 @@
 export class uniLocalizedFormat {
   DateFormat!: string;
   TimeFormat!:string;
-  TimeFormatWithSeconds!: string
+  TimeFormatWithSeconds!: string;
 }
 export const uniLocalizedFormats: Record<string, uniLocalizedFormat> = {
     "ar-AE": {

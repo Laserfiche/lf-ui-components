@@ -181,7 +181,7 @@ describe('DateTimeFieldComponent', () => {
     const expectedDateFormat = 'MM/DD/YYYY';
     const expectedTimeFormat = 'hh:mm:ss';
     const expectedDateTimeFomrat = expectedDateFormat + ' ' + expectedTimeFormat;
-    let returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
+    const returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
     returnedDateTimeObject.component.dateControl = new FormControl();
     returnedDateTimeObject.component.timeControl = new FormControl();
     returnedDateTimeObject.component.dateTimeControl = new FormControl();
@@ -230,7 +230,7 @@ describe('DateTimeFieldComponent', () => {
 
   it('should update locale when format error occurs', async () => {
     // arrange
-    let expectedDateTimeFormat: string = 'DD/MM/YYYY H:mm';
+    const expectedDateTimeFormat: string = 'DD/MM/YYYY H:mm';
     optionalDateTimeComponent.lf_field_form_control.setErrors({
       [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { dateTimeFormat: expectedDateTimeFormat },
     });

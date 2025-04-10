@@ -153,7 +153,7 @@ describe('DateFieldComponent', () => {
     const expectedBrokenRule = ValidationRule.MAT_DATEPICKER_PARSE;
     const expectedDateFormat = 'MM/DD/YYYY';
 
-    let returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
+    const returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
     returnedDateTimeObject.component.dateControl = new FormControl();
     returnedDateTimeObject.component.timeControl = new FormControl();
     returnedDateTimeObject.component.dateTimeControl = new FormControl();
@@ -238,7 +238,7 @@ describe('DateFieldComponent', () => {
 
   it('should update locale when format error occurs', async () => {
     // arrange
-    let expectedDateFormat: string = 'DD/MM/YYYY';
+    const expectedDateFormat: string = 'DD/MM/YYYY';
     optionalDateComponent.lf_field_form_control.setErrors({
       [ValidationRule.MAT_DATEPICKER_PARSE]: { dateTimeFormat: expectedDateFormat },
     });

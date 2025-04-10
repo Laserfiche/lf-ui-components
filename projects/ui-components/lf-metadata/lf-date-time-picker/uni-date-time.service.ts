@@ -658,7 +658,7 @@ export class UniDateTimeService {
   private fixLocaleCase = function (locale: string, extractLanguageOnly: boolean = false): string {
     locale = locale.toLowerCase();
 
-    let parts = locale.split('-');
+    const parts = locale.split('-');
     if (extractLanguageOnly) {
       return parts.length == 2 && parts[1] != 'hans' && parts[1] != 'hant'
         ? parts[0]
@@ -701,7 +701,7 @@ export class UniDateTimeService {
   }
 
   public getFlatpickrLocale(localeString: string): any {
-    let language = this.fixLocaleCase(localeString, true);
+    const language = this.fixLocaleCase(localeString, true);
     switch (language) {
       case 'ar':
         return this.applyLocaleCorrections(language, FlatpickrLocales.ar);

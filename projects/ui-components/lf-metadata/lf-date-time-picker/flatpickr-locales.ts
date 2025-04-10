@@ -14,4 +14,4 @@ export const FlatpickrLocales = {
   pt: Portuguese,
   zhHans: Mandarin,
   zhHant: MandarinTraditional
-}
+};

@@ -6,7 +6,7 @@ import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { FieldFormat } from '@laserfiche/lf-ui-components/shared';
-import {  ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
+import { ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -15,18 +15,20 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./time-field.component.css', './../lf-field-base/lf-field-base.component.css'],
   providers: [
     { provide: BaseFieldDirective, useExisting: TimeFieldComponent },
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
-  ]
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
 })
-export class TimeFieldComponent extends BaseFieldDirective implements OnInit  {
+export class TimeFieldComponent extends BaseFieldDirective implements OnInit {
   private timeDisplayFormat: string | undefined;
-  private TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 : Observable<string> | undefined;
+  private TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0: Observable<string> | undefined;
 
   async ngOnInit(): Promise<void> {
     super.ngOnInit();
     this.timeDisplayFormat = this.getTimeFormat();
     this.TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringLaserficheWithObservableParams(
-      'TIME_FIELDS_MUST_BE_IN_FORMAT_0', [of(this.timeDisplayFormat)]);
+      'TIME_FIELDS_MUST_BE_IN_FORMAT_0',
+      [of(this.timeDisplayFormat)]
+    );
     this.uniDateTimeSettings = {
       showLabel: false,
       readOnly: false,
@@ -42,8 +44,7 @@ export class TimeFieldComponent extends BaseFieldDirective implements OnInit  {
       language: navigator.language,
       silent: false, // no internal strings and no custom error messages
     };
-}
-
+  }
 
   deserializeLfFieldValue(): string {
     return this.lf_field_value ?? ''; // TODO: check what format the API gives us Time in
@@ -54,7 +55,6 @@ export class TimeFieldComponent extends BaseFieldDirective implements OnInit  {
   }
 
   getAdditionalValidatorsForFieldType(): ValidatorFn[] {
-
     const validators: ValidatorFn[] = [];
     validators.push(ValidationUtils.createTimeValidator());
     return validators;
@@ -70,11 +70,12 @@ export class TimeFieldComponent extends BaseFieldDirective implements OnInit  {
 
   private getTimeFormat(): string {
     if (this.timeDisplayFormat)
+    {
       return this.timeDisplayFormat;
-
+    }
     switch (this.lf_field_info?.format) {
       case FieldFormat.ShortTime:
-        return 'hh:mm A'
+        return 'hh:mm A';
       case FieldFormat.LongTime:
         return 'hh:mm:ss A';
       default:
@@ -84,8 +85,7 @@ export class TimeFieldComponent extends BaseFieldDirective implements OnInit  {
   async onTimeValueChangedAsync() {
     if (this.containsToken) {
       this.lf_field_form_control.clearValidators();
-    }
-    else {
+    } else {
       this.resetToDefaultValidators();
     }
     super.onDateOrTimeTokenValueChanged();

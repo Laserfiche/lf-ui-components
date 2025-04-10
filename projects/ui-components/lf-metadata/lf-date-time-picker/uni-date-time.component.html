@@ -9,7 +9,7 @@
     </span>
     <ng-template #datePickerView>
       <div class="fl-date-container" [ngClass]="settings.combinedDateTime ? 'combined-datetime' : ''"
-        *ngIf="settings.showTimeOnly!=true">
+        *ngIf="settings.showTimeOnly!==true">
         <div class="lib-datetime-picker" #dateDiv>
           <input *ngIf="settings.useCurrentDate && config.isDisplayOnly" class="fl-datetime-input-date" type="text"
             id="{{settings.fieldId}}" value="{{strings?.currentDate}}" disabled />

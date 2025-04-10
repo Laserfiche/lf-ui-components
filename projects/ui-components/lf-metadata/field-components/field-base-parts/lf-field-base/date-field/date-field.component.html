@@ -8,10 +8,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       (change)="onDateOrTimeTokenValueChanged()">
   </mat-form-field>
 
-  <uni-date-time #tokenTarget class="lf-field" *ngIf="!showTokenTextBox" [config]="uniDateTimeConfig"
+  <lf-uni-date-time #tokenTarget class="lf-field" *ngIf="!showTokenTextBox" [config]="uniDateTimeConfig"
     [settings]="uniDateTimeSettings" (onValueChangedEvent)="onUniDateOrTimeChanged($event)">
-  </uni-date-time>
-
+  </lf-uni-date-time>
   <lf-token-picker-component class="lf-field-token-picker" (tokenPicked)="onTokenChosen($event)"
     [data]="lfFieldTokenData"></lf-token-picker-component>
 </span>

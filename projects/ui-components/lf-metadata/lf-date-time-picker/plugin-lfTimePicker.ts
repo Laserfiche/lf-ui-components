@@ -9,7 +9,7 @@ export function LFTimePickerPlugin(): Plugin {
     const flatpickerKey: keyof typeof window = 'flatpickr' as keyof typeof window;
 		fp.config.parseDate = function (date: string, format: string, locale?: any) {
 			if (!dateTimeService.isToken(date)) {
-        let dateFormat = dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(format, true);
+        const dateFormat = dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(format, true);
         try {
           /*
 					if (isCustomFormat(fp.config.dateFormat)) {
@@ -100,7 +100,7 @@ export function LFTimePickerPlugin(): Plugin {
 function parseTimeFromPicker(fp: Instance): string {
   let value;
   if (fp.amPM && fp.amPM.innerText) {
-    value = formatTime12HourTo24Hour(fp)
+    value = formatTime12HourTo24Hour(fp);
   }
   else{
     value = fp.hourElement?.value + ':' + fp.minuteElement?.value;

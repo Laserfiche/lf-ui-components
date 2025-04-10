@@ -9,7 +9,7 @@ export function LFDatePickerPlugin(): Plugin {
     const flatpickerKey: keyof typeof window = 'flatpickr' as keyof typeof window;
     fp.config.parseDate = function (date: string, format: string, locale?: any) {
       if (!dateTimeService.isToken(date)) {
-        let dateFormat = dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(format, true);
+        const dateFormat = dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(format, true);
 				try {
           locale = locale ? locale : fp.config.locale;
           const timeless = dateTimeService.hasTimeFormat(dateFormat);
