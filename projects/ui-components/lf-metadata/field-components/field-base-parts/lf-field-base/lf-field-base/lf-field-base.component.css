@@ -41,7 +41,7 @@
 
 ::ng-deep .lf-field .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__leading,
 ::ng-deep .lf-field .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__notch,
-::ng-deep .lf-field .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__trailing, 
+::ng-deep .lf-field .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__trailing,
 ::ng-deep .lf-textarea .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__leading,
 ::ng-deep .lf-textarea .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__notch,
 ::ng-deep .lf-textarea .mdc-text-field--outlined:not(.mdc-text-field--focused) .mdc-notched-outline__trailing {
@@ -200,10 +200,13 @@
 
 ::ng-deep .mat-mdc-form-field-error-wrapper {
   position: relative;
+  padding: 0;
 }
 
 .mat-mdc-form-field-error {
   transform: translateY(-80%);
+  padding: 0 16px;
+  font-size: var(--mat-form-field-subscript-text-size);
 }
 
 ::ng-deep .lf-field .mdc-text-field {

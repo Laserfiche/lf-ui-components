@@ -1,4 +1,4 @@
-// Copyright (c) Laserfiche.
+// Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -9,14 +9,13 @@ import { AppLocalizationService,ValidationRule } from '@laserfiche/lf-ui-compone
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { FieldType, FieldFormat } from '@laserfiche/lf-ui-components/shared';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
-import { NgxMatDatetimePickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { CommonModule } from '@angular/common';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { UniDateTimeModule } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
 
 describe('TimeFieldComponent', () => {
   let requiredTimeComponent: TimeFieldComponent;
@@ -58,9 +57,7 @@ describe('TimeFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        NgxMatDatetimePickerModule,
-        NgxMatNativeDateModule,
-        MatDatepickerModule
+        UniDateTimeModule,
       ],
       providers:[
         LfFieldTokenService,
@@ -124,7 +121,7 @@ describe('TimeFieldComponent', () => {
 
   it('should validate time pattern', async () => {
     // arrange
-    const valueBadPattern: string = '05';
+    const valueBadPattern: string = 'ds';
 
     // act
     requiredTimeComponent.setLfFieldFormControlValue(valueBadPattern);
@@ -132,7 +129,7 @@ describe('TimeFieldComponent', () => {
 
     // assert
     const expectedBrokenRule = ValidationRule.TIME;
-    const expectedError = requiredTimeComponent.localizationService.getString('TIME_FIELDS_MUST_BE_IN_FORMAT_0', ['HH:mm:ss']);
+    const expectedError = requiredTimeComponent.localizationService.getString('TIME_FIELDS_MUST_BE_IN_FORMAT_0', ['hh:mm A']);
     expect(requiredTimeComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     requiredTimeComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -178,12 +175,14 @@ describe('TimeFieldComponent', () => {
 
   it('should include seconds if format is LongTime', () => {
     expect(optionalTimeComponent.lf_field_info.format).toEqual(FieldFormat.LongTime);
-    expect(optionalTimeComponent.step).toEqual('1');
+    //@ts-ignore
+    expect(optionalTimeComponent.timeDisplayFormat).toEqual('hh:mm:ss A');
   });
 
   it('should not include seconds if format is ShortTime', () => {
     expect(requiredTimeComponent.lf_field_info.format).toEqual(FieldFormat.ShortTime);
-    expect(requiredTimeComponent.step).toBeUndefined();
+    //@ts-ignore
+    expect(requiredTimeComponent.timeDisplayFormat).toEqual('hh:mm A');
   });
 
 });
