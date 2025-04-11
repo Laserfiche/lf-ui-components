@@ -47,9 +47,9 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
   @HostBinding('class.readonly') isReadonly = false;
   @HostBinding('class.disabled') isDisabled = false;
 
-  @Input('config') config!: UniComponentConfig;
-  @Input('settings') settings!: UniComponentSettings;
-  @Input('strings') customStrings?: {
+  @Input() config!: UniComponentConfig;
+  @Input() settings!: UniComponentSettings;
+  @Input() customStrings?: {
     // Revise
     dateTimeCapturedInBackend?: string; // if useBackendDateTimeForCurrentDateTime=true, useCurrentDate: true, readOnly: true, showTime: true
     dateCapturedInBackend?: string; // if useBackendDateTimeForCurrentDateTime=true, useCurrentDate: true, readOnly: true
@@ -61,14 +61,14 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
   };
 
   // Copied from base
-  @Input('component-id') id?: string;
-  @Input('abstractControl') abstractControl?: AbstractControl;
-  @Input('dateControlName') dateControlName?: string;
-  @Input('timeControlName') timeControlName?: string;
-  @Input('dateTimeControlName') dateTimeControlName?: string;
+  @Input() componentId?: string;
+  @Input() abstractControl?: AbstractControl;
+  @Input() dateControlName?: string;
+  @Input() timeControlName?: string;
+  @Input() dateTimeControlName?: string;
 
   // Events // Revise
-  @Output() onValueChangedEvent: EventEmitter<{
+  @Output() valueChangedEventHandler: EventEmitter<{
     newValue: StateData;
     newState: UniState;
     controlType: UniControlType;
@@ -76,18 +76,18 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     event: FormChangeEvent;
     component: UniDateTimeComponent;
   }> = new EventEmitter();
-  @Output() onBlurEvent: EventEmitter<{
+  @Output() blurEventHandler: EventEmitter<{
     state: UniState;
     source: FormChangeSource;
     event: FormChangeEvent;
     component: UniDateTimeComponent;
   }> = new EventEmitter();
-  @Output() onDateIconClickEvent: EventEmitter<{
+  @Output() dateIconClickEventHandler: EventEmitter<{
     state: UniState;
     event: FormChangeEvent;
     component: UniDateTimeComponent;
   }> = new EventEmitter();
-  @Output() onTimeIconClickEvent: EventEmitter<{
+  @Output() timeIconClickEventHandler: EventEmitter<{
     state: UniState;
     event: FormChangeEvent;
     component: UniDateTimeComponent;
@@ -351,12 +351,12 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
       this.settings = { ...this.dateTimeService.getDefaultSettings(), ...this.settings };
     }
 
-    if (!this.id) {
-      this.id = this.dateTimeService.generateGUID(); // Revise
+    if (!this.componentId) {
+      this.componentId = this.dateTimeService.generateGUID(); // Revise
     }
 
     if (!this.settings.fieldId) {
-      this.settings.fieldId = this.config.fieldIdPrefix + this.id;
+      this.settings.fieldId = this.config.fieldIdPrefix + this.componentId;
     }
 
     if (this.settings.abstractControl instanceof AbstractControl && !this.abstractControl) {
@@ -526,7 +526,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         key === 'date',
         key === 'date' ? FormChangeEvent.DateBlur : FormChangeEvent.TimeBlur
       );
-      this.onBlurEvent.emit({
+      this.blurEventHandler.emit({
         state: this.state,
         source: FormChangeSource.User,
         event: key === 'date' ? FormChangeEvent.DateBlur : FormChangeEvent.TimeBlur,
@@ -538,10 +538,10 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
   onIconClick(iconType: string) {
     switch (iconType) {
       case 'date':
-        this.onDateIconClickEvent.emit({ state: this.state, event: FormChangeEvent.DateIconClick, component: this });
+        this.dateIconClickEventHandler.emit({ state: this.state, event: FormChangeEvent.DateIconClick, component: this });
         break;
       case 'time':
-        this.onTimeIconClickEvent.emit({ state: this.state, event: FormChangeEvent.TimeIconClick, component: this });
+        this.timeIconClickEventHandler.emit({ state: this.state, event: FormChangeEvent.TimeIconClick, component: this });
         break;
     }
   }
@@ -691,7 +691,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     newState.data = result;
     this.updateErrorDisplay();
     this.state.data = result;
-    this.onValueChangedEvent.emit({
+    this.valueChangedEventHandler.emit({
       newValue: result,
       newState: newState,
       controlType: controlType,
@@ -703,11 +703,11 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
 
   // Revise
   assignSubAbstractControl() {
-    this.dateControlName = this.dateControlName ? this.dateControlName : `${this.id}-${UniControlType.DateTime_date}`;
-    this.timeControlName = this.timeControlName ? this.timeControlName : `${this.id}-${UniControlType.DateTime_time}`;
+    this.dateControlName = this.dateControlName ? this.dateControlName : `${this.componentId}-${UniControlType.DateTime_date}`;
+    this.timeControlName = this.timeControlName ? this.timeControlName : `${this.componentId}-${UniControlType.DateTime_time}`;
     this.dateTimeControlName = this.dateTimeControlName
       ? this.dateTimeControlName
-      : `${this.id}-${UniControlType.DateTime}`;
+      : `${this.componentId}-${UniControlType.DateTime}`;
 
     if (!this.abstractControl) {
       const defaultControls = {};
