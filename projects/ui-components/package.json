@@ -24,7 +24,10 @@
     "@laserfiche/lf-resource-library": "^5.0.0",
     "ngx-mask": "^17.1.8",
     "rxjs": "^7.8.0",
-    "zone.js": "^0.14.10"
+    "zone.js": "^0.14.10",
+    "date-fns": "2.30",
+    "flatpickr": "^4.6.13",
+    "lodash": "^4.17.21"
   },
   "dependencies": {
     "tslib": "^2.3.1"
