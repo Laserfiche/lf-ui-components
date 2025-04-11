@@ -377,8 +377,8 @@ export class UniDateTimeService {
   public endOfMonth(date: Date): Date {
     return df_endOfMonth(date);
   }
-  public parseDuration(durationStr: string): Duration {
-    const endDate = this.tryParse(durationStr, [
+  public parseDuration(endDateStr: string): Duration {
+    const endDate = this.tryParse(endDateStr, [
       'HH:mm:ss',
       'H:m:s',
       'hh:mm:ss a',
@@ -388,11 +388,13 @@ export class UniDateTimeService {
       'hh:mm a',
       'h:m a',
     ]);
+    const startOfDay = df_startOfDay(this.referenceDate);
     return df_intervalToDuration({
-      start: df_startOfDay(this.referenceDate),
-      end: endDate,
+      start: startOfDay,
+      end: endDate ?? startOfDay,
     });
   }
+
   public getWeek(
     date: Date,
     options?: { weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6; firstWeekContainsDate?: 1 | 2 | 3 | 4 | 5 | 6 | 7 }
