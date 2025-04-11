@@ -37,10 +37,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <button class="lf-button" (click)="showCode('styles.css', 'import')">styles.css</button>
     <div>
         <div id="index.html" class="import tab-content" style="display: none;">
-            <code>&lt;link id="lf-stylesheet" href="https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css" rel="stylesheet" /&gt;</code>
+            <code>&lt;link id="lf-stylesheet" href="https://lfxstatic.com/npm/&#64;laserfiche/lf-ui-components&#64;NPM_VERSION/cdn/lf-laserfiche-lite.css" rel="stylesheet" /&gt;</code>
         </div>
         <div id="styles.css" class="import tab-content" style="display: none;">
-            <code>@import "https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css";</code>
+            <code>&#64;import "https://lfxstatic.com/npm/&#64;laserfiche/lf-ui-components&#64;NPM_VERSION/cdn/lf-laserfiche-lite.css";</code>
         </div>
     </div>
 </app-card>
@@ -121,12 +121,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <pre><code>
   setThemeLaserfiche() &#123;
     const stylesheet = document.getElementById('lf-stylesheet');
-    stylesheet.setAttribute('href', 'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css');
+    stylesheet.setAttribute('href', 'https://lfxstatic.com/npm/&#64;laserfiche/lf-ui-components&#64;NPM_VERSION/cdn/lf-laserfiche-lite.css');
   &#125;
 
   setThemeMicrosoft() &#123;
     const stylesheet = document.getElementById('lf-stylesheet');
-    stylesheet.setAttribute('href', 'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css');
+    stylesheet.setAttribute('href', 'https://lfxstatic.com/npm/&#64;laserfiche/lf-ui-components&#64;NPM_VERSION/cdn/lf-ms-office-lite.css');
   &#125;
 
   removeTheme() &#123;

@@ -10,14 +10,17 @@ import { LfFieldTokenService } from '../lf-field-token.service';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
-import { NgxMatNativeDateModule, NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { CommonModule } from '@angular/common';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
+import {
+  UniDateTimeComponent,
+  UniDateTimeModule,
+} from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
+import { UniDateTimeService } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.service';
 
 describe('DateTimeFieldComponent', () => {
   let requiredDateTimeComponent: DateTimeFieldComponent;
@@ -32,7 +35,7 @@ describe('DateTimeFieldComponent', () => {
     description: 'requiredDateTimeDescription',
     isRequired: true,
     fieldType: FieldType.DateTime,
-    displayName: 'requiredDateTimeName'
+    displayName: 'requiredDateTimeName',
   };
 
   const optionalDateTime: LfFieldInfo = {
@@ -40,16 +43,12 @@ describe('DateTimeFieldComponent', () => {
     id: 2,
     description: 'optionalDateTimeDescription',
     fieldType: FieldType.DateTime,
-    displayName: 'optionalDateTimeName'
+    displayName: 'optionalDateTimeName',
   };
 
   beforeEach(waitForAsync(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        DateTimeFieldComponent,
-        LfFieldBaseComponent,
-        LfTokenPickerComponent
-      ],
+      declarations: [DateTimeFieldComponent, LfFieldBaseComponent, LfTokenPickerComponent],
       imports: [
         BrowserAnimationsModule,
         CommonModule,
@@ -58,16 +57,10 @@ describe('DateTimeFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        NgxMatNativeDateModule,
-        NgxMatDatetimePickerModule,
-        MatDatepickerModule
+        UniDateTimeModule,
       ],
-      providers: [
-        LfFieldTokenService,
-        AppLocalizationService
-      ]
-    })
-      .compileComponents();
+      providers: [LfFieldTokenService, AppLocalizationService],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -94,6 +87,7 @@ describe('DateTimeFieldComponent', () => {
 
   it('should have validation error if required field is blank', async () => {
     // assert
+    requiredDateTimeComponent.lf_field_form_control.updateValueAndValidity();
     const expectedBrokenRule = ValidationRule.REQUIRED;
     const expectedError = requiredDateTimeComponent.localizationService.getString('REQUIRED_FIELD_IS_EMPTY');
     expect(requiredDateTimeComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
@@ -105,7 +99,9 @@ describe('DateTimeFieldComponent', () => {
     requiredDateTimeComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -121,7 +117,9 @@ describe('DateTimeFieldComponent', () => {
     optionalDateTimeComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -144,7 +142,9 @@ describe('DateTimeFieldComponent', () => {
     optionalDateTimeComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -167,7 +167,9 @@ describe('DateTimeFieldComponent', () => {
     requiredDateTimeComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -175,14 +177,28 @@ describe('DateTimeFieldComponent', () => {
   it('should have validation error if optional field is set to invalid value', async () => {
     // arrange
     const invalidDateTimeValue = 'a';
+    const expectedBrokenRule = ValidationRule.MAT_DATETIME_PICKER_PARSE;
+    const expectedDateFormat = 'MM/DD/YYYY';
+    const expectedTimeFormat = 'hh:mm:ss';
+    const expectedDateTimeFomrat = expectedDateFormat + ' ' + expectedTimeFormat;
+    const returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
+    returnedDateTimeObject.component.dateControl = new FormControl();
+    returnedDateTimeObject.component.timeControl = new FormControl();
+    returnedDateTimeObject.component.dateTimeControl = new FormControl();
+    returnedDateTimeObject.component.settings = optionalDateTimeComponent.uniDateTimeSettings;
+    returnedDateTimeObject.component.settings.timeFormat= expectedTimeFormat,
+    returnedDateTimeObject.component.settings.dateFormat= expectedDateFormat,
+
+    returnedDateTimeObject.component.dateControl.setValue(invalidDateTimeValue);
 
     // act
-    optionalDateTimeComponent.setLfFieldFormControlValue(invalidDateTimeValue);
-    optionalDateTimeFixture.detectChanges();
+    optionalDateTimeComponent.onUniDateOrTimeChanged(returnedDateTimeObject);
 
     // assert
-    const expectedBrokenRule = ValidationRule.MAT_DATEPICKER_PARSE;
-    const expectedError = optionalDateTimeComponent.localizationService.getString('DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0', ['MM/DD/YYYY, HH:mm:ss']);
+    const expectedError = optionalDateTimeComponent.localizationService.getString(
+      'DATE_TIME_FIELDS_MUST_BE_IN_FORMAT_0',
+      [expectedDateTimeFomrat]
+    );
     expect(optionalDateTimeComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     optionalDateTimeComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -192,7 +208,9 @@ describe('DateTimeFieldComponent', () => {
     optionalDateTimeComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -210,20 +228,28 @@ describe('DateTimeFieldComponent', () => {
     expect(optionalDateTimeComponent.serializeFieldFormControlValue()).toEqual(expectedValue);
   });
 
-  it('should update locale when language updated', async () => {
+  it('should update locale when format error occurs', async () => {
+    // arrange
+    const expectedDateTimeFormat: string = 'DD/MM/YYYY H:mm';
+    optionalDateTimeComponent.lf_field_form_control.setErrors({
+      [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { dateTimeFormat: expectedDateTimeFormat },
+    });
     // act
-    let value: string | undefined;
+    let actualValue: string | undefined;
+
+    optionalDateTimeComponent.getValidationTextForFieldType(ValidationRule.MAT_DATETIME_PICKER_PARSE);
     //@ts-ignore
     optionalDateTimeComponent.LOCALE_DATE_TIME.subscribe((val) => {
-      value = val;
+      actualValue = val;
     });
-    await optionalDateTimeComponent.localizationService.setLanguageAsync('es-MX');
 
     // assert
     await CoreUtils.waitForConditionAsync(
-      () => value === 'DD/MM/YYYY, HH:mm:ss',
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => actualValue === expectedDateTimeFormat,
+      () => {
+        throw Error(`Timeout: value was ${actualValue}`);
+      }
     );
-    expect(value).toEqual('DD/MM/YYYY, HH:mm:ss');
+    expect(actualValue).toEqual(expectedDateTimeFormat);
   });
 });
