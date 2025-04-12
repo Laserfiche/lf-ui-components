@@ -3,7 +3,10 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UniDateTimeComponent } from './uni-date-time.component';
 import { MatInputModule } from '@angular/material/input';
-
+import {
+  UniComponentConfig,
+  UniComponentSettings,
+} from './uni-date-time.common';
 
 @NgModule({
   declarations: [
@@ -12,11 +15,11 @@ import { MatInputModule } from '@angular/material/input';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        MatInputModule
+        MatInputModule,
   ],
   exports: [
-    UniDateTimeComponent
+    UniDateTimeComponent,
   ]
 })
 export class UniDateTimeModule { }
-export { UniDateTimeComponent };
+export { UniDateTimeComponent, UniComponentSettings, UniComponentConfig };
