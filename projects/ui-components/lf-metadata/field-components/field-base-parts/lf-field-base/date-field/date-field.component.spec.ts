@@ -1,23 +1,22 @@
-// Copyright (c) Laserfiche.
+// Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateFieldComponent } from './date-field.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldInfo } from '../../../utils/lf-field-types';
-import moment from 'moment';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { UniDateTimeComponent, UniDateTimeModule } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
+import { UniDateTimeService } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.service';
 
 describe('DateFieldComponent', () => {
   let requiredDateComponent: DateFieldComponent;
@@ -54,12 +53,11 @@ describe('DateFieldComponent', () => {
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
         MatFormFieldModule,
         MatInputModule,
         MatMenuModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        UniDateTimeModule
       ],
       providers: [
         LfFieldTokenService,
@@ -93,6 +91,7 @@ describe('DateFieldComponent', () => {
 
   it('should have validation error if required field is blank', async () => {
     // assert
+    requiredDateComponent.lf_field_form_control.updateValueAndValidity();
     const expectedBrokenRule = ValidationRule.REQUIRED;
     const expectedError = requiredDateComponent.localizationService.getString('REQUIRED_FIELD_IS_EMPTY');
     expect(requiredDateComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
@@ -151,13 +150,21 @@ describe('DateFieldComponent', () => {
   it('should have validation error if optional field is set to invalid value', async () => {
     // arrange
     const invalidDateValue = 'a';
+    const expectedBrokenRule = ValidationRule.MAT_DATEPICKER_PARSE;
+    const expectedDateFormat = 'MM/DD/YYYY';
 
+    const returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
+    returnedDateTimeObject.component.dateControl = new FormControl();
+    returnedDateTimeObject.component.timeControl = new FormControl();
+    returnedDateTimeObject.component.dateTimeControl = new FormControl();
+    returnedDateTimeObject.component.settings = optionalDateComponent.uniDateTimeSettings;
+    returnedDateTimeObject.component.settings.dateFormat= expectedDateFormat,
+
+    returnedDateTimeObject.component.dateControl.setValue(invalidDateValue);
     // act
-    optionalDateComponent.setLfFieldFormControlValue(invalidDateValue);
-    optionalDateFixture.detectChanges();
+    optionalDateComponent.onUniDateOrTimeChanged(returnedDateTimeObject);
 
     // assert
-    const expectedBrokenRule = ValidationRule.MAT_DATEPICKER_PARSE;
     const expectedError = optionalDateComponent.localizationService.getString('DATE_FIELDS_MUST_BE_IN_FORMAT_0', ['MM/DD/YYYY']);
     expect(optionalDateComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
@@ -176,7 +183,6 @@ describe('DateFieldComponent', () => {
   it('should respect en-us locale', async () => {
     // arrange
     const validDateValue = '2020-12-29';
-    moment.locale('en-us');
 
     // act
     requiredDateComponent.setLfFieldFormControlValue(validDateValue);
@@ -191,7 +197,6 @@ describe('DateFieldComponent', () => {
   it('should respect en-gb locale', async () => {
     // arrange
     const validDateValue = '2020-12-29';
-    moment.locale('en-gb');
 
     // act
     requiredDateComponent.setLfFieldFormControlValue(validDateValue);
@@ -231,14 +236,20 @@ describe('DateFieldComponent', () => {
     expect(containsToken).toBeFalse();
   });
 
-  it('should have update locale for date when language updated', async () => {
+  it('should update locale when format error occurs', async () => {
+    // arrange
+    const expectedDateFormat: string = 'DD/MM/YYYY';
+    optionalDateComponent.lf_field_form_control.setErrors({
+      [ValidationRule.MAT_DATEPICKER_PARSE]: { dateTimeFormat: expectedDateFormat },
+    });
     // act
     let value: string | undefined;
+    optionalDateComponent.getValidationTextForFieldType(ValidationRule.MAT_DATEPICKER_PARSE);
+
     //@ts-ignore
     optionalDateComponent.LOCALE_DATE.subscribe((val) => {
       value = val;
     });
-    await optionalDateComponent.localizationService.setLanguageAsync('es-MX');
 
     // assert
     await CoreUtils.waitForConditionAsync(
