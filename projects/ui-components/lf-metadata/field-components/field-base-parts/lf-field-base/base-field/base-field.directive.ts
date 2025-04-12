@@ -20,8 +20,11 @@ import { isDynamicField } from '../../../utils/metadata-utils';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import { UniComponentConfig,
-  UniComponentSettings, UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
+import {
+  UniComponentConfig,
+  UniComponentSettings,
+  UniDateTimeComponent,
+} from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
 
 /** @internal */
 @Directive()
@@ -217,13 +220,20 @@ export abstract class BaseFieldDirective implements OnInit {
       if (dateTimeObject.component.dateControl?.value && dateTimeObject.component.dateControl?.value.trim() !== '') {
         this.setLfFieldFormControlValue(dateTimeObject.component.dateControl?.value);
         if (!!dateTimeObject.component.settings.combinedDateTime) {
-          var dateTimeFormat: string = dateTimeObject.component.settings.dateFormat + ' ' + dateTimeObject.component.settings.timeFormat;
+          var dateTimeFormat: string =
+            dateTimeObject.component.settings.dateFormat + ' ' + dateTimeObject.component.settings.timeFormat;
           this.lf_field_form_control.setErrors({
-            [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value, dateTimeFormat: dateTimeFormat},
+            [ValidationRule.MAT_DATETIME_PICKER_PARSE]: {
+              text: dateTimeObject.component.dateControl?.value,
+              dateTimeFormat: dateTimeFormat,
+            },
           });
         } else {
           this.lf_field_form_control.setErrors({
-            [ValidationRule.MAT_DATEPICKER_PARSE]: { text: dateTimeObject.component.dateControl?.value, dateTimeFormat: dateTimeObject.component.settings.dateFormat},
+            [ValidationRule.MAT_DATEPICKER_PARSE]: {
+              text: dateTimeObject.component.dateControl?.value,
+              dateTimeFormat: dateTimeObject.component.settings.dateFormat,
+            },
           });
         }
       } else {
