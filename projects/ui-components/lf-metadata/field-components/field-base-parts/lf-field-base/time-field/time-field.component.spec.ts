@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import { UniDateTimeModule } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
+import { LfUniDateTimeModule } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
 
 describe('TimeFieldComponent', () => {
   let requiredTimeComponent: TimeFieldComponent;
@@ -57,7 +57,7 @@ describe('TimeFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        UniDateTimeModule,
+        LfUniDateTimeModule,
       ],
       providers:[
         LfFieldTokenService,

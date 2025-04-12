@@ -21,5 +21,5 @@ import {
     UniDateTimeComponent,
   ]
 })
-export class UniDateTimeModule { }
+export class LfUniDateTimeModule { }
 export { UniDateTimeComponent, UniComponentSettings, UniComponentConfig };

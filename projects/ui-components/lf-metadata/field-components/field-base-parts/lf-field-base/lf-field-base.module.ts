@@ -20,7 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LfFieldTokenService } from './lf-field-token.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { LfTokenPickerModule } from '../lf-token-picker/lf-token-picker.module';
-import { UniDateTimeModule, UniDateTimeComponent } from "../../../lf-date-time-picker/uni-date-time.module";
+import { LfUniDateTimeModule, UniDateTimeComponent } from "../../../lf-date-time-picker/uni-date-time.module";
 
 @NgModule({
   declarations: [
@@ -45,7 +45,7 @@ import { UniDateTimeModule, UniDateTimeComponent } from "../../../lf-date-time-p
     LfTokenPickerModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    UniDateTimeModule,
+    LfUniDateTimeModule,
 ],
   providers: [
     LfFieldTokenService,
@@ -59,7 +59,7 @@ import { UniDateTimeModule, UniDateTimeComponent } from "../../../lf-date-time-p
     NumberFieldComponent,
     TextFieldComponent,
     TimeFieldComponent,
-    UniDateTimeComponent
+    UniDateTimeComponent,
   ]
 })
 export class LfFieldBaseModule { }

@@ -18,7 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 import {
   UniDateTimeComponent,
-  UniDateTimeModule,
+  LfUniDateTimeModule,
 } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
 import { UniDateTimeService } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.service';
 
@@ -57,7 +57,7 @@ describe('DateTimeFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        UniDateTimeModule,
+        LfUniDateTimeModule,
       ],
       providers: [LfFieldTokenService, AppLocalizationService],
     }).compileComponents();

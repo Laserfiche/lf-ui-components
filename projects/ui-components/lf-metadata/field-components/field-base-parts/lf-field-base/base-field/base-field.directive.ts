@@ -24,7 +24,7 @@ import {
   UniComponentConfig,
   UniComponentSettings,
   UniDateTimeComponent,
-} from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
+} from '../../../../lf-date-time-picker/uni-date-time.module';
 
 /** @internal */
 @Directive()
