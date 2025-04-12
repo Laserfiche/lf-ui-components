@@ -12,7 +12,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { LfFieldInfo, LfFieldValue } from '../../../utils/lf-field-types';
-import { FormControl, ValidatorFn, FormGroup, ValidationErrors } from '@angular/forms';
+import { FormControl, ValidatorFn, FormGroup } from '@angular/forms';
 import { LfFieldTokenData, LfFieldTokenService } from '../lf-field-token.service';
 import { LfFieldValidationUtils } from '../lf-field-validation-utils';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
@@ -20,12 +20,8 @@ import { isDynamicField } from '../../../utils/metadata-utils';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import {
-  StateData,
-  UniComponentConfig,
-  UniComponentSettings,
-} from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.common';
-import { UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
+import { UniComponentConfig,
+  UniComponentSettings, UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
 
 /** @internal */
 @Directive()
