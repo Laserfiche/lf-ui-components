@@ -78,18 +78,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "lf-cdn:build"
+            "buildTarget": "lf-cdn:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "lf-cdn:build:production"
+              "buildTarget": "lf-cdn:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lf-cdn:build"
+            "buildTarget": "lf-cdn:build"
           }
         },
         "test": {
@@ -149,7 +149,8 @@
               }
             ],
             "styles": [
-              "projects/lf-documentation/src/styles.css"
+              "projects/lf-documentation/src/styles.css",
+              "./node_modules/flatpickr/dist/flatpickr.min.css"
             ],
             "scripts": []
           },
@@ -196,10 +197,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "lf-documentation:build:production"
+              "buildTarget": "lf-documentation:build:production"
             },
             "development": {
-              "browserTarget": "lf-documentation:build:development"
+              "buildTarget": "lf-documentation:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -207,7 +208,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lf-documentation:build"
+            "buildTarget": "lf-documentation:build"
           }
         },
         "test": {

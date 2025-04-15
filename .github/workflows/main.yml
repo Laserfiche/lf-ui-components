@@ -1,4 +1,4 @@
-# Copyright (c) Laserfiche.
+# Copyright Laserfiche.
 # Licensed under the MIT License. See LICENSE in the project root for license information.
 
 name: lf-ui-components-CI
@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 env:
-  NPM_VERSION: "16.0.5"
+  NPM_VERSION: "17.0.1"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -36,7 +36,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
 
       - name: npm ci
         run: npm ci
@@ -137,7 +137,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '17'
           registry-url: 'https://registry.npmjs.org'
 
       - name: set NpmPackageVersion environment
