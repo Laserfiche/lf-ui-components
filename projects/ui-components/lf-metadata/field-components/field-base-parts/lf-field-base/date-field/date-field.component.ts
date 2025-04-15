@@ -31,12 +31,22 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
   }
   async ngOnInit(): Promise<void> {
     super.ngOnInit();
+    var initialDate : string | undefined;
+    if (!!this.containsToken)
+    {
+      this.showTokenTextBox = true;
+      initialDate = undefined;
+    }
+    else
+    {
+      initialDate = this.lf_field_value;
+    }
     this.uniDateTimeSettings = {
       showLabel: false,
       readOnly: false,
       combinedDateTime: false,
       showTime: false,
-      defaultDate: this.lf_field_value,
+      defaultDate: initialDate,
     };
     this.uniDateTimeConfig = {
       storedValueDateFormat: this.internalDateFormat,
