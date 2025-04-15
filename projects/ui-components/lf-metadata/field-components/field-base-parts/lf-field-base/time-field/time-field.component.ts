@@ -36,6 +36,7 @@ export class TimeFieldComponent extends BaseFieldDirective implements OnInit {
       showTimeOnly: true,
       timeFormat: this.timeDisplayFormat,
       timePlaceholder: this.timeDisplayFormat,
+      defaultTimeOfDate: this.lf_field_value,
     };
 
     this.uniDateTimeConfig = {

@@ -36,6 +36,7 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
       readOnly: false,
       combinedDateTime: false,
       showTime: false,
+      defaultDate: this.lf_field_value,
     };
     this.uniDateTimeConfig = {
       storedValueDateFormat: this.internalDateFormat,

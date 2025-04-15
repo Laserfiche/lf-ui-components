@@ -239,7 +239,7 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
           },
           {
             name: 'Time Only',
-            id: 16,
+            id: 17,
             fieldType: FieldType.Time,
             format: FieldFormat.ShortTime,
             isRequired: true,
