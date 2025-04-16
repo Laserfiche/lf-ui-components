@@ -261,6 +261,20 @@ export abstract class BaseFieldDirective implements OnInit {
     }
   }
 
+  protected getDateTimePickerDefaultDateValue(): string | undefined
+  {
+    var initialDate : string | undefined;
+    if (!!this.containsToken)
+    {
+      this.showTokenTextBox = true;
+      return initialDate = undefined;
+    }
+    else
+    {
+      return initialDate = this.lf_field_value;
+    }
+  }
+
   onTokenChosen(token: string) {
     if (this.tokenTarget) {
       const newFieldVal: string = this.createNewFieldValueWithToken(token);
