@@ -52,17 +52,7 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
   compareDateStrings = LfMetadataDatetimeUtils.compareDateStrings;
 
   serializeFieldFormControlValue(): string {
-    if (this.containsToken) {
-      return this.getLfFieldFormControlValue();
-    }
-    const fieldControlValue = this.getLfFieldFormControlValue();
-    if (!fieldControlValue) {
-      return '';
-    } else {
-      const date: Date = new Date(fieldControlValue);
-      const serializedDate: string = LfMetadataDatetimeUtils.serializeDateValue(date) ?? '';
-      return serializedDate;
-    }
+    return this.getLfFieldFormControlValue();
   }
 
   deserializeLfFieldValue(): string {
