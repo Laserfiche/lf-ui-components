@@ -26,6 +26,7 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 export class LfFieldContainerComponent {
   @Input() collapsible: boolean = false;
   @Input() start_collapsed: boolean = false;
+
   @Output() fieldValuesChanged = new EventEmitter<boolean>();
   @Output() templateSelectedChanged = new EventEmitter<number>();
   @Output() dialogOpened = new EventEmitter<void>();
