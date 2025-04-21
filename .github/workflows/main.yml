@@ -1,4 +1,4 @@
-# Copyright (c) Laserfiche.
+# Copyright Laserfiche.
 # Licensed under the MIT License. See LICENSE in the project root for license information.
 
 name: lf-ui-components-CI
@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 env:
-  NPM_VERSION: "16.0.5"
+  NPM_VERSION: "17.0.1"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -36,7 +36,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
 
       - name: npm ci
         run: npm ci
@@ -94,6 +94,9 @@ jobs:
       - name: 'move indigo-pink to ui-components/cdn'
         run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
 
+      - name: 'move flatpickr.min.css to ui-components/cdn'
+        run: cp ./node_modules/flatpickr/dist/flatpickr.min.css ./dist/ui-components/cdn/flatpickr.min.css
+
       - name: 'move lf-ui-components.js to ui-components/cdn'
         run: mv lf-ui-components.js main.js.map runtime.js.map polyfills.js.map ../ui-components/cdn
         working-directory: ./dist/lf-cdn
@@ -137,7 +140,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '17'
           registry-url: 'https://registry.npmjs.org'
 
       - name: set NpmPackageVersion environment
