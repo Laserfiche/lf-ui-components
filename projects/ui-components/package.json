@@ -36,6 +36,9 @@
     "./cdn/indigo-pink.css": {
       "style": "./cdn/indigo-pink.css"
     },
+    "./cdn/flatpickr.min.css": {
+      "style": "./cdn/flatpickr.min.css"
+    },
     "./cdn/lf-laserfiche-lite.css": {
       "style": "./cdn/lf-laserfiche-lite.css"
     },
