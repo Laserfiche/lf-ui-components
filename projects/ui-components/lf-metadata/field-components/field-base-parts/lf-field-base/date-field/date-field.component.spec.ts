@@ -180,32 +180,22 @@ describe('DateFieldComponent', () => {
     expect(value).toEqual(expectedError);
   });
 
-  it('should respect en-us locale', async () => {
+  it('should return valid format', async () => {
     // arrange
-    const validDateValue = '2020-12-29';
+    const expectedDateValue = '2020-12-29T00:00:00';
 
+    const returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
+    returnedDateTimeObject.component.dateControl = new FormControl();
+    returnedDateTimeObject.component.timeControl = new FormControl();
+    returnedDateTimeObject.component.dateTimeControl = new FormControl();
+    returnedDateTimeObject.component.settings = optionalDateComponent.uniDateTimeSettings;
+    returnedDateTimeObject.component.dateTimeControl.setValue(expectedDateValue);
     // act
-    requiredDateComponent.setLfFieldFormControlValue(validDateValue);
-    requiredDateComponent.onValueChanged();
-    requiredDateFixture.detectChanges();
+    requiredDateComponent.onUniDateOrTimeChanged(returnedDateTimeObject);
 
     // assert
-    expect(requiredDateComponent.serializeFieldFormControlValue()).toEqual('2020-12-29T00:00:00');
-    expect(requiredDateComponent.lf_field_value).toEqual('2020-12-29T00:00:00');
-  });
-
-  it('should respect en-gb locale', async () => {
-    // arrange
-    const validDateValue = '2020-12-29';
-
-    // act
-    requiredDateComponent.setLfFieldFormControlValue(validDateValue);
-    requiredDateComponent.onValueChanged();
-    requiredDateFixture.detectChanges();
-
-    // assert
-    expect(requiredDateComponent.serializeFieldFormControlValue()).toEqual('2020-12-29T00:00:00');
-    expect(requiredDateComponent.lf_field_value).toEqual('2020-12-29T00:00:00');
+    expect(requiredDateComponent.serializeFieldFormControlValue()).toEqual(expectedDateValue);
+    expect(requiredDateComponent.lf_field_value).toEqual(expectedDateValue);
   });
 
   it('should detect token if field is token', async () => {

@@ -56,7 +56,7 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
   }
 
   deserializeLfFieldValue(): string {
-    return LfMetadataDatetimeUtils.deserializeDateValue(this.lf_field_value);
+    return this.lf_field_value ?? '';
   }
 
   getAdditionalValidatorsForFieldType(): ValidatorFn[] {
