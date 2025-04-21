@@ -1,28 +1,14 @@
-// Copyright (c) Laserfiche.
+// Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
-import {
-  DateAdapter,
-  ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE
-} from '@angular/material/core';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { ValidatorFn } from '@angular/forms';
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter,
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS
-} from '@angular/material-moment-adapter';
 import { LfFieldTokenService } from '../lf-field-token.service';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
-import { Observable } from 'rxjs';
-import { LocaleDatetimeUtils } from '../locale-datetime-utils';
-import { map } from 'rxjs/operators';
+import { Observable, map, of } from 'rxjs';
 
 @Component({
   selector: 'lf-date-field-component',
@@ -31,54 +17,46 @@ import { map } from 'rxjs/operators';
   providers: [
     { provide: BaseFieldDirective, useExisting: DateFieldComponent },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { strict: true } }
-  ]
+  ],
 })
 export class DateFieldComponent extends BaseFieldDirective implements OnInit {
-  private readonly LOCALE_DATE = this.localizationService.languageChanged().pipe(map((language) => {
-    return LocaleDatetimeUtils.getLocaleDatePattern(language);
-  }));
-  private readonly DATE_FIELDS_MUST_BE_IN_THE_FORMAT_0 = this.localizationService.getStringLaserficheWithObservableParams('DATE_FIELDS_MUST_BE_IN_FORMAT_0', [this.LOCALE_DATE]);
+  private LOCALE_DATE: Observable<string> | undefined;
 
   constructor(
     public tokenService: LfFieldTokenService,
-    private dateAdapter: DateAdapter<any>,
     public ref: ChangeDetectorRef,
-    public localizationService: AppLocalizationService,
-    private zone: NgZone
+    public localizationService: AppLocalizationService
   ) {
     super(tokenService, ref, localizationService);
-    this.dateAdapter.setLocale(navigator.language);
   }
-  @ViewChild('picker') picker?: MatDatepicker<any>;
+  async ngOnInit(): Promise<void> {
+    super.ngOnInit();
 
-  onTogglePicker() {
-    this.zone.run(() => {
-      this.picker?.open();
-    });
+    this.uniDateTimeSettings = {
+      showLabel: false,
+      readOnly: false,
+      combinedDateTime: false,
+      showTime: false,
+      defaultDate: this.getDateTimePickerDefaultDateValue(),
+    };
+    this.uniDateTimeConfig = {
+      storedValueDateFormat: this.internalDateFormat,
+      storedValueDateTimeFormat: '{DATE}T00:00:00',
+      language: navigator.language,
+      locale: navigator.language,
+      setDisplayFormatByLocale: true,
+      silent: false, // no internal strings and no custom error messages
+    };
   }
 
   compareDateStrings = LfMetadataDatetimeUtils.compareDateStrings;
 
   serializeFieldFormControlValue(): string {
-    if (this.containsToken) {
-      return this.getLfFieldFormControlValue();
-    }
-    const fieldControlValue = this.getLfFieldFormControlValue();
-    if (!fieldControlValue) {
-      return '';
-    }
-    else {
-      const date: Date = new Date(fieldControlValue);
-      const serializedDate: string = LfMetadataDatetimeUtils.serializeDateValue(date) ?? '';
-      return serializedDate;
-    }
+    return this.getLfFieldFormControlValue();
   }
 
   deserializeLfFieldValue(): string {
-    return LfMetadataDatetimeUtils.deserializeDateValue(this.lf_field_value);
+    return this.lf_field_value ?? '';
   }
 
   getAdditionalValidatorsForFieldType(): ValidatorFn[] {
@@ -88,7 +66,17 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
     switch (validationRuleName) {
       case ValidationRule.MAT_DATEPICKER_PARSE:
-        return this.DATE_FIELDS_MUST_BE_IN_THE_FORMAT_0;
+        if (
+          this.lf_field_form_control.errors &&
+          ValidationRule.MAT_DATEPICKER_PARSE in this.lf_field_form_control.errors
+        ) {
+          this.LOCALE_DATE = of(this.lf_field_form_control.errors[ValidationRule.MAT_DATEPICKER_PARSE].dateTimeFormat);
+          var errorMessage = this.localizationService.getStringLaserficheWithObservableParams(
+            'DATE_FIELDS_MUST_BE_IN_FORMAT_0',
+            [this.LOCALE_DATE]
+          );
+          return errorMessage;
+        }
     }
     return undefined;
   }
