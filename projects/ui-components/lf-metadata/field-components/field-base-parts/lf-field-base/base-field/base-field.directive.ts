@@ -99,7 +99,7 @@ export abstract class BaseFieldDirective implements OnInit {
       })
     );
   }
-  protected readonly internalDateFormat: string = 'MM-DD-YYYY';
+  protected readonly internalDateFormat: string = 'YYYY-MM-DD';
   protected readonly internalTimeFormat: string = 'HH:mm:ss';
   uniDateTimeConfig!: UniComponentConfig;
   uniDateTimeSettings!: UniComponentSettings;
