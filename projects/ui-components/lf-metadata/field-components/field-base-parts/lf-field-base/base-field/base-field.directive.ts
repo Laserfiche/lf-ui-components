@@ -213,36 +213,44 @@ export abstract class BaseFieldDirective implements OnInit {
   }
 
   private setLfDateTimeFieldControl(dateTimeObject: { component: UniDateTimeComponent }) {
-    if (dateTimeObject.component.dateTimeControl?.value || !!dateTimeObject.component.settings.showTimeOnly) {
-      this.setLfFieldFormControlValue(dateTimeObject.component.dateTimeControl?.value ?? undefined);
+    if (dateTimeObject.component.dateTimeControl?.value) {
+      this.setLfFieldFormControlValue(dateTimeObject.component.dateTimeControl?.value);
+      this.lf_field_form_control.updateValueAndValidity();
+    } else if (!!dateTimeObject.component.settings.showTimeOnly) {
+      this.setLfFieldFormControlValue(undefined);
       this.lf_field_form_control.updateValueAndValidity();
     } else {
-      if (dateTimeObject.component.dateControl?.value && dateTimeObject.component.dateControl?.value.trim() !== '') {
-        this.setLfFieldFormControlValue(dateTimeObject.component.dateControl?.value);
-        if (!!dateTimeObject.component.settings.combinedDateTime) {
-          var dateTimeFormat: string =
-            dateTimeObject.component.settings.dateFormat + ' ' + dateTimeObject.component.settings.timeFormat;
-          this.lf_field_form_control.setErrors({
-            [ValidationRule.MAT_DATETIME_PICKER_PARSE]: {
-              text: dateTimeObject.component.dateControl?.value,
-              dateTimeFormat: dateTimeFormat,
-            },
-          });
-        } else {
-          this.lf_field_form_control.setErrors({
-            [ValidationRule.MAT_DATEPICKER_PARSE]: {
-              text: dateTimeObject.component.dateControl?.value,
-              dateTimeFormat: dateTimeObject.component.settings.dateFormat,
-            },
-          });
-        }
-      } else {
-        this.setLfFieldFormControlValue(undefined);
-        this.lf_field_form_control.updateValueAndValidity();
-      }
-      const validationRuleName = this.getBrokenValidationRule();
-      this.fieldValidationErrorMsg = this.getValidationErrorMsg(validationRuleName) ?? of(undefined);
+     this.setDateOrDateTimeValidationErrors(dateTimeObject);
     }
+  }
+
+  private setDateOrDateTimeValidationErrors(dateTimeObject: { component: UniDateTimeComponent })
+  {
+    if (dateTimeObject.component.dateControl?.value && dateTimeObject.component.dateControl?.value.trim() !== '') {
+      this.setLfFieldFormControlValue(dateTimeObject.component.dateControl?.value);
+      if (!!dateTimeObject.component.settings.combinedDateTime) {
+        var dateTimeFormat: string =
+          dateTimeObject.component.settings.dateFormat + ' ' + dateTimeObject.component.settings.timeFormat;
+        this.lf_field_form_control.setErrors({
+          [ValidationRule.MAT_DATETIME_PICKER_PARSE]: {
+            text: dateTimeObject.component.dateControl?.value,
+            dateTimeFormat: dateTimeFormat,
+          },
+        });
+      } else {
+        this.lf_field_form_control.setErrors({
+          [ValidationRule.MAT_DATEPICKER_PARSE]: {
+            text: dateTimeObject.component.dateControl?.value,
+            dateTimeFormat: dateTimeObject.component.settings.dateFormat,
+          },
+        });
+      }
+    } else {
+      this.setLfFieldFormControlValue(undefined);
+      this.lf_field_form_control.updateValueAndValidity();
+    }
+    const validationRuleName = this.getBrokenValidationRule();
+    this.fieldValidationErrorMsg = this.getValidationErrorMsg(validationRuleName) ?? of(undefined);
   }
 
   private getValidationErrorMsg(validationRuleName: ValidationRule | undefined): Observable<string> | undefined {
@@ -261,17 +269,13 @@ export abstract class BaseFieldDirective implements OnInit {
     }
   }
 
-  protected getDateTimePickerDefaultDateValue(): string | undefined
-  {
-    var initialDate : string | undefined;
-    if (!!this.containsToken)
-    {
+  protected getDateTimePickerDefaultDateValue(): string | undefined {
+    var initialDate: string | undefined;
+    if (!!this.containsToken) {
       this.showTokenTextBox = true;
-      return initialDate = undefined;
-    }
-    else
-    {
-      return initialDate = this.lf_field_value;
+      return (initialDate = undefined);
+    } else {
+      return (initialDate = this.lf_field_value);
     }
   }
 
