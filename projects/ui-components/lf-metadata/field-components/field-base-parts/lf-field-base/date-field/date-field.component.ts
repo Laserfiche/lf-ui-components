@@ -65,12 +65,12 @@ export class DateFieldComponent extends BaseFieldDirective implements OnInit {
 
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
     switch (validationRuleName) {
-      case ValidationRule.MAT_DATEPICKER_PARSE:
+      case ValidationRule.DATEPICKER_PARSE:
         if (
           this.lf_field_form_control.errors &&
-          ValidationRule.MAT_DATEPICKER_PARSE in this.lf_field_form_control.errors
+          ValidationRule.DATEPICKER_PARSE in this.lf_field_form_control.errors
         ) {
-          this.LOCALE_DATE = of(this.lf_field_form_control.errors[ValidationRule.MAT_DATEPICKER_PARSE].dateTimeFormat);
+          this.LOCALE_DATE = of(this.lf_field_form_control.errors[ValidationRule.DATEPICKER_PARSE].dateTimeFormat);
           var errorMessage = this.localizationService.getStringLaserficheWithObservableParams(
             'DATE_FIELDS_MUST_BE_IN_FORMAT_0',
             [this.LOCALE_DATE]

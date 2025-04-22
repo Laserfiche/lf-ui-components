@@ -150,7 +150,7 @@ describe('DateFieldComponent', () => {
   it('should have validation error if optional field is set to invalid value', async () => {
     // arrange
     const invalidDateValue = 'a';
-    const expectedBrokenRule = ValidationRule.MAT_DATEPICKER_PARSE;
+    const expectedBrokenRule = ValidationRule.DATEPICKER_PARSE;
     const expectedDateFormat = 'MM/DD/YYYY';
 
     const returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
@@ -230,11 +230,11 @@ describe('DateFieldComponent', () => {
     // arrange
     const expectedDateFormat: string = 'DD/MM/YYYY';
     optionalDateComponent.lf_field_form_control.setErrors({
-      [ValidationRule.MAT_DATEPICKER_PARSE]: { dateTimeFormat: expectedDateFormat },
+      [ValidationRule.DATEPICKER_PARSE]: { dateTimeFormat: expectedDateFormat },
     });
     // act
     let value: string | undefined;
-    optionalDateComponent.getValidationTextForFieldType(ValidationRule.MAT_DATEPICKER_PARSE);
+    optionalDateComponent.getValidationTextForFieldType(ValidationRule.DATEPICKER_PARSE);
 
     //@ts-ignore
     optionalDateComponent.LOCALE_DATE.subscribe((val) => {

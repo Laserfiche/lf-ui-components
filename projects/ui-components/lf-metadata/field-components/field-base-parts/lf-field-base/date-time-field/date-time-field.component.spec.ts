@@ -177,7 +177,7 @@ describe('DateTimeFieldComponent', () => {
   it('should have validation error if optional field is set to invalid value', async () => {
     // arrange
     const invalidDateTimeValue = 'a';
-    const expectedBrokenRule = ValidationRule.MAT_DATETIME_PICKER_PARSE;
+    const expectedBrokenRule = ValidationRule.DATETIME_PICKER_PARSE;
     const expectedDateFormat = 'MM/DD/YYYY';
     const expectedTimeFormat = 'hh:mm:ss';
     const expectedDateTimeFomrat = expectedDateFormat + ' ' + expectedTimeFormat;
@@ -232,12 +232,12 @@ describe('DateTimeFieldComponent', () => {
     // arrange
     const expectedDateTimeFormat: string = 'DD/MM/YYYY H:mm';
     optionalDateTimeComponent.lf_field_form_control.setErrors({
-      [ValidationRule.MAT_DATETIME_PICKER_PARSE]: { dateTimeFormat: expectedDateTimeFormat },
+      [ValidationRule.DATETIME_PICKER_PARSE]: { dateTimeFormat: expectedDateTimeFormat },
     });
     // act
     let actualValue: string | undefined;
 
-    optionalDateTimeComponent.getValidationTextForFieldType(ValidationRule.MAT_DATETIME_PICKER_PARSE);
+    optionalDateTimeComponent.getValidationTextForFieldType(ValidationRule.DATETIME_PICKER_PARSE);
     //@ts-ignore
     optionalDateTimeComponent.LOCALE_DATE_TIME.subscribe((val) => {
       actualValue = val;

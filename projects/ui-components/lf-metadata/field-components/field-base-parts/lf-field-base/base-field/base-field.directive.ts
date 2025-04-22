@@ -232,14 +232,14 @@ export abstract class BaseFieldDirective implements OnInit {
         var dateTimeFormat: string =
           dateTimeObject.component.settings.dateFormat + ' ' + dateTimeObject.component.settings.timeFormat;
         this.lf_field_form_control.setErrors({
-          [ValidationRule.MAT_DATETIME_PICKER_PARSE]: {
+          [ValidationRule.DATETIME_PICKER_PARSE]: {
             text: dateTimeObject.component.dateControl?.value,
             dateTimeFormat: dateTimeFormat,
           },
         });
       } else {
         this.lf_field_form_control.setErrors({
-          [ValidationRule.MAT_DATEPICKER_PARSE]: {
+          [ValidationRule.DATEPICKER_PARSE]: {
             text: dateTimeObject.component.dateControl?.value,
             dateTimeFormat: dateTimeObject.component.settings.dateFormat,
           },

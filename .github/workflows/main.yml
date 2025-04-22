@@ -101,6 +101,12 @@ jobs:
         run: mv lf-ui-components.js main.js.map runtime.js.map polyfills.js.map ../ui-components/cdn
         working-directory: ./dist/lf-cdn
 
+      - name: 'Append flatpickr.min.css to lf-laserfiche-lite.css'
+        run: |
+          cp LICENSE >> lf-laserfiche-lite.css
+          echo "/* The following styles are copied from flatpickr.min.css */" >> lf-laserfiche-lite.css
+          cat ./node_modules/flatpickr/dist/flatpickr.min.css >> lf-laserfiche-lite.css
+
       - name: 'move lf-documentation/styles to ui-components/cdn'
         run: mv lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map ../ui-components/cdn/
         working-directory: ./dist/lf-documentation

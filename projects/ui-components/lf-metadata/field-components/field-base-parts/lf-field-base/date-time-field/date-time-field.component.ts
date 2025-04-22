@@ -66,8 +66,8 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
     if (
       this.lf_field_form_control.errors &&
-      (ValidationRule.MAT_DATETIME_PICKER_PARSE in this.lf_field_form_control.errors ||
-        ValidationRule.MAT_DATEPICKER_PARSE in this.lf_field_form_control.errors)
+      (ValidationRule.DATETIME_PICKER_PARSE in this.lf_field_form_control.errors ||
+        ValidationRule.DATEPICKER_PARSE in this.lf_field_form_control.errors)
     ) {
       this.LOCALE_DATE_TIME = of(this.lf_field_form_control.errors[validationRuleName].dateTimeFormat);
       var errorMessage = this.localizationService.getStringLaserficheWithObservableParams(
@@ -75,9 +75,9 @@ export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit
         [this.LOCALE_DATE_TIME]
       );
       switch (validationRuleName) {
-        case ValidationRule.MAT_DATETIME_PICKER_PARSE:
+        case ValidationRule.DATETIME_PICKER_PARSE:
           return errorMessage;
-        case ValidationRule.MAT_DATEPICKER_PARSE:
+        case ValidationRule.DATEPICKER_PARSE:
           return errorMessage;
       }
     }
