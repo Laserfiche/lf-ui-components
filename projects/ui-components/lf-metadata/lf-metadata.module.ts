@@ -19,6 +19,7 @@ import { GetFieldTypePipe } from './lf-field-adhoc-container/lf-field-add-remove
 import { LfFieldViewDirective } from './lf-field-view.directive';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { MatDialogModule } from '@angular/material/dialog';
+import { LfUniDateTimeModule } from './lf-date-time-picker/uni-date-time.module';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     LfModalsModule,
     LfLoaderModule,
     ScrollingModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   bootstrap: [
     LfFieldAdhocContainerComponent,
@@ -50,7 +51,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   exports: [
     LfFieldAdhocContainerComponent,
     LfFieldTemplateContainerComponent,
-    LfFieldContainerComponent
+    LfFieldContainerComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
