@@ -1,3 +1,4 @@
+
 .datetime-button-toggle {
   background: transparent;
   border: none;
@@ -11,7 +12,7 @@
 .datetime-button-toggle:hover {
   color: rgba(0, 0, 0, 0.8);
 }
-::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-previous-button, 
+::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-previous-button,
 ::ng-deep ngx-mat-calendar.lf-datetime-picker-overlay .mat-calendar-next-button {
   color: var(--mat-datepicker-calendar-navigation-button-icon-color);
 }
@@ -35,7 +36,7 @@
 
 
 ::ng-deep .lf-datetime-picker-overlay .mat-calendar-table-header-divider:after {
-  background: rgba(0, 0, 0, 0.12); 
+  background: rgba(0, 0, 0, 0.12);
 }
 
 ::ng-deep .lf-datetime-picker-overlay .mat-calendar-table-header th {
