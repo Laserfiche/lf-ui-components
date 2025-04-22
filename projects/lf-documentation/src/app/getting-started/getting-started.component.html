@@ -26,9 +26,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <p class="documentation-text">Add the following script tags to <code>index.html</code>.</p>
     <pre class="code-container">
 <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
-      >"https://cdn.jsdelivr.net/npm/zone.js@0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+      >"https://cdn.jsdelivr.net/npm/zone.js&#64;0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
 <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
->"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
+>"https://cdn.jsdelivr.net/npm/&#64;laserfiche/lf-ui-components&#64;NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
 > defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
 </pre>
     <p class="documentation-text">
@@ -52,7 +52,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <span class="code-html-attribute-name">href</span>
         <span>=</span>
         <span class="code-html-attribute-value"
-          >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css"
+          >"https://cdn.jsdelivr.net/npm/&#64;laserfiche/lf-ui-components&#64;NPM_VERSION/cdn/lf-laserfiche-lite.css"
         </span>
         <span class="code-html-attribute-name">rel</span>
         <span>=</span>
@@ -68,7 +68,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <span class="code-html-attribute-name">href</span>
         <span>=</span>
         <span class="code-html-attribute-value"
-          >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css"
+          >"https://cdn.jsdelivr.net/npm/&#64;laserfiche/lf-ui-components&#64;NPM_VERSION/cdn/lf-ms-office-lite.css"
         </span>
         <span class="code-html-attribute-name">rel</span>
         <span>=</span>
@@ -88,7 +88,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <span class="code-html-attribute-name">href</span>
         <span>=</span>
         <span class="code-html-attribute-value"
-          >"https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/indigo-pink.css"
+          >"https://cdn.jsdelivr.net/npm/&#64;laserfiche/lf-ui-components&#64;NPM_VERSION/cdn/indigo-pink.css"
         </span>
         <span class="code-html-attribute-name">rel</span>
         <span>=</span>
@@ -102,7 +102,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     Add the types NPM package. This is not required but highly recommended if you are working in Typescript. Ensure the
     version matches the version of the script you added above.
     <p class="documentation-text">
-      <code class="code-container"> npm install @laserfiche/types-lf-ui-components@NPM_VERSION --save-dev</code>
+      <code class="code-container"> npm install &#64;laserfiche/types-lf-ui-components&#64;NPM_VERSION --save-dev</code>
       <br /><br />
     </p>
   </li>
@@ -112,7 +112,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li>
     Install the UI components NPM package.
     <p class="documentation-text">
-      <code class="code-container"> npm install @laserfiche/lf-ui-components@NPM_VERSION </code>
+      <code class="code-container"> npm install &#64;laserfiche/lf-ui-components&#64;NPM_VERSION </code>
       <br /><br />
     </p>
     <p class="documentation-text">
@@ -121,7 +121,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </p>
     <p class="documentation-text">
       For example to use <code>&lt;lf-repository-browser&gt;</code> or <code>&lt;lf-repository-browser-component&gt;</code> you would do <br />
-      <code class="code-container">import &#123;LfRepositoryBrowserModule} from '@laserfiche/lf-ui-components/lf-repository-browser'</code>;
+      <code class="code-container">import &#123;LfRepositoryBrowserModule&#125; from '&#64;laserfiche/lf-ui-components/lf-repository-browser'</code>;
     </p>
   </li>
   <li>
@@ -129,7 +129,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <ol>
       <li>
         Either manually or as part of a build script, copy the CDN folder
-        <code>node_modules/@laserfiche/lf-ui-components/cdn/</code> into a destination served by your web server e.g.:
+        <code>node_modules/&#64;laserfiche/lf-ui-components/cdn/</code> into a destination served by your web server e.g.:
         <code>static_assets</code>
       </li>
       <li>Reference that location in a script tag within the HTML file in your project e.g.:</li>
@@ -153,19 +153,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     UI components may be used with other Laserfiche libraries:
     <ul>
       <li>
-        <a href="https://www.npmjs.com/package/@laserfiche/lf-js-utils"><code>@laserfiche/lf-js-utils</code></a> - this
+        <a href="https://www.npmjs.com/package/@laserfiche/lf-js-utils"><code>&#64;laserfiche/lf-js-utils</code></a> - this
         library contains utility functions and a reusable localization service.
       </li>
       <li>
         <a href="https://www.npmjs.com/package/@laserfiche/lf-ui-components-services"
-          ><code>@laserfiche/lf-ui-components-services</code></a
+          ><code>&#64;laserfiche/lf-ui-components-services</code></a
         >
         - this library contains the data sources implementation to connect the ui components to live data from
         Laserfiche API services.
       </li>
       <li>
         <a href="https://www.npmjs.com/package/@laserfiche/lf-resource-library"
-          ><code>@laserfiche/lf-resource-library</code></a
+          ><code>&#64;laserfiche/lf-resource-library</code></a
         >
         - this library contains localized strings resource files, fonts, and icons, that can be used to build Laserfiche
         Apps.
@@ -185,7 +185,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <pre class="code-container">
 <span class="code-ts-import">const</span> langObj = &#123;
   'lf-localization-service-set-language': language
-}
+&#125;
 window.<span class="code-ts-function">postMessage</span>(JSON.<span class="code-ts-function">stringify</span>(langObj), window.<span class="code-ts-key-name">origin</span>);
       </pre>
 
@@ -193,7 +193,7 @@ window.<span class="code-ts-function">postMessage</span>(JSON.<span class="code-
   <pre class="code-container">
     <span class="code-ts-import">const</span> langObj = &#123;
       'lf-localization-service-debug-mode': language
-    }
+    &#125;
     window.<span class="code-ts-function">postMessage</span>(JSON.<span class="code-ts-function">stringify</span>(langObj), window.<span class="code-ts-key-name">origin</span>);
           </pre>
   <li>
