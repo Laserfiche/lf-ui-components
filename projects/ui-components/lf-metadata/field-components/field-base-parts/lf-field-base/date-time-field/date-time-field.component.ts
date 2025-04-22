@@ -1,24 +1,24 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
 import { LfFieldTokenService } from '../lf-field-token.service';
+import { DateTimeBaseFieldDirective } from '../base-field/datetime-base-field.directives';
 
 @Component({
   selector: 'lf-date-time-field-component',
   templateUrl: './date-time-field.component.html',
   styleUrls: ['./date-time-field.component.css', './../lf-field-base/lf-field-base.component.css'],
   providers: [
-    { provide: BaseFieldDirective, useExisting: DateTimeFieldComponent },
+    { provide: DateTimeBaseFieldDirective, useExisting: DateTimeFieldComponent },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ],
 })
-export class DateTimeFieldComponent extends BaseFieldDirective implements OnInit {
+export class DateTimeFieldComponent extends DateTimeBaseFieldDirective implements OnInit {
   private LOCALE_DATE_TIME: Observable<string> | undefined;
 
   constructor(

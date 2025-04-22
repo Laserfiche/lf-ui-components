@@ -2,23 +2,23 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, OnInit } from '@angular/core';
-import { BaseFieldDirective } from '../base-field/base-field.directive';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { FieldFormat } from '@laserfiche/lf-ui-components/shared';
 import { ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable, of } from 'rxjs';
+import { DateTimeBaseFieldDirective } from '../base-field/datetime-base-field.directives';
 
 @Component({
   selector: 'lf-time-field-component',
   templateUrl: './time-field.component.html',
   styleUrls: ['./time-field.component.css', './../lf-field-base/lf-field-base.component.css'],
   providers: [
-    { provide: BaseFieldDirective, useExisting: TimeFieldComponent },
+    { provide: DateTimeBaseFieldDirective, useExisting: TimeFieldComponent },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ],
 })
-export class TimeFieldComponent extends BaseFieldDirective implements OnInit {
+export class TimeFieldComponent extends DateTimeBaseFieldDirective implements OnInit {
   private timeDisplayFormat: string | undefined;
   private TIME_FIELDS_MUST_BE_IN_THE_FORMAT_0: Observable<string> | undefined;
 
