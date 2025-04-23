@@ -5,10 +5,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 ### Chore & Maintenance
 
 - Removed dependencies @angular-material-components/moment-adapter, @angular-material-components/datetime-picker.
-- Replaced Laserfiche Date, Time, DateTime fields with flatpickr-based datetime-pickers
+- Replaced Laserfiche Date, Time, DateTime fields with flatpickr-based datetime-pickers.
 - **[BREAKING]**: Update to Angular 17.
 - **[BREAKING]**: Migrated `@angular/material` to version 17.
-- **[BREAKING]**: Need to include `./node_modules/flatpickr/dist/flatpickr.min.css"` in angular.json for Angular clients or `<link href="https://cdn.jsdelivr.net/npm/@laserfiche/lf-ui-components@17/cdn/flatpickr.min.css" rel="stylesheet"/>` for Non-Angular clients.
 
 ## 16.0.5
 

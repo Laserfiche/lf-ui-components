@@ -6,7 +6,7 @@ name: lf-ui-components-veracode-17x
 on:
   # Allows you to run this workflow manually from the Actions tab
   push:
-    branches: ["shiyuan/add_veracode_for_17"]
+    branches: ["17.x"]
   workflow_dispatch:
   schedule:
     - cron: "0 12 * * 6"

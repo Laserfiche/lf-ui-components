@@ -5,6 +5,8 @@ name: lf-ui-components-veracode-16x
 
 on:
   # Allows you to run this workflow manually from the Actions tab
+  push:
+    branches: ["16.x"]
   workflow_dispatch:
   schedule:
     - cron: "0 12 * * 6"
