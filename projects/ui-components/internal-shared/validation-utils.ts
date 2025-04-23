@@ -14,8 +14,8 @@ export enum ValidationRule {
     REQUIRED = 'required',
     SHORT_INT = 'shortint',
     TIME = 'time',
-    MAT_DATEPICKER_PARSE = 'matDatepickerParse',
-    MAT_DATETIME_PICKER_PARSE = 'matDatetimePickerParse'
+    DATEPICKER_PARSE = 'datepickerParse',
+    DATETIME_PICKER_PARSE = 'datetimePickerParse'
 }
 
 // @dynamic
@@ -24,8 +24,8 @@ export class ValidationUtils {
 
     /** Only one error will be displayed at a time (in this priority order) */
     static validationRulesInPriorityOrder: ValidationRule[] = [
-        ValidationRule.MAT_DATEPICKER_PARSE,
-        ValidationRule.MAT_DATETIME_PICKER_PARSE,
+        ValidationRule.DATEPICKER_PARSE,
+        ValidationRule.DATETIME_PICKER_PARSE,
         ValidationRule.TIME,
         ValidationRule.REQUIRED,
         ValidationRule.MAX_LENGTH,
