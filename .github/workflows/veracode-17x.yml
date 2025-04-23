@@ -1,12 +1,12 @@
 # Copyright Laserfiche.
 # Licensed under the MIT License. See LICENSE in the project root for license information.
 
-name: lf-ui-components-veracode-16x
+name: lf-ui-components-veracode-17x
 
 on:
   # Allows you to run this workflow manually from the Actions tab
   push:
-    branches: ["16.x"]
+    branches: ["17.x"]
   workflow_dispatch:
   schedule:
     - cron: "0 12 * * 6"
@@ -69,7 +69,7 @@ jobs:
       - name: Veracode Upload And Scan (Static application security testing)
         uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
-          appname: "lf-ui-components-v16"
+          appname: "lf-ui-components-v17"
           createprofile: true
           filepath: "veracode"
           vid: "${{ secrets.VERACODE_API_ID }}"
@@ -78,5 +78,5 @@ jobs:
 
       - name: Run Veracode Software Composition Analysis (SCA)
         env:
-          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_TOKEN_UICOMPONENTS_16 }}
+          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_TOKEN_UICOMPONENTS_17 }}
         run: curl --silent --show-error --location https://download.sourceclear.com/ci.sh | sh -s -- scan ./ --update-advisor --allow-dirty
