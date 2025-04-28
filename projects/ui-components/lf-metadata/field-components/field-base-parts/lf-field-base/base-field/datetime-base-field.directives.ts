@@ -35,12 +35,11 @@ export abstract class DateTimeBaseFieldDirective extends BaseFieldDirective impl
       this.setLfFieldFormControlValue(undefined);
       this.lf_field_form_control.updateValueAndValidity();
     } else {
-     this.setDateOrDateTimeValidationErrors(dateTimeObject);
+      this.setDateOrDateTimeValidationErrors(dateTimeObject);
     }
   }
 
-  private setDateOrDateTimeValidationErrors(dateTimeObject: { component: UniDateTimeComponent })
-  {
+  private setDateOrDateTimeValidationErrors(dateTimeObject: { component: UniDateTimeComponent }) {
     if (dateTimeObject.component.dateControl?.value && dateTimeObject.component.dateControl?.value.trim() !== '') {
       this.setLfFieldFormControlValue(dateTimeObject.component.dateControl?.value);
       if (!!dateTimeObject.component.settings.combinedDateTime) {
@@ -66,5 +65,15 @@ export abstract class DateTimeBaseFieldDirective extends BaseFieldDirective impl
     }
     const validationRuleName = this.getBrokenValidationRule();
     this.fieldValidationErrorMsg = this.getValidationErrorMsg(validationRuleName) ?? of(undefined);
+  }
+
+  protected getDateTimePickerDefaultDateValue(): string | undefined {
+    var initialDate: string | undefined;
+    if (!!this.containsToken) {
+      this.showTokenTextBox = true;
+      return (initialDate = undefined);
+    } else {
+      return (initialDate = this.lf_field_value);
+    }
   }
 }

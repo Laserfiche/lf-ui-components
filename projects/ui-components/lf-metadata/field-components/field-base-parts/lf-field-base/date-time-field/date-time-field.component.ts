@@ -1,12 +1,11 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
+import { ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
-import { LfFieldTokenService } from '../lf-field-token.service';
 import { DateTimeBaseFieldDirective } from '../base-field/datetime-base-field.directives';
 
 @Component({
@@ -21,22 +20,23 @@ import { DateTimeBaseFieldDirective } from '../base-field/datetime-base-field.di
 export class DateTimeFieldComponent extends DateTimeBaseFieldDirective implements OnInit {
   private LOCALE_DATE_TIME: Observable<string> | undefined;
 
-  constructor(
-    public tokenService: LfFieldTokenService,
-    public ref: ChangeDetectorRef,
-    public localizationService: AppLocalizationService
-  ) {
-    super(tokenService, ref, localizationService);
-  }
-
   async ngOnInit(): Promise<void> {
     super.ngOnInit();
+    const defaultDateTime: string | undefined = this.getDateTimePickerDefaultDateValue();
+    var defaultDateString: string | undefined = undefined;
+    var defaultTimeString: string | undefined = undefined;
+
+    const dateTimeElements = defaultDateTime?.split('T');
+    if (dateTimeElements && dateTimeElements.length == 2) {
+      [defaultDateString, defaultTimeString] = dateTimeElements;
+    }
 
     this.uniDateTimeSettings = {
       showLabel: false,
       readOnly: false,
       combinedDateTime: true,
-      defaultDate: this.getDateTimePickerDefaultDateValue(),
+      defaultDate: defaultDateString,
+      defaultTimeOfDate: defaultTimeString,
     };
     this.uniDateTimeConfig = {
       storedValueDateFormat: this.internalDateFormat,

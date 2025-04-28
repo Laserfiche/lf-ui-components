@@ -1,7 +1,7 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { ValidatorFn } from '@angular/forms';
 import { LfFieldTokenService } from '../lf-field-token.service';
@@ -22,13 +22,6 @@ import { DateTimeBaseFieldDirective } from '../base-field/datetime-base-field.di
 export class DateFieldComponent extends DateTimeBaseFieldDirective implements OnInit {
   private LOCALE_DATE: Observable<string> | undefined;
 
-  constructor(
-    public tokenService: LfFieldTokenService,
-    public ref: ChangeDetectorRef,
-    public localizationService: AppLocalizationService
-  ) {
-    super(tokenService, ref, localizationService);
-  }
   async ngOnInit(): Promise<void> {
     super.ngOnInit();
 
