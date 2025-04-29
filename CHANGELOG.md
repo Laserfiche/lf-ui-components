@@ -1,7 +1,13 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
-## 17.0.0
 
+## 17.0.1
+
+### Fixes
+
+- Updated README.
+
+## 17.0.0
 ### Chore & Maintenance
 
 - Removed dependencies @angular-material-components/moment-adapter, @angular-material-components/datetime-picker.
