@@ -25,8 +25,8 @@ export class DateTimeFieldComponent extends DateTimeBaseFieldDirective implement
     const defaultDateTime: string | undefined = this.getDateTimePickerDefaultDateValue();
     var defaultDateString: string | undefined = undefined;
     var defaultTimeString: string | undefined = undefined;
-
-    const dateTimeElements = defaultDateTime?.split('T');
+    const dateTimeSeparator = 'T';
+    const dateTimeElements = defaultDateTime?.split(dateTimeSeparator);
     if (dateTimeElements && dateTimeElements.length == 2) {
       [defaultDateString, defaultTimeString] = dateTimeElements;
     }
@@ -41,7 +41,7 @@ export class DateTimeFieldComponent extends DateTimeBaseFieldDirective implement
     this.uniDateTimeConfig = {
       storedValueDateFormat: this.internalDateFormat,
       storedValueTimeFormat: this.internalTimeFormat,
-      storedValueDateTimeFormat: '{DATE}T{TIME}',
+      storedValueDateTimeFormat: `{DATE}${dateTimeSeparator}{TIME}`,
       language: navigator.language,
       locale: navigator.language,
       setDisplayFormatByLocale: true,
