@@ -13,11 +13,11 @@ See documentation [here](https://laserfiche.github.io/lf-ui-components).
 
 ## Change Log
 
-See CHANGELOG [here](https://github.com/Laserfiche/lf-ui-components/blob/16.x/CHANGELOG.md).
+See CHANGELOG [here](https://github.com/Laserfiche/lf-ui-components/blob/17.x/CHANGELOG.md).
 
 ## Contribution
 
-We welcome contributions and feedback. Please follow our [contributing guidelines](https://github.com/Laserfiche/lf-ui-components/blob/16.x/CONTRIBUTING.md).
+We welcome contributions and feedback. Please follow our [contributing guidelines](https://github.com/Laserfiche/lf-ui-components/blob/17.x/CONTRIBUTING.md).
 
 ## Development Setup
 
