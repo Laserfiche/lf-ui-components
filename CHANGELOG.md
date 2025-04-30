@@ -1,5 +1,10 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+## 17.0.2
+
+### Fixes
+
+- Fixed the issue when the locale contains language only.
 
 ## 17.0.1
 

@@ -653,7 +653,9 @@ export class UniDateTimeService {
         ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1)
         : locale;
     } else {
-      return parts.length == 2 && parts[1] != 'hans' && parts[1] != 'hant'
+      return parts.length == 1
+        ? locale
+        : parts.length == 2 && parts[1] != 'hans' && parts[1] != 'hant'
         ? parts[0] + '-' + parts[1].toUpperCase()
         : parts.length == 3
         ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) + '-' + parts[2].toUpperCase()
