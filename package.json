@@ -40,7 +40,6 @@
     "@angular-eslint/builder": "^17.5.3",
     "@angular-eslint/eslint-plugin": "^17.5.3",
     "@angular-eslint/eslint-plugin-template": "^17.5.3",
-    "@angular-eslint/schematics": "^17.5.3",
     "@angular-eslint/template-parser": "^17.5.3",
     "@angular/cli": "^17.3.16",
     "@microsoft/api-extractor": "^7.36.3",
