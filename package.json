@@ -38,16 +38,17 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.19",
     "@angular-eslint/builder": "^18.4.3",
-    "@angular-eslint/eslint-plugin": "^17.5.3",
-    "@angular-eslint/eslint-plugin-template": "^17.5.3",
+    "@angular-eslint/eslint-plugin": "^18.4.3",
+    "@angular-eslint/eslint-plugin-template": "^18.4.3",
+    "@angular-eslint/schematics": "^18.4.3",
     "@angular-eslint/template-parser": "^18.4.3",
     "@angular/cli": "^18.2.19",
     "@microsoft/api-extractor": "^7.36.3",
     "@types/jasmine": "^3.6.0",
     "@types/lodash": "^4.17.16",
     "@types/node": "^18.19.87",
-    "@typescript-eslint/eslint-plugin": "^5.30.5",
-    "@typescript-eslint/parser": "^5.30.5",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
     "date-fns": "2.30",
     "eslint": "^8.46.0",
     "flatpickr": "^4.6.13",
@@ -66,8 +67,8 @@
     "ng-packagr": "^18.2.1",
     "puppeteer": "^23.8.0",
     "tslib": "^2.4.0",
-    "typescript": "5.4.5",
-    "yargs": "^17.1.0"
+    "typescript": "^5.5.4",
+    "yargs": "^17.7.2"
   },
   "peerDependencies": {
     "@angular/animations": "^18.2.13",
@@ -85,11 +86,8 @@
     "@laserfiche/lf-api-client-core": "^1.1.10",
     "@laserfiche/lf-js-utils": "^4.0.11",
     "@laserfiche/lf-resource-library": "^5.0.0",
-    "ngx-mask": "^17.1.8",
+    "ngx-mask": "^18.0.4",
     "rxjs": "^7.8.0",
     "zone.js": "^0.14.10"
-  },
-  "dependencies": {
-    "@angular-eslint/schematics": "^18.4.3"
   }
 }
