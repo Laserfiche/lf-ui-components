@@ -18,7 +18,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "dist/lf-cdn"
+              "base": "dist/lf-cdn",
+              "browser": ""
             },
             "index": "projects/lf-cdn/src/index.html",
             "polyfills": [
@@ -135,7 +136,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "dist/lf-documentation"
+              "base": "dist/lf-documentation",
+              "browser": ""
             },
             "index": "projects/lf-documentation/src/index.html",
             "polyfills": [

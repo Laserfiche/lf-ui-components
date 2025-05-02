@@ -26,9 +26,12 @@
       "extends": [
         "plugin:@angular-eslint/recommended"
       ],
-      "plugins": ["@typescript-eslint", "@angular-eslint"],
+      "plugins": [
+        "@typescript-eslint",
+        "@angular-eslint",
+        "@stylistic"],
       "rules": {
-        "@typescript-eslint/member-delimiter-style": [
+        "@stylistic/member-delimiter-style": [
           "error",
           {
             "multiline": {
@@ -42,7 +45,7 @@
           }
         ],
         "@typescript-eslint/no-inferrable-types": "off",
-        "@typescript-eslint/semi": ["error"],
+        "semi": ["error"],
         "no-bitwise": "off",
         "prefer-const": "error"
       }
