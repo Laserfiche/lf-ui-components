@@ -1,5 +1,13 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
+## 18.0.0
+### Chore & Maintenance
+
+- **[BREAKING]**: Update to Angular 18.
+- **[BREAKING]**: Migrated `@angular/material` to version 18.
+
+
 ## 17.0.2
 
 ### Fixes
