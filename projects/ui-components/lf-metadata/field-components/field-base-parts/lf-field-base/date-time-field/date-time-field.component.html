@@ -11,7 +11,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     [settings]="uniDateTimeSettings" (valueChangedEventHandler)="onUniDateOrTimeChanged($event)">
   </lf-uni-date-time>
   <lf-token-picker-component class="lf-field-token-picker" (tokenPicked)="onTokenChosen($event)"
-    [data]="lfFieldTokenData"></lf-token-picker-component>dsf
+    [data]="lfFieldTokenData"></lf-token-picker-component>
 </span>
 <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
 

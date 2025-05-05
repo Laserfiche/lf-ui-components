@@ -22,11 +22,6 @@
   color: var(--lf-body-text-color, #333333);
 }
 
-.item-holder:not("lf-list-item-disabled") {
-  cursor: pointer;
-  outline: none;
-}
-
 .node-selected.item-holder, .node-selected.item-holder:focus {
   background-color: var(--lf-menu-item-selected-color, #eaf5ff);
 }
