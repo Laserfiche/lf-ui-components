@@ -92,7 +92,6 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     event: FormChangeEvent;
     component: UniDateTimeComponent;
   }> = new EventEmitter();
-  // @Output() dateTimeChangedEvent: EventEmitter<{ value: string | Date, isDate: boolean, event: FormChangeEvent }> = new EventEmitter();
 
   // Revise
   state: UniState = {
