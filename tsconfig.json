@@ -32,7 +32,6 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
-    "types": ["jest"],
     "module": "es2020",
     "lib": [
       "es2018",
