@@ -103,7 +103,7 @@ export class LfFieldMultivalueComponent {
       control.markAsDirty();
       control.updateValueAndValidity();
     });
-    this.cdr.markForCheck();
+    // this.cdr.markForCheck();
     return this.isValid();
   };
 

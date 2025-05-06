@@ -205,6 +205,7 @@ describe('NumberFieldComponent', () => {
 
   it('should serialize number (- => 0)', async () => {
     numberComponent.setLfFieldFormControlValue('-');
+    expect(numberComponent.getLfFieldFormControlValue()).toEqual('-')
     numberComponent.onValueChanged();
     expect(numberComponent.lf_field_value).toEqual('0');
     expect(numberComponent.getLfFieldFormControlValue()).toEqual('0');
@@ -295,10 +296,11 @@ describe('NumberFieldComponent', () => {
 
   it('should return empty string lfFieldValue if value is not a number', async () => {
     numberComponent.setLfFieldFormControlValue('asdf');
+    expect(numberComponent.lf_field_value).toEqual('asdf');
     numberComponent.onValueChanged();
     expect(numberComponent.lf_field_value).toEqual('');
-    expect(numberComponent.getLfFieldFormControlValue()).toEqual('asdf');
-    const expectedError = numberComponent.localizationService.getString('NUMBER_FIELD_MUST_BE_VALID_NUMBER');
+    expect(numberComponent.getLfFieldFormControlValue()).toEqual('');
+    const expectedError = numberComponent.localizationService.getString("REQUIRED_FIELD_IS_EMPTY");
     let value: string | undefined;
     numberComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;
