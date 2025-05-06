@@ -205,7 +205,7 @@ describe('NumberFieldComponent', () => {
 
   it('should serialize number (- => 0)', async () => {
     numberComponent.setLfFieldFormControlValue('-');
-    expect(numberComponent.getLfFieldFormControlValue()).toEqual('-')
+    expect(numberComponent.getLfFieldFormControlValue()).toEqual('-');
     numberComponent.onValueChanged();
     expect(numberComponent.lf_field_value).toEqual('0');
     expect(numberComponent.getLfFieldFormControlValue()).toEqual('0');
