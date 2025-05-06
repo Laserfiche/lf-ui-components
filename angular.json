@@ -15,12 +15,9 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": {
-              "base": "dist/lf-cdn",
-              "browser": ""
-            },
+            "outputPath": "dist/lf-cdn",
             "index": "projects/lf-cdn/src/index.html",
             "polyfills": [
               "projects/lf-cdn/src/polyfills.ts"
@@ -39,7 +36,7 @@
               "projects/lf-cdn/src/styles.css"
             ],
             "scripts": [],
-            "browser": "projects/lf-cdn/src/main.ts"
+            "main": "projects/lf-cdn/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -133,12 +130,9 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": {
-              "base": "dist/lf-documentation",
-              "browser": ""
-            },
+            "outputPath": "dist/lf-documentation",
             "index": "projects/lf-documentation/src/index.html",
             "polyfills": [
               "projects/lf-documentation/src/polyfills.ts"
@@ -158,7 +152,7 @@
               "./node_modules/flatpickr/dist/flatpickr.min.css"
             ],
             "scripts": [],
-            "browser": "projects/lf-documentation/src/main.ts"
+            "main": "projects/lf-documentation/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -166,6 +160,8 @@
               "sourceMap": true,
               "namedChunks": false,
               "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -189,6 +185,8 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
+              "vendorChunk": false,
+              "buildOptimizer": true,
               "sourceMap": true,
               "namedChunks": true
             }
