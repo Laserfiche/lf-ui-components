@@ -103,6 +103,7 @@ export class LfFieldMultivalueComponent {
       control.markAsDirty();
       control.updateValueAndValidity();
     });
+    // this.cdr.markForCheck();
     return this.isValid();
   };
 
@@ -236,5 +237,4 @@ export class LfFieldMultivalueComponent {
     this.showLoader = val;
     this.cdr.detectChanges();
   }
-
 }

@@ -1,4 +1,4 @@
-// Copyright (c) Laserfiche.
+// Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
@@ -57,6 +57,7 @@ export class LfFieldComponent {
   forceValidation = (): boolean => {
     this.getSingleField().markAsDirty();
     this.getSingleField().updateValueAndValidity();
+    this.cdr.detectChanges();
     return this.isValid();
   };
 

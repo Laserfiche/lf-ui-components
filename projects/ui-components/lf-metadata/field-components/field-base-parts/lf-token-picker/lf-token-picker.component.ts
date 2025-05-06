@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LfFieldTokenService } from '../lf-field-base/lf-field-token.service';
 import { LfToken } from './lf-token.service';
 
@@ -17,7 +17,7 @@ export class LfTokenPickerComponent implements OnInit {
   @Output() tokenPicked: EventEmitter<string> = new EventEmitter();
   tokens: LfToken[] = [];
 
-  constructor(public tokenService: LfFieldTokenService) { }
+  constructor(public tokenService: LfFieldTokenService, private cdr: ChangeDetectorRef) { }
 
   async ngOnInit() {
     this.tokens = await this.tokenService.getTokensAsync(this.data);
@@ -25,6 +25,7 @@ export class LfTokenPickerComponent implements OnInit {
 
   async onTokenChosen(token: LfToken) {
     if (token) {
+      this.cdr.markForCheck;
       this.tokenPicked.emit(token.text);
     }
   }

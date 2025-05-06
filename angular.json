@@ -19,8 +19,9 @@
           "options": {
             "outputPath": "dist/lf-cdn",
             "index": "projects/lf-cdn/src/index.html",
-            "main": "projects/lf-cdn/src/main.ts",
-            "polyfills": "projects/lf-cdn/src/polyfills.ts",
+            "polyfills": [
+              "projects/lf-cdn/src/polyfills.ts"
+            ],
             "tsConfig": "projects/lf-cdn/tsconfig.app.json",
             "assets": [
               "projects/lf-cdn/src/favicon.ico",
@@ -34,7 +35,8 @@
             "styles": [
               "projects/lf-cdn/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "main": "projects/lf-cdn/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -49,8 +51,6 @@
               "sourceMap": true,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -65,9 +65,7 @@
               ]
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -136,8 +134,9 @@
           "options": {
             "outputPath": "dist/lf-documentation",
             "index": "projects/lf-documentation/src/index.html",
-            "main": "projects/lf-documentation/src/main.ts",
-            "polyfills": "projects/lf-documentation/src/polyfills.ts",
+            "polyfills": [
+              "projects/lf-documentation/src/polyfills.ts"
+            ],
             "tsConfig": "projects/lf-documentation/tsconfig.app.json",
             "assets": [
               "projects/lf-documentation/src/favicon.ico",
@@ -152,7 +151,8 @@
               "projects/lf-documentation/src/styles.css",
               "./node_modules/flatpickr/dist/flatpickr.min.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "main": "projects/lf-documentation/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -183,10 +183,10 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
+              "vendorChunk": false,
+              "buildOptimizer": true,
               "sourceMap": true,
               "namedChunks": true
             }

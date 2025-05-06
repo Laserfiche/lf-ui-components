@@ -402,10 +402,15 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
             const values: string[] = this.getValueIfSingleOption(dynamicOptions[index]);
             await this.updateDynamicFieldsAsync(fieldInfo, values, index);
           }
-        } catch (err: any) {
+        } catch (err: unknown) {
           this.templateState = TemplateState.HAS_ERROR;
           this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
-          console.error('getDynamicFieldValueOptionsAsync failed: ' + err?.message ?? err?.title ?? '');
+          var consoleErrMsg: string = 'getDynamicFieldValueOptionsAsync failed';
+          if (err instanceof Error)
+          {
+            consoleErrMsg = consoleErrMsg + ': ' + err.message;
+          }
+          console.error(consoleErrMsg);
           throw err;
         }
       }
@@ -437,9 +442,14 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         });
         this.templateState = TemplateState.SHOW_TEMPLATE;
       }
-      catch (err: any) {
+      catch (err: unknown) {
         this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
-        console.error('getTemplateFieldsAsync failed: ' + err?.message ?? err?.title ?? '');
+        var consoleErrMsg = 'getTemplateFieldsAsync failed';
+        if (err instanceof Error)
+        {
+          consoleErrMsg = consoleErrMsg + ': ' + err.message;
+        }
+        console.error(consoleErrMsg);
         this.templateState = TemplateState.HAS_ERROR;
       }
       finally {
