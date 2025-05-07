@@ -32,17 +32,6 @@ export class LfFieldContainerDocumentationComponent implements AfterViewInit {
           ],
           fieldName: 'Time Received',
           fieldType: FieldType.DateTime,
-        },
-        {
-          fieldId: 5,
-          values: [
-            {
-              value: '3',
-              position: '1'
-            }
-          ],
-          fieldName: 'Order Total',
-          fieldType: FieldType.Number,
         }
       ]);
   }
