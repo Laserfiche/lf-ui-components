@@ -1,34 +1,35 @@
-import { Injectable } from "@angular/core";
-import df_parse from "date-fns/parse";
-import df_parseISO from "date-fns/parseISO";
-import df_format from "date-fns/format";
-import df_isValid from "date-fns/isValid";
-import df_isBefore from "date-fns/isBefore";
-import df_isAfter from "date-fns/isAfter";
-import df_isEqual from "date-fns/isEqual";
-import df_isWithinInterval from "date-fns/isWithinInterval";
-import df_add from "date-fns/add";
-import df_addDays from "date-fns/addDays";
-import df_addMonths from "date-fns/addMonths";
-import df_addMilliseconds from "date-fns/addMilliseconds";
-import df_milliseconds from "date-fns/milliseconds";
-import df_isMatch from "date-fns/isMatch";
-import df_isLeapYear from "date-fns/isLeapYear";
-import df_startOfDay from "date-fns/startOfDay";
-import df_endOfMonth from "date-fns/endOfMonth";
-import df_intervalToDuration from "date-fns/intervalToDuration";
-import df_getWeek from "date-fns/getWeek";
-import df_getISOWeek from "date-fns/getISOWeek";
-import df_differenceInYears from "date-fns/differenceInYears";
-import df_differenceInMonths from "date-fns/differenceInMonths";
-import df_differenceInDays from "date-fns/differenceInDays";
-import { Duration } from "date-fns";
+import { Injectable } from '@angular/core';
+import {
+  parse,
+  parseISO,
+  format,
+  isValid,
+  isBefore,
+  isAfter,
+  isEqual,
+  isWithinInterval,
+  add,
+  addDays,
+  addMonths,
+  addMilliseconds,
+  milliseconds,
+  isMatch,
+  isLeapYear,
+  startOfDay,
+  endOfMonth,
+  getWeek,
+  getISOWeek,
+  differenceInYears,
+  differenceInMonths,
+  differenceInDays,
+  Duration,
+} from 'date-fns';
 
 import { StateDataDateTime, UniComponentSettings, UniComponentConfig, FormatType } from './uni-date-time.common';
 import { uniLocalizedFormats } from './uni-date-time.locales';
 
-import { DateOption } from "flatpickr/dist/types/options";
-import { CustomLocale } from "flatpickr/dist/types/locale";
+import { DateOption } from 'flatpickr/dist/types/options';
+import { CustomLocale } from 'flatpickr/dist/types/locale';
 import flatpickr from 'flatpickr';
 import { FlatpickrLocales } from './flatpickr-locales';
 
@@ -65,10 +66,7 @@ export class UniDateTimeService {
     return false;
   }
 
-  public fromDisplayDateTimeFormatToFlatpickrFormat(
-    displayFormat: string ,
-    checkFirst: boolean = false
-  ): string {
+  public fromDisplayDateTimeFormatToFlatpickrFormat(displayFormat: string, checkFirst: boolean = false): string {
     if (checkFirst) {
       if (!this.isInDisplayDateTimeFormat(displayFormat)) {
         return displayFormat; // already converted or not convertable
@@ -172,7 +170,7 @@ export class UniDateTimeService {
   }): Date | null {
     // Parse datetime if present
     if (info.dateTimeStr && info.dateTimeFormat) {
-      const obj = df_parse(
+      const obj = parse(
         info.dateTimeStr,
         this.fromDisplayDateTimeFormatToUnicodeTokens(info.dateTimeFormat) || info.dateTimeFormat,
         this.referenceDate
@@ -182,7 +180,7 @@ export class UniDateTimeService {
 
       return info.language || info.locale
         ? this.tryLocalizedParse(info.dateTimeStr, format, info.language, info.locale)
-        : df_isValid(obj)
+        : isValid(obj)
         ? obj
         : null;
     }
@@ -212,11 +210,11 @@ export class UniDateTimeService {
 
     // Parse constructed dateTime
     if (input && dateTimeFormat) {
-      const obj = df_parse(input, this.fromDisplayDateTimeFormatToUnicodeTokens(dateTimeFormat), this.referenceDate);
+      const obj = parse(input, this.fromDisplayDateTimeFormatToUnicodeTokens(dateTimeFormat), this.referenceDate);
 
       return info.language || info.locale
         ? this.tryLocalizedParse(input, dateTimeFormat, info.language, info.locale, timeless)
-        : df_isValid(obj)
+        : isValid(obj)
         ? obj
         : null;
     }
@@ -274,7 +272,7 @@ export class UniDateTimeService {
             this.fromDisplayDateTimeFormatToFlatpickrFormat(info.dateTimeFormat),
             info.language
           )
-        : df_format(info.dateTimeObj, info.dateTimeFormat);
+        : format(info.dateTimeObj, info.dateTimeFormat);
     }
 
     let dateTimeFormat = '';
@@ -294,7 +292,7 @@ export class UniDateTimeService {
             this.fromDisplayDateTimeFormatToFlatpickrFormat(dateTimeFormat),
             info.language
           )
-        : df_format(info.dateTimeObj, this.fromDisplayDateTimeFormatToUnicodeTokens(dateTimeFormat))
+        : format(info.dateTimeObj, this.fromDisplayDateTimeFormatToUnicodeTokens(dateTimeFormat))
       : '';
   }
 
@@ -304,60 +302,66 @@ export class UniDateTimeService {
     timeless?: boolean | undefined,
     customLocaleOrLanguageStr?: CustomLocale | string
   ): Date | undefined {
-    const customLocale: CustomLocale = typeof customLocaleOrLanguageStr == 'string' ? this.getFlatpickrLocale(customLocaleOrLanguageStr) : customLocaleOrLanguageStr;
-    flatpickr.localize(customLocale);  //shiyuan TODO: this is a global set
+    const customLocale: CustomLocale =
+      typeof customLocaleOrLanguageStr == 'string'
+        ? this.getFlatpickrLocale(customLocaleOrLanguageStr)
+        : customLocaleOrLanguageStr;
+    flatpickr.localize(customLocale);
     return flatpickr.parseDate.apply(flatpickr, [date, format, timeless]);
   }
 
   public flatpickrFormatDate(date: Date, format: string, customLocaleOrLanguageStr?: CustomLocale | string): string {
-    const customLocale: CustomLocale = typeof customLocaleOrLanguageStr == 'string' ? this.getFlatpickrLocale(customLocaleOrLanguageStr) : customLocaleOrLanguageStr;
+    const customLocale: CustomLocale =
+      typeof customLocaleOrLanguageStr == 'string'
+        ? this.getFlatpickrLocale(customLocaleOrLanguageStr)
+        : customLocaleOrLanguageStr;
     flatpickr.localize(customLocale);
     return flatpickr.formatDate.apply(flatpickr, [date, format]);
   }
 
   public isValid(date: Date): boolean {
-    return df_isValid(date);
+    return isValid(date);
   }
   public isBefore(input1: Date, input2: Date): boolean {
-    return df_isBefore(input1, input2);
+    return isBefore(input1, input2);
   }
   public isAfter(input1: Date, input2: Date): boolean {
-    return df_isAfter(input1, input2);
+    return isAfter(input1, input2);
   }
   public isBetween(date: Date, start: Date, end: Date): boolean {
-    return df_isWithinInterval(date, { start, end });
+    return isWithinInterval(date, { start, end });
   }
   public isEqual(input1: Date, input2: Date): boolean {
-    return df_isEqual(input1, input2);
+    return isEqual(input1, input2);
   }
   public add(date: Date, duration: Duration) {
-    return df_add(date, duration);
+    return add(date, duration);
   }
   public addDays(date: Date, amount: number): Date {
-    return df_addDays(date, amount);
+    return addDays(date, amount);
   }
   public addMonths(date: Date, amount: number): Date {
-    return df_addMonths(date, amount);
+    return addMonths(date, amount);
   }
   public addMilliseconds(date: Date, amount: number): Date {
-    return df_addMilliseconds(date, amount);
+    return addMilliseconds(date, amount);
   }
   public getMilliseconds(duration: Duration): number {
-    return df_milliseconds(duration);
+    return milliseconds(duration);
   }
   public isLeapYear(date: Date): boolean {
-    return df_isLeapYear(date);
+    return isLeapYear(date);
   }
   public tryParse(dateTimeStr: string, formats: string[]): Date | null {
     let date: Date | null = null;
     let returnedDate: Date | null = null;
     formats.forEach((f) => {
       if (f === 'ISO_8601') {
-        date = df_parseISO(dateTimeStr);
-      } else if (df_isMatch(dateTimeStr, this.fromDisplayDateTimeFormatToUnicodeTokens(f) || f)) {
-        date = df_parse(dateTimeStr, this.fromDisplayDateTimeFormatToUnicodeTokens(f) || f, this.referenceDate);
+        date = parseISO(dateTimeStr);
+      } else if (isMatch(dateTimeStr, this.fromDisplayDateTimeFormatToUnicodeTokens(f) || f)) {
+        date = parse(dateTimeStr, this.fromDisplayDateTimeFormatToUnicodeTokens(f) || f, this.referenceDate);
       }
-      if (date && df_isValid(date)) {
+      if (date && isValid(date)) {
         returnedDate = date;
       }
     });
@@ -372,29 +376,23 @@ export class UniDateTimeService {
     return d;
   }
   public startOfDay(date: Date): Date {
-    return df_startOfDay(date);
+    return startOfDay(date);
   }
   public endOfMonth(date: Date): Date {
-    return df_endOfMonth(date);
+    return endOfMonth(date);
   }
 
-  public getWeek(
-    date: Date,
-    options?: { weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6; firstWeekContainsDate?: 1 | 2 | 3 | 4 | 5 | 6 | 7 }
-  ): number {
-    return df_getWeek(date, options);
-  }
   public getISOWeek(date: Date): number {
-    return df_getISOWeek(date);
+    return getISOWeek(date);
   }
   public differenceInYears(endDate: Date, startDate: Date) {
-    return df_differenceInYears(endDate, startDate);
+    return differenceInYears(endDate, startDate);
   }
   public differenceInMonths(endDate: Date, startDate: Date) {
-    return df_differenceInMonths(endDate, startDate);
+    return differenceInMonths(endDate, startDate);
   }
   public differenceInDays(endDate: Date, startDate: Date) {
-    return df_differenceInDays(endDate, startDate);
+    return differenceInDays(endDate, startDate);
   }
 
   //-----------------
@@ -521,7 +519,7 @@ export class UniDateTimeService {
     const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       const randomValues = new Uint8Array(1);
       window.crypto.getRandomValues(randomValues);
-      const r = (d + randomValues[0] % 16) % 16 | 0;
+      const r = (d + (randomValues[0] % 16)) % 16 | 0;
       d = Math.floor(d / 16);
       return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
     });

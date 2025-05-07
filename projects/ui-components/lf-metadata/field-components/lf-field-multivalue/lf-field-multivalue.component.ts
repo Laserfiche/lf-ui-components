@@ -236,5 +236,4 @@ export class LfFieldMultivalueComponent {
     this.showLoader = val;
     this.cdr.detectChanges();
   }
-
 }
