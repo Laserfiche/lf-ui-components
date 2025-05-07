@@ -25,7 +25,7 @@ export class LfTokenPickerComponent implements OnInit {
 
   async onTokenChosen(token: LfToken) {
     if (token) {
-      this.cdr.markForCheck;
+      // this.cdr.markForCheck();
       this.tokenPicked.emit(token.text);
     }
   }

@@ -57,7 +57,7 @@ export class LfFieldComponent {
   forceValidation = (): boolean => {
     this.getSingleField().markAsDirty();
     this.getSingleField().updateValueAndValidity();
-    this.cdr.detectChanges();
+    // this.cdr.markForCheck();
     return this.isValid();
   };
 

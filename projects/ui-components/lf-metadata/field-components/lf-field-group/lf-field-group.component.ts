@@ -98,7 +98,7 @@ export class LfFieldGroupComponent {
         }
       });
     });
-    this.cdr.markForCheck();
+    // this.cdr.markForCheck();
     return isValid;
   };
 
@@ -253,7 +253,7 @@ export class LfFieldGroupComponent {
         this.fieldValuesChanged.emit({ fieldValue, indicesChanged });
       }
     });
-    this.cdr.markForCheck();
+    // this.cdr.markForCheck();
   }
 
   /** @internal */
