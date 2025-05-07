@@ -1,4 +1,4 @@
-// Copyright (c) Laserfiche.
+// Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -98,7 +98,6 @@ export class LfFieldGroupComponent {
         }
       });
     });
-    // this.cdr.markForCheck();
     return isValid;
   };
 
@@ -253,7 +252,6 @@ export class LfFieldGroupComponent {
         this.fieldValuesChanged.emit({ fieldValue, indicesChanged });
       }
     });
-    // this.cdr.markForCheck();
   }
 
   /** @internal */

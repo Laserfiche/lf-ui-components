@@ -1,4 +1,4 @@
-// Copyright (c) Laserfiche.
+// Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -25,7 +25,6 @@ export class LfTokenPickerComponent implements OnInit {
 
   async onTokenChosen(token: LfToken) {
     if (token) {
-      // this.cdr.markForCheck();
       this.tokenPicked.emit(token.text);
     }
   }
