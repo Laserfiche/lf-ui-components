@@ -1,5 +1,12 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
+## 17.0.3
+
+### Fixes
+
+- Fixed the issue in the style file lf-ms-office-lite.css.
+
 ## 17.0.2
 
 ### Fixes
