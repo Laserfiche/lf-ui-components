@@ -1,3 +1,6 @@
+// Copyright Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { Plugin } from "flatpickr/dist/types/options";
 import { Instance } from "flatpickr/dist/types/instance";
 import { UniDateTimeService } from "./uni-date-time.service";

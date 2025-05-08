@@ -1,45 +1,46 @@
-import { Plugin } from "flatpickr/dist/types/options";
-import { Instance } from "flatpickr/dist/types/instance";
-import { UniDateTimeService } from "./uni-date-time.service";
+// Copyright Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
 
-var dateTimeService = new UniDateTimeService;
+import { Plugin } from 'flatpickr/dist/types/options';
+import { Instance } from 'flatpickr/dist/types/instance';
+import { UniDateTimeService } from './uni-date-time.service';
+
+var dateTimeService = new UniDateTimeService();
 
 export function LFDatePickerPlugin(): Plugin {
-	return function (fp: Instance) {
+  return function (fp: Instance) {
     const flatpickerKey: keyof typeof window = 'flatpickr' as keyof typeof window;
     fp.config.parseDate = function (date: string, format: string, locale?: any) {
       if (!dateTimeService.isToken(date)) {
         const dateFormat = dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(format, true);
-				try {
-          locale = locale ? locale : fp.config.locale;
-          const timeless = dateTimeService.hasTimeFormat(dateFormat);
-          if (flatpickerKey in window)
-           {return window[flatpickerKey].parseDate(date, dateFormat, timeless, locale);}
-           else{
-            return new Date();
-           }
-				} catch (e) {
-					return new Date();
-				}
-			}
-			else {
-				return new Date();
-			}
-		};
-		fp.config.formatDate = function (date: Date, format: string, locale?: any) {
-			if (!dateTimeService.isToken(fp.input?.value)) {
         try {
           locale = locale ? locale : fp.config.locale;
-					return window[flatpickerKey].formatDate(date, format, locale);
-				} catch (e) {
-					return fp.input.value;
-				}
-			}
-			else {
-				return fp.input.value;
-			}
-		};
-		function dateHandleMouseDown(e: any) {
+          const timeless = dateTimeService.hasTimeFormat(dateFormat);
+          if (flatpickerKey in window) {
+            return window[flatpickerKey].parseDate(date, dateFormat, timeless, locale);
+          } else {
+            return new Date();
+          }
+        } catch (e) {
+          return new Date();
+        }
+      } else {
+        return new Date();
+      }
+    };
+    fp.config.formatDate = function (date: Date, format: string, locale?: any) {
+      if (!dateTimeService.isToken(fp.input?.value)) {
+        try {
+          locale = locale ? locale : fp.config.locale;
+          return window[flatpickerKey].formatDate(date, format, locale);
+        } catch (e) {
+          return fp.input.value;
+        }
+      } else {
+        return fp.input.value;
+      }
+    };
+    function dateHandleMouseDown(e: any) {
       if (e.target !== fp.input && !fp.calendarContainer.contains(e.target)) {
         const value = fp.input.value;
         fp.setDate(value);
@@ -50,23 +51,23 @@ export function LFDatePickerPlugin(): Plugin {
       }
     }
 
-		function dateHandleKeyDown(e: any) {
-			if (e.key === "Tab" && document.activeElement === fp.input) {
-				const value = fp.input.value;
-				fp.setDate(value);
-				fp.close();
-			}
-		}
+    function dateHandleKeyDown(e: any) {
+      if (e.key === 'Tab' && document.activeElement === fp.input) {
+        const value = fp.input.value;
+        fp.setDate(value);
+        fp.close();
+      }
+    }
 
-		return {
-			onOpen() {
-				document.addEventListener("mousedown", dateHandleMouseDown, { capture: true });
-				document.addEventListener("keydown", dateHandleKeyDown, { capture: true });
-			},
-			onClose() {
-				document.removeEventListener("mousedown", dateHandleMouseDown, { capture: true });
-				document.removeEventListener("keydown", dateHandleKeyDown, { capture: true });
-			}
-		};
-	};
+    return {
+      onOpen() {
+        document.addEventListener('mousedown', dateHandleMouseDown, { capture: true });
+        document.addEventListener('keydown', dateHandleKeyDown, { capture: true });
+      },
+      onClose() {
+        document.removeEventListener('mousedown', dateHandleMouseDown, { capture: true });
+        document.removeEventListener('keydown', dateHandleKeyDown, { capture: true });
+      },
+    };
+  };
 }

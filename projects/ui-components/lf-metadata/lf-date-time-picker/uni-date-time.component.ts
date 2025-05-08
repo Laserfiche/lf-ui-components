@@ -1,3 +1,6 @@
+// Copyright Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 // Core and essentials
 import {
   Component,
@@ -258,6 +261,8 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           enableSeconds: this.settings.combinedDateTime && timeFormatContainsSecond,
           time_24hr: this.settings.combinedDateTime && timeFormatContainsHour,
 
+          altInput: true,
+
           allowInput: true,
           allowInvalidPreload: true,
           dateFormat: this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(
@@ -274,6 +279,16 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
                 this.onDateTimeChange(selectedDates[0], true, FormChangeEvent.TimeClose);
               }
             }, 0);
+          },
+          onOpen: (selectedDates: Date[], dateStr: string, instance: Instance) => {
+            // instance.input.focus();
+          },
+          onKeyDown: (selectedDates: Date[], dateStr: string, instance: Instance, event) => {
+            if (event.key === 'ArrowRight') {
+              let currentDate = instance.selectedDates[0] || new Date();
+              currentDate.setDate(currentDate.getDate() + 1);
+              instance.setDate(currentDate);
+            }
           },
           wrap: true,
           minDate: this.minDateTime,
@@ -528,10 +543,18 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
   onIconClick(iconType: string) {
     switch (iconType) {
       case 'date':
-        this.dateIconClickEventHandler.emit({ state: this.state, event: FormChangeEvent.DateIconClick, component: this });
+        this.dateIconClickEventHandler.emit({
+          state: this.state,
+          event: FormChangeEvent.DateIconClick,
+          component: this,
+        });
         break;
       case 'time':
-        this.timeIconClickEventHandler.emit({ state: this.state, event: FormChangeEvent.TimeIconClick, component: this });
+        this.timeIconClickEventHandler.emit({
+          state: this.state,
+          event: FormChangeEvent.TimeIconClick,
+          component: this,
+        });
         break;
     }
   }
@@ -693,8 +716,12 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
 
   // Revise
   assignSubAbstractControl() {
-    this.dateControlName = this.dateControlName ? this.dateControlName : `${this.componentId}-${UniControlType.DateTime_date}`;
-    this.timeControlName = this.timeControlName ? this.timeControlName : `${this.componentId}-${UniControlType.DateTime_time}`;
+    this.dateControlName = this.dateControlName
+      ? this.dateControlName
+      : `${this.componentId}-${UniControlType.DateTime_date}`;
+    this.timeControlName = this.timeControlName
+      ? this.timeControlName
+      : `${this.componentId}-${UniControlType.DateTime_time}`;
     this.dateTimeControlName = this.dateTimeControlName
       ? this.dateTimeControlName
       : `${this.componentId}-${UniControlType.DateTime}`;
