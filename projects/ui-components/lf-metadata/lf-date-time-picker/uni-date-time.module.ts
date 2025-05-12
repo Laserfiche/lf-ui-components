@@ -1,3 +1,6 @@
+// Copyright Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
