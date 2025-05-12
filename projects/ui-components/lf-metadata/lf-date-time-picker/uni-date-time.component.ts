@@ -40,6 +40,7 @@ import { Instance } from 'flatpickr/dist/types/instance';
 import { LFTimePickerPlugin } from './plugin-lfTimePicker';
 import { LFDatePickerPlugin } from './plugin-lfDatePicker';
 import { addDays } from 'date-fns';
+import { el } from 'date-fns/locale';
 
 @Component({
   selector: 'lf-uni-date-time',
@@ -280,10 +281,10 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
             }, 0);
           },
           onOpen: (selectedDates: Date[], dateStr: string, instance: Instance) => {
-            this.focusCalendar(selectedDates, instance);
+            this.onCalendarOpen(instance);
           },
           onReady: (selectedDates: Date[], dateStr: string, instance: Instance) => {
-            this.addKeyboardAccessibility(selectedDates, instance);
+            this.addDaysContainerKeyboardHandler(selectedDates, instance);
           },
           wrap: true,
           minDate: this.minDateTime,
@@ -303,6 +304,9 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           plugins: [LFTimePickerPlugin()],
           onClose: (selectedDates: Date[], dateStr: string, instance: Instance) => {
             this.onDateTimeChange(selectedDates[0], false, FormChangeEvent.TimeClose);
+          },
+          onOpen: (selectedDates: Date[], dateStr: string, instance: Instance) => {
+            this.onCalendarOpen(instance);
           },
           dateFormat: this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(this.settings.timeFormat ?? ''),
           wrap: true,
@@ -333,17 +337,19 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     }
   }
 
-  private focusCalendar(selectedDates: Date[], instance: Instance): void {
+  private onCalendarOpen(instance: Instance): void {
     setTimeout(() => {
       if (instance.daysContainer) {
         instance.monthElements[0].focus();
-      } else {
+      } else if (instance.timeContainer){
+        instance.hourElement?.focus();
+      } else{
         instance.input.focus();
       }
     }, 0);
   }
 
-  private addKeyboardAccessibility(selectedDates: Date[], instance: Instance) {
+  private addDaysContainerKeyboardHandler(selectedDates: Date[], instance: Instance) {
     instance.calendarContainer?.addEventListener('keydown', function (event) {
       var currentDate = selectedDates[0] || instance.selectedDates[0] || new Date();
       if (event.target === instance.monthElements[0]) {
@@ -370,9 +376,6 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           event.preventDefault();
           instance.secondElement?.focus();
         }
-      } else {
-        console.log('unhandled keydown event');
-        console.log(event.target);
       }
     });
 
@@ -419,10 +422,16 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         instance.close();
       }
     };
+
     const monthsKeyDownHandler = function (currentDate: Date, instance: Instance, monthsKeyEvent: any) {
-      if (monthsKeyEvent.key === 'Tab' && !monthsKeyEvent.shiftKey) {
+      if (monthsKeyEvent.key === 'Tab' ) {
         monthsKeyEvent.preventDefault();
-        instance.daysContainer?.focus();
+        if (monthsKeyEvent.shiftKey) {
+          instance.input.focus();
+          instance.close();
+        } else{
+          instance.daysContainer?.focus();
+        }
       } else if (monthsKeyEvent.key === 'ArrowDown' || monthsKeyEvent.key === 'ArrowRight') {
         monthsKeyEvent.preventDefault();
         addMonthsToSelect(instance, currentDate, 1);
