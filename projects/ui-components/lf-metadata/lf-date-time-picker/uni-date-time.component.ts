@@ -39,8 +39,6 @@ import flatpickr from 'flatpickr';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { LFTimePickerPlugin } from './plugin-lfTimePicker';
 import { LFDatePickerPlugin } from './plugin-lfDatePicker';
-import { addDays } from 'date-fns';
-import { el } from 'date-fns/locale';
 
 @Component({
   selector: 'lf-uni-date-time',

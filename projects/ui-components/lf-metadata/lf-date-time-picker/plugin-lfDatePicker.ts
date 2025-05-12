@@ -51,83 +51,12 @@ export function LFDatePickerPlugin(): Plugin {
       }
     }
 
-    function dateHandleKeyDown(event: any) {
-
-      //   event.preventDefault();
-      //   // Open the month selector dropdown
-      //   const monthDropdown = fp.calendarContainer.querySelector('.flatpickr-monthDropdown-months') as HTMLElement;
-      //   if (monthDropdown) {
-      //     monthDropdown.focus();
-      //     monthDropdown.click();
-      //   }
-      // }
-      //   if (document.activeElement?.localName === 'body') {
-      //     if (fp.daysContainer) {
-      //       fp.daysContainer.focus();
-      //     }}
-      //   // } else if (document.activeElement === fp.secondElement) {
-      //   //   console.log('timeContainer');
-      //   //   fp.daysContainer?.focus();
-      //   // } else if (document.activeElement === fp.input) {
-      //   //   const value = fp.input.value;
-      //   //   fp.setDate(value);
-      //   //   fp.daysContainer?.focus();
-      //   //   fp.close();
-      //   // }
-      // } else if (event.key === 'ArrowRight') {
-        // fp.daysContainer?.focus();
-      //   // let currentDate = fp.selectedDates[0] || new Date();
-      //   // currentDate.setDate(currentDate.getDate() + 1);
-      //   // fp.setDate(currentDate);
-      // } else if (event.key === 'ArrowDown') {
-      //   //   let currentDate = fp.selectedDates[0] || new Date();
-      //   //   currentDate.setDate(currentDate.getDate() + 7);
-      //   //   fp.setDate(currentDate);
-      //   //   fp.input.focus();
-      // } else if (event.key === 'ArrowLeft') {
-      //   // let currentDate = fp.selectedDates[0] || new Date();
-      //   // currentDate.setDate(currentDate.getDate() - 1);
-      //   // fp.setDate(currentDate);
-      // } else if (event.key === 'ArrowUp') {
-      //   // // event.preventDefault();
-      //   // let currentDate = fp.selectedDates[0] || new Date();
-      //   // currentDate.setDate(currentDate.getDate() - 7);
-      //   // fp.setDate(currentDate, false);
-      // }
-
-      // if (event.key === 'Tab' && event.target === fp.input) {
-      //   const value = fp.input.value;
-      //   fp.setDate(value);
-      //   fp.close();
-      //   Open the month selector dropdown
-        // fp.daysContainer?.focus();
-      //   const monthDropdown = fp.calendarContainer.querySelector('.flatpickr-monthDropdown-months') as HTMLElement;
-      //   if (monthDropdown) {
-      //     monthDropdown.focus();
-
-      //     const clickEvent = new MouseEvent('click', {
-      //       view: window,
-      //       bubbles: true,
-      //       cancelable: true,
-      //     });
-      //     monthDropdown.dispatchEvent(clickEvent);
-      //   }
-      // }
-    }
-
     return {
       onOpen() {
         document.addEventListener('mousedown', dateHandleMouseDown, { capture: true });
-        // document.addEventListener('keydown', dateHandleKeyDown, { capture: true });
-      },
-      onKeyDown()
-      {
-        // document.addEventListener('keydown', dateHandleKeyDown, { capture: true });
-
       },
       onClose() {
         document.removeEventListener('mousedown', dateHandleMouseDown, { capture: true });
-        // document.removeEventListener('keydown', dateHandleKeyDown, { capture: true });
       },
     };
   };
