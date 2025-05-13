@@ -1,3 +1,6 @@
+// Copyright Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 // Core and essentials
 import {
   Component,
@@ -275,6 +278,12 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
               }
             }, 0);
           },
+          onOpen: (selectedDates: Date[], dateStr: string, instance: Instance) => {
+            this.onCalendarOpen(instance);
+          },
+          onReady: (selectedDates: Date[], dateStr: string, instance: Instance) => {
+            this.addDaysContainerKeyboardHandler(selectedDates, instance);
+          },
           wrap: true,
           minDate: this.minDateTime,
           maxDate: this.maxDateTime,
@@ -293,6 +302,9 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           plugins: [LFTimePickerPlugin()],
           onClose: (selectedDates: Date[], dateStr: string, instance: Instance) => {
             this.onDateTimeChange(selectedDates[0], false, FormChangeEvent.TimeClose);
+          },
+          onOpen: (selectedDates: Date[], dateStr: string, instance: Instance) => {
+            this.onCalendarOpen(instance);
           },
           dateFormat: this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(this.settings.timeFormat ?? ''),
           wrap: true,
@@ -321,6 +333,114 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         this.isRequired = this.settings.required ? this.settings.required : this.isRequired;
       }, 0);
     }
+  }
+
+  private onCalendarOpen(instance: Instance): void {
+    setTimeout(() => {
+      if (instance.daysContainer) {
+        instance.monthElements[0].focus();
+      } else if (instance.timeContainer){
+        instance.hourElement?.focus();
+      } else{
+        instance.input.focus();
+      }
+    }, 0);
+  }
+
+  private addDaysContainerKeyboardHandler(selectedDates: Date[], instance: Instance) {
+    instance.calendarContainer?.addEventListener('keydown', function (event) {
+      var currentDate = selectedDates[0] || instance.selectedDates[0] || new Date();
+      if (event.target === instance.monthElements[0]) {
+        monthsKeyDownHandler(currentDate, instance, event);
+      } else if (event.target === instance.daysContainer) {
+        daysContainerKeyDownHandler(currentDate, instance, event);
+      } else if (instance.hourElement && event.target === instance.hourElement) {
+        if (event.key === 'Tab' && event.shiftKey) {
+          event.preventDefault();
+          instance.daysContainer?.focus();
+        }
+      } else if (instance.minuteElement && event.target === instance.minuteElement) {
+        if (event.key === 'Tab' && event.shiftKey) {
+          event.preventDefault();
+          instance.hourElement?.focus();
+        }
+      } else if (instance.secondElement && event.target === instance.secondElement) {
+        if (event.key === 'Tab' && event.shiftKey) {
+          event.preventDefault();
+          instance.minuteElement?.focus();
+        }
+      } else if (instance.amPM && event.target === instance.amPM) {
+        if (event.key === 'Tab' && event.shiftKey) {
+          event.preventDefault();
+          instance.secondElement?.focus();
+        }
+      }
+    });
+
+    const addDaysToSelect = function (instance: Instance, currentDate: Date, daysToAdd: number) {
+      currentDate.setDate(currentDate.getDate() + daysToAdd);
+      instance.setDate(currentDate);
+      instance.daysContainer?.focus();
+    };
+    const addMonthsToSelect = function (instance: Instance, currentDate: Date, monthsToAdd: number) {
+      currentDate.setMonth(currentDate.getMonth() + monthsToAdd);
+      instance.setDate(currentDate);
+      instance.monthElements[0]?.focus();
+    };
+    const daysContainerKeyDownHandler = function (currentDate: Date, instance: Instance, daysKeyEvent: any) {
+      if (daysKeyEvent.key === 'Tab') {
+        daysKeyEvent.preventDefault();
+        if (daysKeyEvent.shiftKey) {
+          instance.monthElements[0]?.focus();
+        } else {
+          if (instance.hourElement) {
+            instance.hourElement.focus();
+          } else {
+            instance.input.focus();
+            instance.close();
+          }
+        }
+      } else if (daysKeyEvent.key === 'ArrowLeft') {
+        daysKeyEvent.preventDefault();
+        addDaysToSelect(instance, currentDate, -1);
+      } else if (daysKeyEvent.key === 'ArrowRight') {
+        daysKeyEvent.preventDefault();
+        addDaysToSelect(instance, currentDate, 1);
+      } else if (daysKeyEvent.key === 'ArrowDown') {
+        daysKeyEvent.preventDefault();
+        addDaysToSelect(instance, currentDate, 7);
+      } else if (daysKeyEvent.key === 'ArrowUp') {
+        daysKeyEvent.preventDefault();
+        addDaysToSelect(instance, currentDate, -7);
+      } else if (daysKeyEvent.key === 'Shift') {
+        daysKeyEvent.preventDefault();
+        instance.daysContainer?.focus();
+      } else if (daysKeyEvent.key === 'Enter') {
+        daysKeyEvent.preventDefault();
+        instance.close();
+      }
+    };
+
+    const monthsKeyDownHandler = function (currentDate: Date, instance: Instance, monthsKeyEvent: any) {
+      if (monthsKeyEvent.key === 'Tab' ) {
+        monthsKeyEvent.preventDefault();
+        if (monthsKeyEvent.shiftKey) {
+          instance.input.focus();
+          instance.close();
+        } else{
+          instance.daysContainer?.focus();
+        }
+      } else if (monthsKeyEvent.key === 'ArrowDown' || monthsKeyEvent.key === 'ArrowRight') {
+        monthsKeyEvent.preventDefault();
+        addMonthsToSelect(instance, currentDate, 1);
+      } else if (monthsKeyEvent.key === 'ArrowUp' || monthsKeyEvent.key === 'ArrowLeft') {
+        monthsKeyEvent.preventDefault();
+        addMonthsToSelect(instance, currentDate, -1);
+      } else if (monthsKeyEvent.key === 'Enter') {
+        monthsKeyEvent.preventDefault();
+        instance.close();
+      }
+    };
   }
 
   ngAfterContentInit() {
@@ -494,17 +614,6 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         : value; // keep value as-is if no tokens
     return value ? value.trim() : '';
   }
-
-  touch() {
-    this.abstractControl?.markAsTouched();
-    if (this.abstractControl instanceof FormGroup) {
-      const formGroup = this.abstractControl as FormGroup;
-      formGroup.markAllAsTouched();
-    }
-    this.updateErrorDisplay();
-    // emit event?
-  }
-
   // Revise
   onBlurWithKey(key: string) {
     setTimeout(() => {
@@ -528,10 +637,18 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
   onIconClick(iconType: string) {
     switch (iconType) {
       case 'date':
-        this.dateIconClickEventHandler.emit({ state: this.state, event: FormChangeEvent.DateIconClick, component: this });
+        this.dateIconClickEventHandler.emit({
+          state: this.state,
+          event: FormChangeEvent.DateIconClick,
+          component: this,
+        });
         break;
       case 'time':
-        this.timeIconClickEventHandler.emit({ state: this.state, event: FormChangeEvent.TimeIconClick, component: this });
+        this.timeIconClickEventHandler.emit({
+          state: this.state,
+          event: FormChangeEvent.TimeIconClick,
+          component: this,
+        });
         break;
     }
   }
@@ -693,8 +810,12 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
 
   // Revise
   assignSubAbstractControl() {
-    this.dateControlName = this.dateControlName ? this.dateControlName : `${this.componentId}-${UniControlType.DateTime_date}`;
-    this.timeControlName = this.timeControlName ? this.timeControlName : `${this.componentId}-${UniControlType.DateTime_time}`;
+    this.dateControlName = this.dateControlName
+      ? this.dateControlName
+      : `${this.componentId}-${UniControlType.DateTime_date}`;
+    this.timeControlName = this.timeControlName
+      ? this.timeControlName
+      : `${this.componentId}-${UniControlType.DateTime_time}`;
     this.dateTimeControlName = this.dateTimeControlName
       ? this.dateTimeControlName
       : `${this.componentId}-${UniControlType.DateTime}`;

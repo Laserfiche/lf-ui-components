@@ -1,3 +1,6 @@
+// Copyright Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
 import Flatpickr from "flatpickr";
 import { Arabic } from 'flatpickr/dist/l10n/ar.js';
 import { Spanish } from 'flatpickr/dist/l10n/es.js';
