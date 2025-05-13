@@ -4,9 +4,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 ## 18.0.0
 ### Chore & Maintenance
 
+- Added keyboard accesses to Date, Time and DateTime pickers in Laserfiche fields.
 - **[BREAKING]**: Update to Angular 18.
 - **[BREAKING]**: Migrated `@angular/material` to version 18.
 
+## 17.0.4
+
+### Fixes
+
+- Fixed the style file lf-ms-office-lite.css import issue when using npm install.
+
+## 17.0.3
+
+### Fixes
+
+- Fixed the issue in the style file lf-ms-office-lite.css.
 
 ## 17.0.2
 
