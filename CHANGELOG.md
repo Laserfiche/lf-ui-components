@@ -1,5 +1,11 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+## 17.0.4
+
+### Fixes
+
+- Fixed the style file lf-ms-office-lite.css import issue when using npm install.
+
 
 ## 17.0.3
 
