@@ -106,7 +106,8 @@
             "styles": [
               "projects/lf-cdn/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "watch": false
           }
         },
         "lint": {
@@ -224,7 +225,8 @@
             "styles": [
               "projects/lf-documentation/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "watch": false
           }
         },
         "lint": {
@@ -264,7 +266,8 @@
           "options": {
             "main": "projects/ui-components/test.ts",
             "tsConfig": "projects/ui-components/tsconfig.spec.json",
-            "karmaConfig": "projects/ui-components/karma.conf.js"
+            "karmaConfig": "projects/ui-components/karma.conf.js",
+            "watch": false
           }
         },
         "lint": {
