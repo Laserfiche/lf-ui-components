@@ -8,6 +8,9 @@ on:
   schedule:
     - cron: '0 12 * * 6'
 
+permissions:
+  contents: read
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
@@ -73,10 +76,7 @@ jobs:
           vkey: '${{ secrets.VERACODE_API_KEY }}'
           teams: 'GitHub - Open Source'
 
-      - name: Run Veracode Software Composition Analysis (srccclr)
+      - name: Run Veracode Software Composition Analysis (SCA)
         env:
           SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_TOKEN_UICOMPONENTS_14 }}
-        uses: veracode/veracode-sca@v2.1.6
-        with:
-          create-issues: false
-          allow-dirty: true
+        run: curl --silent --show-error --location https://download.sourceclear.com/ci.sh | sh -s -- scan ./ --update-advisor --allow-dirty
