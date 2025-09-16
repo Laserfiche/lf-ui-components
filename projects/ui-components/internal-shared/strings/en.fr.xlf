@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en" trgLang="fr">
+ <file id="en.fr.json">
+  <unit id="u1">
+   <segment id="PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK" state="translated">
+    <source>Please do not include any confidential or personal information in your feedback</source>
+    <target>Þłêåšę đŏ ňõţ ĭńćľúďė áňÿ čōňƒíđęŉţïǎļ öŗ ᶗèŕşöņâľ ıŉƒõŗɱáŧîóñ įń ÿőŭř ƒėĕđьâçķ</target>
+   </segment>
+   <segment id="PLEASE_CLICK_HERE" state="translated">
+    <source>please click here.</source>
+    <target>ᶗĺĕăśĕ ćľīçķ ĥêŗē.</target>
+   </segment>
+   <segment id="I_HAVE_FEEDBACK" state="translated">
+    <source>I have feedback</source>
+    <target>Ĩ ĥǎṿĕ ƒéėđьáçķ</target>
+   </segment>
+   <segment id="IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL" state="translated">
+    <source>If you&apos;d like to join our Customer Panel,</source>
+    <target>Íƒ ÿôű&apos;ď ļíķė ţõ ĵôĩň öűř Çůšŧõɱĕŕ Þαñēľ,</target>
+   </segment>
+   <segment id="YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT" state="translated">
+    <source>Your feedback and suggestions will help us improve our product and services.</source>
+    <target>Ýôùŗ ƒèėđЬàčķ āŉď śüĝĝėšţîöñş ŵĭłł ħêļþ üŝ īɱᶗřóṿĕ òųŕ þřóďűćť áňđ śėřṿįçëš.</target>
+   </segment>
+   <segment id="IMAGE_NOT_ATTACHED" state="translated">
+    <source>Image not attached.</source>
+    <target>Îɱâĝè ņôţ äŧţàçħêď.</target>
+   </segment>
+   <segment id="IMAGE_EXCEEDS_MAX_FILE_SIZE_0" state="translated">
+    <source>The image exceeds the maximum file size of {0}.</source>
+    <target>Ŧħę ïɱàğè ë×çëëđŝ ťħĕ ɱă×īɱűɱ ƒìľè šìżē òƒ {0}.</target>
+   </segment>
+   <segment id="ACCEPTED_FORMATS_ARE_0" state="translated">
+    <source>The accepted formats are: {0}.</source>
+    <target>Ţĥë áççĕþťēđ ƒòŗɱāŧş åŕę: {0}.</target>
+   </segment>
+   <segment id="YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK" state="translated">
+    <source>You may contact me about this feedback</source>
+    <target>Ýõù ɱǎý čŏńţāčť ɱê âьŏùţ ţĥīš ƒęęđЬāćķ</target>
+   </segment>
+   <segment id="FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW" state="translated">
+    <source>Found something you like or dislike? Let us know about it.</source>
+    <target>Ƒôūŉď šőɱēťĥîņĝ ÿőů łîķę ōŕ đîśľįķě? Ļéť úś ķňŏẉ áЬóùţ ıŧ.</target>
+   </segment>
+   <segment id="DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING" state="translated">
+    <source>Do you have an idea for a new feature or an improvement? We look forward to hearing about it.</source>
+    <target>Ďô ýőù ħāṿę åŉ ıďèå ƒòŗ á ňēẉ ƒėāţųŕé ŏŕ áň ìɱþŕőʋęɱēňţ? Ŵê ļòöķ ƒòŗẉäřđ ţó ħėǎřïŉĝ ǎβòúť įť.</target>
+   </segment>
+   <segment id="ATTACH_IMAGE" state="translated">
+    <source>Attach Image</source>
+    <target>Āŧţăçĥ Ïɱαĝê</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_IDEA" state="translated">
+    <source>Tell us about your idea</source>
+    <target>Ťêłľ ûś āьōûŧ ŷöūř ıđêà</target>
+   </segment>
+   <segment id="IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT" state="translated">
+    <source>The image is corrupted or in an unrecognized format.</source>
+    <target>Ťħë įɱǎĝê ıŝ čöŕŗüᶗťêđ õŕ ĭņ αń ůņřéćóĝñĭžēď ƒőŕɱǎţ.</target>
+   </segment>
+   <segment id="PLEASE_ATTACH_ONLY_ONE_IMAGE" state="translated">
+    <source>Please attach only one image.</source>
+    <target>Þłēáśę äţţàćħ őňĺý òŉë ıɱăğė.</target>
+   </segment>
+   <segment id="I_HAVE_SUGGESTION" state="translated">
+    <source>I have a suggestion</source>
+    <target>İ ħäʋê α şúĝğĕśŧĭòñ</target>
+   </segment>
+   <segment id="TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP" state="translated">
+    <source>If you have a technical or support issue, or require immediate assistance, please contact your Laserfiche Administrator or Solution Provider as indicated in your service agreement.</source>
+    <target>İƒ ýôű ħåʋē ä ţèčħņįćăł ôŗ ŝűᶗþòŕţ ìšŝúē, òř ŕĕɋûîŗě įɱɱėďīàťě àşŝîŝŧăŉçę, ᶗłèǎşé ćōņťäčŧ ÿôūŗ Ĺαŝēŕƒīćĥě Αďɱıńíşŧřăţóŗ őŗ Ŝòľųţìöñ Þŕóʋĭďēř ǎŝ ïňđïčåŧĕđ ĩŉ ŷôüř śëŕʋíćè ăğŗëêɱèŉť.</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_EXPERIENCE" state="translated">
+    <source>Tell us about your experience</source>
+    <target>Ŧéľĺ ůś αЬôŭţ ýóūŗ ë×þĕŗìêńčé</target>
+   </segment>
+  </unit>
+ </file>
+</xliff>
