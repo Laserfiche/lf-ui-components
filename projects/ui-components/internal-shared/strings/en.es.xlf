@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en" trgLang="es">
+ <file id="en.es.json">
+  <unit id="u1">
+   <segment id="PLEASE_CLICK_HERE" state="translated">
+    <source>please click here.</source>
+    <target>þłęäşė čļîçķ ħêřė.</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_EXPERIENCE" state="translated">
+    <source>Tell us about your experience</source>
+    <target>Ţēĺľ ûş àβŏūţ ŷõųŕ ė×ᶗëŗïēñçė</target>
+   </segment>
+   <segment id="YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK" state="translated">
+    <source>You may contact me about this feedback</source>
+    <target>Ÿŏū ɱâÿ čòņťäçţ ɱë αьőúŧ ŧħìś ƒęėđβāčķ</target>
+   </segment>
+   <segment id="TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP" state="translated">
+    <source>If you have a technical or support issue, or require immediate assistance, please contact your Laserfiche Administrator or Solution Provider as indicated in your service agreement.</source>
+    <target>Ïƒ ÿóú ħāʋë ä ţéçħņíçǎļ ŏř şüᶗᶗõŕŧ ışŝŭë, òŗ řĕɋùīŗė ïɱɱěđıâţė äŝŝĩŝŧäŉćě, ᶗļėâśě čŏņţăčţ ŷöùŗ Ľαşěřƒïčĥě Αďɱîŉĭšţŗăţŏř ōř Şòłūţīõń Þŕóʋĭďĕŗ àş íňďįčåţèđ ĭņ ýōųŕ šęřṿīćé αğŕèéɱëŉť.</target>
+   </segment>
+   <segment id="IMAGE_EXCEEDS_MAX_FILE_SIZE_0" state="translated">
+    <source>The image exceeds the maximum file size of {0}.</source>
+    <target>Ŧħê ıɱǎğë ę×čëėďş ŧħě ɱā×īɱűɱ ƒíłę šìźë ōƒ {0}.</target>
+   </segment>
+   <segment id="IMAGE_NOT_ATTACHED" state="translated">
+    <source>Image not attached.</source>
+    <target>İɱäĝē ŉőŧ àťţåçĥĕđ.</target>
+   </segment>
+   <segment id="ATTACH_IMAGE" state="translated">
+    <source>Attach Image</source>
+    <target>Áţţåçħ Ïɱαğĕ</target>
+   </segment>
+   <segment id="PLEASE_ATTACH_ONLY_ONE_IMAGE" state="translated">
+    <source>Please attach only one image.</source>
+    <target>Þĺėášé åŧŧäçħ óńłý ōņê îɱăğê.</target>
+   </segment>
+   <segment id="YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT" state="translated">
+    <source>Your feedback and suggestions will help us improve our product and services.</source>
+    <target>Ŷōüř ƒéèđьâçķ àŉđ śųĝĝęśťĩöňś ẉįļł ħēļᶗ ůš ĭɱþŗöṿë őûř ᶗŗõđŭćŧ āñď ŝéřṿįćêŝ.</target>
+   </segment>
+   <segment id="FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW" state="translated">
+    <source>Found something you like or dislike? Let us know about it.</source>
+    <target>Ƒôŭňď ŝőɱěţħíńĝ ÿőŭ ļĭķė őŕ ďĩŝłıķĕ? Ĺęť ūş ķńŏẉ åьőųť ĩŧ.</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_IDEA" state="translated">
+    <source>Tell us about your idea</source>
+    <target>Ťėĺł ůş ăьõűť ŷõŭŗ ìđēå</target>
+   </segment>
+   <segment id="PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK" state="translated">
+    <source>Please do not include any confidential or personal information in your feedback</source>
+    <target>Þļéàšě ďó ńőŧ ĭñčĺūďê āŉŷ čòńƒıđêňŧïåĺ őŗ þèŗśōńαľ įńƒôřɱǎţıòń îň ÿŏüŗ ƒěèđЬāçķ</target>
+   </segment>
+   <segment id="IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL" state="translated">
+    <source>If you&apos;d like to join our Customer Panel,</source>
+    <target>Ĭƒ ÿóü&apos;đ łïķè ťô ĵöĩņ ôŭŕ Çùśťóɱĕř Þåņěł,</target>
+   </segment>
+   <segment id="DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING" state="translated">
+    <source>Do you have an idea for a new feature or an improvement? We look forward to hearing about it.</source>
+    <target>Ďő ŷõů ĥāṿê äñ íďëă ƒŏŗ ä ñēẉ ƒëǎťûŕê õŕ ǎň íɱᶗŕöṿêɱĕņť? Ŵè ľõöķ ƒöřẉǎŕď ŧó ĥěäřîňĝ ǎЬõüŧ íţ.</target>
+   </segment>
+   <segment id="ACCEPTED_FORMATS_ARE_0" state="translated">
+    <source>The accepted formats are: {0}.</source>
+    <target>Ţĥê áććëᶗŧêď ƒōŗɱâţŝ āŕě: {0}.</target>
+   </segment>
+   <segment id="I_HAVE_FEEDBACK" state="translated">
+    <source>I have feedback</source>
+    <target>Î ħàʋé ƒęèđьâčķ</target>
+   </segment>
+   <segment id="IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT" state="translated">
+    <source>The image is corrupted or in an unrecognized format.</source>
+    <target>Ŧħè îɱāĝĕ îŝ ćöřŗüᶗťëđ öř ìņ ăŉ ūŉŕêçõğņĭżěď ƒöŕɱăť.</target>
+   </segment>
+   <segment id="I_HAVE_SUGGESTION" state="translated">
+    <source>I have a suggestion</source>
+    <target>Î ħáṿē å śųĝğēšţıóň</target>
+   </segment>
+  </unit>
+ </file>
+</xliff>

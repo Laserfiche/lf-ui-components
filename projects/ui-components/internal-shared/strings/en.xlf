@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en">
+ <file id="en.json">
+  <unit id="u1">
+   <segment id="PLEASE_CLICK_HERE">
+    <source>please click here.</source>
+   </segment>
+   <segment id="ATTACH_IMAGE">
+    <source>Attach Image</source>
+   </segment>
+   <segment id="IMAGE_EXCEEDS_MAX_FILE_SIZE_0">
+    <source>The image exceeds the maximum file size of {0}.</source>
+   </segment>
+   <segment id="DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING">
+    <source>Do you have an idea for a new feature or an improvement? We look forward to hearing about it.</source>
+   </segment>
+   <segment id="TELL_US_ABOUT_IDEA">
+    <source>Tell us about your idea</source>
+   </segment>
+   <segment id="IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL">
+    <source>If you&apos;d like to join our Customer Panel,</source>
+   </segment>
+   <segment id="PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK">
+    <source>Please do not include any confidential or personal information in your feedback</source>
+   </segment>
+   <segment id="FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW">
+    <source>Found something you like or dislike? Let us know about it.</source>
+   </segment>
+   <segment id="ACCEPTED_FORMATS_ARE_0">
+    <source>The accepted formats are: {0}.</source>
+   </segment>
+   <segment id="I_HAVE_FEEDBACK">
+    <source>I have feedback</source>
+   </segment>
+   <segment id="TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP">
+    <source>If you have a technical or support issue, or require immediate assistance, please contact your Laserfiche Administrator or Solution Provider as indicated in your service agreement.</source>
+   </segment>
+   <segment id="IMAGE_NOT_ATTACHED">
+    <source>Image not attached.</source>
+   </segment>
+   <segment id="YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK">
+    <source>You may contact me about this feedback</source>
+   </segment>
+   <segment id="TELL_US_ABOUT_EXPERIENCE">
+    <source>Tell us about your experience</source>
+   </segment>
+   <segment id="IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT">
+    <source>The image is corrupted or in an unrecognized format.</source>
+   </segment>
+   <segment id="YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT">
+    <source>Your feedback and suggestions will help us improve our product and services.</source>
+   </segment>
+   <segment id="I_HAVE_SUGGESTION">
+    <source>I have a suggestion</source>
+   </segment>
+   <segment id="PLEASE_ATTACH_ONLY_ONE_IMAGE">
+    <source>Please attach only one image.</source>
+   </segment>
+  </unit>
+ </file>
+</xliff>
