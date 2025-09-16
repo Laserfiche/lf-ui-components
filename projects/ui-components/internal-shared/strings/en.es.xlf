@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en" trgLang="es">
+ <file id="en.es.json">
+  <unit id="u1">
+   <segment id="IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL" state="translated">
+    <source>If you&apos;d like to join our Customer Panel,</source>
+    <target>Ĩƒ ÿôú&apos;ď łîķē ţô ĵòĩń ôüř Čůşťöɱēŕ Þāņěĺ,</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_IDEA" state="translated">
+    <source>Tell us about your idea</source>
+    <target>Ťéļļ ųś åЬŏüţ ýōùŗ ıđĕà</target>
+   </segment>
+   <segment id="IMAGE_EXCEEDS_MAX_FILE_SIZE_0" state="translated">
+    <source>The image exceeds the maximum file size of {0}.</source>
+    <target>Ţĥě īɱäĝě ĕ×čëęđŝ ţħě ɱá×îɱùɱ ƒīļē śīžĕ őƒ {0}.</target>
+   </segment>
+   <segment id="IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT" state="translated">
+    <source>The image is corrupted or in an unrecognized format.</source>
+    <target>Ťħè îɱāĝé îŝ çŏŕŗüþŧěď õř íŉ åń ùņŗèčőğńįżèď ƒőŗɱαť.</target>
+   </segment>
+   <segment id="I_HAVE_FEEDBACK" state="translated">
+    <source>I have feedback</source>
+    <target>Ĩ ħāʋê ƒěĕđЬäćķ</target>
+   </segment>
+   <segment id="TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP" state="translated">
+    <source>If you have a technical or support issue, or require immediate assistance, please contact your Laserfiche Administrator or Solution Provider as indicated in your service agreement.</source>
+    <target>Īƒ ŷòű ĥáṿè ä ţĕćħňìçàļ ŏŕ šûþᶗòŗţ ĭšşūę, óŕ ŗėɋůìřė ïɱɱěđįàŧě àšşıŝťàñćé, ᶗłęαŝé ćöñŧăćť ŷŏúř Ľâşĕřƒïçħĕ Âďɱĭńīŝţŗαţòŗ őř Şôľŭţïóñ Þŕőʋìďĕŗ äŝ ıŉđīçâťéď ĭñ ŷòŭŗ ŝėŕṿįćĕ áğŗêēɱëńŧ.</target>
+   </segment>
+   <segment id="YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK" state="translated">
+    <source>You may contact me about this feedback</source>
+    <target>Ýòū ɱαÿ čőņţáćť ɱė ǎβöùť ţĥįš ƒéêđβåćķ</target>
+   </segment>
+   <segment id="IMAGE_NOT_ATTACHED" state="translated">
+    <source>Image not attached.</source>
+    <target>Ĭɱāĝê ñōţ âŧťǎçĥêđ.</target>
+   </segment>
+   <segment id="ACCEPTED_FORMATS_ARE_0" state="translated">
+    <source>The accepted formats are: {0}.</source>
+    <target>Ţħē àčçĕᶗţĕď ƒöŕɱàŧŝ áŗê: {0}.</target>
+   </segment>
+   <segment id="PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK" state="translated">
+    <source>Please do not include any confidential or personal information in your feedback</source>
+    <target>Þľéāŝė đő ŉŏŧ ĩņčľüďė âñý ćóňƒìđëńţīäľ ŏř þēřşôňαł įņƒõŗɱåťĭōñ ĩņ ýõùŕ ƒēèďЬäçķ</target>
+   </segment>
+   <segment id="I_HAVE_SUGGESTION" state="translated">
+    <source>I have a suggestion</source>
+    <target>Ì ħåʋě ă ŝùğğĕşŧîôň</target>
+   </segment>
+   <segment id="PLEASE_CLICK_HERE" state="translated">
+    <source>please click here.</source>
+    <target>ᶗłėáśê ćłīçķ ĥêřė.</target>
+   </segment>
+   <segment id="ATTACH_IMAGE" state="translated">
+    <source>Attach Image</source>
+    <target>Ǎŧŧăçħ Ìɱàĝě</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_EXPERIENCE" state="translated">
+    <source>Tell us about your experience</source>
+    <target>Ŧĕļľ űś äЬŏüŧ ýŏûŕ ĕ×ᶗéŕĩėŉćĕ</target>
+   </segment>
+   <segment id="PLEASE_ATTACH_ONLY_ONE_IMAGE" state="translated">
+    <source>Please attach only one image.</source>
+    <target>Þľěäšę äťŧâčĥ öņĺý õňè îɱāĝè.</target>
+   </segment>
+   <segment id="FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW" state="translated">
+    <source>Found something you like or dislike? Let us know about it.</source>
+    <target>Ƒòùņď ŝōɱěţĥïňğ ŷōù ĺïķë őř ďıŝłıķë? Ļěť úş ķņōŵ åβöŭţ ıţ.</target>
+   </segment>
+   <segment id="YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT" state="translated">
+    <source>Your feedback and suggestions will help us improve our product and services.</source>
+    <target>Ÿőųř ƒëěďьăćķ áńď šūğĝěšŧïóŉš ẉįłľ ħéłþ ŭś ìɱᶗŕōṿě őűŕ ᶗŕōďùčŧ áñđ śėŗṿīčēŝ.</target>
+   </segment>
+   <segment id="DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING" state="translated">
+    <source>Do you have an idea for a new feature or an improvement? We look forward to hearing about it.</source>
+    <target>Ďô ÿõū ħáṿè åň ïďëå ƒőŗ α ňĕŵ ƒëāţůŕè óř áņ íɱᶗřôʋéɱĕņŧ? Ẉĕ łőôķ ƒöřŵäřđ ťŏ ĥéαŗĭňğ âβőűţ ìţ.</target>
+   </segment>
+  </unit>
+ </file>
+</xliff>

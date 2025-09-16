@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en" trgLang="fr">
+ <file id="en.fr.json">
+  <unit id="u1">
+   <segment id="IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT" state="translated">
+    <source>The image is corrupted or in an unrecognized format.</source>
+    <target>Ţĥè īɱåğę ĩş çõŗřùᶗŧėđ óř ìň αņ ůńŗėćóĝňīźéđ ƒôřɱǎť.</target>
+   </segment>
+   <segment id="YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT" state="translated">
+    <source>Your feedback and suggestions will help us improve our product and services.</source>
+    <target>Ýôúř ƒêĕđβáćķ äņď śůğĝëśţĭôňş ẉíĺľ ĥêłᶗ ůş īɱᶗŕôṿé òŭŗ þřōďùčţ áņđ śęŗʋıčëş.</target>
+   </segment>
+   <segment id="I_HAVE_FEEDBACK" state="translated">
+    <source>I have feedback</source>
+    <target>Ì ħàʋė ƒëêđьǎçķ</target>
+   </segment>
+   <segment id="PLEASE_ATTACH_ONLY_ONE_IMAGE" state="translated">
+    <source>Please attach only one image.</source>
+    <target>Þľęáşè αŧţåčħ őńłý öņě ĭɱäğê.</target>
+   </segment>
+   <segment id="IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL" state="translated">
+    <source>If you&apos;d like to join our Customer Panel,</source>
+    <target>Īƒ ŷöů&apos;ď ļıķé ŧő ĵōĭň őüŗ Čůşţőɱěř Þäñėļ,</target>
+   </segment>
+   <segment id="ACCEPTED_FORMATS_ARE_0" state="translated">
+    <source>The accepted formats are: {0}.</source>
+    <target>Ťħê áćčěᶗťéđ ƒòřɱâţś âŕê: {0}.</target>
+   </segment>
+   <segment id="YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK" state="translated">
+    <source>You may contact me about this feedback</source>
+    <target>Ÿŏů ɱăŷ ćōñťåčŧ ɱè āЬõųŧ ťĥìś ƒēéďьåćķ</target>
+   </segment>
+   <segment id="I_HAVE_SUGGESTION" state="translated">
+    <source>I have a suggestion</source>
+    <target>Ī ħāṿè ă śûĝĝęšţíóņ</target>
+   </segment>
+   <segment id="FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW" state="translated">
+    <source>Found something you like or dislike? Let us know about it.</source>
+    <target>Ƒōūňď šöɱėŧħıñğ ÿóû ļíķè òř đĭşłīķė? Ĺėţ üś ķñöŵ âЬõųţ ıţ.</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_EXPERIENCE" state="translated">
+    <source>Tell us about your experience</source>
+    <target>Ŧëĺļ ūŝ äβŏŭţ ÿōûř ė×ᶗĕřįêŉćē</target>
+   </segment>
+   <segment id="IMAGE_NOT_ATTACHED" state="translated">
+    <source>Image not attached.</source>
+    <target>Įɱαğę ŉöŧ áŧŧäčħėđ.</target>
+   </segment>
+   <segment id="TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP" state="translated">
+    <source>If you have a technical or support issue, or require immediate assistance, please contact your Laserfiche Administrator or Solution Provider as indicated in your service agreement.</source>
+    <target>Ĭƒ ŷŏů ĥǎṿě ă ŧēçħŉįčàł ôř ŝûþᶗōŕť ĩśśŭè, òŕ řëɋűíŗè ïɱɱëđìáţě áşšīşţáņçę, þĺēāśę ćõņťåčť ÿõûŗ Ľāŝèřƒîčħę Áďɱĩñïşťřàţōř õř Şöľûŧīŏň Þŗòṿıđèř αš īņđıćàţêď ìń ýōûŕ şèřʋĩčê ăĝřèěɱéńţ.</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_IDEA" state="translated">
+    <source>Tell us about your idea</source>
+    <target>Ţěľĺ ųś ăβòüť ŷöúŗ ïďēǎ</target>
+   </segment>
+   <segment id="ATTACH_IMAGE" state="translated">
+    <source>Attach Image</source>
+    <target>Ăťţăçĥ Ĩɱàğê</target>
+   </segment>
+   <segment id="DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING" state="translated">
+    <source>Do you have an idea for a new feature or an improvement? We look forward to hearing about it.</source>
+    <target>Đō ŷóû ĥâṿě àñ îďéâ ƒöŕ ä ŉëẉ ƒĕäťůřĕ óŗ âń ıɱþřóʋēɱęńŧ? Ẉê ļŏőķ ƒóŗẉâŗđ ŧō ĥęāřïñĝ áьŏųŧ ïŧ.</target>
+   </segment>
+   <segment id="PLEASE_CLICK_HERE" state="translated">
+    <source>please click here.</source>
+    <target>ᶗĺêǎşè čłĭçķ ĥęŕė.</target>
+   </segment>
+   <segment id="IMAGE_EXCEEDS_MAX_FILE_SIZE_0" state="translated">
+    <source>The image exceeds the maximum file size of {0}.</source>
+    <target>Ţħę ĩɱàğę ę×çèèďš ťĥë ɱá×ïɱůɱ ƒįłè šįźě óƒ {0}.</target>
+   </segment>
+   <segment id="PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK" state="translated">
+    <source>Please do not include any confidential or personal information in your feedback</source>
+    <target>Þľĕáşë ďó ńòŧ ïŉçļüđë ǎņŷ čóņƒĭďĕņťìàļ õŗ ᶗëŕśōńäļ ìňƒóřɱâťìõŉ īñ ÿôüŗ ƒěĕđЬăćķ</target>
+   </segment>
+  </unit>
+ </file>
+</xliff>
