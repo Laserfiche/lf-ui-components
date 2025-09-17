@@ -1,3 +1,20 @@
 {
-    
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "Seu feedback e sugestões nos ajudarão a melhorar nosso produto e serviços.",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "Se você tiver um problema técnico ou de suporte, ou precisar de assistência imediata, por favor contate seu Administrador Laserfiche ou Provedor de Soluções conforme indicado em seu contrato de serviço.",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "Encontrou algo que gostou ou não gostou? Informe-nos.",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "Você tem uma ideia para um novo recurso ou uma melhoria? Estamos ansiosos para ouvi-la.",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "Por favor, não inclua informações confidenciais ou pessoais em seu feedback",
+  "TELL_US_ABOUT_EXPERIENCE": "Conte-nos sobre sua experiência",
+  "TELL_US_ABOUT_IDEA": "Conte-nos sobre sua ideia",
+  "I_HAVE_FEEDBACK": "Tenho um feedback",
+  "I_HAVE_SUGGESTION": "Tenho uma sugestão",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "Você pode me contatar sobre este feedback",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "Se você gostaria de participar do nosso Painel de Clientes,",
+  "PLEASE_CLICK_HERE": "por favor clique aqui.",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "A imagem excede o tamanho máximo do arquivo de {0}.",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "A imagem está corrompida ou em um formato não reconhecido.",
+  "ACCEPTED_FORMATS_ARE_0": "Os formatos aceitos são: {0}.",
+  "IMAGE_NOT_ATTACHED": "Imagem não anexada.",
+  "ATTACH_IMAGE": "Anexar Imagem",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Por favor, anexe apenas uma imagem."
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en" trgLang="vi">
+ <file id="en.vi.json">
+  <unit id="u1">
+   <segment id="FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW" state="translated">
+    <source>Found something you like or dislike? Let us know about it.</source>
+    <target>Tìm thấy thứ gì đó bạn thích hoặc không thích? Hãy cho chúng tôi biết về nó.</target>
+   </segment>
+   <segment id="IMAGE_NOT_ATTACHED" state="translated">
+    <source>Image not attached.</source>
+    <target>Hình ảnh không đính kèm.</target>
+   </segment>
+   <segment id="ATTACH_IMAGE" state="translated">
+    <source>Attach Image</source>
+    <target>Đính kèm hình ảnh</target>
+   </segment>
+   <segment id="YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT" state="translated">
+    <source>Your feedback and suggestions will help us improve our product and services.</source>
+    <target>Phản hồi và đề xuất của bạn sẽ giúp chúng tôi cải thiện sản phẩm và dịch vụ của mình.</target>
+   </segment>
+   <segment id="I_HAVE_FEEDBACK" state="translated">
+    <source>I have feedback</source>
+    <target>Tôi có phản hồi</target>
+   </segment>
+   <segment id="ACCEPTED_FORMATS_ARE_0" state="translated">
+    <source>The accepted formats are: {0}.</source>
+    <target>Các định dạng được chấp nhận là: {0}.</target>
+   </segment>
+   <segment id="IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT" state="translated">
+    <source>The image is corrupted or in an unrecognized format.</source>
+    <target>Hình ảnh bị hỏng hoặc ở định dạng không được nhận dạng.</target>
+   </segment>
+   <segment id="IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL" state="translated">
+    <source>If you&apos;d like to join our Customer Panel,</source>
+    <target>Nếu bạn muốn tham gia Bảng điều khiển khách hàng của chúng tôi,</target>
+   </segment>
+   <segment id="TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP" state="translated">
+    <source>If you have a technical or support issue, or require immediate assistance, please contact your Laserfiche Administrator or Solution Provider as indicated in your service agreement.</source>
+    <target>Nếu bạn gặp vấn đề về kỹ thuật hoặc hỗ trợ hoặc cần hỗ trợ ngay lập tức, vui lòng liên hệ với Quản trị viên hoặc Nhà cung cấp giải pháp Laserfiche của bạn như được nêu trong thỏa thuận dịch vụ của bạn.</target>
+   </segment>
+   <segment id="YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK" state="translated">
+    <source>You may contact me about this feedback</source>
+    <target>Bạn có thể liên hệ với tôi về phản hồi này</target>
+   </segment>
+   <segment id="PLEASE_ATTACH_ONLY_ONE_IMAGE" state="translated">
+    <source>Please attach only one image.</source>
+    <target>Vui lòng chỉ đính kèm một hình ảnh.</target>
+   </segment>
+   <segment id="PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK" state="translated">
+    <source>Please do not include any confidential or personal information in your feedback</source>
+    <target>Vui lòng không bao gồm bất kỳ thông tin bí mật hoặc cá nhân nào trong phản hồi của bạn</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_IDEA" state="translated">
+    <source>Tell us about your idea</source>
+    <target>Hãy cho chúng tôi biết về ý tưởng của bạn</target>
+   </segment>
+   <segment id="IMAGE_EXCEEDS_MAX_FILE_SIZE_0" state="translated">
+    <source>The image exceeds the maximum file size of {0}.</source>
+    <target>Hình ảnh vượt quá kích thước tệp tối đa là {0}.</target>
+   </segment>
+   <segment id="I_HAVE_SUGGESTION" state="translated">
+    <source>I have a suggestion</source>
+    <target>Tôi có một đề xuất</target>
+   </segment>
+   <segment id="PLEASE_CLICK_HERE" state="translated">
+    <source>please click here.</source>
+    <target>Vui lòng nhấp vào đây.</target>
+   </segment>
+   <segment id="DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING" state="translated">
+    <source>Do you have an idea for a new feature or an improvement? We look forward to hearing about it.</source>
+    <target>Bạn có ý tưởng cho một tính năng mới hoặc một cải tiến không? Chúng tôi mong được nghe về nó.</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_EXPERIENCE" state="translated">
+    <source>Tell us about your experience</source>
+    <target>Hãy cho chúng tôi biết về trải nghiệm của bạn</target>
+   </segment>
+  </unit>
+ </file>
+</xliff>
