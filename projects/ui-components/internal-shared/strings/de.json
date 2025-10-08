@@ -1,0 +1,20 @@
+{
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "Ihr Feedback und Ihre Vorschläge helfen uns, unser Produkt und unsere Dienstleistungen zu verbessern.",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "Wenn Sie ein technisches Problem oder Support benötigen oder sofortige Hilfe brauchen, wenden Sie sich bitte an Ihren Laserfiche-Administrator oder Lösungspartner, wie in Ihrem Servicevertrag angegeben.",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "Haben Sie etwas gefunden, das Ihnen gefällt oder nicht gefällt? Lassen Sie es uns wissen.",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "Haben Sie eine Idee für eine neue Funktion oder eine Verbesserung? Wir freuen uns darauf, davon zu hören.",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "Bitte fügen Sie in Ihrem Feedback keine vertraulichen oder persönlichen Informationen ein.",
+  "TELL_US_ABOUT_EXPERIENCE": "Berichten Sie uns von Ihren Erfahrungen",
+  "TELL_US_ABOUT_IDEA": "Berichten Sie uns von Ihrer Idee",
+  "I_HAVE_FEEDBACK": "Ich habe Rückmeldungen",
+  "I_HAVE_SUGGESTION": "Ich habe einen Vorschlag",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "Sie können mich bezüglich dieses Feedbacks kontaktieren",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "Wenn Sie unserem Kundenpanel beitreten möchten,",
+  "PLEASE_CLICK_HERE": "Bitte klicken Sie hier.",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "Das Bild überschreitet die maximale Dateigröße von {0}.",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "Das Bild ist beschädigt oder in einem nicht erkannten Format.",
+  "ACCEPTED_FORMATS_ARE_0": "Die akzeptierten Formate sind: {0}.",
+  "IMAGE_NOT_ATTACHED": "Bild nicht angehängt.",
+  "ATTACH_IMAGE": "Bild anhängen",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Bitte fügen Sie nur ein Bild an."
+}

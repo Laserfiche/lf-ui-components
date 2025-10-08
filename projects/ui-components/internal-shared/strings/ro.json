@@ -1,0 +1,20 @@
+{
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "Feedback-ul și sugestiile dumneavoastră ne vor ajuta să îmbunătățim produsul și serviciile noastre.",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "Dacă aveți o problemă tehnică sau de suport, sau aveți nevoie de asistență imediată, vă rugăm să contactați Administratorul Laserfiche sau Furnizorul de Soluții indicat în acordul dumneavoastră de servicii.",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "Ați găsit ceva ce vă place sau nu vă place? Spuneți-ne despre asta.",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "Aveți o idee pentru o funcționalitate nouă sau o îmbunătățire? Așteptăm cu interes să o auzim.",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "Vă rugăm să nu includeți informații confidențiale sau personale în feedback-ul dumneavoastră",
+  "TELL_US_ABOUT_EXPERIENCE": "Spuneți-ne despre experiența dumneavoastră",
+  "TELL_US_ABOUT_IDEA": "Spuneți-ne despre ideea dumneavoastră",
+  "I_HAVE_FEEDBACK": "Am feedback",
+  "I_HAVE_SUGGESTION": "Am o sugestie",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "Puteți să mă contactați în legătură cu acest feedback",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "Dacă doriți să vă alăturați Panelului nostru de Clienți,",
+  "PLEASE_CLICK_HERE": "vă rugăm să faceți clic aici.",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "Imaginea depășește dimensiunea maximă a fișierului de {0}.",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "Imaginea este coruptă sau într-un format nerecunoscut.",
+  "ACCEPTED_FORMATS_ARE_0": "Formatele acceptate sunt: {0}.",
+  "IMAGE_NOT_ATTACHED": "Imaginea nu este atașată.",
+  "ATTACH_IMAGE": "Atașați imagine",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Vă rugăm să atașați doar o singură imagine."
+}

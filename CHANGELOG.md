@@ -1,5 +1,10 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+## 18.0.1
+
+### Features
+- Update version of `lf-js-utils` to support more languages
+- Add more translated strings.
 
 ## 18.0.0
 ### Chore & Maintenance

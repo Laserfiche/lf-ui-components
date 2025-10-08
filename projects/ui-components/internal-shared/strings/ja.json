@@ -1,0 +1,20 @@
+{
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "お客様のフィードバックとご提案は、当社の製品およびサービスの改善に役立ちます。",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "技術的な問題やサポートが必要な場合、または緊急の支援が必要な場合は、サービス契約に記載されているLaserfiche管理者またはソリューションプロバイダーにご連絡ください。",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "気に入った点や気に入らない点がありましたか？ぜひお知らせください。",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "新機能や改善案のアイデアはありますか？ぜひお聞かせください。",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "フィードバックには機密情報や個人情報を含めないでください。",
+  "TELL_US_ABOUT_EXPERIENCE": "あなたのご経験について教えてください",
+  "TELL_US_ABOUT_IDEA": "あなたのアイデアについて教えてください",
+  "I_HAVE_FEEDBACK": "フィードバックがあります",
+  "I_HAVE_SUGGESTION": "提案があります",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "このフィードバックについて私に連絡してもよい",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "カスタマーパネルに参加をご希望の場合は、",
+  "PLEASE_CLICK_HERE": "こちらをクリックしてください。",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "画像のファイルサイズが最大許容サイズの{0}を超えています。",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "画像が破損しているか、認識できない形式です。",
+  "ACCEPTED_FORMATS_ARE_0": "対応している形式は次のとおりです: {0}。",
+  "IMAGE_NOT_ATTACHED": "画像が添付されていません。",
+  "ATTACH_IMAGE": "画像を添付する",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "画像は1つだけ添付してください。"
+}

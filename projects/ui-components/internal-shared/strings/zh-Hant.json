@@ -1,3 +1,20 @@
 {
-    
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "您的反饋和建議將幫助我們改進產品和服務。",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "如果您有技術或支持問題，或需要立即協助，請按照您的服務協議聯繫您的 Laserfiche 管理員或解決方案供應商。",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "發現您喜歡或不喜歡的內容？ 請告訴我們。",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "您有新功能或改進的想法嗎？ 我們期待您的反饋。",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "請勿在反饋中包含任何機密或個人資訊",
+  "TELL_US_ABOUT_EXPERIENCE": "告訴我們您的體驗",
+  "TELL_US_ABOUT_IDEA": "告訴我們您的想法",
+  "I_HAVE_FEEDBACK": "我有反饋",
+  "I_HAVE_SUGGESTION": "我有一個建議",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "您可以就此反饋聯繫我",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "如果您想加入我們的客戶小組，",
+  "PLEASE_CLICK_HERE": "請點擊這裡。",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "圖片超過最大檔大小 {0}。",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "圖片已損壞或格式無法識別。",
+  "ACCEPTED_FORMATS_ARE_0": "接受的格式為：{0}。",
+  "IMAGE_NOT_ATTACHED": "未附加圖片。",
+  "ATTACH_IMAGE": "附加圖片",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "請僅附加一張圖片。"
 }
