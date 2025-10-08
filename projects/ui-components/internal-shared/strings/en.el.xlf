@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en" trgLang="el">
+ <file id="en.el.json">
+  <unit id="u1">
+   <segment id="IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL" state="translated">
+    <source>If you&apos;d like to join our Customer Panel,</source>
+    <target>Εάν επιθυμείτε να συμμετάσχετε στην Επιτροπή Πελατών μας,</target>
+   </segment>
+   <segment id="I_HAVE_SUGGESTION" state="translated">
+    <source>I have a suggestion</source>
+    <target>Έχω μια πρόταση</target>
+   </segment>
+   <segment id="PLEASE_ATTACH_ONLY_ONE_IMAGE" state="translated">
+    <source>Please attach only one image.</source>
+    <target>Παρακαλώ επισυνάψτε μόνο μία εικόνα.</target>
+   </segment>
+   <segment id="PLEASE_CLICK_HERE" state="translated">
+    <source>please click here.</source>
+    <target>παρακαλώ κάντε κλικ εδώ.</target>
+   </segment>
+   <segment id="IMAGE_EXCEEDS_MAX_FILE_SIZE_0" state="translated">
+    <source>The image exceeds the maximum file size of {0}.</source>
+    <target>Η εικόνα υπερβαίνει το μέγιστο μέγεθος αρχείου των {0}.</target>
+   </segment>
+   <segment id="I_HAVE_FEEDBACK" state="translated">
+    <source>I have feedback</source>
+    <target>Έχω σχόλια</target>
+   </segment>
+   <segment id="IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT" state="translated">
+    <source>The image is corrupted or in an unrecognized format.</source>
+    <target>Η εικόνα είναι κατεστραμμένη ή σε μη αναγνωρισμένη μορφή.</target>
+   </segment>
+   <segment id="DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING" state="translated">
+    <source>Do you have an idea for a new feature or an improvement? We look forward to hearing about it.</source>
+    <target>Έχετε μια ιδέα για μια νέα λειτουργία ή βελτίωση; Ανυπομονούμε να την ακούσουμε.</target>
+   </segment>
+   <segment id="ACCEPTED_FORMATS_ARE_0" state="translated">
+    <source>The accepted formats are: {0}.</source>
+    <target>Οι αποδεκτές μορφές είναι: {0}.</target>
+   </segment>
+   <segment id="ATTACH_IMAGE" state="translated">
+    <source>Attach Image</source>
+    <target>Επισύναψη εικόνας</target>
+   </segment>
+   <segment id="PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK" state="translated">
+    <source>Please do not include any confidential or personal information in your feedback</source>
+    <target>Παρακαλούμε μην συμπεριλάβετε εμπιστευτικές ή προσωπικές πληροφορίες στα σχόλιά σας</target>
+   </segment>
+   <segment id="IMAGE_NOT_ATTACHED" state="translated">
+    <source>Image not attached.</source>
+    <target>Η εικόνα δεν επισυνάφθηκε.</target>
+   </segment>
+   <segment id="YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT" state="translated">
+    <source>Your feedback and suggestions will help us improve our product and services.</source>
+    <target>Τα σχόλια και οι προτάσεις σας θα μας βοηθήσουν να βελτιώσουμε το προϊόν και τις υπηρεσίες μας.</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_IDEA" state="translated">
+    <source>Tell us about your idea</source>
+    <target>Πείτε μας για την ιδέα σας</target>
+   </segment>
+   <segment id="YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK" state="translated">
+    <source>You may contact me about this feedback</source>
+    <target>Μπορείτε να επικοινωνήσετε μαζί μου σχετικά με αυτά τα σχόλια</target>
+   </segment>
+   <segment id="TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP" state="translated">
+    <source>If you have a technical or support issue, or require immediate assistance, please contact your Laserfiche Administrator or Solution Provider as indicated in your service agreement.</source>
+    <target>Εάν αντιμετωπίζετε τεχνικό ή υποστηρικτικό πρόβλημα ή χρειάζεστε άμεση βοήθεια, παρακαλώ επικοινωνήστε με τον Διαχειριστή Laserfiche ή τον Πάροχο Λύσεων όπως αναφέρεται στη συμφωνία υπηρεσιών σας.</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_EXPERIENCE" state="translated">
+    <source>Tell us about your experience</source>
+    <target>Πείτε μας για την εμπειρία σας</target>
+   </segment>
+   <segment id="FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW" state="translated">
+    <source>Found something you like or dislike? Let us know about it.</source>
+    <target>Βρήκατε κάτι που σας αρέσει ή δεν σας αρέσει; Ενημερώστε μας γι&apos; αυτό.</target>
+   </segment>
+  </unit>
+ </file>
+</xliff>

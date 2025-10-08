@@ -1,0 +1,20 @@
+{
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "귀하의 의견과 제안은 당사의 제품과 서비스를 개선하는 데 도움이 됩니다.",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "기술적 문제나 지원이 필요하거나 즉각적인 도움이 필요하시면 서비스 계약서에 명시된 Laserfiche 관리자 또는 솔루션 제공업체에 문의하십시오.",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "마음에 들거나 들지 않는 점을 발견하셨나요? 알려주십시오.",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "새로운 기능이나 개선에 대한 아이디어가 있으십니까? 귀하의 의견을 기다립니다.",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "피드백에 기밀 또는 개인 정보를 포함하지 마십시오.",
+  "TELL_US_ABOUT_EXPERIENCE": "귀하의 경험을 알려주십시오",
+  "TELL_US_ABOUT_IDEA": "귀하의 아이디어를 알려주십시오",
+  "I_HAVE_FEEDBACK": "피드백이 있습니다",
+  "I_HAVE_SUGGESTION": "제안이 있습니다",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "이 피드백에 대해 저에게 연락할 수 있습니다",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "고객 패널에 참여하시려면,",
+  "PLEASE_CLICK_HERE": "여기를 클릭하십시오.",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "이미지 파일 크기가 최대 {0}를 초과합니다.",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "이미지가 손상되었거나 인식할 수 없는 형식입니다.",
+  "ACCEPTED_FORMATS_ARE_0": "허용되는 형식은 다음과 같습니다: {0}.",
+  "IMAGE_NOT_ATTACHED": "이미지가 첨부되지 않았습니다.",
+  "ATTACH_IMAGE": "이미지 첨부",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "이미지는 한 개만 첨부해 주십시오."
+}

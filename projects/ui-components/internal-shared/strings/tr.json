@@ -1,0 +1,20 @@
+{
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "Geri bildiriminiz ve önerileriniz ürün ve hizmetlerimizi geliştirmemize yardımcı olacaktır.",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "Teknik veya destek sorununuz varsa ya da acil yardım gerekiyorsa, lütfen hizmet sözleşmenizde belirtilen Laserfiche Yöneticiniz veya Çözüm Sağlayıcınız ile iletişime geçiniz.",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "Beğendiğiniz veya beğenmediğiniz bir şey mi buldunuz? Bize bildirin.",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "Yeni bir özellik veya geliştirme fikriniz mi var? Bunu duymayı sabırsızlıkla bekliyoruz.",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "Lütfen geri bildiriminizde gizli veya kişisel bilgi eklemeyiniz.",
+  "TELL_US_ABOUT_EXPERIENCE": "Deneyiminizi bize anlatın",
+  "TELL_US_ABOUT_IDEA": "Fikrinizi bize anlatın",
+  "I_HAVE_FEEDBACK": "Geri bildirimim var",
+  "I_HAVE_SUGGESTION": "Bir önerim var",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "Bu geri bildirimle ilgili benimle iletişime geçebilirsiniz",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "Müşteri Panelimize katılmak isterseniz,",
+  "PLEASE_CLICK_HERE": "lütfen buraya tıklayın.",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "Resim, maksimum dosya boyutu olan {0} değerini aşıyor.",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "Resim bozuk veya tanınmayan bir formatta.",
+  "ACCEPTED_FORMATS_ARE_0": "Kabul edilen formatlar: {0}.",
+  "IMAGE_NOT_ATTACHED": "Resim eklenmedi.",
+  "ATTACH_IMAGE": "Resim Ekle",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Lütfen sadece bir resim ekleyiniz."
+}

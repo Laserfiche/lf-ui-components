@@ -1,0 +1,20 @@
+{
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "Vaše povratne informacije i sugestije će nam pomoći da poboljšamo naše proizvode i usluge.",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "Ako imate problem sa tehničkom podrškom ili podrškom, ili vam je potrebna hitna pomoć, obratite se administratoru Laserfiche ili provajderu rešenja kao što je navedeno u ugovoru o usluzi.",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "Pronašli ste nešto što vam se sviđa ili ne sviđa? Javite nam o tome.",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "Da li imate ideju za novu funkciju ili poboljšanje? Radujemo se što ćemo čuti o tome.",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "Molimo vas da ne uključujete nikakve poverljive ili lične podatke u svoje povratne informacije",
+  "TELL_US_ABOUT_EXPERIENCE": "Recite nam svoje iskustvo",
+  "TELL_US_ABOUT_IDEA": "Recite nam nešto o svojoj ideji",
+  "I_HAVE_FEEDBACK": "Imam povratne informacije",
+  "I_HAVE_SUGGESTION": "Imam predlog",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "Možete me kontaktirati u vezi sa ovim povratnim informacijama",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "Ako želite da se pridružite našem panelu za korisnike,",
+  "PLEASE_CLICK_HERE": "kliknite ovde.",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "Slika prelazi maksimalnu veličinu datoteke {0}.",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "Slika je oštećena ili u neprepoznatom formatu.",
+  "ACCEPTED_FORMATS_ARE_0": "Prihvaćeni formati su: {0}.",
+  "IMAGE_NOT_ATTACHED": "Slika nije priložena.",
+  "ATTACH_IMAGE": "Priloži sliku",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Molimo Vas da priložite samo jednu sliku."
+}

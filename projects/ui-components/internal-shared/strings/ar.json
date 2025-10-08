@@ -1,2 +1,20 @@
 {
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "ستساعدنا ملاحظاتك واقتراحاتك في تحسين منتجاتنا وخدماتنا.",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "إذا كانت لديك مشكلة فنية أو مشكلة في الدعم، أو كنت بحاجة إلى مساعدة فورية، فيرجى الاتصال بمسؤول Laserfiche أو مزود الحلول كما هو موضح في اتفاقية الخدمة الخاصة بك.",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "هل وجدت شيئا يعجبك أو لا يعجبك؟ اسمحوا لنا أن نعرف عنها.",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "هل لديك فكرة عن ميزة جديدة أو تحسين؟ نتطلع إلى سماع ذلك.",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "يرجى عدم تضمين أي معلومات سرية أو شخصية في ملاحظاتك",
+  "TELL_US_ABOUT_EXPERIENCE": "أخبرنا عن تجربتك",
+  "TELL_US_ABOUT_IDEA": "أخبرنا عن فكرتك",
+  "I_HAVE_FEEDBACK": "لدي ملاحظات",
+  "I_HAVE_SUGGESTION": "لدي اقتراح",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "يمكنك الاتصال بي بخصوص هذه الملاحظات",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "إذا كنت ترغب في الانضمام إلى لوحة العملاء الخاصة بنا ،",
+  "PLEASE_CLICK_HERE": "الرجاء الضغط هنا.",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "تتجاوز الصورة الحد الأقصى لحجم الملف {0}.",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "الصورة تالفة أو بتنسيق غير معروف.",
+  "ACCEPTED_FORMATS_ARE_0": "التنسيقات المقبولة هي: {0}.",
+  "IMAGE_NOT_ATTACHED": "الصورة غير مرفقة.",
+  "ATTACH_IMAGE": "إرفاق الصورة",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "يرجى إرفاق صورة واحدة فقط."
 }

@@ -1,0 +1,20 @@
+{
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "Τα σχόλια και οι προτάσεις σας θα μας βοηθήσουν να βελτιώσουμε το προϊόν και τις υπηρεσίες μας.",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "Εάν αντιμετωπίζετε τεχνικό ή υποστηρικτικό πρόβλημα ή χρειάζεστε άμεση βοήθεια, παρακαλώ επικοινωνήστε με τον Διαχειριστή Laserfiche ή τον Πάροχο Λύσεων όπως αναφέρεται στη συμφωνία υπηρεσιών σας.",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "Βρήκατε κάτι που σας αρέσει ή δεν σας αρέσει; Ενημερώστε μας γι' αυτό.",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "Έχετε μια ιδέα για μια νέα λειτουργία ή βελτίωση; Ανυπομονούμε να την ακούσουμε.",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "Παρακαλούμε μην συμπεριλάβετε εμπιστευτικές ή προσωπικές πληροφορίες στα σχόλιά σας",
+  "TELL_US_ABOUT_EXPERIENCE": "Πείτε μας για την εμπειρία σας",
+  "TELL_US_ABOUT_IDEA": "Πείτε μας για την ιδέα σας",
+  "I_HAVE_FEEDBACK": "Έχω σχόλια",
+  "I_HAVE_SUGGESTION": "Έχω μια πρόταση",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "Μπορείτε να επικοινωνήσετε μαζί μου σχετικά με αυτά τα σχόλια",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "Εάν επιθυμείτε να συμμετάσχετε στην Επιτροπή Πελατών μας,",
+  "PLEASE_CLICK_HERE": "παρακαλώ κάντε κλικ εδώ.",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "Η εικόνα υπερβαίνει το μέγιστο μέγεθος αρχείου των {0}.",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "Η εικόνα είναι κατεστραμμένη ή σε μη αναγνωρισμένη μορφή.",
+  "ACCEPTED_FORMATS_ARE_0": "Οι αποδεκτές μορφές είναι: {0}.",
+  "IMAGE_NOT_ATTACHED": "Η εικόνα δεν επισυνάφθηκε.",
+  "ATTACH_IMAGE": "Επισύναψη εικόνας",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Παρακαλώ επισυνάψτε μόνο μία εικόνα."
+}
