@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en" trgLang="pt-BR">
+ <file id="en.pt-BR.json">
+  <unit id="u1">
+   <segment id="ACCEPTED_FORMATS_ARE_0" state="translated">
+    <source>The accepted formats are: {0}.</source>
+    <target>Os formatos aceitos são: {0}.</target>
+   </segment>
+   <segment id="PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK" state="translated">
+    <source>Please do not include any confidential or personal information in your feedback</source>
+    <target>Por favor, não inclua informações confidenciais ou pessoais em seu feedback</target>
+   </segment>
+   <segment id="YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT" state="translated">
+    <source>Your feedback and suggestions will help us improve our product and services.</source>
+    <target>Seu feedback e sugestões nos ajudarão a melhorar nosso produto e serviços.</target>
+   </segment>
+   <segment id="PLEASE_ATTACH_ONLY_ONE_IMAGE" state="translated">
+    <source>Please attach only one image.</source>
+    <target>Por favor, anexe apenas uma imagem.</target>
+   </segment>
+   <segment id="YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK" state="translated">
+    <source>You may contact me about this feedback</source>
+    <target>Você pode me contatar sobre este feedback</target>
+   </segment>
+   <segment id="IMAGE_EXCEEDS_MAX_FILE_SIZE_0" state="translated">
+    <source>The image exceeds the maximum file size of {0}.</source>
+    <target>A imagem excede o tamanho máximo do arquivo de {0}.</target>
+   </segment>
+   <segment id="FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW" state="translated">
+    <source>Found something you like or dislike? Let us know about it.</source>
+    <target>Encontrou algo que gostou ou não gostou? Informe-nos.</target>
+   </segment>
+   <segment id="I_HAVE_FEEDBACK" state="translated">
+    <source>I have feedback</source>
+    <target>Tenho um feedback</target>
+   </segment>
+   <segment id="IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL" state="translated">
+    <source>If you&apos;d like to join our Customer Panel,</source>
+    <target>Se você gostaria de participar do nosso Painel de Clientes,</target>
+   </segment>
+   <segment id="IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT" state="translated">
+    <source>The image is corrupted or in an unrecognized format.</source>
+    <target>A imagem está corrompida ou em um formato não reconhecido.</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_EXPERIENCE" state="translated">
+    <source>Tell us about your experience</source>
+    <target>Conte-nos sobre sua experiência</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_IDEA" state="translated">
+    <source>Tell us about your idea</source>
+    <target>Conte-nos sobre sua ideia</target>
+   </segment>
+   <segment id="TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP" state="translated">
+    <source>If you have a technical or support issue, or require immediate assistance, please contact your Laserfiche Administrator or Solution Provider as indicated in your service agreement.</source>
+    <target>Se você tiver um problema técnico ou de suporte, ou precisar de assistência imediata, por favor contate seu Administrador Laserfiche ou Provedor de Soluções conforme indicado em seu contrato de serviço.</target>
+   </segment>
+   <segment id="DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING" state="translated">
+    <source>Do you have an idea for a new feature or an improvement? We look forward to hearing about it.</source>
+    <target>Você tem uma ideia para um novo recurso ou uma melhoria? Estamos ansiosos para ouvi-la.</target>
+   </segment>
+   <segment id="ATTACH_IMAGE" state="translated">
+    <source>Attach Image</source>
+    <target>Anexar Imagem</target>
+   </segment>
+   <segment id="IMAGE_NOT_ATTACHED" state="translated">
+    <source>Image not attached.</source>
+    <target>Imagem não anexada.</target>
+   </segment>
+   <segment id="PLEASE_CLICK_HERE" state="translated">
+    <source>please click here.</source>
+    <target>por favor clique aqui.</target>
+   </segment>
+   <segment id="I_HAVE_SUGGESTION" state="translated">
+    <source>I have a suggestion</source>
+    <target>Tenho uma sugestão</target>
+   </segment>
+  </unit>
+ </file>
+</xliff>

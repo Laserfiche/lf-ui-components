@@ -1,3 +1,20 @@
 {
-    
+  "YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT": "ข้อเสนอแนะและข้อเสนอแนะของคุณจะช่วยให้เราปรับปรุงผลิตภัณฑ์และบริการของเรา",
+  "TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP": "หากคุณมีปัญหาด้านเทคนิคหรือการสนับสนุน หรือต้องการความช่วยเหลือทันที โปรดติดต่อผู้ดูแลระบบ Laserfiche หรือผู้ให้บริการโซลูชันตามที่ระบุไว้ในข้อตกลงการให้บริการของคุณ",
+  "FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW": "พบสิ่งที่คุณชอบหรือไม่ชอบหรือไม่? แจ้งให้เราทราบเกี่ยวกับเรื่องนี้",
+  "DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING": "คุณมีไอเดียสําหรับฟีเจอร์ใหม่หรือการปรับปรุงหรือไม่? เราหวังว่าจะได้ยินเกี่ยวกับเรื่องนี้",
+  "PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK": "โปรดอย่าใส่ข้อมูลที่เป็นความลับหรือข้อมูลส่วนบุคคลในความคิดเห็นของคุณ",
+  "TELL_US_ABOUT_EXPERIENCE": "บอกเราเกี่ยวกับประสบการณ์ของคุณ",
+  "TELL_US_ABOUT_IDEA": "บอกเราเกี่ยวกับไอเดียของคุณ",
+  "I_HAVE_FEEDBACK": "ฉันมีข้อเสนอแนะ",
+  "I_HAVE_SUGGESTION": "ฉันมีข้อเสนอแนะ",
+  "YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK": "คุณสามารถติดต่อฉันเกี่ยวกับข้อเสนอแนะนี้",
+  "IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL": "หากคุณต้องการเข้าร่วมกลุ่มลูกค้าของเรา",
+  "PLEASE_CLICK_HERE": "กรุณาคลิกที่นี่",
+  "IMAGE_EXCEEDS_MAX_FILE_SIZE_0": "รูปภาพมีขนาดไฟล์เกินขนาดสูงสุดของ {0}.",
+  "IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT": "รูปภาพเสียหายหรืออยู่ในรูปแบบที่ไม่รู้จัก",
+  "ACCEPTED_FORMATS_ARE_0": "รูปแบบที่ยอมรับคือ: {0}.",
+  "IMAGE_NOT_ATTACHED": "ไม่ได้แนบรูปภาพ",
+  "ATTACH_IMAGE": "แนบรูปภาพ",
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "โปรดแนบภาพเพียงภาพเดียว"
 }

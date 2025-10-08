@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.1" srcLang="en" trgLang="ja">
+ <file id="en.ja.json">
+  <unit id="u1">
+   <segment id="DO_YOU_HAVE_IDEA_NEW_FEATURE_IMPROVEMENT_LOOK_FORWARD_TO_HEARING" state="translated">
+    <source>Do you have an idea for a new feature or an improvement? We look forward to hearing about it.</source>
+    <target>新機能や改善案のアイデアはありますか？ぜひお聞かせください。</target>
+   </segment>
+   <segment id="I_HAVE_FEEDBACK" state="translated">
+    <source>I have feedback</source>
+    <target>フィードバックがあります</target>
+   </segment>
+   <segment id="ATTACH_IMAGE" state="translated">
+    <source>Attach Image</source>
+    <target>画像を添付する</target>
+   </segment>
+   <segment id="YOUR_FEEDBACK_SUGGESTION_HELP_IMPROVE_PRODUCT" state="translated">
+    <source>Your feedback and suggestions will help us improve our product and services.</source>
+    <target>お客様のフィードバックとご提案は、当社の製品およびサービスの改善に役立ちます。</target>
+   </segment>
+   <segment id="IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT" state="translated">
+    <source>The image is corrupted or in an unrecognized format.</source>
+    <target>画像が破損しているか、認識できない形式です。</target>
+   </segment>
+   <segment id="PLEASE_ATTACH_ONLY_ONE_IMAGE" state="translated">
+    <source>Please attach only one image.</source>
+    <target>画像は1つだけ添付してください。</target>
+   </segment>
+   <segment id="TECHNICAL_ISSUES_CONTACT_ADMIN_OR_SP" state="translated">
+    <source>If you have a technical or support issue, or require immediate assistance, please contact your Laserfiche Administrator or Solution Provider as indicated in your service agreement.</source>
+    <target>技術的な問題やサポートが必要な場合、または緊急の支援が必要な場合は、サービス契約に記載されているLaserfiche管理者またはソリューションプロバイダーにご連絡ください。</target>
+   </segment>
+   <segment id="I_HAVE_SUGGESTION" state="translated">
+    <source>I have a suggestion</source>
+    <target>提案があります</target>
+   </segment>
+   <segment id="FOUND_SOMETHING_LIKE_DISLIKE_LET_US_KNOW" state="translated">
+    <source>Found something you like or dislike? Let us know about it.</source>
+    <target>気に入った点や気に入らない点がありましたか？ぜひお知らせください。</target>
+   </segment>
+   <segment id="IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL" state="translated">
+    <source>If you&apos;d like to join our Customer Panel,</source>
+    <target>カスタマーパネルに参加をご希望の場合は、</target>
+   </segment>
+   <segment id="ACCEPTED_FORMATS_ARE_0" state="translated">
+    <source>The accepted formats are: {0}.</source>
+    <target>対応している形式は次のとおりです: {0}。</target>
+   </segment>
+   <segment id="IMAGE_NOT_ATTACHED" state="translated">
+    <source>Image not attached.</source>
+    <target>画像が添付されていません。</target>
+   </segment>
+   <segment id="YOU_MAY_CONTACT_ME_ABOUT_FEEDBACK" state="translated">
+    <source>You may contact me about this feedback</source>
+    <target>このフィードバックについて私に連絡してもよい</target>
+   </segment>
+   <segment id="PLEASE_CLICK_HERE" state="translated">
+    <source>please click here.</source>
+    <target>こちらをクリックしてください。</target>
+   </segment>
+   <segment id="PLEASE_DO_NOT_INCLUDE_CONFIDENTIAL_OR_PERSONAL_INFO_IN_FEEDBACK" state="translated">
+    <source>Please do not include any confidential or personal information in your feedback</source>
+    <target>フィードバックには機密情報や個人情報を含めないでください。</target>
+   </segment>
+   <segment id="IMAGE_EXCEEDS_MAX_FILE_SIZE_0" state="translated">
+    <source>The image exceeds the maximum file size of {0}.</source>
+    <target>画像のファイルサイズが最大許容サイズの{0}を超えています。</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_IDEA" state="translated">
+    <source>Tell us about your idea</source>
+    <target>あなたのアイデアについて教えてください</target>
+   </segment>
+   <segment id="TELL_US_ABOUT_EXPERIENCE" state="translated">
+    <source>Tell us about your experience</source>
+    <target>あなたのご経験について教えてください</target>
+   </segment>
+  </unit>
+ </file>
+</xliff>
