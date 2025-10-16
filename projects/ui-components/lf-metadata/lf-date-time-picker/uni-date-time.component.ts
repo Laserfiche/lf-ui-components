@@ -339,9 +339,9 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     setTimeout(() => {
       if (instance.daysContainer) {
         instance.monthElements[0].focus();
-      } else if (instance.timeContainer){
+      } else if (instance.timeContainer) {
         instance.hourElement?.focus();
-      } else{
+      } else {
         instance.input.focus();
       }
     }, 0);
@@ -355,28 +355,23 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
       } else if (event.target === instance.daysContainer) {
         daysContainerKeyDownHandler(currentDate, instance, event);
       } else if (instance.hourElement && event.target === instance.hourElement) {
-        if (event.key === 'Tab' && event.shiftKey) {
-          event.preventDefault();
-          instance.daysContainer?.focus();
-        }
+        handleTabKeyPress(event, instance.daysContainer, instance.minuteElement);
       } else if (instance.minuteElement && event.target === instance.minuteElement) {
-        if (event.key === 'Tab' && event.shiftKey) {
-          event.preventDefault();
-          instance.hourElement?.focus();
-        }
+        handleTabKeyPress(event, instance.hourElement, instance.secondElement);
       } else if (instance.secondElement && event.target === instance.secondElement) {
-        if (event.key === 'Tab' && event.shiftKey) {
-          event.preventDefault();
-          instance.minuteElement?.focus();
-        }
+        handleTabKeyPress(event, instance.minuteElement, instance.amPM);
       } else if (instance.amPM && event.target === instance.amPM) {
-        if (event.key === 'Tab' && event.shiftKey) {
-          event.preventDefault();
-          instance.secondElement?.focus();
+        handleTabKeyPress(event, instance.secondElement, instance.input);
+        if (event.key === 'Tab') {
+          instance.close();
         }
       }
     });
 
+    const closePickerWithInputFocus = function (instance: Instance) {
+      instance.input.focus();
+      instance.close();
+    };
     const addDaysToSelect = function (instance: Instance, currentDate: Date, daysToAdd: number) {
       currentDate.setDate(currentDate.getDate() + daysToAdd);
       instance.setDate(currentDate);
@@ -390,14 +385,14 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     const daysContainerKeyDownHandler = function (currentDate: Date, instance: Instance, daysKeyEvent: any) {
       if (daysKeyEvent.key === 'Tab') {
         daysKeyEvent.preventDefault();
+        daysKeyEvent.stopPropagation();
         if (daysKeyEvent.shiftKey) {
           instance.monthElements[0]?.focus();
         } else {
           if (instance.hourElement) {
             instance.hourElement.focus();
           } else {
-            instance.input.focus();
-            instance.close();
+            closePickerWithInputFocus(instance);
           }
         }
       } else if (daysKeyEvent.key === 'ArrowLeft') {
@@ -417,18 +412,18 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         instance.daysContainer?.focus();
       } else if (daysKeyEvent.key === 'Enter') {
         daysKeyEvent.preventDefault();
-        instance.close();
+        closePickerWithInputFocus(instance);
       }
     };
 
     const monthsKeyDownHandler = function (currentDate: Date, instance: Instance, monthsKeyEvent: any) {
-      if (monthsKeyEvent.key === 'Tab' ) {
+      if (monthsKeyEvent.key === 'Tab') {
         monthsKeyEvent.preventDefault();
+        monthsKeyEvent.stopPropagation();
         if (monthsKeyEvent.shiftKey) {
-          instance.input.focus();
-          instance.close();
-        } else{
-          instance.daysContainer?.focus();
+          closePickerWithInputFocus(instance);
+        } else {
+          setTimeout(() => instance.daysContainer?.focus());
         }
       } else if (monthsKeyEvent.key === 'ArrowDown' || monthsKeyEvent.key === 'ArrowRight') {
         monthsKeyEvent.preventDefault();
@@ -438,7 +433,23 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         addMonthsToSelect(instance, currentDate, -1);
       } else if (monthsKeyEvent.key === 'Enter') {
         monthsKeyEvent.preventDefault();
-        instance.close();
+        closePickerWithInputFocus(instance);
+      }
+    };
+
+    const handleTabKeyPress = function (
+      event: KeyboardEvent,
+      previousElement?: HTMLElement,
+      nextElement?: HTMLElement
+    ) {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.shiftKey) {
+          previousElement?.focus();
+        } else {
+          nextElement?.focus();
+        }
       }
     };
   }
