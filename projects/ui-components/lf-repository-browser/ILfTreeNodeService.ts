@@ -46,4 +46,10 @@ export interface LfTreeNodeService {
    * @param identifier Identifier for the LfTreeNode.
    */
   getTreeNodeByIdentifierAsync?(identifier: string): Promise<LfTreeNode | undefined>;
+
+  /**
+   * Gets the LfTreeNode referenced by the entryId.
+   * @param identifier Identifier for the LfTreeNode.
+   */
+   getTreeNodeByEntryIdAsync?(entryId: number): Promise<LfTreeNode | undefined>;
 }
