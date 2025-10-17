@@ -20,6 +20,7 @@ import { LfFieldViewDirective } from './lf-field-view.directive';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LfUniDateTimeModule } from './lf-date-time-picker/uni-date-time.module';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { LfUniDateTimeModule } from './lf-date-time-picker/uni-date-time.module'
     LfFieldViewDirective
   ],
   imports: [
+    A11yModule,
     CommonModule,
     BrowserAnimationsModule,
     MatSelectModule,

@@ -21,17 +21,12 @@
   margin-bottom: 0;
 }
 
-.back-button-padding {
-  text-align: right;
-  max-height: 43px;
-  border-bottom: 1px solid #ddd;
-  border-top: 1px solid #ddd;
-  box-sizing: border-box;
-  padding: 20px;
-}
 
 .back-button-overlay {
-  position: absolute;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
 }
 
 .back-button:hover {
@@ -43,7 +38,6 @@
   vertical-align: middle;
   font-weight: bold;
   display: inline-block;
-  cursor: pointer;
   font-size: 14px;
 }
 
@@ -77,13 +71,14 @@ i.loader {
 
 .button-padding-container {
   padding: 10px;
+  display: flex;
+  justify-content: end;
 }
 
 .adhoc-back-button-container {
-  height: 42px;
-  display: inline-block;
-  cursor: pointer;
-  vertical-align: middle;
+  height: 40px;
+  border: none;
+  background-color: transparent;
 }
 
 .adhoc-back-button-container:hover {
@@ -91,8 +86,7 @@ i.loader {
 }
 
 .adhoc-back-button {
-  color: #767676;
-  padding: 12px 5px 12px 15px;
+  display: flex;
   font-size: 18px;
   font-weight: bold;
   box-sizing: content-box;
@@ -165,6 +159,10 @@ i.loader {
   flex-grow: 1;
 }
 
+::ng-deep cdk-virtual-scroll-viewport .cdk-virtual-scroll-content-wrapper {
+  padding-bottom: 8px;
+}
+
 .error-entries-text {
   color: #AB2227;
 }
@@ -182,7 +180,7 @@ i.loader {
 
 ::ng-deep .add-remove-container .mat-mdc-checkbox .mdc-checkbox {
   padding-left: 0px;
-  padding-right: 0px;
+  padding-right: 8px;
 }
 
 ::ng-deep .add-remove-container .mat-mdc-checkbox .mdc-checkbox__background {

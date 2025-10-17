@@ -1,14 +1,13 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-<div id="add-remove-container" class="add-remove-container">
-  <div id="adhoc-back-button" class="back-button-overlay" (click)="onClickBack()">
-    <div class="adhoc-back-button-container">
-      <span class="material-icons lf-button adhoc-back-button" id="arrow-left-18"> arrow_back_ios_new </span>
-    </div>
+<div id="add-remove-container" class="add-remove-container" cdkTrapFocus tabindex="0">
+  <div id="adhoc-back-button" class="back-button-overlay">
+    <button class="adhoc-back-button-container" (click)="onClickBack()" >
+      <span class="material-icons adhoc-back-button" id="arrow-left-18" aria-label="back"> arrow_back_ios_new </span>
+    </button>    
     <div class="ms-font-m back-button-text">{{ ADD_REMOVE_FIELDS | async }}</div>
   </div>
-  <div class="back-button-padding"></div>
   <div class="add-remove-content">
     <ng-container *ngIf="isLoading; else checkIfError">
       <lf-loader-component class="lf-adhoc-state-message"></lf-loader-component>
