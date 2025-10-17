@@ -49,7 +49,7 @@ export interface LfTreeNodeService {
 
   /**
    * Gets the LfTreeNode referenced by the entryId.
-   * @param identifier Identifier for the LfTreeNode.
+   * @param entryId Laserfiche Entry Id for the LfTreeNode.
    */
    getTreeNodeByEntryIdAsync?(entryId: number): Promise<LfTreeNode | undefined>;
 }

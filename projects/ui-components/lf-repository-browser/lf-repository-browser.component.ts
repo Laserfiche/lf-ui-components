@@ -717,19 +717,20 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   }
 
   /** @internal */
-  async refreshTreeNodeNameAsync(entry: LfTreeNode)
+  private async refreshTreeNodeNameAsync(entry: LfTreeNode)
   {
     try {
       if (this.treeNodeService.getTreeNodeByEntryIdAsync) {
         const entryId: number = parseInt(entry.id, 10);
-        if (!isNaN(entryId)) {
+        const isInteger: boolean = Number.isInteger(entryId);
+        if (isInteger) {
           var refreshedTreeNode = await this.treeNodeService.getTreeNodeByEntryIdAsync(entryId);
           if (refreshedTreeNode) {
             entry.name = refreshedTreeNode.name;
           }
         }
         else {
-          console.error(`Invalid entry id ${entry.id}. entry id must be a number string`);
+          console.error(`Invalid entry id ${entry.id}. entry id must be a integer string`);
         }
       }
     } catch (error){
