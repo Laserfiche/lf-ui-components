@@ -1,9 +1,12 @@
 .lf-checklist-item {
-  margin: 5px;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .fixed-width-label {
   display: flex;
+  flex-grow: 1;
 }
 
 .fixed-size-icon-container {
@@ -107,14 +110,6 @@
 
 ::ng-deep .lf-checklist-field > .mat-mdc-text-field-wrapper {
   height: inherit;
-}
-
-::ng-deep .lf-checkbox.full-width-checkbox .mdc-label {
-  width: inherit;
-}
-
-::ng-deep .lf-checkbox.mat-mdc-checkbox > .mdc-form-field {
-  width: 100%;
 }
 
 ::ng-deep .lf-checklist-item .mdc-text-field,
