@@ -73,13 +73,14 @@ jobs:
         run: npm run test:ci
 
       - name: Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         if: always()
         with:
           name: Jest Test Results
           path: ./**/TESTS*.xml
           reporter: java-junit
           only-summary: 'true'
+          use-actions-summary: 'true'
           fail-on-error: 'false'
 
       - name: 'create an empty ./dist/ui-components/cdn folder'
