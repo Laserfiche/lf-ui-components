@@ -681,7 +681,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
     if (parentEntry && parentEntry.id) {
       try {
-        await this.refreshTreeNodeNameAsync(parentEntry);
+        await this.refreshTreeNodeAsync(parentEntry);
         const lastSelectedItems = this.selectedItems;
         this.isLoading = true;
         this.hasError = false;
@@ -717,12 +717,12 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   }
 
   /** @internal */
-  private async refreshTreeNodeNameAsync(entry: LfTreeNode) {
+  private async refreshTreeNodeAsync(entry: LfTreeNode) {
     try {
       if (this.treeNodeService.getTreeNodeByIdentifierAsync) {
         var refreshedTreeNode = await this.treeNodeService.getTreeNodeByIdentifierAsync(entry.id);
         if (refreshedTreeNode) {
-          entry.name = refreshedTreeNode.name;
+          Object.assign(entry, refreshedTreeNode);
         }
       }
     } catch (error) {
