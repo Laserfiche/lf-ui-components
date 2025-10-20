@@ -184,7 +184,7 @@ describe('LfFieldAddRemoveComponent', () => {
     // Arrange
     spyOn(component.clickBack, 'emit');
     // Act
-    const backButton = element.querySelector('#adhoc-back-button') as HTMLButtonElement;
+    const backButton = element.querySelector('#adhoc-back-button > button') as HTMLButtonElement;
     backButton.click();
 
     // Assert
