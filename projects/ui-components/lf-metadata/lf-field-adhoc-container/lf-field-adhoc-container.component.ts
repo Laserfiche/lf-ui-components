@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, ChangeDetectorRef, Input, ViewChild, OnDestroy, ComponentRef, AfterViewInit, EventEmitter, Output, NgZone } from '@angular/core';
+import { Component, ChangeDetectorRef, Input, ViewChild, OnDestroy, ComponentRef, AfterViewInit, EventEmitter, Output, NgZone, ElementRef } from '@angular/core';
 import { LfFieldAdhocContainerService as LfFieldAdhocContainerService } from './lf-field-adhoc-container.service';
 import { AdhocFieldConnectorService } from './lf-field-adhoc-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
@@ -24,6 +24,7 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective implements OnDestroy, AfterViewInit {
   /** @internal */
   @ViewChild(LfFieldAddRemoveComponent) addRemoveComponent!: LfFieldAddRemoveComponent;
+  @ViewChild('adhocPanel') adhocPanel?: ElementRef<HTMLElement>;
   @Output() dialogOpened = new EventEmitter<void>();
   @Output() dialogClosed = new EventEmitter<void>();
 
@@ -244,6 +245,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     this.metadataConnectorService.setAddRemoveContainerToggled(open);
     if (open) {
       this.dialogOpened.emit();
+      setTimeout(() => this.adhocPanel?.nativeElement.focus());
     }
     else {
       this.dialogClosed.emit();
