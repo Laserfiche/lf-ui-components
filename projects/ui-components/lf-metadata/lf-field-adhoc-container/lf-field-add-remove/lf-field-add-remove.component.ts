@@ -181,6 +181,10 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
     this.checkboxUpdate.emit();
   }
 
+  ignoreEscapeKeydown(event: KeyboardEvent) {
+    event.stopPropagation();
+  }
+
   private updateSelectedOptions(checked: boolean, field: LfFieldInfo) {
     if (checked) {
       this.selectedFieldIds.add(field.id);
