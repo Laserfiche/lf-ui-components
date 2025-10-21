@@ -1,5 +1,13 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+## 18.0.2
+
+### Fixes
+
+- **[BREAKING]** `[ILfTreeNodeService]`: The implementation of getTreeNodeByIdentifierAsync requires to at least support getting the LfTreeNode by Id.
+- `[lf-repository-browser]`: Fixed the issue where the opened entry was not updated on opening or refreshing.
+- `[lf-field-adhoc-container]`, `[lf-user-feedback]`, `Laserfiche Date/Time fields`: Fixed Keyboard access issues.
+
 ## 18.0.1
 
 ### Features
