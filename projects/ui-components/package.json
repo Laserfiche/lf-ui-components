@@ -21,7 +21,7 @@
     "@angular/router": "^18.2.13",
     "@laserfiche/lf-api-client-core": "^1.1.10",
     "@laserfiche/lf-js-utils": "^4.0.13",
-    "@laserfiche/lf-resource-library": "^5.0.2",
+    "@laserfiche/lf-resource-library": "^5.0.3",
     "ngx-mask": "^18.0.4",
     "rxjs": "^7.8.0",
     "zone.js": "^0.14.10",
