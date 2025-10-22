@@ -42,7 +42,7 @@ export interface LfTreeNodeService {
   getParentTreeNodeAsync(treeNode: LfTreeNode): Promise<LfTreeNode | undefined>;
 
   /**
-   * Gets the LfTreeNode referenced by the identifier. This can be specific to the implementation of the service (i.e. id, path, etc.)
+   * Gets the LfTreeNode referenced by the identifier. This function must support getting the LfTreeNode by Id, optionally by secondary identifiers, such as the path, etc.
    * @param identifier Identifier for the LfTreeNode.
    */
   getTreeNodeByIdentifierAsync?(identifier: string): Promise<LfTreeNode | undefined>;

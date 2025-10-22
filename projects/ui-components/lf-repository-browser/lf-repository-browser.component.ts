@@ -235,7 +235,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         maxFetchIterations
       );
       const selectedItems = this.convertSelectedItemsToTreeNode(selectedNodes);
-      if (selectedItems?.length === 0 && this.selectedItems?.length === 0  || JSON.stringify(selectedItems) === JSON.stringify(this.selectedItems)) {
+      if (
+        (selectedItems?.length === 0 && this.selectedItems?.length === 0) ||
+        JSON.stringify(selectedItems) === JSON.stringify(this.selectedItems)
+      ) {
         // do nothing
       } else {
         this.selectedItems = selectedItems;
@@ -264,8 +267,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       this.maximumChildrenReceived = false;
       this.currentFolderChildren = [];
       this.ref.detectChanges();
-      await this.initializeBreadcrumbOptionsAsync(this._currentFolder);
       await this.updateAllPossibleEntriesAsync(this._currentFolder, clearSelectedValues);
+      await this.initializeBreadcrumbOptionsAsync(this._currentFolder);
     } catch {
       this.hasError = true;
     } finally {
@@ -500,10 +503,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     if (!entry?.isContainer) {
       return;
     }
-    this._breadcrumbs = [entry].concat(this.breadcrumbs);
     this._currentFolder = entry;
     await this.updateAllPossibleEntriesAsync(entry);
-
+    this._breadcrumbs = [entry].concat(this.breadcrumbs);
     this.entryList?.focus();
   }
 
@@ -679,6 +681,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
     if (parentEntry && parentEntry.id) {
       try {
+        await this.refreshTreeNodeAsync(parentEntry);
         const lastSelectedItems = this.selectedItems;
         this.isLoading = true;
         this.hasError = false;
@@ -691,7 +694,10 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         } else {
           this.selectedItems = [];
         }
-        if (lastSelectedItems?.length === 0 && this.selectedItems?.length === 0  || JSON.stringify(lastSelectedItems) === JSON.stringify(this.selectedItems)) {
+        if (
+          (lastSelectedItems?.length === 0 && this.selectedItems?.length === 0) ||
+          JSON.stringify(lastSelectedItems) === JSON.stringify(this.selectedItems)
+        ) {
           // do nothing
         } else {
           this.entrySelected.emit(this.selectedItems);
@@ -707,6 +713,20 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     } else {
       console.error('updateAllPossibleEntriesAsync parentEntry undefined or missing id property');
       this.hasError = true;
+    }
+  }
+
+  /** @internal */
+  private async refreshTreeNodeAsync(entry: LfTreeNode) {
+    try {
+      if (this.treeNodeService.getTreeNodeByIdentifierAsync) {
+        var refreshedTreeNode = await this.treeNodeService.getTreeNodeByIdentifierAsync(entry.id);
+        if (refreshedTreeNode) {
+          Object.assign(entry, refreshedTreeNode);
+        }
+      }
+    } catch (error) {
+      console.error(`refreshTreeNodeNameAsync failed with error: ${error}`);
     }
   }
 
