@@ -5,7 +5,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbClicked)="onBreadcrumbClicked($event)">
   </lf-breadcrumbs-component>
 </div>
-<div class="lf-repo-entry-container" [attr.tabindex]="shouldShowEmptyMessage ? 0 : -1">
+<div class="lf-repo-entry-container" [attr.tabindex]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage ? 0 : -1">
   <lf-loader-component *ngIf="isLoading" class="lf-text-body lf-no-user-select"></lf-loader-component>
   <div id="message-display" *ngIf="!isLoading && (shouldShowErrorMessage || shouldShowEmptyMessage)">
     <div *ngIf="shouldShowErrorMessage" class="lf-text-body lf-text-error lf-no-user-select">{{ AN_ERROR_OCCURED | async }}</div>

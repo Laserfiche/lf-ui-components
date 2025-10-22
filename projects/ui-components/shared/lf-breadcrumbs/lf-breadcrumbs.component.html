@@ -2,11 +2,13 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <div class="lf-breadcrumbs-container">
-  <div *ngIf="breadcrumbs?.length > 1" class="breadcrumbs-dropdown-container" hideSingleSelectionIndicator>
-      <mat-button-toggle-group class="breadcrumb-split-button-group">
+  <div *ngIf="breadcrumbs?.length > 1" class="breadcrumbs-dropdown-container">
+      <mat-button-toggle-group class="breadcrumb-split-button-group" hideSingleSelectionIndicator>
           <mat-button-toggle class="breadcrumb-clickable-parent lf-button primary-button breadcrumb-split-button"
               [ngClass]="{'single-selectable': breadcrumbs.length===2}"
-              (click)="onBreadcrumbSelected(breadcrumbs[1])" (keydown)="onKeydown($event, breadcrumbs[1])" 
+              (click)="onBreadcrumbSelected(breadcrumbs[1])"
+              (keydown.enter)="onBreadcrumbSelected(breadcrumbs[1])"
+              (keydown.space)="onBreadcrumbSelected(breadcrumbs[1])"
               [title]="breadcrumbs[1]?.name">
               {{breadcrumbs[1]?.name}}
           </mat-button-toggle>

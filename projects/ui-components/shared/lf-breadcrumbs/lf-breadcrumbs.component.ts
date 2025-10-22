@@ -40,12 +40,6 @@ export class LfBreadcrumbsComponent {
     this.breadcrumbClicked.emit({breadcrumbs: newBreadcrumbs, selected: node});
   }
 
-    onKeydown(event: KeyboardEvent, node: LfBreadcrumb) {
-    if (event.key === 'Enter' || event.key === ' ') {
-      this.onBreadcrumbSelected(node);
-    }
-  }
-
   onDropdownMenuSelected() {
     setTimeout(() => this.dropdownMenuButton.nativeElement.focus());
   }
