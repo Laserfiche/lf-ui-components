@@ -25,6 +25,11 @@ $ripple-size: 0px;
     border-color: typography-mo.$primary-color !important;
   }
 
+  & .mdc-checkbox__native-control:focus ~ .mdc-checkbox__background {
+    border-width: $hover-border-width;
+    border-color: $border-color !important;
+  }
+
   &.cdk-focused .mdc-checkbox__background {
     border-width: 2px;
     border-color: typography-mo.$primary-color;

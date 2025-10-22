@@ -3,6 +3,7 @@
 $checked-color: #6D6D6D;
 $disabled-color: #6D6D6D;
 $border-color: #6D6D6D;
+$focus-border-color: #000000;
 $checkbox-size: 18px;
 
 $hover-border-width: 2px;
@@ -25,10 +26,16 @@ mat-checkbox {
     & .mdc-checkbox:hover .mdc-checkbox__background {
       border-width: $hover-border-width;
     }
-
+    
     & .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background, .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
       border-color: $border-color !important;
       background-color: $checked-color !important;
+    }
+
+    & .mdc-checkbox__native-control:focus ~ .mdc-checkbox__background,
+      .mdc-checkbox__native-control:checked:focus ~ .mdc-checkbox__background {
+      border-width: $hover-border-width;
+      border-color: $focus-border-color !important;
     }
 
     &.mat-mdc-checkbox-checked.mat-primary {
