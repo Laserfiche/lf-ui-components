@@ -24,6 +24,7 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective implements OnDestroy, AfterViewInit {
   /** @internal */
   @ViewChild(LfFieldAddRemoveComponent) addRemoveComponent!: LfFieldAddRemoveComponent;
+  /** @internal */
   @ViewChild('adhocPanel') adhocPanel?: ElementRef<HTMLElement>;
   @Output() dialogOpened = new EventEmitter<void>();
   @Output() dialogClosed = new EventEmitter<void>();
