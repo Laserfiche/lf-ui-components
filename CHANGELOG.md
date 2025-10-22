@@ -1,5 +1,10 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+## 18.0.3
+
+### Fixes
+- `types-lf-ui-components`: Removed the Angular type `ElementRef`.
+
 ## 18.0.2
 
 ### Fixes
