@@ -506,7 +506,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     this._currentFolder = entry;
     await this.updateAllPossibleEntriesAsync(entry);
     this._breadcrumbs = [entry].concat(this.breadcrumbs);
-    this.entryList?.focus();
+    this._focus();
   }
 
   /**
@@ -561,7 +561,13 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       setTimeout(() => this._focus(node, tries + 1));
       return;
     }
-    this.entryList.focus();
+    if (this.shouldShowEmptyMessage || this.shouldShowErrorMessage) {
+      setTimeout(() => {
+        (document.querySelector(".lf-repo-entry-container") as HTMLElement)?.focus();
+      });
+    } else {
+      this.entryList?.focus();
+    }
   }
 
   /**

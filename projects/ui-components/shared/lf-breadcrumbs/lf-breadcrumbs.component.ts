@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { LfBreadcrumb } from './lf-breadcrumbs-types';
 
 @Component({
@@ -17,6 +17,9 @@ export class LfBreadcrumbsComponent {
     selected: LfBreadcrumb;
     breadcrumbs: LfBreadcrumb[];
   }>();
+
+  /** @internal */
+  @ViewChild('dropdownMenuButton') dropdownMenuButton!: ElementRef<HTMLButtonElement>;
 
   /** @internal */
   constructor() { }
@@ -38,4 +41,8 @@ export class LfBreadcrumbsComponent {
     this.breadcrumbClicked.emit({breadcrumbs: newBreadcrumbs, selected: node});
   }
 
+  /** @internal */
+  onDropdownMenuSelected() {
+    setTimeout(() => this.dropdownMenuButton.nativeElement.focus());
+  }
 }

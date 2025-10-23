@@ -100,13 +100,21 @@
 }
 
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-checked {
-  background-color: inherit;
+  background-color: transparent !important;
 }
 
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard .mat-button-toggle-focus-overlay,
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard,
-::ng-deep .breadcrumb-split-button .mat-button-toggle-button {
+::ng-deep .breadcrumb-split-button .mat-button-toggle-button,
+::ng-deep .breadcrumb-split-button .mat-button-toggle-button button {
   height: 25px;
+  width: 100%;
+}
+
+::ng-deep .breadcrumb-split-button .mat-button-toggle-button button {
+  border: unset;
+  background-color: unset;
+  padding: 0;
 }
 
 ::ng-deep .breadcrumb-split-button.mat-button-toggle-appearance-standard {
@@ -122,6 +130,6 @@
   white-space: nowrap;
 }
 
-::ng-deep .breadcrumb-select.mat-button-toggle-appearance-standard.mat-button-toggle-checked {
-  background-color: transparent;
+::ng-deep .mat-button-toggle-button button {
+  outline: none;
 }
