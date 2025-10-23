@@ -18,6 +18,7 @@ export class LfBreadcrumbsComponent {
     breadcrumbs: LfBreadcrumb[];
   }>();
 
+  /** @internal */
   @ViewChild('dropdownMenuButton') dropdownMenuButton!: ElementRef<HTMLButtonElement>;
 
   /** @internal */
@@ -40,6 +41,7 @@ export class LfBreadcrumbsComponent {
     this.breadcrumbClicked.emit({breadcrumbs: newBreadcrumbs, selected: node});
   }
 
+  /** @internal */
   onDropdownMenuSelected() {
     setTimeout(() => this.dropdownMenuButton.nativeElement.focus());
   }
