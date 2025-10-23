@@ -1,5 +1,10 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+## 18.0.4
+
+### Fixes
+- `[lf-repository-browser]`: Improved the keyboard navigation.
+
 ## 18.0.3
 
 ### Fixes
