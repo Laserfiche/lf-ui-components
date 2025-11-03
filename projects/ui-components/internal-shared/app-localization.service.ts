@@ -9,6 +9,7 @@ import * as strings_ar from './strings/ar.json';
 import * as strings_en from './strings/en.json';
 import * as strings_es from './strings/es.json';
 import * as strings_fr from './strings/fr.json';
+import * as strings_frFR from './strings/fr-FR.json';
 import * as strings_it from './strings/it.json';
 import * as strings_id from './strings/id.json';
 import * as strings_ptBR from './strings/pt-BR.json';
@@ -43,6 +44,7 @@ import * as strings_vi_common from '@laserfiche/lf-resource-library/resources/la
 import * as strings_en_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/en-US.json';
 import * as strings_es_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/es-MX.json';
 import * as strings_fr_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/fr-CA.json';
+import * as strings_frFR_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/fr-FR.json';
 import * as strings_it_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/it-IT.json';
 import * as strings_ptBR_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/pt-BR.json';
 import * as strings_th_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/th-TH.json';
@@ -64,6 +66,7 @@ export class AppLocalizationService {
     ['en-US', (strings_en as any).default],
     ['es-MX', (strings_es as any).default],
     ['fr-CA', (strings_fr as any).default],
+    ['fr-FR', (strings_frFR as any).default],
     ['id-ID', (strings_id as any).default],
     ['it-IT', (strings_it as any).default],
     ['ja-JP', (strings_ja as any).default],
@@ -88,6 +91,7 @@ export class AppLocalizationService {
     ['en-US', (strings_en_common as any).default],
     ['es-MX', (strings_es_common as any).default],
     ['fr-CA', (strings_fr_common as any).default],
+    ['fr-FR', (strings_frFR_common as any).default],
     ['id-ID', (strings_id_common as any).default],
     ['it-IT', (strings_it_common as any).default],
     ['ja-JP', (strings_ja_common as any).default],
