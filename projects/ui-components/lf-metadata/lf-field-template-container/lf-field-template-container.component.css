@@ -24,3 +24,9 @@
 ::ng-deep lf-field-template-container .lf-template-picker > .mat-mdc-form-field-subscript-wrapper {
   height: 0px;
 } 
+
+.responsive-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

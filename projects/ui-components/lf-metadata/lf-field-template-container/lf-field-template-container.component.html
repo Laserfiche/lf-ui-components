@@ -37,7 +37,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </ng-container>
     <ng-template #checkIfDisplay>
       <ng-container *ngIf="isTemplateDisplay; else emptyFieldView">
-        <ng-template lfFieldView></ng-template>
+        <div class="responsive-form-container">
+          <ng-template lfFieldView></ng-template>
+        </div>
       </ng-container>
     <ng-template #emptyFieldView></ng-template>
     </ng-template>
