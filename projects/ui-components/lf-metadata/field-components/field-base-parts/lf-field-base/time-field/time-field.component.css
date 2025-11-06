@@ -1,3 +1,7 @@
 /*Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.*/
 
+/* Add extra spacing only when no error is shown to keep time field visually consistent with other form fields */
+.extra-space {
+  margin-bottom: 1rem;
+}

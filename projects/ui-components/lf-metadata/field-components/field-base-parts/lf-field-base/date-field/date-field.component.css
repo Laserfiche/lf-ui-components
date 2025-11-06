@@ -13,3 +13,8 @@
     height: 35px;
     width: 35px;
 }
+
+/* Add extra spacing only when no error is shown to keep date field visually consistent with other form fields */
+.extra-space {
+  margin-bottom: 1rem;
+}
