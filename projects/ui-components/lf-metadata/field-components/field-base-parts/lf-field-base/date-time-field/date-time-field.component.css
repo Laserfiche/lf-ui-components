@@ -74,3 +74,8 @@
 ::ng-deep .ngx-mat-timepicker .mat-mdc-form-field .mat-mdc-form-field-subscript-wrapper {
   height: 0px;
 }
+
+/* Add extra spacing only when no error is shown to keep date-time field visually consistent with other form fields */
+.extra-space {
+  margin-bottom: 1rem;
+}

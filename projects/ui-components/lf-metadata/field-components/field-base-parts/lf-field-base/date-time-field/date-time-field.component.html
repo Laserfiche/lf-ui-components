@@ -1,7 +1,7 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-<span class="token-picker-field-box" *ngIf="!isDynamic else dynamic">
+<span class="token-picker-field-box" *ngIf="!isDynamic else dynamic" [ngClass]="{'extra-space': !getBrokenValidationRule()}">
   <mat-form-field *ngIf="showTokenTextBox" title="{{lf_field_info.displayName}}" appearance="outline" class="lf-field">
     <input #tokenTarget matInput [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
       (change)="onDateOrTimeTokenValueChanged()">

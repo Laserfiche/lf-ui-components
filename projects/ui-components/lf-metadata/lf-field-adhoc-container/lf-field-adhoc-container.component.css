@@ -30,3 +30,9 @@
   color: #777;
   padding-top: 10px;
 }
+
+.responsive-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
