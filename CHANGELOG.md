@@ -1,5 +1,10 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+## 18.0.6
+
+### Fixes
+- `[lf-metadata]`: Fixing form layout breaks when hint or error messages wrap to multiple lines.
+
 ## 18.0.5
 
 ### Features
