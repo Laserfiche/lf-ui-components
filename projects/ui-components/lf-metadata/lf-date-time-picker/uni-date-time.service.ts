@@ -60,7 +60,7 @@ export class UniDateTimeService {
   }
 
   public isInDisplayDateTimeFormat(format: string): boolean {
-    const dsSymbols = ['YYYY', 'MMM', 'YY', 'DD', 'MM', 'hh', 'HH', 'mm', 'ss', 'A'];
+    const dsSymbols = ['YYYY', 'EEEE', 'MMMM', 'MMM', 'YY', 'DD', 'MM', 'hh', 'HH', 'mm', 'ss', 'A'];
     for (let i = 0; i < dsSymbols.length; i++) {
       if (format.indexOf(dsSymbols[i]) > -1) {
         return true;
@@ -75,8 +75,8 @@ export class UniDateTimeService {
         return displayFormat; // already converted or not convertable
       }
     }
-    const cFormats = ['YYYY', 'MMM', 'YY', 'DD', 'MM', 'hh', 'HH', 'mm', 'ss', 'A', 'D', 'M'];
-    const fFormats = ['Y', 'M', 'y', 'd', 'm', 'G', 'H', 'i', 'S', 'K', 'j', 'n'];
+    const cFormats = ['YYYY', 'EEEE', 'MMMM', 'MMM', 'YY', 'DD', 'MM', 'hh', 'HH', 'mm', 'ss', 'A', 'D', 'M'];
+    const fFormats = ['Y', 'l', 'F', 'M', 'y', 'd', 'm', 'G', 'H', 'i', 'S', 'K', 'j', 'n'];
     let newFormat = displayFormat;
     for (let i = 0; i < cFormats.length; i++) {
       newFormat = newFormat.replace(new RegExp(cFormats[i], 'g'), '{' + i + '}');
@@ -173,19 +173,19 @@ export class UniDateTimeService {
   }): Date | null {
     // Parse datetime if present
     if (info.dateTimeStr && info.dateTimeFormat) {
+      const format = info.dateTimeFormat;
+
+      if (info.language || info.locale) {
+        return this.tryLocalizedParse(info.dateTimeStr, format, info.language, info.locale);
+      }
+
       const obj = parse(
         info.dateTimeStr,
         this.fromDisplayDateTimeFormatToUnicodeTokens(info.dateTimeFormat) || info.dateTimeFormat,
         this.referenceDate
       );
 
-      const format = info.dateTimeFormat;
-
-      return info.language || info.locale
-        ? this.tryLocalizedParse(info.dateTimeStr, format, info.language, info.locale)
-        : isValid(obj)
-        ? obj
-        : null;
+      return isValid(obj) ? obj : null;
     }
 
     if (!info.dateStr && !info.timeStr) {
@@ -213,13 +213,12 @@ export class UniDateTimeService {
 
     // Parse constructed dateTime
     if (input && dateTimeFormat) {
-      const obj = parse(input, this.fromDisplayDateTimeFormatToUnicodeTokens(dateTimeFormat), this.referenceDate);
+      if (info.language || info.locale) {
+        return this.tryLocalizedParse(input, dateTimeFormat, info.language, info.locale, timeless)
+      }
 
-      return info.language || info.locale
-        ? this.tryLocalizedParse(input, dateTimeFormat, info.language, info.locale, timeless)
-        : isValid(obj)
-        ? obj
-        : null;
+      const obj = parse(input, this.fromDisplayDateTimeFormatToUnicodeTokens(dateTimeFormat), this.referenceDate);
+      return isValid(obj) ? obj : null;
     }
     return null;
   }
@@ -271,10 +270,10 @@ export class UniDateTimeService {
       }
       return info.language
         ? this.flatpickrFormatDate(
-            info.dateTimeObj,
-            this.fromDisplayDateTimeFormatToFlatpickrFormat(info.dateTimeFormat),
-            info.language
-          )
+          info.dateTimeObj,
+          this.fromDisplayDateTimeFormatToFlatpickrFormat(info.dateTimeFormat),
+          info.language
+        )
         : format(info.dateTimeObj, info.dateTimeFormat);
     }
 
@@ -291,10 +290,10 @@ export class UniDateTimeService {
     return dateTimeFormat
       ? info.language
         ? this.flatpickrFormatDate(
-            info.dateTimeObj,
-            this.fromDisplayDateTimeFormatToFlatpickrFormat(dateTimeFormat),
-            info.language
-          )
+          info.dateTimeObj,
+          this.fromDisplayDateTimeFormatToFlatpickrFormat(dateTimeFormat),
+          info.language
+        )
         : format(info.dateTimeObj, this.fromDisplayDateTimeFormatToUnicodeTokens(dateTimeFormat))
       : '';
   }
@@ -309,8 +308,9 @@ export class UniDateTimeService {
       typeof customLocaleOrLanguageStr == 'string'
         ? this.getFlatpickrLocale(customLocaleOrLanguageStr)
         : customLocaleOrLanguageStr;
-    flatpickr.localize(customLocale);
-    return flatpickr.parseDate.apply(flatpickr, [date, format, timeless]);
+    // create dummy flatpickr instance in order to localize parsing
+    const localFp = flatpickr(document.createElement("input"), { locale: customLocale })
+    return localFp.parseDate(date, format, timeless);
   }
 
   public flatpickrFormatDate(date: Date, format: string, customLocaleOrLanguageStr?: CustomLocale | string): string {
@@ -318,8 +318,9 @@ export class UniDateTimeService {
       typeof customLocaleOrLanguageStr == 'string'
         ? this.getFlatpickrLocale(customLocaleOrLanguageStr)
         : customLocaleOrLanguageStr;
-    flatpickr.localize(customLocale);
-    return flatpickr.formatDate.apply(flatpickr, [date, format]);
+    // create dummy flatpickr instance in order to localize formatting
+    const localFp = flatpickr(document.createElement("input"), { locale: customLocale })
+    return localFp.formatDate(date, format);
   }
 
   public isValid(date: Date): boolean {
@@ -460,17 +461,17 @@ export class UniDateTimeService {
         // format using current language
         dateStr = settings.defaultDate
           ? this.format({
-              dateTimeObj,
-              dateFormat,
-              language: config.language,
-            })
+            dateTimeObj,
+            dateFormat,
+            language: config.language,
+          })
           : '';
         timeStr = settings.defaultTimeOfDate
           ? this.format({
-              dateTimeObj: dateTimeObj,
-              timeFormat,
-              language: config.language,
-            })
+            dateTimeObj: dateTimeObj,
+            timeFormat,
+            language: config.language,
+          })
           : '';
 
         return {
@@ -486,8 +487,8 @@ export class UniDateTimeService {
         dateTimeFormat: format
           ? format
           : settings.showTime
-          ? `${settings.dateFormat} ${settings.timeFormat}`
-          : settings.dateFormat,
+            ? `${settings.dateFormat} ${settings.timeFormat}`
+            : settings.dateFormat,
         language: config.language,
         locale: config.locale,
       });
@@ -495,20 +496,20 @@ export class UniDateTimeService {
       // format using current language
       return dateTimeObj
         ? {
-            dateStr: this.format({
-              dateTimeObj,
-              dateFormat: settings.dateFormat,
-              language: config.language,
-            }),
-            timeStr: settings.showTime
-              ? this.format({
-                  dateTimeObj,
-                  timeFormat: settings.timeFormat,
-                  language: config.language,
-                })
-              : '',
+          dateStr: this.format({
             dateTimeObj,
-          }
+            dateFormat: settings.dateFormat,
+            language: config.language,
+          }),
+          timeStr: settings.showTime
+            ? this.format({
+              dateTimeObj,
+              timeFormat: settings.timeFormat,
+              language: config.language,
+            })
+            : '',
+          dateTimeObj,
+        }
         : { dateStr: '', timeStr: '', dateTimeObj: null };
     }
   }
@@ -651,18 +652,18 @@ export class UniDateTimeService {
       return parts.length == 2 && parts[1] != 'hans' && parts[1] != 'hant'
         ? parts[0]
         : parts.length == 3
-        ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1)
-        : locale;
+          ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1)
+          : locale;
     } else {
       return parts.length == 1
         ? locale
         : parts.length == 2 && parts[1] != 'hans' && parts[1] != 'hant'
-        ? parts[0] + '-' + parts[1].toUpperCase()
-        : parts.length == 3
-        ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) + '-' + parts[2].toUpperCase()
-        : 'hans' || parts[1] != 'hant'
-        ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1)
-        : locale;
+          ? parts[0] + '-' + parts[1].toUpperCase()
+          : parts.length == 3
+            ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) + '-' + parts[2].toUpperCase()
+            : 'hans' || parts[1] != 'hant'
+              ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1)
+              : locale;
     }
   };
 
@@ -675,6 +676,8 @@ export class UniDateTimeService {
     switch (formatType) {
       case FormatType.DATE_FORMAT:
         return localizedFormats['DateFormat'];
+      case FormatType.LONG_DATE_FORMAT:
+        return localizedFormats['LongDateFormat'];
       case FormatType.TIME_FORMAT:
         return withSeconds ? localizedFormats['TimeFormatWithSeconds'] : localizedFormats['TimeFormat'];
       case FormatType.DATETIME_FORMAT:
@@ -748,8 +751,8 @@ export class UniDateTimeService {
       } else {
         return config.storedValueDateTimeFormat
           ? config.storedValueDateTimeFormat
-              .replace('{DATE}', dateStr ? dateStr : '')
-              .replace('{TIME}', timeStr ? timeStr : '')
+            .replace('{DATE}', dateStr ? dateStr : '')
+            .replace('{TIME}', timeStr ? timeStr : '')
           : dateStr + ' ' + timeStr; // default to "{DATE} {TIME}" for backend if tokens are present
       }
     } else {
@@ -758,8 +761,8 @@ export class UniDateTimeService {
       }
       const storedValueFormat = config.storedValueDateTimeFormat
         ? config.storedValueDateTimeFormat
-            .replace('{DATE}', storedValueDateFormat)
-            .replace('{TIME}', storedValueTimeFormat)
+          .replace('{DATE}', storedValueDateFormat)
+          .replace('{TIME}', storedValueTimeFormat)
         : this.getFormatByLocale(config.storedValueLocale, FormatType.DATETIME_FORMAT, true);
       return this.flatpickrFormatDate(
         dateTime,

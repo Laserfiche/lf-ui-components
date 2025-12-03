@@ -153,7 +153,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
   @ViewChild('dateTimeInput') dateTimeInput?: ElementRef;
   supportedLanguage = 'en';
 
-  constructor(public dateTimeService: UniDateTimeService) {}
+  constructor(public dateTimeService: UniDateTimeService) { }
 
   ngOnInit() {
     this.populateConfig();
@@ -176,8 +176,8 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         dateTimeData.dateStr !== ''
           ? dateTimeData.dateStr
           : this.settings.defaultDate
-          ? this.settings.defaultDate
-          : null;
+            ? this.settings.defaultDate
+            : null;
       const timeStr = dateTimeData.timeStr !== '' ? dateTimeData.timeStr : this.settings.defaultTimeOfDate;
       this.dateControl?.setValue(dateStr ?? null);
       this.timeControl?.setValue(timeStr ?? null);
@@ -211,10 +211,10 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         // Format using current language
         defaultDateToSet = parsedDefaultDate
           ? this.dateTimeService.format({
-              dateTimeObj: parsedDefaultDate,
-              dateFormat: this.settings.dateFormat,
-              language: this.config.language,
-            })
+            dateTimeObj: parsedDefaultDate,
+            dateFormat: this.settings.dateFormat,
+            language: this.config.language,
+          })
           : defaultDateToSet;
       }
       const dateTimeData = this.state.data as StateDataDateTime;
@@ -251,7 +251,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
       const defaultTime = isNil(timeData?.timeStr) ? defaultTimeToSet : timeData?.timeStr;
       const timeFormatContainsSecond: boolean =
         !!this.settings.timeFormat && this.settings.timeFormat.indexOf('s') > -1;
-      const timeFormatContainsHour: boolean = !!this.settings.timeFormat && this.settings.timeFormat.indexOf('H') > -1;
+      const hasAMPM: boolean = !!this.settings.timeFormat && this.settings.timeFormat.indexOf('A') > -1;
       //-- Setting up flatpickr elements
       if (!this.settings.showTimeOnly && this.dateDiv.nativeElement) {
         this.date = flatpickr(this.dateDiv.nativeElement, {
@@ -259,12 +259,12 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
 
           enableTime: this.settings.combinedDateTime, // if combined
           enableSeconds: this.settings.combinedDateTime && timeFormatContainsSecond,
-          time_24hr: this.settings.combinedDateTime && timeFormatContainsHour,
+          time_24hr: this.settings.combinedDateTime && !hasAMPM,
 
           allowInput: true,
           allowInvalidPreload: true,
           dateFormat: this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(
-            this.settings.dateFormat + (this.settings.combinedDateTime ? ' ' + this.settings.timeFormat : '')
+            this.settings.dateFormat + (this.settings.combinedDateTime ? ' ' + this.settings.timeFormat : ''), true
           ),
           defaultDate:
             defaultDate +
@@ -297,7 +297,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           enableTime: true,
           enableSeconds: timeFormatContainsSecond,
           noCalendar: true,
-          time_24hr: timeFormatContainsHour,
+          time_24hr: !hasAMPM,
           defaultDate: defaultTime,
           plugins: [LFTimePickerPlugin()],
           onClose: (selectedDates: Date[], dateStr: string, instance: Instance) => {
@@ -543,16 +543,15 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
       this.settings.timePlaceholder = this.settings.timeFormat;
     }
 
-    if (this.settings.combinedDateTime && this.settings.datePlaceholder == 'YYYY-MM-DD') {
+    if (this.settings.combinedDateTime) {
       this.settings.datePlaceholder = this.settings.dateFormat + ' ' + this.settings.timeFormat;
     }
 
     // For information only
     // Adjust 24h
-    if (this.settings.timeFormat && this.settings.timeFormat.indexOf('H') > -1) {
-      this.settings.isAMPM = false;
-      this.settings.isTwentyfour = true;
-    }
+    const hasAMPM = !!this.settings.timeFormat && this.settings.timeFormat.indexOf('A') > -1;
+    this.settings.isAMPM = hasAMPM;
+    this.settings.isTwentyfour = !hasAMPM;
   }
 
   private populateConfig() {
@@ -621,8 +620,8 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           ? value
           : this.dateTimeService.removeTokens(value) // keep token string only if we accept tokens
         : isToken && !keepIfAccepted
-        ? this.dateTimeService.removeTokens(value) // remove tokens if not accepted
-        : value; // keep value as-is if no tokens
+          ? this.dateTimeService.removeTokens(value) // remove tokens if not accepted
+          : value; // keep value as-is if no tokens
     return value ? value.trim() : '';
   }
   // Revise
@@ -709,24 +708,24 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         dateTimeObj =
           dateStr || timeStr
             ? this.dateTimeService.parse({
-                dateTimeStr:
-                  (dateStr ? this.substituteTokens(dateStr, false) : '') +
-                  (timeStr ? ' ' + this.substituteTokens(timeStr, false) : ''),
-                dateTimeFormat: dateFormat + (timeStr ? ' ' + timeFormat : ''),
-                language: this.config.language,
-              })
+              dateTimeStr:
+                (dateStr ? this.substituteTokens(dateStr, false) : '') +
+                (timeStr ? ' ' + this.substituteTokens(timeStr, false) : ''),
+              dateTimeFormat: dateFormat + (timeStr ? ' ' + timeFormat : ''),
+              language: this.config.language,
+            })
             : null;
       } else {
         // parse using current language
         dateTimeObj =
           dateStr || timeStr
             ? this.dateTimeService.parse({
-                dateStr: dateStr ? this.substituteTokens(dateStr, false) : '',
-                timeStr: timeStr ? this.substituteTokens(timeStr, false) : '',
-                dateFormat,
-                timeFormat,
-                language: this.config.language,
-              })
+              dateStr: dateStr ? this.substituteTokens(dateStr, false) : '',
+              timeStr: timeStr ? this.substituteTokens(timeStr, false) : '',
+              dateFormat,
+              timeFormat,
+              language: this.config.language,
+            })
             : null;
       }
 
@@ -744,13 +743,13 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         dateStr: formatDateStr
           ? this.dateTimeService.format({ dateTimeObj, dateFormat, language: this.config.language })
           : this.dateTimeService.isToken(dateStr)
-          ? dateStr
-          : '',
+            ? dateStr
+            : '',
         timeStr: formatTimeStr
           ? this.dateTimeService.format({ dateTimeObj, timeFormat, language: this.config.language })
           : this.dateTimeService.isToken(timeStr)
-          ? timeStr
-          : '',
+            ? timeStr
+            : '',
       };
     } else {
       // isDate must be true
@@ -770,8 +769,8 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           dateTimeObj && !this.dateTimeService.isToken(dateStr)
             ? this.dateTimeService.format({ dateTimeObj, dateFormat, language: this.config.language })
             : this.dateTimeService.isToken(dateStr)
-            ? dateStr
-            : '',
+              ? dateStr
+              : '',
         timeStr: '',
         dateTimeObj,
       };
@@ -800,10 +799,10 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     const controlType = this.settings.combinedDateTime
       ? UniControlType.DateTime
       : isDate
-      ? UniControlType.DateTime_date
-      : this.settings.showTimeOnly
-      ? UniControlType.Time
-      : UniControlType.DateTime_time;
+        ? UniControlType.DateTime_date
+        : this.settings.showTimeOnly
+          ? UniControlType.Time
+          : UniControlType.DateTime_time;
 
     const newState = cloneDeep(this.state);
     newState.data = result;
@@ -1041,8 +1040,8 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
       langLCase && supportedLanguages.indexOf(langLCase) > -1
         ? langLCase
         : langShort && supportedLanguages.indexOf(langShort) > -1
-        ? langShort
-        : 'en';
+          ? langShort
+          : 'en';
     flatpickr.localize(this.dateTimeService.getFlatpickrLocale(this.supportedLanguage));
   }
 
@@ -1051,7 +1050,8 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     locale = locale ? locale : this.config.locale;
     withSeconds = withSeconds ? withSeconds : this.config.setDisplayFormatByLocaleSeconds;
 
-    const dateFormat = this.dateTimeService.getFormatByLocale(locale, FormatType.DATE_FORMAT, withSeconds);
+    const dateFormatType = this.config.hasLongDateFormat ? FormatType.LONG_DATE_FORMAT : FormatType.DATE_FORMAT;
+    const dateFormat = this.dateTimeService.getFormatByLocale(locale, dateFormatType);
     const timeFormat = this.dateTimeService.getFormatByLocale(locale, FormatType.TIME_FORMAT, withSeconds);
     // const dateTimeFormat = this.dateTimeService.getFormatByLocale(locale, FormatType.DATETIME_FORMAT, withSeconds);
 
@@ -1064,16 +1064,15 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     this.settings.timePlaceholder = timeFormat;
 
     // Adjust 24h
-    if (timeFormat.indexOf('H') > -1) {
-      this.settings.isAMPM = false;
-      this.settings.isTwentyfour = true;
-    }
+    const hasAMPM = timeFormat.indexOf('A') > -1;
+    this.settings.isAMPM = hasAMPM;
+    this.settings.isTwentyfour = !hasAMPM;
 
     // Apply on existing controls // Revise
     if (this.date && this.config.isDisplayOnly) {
       this.dateDiv.nativeElement.flatpickr({
         enableSeconds: this.settings.combinedDateTime && timeFormat.indexOf('s') > -1,
-        time_24hr: this.settings.combinedDateTime && timeFormat.indexOf('H') > -1, // Revise
+        time_24hr: this.settings.combinedDateTime && !hasAMPM, // Revise
         dateFormat: this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(dateFormat),
         locale: this.dateTimeService.getFlatpickrLocale(this.supportedLanguage),
       });
@@ -1082,7 +1081,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
     if (this.time && this.config.isDisplayOnly) {
       this.timedateDiv.nativeElement.flatpickr({
         enableSeconds: timeFormat.indexOf('s') > -1,
-        time_24hr: timeFormat.indexOf('H') > -1, // Revise
+        time_24hr: !hasAMPM, // Revise
         dateFormat: timeFormat,
         locale: this.dateTimeService.getFlatpickrLocale(this.supportedLanguage),
       });

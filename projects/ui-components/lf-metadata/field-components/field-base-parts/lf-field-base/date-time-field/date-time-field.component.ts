@@ -7,6 +7,7 @@ import { ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
 import { DateTimeBaseFieldDirective } from '../base-field/datetime-base-field.directives';
+import { FieldFormat } from '@laserfiche/lf-ui-components/shared';
 
 @Component({
   selector: 'lf-date-time-field-component',
@@ -42,10 +43,11 @@ export class DateTimeFieldComponent extends DateTimeBaseFieldDirective implement
       storedValueDateFormat: this.internalDateFormat,
       storedValueTimeFormat: this.internalTimeFormat,
       storedValueDateTimeFormat: `{DATE}${dateTimeSeparator}{TIME}`,
-      language: navigator.language,
-      locale: navigator.language,
+      language: this.localizationService.currentLanguage ?? navigator.language,
+      locale: this.localizationService.currentLanguage ?? navigator.language,
       setDisplayFormatByLocale: true,
       silent: false, // no internal strings and no custom error messages
+      hasLongDateFormat: this.hasLongDateTimeFormat(),
     };
   }
 
@@ -82,5 +84,9 @@ export class DateTimeFieldComponent extends DateTimeBaseFieldDirective implement
       }
     }
     return undefined;
+  }
+
+  private hasLongDateTimeFormat(): boolean {
+    return this.lf_field_info.format === FieldFormat.LongDateTime
   }
 }

@@ -4,6 +4,7 @@
 import { Plugin } from 'flatpickr/dist/types/options';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { UniDateTimeService } from './uni-date-time.service';
+import flatpickr from 'flatpickr';
 
 var dateTimeService = new UniDateTimeService();
 
@@ -16,11 +17,10 @@ export function LFDatePickerPlugin(): Plugin {
         try {
           locale = locale ? locale : fp.config.locale;
           const timeless = dateTimeService.hasTimeFormat(dateFormat);
-          if (flatpickerKey in window) {
-            return window[flatpickerKey].parseDate(date, dateFormat, timeless, locale);
-          } else {
-            return new Date();
-          }
+          // Because parsing sometimes applied wrong locale, a dummy flatpickr instance
+          // should be created to enforce the correct locale
+          const flatpickrInst = flatpickr(document.createElement("input"), { locale })
+          return flatpickrInst.parseDate(date, dateFormat, timeless) ?? new Date();
         } catch (e) {
           return new Date();
         }
