@@ -3,7 +3,7 @@
 
 export class uniLocalizedFormat {
     DateFormat!: string;
-    LongDateFormat!: string
+    LongDateFormat!: string;
     TimeFormat!: string;
     TimeFormatWithSeconds!: string;
 }

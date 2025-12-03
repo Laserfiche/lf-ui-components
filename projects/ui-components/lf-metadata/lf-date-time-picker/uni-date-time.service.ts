@@ -214,7 +214,7 @@ export class UniDateTimeService {
     // Parse constructed dateTime
     if (input && dateTimeFormat) {
       if (info.language || info.locale) {
-        return this.tryLocalizedParse(input, dateTimeFormat, info.language, info.locale, timeless)
+        return this.tryLocalizedParse(input, dateTimeFormat, info.language, info.locale, timeless);
       }
 
       const obj = parse(input, this.fromDisplayDateTimeFormatToUnicodeTokens(dateTimeFormat), this.referenceDate);
@@ -309,7 +309,7 @@ export class UniDateTimeService {
         ? this.getFlatpickrLocale(customLocaleOrLanguageStr)
         : customLocaleOrLanguageStr;
     // create dummy flatpickr instance in order to localize parsing
-    const localFp = flatpickr(document.createElement("input"), { locale: customLocale })
+    const localFp = flatpickr(document.createElement("input"), { locale: customLocale });
     return localFp.parseDate(date, format, timeless);
   }
 
@@ -319,7 +319,7 @@ export class UniDateTimeService {
         ? this.getFlatpickrLocale(customLocaleOrLanguageStr)
         : customLocaleOrLanguageStr;
     // create dummy flatpickr instance in order to localize formatting
-    const localFp = flatpickr(document.createElement("input"), { locale: customLocale })
+    const localFp = flatpickr(document.createElement("input"), { locale: customLocale });
     return localFp.formatDate(date, format);
   }
 

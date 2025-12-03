@@ -19,7 +19,7 @@ export function LFDatePickerPlugin(): Plugin {
           const timeless = dateTimeService.hasTimeFormat(dateFormat);
           // Because parsing sometimes applied wrong locale, a dummy flatpickr instance
           // should be created to enforce the correct locale
-          const flatpickrInst = flatpickr(document.createElement("input"), { locale })
+          const flatpickrInst = flatpickr(document.createElement("input"), { locale });
           return flatpickrInst.parseDate(date, dateFormat, timeless) ?? new Date();
         } catch (e) {
           return new Date();

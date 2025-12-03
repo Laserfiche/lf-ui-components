@@ -77,6 +77,6 @@ export class DateFieldComponent extends DateTimeBaseFieldDirective implements On
   }
 
   private hasLongDateFormat(): boolean {
-    return this.lf_field_info.format === FieldFormat.LongDate
+    return this.lf_field_info.format === FieldFormat.LongDate;
   }
 }
