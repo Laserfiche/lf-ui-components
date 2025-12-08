@@ -136,7 +136,7 @@ jobs:
 
   publish_to_npm_preview:
     runs-on: ubuntu-latest
-    environment: npm_preview
+    environment: npm_publish
     if: ${{ github.run_attempt != 1 }}
     needs: [ build ]
     steps:
@@ -170,8 +170,6 @@ jobs:
       - name: Npm publish @laserfiche/types-lf-ui-components
         run: npm publish  --access public  --tag next
         working-directory: ./types-lf-ui-components-publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: npm version @laserfiche/lf-ui-components
         run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
@@ -180,8 +178,6 @@ jobs:
       - name: Npm publish @laserfiche/lf-ui-components
         run: npm publish  --access public  --tag next
         working-directory: ./dist/ui-components
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Tag commit
         uses: rickstaa/action-create-tag@v1
@@ -193,7 +189,7 @@ jobs:
 
   publish_to_npm_release:
     runs-on: ubuntu-latest
-    environment: npm_production
+    environment: npm_publish
     if: ${{ github.run_attempt != 1 }}
     needs: [ build ]
     steps:
@@ -224,8 +220,6 @@ jobs:
       - name: Npm publish @laserfiche/types-lf-ui-components
         run: npm publish  --access public  --tag latest
         working-directory: ./types-lf-ui-components-publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: npm version @laserfiche/lf-ui-components
         run: npm version ${{ env.NPM_VERSION }} --no-git-tag-version --allow-same-version
@@ -234,8 +228,6 @@ jobs:
       - name: Npm publish @laserfiche/lf-ui-components
         run: npm publish  --access public  --tag latest
         working-directory: ./dist/ui-components
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Tag commit
         uses: rickstaa/action-create-tag@v1
