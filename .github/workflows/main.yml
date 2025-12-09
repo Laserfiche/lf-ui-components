@@ -186,7 +186,7 @@ jobs:
         working-directory: ./dist/ui-components
 
       - name: Tag commit
-        uses: rickstaa/action-create-tag@v2
+        uses: rickstaa/action-create-tag@v1
         with:
           tag: ${{ env.NpmPackageVersion }}
           commit_sha: ${{ github.sha }}
@@ -239,7 +239,7 @@ jobs:
         working-directory: ./dist/ui-components
 
       - name: Tag commit
-        uses: rickstaa/action-create-tag@v2
+        uses: rickstaa/action-create-tag@v1
         with:
           tag: ${{ env.NPM_VERSION }}
           commit_sha: ${{ github.sha }}
