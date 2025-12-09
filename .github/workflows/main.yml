@@ -190,7 +190,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Tag commit
-        uses: rickstaa/action-create-tag@v1
+        uses: rickstaa/action-create-tag@v2
         with:
           tag: ${{ env.NpmPackageVersion }}
           commit_sha: ${{ github.sha }}
@@ -247,7 +247,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Tag commit
-        uses: rickstaa/action-create-tag@v1
+        uses: rickstaa/action-create-tag@v2
         with:
           tag: ${{ env.NPM_VERSION }}
           commit_sha: ${{ github.sha }}
