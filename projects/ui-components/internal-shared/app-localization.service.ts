@@ -148,6 +148,10 @@ export class AppLocalizationService {
     return this.internalGetString.pipe(startWith(currentLanguage), map(() => { return this.lfCommonLocalizationService.currentResource?.language; }));
   }
 
+  get currentLanguage(): string | undefined {
+    return this.lfCommonLocalizationService.currentResource?.language;
+  }
+
   getStringLaserficheObservable(key: string, params?: string[]): Observable<string> {
     const keyedString = this.getResourceStringLaserfiche(key, params);
     return this.internalGetString.pipe(
