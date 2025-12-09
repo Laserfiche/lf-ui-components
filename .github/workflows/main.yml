@@ -37,6 +37,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+      
+      - name: Update npm
+        run: npm install -g npm@latest
 
       - name: npm ci
         run: npm ci
@@ -154,7 +157,10 @@ jobs:
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-
+          
+      - name: Update npm
+        run: npm install -g npm@latest
+        
       - name: set NpmPackageVersion environment
         run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
 
@@ -180,7 +186,7 @@ jobs:
         working-directory: ./dist/ui-components
 
       - name: Tag commit
-        uses: rickstaa/action-create-tag@v1
+        uses: rickstaa/action-create-tag@v2
         with:
           tag: ${{ env.NpmPackageVersion }}
           commit_sha: ${{ github.sha }}
@@ -207,7 +213,10 @@ jobs:
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-
+          
+      - name: Update npm
+        run: npm install -g npm@latest
+        
       - name: 'copy license'
         run: |
           cp LICENSE ./types-lf-ui-components-publish
@@ -230,7 +239,7 @@ jobs:
         working-directory: ./dist/ui-components
 
       - name: Tag commit
-        uses: rickstaa/action-create-tag@v1
+        uses: rickstaa/action-create-tag@v2
         with:
           tag: ${{ env.NPM_VERSION }}
           commit_sha: ${{ github.sha }}
