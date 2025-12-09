@@ -29,7 +29,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
-          token: ${{ secrets.WORKFLOW_PAT }
 
       - name: Echo build number
         run: echo ${{github.run_id}}
