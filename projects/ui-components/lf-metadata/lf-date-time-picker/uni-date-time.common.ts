@@ -13,7 +13,8 @@ export enum UniControlType {
 export enum FormatType {
     DATE_FORMAT = 1,
     TIME_FORMAT = 2,
-    DATETIME_FORMAT = 3
+    DATETIME_FORMAT = 3,
+    LONG_DATE_FORMAT = 4
 }
 
 export type StateDataDateTime = {
@@ -119,6 +120,7 @@ export interface UniComponentConfig {
     isDisplayOnly?: boolean;
     errorsPriorityOrder?: any;
     fieldIdPrefix?: string;
+    hasLongDateFormat?: boolean;
 
     formGroupValidators?: any;
     dateControlValidators?: any;
