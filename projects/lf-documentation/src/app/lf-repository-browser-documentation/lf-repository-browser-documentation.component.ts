@@ -8,6 +8,8 @@ import {
   LfRepositoryBrowserComponent,
 } from './../../../../ui-components/lf-repository-browser/lf-repository-browser-public-api';
 import { DemoRepoService, propIdCreateDate, propIdNameCol, propIdNumberCol } from './demo-repo-service';
+import { ToolbarOption } from './../../../../ui-components/shared/lf-toolbar/lf-toolbar-public-api';
+import { IconUtils } from '@laserfiche/lf-js-utils';
 
 
 
@@ -27,6 +29,15 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   dataService: DemoRepoService = new DemoRepoService();
   selectable = this._selectable.bind(this);
   singleSelectDataService: DemoRepoService = new DemoRepoService();
+
+  elementToolbarOptions: ToolbarOption[] = [
+    { name: 'Refresh', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'New Folder', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'Download', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'Scan', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'Rename', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+    { name: 'Share', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
+  ]; 
 
   elementSelectedEntry: LfTreeNode[] | undefined;
 

@@ -10,6 +10,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </code>
 </p>
 <p class="documentation-text code-container">
+  <label>Web Element with LfToolbar</label>
+  <br />
+  <code>
+    <span class="code-html-tagname">&lt;lf-repository-browser&gt;&lt;lf-toolbar&gt;&lt;/lf-toolbar&gt;&lt;/lf-repository-browser&gt;</span>
+  </code>
+</p>
+<p class="documentation-text code-container">
   <label>Angular Component</label>
   <br />
   <code>
@@ -60,7 +67,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     (entryFocused)="onEntryFocused($event)"
     style="height: 500px"
     #singleSelectRepoBrowser
-  ></lf-repository-browser>
+  ><lf-toolbar [dropdown_options]="elementToolbarOptions"></lf-toolbar></lf-repository-browser>
 </app-card>
 
 <label>
