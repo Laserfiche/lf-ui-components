@@ -5,8 +5,10 @@ import { Component } from '@angular/core';
 import { ExampleUsageBasicStepsDirective } from '../example-usage-basic-steps.directive';
 
 @Component({
-  selector: 'app-example-usage-in-react',
-  templateUrl: './example-usage-in-react.component.html',
-  styleUrls: ['./example-usage-in-react.component.css', '../app.component.css']
+    selector: 'app-example-usage-in-react',
+    templateUrl: './example-usage-in-react.component.html',
+    styleUrls: ['./example-usage-in-react.component.css', '../app.component.css'],
+    standalone: true,
+    imports: []
 })
 export class ExampleUsageInReactComponent extends ExampleUsageBasicStepsDirective { }

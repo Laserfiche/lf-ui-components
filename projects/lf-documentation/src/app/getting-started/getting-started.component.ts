@@ -5,9 +5,11 @@ import { AfterViewInit, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-getting-started',
-  templateUrl: './getting-started.component.html',
-  styleUrls: ['./getting-started.component.css', './../app.component.css']
+    selector: 'app-getting-started',
+    templateUrl: './getting-started.component.html',
+    styleUrls: ['./getting-started.component.css', './../app.component.css'],
+    standalone: true,
+    imports: []
 })
 export class GettingStartedComponent implements AfterViewInit {
 

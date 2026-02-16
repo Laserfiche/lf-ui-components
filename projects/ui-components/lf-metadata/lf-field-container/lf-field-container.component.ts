@@ -10,6 +10,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { LfFieldContainerService } from './lf-field-container.service';
 import { LfFieldAdhocContainerComponent } from '../lf-field-adhoc-container/lf-field-adhoc-container.component';
 import { LfFieldTemplateContainerComponent } from '../lf-field-template-container/lf-field-template-container.component';
@@ -19,9 +21,11 @@ import { Observable, of } from 'rxjs';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
-  selector: 'lf-field-container-component',
-  templateUrl: './lf-field-container.component.html',
-  styleUrls: ['./lf-field-container.component.css']
+    selector: 'lf-field-container-component',
+    templateUrl: './lf-field-container.component.html',
+    styleUrls: ['./lf-field-container.component.css'],
+    standalone: true,
+    imports: [CommonModule, MatExpansionModule, LfFieldTemplateContainerComponent, LfFieldAdhocContainerComponent]
 })
 export class LfFieldContainerComponent {
   @Input() collapsible: boolean = false;

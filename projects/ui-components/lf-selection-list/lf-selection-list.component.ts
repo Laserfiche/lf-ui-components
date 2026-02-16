@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,12 +16,15 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
+import { CommonModule } from '@angular/common';
+import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Subscription } from 'rxjs';
 import { GridSelectionListDataSource } from './lf-selection-list-data-source';
 import { ColumnDef, ColumnOrderBy, SelectedItemEvent } from './lf-selection-list-types';
-import { COLUMN_MIN_WIDTH } from './resize-column.directive';
+import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directive';
 
 /** @internal */
 export interface RepositoryBrowserData {
@@ -39,10 +42,19 @@ const SELECT_COL: ColumnDef = {
 
 /** @internal */
 @Component({
-  selector: 'lf-selection-list-component',
-  templateUrl: './lf-selection-list.component.html',
-  styleUrls: ['./lf-selection-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'lf-selection-list-component',
+    templateUrl: './lf-selection-list.component.html',
+    styleUrls: ['./lf-selection-list.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+      CommonModule,
+      ScrollingModule,
+      MatCheckboxModule,
+      MatTableModule,
+      MatSortModule,
+      ResizeColumnDirective
+    ]
 })
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @Output() scrollChanged = new EventEmitter<undefined>();

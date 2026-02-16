@@ -7,7 +7,7 @@ import { ColumnDef } from './lf-selection-list-types';
 import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directive';
 
 @Component({
-  template: `
+    template: `
   <div style="position: relative">
     <table>
       <tr [style.gridTemplateColumns]="gridTemplateColumns">
@@ -30,8 +30,8 @@ import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directi
       </tr>
     </table>
   </div>`,
-  styles: [
-    `
+    styles: [
+        `
         table {
           border-spacing: 0;
         }
@@ -65,7 +65,10 @@ import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directi
         z-index: 1;
         cursor: col-resize;
       }
-      `]
+      `
+    ],
+    standalone: true,
+    imports: [ResizeColumnDirective]
 })
 class TestComponent {
   widthChanged: number = 100;
@@ -82,7 +85,7 @@ describe('ResizeColumnDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ResizeColumnDirective, TestComponent],
+      imports: [TestComponent],
     })
       .compileComponents();
 

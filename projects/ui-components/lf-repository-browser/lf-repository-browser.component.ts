@@ -13,9 +13,11 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -25,6 +27,7 @@ import {
   LfSelectionListComponent,
   SelectedItemEvent,
 } from '@laserfiche/lf-ui-components/lf-selection-list';
+import { LfBreadcrumbsComponent } from '@laserfiche/lf-ui-components/shared';
 
 /** @internal */
 const NAME_COL_AUTO: ColumnDef = {
@@ -46,9 +49,11 @@ const NAME_COL_50CH: ColumnDef = {
 };
 
 @Component({
-  selector: 'lf-repository-browser-component',
-  templateUrl: './lf-repository-browser.component.html',
-  styleUrls: ['./lf-repository-browser.component.css'],
+    selector: 'lf-repository-browser-component',
+    templateUrl: './lf-repository-browser.component.html',
+    styleUrls: ['./lf-repository-browser.component.css'],
+    standalone: true,
+    imports: [CommonModule, FormsModule, LfBreadcrumbsComponent, LfLoaderComponent, LfSelectionListComponent]
 })
 export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   /**

@@ -1,12 +1,12 @@
 # Copyright Laserfiche.
 # Licensed under the MIT License. See LICENSE in the project root for license information.
 
-name: lf-ui-components-veracode-18x
+name: lf-ui-components-veracode-21x
 
 on:
   # Allows you to run this workflow manually from the Actions tab
   push:
-    branches: ["18.x"]
+    branches: ["21.x"]
   workflow_dispatch:
   schedule:
     - cron: "0 12 * * 6"
@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: npm ci
         run: npm ci

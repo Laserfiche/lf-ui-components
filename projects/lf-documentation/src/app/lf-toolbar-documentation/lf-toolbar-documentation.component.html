@@ -23,8 +23,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </code>
 </p>
 <app-card>
-    <lf-toolbar [displayed_options]="elementToolbarOptions" [dropdown_options]="elementToolbarOptions" (optionSelected)="onElementOptionSelected($event)">
-    </lf-toolbar>
+    <lf-toolbar-component [displayed_options]="elementToolbarOptions" [dropdown_options]="elementToolbarOptions" (optionSelected)="onElementOptionSelected($event)">
+    </lf-toolbar-component>
 </app-card>
 <button (click)="enableDisableElement()" class="primary-button lf-button">{{enableDisableElementText}}</button>
 <p class="documentation-text">onElementOptionSelected output: </p>

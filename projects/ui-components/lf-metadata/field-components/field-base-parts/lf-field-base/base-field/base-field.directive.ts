@@ -10,6 +10,7 @@ import {
   ViewChild,
   ElementRef,
   ChangeDetectorRef,
+  inject,
 } from '@angular/core';
 import { LfFieldInfo, LfFieldValue } from '../../../utils/lf-field-types';
 import { FormControl, ValidatorFn, FormGroup } from '@angular/forms';
@@ -25,6 +26,10 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 /** @internal */
 @Directive()
 export abstract class BaseFieldDirective implements OnInit {
+  public tokenService = inject(LfFieldTokenService);
+  public ref = inject(ChangeDetectorRef);
+  public localizationService = inject(AppLocalizationService);
+
   @Input() lf_field_info!: LfFieldInfo;
   @Input() lf_field_form_control!: FormControl;
   @Input() lf_field_value: LfFieldValue | undefined;
@@ -96,11 +101,7 @@ export abstract class BaseFieldDirective implements OnInit {
     );
   }
 
-  constructor(
-    public tokenService: LfFieldTokenService,
-    public ref: ChangeDetectorRef,
-    public localizationService: AppLocalizationService
-  ) {}
+  constructor() {}
 
   fieldValidationErrorMsg!: Observable<string | undefined>;
 

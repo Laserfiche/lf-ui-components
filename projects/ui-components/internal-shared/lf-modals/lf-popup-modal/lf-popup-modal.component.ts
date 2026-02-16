@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { Observable } from 'rxjs';
 
 /**
@@ -9,9 +11,11 @@ import { Observable } from 'rxjs';
  * Not for public use
  */
 @Component({
-  selector: 'lf-popup-modal-component',
-  templateUrl: './lf-popup-modal.component.html',
-  styleUrls: ['./lf-popup-modal.component.css']
+    selector: 'lf-popup-modal-component',
+    templateUrl: './lf-popup-modal.component.html',
+    styleUrls: ['./lf-popup-modal.component.css'],
+    standalone: true,
+    imports: [CommonModule, CdkTrapFocus]
 })
 export class LfPopupModalComponent {
   @Input() data!: PopupModalData;

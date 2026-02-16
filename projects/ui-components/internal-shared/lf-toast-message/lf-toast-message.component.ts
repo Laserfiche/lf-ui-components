@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 /** @internal */
 export enum LfMessageToastTypes {
@@ -23,9 +24,11 @@ export interface LfToastMessage {
 
 /** @internal */
 @Component({
-  selector: 'lf-toast-message',
-  templateUrl: './lf-toast-message.component.html',
-  styleUrls: ['./lf-toast-message.component.css'],
+    selector: 'lf-toast-message',
+    templateUrl: './lf-toast-message.component.html',
+    styleUrls: ['./lf-toast-message.component.css'],
+    standalone: true,
+    imports: [CommonModule]
 })
 export class LfToastMessageComponent {
   @Input()

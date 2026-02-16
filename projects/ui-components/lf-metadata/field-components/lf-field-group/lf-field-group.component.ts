@@ -1,7 +1,7 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-drop';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,18 +10,23 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldDefinition } from '../utils/lf-field-internal-types';
 import { FieldValue, TemplateFieldInfo } from '../utils/lf-field-types';
 import { isDynamicField } from '../utils/metadata-utils';
+import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
+import { LfFieldGroupIndexDisplayPipe } from './lf-field-group-index-display.pipe';
 
 @Component({
-  selector: 'lf-field-group-component',
-  templateUrl: './lf-field-group.component.html',
-  styleUrls: ['./lf-field-group.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'lf-field-group-component',
+    templateUrl: './lf-field-group.component.html',
+    styleUrls: ['./lf-field-group.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, DragDropModule, LfLoaderComponent, LfFieldBaseComponent, LfFieldGroupIndexDisplayPipe]
 })
 export class LfFieldGroupComponent {
   /** @internal */

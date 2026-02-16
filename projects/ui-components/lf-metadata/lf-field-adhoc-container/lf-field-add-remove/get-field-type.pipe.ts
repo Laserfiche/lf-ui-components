@@ -10,7 +10,8 @@ import { LfFieldInfo } from './../../field-components/utils/lf-field-types';
  * Pipe that returns the localized field type, given a fieldInfo and a set of localized strings
  */
 @Pipe({
-  name: 'getFieldType'
+    name: 'getFieldType',
+    standalone: true
 })
 export class GetFieldTypePipe implements PipeTransform {
 

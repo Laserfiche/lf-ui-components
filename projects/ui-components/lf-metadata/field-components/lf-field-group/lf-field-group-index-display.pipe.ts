@@ -10,7 +10,8 @@ import { map } from 'rxjs/operators';
  * Pipe that formats a string '{0} of {1}' with the given parameters
  */
 @Pipe({
-  name: 'lfFieldGroupIndexDisplay'
+    name: 'lfFieldGroupIndexDisplay',
+    standalone: true
 })
 export class LfFieldGroupIndexDisplayPipe implements PipeTransform {
 

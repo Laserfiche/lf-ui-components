@@ -10,8 +10,9 @@ import { AppLocalizationService, LfMessageToastTypes } from '@laserfiche/lf-ui-c
 import { of } from 'rxjs';
 
 @Component({
-  selector: 'lf-feedback-image-upload',
-  template: '<p>Mock Image Attach Component</p>',
+    selector: 'lf-feedback-image-upload',
+    template: '<p>Mock Image Attach Component</p>',
+    standalone: true
 })
 class MockFeedbackImageUploadComponent {}
 
@@ -31,8 +32,7 @@ describe('FeedbackSubmissionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FeedbackSubmissionComponent, MockFeedbackImageUploadComponent],
-      imports: [MatCheckboxModule],
+      imports: [MatCheckboxModule, FeedbackSubmissionComponent, MockFeedbackImageUploadComponent],
       providers: [{ provide: AppLocalizationService, useValue: localizeServiceMock }],
     }).compileComponents();
 

@@ -13,7 +13,9 @@ import {
   NgZone,
   ChangeDetectorRef,
 } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule, MatSelectChange } from '@angular/material/select';
 import { Observable, Subscription } from 'rxjs';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldContainerDirective } from '../lf-field-container.directive';
@@ -33,14 +35,17 @@ import { LfFieldGroupComponent } from '../field-components/lf-field-group/lf-fie
 import { FieldDefinition } from '../field-components/utils/lf-field-internal-types';
 import { isDynamicField } from '../field-components/utils/metadata-utils';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { DropDownState, TemplateState } from './lf-field-template-container-states';
+import { LfFieldViewDirective } from '../lf-field-view.directive';
 
 @Component({
-  selector: 'lf-field-template-container-component',
-  templateUrl: './lf-field-template-container.component.html',
-  styleUrls: ['./lf-field-template-container.component.css'],
+    selector: 'lf-field-template-container-component',
+    templateUrl: './lf-field-template-container.component.html',
+    styleUrls: ['./lf-field-template-container.component.css'],
+    standalone: true,
+    imports: [CommonModule, MatFormFieldModule, MatSelectModule, LfLoaderComponent, LfFieldViewDirective]
 })
 export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective implements AfterViewInit, OnDestroy {
   @Output() templateSelectedChange = new EventEmitter<number>();

@@ -4,14 +4,15 @@
 const { src, dest } = require('gulp');
 const replace = require('gulp-replace');
 const concat = require('gulp-concat');
-const yargs = require('yargs');
 
-yargs.parserConfiguration({
-  "parse-numbers": false,
-})
+const argv = require('yargs')(process.argv.slice(2))
+  .parserConfiguration({
+    "parse-numbers": false,
+  })
+  .argv;
 
 // File paths
-const INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
+const INDEX_HTML_FILEPATH = './dist/lf-documentation/browser/index.html';
 // Strings for replacement
 const RUNTIME = 'runtime.js';
 const REMAINING_INDEX_SCRIPT_TAGS = '<script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>';
@@ -26,22 +27,20 @@ const TYPES_CUSTOMEVENT = 'CustomEvent';
 const TYPES_IMPLEMENTS = /implements.*{/g;
 const TYPES_NO_IMPLEMENTS = '{';
 const NPM_PUBLISH = './types-lf-ui-components-publish/';
-const LF_CDN_MAINJS_FILEPATH = './dist/lf-cdn/main.js';
-const LF_CDN_RUNTIMEJS_FILEPATH = './dist/lf-cdn/runtime.js';
-const LF_CDN_POLYFILLSJS_FILEPATH = './dist/lf-cdn/polyfills.js';
-const LF_DOCUMENTATION_MAINJS_FILEPATH = './dist/lf-documentation/main.js';
-const LF_DOCUMENTATION_RUNTIMEJS_FILEPATH = './dist/lf-documentation/runtime.js';
-const LF_DOCUMENTATION_POLYFILLSJS_FILEPATH = './dist/lf-documentation/polyfills.js';
+const LF_CDN_MAINJS_FILEPATH = './dist/lf-cdn/browser/main.js';
+const LF_CDN_POLYFILLSJS_FILEPATH = './dist/lf-cdn/browser/polyfills.js';
+const LF_DOCUMENTATION_MAINJS_FILEPATH = './dist/lf-documentation/browser/main.js';
+const LF_DOCUMENTATION_POLYFILLSJS_FILEPATH = './dist/lf-documentation/browser/polyfills.js';
 const OLD_WEBPACK_CHUNK_NAME = 'webpackChunklf_ui_components';
 const NEW_WEBPACK_CHUNK_NAME = 'webpackChunklf_components_ui';
-const SCRIPT_DEST = './dist/lf-cdn';
-const DOCUMENTATION_SCRIPT_DEST = './dist/lf-documentation';
+const SCRIPT_DEST = './dist/lf-cdn/browser';
+const DOCUMENTATION_SCRIPT_DEST = './dist/lf-documentation/browser';
 const SCRIPT_FILE = 'lf-ui-components.js';
 const DOCUMENTATION_SCRIPT_FILE = 'lf-documentation.js';
 const SOURCEMAP_MAIN_URL = '//# sourceMappingURL=main.js.map';
 const SOURCEMAP_POLYFILLS_URL = '//# sourceMappingURL=polyfills.js.map';
-const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/lf-documentation.js';
-const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/index.html';
+const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/browser/lf-documentation.js';
+const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/browser/index.html';
 const OLD_LF_STYLE_SHEET_PATH = './lf-laserfiche-lite.css';
 const NEW_LF_STYLE_SHEET_PATH = 'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css';
 const OLD_MS_OFFICE_STYLE_SHEET_PATH = './lf-ms-office-lite.css';
@@ -75,24 +74,18 @@ async function replaceVersionInIndexHtml(){
 };
 
 function getNpmVersion() {
-  const npmVersion = yargs.argv.npmVersion;
+  const npmVersion = argv.npmVersion;
   return npmVersion;
 }
 
 async function renameMainWebpackChunk(){
-  src(LF_CDN_MAINJS_FILEPATH, {base: './'})
-      .pipe(replace(OLD_WEBPACK_CHUNK_NAME, NEW_WEBPACK_CHUNK_NAME))
-      .pipe(dest('./'));
-}
-
-async function renameRuntimeWebpackChunk(){
-  src(LF_CDN_RUNTIMEJS_FILEPATH, {base: './'})
+  src(LF_CDN_MAINJS_FILEPATH, {base: './', allowEmpty: true})
       .pipe(replace(OLD_WEBPACK_CHUNK_NAME, NEW_WEBPACK_CHUNK_NAME))
       .pipe(dest('./'));
 }
 
 async function renamePolyfillsWebpackChunk(){
-  src(LF_CDN_POLYFILLSJS_FILEPATH, {base: './'})
+  src(LF_CDN_POLYFILLSJS_FILEPATH, {base: './', allowEmpty: true})
       .pipe(replace(OLD_WEBPACK_CHUNK_NAME, NEW_WEBPACK_CHUNK_NAME))
       .pipe(dest('./'));
 }
@@ -107,7 +100,7 @@ async function processTypesFile() {
 }
 
 async function concatLfCdnToScript() {
-  src([LF_CDN_MAINJS_FILEPATH, LF_CDN_RUNTIMEJS_FILEPATH, LF_CDN_POLYFILLSJS_FILEPATH])
+  src([LF_CDN_MAINJS_FILEPATH, LF_CDN_POLYFILLSJS_FILEPATH])
   .pipe(concat(SCRIPT_FILE))
   .pipe(replace(SOURCEMAP_POLYFILLS_URL,SOURCEMAP_MAIN_URL))
   .pipe(dest(SCRIPT_DEST))
@@ -124,7 +117,6 @@ exports.replaceScriptsInIndexHtml = replaceScriptsInIndexHtml;
 exports.processTypesFile = processTypesFile;
 exports.replacePlaceholdersInDocumentation = replacePlaceholdersInDocumentation;
 exports.renameMainWebpackChunk = renameMainWebpackChunk;
-exports.renameRuntimeWebpackChunk = renameRuntimeWebpackChunk;
 exports.renamePolyfillsWebpackChunk = renamePolyfillsWebpackChunk;
 exports.concatLfCdnToScript = concatLfCdnToScript;
 exports.replaceVersionInIndexHtml = replaceVersionInIndexHtml;

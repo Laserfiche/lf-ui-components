@@ -3,10 +3,15 @@
 
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { RouterLinks } from './app-routing.module';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTreeNestedDataSource, MatTreeModule } from '@angular/material/tree';
+import { RouterLinks } from './app.config';
 import { ThemeService } from './theme.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 interface ComponentNode {
   name: string;
@@ -73,9 +78,20 @@ const TREE_DATA: ComponentNode[] = [
 ];
 
 @Component({
-  selector: 'app-root-lf-documentation',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+    selector: 'app-root-lf-documentation',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: true,
+    imports: [
+        CommonModule,
+        RouterLink,
+        RouterOutlet,
+        MatToolbarModule,
+        MatTreeModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatButtonModule
+    ]
 })
 export class AppComponent implements OnInit {
   title = 'lf-documentation';

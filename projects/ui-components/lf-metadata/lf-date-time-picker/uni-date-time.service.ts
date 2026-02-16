@@ -20,7 +20,6 @@ import {
   isLeapYear,
   startOfDay,
   endOfMonth,
-  getWeek,
   getISOWeek,
   differenceInYears,
   differenceInMonths,
@@ -661,9 +660,7 @@ export class UniDateTimeService {
           ? parts[0] + '-' + parts[1].toUpperCase()
           : parts.length == 3
             ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) + '-' + parts[2].toUpperCase()
-            : 'hans' || parts[1] != 'hant'
-              ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1)
-              : locale;
+            : parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1);
     }
   };
 

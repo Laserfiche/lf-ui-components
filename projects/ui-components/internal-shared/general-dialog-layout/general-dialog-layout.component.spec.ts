@@ -8,8 +8,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { GeneralDialogLayoutComponent } from './general-dialog-layout.component';
 
 @Component({
-  selector: 'lf-dialog-layout-tester',
-  template: `<lf-general-dialog-layout id="layout">
+    selector: 'lf-dialog-layout-tester',
+    template: `<lf-general-dialog-layout id="layout">
       <div class="dialog-header">Header</div>
       <div class="dialog-header">Header Two</div>
       <div class="dialog-content">Content</div>
@@ -17,6 +17,8 @@ import { GeneralDialogLayoutComponent } from './general-dialog-layout.component'
       <div class="dialog-content">Content3</div>
       <div class="dialog-footer">Footer</div>
     </lf-general-dialog-layout>`,
+    standalone: true,
+    imports: [GeneralDialogLayoutComponent]
 })
 export class DialogLayoutTesterComponent {
   @ViewChild('#layout', /* TODO: add static flag */ {}) layout?: GeneralDialogLayoutComponent;
@@ -28,7 +30,7 @@ describe('LfGeneralDialogLayoutComponent UI tests', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ GeneralDialogLayoutComponent, DialogLayoutTesterComponent ]
+      imports: [ DialogLayoutTesterComponent ]
     })
     .compileComponents();
   }));

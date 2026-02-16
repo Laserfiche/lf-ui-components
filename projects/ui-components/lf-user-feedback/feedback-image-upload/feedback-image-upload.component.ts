@@ -2,13 +2,16 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { CommonModule } from '@angular/common';
+import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 
 /** @internal */
 @Component({
-  selector: 'lf-feedback-image-upload',
-  templateUrl: './feedback-image-upload.component.html',
-  styleUrls: ['./feedback-image-upload.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
+    selector: 'lf-feedback-image-upload',
+    templateUrl: './feedback-image-upload.component.html',
+    styleUrls: ['./feedback-image-upload.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
+    standalone: true,
+    imports: [CommonModule, LfLoaderComponent]
 })
 export class FeedbackImageUploadComponent {
   @Output() imageUploadError: EventEmitter<string> = new EventEmitter<string>();

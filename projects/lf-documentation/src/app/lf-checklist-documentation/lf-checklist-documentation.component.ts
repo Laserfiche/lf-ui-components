@@ -1,14 +1,22 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Checklist, LfChecklistComponent, LfChecklistService } from './../../../../ui-components/lf-checklist/lf-checklist-public-api';
+import { AfterViewInit, Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  Checklist,
+  LfChecklistComponent,
+  LfChecklistService,
+} from './../../../../ui-components/lf-checklist/lf-checklist-public-api';
 import { LfChecklistDemoService } from './lf-checklist-demo.service';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-lf-checklist-documentation',
   templateUrl: './lf-checklist-documentation.component.html',
-  styleUrls: ['./lf-checklist-documentation.component.css', './../app.component.css']
+  styleUrls: ['./lf-checklist-documentation.component.css', './../app.component.css'],
+  standalone: true,
+  imports: [CardComponent, LfChecklistComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LfChecklistDocumentationComponent implements AfterViewInit {
   /** For custom element */
@@ -17,32 +25,32 @@ export class LfChecklistDocumentationComponent implements AfterViewInit {
   elementOutput: string | undefined;
   elementChecklistService: LfChecklistService | undefined;
   elementCheckAllItemsOldValue: boolean = false;
-  @ViewChild('checklist') elementChecklist!: ElementRef<LfChecklistComponent>;
+  @ViewChild('checklist') elementChecklist!: LfChecklistComponent;
 
-  constructor() { }
+  constructor() {}
 
   async ngAfterViewInit() {
     this.elementChecklistService = new LfChecklistDemoService();
     await Promise.all([
-      this.elementChecklist.nativeElement.initAsync({ checklistService: this.elementChecklistService }),
+      this.elementChecklist.initAsync({ checklistService: this.elementChecklistService }),
     ]);
   }
 
   /** Element event handlers */
-  onElementActionClick(event: CustomEvent<Checklist[]>) {
-    this.elementOutput = this.prettyPrint(event.detail);
+  onElementActionClick(checklists: Checklist[]) {
+    this.elementOutput = this.prettyPrint(checklists);
   }
 
-  onElementCancelClick(event: CustomEvent<Checklist[]>) {
+  onElementCancelClick(checklists: Checklist[]) {
     this.elementOutput = undefined;
   }
 
-  async onElementChecklistChanged(event: CustomEvent<Checklist[]>) {
-    this.elementOutput = this.prettyPrint(event.detail);
-    const newValue: boolean = event.detail[0].checklistOptions[2].checked;
+  async onElementChecklistChanged(checklists: Checklist[]) {
+    this.elementOutput = this.prettyPrint(checklists);
+    const newValue: boolean = checklists[0].checklistOptions[2].checked;
     if (newValue && !this.elementCheckAllItemsOldValue && this.elementChecklistService) {
       (this.elementChecklistService as LfChecklistDemoService).checkFirstChecklistItems();
-      await this.elementChecklist.nativeElement.initAsync({ checklistService: this.elementChecklistService });
+      await this.elementChecklist.initAsync({ checklistService: this.elementChecklistService });
     }
     this.elementCheckAllItemsOldValue = newValue;
   }
@@ -50,5 +58,4 @@ export class LfChecklistDocumentationComponent implements AfterViewInit {
   private prettyPrint(value: any): string {
     return JSON.stringify(value, null, 2);
   }
-
 }

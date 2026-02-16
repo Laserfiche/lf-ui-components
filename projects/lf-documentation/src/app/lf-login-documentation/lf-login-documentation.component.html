@@ -67,7 +67,7 @@ sign_out_text.
   </code>
 </p>
 <app-card>
-  <lf-login
+  <lf-login-component
     *ngIf="client_id"
     [client_id]="client_id"
     [redirect_uri]="redirect_uri"
@@ -81,7 +81,7 @@ sign_out_text.
     (loginCompleted)="loginCompleteHandler($event)"
     (logoutCompleted)="logoutCompleteHandler($event)"
   >
-  </lf-login>
+  </lf-login-component>
 </app-card>
 
 <p class="documentation-text">
@@ -119,7 +119,7 @@ sign_out_text.
   </code>
 </p>
 <app-card>
-  <lf-login
+  <lf-login-component
     [mode]="menuMode"
     #loginMenu
     *ngIf="client_id"
@@ -133,7 +133,7 @@ sign_out_text.
     (loginCompleted)="loginCompleteHandler($event)"
     (logoutCompleted)="logoutCompleteHandler($event)"
   >
-  </lf-login>
+  </lf-login-component>
 </app-card>
 
 <p class="documentation-text">lf-login state: {{ menuState }}</p>

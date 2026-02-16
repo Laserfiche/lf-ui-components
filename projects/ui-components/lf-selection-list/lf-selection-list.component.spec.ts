@@ -45,8 +45,8 @@ const itemList: ILfSelectable[] = [
 ];
 
 @Component({
-  selector: 'lf-selection-list-test',
-  template: `<div [style.width.px]="containerWidth" [style.height.px]="'250'">
+    selector: 'lf-selection-list-test',
+    template: `<div [style.width.px]="containerWidth" [style.height.px]="'250'">
     <lf-selection-list-component id="lf-selection-list"
       style="height: 100%; width: 100%;"
       [listItems]="items" [multipleSelection]="multiple"
@@ -57,7 +57,9 @@ const itemList: ILfSelectable[] = [
       [uniqueIdentifier]="uniqueIdentifier"
       ></lf-selection-list-component>
   </div>`,
-  styles: []
+    styles: [],
+    standalone: true,
+    imports: [LfSelectionListComponent]
 })
 export class LfListTestComponent {
   @ViewChild(LfSelectionListComponent) list?: LfSelectionListComponent;
@@ -82,7 +84,8 @@ export class LfListTestComponent {
 }
 
 @Directive({
-  selector: "[lfResizeColumn]"
+    selector: "[lfResizeColumn]",
+    standalone: true
 })
 export class MockResizeDirective {
   @Input('lfResizeColumn') resizable: boolean = false;
@@ -102,14 +105,15 @@ describe('LfListComponent single select', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfListTestComponent, LfSelectionListComponent, MockResizeDirective],
       imports: [
         CommonModule,
         ScrollingModule,
         MatCheckboxModule,
         MatTableModule,
         MatSortModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        LfListTestComponent,
+        MockResizeDirective
       ]
     })
     .compileComponents();

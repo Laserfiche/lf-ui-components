@@ -2,14 +2,19 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'lf-dynamic-field-component',
-  templateUrl: './dynamic-field.component.html',
-  styleUrls: ['./dynamic-field.component.css', './../lf-field-base/lf-field-base.component.css'],
+    selector: 'lf-dynamic-field-component',
+    templateUrl: './dynamic-field.component.html',
+    styleUrls: ['./dynamic-field.component.css', './../lf-field-base/lf-field-base.component.css'],
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule]
 })
 export class DynamicFieldComponent {
   @Input() options: string[] = [];

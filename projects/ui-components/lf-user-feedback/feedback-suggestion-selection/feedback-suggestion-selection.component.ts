@@ -2,13 +2,16 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 
 /** @internal */
 @Component({
-  selector: 'lf-feedback-suggestion-selection',
-  templateUrl: './feedback-suggestion-selection.component.html',
-  styleUrls: ['./feedback-suggestion-selection.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css']
+    selector: 'lf-feedback-suggestion-selection',
+    templateUrl: './feedback-suggestion-selection.component.html',
+    styleUrls: ['./feedback-suggestion-selection.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
+    standalone: true,
+    imports: [CommonModule]
 })
 export class FeedbackSuggestionSelectionComponent {
   @Output() feedbackClicked: EventEmitter<void> = new EventEmitter<void>();

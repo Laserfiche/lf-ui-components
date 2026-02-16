@@ -13,10 +13,12 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { AppLocalizationService, GeneralDialogLayoutComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { debounceTime, map, Observable, Subscription } from 'rxjs';
 import { FeedbackSubmissionComponent } from '../feedback-submission/feedback-submission.component';
+import { FeedbackSuggestionSelectionComponent } from '../feedback-suggestion-selection/feedback-suggestion-selection.component';
 import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-user-feedback-types';
 
 /** @internal */
@@ -32,9 +34,11 @@ export enum FeedbackDialogState {
  * @internal
  */
 @Component({
-  selector: 'lf-user-feedback-dialog-component',
-  templateUrl: './user-feedback-dialog.component.html',
-  styleUrls: ['./user-feedback-dialog.component.css'],
+    selector: 'lf-user-feedback-dialog-component',
+    templateUrl: './user-feedback-dialog.component.html',
+    styleUrls: ['./user-feedback-dialog.component.css'],
+    standalone: true,
+    imports: [CommonModule, GeneralDialogLayoutComponent, FeedbackSubmissionComponent, FeedbackSuggestionSelectionComponent]
 })
 export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   @Output() submitFeedback: EventEmitter<UserFeedbackDialogData> = new EventEmitter();

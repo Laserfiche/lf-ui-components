@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
@@ -12,6 +12,8 @@ import { LfToken, LfTokenService } from '../lf-token-picker/lf-token.service';
   providedIn: 'root'
 })
 export class LfFieldTokenService implements LfTokenService {
+
+  private localizationService = inject(AppLocalizationService);
 
   private readonly defaultStringTokens: LfFieldTokenId[] = [
     LfFieldTokenId.DATE,
@@ -73,9 +75,7 @@ export class LfFieldTokenService implements LfTokenService {
     [LfFieldTokenId.FILE_MODIFIED, 'filemodified']
   ]);
 
-  constructor(
-    private localizationService: AppLocalizationService
-  ) { }
+  constructor() { }
 
   async getTokensAsync(lfFieldTokenData: LfFieldTokenData): Promise<LfToken[]> {
     if (lfFieldTokenData?.fieldType === undefined) {

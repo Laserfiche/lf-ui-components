@@ -2,13 +2,19 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { AppLocalizationService, LfMessageToastTypes, LfToastMessage } from '@laserfiche/lf-ui-components/internal-shared';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AppLocalizationService, LfMessageToastTypes, LfToastMessage, LfToastMessageComponent } from '@laserfiche/lf-ui-components/internal-shared';
+import { FeedbackImageUploadComponent } from '../feedback-image-upload/feedback-image-upload.component';
 
 /** @internal */
 @Component({
-  selector: 'lf-feedback-submission',
-  templateUrl: './feedback-submission.component.html',
-  styleUrls: ['./feedback-submission.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
+    selector: 'lf-feedback-submission',
+    templateUrl: './feedback-submission.component.html',
+    styleUrls: ['./feedback-submission.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
+    standalone: true,
+    imports: [CommonModule, FormsModule, MatCheckboxModule, LfToastMessageComponent, FeedbackImageUploadComponent]
 })
 export class FeedbackSubmissionComponent {
   @Input() isFeedback?: boolean;

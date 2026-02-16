@@ -7,7 +7,8 @@ import { ColumnDef } from './lf-selection-list-types';
 export const COLUMN_MIN_WIDTH: number = 100;
 
 @Directive({
-  selector: '[lfResizeColumn]',
+    selector: '[lfResizeColumn]',
+    standalone: true
 })
 export class ResizeColumnDirective implements OnInit, OnDestroy {
   @Input('lfResizeColumn') resizable: boolean = false;

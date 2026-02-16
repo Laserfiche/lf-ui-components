@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable } from 'rxjs';
@@ -13,11 +14,13 @@ import {
 import { UserFeedbackDialogComponent } from './user-feedback-dialog/user-feedback-dialog.component';
 
 @Component({
-  selector: 'lf-user-feedback-component',
-  template: `<button id="lf-user-feedback-button" [disabled]="disableFeedbackButton" (click)="handleDialogAsync()">
+    selector: 'lf-user-feedback-component',
+    template: `<button id="lf-user-feedback-button" [disabled]="disableFeedbackButton" (click)="handleDialogAsync()">
     {{ feedbackText | async }}
   </button>`,
-  styleUrls: ['./lf-user-feedback.component.css'],
+    styleUrls: ['./lf-user-feedback.component.css'],
+    standalone: true,
+    imports: [CommonModule]
 })
 export class LfUserFeedbackComponent {
   @Input() hosting_module: string = '';

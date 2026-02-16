@@ -12,6 +12,8 @@ import {
   SimpleChanges,
   AfterViewInit,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
 import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
 import {
@@ -29,9 +31,11 @@ import { ApiException, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-
 const LOGIN_REDIRECT_STATE = 'lf-login-redirect';
 const CODE_CHALLENGE_METHOD = 'S256';
 @Component({
-  selector: 'lf-login-component',
-  templateUrl: './lf-login.component.html',
-  styleUrls: ['./lf-login.component.css'],
+    selector: 'lf-login-component',
+    templateUrl: './lf-login.component.html',
+    styleUrls: ['./lf-login.component.css'],
+    standalone: true,
+    imports: [CommonModule, MatMenuModule]
 })
 export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   /** @internal */

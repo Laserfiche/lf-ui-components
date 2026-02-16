@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, ChangeDetectorRef, Input, ViewChild, OnDestroy, ComponentRef, AfterViewInit, EventEmitter, Output, NgZone, ElementRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { LfFieldAdhocContainerService as LfFieldAdhocContainerService } from './lf-field-adhoc-container.service';
 import { AdhocFieldConnectorService } from './lf-field-adhoc-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
@@ -13,13 +14,16 @@ import { LfFieldComponent } from '../field-components/lf-field/lf-field.componen
 import { LfFieldMultivalueComponent } from '../field-components/lf-field-multivalue/lf-field-multivalue.component';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldContainerDirective } from '../lf-field-container.directive';
+import { LfFieldViewDirective } from '../lf-field-view.directive';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
-  selector: 'lf-field-adhoc-container-component',
-  templateUrl: './lf-field-adhoc-container.component.html',
-  styleUrls: ['./lf-field-adhoc-container.component.css'],
-  providers: [AdhocFieldConnectorService]
+    selector: 'lf-field-adhoc-container-component',
+    templateUrl: './lf-field-adhoc-container.component.html',
+    styleUrls: ['./lf-field-adhoc-container.component.css'],
+    providers: [AdhocFieldConnectorService],
+    standalone: true,
+    imports: [CommonModule, LfFieldViewDirective, LfFieldAddRemoveComponent]
 })
 export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective implements OnDestroy, AfterViewInit {
   /** @internal */

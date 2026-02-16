@@ -59,7 +59,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     >Number Column</mat-checkbox
   ></div>
 <app-card>
-  <lf-repository-browser
+  <lf-repository-browser-component
     multiple="false"
     id="single-select-repo-browser"
     (entrySelected)="onEntrySelected($event)"
@@ -67,7 +67,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     (entryFocused)="onEntryFocused($event)"
     style="height: 500px"
     #singleSelectRepoBrowser
-  ><lf-toolbar [dropdown_options]="elementToolbarOptions"></lf-toolbar></lf-repository-browser>
+  ><lf-toolbar-component [dropdown_options]="elementToolbarOptions"></lf-toolbar-component></lf-repository-browser-component>
 </app-card>
 
 <label>
@@ -92,7 +92,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   >
 </div>
 <app-card>
-  <lf-repository-browser
+  <lf-repository-browser-component
     multiple="true"
     id="repo-browser"
     [isSelectable]="selectable"
@@ -102,7 +102,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     (entryFocused)="onEntryFocused($event)"
     style="height: 500px"
     #repoBrowser
-  ></lf-repository-browser>
+  ></lf-repository-browser-component>
 </app-card>
 <button (click)="setSelectedValue()">Set Selected Values</button>
 <button (click)="toggleSelectable()">

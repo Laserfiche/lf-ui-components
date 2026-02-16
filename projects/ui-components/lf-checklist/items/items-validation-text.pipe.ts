@@ -12,7 +12,8 @@ import { ChecklistItem } from './checklist-item';
  * Pipe that gets the error message for a checklist item depending on the type of error
  */
 @Pipe({
-  name: 'itemsValidationText'
+    name: 'itemsValidationText',
+    standalone: true
 })
 export class ItemsValidationTextPipe implements PipeTransform {
 

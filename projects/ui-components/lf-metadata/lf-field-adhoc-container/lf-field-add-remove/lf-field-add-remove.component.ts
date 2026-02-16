@@ -2,18 +2,22 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, EventEmitter, Output, Input, ChangeDetectorRef, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { A11yModule } from '@angular/cdk/a11y';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatCheckboxModule, MatCheckboxChange } from '@angular/material/checkbox';
 import { AdhocFieldConnectorService } from '../lf-field-adhoc-connector.service';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { AdhocFieldInfo } from '../lf-field-adhoc-container-types';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { LfFieldAdhocContainerService } from '../lf-field-adhoc-container.service';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfFieldInfo } from '../../field-components/utils/lf-field-types';
 import { Observable } from 'rxjs';
-import { PopupModalResult, AppLocalizationService, filterObjectsByName, PopupModalData } from '@laserfiche/lf-ui-components/internal-shared';
+import { PopupModalResult, AppLocalizationService, filterObjectsByName, PopupModalData, LfLoaderComponent, LfPopupModalComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
+import { GetFieldTypePipe } from './get-field-type.pipe';
 
 /**
  * @internal
@@ -29,9 +33,11 @@ export enum AddRemoveState {
  * @internal
  */
 @Component({
-  selector: 'lf-field-add-remove-component',
-  templateUrl: './lf-field-add-remove.component.html',
-  styleUrls: ['./lf-field-add-remove.component.css']
+    selector: 'lf-field-add-remove-component',
+    templateUrl: './lf-field-add-remove.component.html',
+    styleUrls: ['./lf-field-add-remove.component.css'],
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, A11yModule, ScrollingModule, MatCheckboxModule, LfLoaderComponent, LfPopupModalComponent, GetFieldTypePipe]
 })
 export class LfFieldAddRemoveComponent implements AfterViewInit {
   private readonly APPLY_CHANGES = this.localizationService.getStringLaserficheObservable('APPLY_CHANGES');

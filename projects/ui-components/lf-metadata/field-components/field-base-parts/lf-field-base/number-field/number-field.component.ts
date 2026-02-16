@@ -1,23 +1,30 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
-import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { FieldFormat, FieldType } from '@laserfiche/lf-ui-components/shared';
-import { AppLocalizationService, ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
+import { ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable, of } from 'rxjs';
-import { LfFieldTokenService } from '../lf-field-token.service';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
-  selector: 'lf-number-field-component',
-  templateUrl: './number-field.component.html',
-  styleUrls: ['./number-field.component.css', './../lf-field-base/lf-field-base.component.css'],
-  providers: [
-    { provide: BaseFieldDirective, useExisting: NumberFieldComponent },
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
-  ]
+    selector: 'lf-number-field-component',
+    templateUrl: './number-field.component.html',
+    styleUrls: ['./number-field.component.css', './../lf-field-base/lf-field-base.component.css'],
+    providers: [
+        { provide: BaseFieldDirective, useExisting: NumberFieldComponent },
+        { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+        provideNgxMask()
+    ],
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgxMaskDirective, DynamicFieldComponent]
 })
 export class NumberFieldComponent extends BaseFieldDirective implements OnInit, AfterViewInit {
   private readonly NUMBER_FIELD_MUST_BE_VALID_NUMBER = this.localizationService.getStringLaserficheObservable('NUMBER_FIELD_MUST_BE_VALID_NUMBER');
@@ -31,13 +38,6 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
   decimalMarker: string | undefined;
   separatorLimit: string | undefined;
   focusState: boolean | undefined;
-
-  constructor(
-    public tokenService: LfFieldTokenService,
-    public ref: ChangeDetectorRef,
-    public localizationService: AppLocalizationService) {
-    super(tokenService, ref, localizationService);
-  }
 
   ngAfterViewInit() {
     this.setMaskForNumber();

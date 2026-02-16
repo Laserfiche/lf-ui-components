@@ -2,16 +2,21 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
+import { LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldValue, LfFieldInfo, LfFieldValue } from '../utils/lf-field-types';
+import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
 
 @Component({
-  selector: 'lf-field-component',
-  templateUrl: './lf-field.component.html',
-  styleUrls: ['./lf-field.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'lf-field-component',
+    templateUrl: './lf-field.component.html',
+    styleUrls: ['./lf-field.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, LfLoaderComponent, LfFieldBaseComponent]
 })
 export class LfFieldComponent {
 

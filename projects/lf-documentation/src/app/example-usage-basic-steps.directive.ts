@@ -3,10 +3,11 @@
 
 import { Directive } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { RouterLinks } from './app-routing.module';
+import { RouterLinks } from './app.config';
 
 @Directive({
-  selector: '[appExampleUsageBasicSteps]'
+    selector: '[appExampleUsageBasicSteps]',
+    standalone: true
 })
 export class ExampleUsageBasicStepsDirective {
 

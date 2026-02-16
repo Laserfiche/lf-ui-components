@@ -2,20 +2,25 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
-import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'lf-list-field-component',
-  templateUrl: './list-field.component.html',
-  styleUrls: ['./list-field.component.css', './../lf-field-base/lf-field-base.component.css'],
-  providers: [
-    { provide: BaseFieldDirective, useExisting: ListFieldComponent },
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
-  ]
+    selector: 'lf-list-field-component',
+    templateUrl: './list-field.component.html',
+    styleUrls: ['./list-field.component.css', './../lf-field-base/lf-field-base.component.css'],
+    providers: [
+        { provide: BaseFieldDirective, useExisting: ListFieldComponent },
+        { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
+    ],
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule]
 })
 export class ListFieldComponent extends BaseFieldDirective implements OnInit {
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {

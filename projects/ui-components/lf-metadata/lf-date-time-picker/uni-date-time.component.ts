@@ -14,10 +14,13 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import forEach from 'lodash/forEach';
 import isNil from 'lodash/isNil';
 import cloneDeep from 'lodash/cloneDeep';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 
 // Component dependencies
 import {
@@ -41,9 +44,11 @@ import { LFTimePickerPlugin } from './plugin-lfTimePicker';
 import { LFDatePickerPlugin } from './plugin-lfDatePicker';
 
 @Component({
-  selector: 'lf-uni-date-time',
-  templateUrl: './uni-date-time.component.html',
-  styleUrls: ['./uni-date-time.component.less'],
+    selector: 'lf-uni-date-time',
+    templateUrl: './uni-date-time.component.html',
+    styleUrls: ['./uni-date-time.component.less'],
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule]
 })
 export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContentInit {
   @HostBinding('class.required') isRequired = false;

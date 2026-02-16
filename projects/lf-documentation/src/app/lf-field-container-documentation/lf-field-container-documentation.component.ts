@@ -1,27 +1,33 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { LfFieldContainerComponent } from './../../../../ui-components/lf-metadata/lf-field-container/public-api';
 import { FieldType } from './../../../../ui-components/shared/lf-shared-public-api';
 import { LfFieldContainerDemoService } from './lf-field-container-demo.service';
+import { CardComponent } from '../card/card.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-lf-field-container-documentation',
-  templateUrl: './lf-field-container-documentation.component.html',
-  styleUrls: ['./lf-field-container-documentation.component.css', './../app.component.css']
+    selector: 'app-lf-field-container-documentation',
+    templateUrl: './lf-field-container-documentation.component.html',
+    styleUrls: ['./lf-field-container-documentation.component.css', './../app.component.css'],
+    standalone: true,
+    imports: [CardComponent, MatCheckboxModule, FormsModule, LfFieldContainerComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LfFieldContainerDocumentationComponent implements AfterViewInit {
 
   elementIsCollapsible: boolean = false;
-  @ViewChild('fieldContainer') elementComponent!: ElementRef<LfFieldContainerComponent>;
+  @ViewChild('fieldContainer') elementComponent!: LfFieldContainerComponent;
 
   constructor() { }
 
   async ngAfterViewInit(): Promise<void> {
     const componentService = new LfFieldContainerDemoService();
-      await this.elementComponent.nativeElement.initAsync(componentService, 2);
-      await this.elementComponent.nativeElement.updateFieldValuesAsync([
+      await this.elementComponent.initAsync(componentService, 2);
+      await this.elementComponent.updateFieldValuesAsync([
         {
           fieldId: 13,
           values: [
