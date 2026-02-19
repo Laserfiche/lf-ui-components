@@ -9,14 +9,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <div class="ms-font-m back-button-text">{{ ADD_REMOVE_FIELDS | async }}</div>
   </div>
   <div class="add-remove-content">
-    <ng-container *ngIf="isLoading; else checkIfError">
+    @if (isLoading) {
       <lf-loader-component class="lf-adhoc-state-message"></lf-loader-component>
-    </ng-container>
-    <ng-template #checkIfError>
-      <ng-container *ngIf="shouldShowErrorMessage; else showFieldPicker">
+    } @else {
+      @if (shouldShowErrorMessage) {
         <div class="lf-adhoc-state-message error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
-      </ng-container>
-      <ng-template #showFieldPicker>
+      } @else {
         <div class="field-picker-container" [ngClass]="{ 'has-changes': areCheckboxChanges }">
           <div class="search">
             <input
@@ -26,13 +24,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               class="searchBox"
             />
             <div class="icon icon-search"></div>
-            <div
-              *ngIf="fieldFilterText && fieldFilterText.length > 0"
-              (click)="onClearFields()"
-              class="icon icon-clear"
-            ></div>
+            @if (fieldFilterText && fieldFilterText.length > 0) {
+              <div
+                (click)="onClearFields()"
+                class="icon icon-clear"
+              ></div>
+            }
           </div>
-          <ng-container *ngIf="displayFieldInfos && displayFieldInfos.length > 0; else noField">
+          @if (displayFieldInfos && displayFieldInfos.length > 0) {
             <cdk-virtual-scroll-viewport itemSize="25" class="pick-field">
               <div *cdkVirtualFor="let field of displayFieldInfos; let i = index">
                 <mat-checkbox
@@ -48,26 +47,27 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </mat-checkbox>
               </div>
             </cdk-virtual-scroll-viewport>
-          </ng-container>
-          <ng-template #noField>
+          } @else {
             <div class="lf-adhoc-state-message fields-empty">
               {{ NO_MATCHING_FIELDS_FOUND | async }}
             </div>
-          </ng-template>
+          }
         </div>
-      </ng-template>
-    </ng-template>
+      }
+    }
   </div>
-  <div class="button-container" *ngIf="areCheckboxChanges">
-    <div class="button-padding-container">
-      <button id="adhoc-apply-button" class="primary-button lf-button adhoc-field-button" (click)="onClickApply()">
-        {{ APPLY | async }}
-      </button>
-      <button id="adhoc-cancel-button" class="sec-button lf-button adhoc-field-button" (click)="onClickCancel()">
-        {{ CANCEL | async }}
-      </button>
+  @if (areCheckboxChanges) {
+    <div class="button-container">
+      <div class="button-padding-container">
+        <button id="adhoc-apply-button" class="primary-button lf-button adhoc-field-button" (click)="onClickApply()">
+          {{ APPLY | async }}
+        </button>
+        <button id="adhoc-cancel-button" class="sec-button lf-button adhoc-field-button" (click)="onClickCancel()">
+          {{ CANCEL | async }}
+        </button>
+      </div>
     </div>
-  </div>
+  }
 </div>
 
 <ng-template #addRemoveConfirmModal let-data>
