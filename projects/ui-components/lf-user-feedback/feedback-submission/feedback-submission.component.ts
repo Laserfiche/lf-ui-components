@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -17,6 +17,8 @@ import { FeedbackImageUploadComponent } from '../feedback-image-upload/feedback-
     imports: [CommonModule, FormsModule, MatCheckboxModule, LfToastMessageComponent, FeedbackImageUploadComponent]
 })
 export class FeedbackSubmissionComponent {
+  private localizationService = inject(AppLocalizationService);
+
   @Input() isFeedback?: boolean;
   @Output() feedbackTextChanged: EventEmitter<string> = new EventEmitter<string>();
 
@@ -46,8 +48,6 @@ export class FeedbackSubmissionComponent {
     TELL_US_ABOUT_IDEA: this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_IDEA'),
     REQUIRED: this.localizationService.getStringLaserficheObservable('REQUIRED'),
   };
-
-  constructor(private localizationService: AppLocalizationService) { }
 
 
   onFeedbackImageBase64(imageBase64: string | undefined) {

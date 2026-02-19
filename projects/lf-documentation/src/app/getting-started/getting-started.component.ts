@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,10 +12,8 @@ import { ActivatedRoute } from '@angular/router';
     imports: []
 })
 export class GettingStartedComponent implements AfterViewInit {
+  private route = inject(ActivatedRoute);
 
-
-  constructor(private route: ActivatedRoute) {
-   }
 
   ngAfterViewInit(): void {
     this.route.queryParams.subscribe(params => {

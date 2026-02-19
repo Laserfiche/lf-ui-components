@@ -8,7 +8,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -21,14 +22,28 @@ import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field
 import { LfFieldGroupIndexDisplayPipe } from './lf-field-group-index-display.pipe';
 
 @Component({
-    selector: 'lf-field-group-component',
-    templateUrl: './lf-field-group.component.html',
-    styleUrls: ['./lf-field-group.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, DragDropModule, LfLoaderComponent, LfFieldBaseComponent, LfFieldGroupIndexDisplayPipe]
+  selector: 'lf-field-group-component',
+  templateUrl: './lf-field-group.component.html',
+  styleUrls: ['./lf-field-group.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DragDropModule,
+    LfLoaderComponent,
+    LfFieldBaseComponent,
+    LfFieldGroupIndexDisplayPipe,
+  ],
 })
 export class LfFieldGroupComponent {
+  /**@internal */
+  private fb = inject(FormBuilder);
+  /**@internal */
+  private cdr = inject(ChangeDetectorRef);
+  /**@internal */
+  localizationService = inject(AppLocalizationService);
+
   /** @internal */
   fieldDefinitions: FieldDefinition[] = [];
   /** @internal */
@@ -49,14 +64,7 @@ export class LfFieldGroupComponent {
   readonly res_0_of_1 = this.localizationService.getStringLaserficheObservable('0_OF_1', ['{0}', '{1}']);
 
   /** @internal */
-  constructor(
-    /** @internal */
-    private fb: FormBuilder,
-    /** @internal */
-    private cdr: ChangeDetectorRef,
-    /** @internal */
-    public localizationService: AppLocalizationService
-  ) {
+  constructor() {
     this.fieldGroups = this.fb.array([]);
   }
 
@@ -70,7 +78,7 @@ export class LfFieldGroupComponent {
   @Input()
   initAsync = async (
     fieldDefinitions: FieldDefinition[],
-    dynamicFieldOptions?: Map<number, string[][]>
+    dynamicFieldOptions?: Map<number, string[][]>,
   ): Promise<void> => {
     this.fieldDefinitions = fieldDefinitions ?? [];
     this.groupId = fieldDefinitions[0]?.fieldInfo?.groupId ?? 0;

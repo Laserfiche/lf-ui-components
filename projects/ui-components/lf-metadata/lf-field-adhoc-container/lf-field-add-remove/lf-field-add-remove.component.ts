@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, EventEmitter, Output, Input, ChangeDetectorRef, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Output, Input, ChangeDetectorRef, AfterViewInit, ViewChild, TemplateRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -40,6 +40,11 @@ export enum AddRemoveState {
     imports: [CommonModule, ReactiveFormsModule, A11yModule, ScrollingModule, MatCheckboxModule, LfLoaderComponent, LfPopupModalComponent, GetFieldTypePipe]
 })
 export class LfFieldAddRemoveComponent implements AfterViewInit {
+  private adHocConnectorService = inject(AdhocFieldConnectorService);
+  ref = inject(ChangeDetectorRef);
+  popupDialog = inject(MatDialog);
+  private localizationService = inject(AppLocalizationService);
+
   private readonly APPLY_CHANGES = this.localizationService.getStringLaserficheObservable('APPLY_CHANGES');
   private readonly DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES = this.localizationService.getStringLaserficheObservable('DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES');
   private readonly YES = this.localizationService.getStringLaserficheObservable('YES');
@@ -78,13 +83,6 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
 
   @Output() checkboxUpdate = new EventEmitter<void>();
   @Output() clickBack = new EventEmitter<void>();
-
-  constructor(
-    private adHocConnectorService: AdhocFieldConnectorService,
-    public ref: ChangeDetectorRef,
-    public popupDialog: MatDialog,
-    private localizationService: AppLocalizationService,
-  ) { }
 
   ngAfterViewInit() {
     this.filterFieldsControl.valueChanges.pipe(debounceTime(200)).subscribe((value) => {

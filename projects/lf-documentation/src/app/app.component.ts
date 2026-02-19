@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTreeNestedDataSource, MatTreeModule } from '@angular/material/tree';
 import { RouterLinks } from './app.config';
@@ -93,12 +93,14 @@ const TREE_DATA: ComponentNode[] = [
 ]
 })
 export class AppComponent implements OnInit {
+  private themeService = inject(ThemeService);
+
   title = 'lf-documentation';
   treeControl = new NestedTreeControl<ComponentNode>((node) => node.children);
   dataSource = new MatTreeNestedDataSource<ComponentNode>();
   landingPageUrl = 'https://developer.laserfiche.com'; // TODO: update this URL once we have the landing page
 
-  constructor(private themeService: ThemeService) {
+  constructor() {
     this.dataSource.data = TREE_DATA;
   }
 

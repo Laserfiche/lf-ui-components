@@ -1,28 +1,32 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable } from 'rxjs';
 import { LfAnalyticsService } from './lf-analytics.service';
-import {
-  UserFeedbackDialogData,
-  UserFeedbackUserTrackingEvent,
-} from './lf-user-feedback-types';
+import { UserFeedbackDialogData, UserFeedbackUserTrackingEvent } from './lf-user-feedback-types';
 import { UserFeedbackDialogComponent } from './user-feedback-dialog/user-feedback-dialog.component';
 
 @Component({
-    selector: 'lf-user-feedback-component',
-    template: `<button id="lf-user-feedback-button" [disabled]="disableFeedbackButton" (click)="handleDialogAsync()">
+  selector: 'lf-user-feedback-component',
+  template: `<button id="lf-user-feedback-button" [disabled]="disableFeedbackButton" (click)="handleDialogAsync()">
     {{ feedbackText | async }}
   </button>`,
-    styleUrls: ['./lf-user-feedback.component.css'],
-    standalone: true,
-    imports: [CommonModule]
+  styleUrls: ['./lf-user-feedback.component.css'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class LfUserFeedbackComponent {
+  /**@internal */
+  dialog = inject(MatDialog);
+  /**@internal */
+  analyticsService = inject(LfAnalyticsService);
+  /**@internal */
+  private localizationService = inject(AppLocalizationService);
+
   @Input() hosting_module: string = '';
   @Input() hosting_context: string = '';
   @Input() user_id: string = '';
@@ -33,16 +37,6 @@ export class LfUserFeedbackComponent {
 
   /** @internal */
   protected dialogRef: MatDialogRef<UserFeedbackDialogComponent> | undefined;
-
-  /** @internal */
-  constructor(
-    /** @internal */
-    public dialog: MatDialog,
-    /** @internal */
-    public analyticsService: LfAnalyticsService,
-    /** @internal */
-    private localizationService: AppLocalizationService
-  ) { }
 
   /** @internal */
   async handleDialogAsync(): Promise<void> {
@@ -72,30 +66,24 @@ export class LfUserFeedbackComponent {
         panelClass: 'lf-user-feedback-panel',
         autoFocus: false,
         disableClose: true,
-        backdropClass: 'lf-user-feedback-backdrop'
+        backdropClass: 'lf-user-feedback-backdrop',
       });
-      this.dialogRef.componentInstance.submitFeedback.subscribe(
-        (result: UserFeedbackDialogData | undefined) => {
-          if (result?.userFeedbackTrackingEventType) {
-            const eventTrackingData: UserFeedbackUserTrackingEvent =
-              this.createEventTrackingData(result);
-            const trackSucceeded =
-              this.analyticsService?.track(eventTrackingData);
-            if (!trackSucceeded) {
-              this.dialogRef?.componentInstance.setError();
-            }
+      this.dialogRef.componentInstance.submitFeedback.subscribe((result: UserFeedbackDialogData | undefined) => {
+        if (result?.userFeedbackTrackingEventType) {
+          const eventTrackingData: UserFeedbackUserTrackingEvent = this.createEventTrackingData(result);
+          const trackSucceeded = this.analyticsService?.track(eventTrackingData);
+          if (!trackSucceeded) {
+            this.dialogRef?.componentInstance.setError();
           }
         }
-      );
+      });
     } catch (error: any) {
       console.error(`Could not open User Feedback dialog: ${error.message}`);
     }
   }
 
   /** @internal */
-  private createEventTrackingData(
-    dialogData: UserFeedbackDialogData
-  ): UserFeedbackUserTrackingEvent {
+  private createEventTrackingData(dialogData: UserFeedbackDialogData): UserFeedbackUserTrackingEvent {
     const data: UserFeedbackUserTrackingEvent = {
       userId: this.user_id,
       accountId: this.account_id,

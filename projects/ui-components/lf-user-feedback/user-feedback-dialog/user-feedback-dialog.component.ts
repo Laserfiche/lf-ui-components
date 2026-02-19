@@ -2,17 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { LocalizedString } from '@angular/compiler';
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  OnDestroy,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, OnDestroy, Output, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AppLocalizationService, GeneralDialogLayoutComponent } from '@laserfiche/lf-ui-components/internal-shared';
@@ -41,6 +31,10 @@ export enum FeedbackDialogState {
     imports: [CommonModule, GeneralDialogLayoutComponent, FeedbackSubmissionComponent, FeedbackSuggestionSelectionComponent]
 })
 export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
+  dialogRef = inject<MatDialogRef<UserFeedbackDialogComponent>>(MatDialogRef);
+  private ref = inject(ChangeDetectorRef);
+  private localizationService = inject(AppLocalizationService);
+
   @Output() submitFeedback: EventEmitter<UserFeedbackDialogData> = new EventEmitter();
   @ViewChild(FeedbackSubmissionComponent) feedbackSubmission?: FeedbackSubmissionComponent;
 
@@ -86,12 +80,6 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   };
 
   USER_FEEDBACK_TITLE: Observable<string> = this.localizedStrings.FEEDBACK;
-
-  constructor(
-    public dialogRef: MatDialogRef<UserFeedbackDialogComponent>,
-    private ref: ChangeDetectorRef,
-    private localizationService: AppLocalizationService
-  ) {}
 
   ngAfterViewInit() {
     const elem = document.getElementById('lf-user-feedback-feedback-mode-button');

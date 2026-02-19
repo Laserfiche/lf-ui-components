@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 
@@ -14,6 +14,8 @@ import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-com
     imports: [CommonModule, LfLoaderComponent]
 })
 export class FeedbackImageUploadComponent {
+  private localizationService = inject(AppLocalizationService);
+
   @Output() imageUploadError: EventEmitter<string> = new EventEmitter<string>();
   @Output() feedbackImageBase64: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
 
@@ -37,8 +39,6 @@ export class FeedbackImageUploadComponent {
     OPTIONAL: this.localizationService.getStringLaserficheObservable('OPTIONAL'),
     UNKNOWN_ERROR: this.localizationService.getStringLaserficheObservable('UNKNOWN_ERROR'),
   };
-
-  constructor(private localizationService: AppLocalizationService) {}
 
   async dropHandler(ev: DragEvent): Promise<void> {
     let file: File | undefined;

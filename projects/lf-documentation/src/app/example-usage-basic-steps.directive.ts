@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Directive } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { RouterLinks } from './app.config';
 
@@ -10,8 +10,8 @@ import { RouterLinks } from './app.config';
     standalone: true
 })
 export class ExampleUsageBasicStepsDirective {
+  router = inject(Router);
 
-  constructor(public router: Router) { }
 
   navigateToGettingStarted(id: string) {
     const navigationExtras: NavigationExtras = {

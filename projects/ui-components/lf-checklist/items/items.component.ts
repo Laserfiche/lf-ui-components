@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,6 +23,10 @@ import { ItemsValidationTextPipe } from './items-validation-text.pipe';
     imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, ItemsValidationTextPipe]
 })
 export class ItemsComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private ref = inject(ChangeDetectorRef);
+  private localizationService = inject(AppLocalizationService);
+
 
   @Input() items: ChecklistItem[] = [];
   @Output() itemsChanged: EventEmitter<void> = new EventEmitter<void>();
@@ -34,7 +38,7 @@ export class ItemsComponent implements OnInit {
     ['REQUIRED', this.localizationService.getStringLaserficheObservable('REQUIRED')]
   ]);
 
-  constructor(private fb: FormBuilder, private ref: ChangeDetectorRef, private localizationService: AppLocalizationService) {
+  constructor() {
     this.checklistParentForm = this.fb.group({
       fieldArray: new FormArray([])
     });

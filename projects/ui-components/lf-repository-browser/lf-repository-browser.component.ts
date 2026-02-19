@@ -12,6 +12,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -49,13 +50,24 @@ const NAME_COL_50CH: ColumnDef = {
 };
 
 @Component({
-    selector: 'lf-repository-browser-component',
-    templateUrl: './lf-repository-browser.component.html',
-    styleUrls: ['./lf-repository-browser.component.css'],
-    standalone: true,
-    imports: [CommonModule, FormsModule, LfBreadcrumbsComponent, LfLoaderComponent, LfSelectionListComponent]
+  selector: 'lf-repository-browser-component',
+  templateUrl: './lf-repository-browser.component.html',
+  styleUrls: ['./lf-repository-browser.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, LfBreadcrumbsComponent, LfLoaderComponent, LfSelectionListComponent],
 })
 export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
+  /**@internal */
+  ref = inject(ChangeDetectorRef);
+  /**@internal */
+  popupDialog = inject(MatDialog);
+  /**@internal */
+  zone = inject(NgZone);
+  /**@internal */
+  private localizationService = inject(AppLocalizationService);
+  /**@internal */
+  private el = inject(ElementRef);
+
   /**
    * read-only property to get current breadcrumbs
    */
@@ -154,7 +166,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    */
   @Input() initAsync = async (
     treeNodeService: LfTreeNodeService,
-    initialOpenedNode?: LfTreeNode | string
+    initialOpenedNode?: LfTreeNode | string,
   ): Promise<void> => {
     await this.zone.run(async () => {
       try {
@@ -174,7 +186,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
               }
             } else {
               console.warn(
-                'initialOpenedNode is specified by an id, but getTreeNodeByIdentifierAsync is not implemented. Will initialize to root.'
+                'initialOpenedNode is specified by an id, but getTreeNodeByIdentifierAsync is not implemented. Will initialize to root.',
               );
               initialOpenedNode = undefined;
             }
@@ -223,7 +235,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   @Input()
   setSelectedNodesAsync: (nodesToSelect: LfTreeNode[], maxFetchIterations?: number) => Promise<void> = async (
     nodesToSelect: LfTreeNode[],
-    maxFetchIterations: number = 5
+    maxFetchIterations: number = 5,
   ) => {
     const selectableValues = await this.mapTreeNodesToLfSelectableAsync(nodesToSelect);
     if (!this.entryList && this.isLoading) {
@@ -237,7 +249,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       const selectedNodes: ILfSelectable[] = await this.entryList.setSelectedNodesAsync(
         selectableValues,
         this.checkForMoreDataCallback.bind(this),
-        maxFetchIterations
+        maxFetchIterations,
       );
       const selectedItems = this.convertSelectedItemsToTreeNode(selectedNodes);
       if (
@@ -388,18 +400,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   private lastDataCall?: Promise<ILfSelectable[]>;
 
   /** @internal */
-  constructor(
-    /** @internal */
-    public ref: ChangeDetectorRef,
-    /** @internal */
-    public popupDialog: MatDialog,
-    /** @internal */
-    public zone: NgZone,
-    /** @internal */
-    private localizationService: AppLocalizationService,
-    /** @internal */
-    private el: ElementRef
-  ) {
+  constructor() {
     this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
       if (!this._currentFolder) {
         return;
@@ -568,7 +569,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
     if (this.shouldShowEmptyMessage || this.shouldShowErrorMessage) {
       setTimeout(() => {
-        (document.querySelector(".lf-repo-entry-container") as HTMLElement)?.focus();
+        (document.querySelector('.lf-repo-entry-container') as HTMLElement)?.focus();
       });
     } else {
       this.entryList?.focus();
@@ -781,7 +782,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     const dataPage: LfTreeNodePage = await this.treeNodeService.getFolderChildrenAsync(
       parentEntry,
       this.nextPage,
-      sortState
+      sortState,
     );
     this.nextPage = dataPage.nextPage;
     const pageTreeNodes: LfTreeNode[] = dataPage.page;

@@ -12,6 +12,7 @@ import {
   AfterViewInit,
   NgZone,
   ChangeDetectorRef,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -41,13 +42,20 @@ import { DropDownState, TemplateState } from './lf-field-template-container-stat
 import { LfFieldViewDirective } from '../lf-field-view.directive';
 
 @Component({
-    selector: 'lf-field-template-container-component',
-    templateUrl: './lf-field-template-container.component.html',
-    styleUrls: ['./lf-field-template-container.component.css'],
-    standalone: true,
-    imports: [CommonModule, MatFormFieldModule, MatSelectModule, LfLoaderComponent, LfFieldViewDirective]
+  selector: 'lf-field-template-container-component',
+  templateUrl: './lf-field-template-container.component.html',
+  styleUrls: ['./lf-field-template-container.component.css'],
+  standalone: true,
+  imports: [CommonModule, MatFormFieldModule, MatSelectModule, LfLoaderComponent, LfFieldViewDirective],
 })
 export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective implements AfterViewInit, OnDestroy {
+  /**@internal */
+  private zone = inject(NgZone);
+  /**@internal */
+  private localizationService = inject(AppLocalizationService);
+  /**@internal */
+  private ref = inject(ChangeDetectorRef);
+
   @Output() templateSelectedChange = new EventEmitter<number>();
 
   /** @internal */
@@ -61,7 +69,8 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   templateErrorMessage: Observable<string> | undefined;
   /** @internal */
-  readonly emptyTemplateName: Observable<string> = this.localizationService.getStringLaserficheObservable('NO_TEMPLATE_ASSIGNED');
+  readonly emptyTemplateName: Observable<string> =
+    this.localizationService.getStringLaserficheObservable('NO_TEMPLATE_ASSIGNED');
   /** @internal */
   templateSelected: TemplateInfo | undefined;
   /** @internal */
@@ -82,27 +91,13 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     this.localizationService.getStringLaserficheObservable('TEMPLATE_HAS_FAILED_TO_LOAD');
 
   /** @internal */
-  constructor(
-    /** @internal */
-    public metadataConnectorService: LfFieldMetadataConnectorService,
-    /** @internal */
-    private zone: NgZone,
-    /** @internal */
-    private localizationService: AppLocalizationService,
-    /** @internal */
-    private ref: ChangeDetectorRef
-  ) {
-    super(metadataConnectorService);
-  }
-
-  /** @internal */
   ngAfterViewInit() {
-    this.adhocFieldsSub = this.metadataConnectorService.adhocFieldDataUpdated().subscribe(async () => {
+    this.adhocFieldsSub = this.metadataFieldConnectorService.adhocFieldDataUpdated().subscribe(async () => {
       if (this.templateFieldContainerService) {
         await this.updateTemplateFieldsAsync();
       }
     });
-    this.adhocDialogOpenedSub = this.metadataConnectorService
+    this.adhocDialogOpenedSub = this.metadataFieldConnectorService
       .getAddRemoveContainerToggled()
       .subscribe(async (addRemovedOpened) => {
         this.hideTemplate = addRemovedOpened;
@@ -122,7 +117,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       this.resetComponentValues();
       this.templateFieldContainerService = CoreUtils.validateDefined(
         providers.templateFieldContainerService,
-        'templateFieldContainerService'
+        'templateFieldContainerService',
       );
       await this.selectTemplateAsync(templateIdentifier);
       await this.updateTemplateFieldsAsync();
@@ -134,7 +129,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   clearAsync = async (): Promise<void> => {
     await this.zone.run(async () => {
       this.resetComponentValues();
-      this.metadataConnectorService.clearAllFieldValues();
+      this.metadataFieldConnectorService.clearAllFieldValues();
       await this.renderFieldsAsync(this.allFieldInfos);
     });
   };
@@ -201,7 +196,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     this.loadedTemplates = false;
     this.availableTemplates = [];
     this.allFieldValues = {};
-    this.metadataConnectorService.setAllFieldValues({});
+    this.metadataFieldConnectorService.setAllFieldValues({});
     this.templateState = TemplateState.DEFAULT;
   }
 
@@ -241,8 +236,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       for (const mapItem of fieldGroups) {
         await this.initializeFieldGroupAsync(mapItem);
       }
-    }
-    else {
+    } else {
       console.warn(`Fields not displayed in current template state: ${this.templateState}.`);
     }
   }
@@ -269,7 +263,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     vf: ViewContainerRef,
     groupId: number,
     fieldGroups: Map<number, FieldDefinition[]>,
-    newDef: FieldDefinition
+    newDef: FieldDefinition,
   ) {
     const fieldGroupComponentRef = vf.createComponent(LfFieldGroupComponent);
     fieldGroupComponentRef.instance.groupId = groupId;
@@ -280,7 +274,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   private async initializeFieldGroupComponentAsync(
     fieldGroupComponentRef: ComponentRef<LfFieldGroupComponent>,
-    group: FieldDefinition[]
+    group: FieldDefinition[],
   ) {
     const firstLength = group[0]?.fieldValues?.length ?? 1;
     const sameSizeGroups = group.every((def) => (def.fieldValues?.length ?? 1) === firstLength);
@@ -293,7 +287,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           const vals: string[] = fieldValue.values ? fieldValue.values?.map((value) => value['value'] ?? '') : [''];
           const fieldInfo = this.allFieldInfos.find((fieldInfo) => fieldInfo.id === id) as TemplateFieldInfo;
           await this.onFieldValueChangedAsync(vals, fieldInfo, fieldChange.indicesChanged);
-        }
+        },
       );
     }
   }
@@ -302,13 +296,13 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   async fieldComponentInitAsync(
     fieldComponentRef: ComponentRef<LfFieldComponent>,
     fieldInfo: LfFieldInfo,
-    value: string
+    value: string,
   ) {
     const optionsForFieldInfo = this.dynamicOptions.get(fieldInfo.id);
     await fieldComponentRef.instance.initAsync(
       fieldInfo,
       value,
-      optionsForFieldInfo ? optionsForFieldInfo[0] : undefined
+      optionsForFieldInfo ? optionsForFieldInfo[0] : undefined,
     );
   }
 
@@ -316,7 +310,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   async multivalueComponentInitAsync(
     multivalueFieldComponentRef: ComponentRef<LfFieldMultivalueComponent>,
     fieldInfo: LfFieldInfo,
-    values: string[]
+    values: string[],
   ) {
     await multivalueFieldComponentRef.instance.initAsync(fieldInfo, values, this.dynamicOptions.get(fieldInfo.id));
   }
@@ -337,8 +331,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         if (this.availableTemplates.length === 0) {
           this.templateState = TemplateState.DEFAULT;
         }
-      }
-      catch (err) {
+      } catch (err) {
         this.dropdownState = DropDownState.HAS_ERROR;
         this.templateSelected = undefined;
         this.templateState = TemplateState.DEFAULT;
@@ -362,13 +355,14 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     } else {
       try {
         this.templateState = TemplateState.LOADING;
-        this.templateSelected = (await this.templateFieldContainerService.getTemplateDefinitionAsync(id)) as TemplateInfo;
+        this.templateSelected = (await this.templateFieldContainerService.getTemplateDefinitionAsync(
+          id,
+        )) as TemplateInfo;
         if (!this.loadedTemplates && this.templateSelected) {
           this.availableTemplates = [this.templateSelected];
         }
         this.templateState = TemplateState.SHOW_TEMPLATE;
-      }
-      catch (error: any) {
+      } catch (error: any) {
         this.templateErrorMessage = this.AN_ERROR_OCCURED;
         console.error('getTemplateDefinitionAsync failed: ' + error.message);
         this.templateState = TemplateState.HAS_ERROR;
@@ -379,9 +373,9 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   private async updateTemplateFieldsAsync(): Promise<void> {
     await this.updateTemplateFieldInfoAsync();
-    this.allFieldValues = this.metadataConnectorService.getAllFieldValues() ?? {};
+    this.allFieldValues = this.metadataFieldConnectorService.getAllFieldValues() ?? {};
     const newFieldIds: number[] = this.allFieldInfos.map((fieldInfo) => fieldInfo.id);
-    this.metadataConnectorService.selectTemplateFields(newFieldIds);
+    this.metadataFieldConnectorService.selectTemplateFields(newFieldIds);
     await this.renderFieldsAsync(this.allFieldInfos);
   }
 
@@ -411,8 +405,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           this.templateState = TemplateState.HAS_ERROR;
           this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
           var consoleErrMsg: string = 'getDynamicFieldValueOptionsAsync failed';
-          if (err instanceof Error)
-          {
+          if (err instanceof Error) {
             consoleErrMsg = consoleErrMsg + ': ' + err.message;
           }
           console.error(consoleErrMsg);
@@ -446,18 +439,15 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           return validFieldType;
         });
         this.templateState = TemplateState.SHOW_TEMPLATE;
-      }
-      catch (err: unknown) {
+      } catch (err: unknown) {
         this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
         var consoleErrMsg = 'getTemplateFieldsAsync failed';
-        if (err instanceof Error)
-        {
+        if (err instanceof Error) {
           consoleErrMsg = consoleErrMsg + ': ' + err.message;
         }
         console.error(consoleErrMsg);
         this.templateState = TemplateState.HAS_ERROR;
-      }
-      finally {
+      } finally {
         this.ref.detectChanges();
       }
     }
@@ -478,7 +468,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   async onFieldValueChangedAsync(
     fieldValues: string[],
     lfFieldInfo: TemplateFieldInfo,
-    indicesChanged?: number[]
+    indicesChanged?: number[],
   ): Promise<void> {
     this.fieldValuesChanged.emit(this.isValid());
     let indicesOfValueChanged = indicesChanged;
@@ -510,18 +500,17 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   private async addFieldOptionsForIndexAsync(
     indexChanged: number,
     fieldInfoOptions: string[][],
-    lfFieldInfo: TemplateFieldInfo
+    lfFieldInfo: TemplateFieldInfo,
   ) {
     try {
       const dynamicFieldValueOptions = await this.getDynamicFieldValueOptionsAsync(indexChanged);
       fieldInfoOptions[indexChanged] = dynamicFieldValueOptions[lfFieldInfo.id];
       if (fieldInfoOptions[indexChanged] === undefined) {
         console.warn(
-          `Could not get dynamic field options of field ${lfFieldInfo.name} id ${lfFieldInfo.id}, index ${indexChanged}`
+          `Could not get dynamic field options of field ${lfFieldInfo.name} id ${lfFieldInfo.id}, index ${indexChanged}`,
         );
       }
-    }
-    catch (error) {
+    } catch (error) {
       this.templateState = TemplateState.HAS_ERROR;
       console.error('getDynamicFieldValueOptionsAsync failed:', error);
     }
@@ -543,7 +532,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   private async updateDynamicFieldsAsync(
     fieldInfo: TemplateFieldInfo,
     values: string[],
-    indexChanged: number
+    indexChanged: number,
   ): Promise<void> {
     this.setFieldValue(fieldInfo.id, values);
     const children = this.getDynamicFieldChildren(fieldInfo);
@@ -562,12 +551,15 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         const dynamicFieldOptions = this.getOrCreateDynamicOptions(childFieldInfo);
         dynamicFieldOptions[indexChanged] = dynamicFieldValueOptions[childId] ?? [];
 
-        const childFieldValue: FieldValue = this.getUpdatedChildValue(childFieldInfo, dynamicFieldOptions, indexChanged);
+        const childFieldValue: FieldValue = this.getUpdatedChildValue(
+          childFieldInfo,
+          dynamicFieldOptions,
+          indexChanged,
+        );
         const stringValues = childFieldValue.values?.map((val) => val['value']) ?? [''];
         await this.updateDynamicFieldsAsync(childFieldInfo, stringValues, indexChanged);
       }
-    }
-    catch (error) {
+    } catch (error) {
       this.templateState = TemplateState.HAS_ERROR;
       console.error('getDynamicFieldValueOptionsAsync:', error);
     }
@@ -577,7 +569,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   private getUpdatedChildValue(
     childFieldInfo: TemplateFieldInfo,
     dynamicFieldOptions: string[][],
-    indexChanged: number
+    indexChanged: number,
   ) {
     const childFieldValues: FieldValue = this.getOrCreateFieldValue(childFieldInfo.id);
     const optionsForIndex = dynamicFieldOptions[indexChanged];
@@ -606,7 +598,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     this.templateState = TemplateState.LOADING;
     const dynamicFieldValueOptions = await this.templateFieldContainerService.getDynamicFieldValueOptionsAsync(
       this.templateSelected.id,
-      relevantValues
+      relevantValues,
     );
     this.templateState = TemplateState.SHOW_TEMPLATE;
     this.ref.detectChanges();
@@ -641,7 +633,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
     const parentId = fieldInfo.id;
     const children = this.allFieldInfos.filter((templateFieldInfo) =>
-      (templateFieldInfo as TemplateFieldInfo).rule?.ancestors.includes(parentId)
+      (templateFieldInfo as TemplateFieldInfo).rule?.ancestors.includes(parentId),
     );
     return children;
   }

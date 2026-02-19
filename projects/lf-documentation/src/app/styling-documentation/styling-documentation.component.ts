@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ThemeService } from '../theme.service';
 import { CardComponent } from '../card/card.component';
 
@@ -13,9 +13,8 @@ import { CardComponent } from '../card/card.component';
     imports: [CardComponent]
 })
 export class StylingDocumentationComponent {
+  private themeService = inject(ThemeService);
 
-  constructor(private themeService: ThemeService) {
-  }
 
   showCode(divID: string, tabGroup: string): void {
     const divElement = document.getElementById(divID);

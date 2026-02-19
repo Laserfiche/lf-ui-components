@@ -1,15 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  NgZone,
-  ViewChildren,
-  QueryList,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, NgZone, ViewChildren, QueryList, inject } from '@angular/core';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ItemsComponent } from '../items/items.component';
@@ -22,13 +14,15 @@ export interface LfChecklistProviders {
 }
 
 @Component({
-    selector: 'lf-checklist-component',
-    templateUrl: './lf-checklist.component.html',
-    styleUrls: ['./lf-checklist.component.css'],
-    standalone: true,
-    imports: [MatExpansionModule, ItemsComponent, OptionsComponent]
+  selector: 'lf-checklist-component',
+  templateUrl: './lf-checklist.component.html',
+  styleUrls: ['./lf-checklist.component.css'],
+  standalone: true,
+  imports: [MatExpansionModule, ItemsComponent, OptionsComponent],
 })
 export class LfChecklistComponent {
+  /**@internal */
+  private zone = inject(NgZone);
 
   @Input() action_button_text: string | undefined;
 
@@ -43,27 +37,15 @@ export class LfChecklistComponent {
   /** @internal */
   @ViewChildren(ItemsComponent) private itemsComponents!: QueryList<ItemsComponent>;
 
-
   /** @internal */
   checklists: Checklist[] = [];
 
-  /** @internal */
-  constructor(
-    /** @internal */
-    private zone: NgZone
-  ) { }
-
-  @Input() initAsync = async (
-    providers: LfChecklistProviders
-  ): Promise<void> => {
+  @Input() initAsync = async (providers: LfChecklistProviders): Promise<void> => {
     return new Promise((resolve) => {
       this.zone.run(() => {
         requestAnimationFrame(async () => {
-          this.checklists =
-            await providers.checklistService.loadChecklistsAsync();
-          this.itemsComponents?.forEach((component) =>
-            component.refreshChecklistItems()
-          );
+          this.checklists = await providers.checklistService.loadChecklistsAsync();
+          this.itemsComponents?.forEach((component) => component.refreshChecklistItems());
           this.checklistChanged.emit(this.checklists);
           resolve();
         });

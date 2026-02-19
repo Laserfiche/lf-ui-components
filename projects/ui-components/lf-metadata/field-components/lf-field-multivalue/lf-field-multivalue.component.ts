@@ -1,7 +1,15 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  inject,
+} from '@angular/core';
 
 import { ReactiveFormsModule, FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
@@ -11,14 +19,18 @@ import { FieldValue, LfFieldInfo, LfFieldValue } from '../utils/lf-field-types';
 import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
 
 @Component({
-    selector: 'lf-field-multivalue-component',
-    templateUrl: './lf-field-multivalue.component.html',
-    styleUrls: ['./lf-field-multivalue.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [ReactiveFormsModule, LfLoaderComponent, LfFieldBaseComponent]
+  selector: 'lf-field-multivalue-component',
+  templateUrl: './lf-field-multivalue.component.html',
+  styleUrls: ['./lf-field-multivalue.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [ReactiveFormsModule, LfLoaderComponent, LfFieldBaseComponent],
 })
 export class LfFieldMultivalueComponent {
+  /**@internal */
+  private fb = inject(FormBuilder);
+  /**@internal */
+  private cdr = inject(ChangeDetectorRef);
 
   /** @internal */
   lfFieldInfo!: LfFieldInfo;
@@ -37,13 +49,9 @@ export class LfFieldMultivalueComponent {
   showField: boolean = false;
 
   /** @internal */
-  constructor(
-    /** @internal */
-    private fb: FormBuilder,
-    /** @internal */
-    private cdr: ChangeDetectorRef) {
+  constructor() {
     this.multiValueFieldParentForm = this.fb.group({
-      fieldArray: new FormArray([])
+      fieldArray: new FormArray([]),
     });
   }
 
@@ -61,8 +69,7 @@ export class LfFieldMultivalueComponent {
   getLfFieldInfo(currentIndex: number): LfFieldInfo {
     if (currentIndex === 0) {
       return this.lfFieldInfo;
-    }
-    else {
+    } else {
       const optional = Object.assign({}, this.lfFieldInfo);
       optional.isRequired = false;
       return optional;
@@ -76,23 +83,24 @@ export class LfFieldMultivalueComponent {
 
   /** @internal */
   @Input()
-  initAsync = async (fieldDefinition: LfFieldInfo, fieldValues: LfFieldValue[] = [], dynamicFieldOptions?: string[][]): Promise<void> => {
+  initAsync = async (
+    fieldDefinition: LfFieldInfo,
+    fieldValues: LfFieldValue[] = [],
+    dynamicFieldOptions?: string[][],
+  ): Promise<void> => {
     this.lfFieldInfo = CoreUtils.validateDefined(fieldDefinition, 'fieldDefinition');
     this.dynamicFieldOptions = dynamicFieldOptions;
-    if(this.lfFieldInfo.fieldType === FieldType.Blob) {
+    if (this.lfFieldInfo.fieldType === FieldType.Blob) {
       console.warn('Blob field not supported');
-    }
-    else if(!(this.lfFieldInfo.fieldType in FieldType)) {
+    } else if (!(this.lfFieldInfo.fieldType in FieldType)) {
       throw new Error('FieldType not supported.');
-    }
-    else {
+    } else {
       this.showField = true;
     }
     if ((!fieldValues || fieldValues.length === 0) && this.lfFieldInfo.defaultValue) {
       this.lfFieldValues = [this.lfFieldInfo.defaultValue];
-    }
-    else {
-      this.lfFieldValues = fieldValues.filter(val => val !== undefined && val.trim().length > 0);
+    } else {
+      this.lfFieldValues = fieldValues.filter((val) => val !== undefined && val.trim().length > 0);
     }
     this.syncFormControlDataToFieldValues();
 
@@ -104,7 +112,7 @@ export class LfFieldMultivalueComponent {
   /** @internal */
   @Input()
   forceValidation: () => boolean = () => {
-    this.getArray().controls.forEach(control => {
+    this.getArray().controls.forEach((control) => {
       control.markAsDirty();
       control.updateValueAndValidity();
     });
@@ -121,14 +129,15 @@ export class LfFieldMultivalueComponent {
       }
     });
     if (this.isValid()) {
-      this.lfFieldValues = this.lfFieldValues.filter(value => value && value.trim().length > 0);
+      this.lfFieldValues = this.lfFieldValues.filter((value) => value && value.trim().length > 0);
       this.syncFormControlDataToFieldValues();
     }
   }
 
   /** @internal */
   getOptions() {
-    const options = (this.dynamicFieldOptions && this.dynamicFieldOptions.length > 0) ? this.dynamicFieldOptions[0] : undefined;
+    const options =
+      this.dynamicFieldOptions && this.dynamicFieldOptions.length > 0 ? this.dynamicFieldOptions[0] : undefined;
     return options;
   }
 
@@ -136,7 +145,7 @@ export class LfFieldMultivalueComponent {
   syncFormControlDataToFieldValues() {
     this.getArray().clear();
     if (this.lfFieldValues) {
-      this.lfFieldValues.forEach(val => {
+      this.lfFieldValues.forEach((val) => {
         this.getArray().push(new FormControl(val));
       });
       if (this.lfFieldValues.length === 0 || this.lfFieldValues[this.lfFieldValues.length - 1] !== undefined) {
@@ -151,16 +160,18 @@ export class LfFieldMultivalueComponent {
   getFieldValue: () => FieldValue = () => {
     // Clean up blank inputs if valid
     if (this.isValid()) {
-      this.lfFieldValues = this.lfFieldValues.filter(value => value && value.trim().length > 0);
+      this.lfFieldValues = this.lfFieldValues.filter((value) => value && value.trim().length > 0);
       this.syncFormControlDataToFieldValues();
     }
 
-    let fieldValues = this.lfFieldValues.filter(value => value && value.trim().length > 0).map((lfFieldValue, index) => {
-      return {
-        value: lfFieldValue,
-        position: (index + 1).toString()
-      };
-    });
+    let fieldValues = this.lfFieldValues
+      .filter((value) => value && value.trim().length > 0)
+      .map((lfFieldValue, index) => {
+        return {
+          value: lfFieldValue,
+          position: (index + 1).toString(),
+        };
+      });
 
     if (fieldValues?.length === 0) {
       fieldValues = [{ value: '', position: '1' }];
@@ -170,7 +181,7 @@ export class LfFieldMultivalueComponent {
       fieldName: this.lfFieldInfo.name,
       fieldId: this.lfFieldInfo.id,
       fieldType: this.lfFieldInfo?.fieldType,
-      values: fieldValues
+      values: fieldValues,
     };
 
     return fieldVal;
@@ -179,7 +190,8 @@ export class LfFieldMultivalueComponent {
   /** @internal */
   onChange(value: LfFieldValue, indexChanged: number) {
     this.lfFieldValues[indexChanged] = value;
-    const isValidMultiValueFieldValue = this.isLastInArray(indexChanged) && this.fieldHasValue(value) && this.lastValueIsValid();
+    const isValidMultiValueFieldValue =
+      this.isLastInArray(indexChanged) && this.fieldHasValue(value) && this.lastValueIsValid();
     if (isValidMultiValueFieldValue) {
       this.addNewBlankField();
     }

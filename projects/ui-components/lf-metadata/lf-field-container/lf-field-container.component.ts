@@ -1,15 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  NgZone,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { LfFieldContainerService } from './lf-field-container.service';
@@ -21,13 +13,20 @@ import { Observable, of } from 'rxjs';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
-    selector: 'lf-field-container-component',
-    templateUrl: './lf-field-container.component.html',
-    styleUrls: ['./lf-field-container.component.css'],
-    standalone: true,
-    imports: [CommonModule, MatExpansionModule, LfFieldTemplateContainerComponent, LfFieldAdhocContainerComponent]
+  selector: 'lf-field-container-component',
+  templateUrl: './lf-field-container.component.html',
+  styleUrls: ['./lf-field-container.component.css'],
+  standalone: true,
+  imports: [CommonModule, MatExpansionModule, LfFieldTemplateContainerComponent, LfFieldAdhocContainerComponent],
 })
 export class LfFieldContainerComponent {
+  /**@internal */
+  private ref = inject(ChangeDetectorRef);
+  /**@internal */
+  private zone = inject(NgZone);
+  /**@internal */
+  localizationService = inject(AppLocalizationService);
+
   @Input() collapsible: boolean = false;
   @Input() start_collapsed: boolean = false;
 
@@ -60,41 +59,26 @@ export class LfFieldContainerComponent {
     const templateSelected = this.templateContainer?.templateSelected;
     if (templateSelected) {
       return of(templateSelected.displayName);
-    }
-    else {
+    } else {
       return this.templateContainer?.emptyTemplateName;
     }
   }
 
-  /** @internal */
-  constructor(
-    /** @internal */
-    private ref: ChangeDetectorRef,
-    /** @internal */
-    private zone: NgZone,
-    /** @internal */
-    public localizationService: AppLocalizationService
-  ) { }
-
   @Input()
   initAsync = async (
     lfFieldContainerService: LfFieldContainerService,
-    templateIdentifier?: number | string
+    templateIdentifier?: number | string,
   ): Promise<void> => {
     this.ref.detectChanges();
-    this.lfFieldContainerService = CoreUtils.validateDefined(
-      lfFieldContainerService,
-      'lfFieldContainerService'
-    );
+    this.lfFieldContainerService = CoreUtils.validateDefined(lfFieldContainerService, 'lfFieldContainerService');
     await this.zone.run(async () => {
       await this.adhocContainer.initAsync(this.lfFieldContainerService);
       await this.templateContainer.initAsync(
         { templateFieldContainerService: this.lfFieldContainerService },
-        templateIdentifier
+        templateIdentifier,
       );
       this.SELECTED_TEMPLATE_NAME = this.getSelectedTemplateName();
     });
-
   };
 
   @Input()
@@ -113,8 +97,7 @@ export class LfFieldContainerComponent {
   @Input()
   getFieldValues = (): { [fieldName: string]: FieldValue } => {
     return this.zone.run(() => {
-      const adhocFieldValues: { [fieldName: string]: FieldValue } =
-        this.adhocContainer.getFieldValues();
+      const adhocFieldValues: { [fieldName: string]: FieldValue } = this.adhocContainer.getFieldValues();
       const templateFieldValues: { [fieldName: string]: FieldValue } =
         this.templateContainer.getTemplateValue()?.fieldValues ?? {};
       return { ...adhocFieldValues, ...templateFieldValues };
@@ -128,9 +111,7 @@ export class LfFieldContainerComponent {
   };
 
   @Input()
-  resetFieldDataAsync = async (
-    fields: { value: FieldValue; definition: LfFieldInfo }[]
-  ): Promise<void> => {
+  resetFieldDataAsync = async (fields: { value: FieldValue; definition: LfFieldInfo }[]): Promise<void> => {
     await this.zone.run(async () => {
       await this.adhocContainer.resetFieldDataAsync(fields);
     });

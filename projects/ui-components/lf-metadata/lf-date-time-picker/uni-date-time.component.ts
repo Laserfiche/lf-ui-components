@@ -2,18 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 // Core and essentials
-import {
-  Component,
-  ViewChild,
-  ElementRef,
-  OnInit,
-  AfterViewInit,
-  HostBinding,
-  Input,
-  AfterContentInit,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, HostBinding, Input, AfterContentInit, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -51,6 +40,8 @@ import { LFDatePickerPlugin } from './plugin-lfDatePicker';
     imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule]
 })
 export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContentInit {
+  dateTimeService = inject(UniDateTimeService);
+
   @HostBinding('class.required') isRequired = false;
   @HostBinding('class.readonly') isReadonly = false;
   @HostBinding('class.disabled') isDisabled = false;
@@ -157,8 +148,6 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
   @ViewChild('timedateDiv') timedateDiv!: ElementRef;
   @ViewChild('dateTimeInput') dateTimeInput?: ElementRef;
   supportedLanguage = 'en';
-
-  constructor(public dateTimeService: UniDateTimeService) { }
 
   ngOnInit() {
     this.populateConfig();

@@ -15,6 +15,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
@@ -42,21 +43,19 @@ const SELECT_COL: ColumnDef = {
 
 /** @internal */
 @Component({
-    selector: 'lf-selection-list-component',
-    templateUrl: './lf-selection-list.component.html',
-    styleUrls: ['./lf-selection-list.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-      CommonModule,
-      ScrollingModule,
-      MatCheckboxModule,
-      MatTableModule,
-      MatSortModule,
-      ResizeColumnDirective
-    ]
+  selector: 'lf-selection-list-component',
+  templateUrl: './lf-selection-list.component.html',
+  styleUrls: ['./lf-selection-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, ScrollingModule, MatCheckboxModule, MatTableModule, MatSortModule, ResizeColumnDirective],
 })
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
+  /**@internal */
+  private focusMonitor = inject(FocusMonitor);
+  /**@internal */
+  private ref = inject(ChangeDetectorRef);
+
   @Output() scrollChanged = new EventEmitter<undefined>();
   @Output() itemDoubleClicked = new EventEmitter<ItemWithId>();
   @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
@@ -193,13 +192,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   currentFocusIndex: number = 0;
 
   /** @internal */
-  constructor(
-    /** @internal */
-    private focusMonitor: FocusMonitor,
-    private ref: ChangeDetectorRef
-  ) {}
-
-  /** @internal */
   ngAfterViewInit(): void {
     this.dataSource = new GridSelectionListDataSource(this.items, this.viewport!, this.itemSize, this._pageSize);
     const dataSourceSub = this.dataSource.checkForData.subscribe(() => {
@@ -237,7 +229,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   placeholderWhen(index: number, _: any) {
     return index === 0;
   }
-
 
   focus() {
     this._focus();
@@ -307,7 +298,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         item,
         this.items,
         false,
-        event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')
+        event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'),
       );
       this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
     }
@@ -321,7 +312,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         item,
         this.items,
         false,
-        event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')
+        event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'),
       );
       this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
     }
@@ -354,7 +345,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       if (activeElement?.nodeName.toLowerCase() === 'cdk-virtual-scroll-viewport') {
         this.focusCurrentIndex();
         const ele = this.viewport.elementRef.nativeElement.querySelector(
-          '#lf-row-' + this.currentFocusIndex
+          '#lf-row-' + this.currentFocusIndex,
         ) as HTMLElement;
         (ele?.childNodes[0] as HTMLElement).focus();
       } else {
@@ -365,7 +356,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
           this.currentFocusIndex = this.currentFocusIndex - moveDirection;
         }
         const ele = this.viewport.elementRef.nativeElement.querySelector(
-          '#lf-row-' + this.currentFocusIndex
+          '#lf-row-' + this.currentFocusIndex,
         ) as HTMLElement;
         ele?.focus();
       }
@@ -408,7 +399,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
           this.allColumnDefs.forEach((col) => {
             const columnEls = Array.from(
-              this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
+              this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id),
             );
             const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
             const minWidthPx = col.minWidthPx ?? COLUMN_MIN_WIDTH;
@@ -451,10 +442,12 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   async setSelectedNodesAsync(
     nodesToSelect: ILfSelectable[] | undefined,
     checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>,
-    maxFetchIterations: number
+    maxFetchIterations: number,
   ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
-    const idsToSelectable: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(nodesToSelect?.map(v => [v.value.id, v]));
+    const idsToSelectable: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(
+      nodesToSelect?.map((v) => [v.value.id, v]),
+    );
     await this.selectable.setSelectedNodesAsync(idsToSelectable, this.items, maxFetchIterations);
     this.ref.detectChanges();
     return this.selectable.selectedItems;
@@ -494,7 +487,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     this.focusCurrentIndex();
     const ele = this.viewport?.elementRef.nativeElement.querySelector(
-      '#lf-row-' + this.currentFocusIndex
+      '#lf-row-' + this.currentFocusIndex,
     ) as HTMLElement;
     ele?.focus();
   }

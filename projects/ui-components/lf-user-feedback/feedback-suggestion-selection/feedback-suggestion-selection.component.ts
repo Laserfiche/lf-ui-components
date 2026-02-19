@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 
@@ -14,6 +14,8 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-sh
     imports: [CommonModule]
 })
 export class FeedbackSuggestionSelectionComponent {
+  private localizationService = inject(AppLocalizationService);
+
   @Output() feedbackClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() suggestionClicked: EventEmitter<void> = new EventEmitter<void>();
 
@@ -27,10 +29,6 @@ export class FeedbackSuggestionSelectionComponent {
     I_HAVE_FEEDBACK: this.localizationService.getStringComponentsObservable('I_HAVE_FEEDBACK'),
     I_HAVE_SUGGESTION: this.localizationService.getStringComponentsObservable('I_HAVE_SUGGESTION'),
   };
-
-  constructor(
-    private localizationService: AppLocalizationService
-  ) { }
 
   onClickFeedback() {
     this.feedbackClicked.emit();

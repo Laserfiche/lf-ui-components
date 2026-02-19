@@ -1,7 +1,15 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  inject,
+} from '@angular/core';
 
 import { ReactiveFormsModule, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
@@ -11,14 +19,18 @@ import { FieldValue, LfFieldInfo, LfFieldValue } from '../utils/lf-field-types';
 import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
 
 @Component({
-    selector: 'lf-field-component',
-    templateUrl: './lf-field.component.html',
-    styleUrls: ['./lf-field.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [ReactiveFormsModule, LfLoaderComponent, LfFieldBaseComponent]
+  selector: 'lf-field-component',
+  templateUrl: './lf-field.component.html',
+  styleUrls: ['./lf-field.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [ReactiveFormsModule, LfLoaderComponent, LfFieldBaseComponent],
 })
 export class LfFieldComponent {
+  /**@internal */
+  private fb = inject(FormBuilder);
+  /**@internal */
+  private cdr = inject(ChangeDetectorRef);
 
   /** @internal */
   lfFieldInfo!: LfFieldInfo;
@@ -37,13 +49,9 @@ export class LfFieldComponent {
   showField: boolean = false;
 
   /** @internal */
-  constructor(
-    /** @internal */
-    private fb: FormBuilder,
-    /** @internal */
-    private cdr: ChangeDetectorRef) {
+  constructor() {
     this.singleFieldParentForm = this.fb.group({
-      singleField: [this.lfFieldValue]
+      singleField: [this.lfFieldValue],
     });
   }
 
@@ -73,16 +81,18 @@ export class LfFieldComponent {
 
   /** @internal */
   @Input()
-  initAsync = async (field: LfFieldInfo, fieldValue: LfFieldValue = '', dynamicFieldValueOptions?: string[]): Promise<void> => {
+  initAsync = async (
+    field: LfFieldInfo,
+    fieldValue: LfFieldValue = '',
+    dynamicFieldValueOptions?: string[],
+  ): Promise<void> => {
     this.lfFieldInfo = CoreUtils.validateDefined(field, 'field');
     this.lfFieldValue = this.getInitialValue(fieldValue);
-    if(this.lfFieldInfo.fieldType === FieldType.Blob) {
+    if (this.lfFieldInfo.fieldType === FieldType.Blob) {
       console.warn('Blob field not supported');
-    }
-    else if(!(this.lfFieldInfo.fieldType in FieldType)) {
+    } else if (!(this.lfFieldInfo.fieldType in FieldType)) {
       throw new Error('FieldType not supported.');
-    }
-    else {
+    } else {
       this.showField = true;
     }
     this.dynamicFieldValueOptions = dynamicFieldValueOptions;
@@ -122,9 +132,9 @@ export class LfFieldComponent {
       values: [
         {
           value: this.lfFieldValue,
-          position: '1'
-        }
-      ]
+          position: '1',
+        },
+      ],
     };
     return fieldVal;
   };

@@ -11,6 +11,7 @@ import {
   Output,
   SimpleChanges,
   AfterViewInit,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
@@ -31,13 +32,20 @@ import { ApiException, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-
 const LOGIN_REDIRECT_STATE = 'lf-login-redirect';
 const CODE_CHALLENGE_METHOD = 'S256';
 @Component({
-    selector: 'lf-login-component',
-    templateUrl: './lf-login.component.html',
-    styleUrls: ['./lf-login.component.css'],
-    standalone: true,
-    imports: [CommonModule, MatMenuModule]
+  selector: 'lf-login-component',
+  templateUrl: './lf-login.component.html',
+  styleUrls: ['./lf-login.component.css'],
+  standalone: true,
+  imports: [CommonModule, MatMenuModule],
 })
 export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
+  /**@internal */
+  private ref = inject(ChangeDetectorRef);
+  /**@internal */
+  private loginService = inject(LfLoginService);
+  /**@internal */
+  private localizationService = inject(AppLocalizationService);
+
   /** @internal */
   private readonly CLOUDDEV = 'clouddev';
   /** @internal */
@@ -228,7 +236,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
    */
   @Input()
   refreshTokenAsync: (initiateLoginFlowOnRefreshFailure: boolean) => Promise<string | undefined> = async (
-    initiateLoginFlowOnRefreshFailure: boolean = true
+    initiateLoginFlowOnRefreshFailure: boolean = true,
   ) => {
     try {
       const refreshToken: string | undefined = this.authorization_credentials?.refreshToken;
@@ -240,7 +248,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
           console.log('Logging in. Will not attempt to refresh');
         } else {
           console.warn(
-            'Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false'
+            'Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false',
           );
           this._state = LoginState.LoggedOut;
           this.logoutCompleted.emit({
@@ -273,7 +281,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
               await this.startOAuthLoginFlowAsync();
             } else {
               console.warn(
-                `Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`
+                `Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`,
               );
               this._state = LoginState.LoggedOut;
               this.ref.detectChanges();
@@ -343,14 +351,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   private initialized: boolean = false;
 
   /** @internal */
-  constructor(
-    /** @internal */
-    private ref: ChangeDetectorRef,
-    /** @internal */
-    private loginService: LfLoginService,
-    /** @internal */
-    private localizationService: AppLocalizationService
-  ) {
+  constructor() {
     window.addEventListener('storage', (ev) => {
       this.onStorageChanged(ev);
     });
@@ -712,7 +713,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
     } else {
       const concatStrings = this.concatStrings(
         additionalContext,
-        'Redirect behavior none. Redirect must be implemented by container in event initiated handler'
+        'Redirect behavior none. Redirect must be implemented by container in event initiated handler',
       );
       console.log(concatStrings);
     }
