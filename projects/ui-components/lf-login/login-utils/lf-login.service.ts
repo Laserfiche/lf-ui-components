@@ -3,7 +3,7 @@
 
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AccountInfo, RedirectUriQueryParams } from './lf-login-internal-types';
-import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';
+import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints, LoginType } from './lf-login-types';
 import { LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { DomainUtils, GetAccessTokenResponse, ApiException, JwtUtils, TokenClient  } from '@laserfiche/lf-api-client-core';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
@@ -20,6 +20,12 @@ export class LfLoginService {
   _accountEndpoints?: AccountEndpoints;
   /** @internal */
   _state?: LoginState;
+  /** @internal */
+  login_type: LoginType = "Cloud";
+  /** @internal */
+  readonly CLOUDDEV = 'clouddev';
+  /** @internal */
+  readonly CLOUDTEST = 'cloudtest';
 
   /** @internal */
   client_id!: string;
@@ -31,6 +37,11 @@ export class LfLoginService {
   redirect_behavior: RedirectBehavior = RedirectBehavior.Replace;
   /** @internal */
   authorize_url_host_name: string = 'laserfiche.com';
+  /** @internal */
+  self_hosted_base_url?: string;
+  /** @internal */
+  self_hosted_account_endpoints?: AccountEndpoints;
+
   /** @internal */
   code_verifier?: string;
 
@@ -68,6 +79,63 @@ export class LfLoginService {
   private exchangeCodeForToken_lock: boolean = false;
 
   /** @internal */
+  getAccountEndpoints(): AccountEndpoints | undefined {
+    try {
+      // if (this._accountEndpoints) {
+      //   return this._accountEndpoints;
+      // } else {
+        const accountEndpointsFromStorage = localStorage.getItem(this.accountEndpointsStorageKey);
+        if (accountEndpointsFromStorage) {
+          const accountEndpoints: AccountEndpoints = JSON.parse(accountEndpointsFromStorage);
+          return accountEndpoints;
+        } else {
+          return undefined;
+        }
+      // }
+    } catch (err: any) {
+      console.warn('Unable to retrieve accountEndpoints: ' + err.message);
+      return undefined;
+    }
+  }
+
+
+  /** @internal */
+  getBaseAuthorizeUrl(): string  {
+    if (this.login_type === "Self-Hosted") {
+      return this.self_hosted_account_endpoints?.oauthAuthorizeUrl ?? '';
+    }
+
+    let baseAuthorizeUrl: string;
+    const lastOAuthAuthorizeUrl = this.getAccountEndpoints()?.oauthAuthorizeUrl;
+    const configuredHostName = this.authorize_url_host_name;
+
+    const bothClouddev = configuredHostName.includes(this.CLOUDDEV) && lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV);
+    const bothCloudtest =
+    configuredHostName.includes(this.CLOUDTEST) && lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
+    const bothCloudprod =
+    lastOAuthAuthorizeUrl &&
+    !configuredHostName.includes(this.CLOUDDEV) &&
+    !configuredHostName.includes(this.CLOUDTEST) &&
+    !lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV) &&
+    !lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
+
+    const sameEnvironment = bothClouddev || bothCloudtest || bothCloudprod;
+
+    if (sameEnvironment && lastOAuthAuthorizeUrl) {
+      baseAuthorizeUrl = lastOAuthAuthorizeUrl;
+    } else {
+      baseAuthorizeUrl = this.getAuthorizeUrlWithConfiguredHostName();
+    }
+
+    return baseAuthorizeUrl;
+  }
+
+  /** @internal */
+  private getAuthorizeUrlWithConfiguredHostName(): string {
+    return `https://signin.${this.authorize_url_host_name}/oauth/Authorize`;
+  }
+
+  /** @internal */
   async exchangeCodeForTokenAsync(callBackURIParams: RedirectUriQueryParams) {
     let concurrentCallsDetected: boolean = false;
     try {
@@ -80,8 +148,17 @@ export class LfLoginService {
       this.code_verifier = localStorage.getItem(this.codeVerifierStorageKey)!;
       if (callBackURIParams.authorizationCode && this.code_verifier) {
         try {
-          const tokenClient = new TokenClient(callBackURIParams.cloudSubDomain!);
-          const response = await tokenClient.getAccessTokenFromCode(callBackURIParams.authorizationCode, this.redirect_uri, this.client_id, undefined, this.code_verifier);
+          const tokenClient = this.login_type === "Cloud"
+            ? new TokenClient(callBackURIParams.cloudSubDomain!)
+            : new TokenClient(`${this.self_hosted_base_url}/v2/Repositories/${this.client_id}/Token`);
+
+          const response = await tokenClient.getAccessTokenFromCode(
+            callBackURIParams.authorizationCode,
+            this.redirect_uri,
+            this.client_id,
+            undefined,
+            this.code_verifier,
+          );
           const accessToken = await this.parseTokenResponseAsync(response);
           this.storeInLocalStorage(accessToken!, callBackURIParams.customerId!, callBackURIParams.cloudSubDomain!);
           this._state = LoginState.LoggedIn;
@@ -184,9 +261,11 @@ export class LfLoginService {
     const expiresIn = jsonResponse['expires_in'];
     const tokenType = jsonResponse['token_type'];
     if (!accessToken) throw new Error('access_token undefined');
-    if (!refreshToken) throw new Error('refresh_token undefined');
     if (!expiresIn) throw new Error('expires_in undefined');
     if (!tokenType) throw new Error('token_type undefined');
+    if (this.login_type === "Cloud" && !refreshToken) {
+      throw new Error('refresh_token undefined');
+    }
 
     const accessTokenResponse: AuthorizationCredentials = {
       accessToken,
@@ -210,11 +289,15 @@ export class LfLoginService {
 
   /** @internal */
   storeInLocalStorage(accessTokenCredentials: AuthorizationCredentials, accountId: string, regionalDomain: string) {
-    const trusteeId: string = this.parseAccessToken(accessTokenCredentials.accessToken);
-    const endpoints = DomainUtils.getLfEndpoints(regionalDomain);
-    this.storeAccountInfo(accountId, trusteeId);
-    this.storeAccountEndpoints(endpoints);
     this.storeAccessToken(accessTokenCredentials);
+    if (this.login_type === "Cloud") {
+      const trusteeId: string = this.parseAccessToken(accessTokenCredentials.accessToken);
+      const endpoints = DomainUtils.getLfEndpoints(regionalDomain);
+      this.storeAccountInfo(accountId, trusteeId);
+      this.storeAccountEndpoints(endpoints);
+    } else if (this.self_hosted_account_endpoints) {
+      this.storeAccountEndpoints(this.self_hosted_account_endpoints);
+    }
   }
 
   /** @internal */

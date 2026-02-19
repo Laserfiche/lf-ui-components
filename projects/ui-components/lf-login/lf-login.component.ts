@@ -20,6 +20,7 @@ import {
   AuthorizationCredentials,
   LfBeforeFetchResult,
   LfHttpRequestHandler,
+  LoginType,
 } from './login-utils/lf-login-types';
 import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
@@ -34,12 +35,14 @@ const CODE_CHALLENGE_METHOD = 'S256';
   styleUrls: ['./lf-login.component.css'],
 })
 export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
-  /** @internal */
-  private readonly CLOUDDEV = 'clouddev';
-  /** @internal */
-  private readonly CLOUDTEST = 'cloudtest';
-
   @Input() mode: LoginMode = LoginMode.Button;
+
+  @Input() set loginType(val: LoginType) {
+    this.loginService.login_type = val;
+  }
+  get loginType(): LoginType {
+    return this.loginService.login_type;
+  }
 
   /**
    * @return {LfHttpRequestHandler}
@@ -142,22 +145,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
 
   @Input()
   get account_endpoints(): AccountEndpoints | undefined {
-    try {
-      if (this.loginService._accountEndpoints) {
-        return this.loginService._accountEndpoints;
-      } else {
-        const accountEndpointsFromStorage = localStorage.getItem(this.loginService.accountEndpointsStorageKey);
-        if (accountEndpointsFromStorage) {
-          const accountEndpoints: AccountEndpoints = JSON.parse(accountEndpointsFromStorage);
-          return accountEndpoints;
-        } else {
-          return undefined;
-        }
-      }
-    } catch (err: any) {
-      console.warn('Unable to retrieve accountEndpoints: ' + err.message);
-      return undefined;
-    }
+    return this.loginService.getAccountEndpoints();
   }
 
   @Input()
@@ -314,6 +302,28 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
       return undefined;
     }
   };
+  @Input()
+  initSelfHostedLoginFlowAsync: (accountEndpoints: AccountEndpoints) => Promise<string | undefined> = async (accountEndpoints: AccountEndpoints) => {
+    try {
+      const accessToken: string | undefined = this.authorization_credentials?.accessToken;
+      if (this.state === LoginState.LoggedOut && !this.hasLoginError) {
+        await this.startSelfHostedLoginFlowAsync(accountEndpoints);
+        return undefined;
+      } else {
+        return accessToken;
+      }
+    } catch (err: any) {
+      this._state = LoginState.LoggedOut;
+      this.ref.detectChanges();
+      this.loginService.removeFromLocalStorage();
+      this.logoutCompleted.emit({
+        ErrorType: 'Login Error',
+        ErrorMessage: err.message,
+      });
+      console.error('Unable to login, logged out: ' + err.message);
+      return undefined;
+    }
+  };
 
   @Input() handleRedirectURICallbackAsync = async (url: string) => {
     try {
@@ -368,6 +378,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
     const keyName = ev.key;
     const oldValue = ev.oldValue;
     const newValue = ev.newValue;
+    console.log('--- onStorageChange called:', keyName, oldValue, newValue);
     if (keyName === this.loginService.accessTokenStorageKey) {
       this.onAccessTokenLocalStorageChange(oldValue, newValue);
     }
@@ -482,7 +493,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
       const domain = this.extractDomainFromUrl(url);
       const customerId = this.extractCustomerIdFromUrl(url);
       const error = this.extractErrorFromUrl(url);
-      if (authorizationCode && domain && customerId) {
+      if (authorizationCode) {
+        // if (authorizationCode && domain && customerId) {
         return {
           authorizationCode,
           cloudSubDomain: domain,
@@ -529,7 +541,12 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
     const storedAccessToken = localStorage.getItem(this.loginService.accessTokenStorageKey!);
     const storedAccountEndpoints = localStorage.getItem(this.loginService.accountEndpointsStorageKey);
     const storedAccountId = localStorage.getItem(this.loginService.accountIdStorageKey);
-    if (storedAccessToken && storedAccountEndpoints && storedAccountId) {
+    if (this.loginType === "Self-Hosted" && storedAccessToken && storedAccountEndpoints) {
+      this.loginService._accessToken = JSON.parse(storedAccessToken);
+      this.loginService._accountEndpoints = JSON.parse(storedAccountEndpoints);
+      this.loginCompleted.emit();
+      return LoginState.LoggedIn;
+    } else if (this.loginType === "Cloud" && storedAccessToken && storedAccountEndpoints && storedAccountId) {
       this.loginService._accessToken = JSON.parse(storedAccessToken);
       this.loginService._accountEndpoints = JSON.parse(storedAccountEndpoints);
       const accountInfo = JSON.parse(storedAccountId);
@@ -609,31 +626,17 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
     this.handleRedirectBehavior(fullAuthorizeUrl, 'Log in button clicked.');
   }
 
+  private async startSelfHostedLoginFlowAsync(accountEndpoints: AccountEndpoints) {
+    this.loginService.self_hosted_account_endpoints = accountEndpoints;
+    this.loginService.self_hosted_base_url = accountEndpoints.regionalDomain;
+    await this.startOAuthLoginFlowAsync();
+  }
+
   /** @internal */
   getAuthorizeUrl(): string {
-    const lastOAuthAuthorizeUrl = this.account_endpoints?.oauthAuthorizeUrl;
-    const configuredHostName = this.loginService.authorize_url_host_name;
+    const baseAuthorizeUrl = this.loginService.getBaseAuthorizeUrl();
 
-    const bothClouddev = configuredHostName.includes(this.CLOUDDEV) && lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV);
-    const bothCloudtest =
-      configuredHostName.includes(this.CLOUDTEST) && lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
-    const bothCloudprod =
-      lastOAuthAuthorizeUrl &&
-      !configuredHostName.includes(this.CLOUDDEV) &&
-      !configuredHostName.includes(this.CLOUDTEST) &&
-      !lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV) &&
-      !lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
-
-    const sameEnvironment = bothClouddev || bothCloudtest || bothCloudprod;
-
-    let currentAuthorizeUrl: string;
-    if (sameEnvironment && lastOAuthAuthorizeUrl) {
-      currentAuthorizeUrl = lastOAuthAuthorizeUrl;
-    } else {
-      currentAuthorizeUrl = this.getAuthorizeUrlWithConfiguredHostName();
-    }
-
-    const baseUrl: URL = new URL(currentAuthorizeUrl);
+    const baseUrl: URL = new URL(baseAuthorizeUrl);
     baseUrl.searchParams.set('client_id', this.client_id);
     baseUrl.searchParams.set('redirect_uri', this.redirect_uri);
     baseUrl.searchParams.set('scope', this.scope);
@@ -642,12 +645,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
     baseUrl.searchParams.set('state', LOGIN_REDIRECT_STATE);
     baseUrl.searchParams.set('code_challenge', this.code_challenge!);
     baseUrl.searchParams.set('code_challenge_method', CODE_CHALLENGE_METHOD);
-    return baseUrl.toString();
-  }
 
-  /** @internal */
-  private getAuthorizeUrlWithConfiguredHostName(): string {
-    return `https://signin.${this.loginService.authorize_url_host_name}/oauth/Authorize`;
+    return baseUrl.toString();
   }
 
   /** @internal */
