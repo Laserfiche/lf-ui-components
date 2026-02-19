@@ -11,7 +11,6 @@ import {
   AfterViewInit,
   EventEmitter,
   Output,
-  NgZone,
   ElementRef,
   inject,
 } from '@angular/core';
@@ -42,7 +41,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   /**@internal */
   private adhocFieldConnectorService = inject(AdhocFieldConnectorService);
   /**@internal */
-  private zone = inject(NgZone);
+  private ref = inject(ChangeDetectorRef);
   /**@internal */
   private localizationService = inject(AppLocalizationService);
 
@@ -95,61 +94,55 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
 
   @Input()
   getFieldValues = (): { [fieldName: string]: FieldValue } => {
-    return this.zone.run(() => {
-      const fieldValues: { [fieldName: string]: FieldValue } = {};
-      this.componentRefs?.forEach((componentRef) => {
-        const fieldValue = componentRef.instance.getFieldValue();
-        const fieldName = fieldValue.fieldName ?? undefined;
-        if (fieldName !== undefined) {
-          fieldValues[fieldName] = fieldValue;
-        } else {
-          console.warn('FieldValue.fieldName is undefined, skipping.');
-        }
-      });
-      return fieldValues;
+    const fieldValues: { [fieldName: string]: FieldValue } = {};
+    this.componentRefs?.forEach((componentRef) => {
+      const fieldValue = componentRef.instance.getFieldValue();
+      const fieldName = fieldValue.fieldName ?? undefined;
+      if (fieldName !== undefined) {
+        fieldValues[fieldName] = fieldValue;
+      } else {
+        console.warn('FieldValue.fieldName is undefined, skipping.');
+      }
     });
+    return fieldValues;
   };
 
   @Input()
   clearAsync = async (): Promise<void> => {
-    await this.zone.run(async () => {
-      this.resetComponentValues();
-      this.metadataFieldConnectorService.clearAllFieldValues();
-      await this.resetFieldDataAsync([]);
-    });
+    this.resetComponentValues();
+    this.metadataFieldConnectorService.clearAllFieldValues();
+    await this.resetFieldDataAsync([]);
+    this.ref.markForCheck();
   };
 
   @Input()
   initAsync = async (adhocFieldContainerService: LfFieldAdhocContainerService): Promise<void> => {
-    this.zone.run(() => {
-      this.resetComponentValues();
-      this.adhocFieldContainerService = CoreUtils.validateDefined(
-        adhocFieldContainerService,
-        'adhocFieldContainerService',
-      );
-    });
+    this.resetComponentValues();
+    this.adhocFieldContainerService = CoreUtils.validateDefined(
+      adhocFieldContainerService,
+      'adhocFieldContainerService',
+    );
+    this.ref.markForCheck();
   };
 
   @Input()
   resetFieldDataAsync = async (fields: { value: FieldValue; definition: LfFieldInfo }[]): Promise<void> => {
-    await this.zone.run(async () => {
-      this.loadSelectedFieldValues(fields);
-      await this.refreshFieldsAsync();
-      this.metadataFieldConnectorService.updatedAdhocFieldData();
-    });
+    this.loadSelectedFieldValues(fields);
+    await this.refreshFieldsAsync();
+    this.metadataFieldConnectorService.updatedAdhocFieldData();
+    this.ref.markForCheck();
   };
 
   @Input()
   updateFieldValuesAsync = async (values: FieldValue[]): Promise<void> => {
-    await this.zone.run(async () => {
-      values.forEach((field) => {
-        this.allFieldValues[field.fieldId] = field;
-      });
-
-      this.metadataFieldConnectorService.setAllFieldValues(this.allFieldValues);
-      await this.refreshFieldsAsync();
-      this.metadataFieldConnectorService.updatedAdhocFieldData();
+    values.forEach((field) => {
+      this.allFieldValues[field.fieldId] = field;
     });
+
+    this.metadataFieldConnectorService.setAllFieldValues(this.allFieldValues);
+    await this.refreshFieldsAsync();
+    this.metadataFieldConnectorService.updatedAdhocFieldData();
+    this.ref.markForCheck();
   };
 
   /** @internal */

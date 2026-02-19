@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef, NgZone } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync, TestModuleMetadata, flush, fakeAsync } from '@angular/core/testing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -103,9 +103,6 @@ describe('LfRepositoryBrowserComponent', () => {
   beforeEach(async () => {
     changeRefMock = jasmine.createSpyObj('ref', ['detectChanges']);
     matDialogMock = jasmine.createSpyObj('popupDialog', ['open']);
-    ngZoneMock = jasmine.createSpyObj('zone', {
-      run: (cb: Function) => cb(),
-    });
 
     fixture = TestBed.createComponent(LfRepositoryBrowserComponent);
     component = fixture.componentInstance;
@@ -123,7 +120,6 @@ describe('LfRepositoryBrowserComponent', () => {
     'getTreeNodeByIdentifierAsync',
   ]);
   let matDialogMock: MatDialog;
-  let ngZoneMock: NgZone;
 
 
   it('should create an instance', () => {
@@ -736,4 +732,3 @@ describe('LfRepositoryBrowserComponent', () => {
   //     });
   // });
 });
-

@@ -12,11 +12,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to get started.</a></p>
   </li>
 <li>
-  You may need to remove <code>zone.js</code> import statement from the <code>polyfills.ts</code> to avoid loading it twice.
-  <pre class="code-container">
-<s><span class="code-ts-import">import </span><span class="code-js-string">"zone.js";</span></s></pre>
-</li>
-<li>
     <p>
       Inside <code>./app.module.ts</code>, add <code>CUSTOM_ELEMENTS_SCHEMA</code> to &#64;NgModule.schemas. This allows you to use custom non-Angular components in your Angular application.
     </p>

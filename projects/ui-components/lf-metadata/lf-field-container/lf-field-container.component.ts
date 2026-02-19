@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, Output, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { LfFieldContainerService } from './lf-field-container.service';
@@ -22,8 +22,6 @@ import { CoreUtils } from '@laserfiche/lf-js-utils';
 export class LfFieldContainerComponent {
   /**@internal */
   private ref = inject(ChangeDetectorRef);
-  /**@internal */
-  private zone = inject(NgZone);
   /**@internal */
   localizationService = inject(AppLocalizationService);
 
@@ -71,14 +69,13 @@ export class LfFieldContainerComponent {
   ): Promise<void> => {
     this.ref.detectChanges();
     this.lfFieldContainerService = CoreUtils.validateDefined(lfFieldContainerService, 'lfFieldContainerService');
-    await this.zone.run(async () => {
-      await this.adhocContainer.initAsync(this.lfFieldContainerService);
-      await this.templateContainer.initAsync(
-        { templateFieldContainerService: this.lfFieldContainerService },
-        templateIdentifier,
-      );
-      this.SELECTED_TEMPLATE_NAME = this.getSelectedTemplateName();
-    });
+    await this.adhocContainer.initAsync(this.lfFieldContainerService);
+    await this.templateContainer.initAsync(
+      { templateFieldContainerService: this.lfFieldContainerService },
+      templateIdentifier,
+    );
+    this.SELECTED_TEMPLATE_NAME = this.getSelectedTemplateName();
+    this.ref.markForCheck();
   };
 
   @Input()
@@ -96,12 +93,10 @@ export class LfFieldContainerComponent {
 
   @Input()
   getFieldValues = (): { [fieldName: string]: FieldValue } => {
-    return this.zone.run(() => {
-      const adhocFieldValues: { [fieldName: string]: FieldValue } = this.adhocContainer.getFieldValues();
-      const templateFieldValues: { [fieldName: string]: FieldValue } =
-        this.templateContainer.getTemplateValue()?.fieldValues ?? {};
-      return { ...adhocFieldValues, ...templateFieldValues };
-    });
+    const adhocFieldValues: { [fieldName: string]: FieldValue } = this.adhocContainer.getFieldValues();
+    const templateFieldValues: { [fieldName: string]: FieldValue } =
+      this.templateContainer.getTemplateValue()?.fieldValues ?? {};
+    return { ...adhocFieldValues, ...templateFieldValues };
   };
 
   @Input()
@@ -112,16 +107,14 @@ export class LfFieldContainerComponent {
 
   @Input()
   resetFieldDataAsync = async (fields: { value: FieldValue; definition: LfFieldInfo }[]): Promise<void> => {
-    await this.zone.run(async () => {
-      await this.adhocContainer.resetFieldDataAsync(fields);
-    });
+    await this.adhocContainer.resetFieldDataAsync(fields);
+    this.ref.markForCheck();
   };
 
   @Input()
   updateFieldValuesAsync = async (values: FieldValue[]): Promise<void> => {
-    await this.zone.run(async () => {
-      await this.adhocContainer.updateFieldValuesAsync(values);
-    });
+    await this.adhocContainer.updateFieldValuesAsync(values);
+    this.ref.markForCheck();
   };
 
   @Input()

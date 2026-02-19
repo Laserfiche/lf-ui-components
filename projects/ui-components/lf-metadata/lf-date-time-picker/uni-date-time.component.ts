@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 // Core and essentials
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, HostBinding, Input, AfterContentInit, EventEmitter, Output, inject } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, HostBinding, Input, AfterContentInit, EventEmitter, Output, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -41,6 +41,7 @@ import { LFDatePickerPlugin } from './plugin-lfDatePicker';
 })
 export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContentInit {
   dateTimeService = inject(UniDateTimeService);
+  private ref = inject(ChangeDetectorRef);
 
   @HostBinding('class.required') isRequired = false;
   @HostBinding('class.readonly') isReadonly = false;
@@ -270,6 +271,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
               if (this.settings.combinedDateTime) {
                 this.onDateTimeChange(selectedDates[0], true, FormChangeEvent.TimeClose);
               }
+              this.ref.markForCheck();
             }, 0);
           },
           onOpen: (selectedDates: Date[], dateStr: string, instance: Instance) => {
@@ -325,6 +327,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         this.state.readonly = this.settings.readOnly; // Revise
         this.isReadonly = this.settings.readOnly ? this.settings.readOnly : this.isReadonly;
         this.isRequired = this.settings.required ? this.settings.required : this.isRequired;
+        this.ref.markForCheck();
       }, 0);
     }
   }
@@ -635,6 +638,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         event: key === 'date' ? FormChangeEvent.DateBlur : FormChangeEvent.TimeBlur,
         component: this,
       });
+      this.ref.markForCheck();
     });
   }
 

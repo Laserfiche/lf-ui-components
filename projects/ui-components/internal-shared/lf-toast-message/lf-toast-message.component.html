@@ -39,7 +39,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       </div>
       <button
         id="close-btn"
-        (click)="_closeToast(message.id)"
+        (click)="message.id ? _closeToast(message.id) : null"
         style="flex: 0 0 auto"
       [ngClass]="{
         warningIcon: message.type === 'Warning'

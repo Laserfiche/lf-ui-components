@@ -19,9 +19,7 @@
           "options": {
             "outputPath": "dist/lf-cdn",
             "index": "projects/lf-cdn/src/index.html",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": [],
             "tsConfig": "projects/lf-cdn/tsconfig.app.json",
             "assets": [
               "projects/lf-cdn/src/favicon.ico",
@@ -93,7 +91,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [],
             "tsConfig": "projects/lf-cdn/tsconfig.spec.json",
             "karmaConfig": "projects/lf-cdn/karma.conf.js",
             "assets": [
@@ -133,9 +131,7 @@
           "options": {
             "outputPath": "dist/lf-documentation",
             "index": "projects/lf-documentation/src/index.html",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": [],
             "tsConfig": "projects/lf-documentation/tsconfig.app.json",
             "assets": [
               "projects/lf-documentation/src/favicon.ico",
@@ -209,7 +205,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [],
             "tsConfig": "projects/lf-documentation/tsconfig.spec.json",
             "karmaConfig": "projects/lf-documentation/karma.conf.js",
             "assets": [

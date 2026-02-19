@@ -10,7 +10,6 @@ import {
   ComponentRef,
   ViewContainerRef,
   AfterViewInit,
-  NgZone,
   ChangeDetectorRef,
   inject,
 } from '@angular/core';
@@ -49,8 +48,6 @@ import { LfFieldViewDirective } from '../lf-field-view.directive';
   imports: [CommonModule, MatFormFieldModule, MatSelectModule, LfLoaderComponent, LfFieldViewDirective],
 })
 export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective implements AfterViewInit, OnDestroy {
-  /**@internal */
-  private zone = inject(NgZone);
   /**@internal */
   private localizationService = inject(AppLocalizationService);
   /**@internal */
@@ -113,49 +110,44 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
   @Input()
   initAsync = async (providers: LfFieldTemplateProviders, templateIdentifier?: number | string): Promise<void> => {
-    await this.zone.run(async () => {
-      this.resetComponentValues();
-      this.templateFieldContainerService = CoreUtils.validateDefined(
-        providers.templateFieldContainerService,
-        'templateFieldContainerService',
-      );
-      await this.selectTemplateAsync(templateIdentifier);
-      await this.updateTemplateFieldsAsync();
-      this.ref.detectChanges();
-    });
+    this.resetComponentValues();
+    this.templateFieldContainerService = CoreUtils.validateDefined(
+      providers.templateFieldContainerService,
+      'templateFieldContainerService',
+    );
+    await this.selectTemplateAsync(templateIdentifier);
+    await this.updateTemplateFieldsAsync();
+    this.ref.detectChanges();
   };
 
   @Input()
   clearAsync = async (): Promise<void> => {
-    await this.zone.run(async () => {
-      this.resetComponentValues();
-      this.metadataFieldConnectorService.clearAllFieldValues();
-      await this.renderFieldsAsync(this.allFieldInfos);
-    });
+    this.resetComponentValues();
+    this.metadataFieldConnectorService.clearAllFieldValues();
+    await this.renderFieldsAsync(this.allFieldInfos);
+    this.ref.markForCheck();
   };
 
   @Input()
   getTemplateValue: () => TemplateValue | undefined = () => {
-    return this.zone.run(() => {
-      if (!this.templateSelected) {
-        return undefined;
-      }
+    if (!this.templateSelected) {
+      return undefined;
+    }
 
-      const fieldValues: { [key: string]: FieldValue } = {};
-      this.componentRefs?.forEach((componentRef) => {
-        const fieldValue = componentRef.instance.getFieldValue();
+    const fieldValues: { [key: string]: FieldValue } = {};
+    this.componentRefs?.forEach((componentRef) => {
+      const fieldValue = componentRef.instance.getFieldValue();
+      // TODO: should key by id, not name?
+      fieldValues[fieldValue.fieldName as string] = fieldValue;
+    });
+    this.groupComponentRefs?.forEach((componentRef) => {
+      const mappedFieldValues = componentRef.instance.getFieldValues();
+      mappedFieldValues.forEach((fieldValue) => {
         // TODO: should key by id, not name?
         fieldValues[fieldValue.fieldName as string] = fieldValue;
       });
-      this.groupComponentRefs?.forEach((componentRef) => {
-        const mappedFieldValues = componentRef.instance.getFieldValues();
-        mappedFieldValues.forEach((fieldValue) => {
-          // TODO: should key by id, not name?
-          fieldValues[fieldValue.fieldName as string] = fieldValue;
-        });
-      });
-      return { name: this.templateSelected.name as string, id: this.templateSelected.id, fieldValues };
     });
+    return { name: this.templateSelected.name as string, id: this.templateSelected.id, fieldValues };
   };
 
   /** @internal */

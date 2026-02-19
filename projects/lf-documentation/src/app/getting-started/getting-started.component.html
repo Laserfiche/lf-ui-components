@@ -26,20 +26,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <p class="documentation-text">Add the following script tags to <code>index.html</code>.</p>
     <pre class="code-container">
 <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
-      >"https://cdn.jsdelivr.net/npm/zone.js&#64;0.11.4/bundles/zone.umd.min.js"</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
-<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
 >"https://cdn.jsdelivr.net/npm/&#64;laserfiche/lf-ui-components&#64;NPM_VERSION/cdn/lf-ui-components.js"</span><span class="code-html-attribute-name"
 > defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
 </pre>
-    <p class="documentation-text">
-      <code>zone.js</code> is a peer dependency of the UI components, and it needs to be loaded by the container
-      application, before loading <code>lf-ui-components.js</code>.
-    </p>
-    <p class="documentation-text">
-      Note that Angular applications include <code> zone.js</code> by default in <code>polyfills.ts</code>. We recommend
-      removing that import of <code>zone.js</code>, and loading it as shown above instead, to reduce the risks of
-      loading <code>zone.js</code> twice.
-    </p>
   </li>
   <li>
     <p class="documentation-text">

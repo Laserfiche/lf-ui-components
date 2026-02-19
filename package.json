@@ -9,6 +9,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "build": "npm run build-ui-components-prod && npm run build-lf-documentation-prod && npm run build-lf-cdn-prod && npm run sass-lf && npm run sass-ms",
     "build-lf-documentation-dev": "npm run sass-lf && npm run sass-ms && ng build lf-documentation --configuration development --delete-output-path false",
     "build-lf-documentation-dev-watch": "npm run sass-lf && npm run sass-ms && ng build lf-documentation --configuration development --delete-output-path false --watch",
     "build-lf-documentation-prod": "ng build lf-documentation --configuration production --output-hashing=none",
@@ -81,14 +82,12 @@
     "@angular/forms": "^21.1.5",
     "@angular/material": "^21.1.5",
     "@angular/platform-browser": "^21.1.5",
-    "@angular/platform-browser-dynamic": "^21.1.5",
     "@angular/router": "^21.1.5",
     "@laserfiche/lf-api-client-core": "^1.1.10",
     "@laserfiche/lf-js-utils": "^4.0.13",
     "@laserfiche/lf-resource-library": "^5.0.3",
     "ngx-mask": "^21.0.1",
-    "rxjs": "^7.8.0",
-    "zone.js": "^0.16.0"
+    "rxjs": "^7.8.0"
   },
   "dependencies": {
     "@laserfiche/lf-ui-components": "file:projects/ui-components"

@@ -8,7 +8,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnDestroy,
   Output,
   ViewChild,
@@ -61,8 +60,6 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   ref = inject(ChangeDetectorRef);
   /**@internal */
   popupDialog = inject(MatDialog);
-  /**@internal */
-  zone = inject(NgZone);
   /**@internal */
   private localizationService = inject(AppLocalizationService);
   /**@internal */
@@ -168,40 +165,38 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     treeNodeService: LfTreeNodeService,
     initialOpenedNode?: LfTreeNode | string,
   ): Promise<void> => {
-    await this.zone.run(async () => {
-      try {
-        this.hasError = false;
-        this.isLoading = true;
-        this.treeNodeService = treeNodeService;
-        if (typeof initialOpenedNode === 'string') {
-          if (!initialOpenedNode || initialOpenedNode.trim().length === 0) {
-            initialOpenedNode = undefined;
-          } else {
-            if (this.treeNodeService.getTreeNodeByIdentifierAsync) {
-              try {
-                initialOpenedNode = await this.treeNodeService.getTreeNodeByIdentifierAsync(initialOpenedNode);
-              } catch {
-                console.warn('Unable to determine LfTreeNode by id. Will initialize to root.');
-                initialOpenedNode = undefined;
-              }
-            } else {
-              console.warn(
-                'initialOpenedNode is specified by an id, but getTreeNodeByIdentifierAsync is not implemented. Will initialize to root.',
-              );
+    try {
+      this.hasError = false;
+      this.isLoading = true;
+      this.treeNodeService = treeNodeService;
+      if (typeof initialOpenedNode === 'string') {
+        if (!initialOpenedNode || initialOpenedNode.trim().length === 0) {
+          initialOpenedNode = undefined;
+        } else {
+          if (this.treeNodeService.getTreeNodeByIdentifierAsync) {
+            try {
+              initialOpenedNode = await this.treeNodeService.getTreeNodeByIdentifierAsync(initialOpenedNode);
+            } catch {
+              console.warn('Unable to determine LfTreeNode by id. Will initialize to root.');
               initialOpenedNode = undefined;
             }
+          } else {
+            console.warn(
+              'initialOpenedNode is specified by an id, but getTreeNodeByIdentifierAsync is not implemented. Will initialize to root.',
+            );
+            initialOpenedNode = undefined;
           }
         }
-
-        await this.initializeAsync(initialOpenedNode);
-      } catch (error) {
-        console.error(error);
-        this.hasError = true;
-      } finally {
-        this.isLoading = false;
-        this.ref.detectChanges();
       }
-    });
+
+      await this.initializeAsync(initialOpenedNode);
+    } catch (error) {
+      console.error(error);
+      this.hasError = true;
+    } finally {
+      this.isLoading = false;
+      this.ref.detectChanges();
+    }
   };
 
   /**
@@ -260,6 +255,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       } else {
         this.selectedItems = selectedItems;
         this.entrySelected.emit(this.selectedItems);
+        this.ref.markForCheck();
       }
     }
   };
