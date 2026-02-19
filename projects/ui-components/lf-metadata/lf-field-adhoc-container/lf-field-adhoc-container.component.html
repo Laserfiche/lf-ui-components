@@ -8,16 +8,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       id="adhoc-add-remove-button"
       class="lf-ellipsis-label sec-button lf-button adhoc-add-remove-button"
       (click)="addRemoveFieldsAsync()"
-    >
+      >
       {{ ADD_REMOVE_FIELDS | async }}
     </button>
-    <div
-      class="fields-empty lf-ellipsis-label"
-      title="{{ NO_ADDITIONAL_FIELDS_ASSIGNED | async }}"
-      *ngIf="fieldsEmpty()"
-    >
-      {{ NO_ADDITIONAL_FIELDS_ASSIGNED | async }}
-    </div>
+    @if (fieldsEmpty()) {
+      <div
+        class="fields-empty lf-ellipsis-label"
+        title="{{ NO_ADDITIONAL_FIELDS_ASSIGNED | async }}"
+        >
+        {{ NO_ADDITIONAL_FIELDS_ASSIGNED | async }}
+      </div>
+    }
     <div class="responsive-form-container">
       <ng-template lfFieldView></ng-template>
     </div>

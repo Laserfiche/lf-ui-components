@@ -3,11 +3,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 <mat-form-field title="{{lf_field_info.displayName}}" appearance="outline" class="lf-field lf-dropdown">
   <mat-select panelClass="lf-dropdown-overlay" [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
-      (selectionChange)="onValueChanged()">
-      <mat-option>--</mat-option>
-      <mat-option *ngFor="let listOption of lf_field_info.listValues" [value]="listOption">
-          {{listOption}}
+    (selectionChange)="onValueChanged()">
+    <mat-option>--</mat-option>
+    @for (listOption of lf_field_info.listValues; track listOption) {
+      <mat-option [value]="listOption">
+        {{listOption}}
       </mat-option>
+    }
   </mat-select>
-  <mat-error *ngIf="getBrokenValidationRule()">{{fieldValidationErrorMsg | async}}</mat-error>
+  @if (getBrokenValidationRule()) {
+    <mat-error>{{fieldValidationErrorMsg | async}}</mat-error>
+  }
 </mat-form-field>

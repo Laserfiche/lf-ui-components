@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormGroup, FormControl } from '@angular/forms';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfFieldInfo, LfFieldValue } from '../../../utils/lf-field-types';
@@ -18,7 +18,7 @@ import { TimeFieldComponent } from '../time-field/time-field.component';
     templateUrl: './lf-field-base.component.html',
     styleUrls: ['./lf-field-base.component.css'],
     standalone: true,
-    imports: [CommonModule, DateTimeFieldComponent, TextFieldComponent, DateFieldComponent, NumberFieldComponent, ListFieldComponent, TimeFieldComponent]
+    imports: [DateTimeFieldComponent, TextFieldComponent, DateFieldComponent, NumberFieldComponent, ListFieldComponent, TimeFieldComponent]
 })
 export class LfFieldBaseComponent {
   @Input() lfFieldInfo!: LfFieldInfo;

@@ -2,24 +2,32 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <div id="lf-checklist-item-container" class="lf-checklist-item-container">
-    <div id="lf-checklist-item" class="lf-checklist-item" *ngFor="let item of items; index as currentIndex">
-        <div id="lf-checklist-item-label" class="fixed-width-label" (click)="doNothing($event)">
-            <div *ngIf="getIcons(item).length>0" class="fixed-size-icon-container">
-                <img *ngFor="let icon of getIcons(item)" src="{{icon}}" alt="" class='lf-checklist-item-icon' />
-            </div>
-            <div id="lf-checklist-item-name" class="lf-checklist-item-name">
-                <mat-form-field class="lf-checklist-field stretch-width lf-text-field">
-                    <input matInput type="text" title="{{item.name}}" [formControl]="getSingleField(currentIndex)"
-                    (change)="onItemValueChanged(currentIndex)" (focusout)="onItemValueChanged(currentIndex)">
-                    <mat-error *ngIf="!getSingleField(currentIndex).valid"
-                        title="{{item | itemsValidationText: getSingleField(currentIndex) : LOCALIZED_STRINGS | async}}">
-                        {{item | itemsValidationText: getSingleField(currentIndex): LOCALIZED_STRINGS | async}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
+  @for (item of items; track item; let currentIndex = $index) {
+    <div id="lf-checklist-item" class="lf-checklist-item">
+      <div id="lf-checklist-item-label" class="fixed-width-label" (click)="doNothing($event)">
+        @if (getIcons(item).length>0) {
+          <div class="fixed-size-icon-container">
+            @for (icon of getIcons(item); track icon) {
+              <img src="{{icon}}" alt="" class='lf-checklist-item-icon' />
+            }
+          </div>
+        }
+        <div id="lf-checklist-item-name" class="lf-checklist-item-name">
+          <mat-form-field class="lf-checklist-field stretch-width lf-text-field">
+            <input matInput type="text" title="{{item.name}}" [formControl]="getSingleField(currentIndex)"
+              (change)="onItemValueChanged(currentIndex)" (focusout)="onItemValueChanged(currentIndex)">
+            @if (!getSingleField(currentIndex).valid) {
+              <mat-error
+                title="{{item | itemsValidationText: getSingleField(currentIndex) : LOCALIZED_STRINGS | async}}">
+                {{item | itemsValidationText: getSingleField(currentIndex): LOCALIZED_STRINGS | async}}
+              </mat-error>
+            }
+          </mat-form-field>
         </div>
-        <mat-checkbox color="primary" ngDefaultControl [labelPosition]="labelPosition" [(ngModel)]="item.checked"
-            [disabled]="item.disabled" (change)="onItemCheckboxChanged(currentIndex)" class="lf-checkbox">
-        </mat-checkbox>
+      </div>
+      <mat-checkbox color="primary" ngDefaultControl [labelPosition]="labelPosition" [(ngModel)]="item.checked"
+        [disabled]="item.disabled" (change)="onItemCheckboxChanged(currentIndex)" class="lf-checkbox">
+      </mat-checkbox>
     </div>
+  }
 </div>

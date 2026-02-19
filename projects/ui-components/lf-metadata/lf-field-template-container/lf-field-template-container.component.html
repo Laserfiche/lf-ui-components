@@ -9,7 +9,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       </mat-label>
     </ng-template>
     <mat-select
-      panelClass="lf-dropdown-overlay" 
+      panelClass="lf-dropdown-overlay"
       [placeholder]="emptyTemplateName | async"
       name="template-dropdown"
       id="template-dropdown"
@@ -18,30 +18,36 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       (openedChange)="onToggleDropdownAsync($event)"
       [(value)]="templateSelected"
       [compareWith]="compareTemplateInfoFunc"
-    >
-      <mat-option selected *ngIf="isDropdownDefault">{{ emptyTemplateName | async }}</mat-option>
-      <mat-option selected *ngIf="isDropdownError" class="dropdown-error-message">{{ AN_ERROR_OCCURED | async }}</mat-option>
-      <div *ngIf="isDropdownDefault">
-        <mat-option *ngFor="let template of availableTemplates" [value]="template"
-          >{{template.displayName}}
-        </mat-option>
-      </div>
+      >
+      @if (isDropdownDefault) {
+        <mat-option selected>{{ emptyTemplateName | async }}</mat-option>
+      }
+      @if (isDropdownError) {
+        <mat-option selected class="dropdown-error-message">{{ AN_ERROR_OCCURED | async }}</mat-option>
+      }
+      @if (isDropdownDefault) {
+        <div>
+          @for (template of availableTemplates; track template) {
+            <mat-option [value]="template"
+              >{{template.displayName}}
+            </mat-option>
+          }
+        </div>
+      }
     </mat-select>
   </mat-form-field>
-  <ng-container *ngIf="isTemplateLoading; else checkIfHasError">
+  @if (isTemplateLoading) {
     <lf-loader-component></lf-loader-component>
-  </ng-container>
-  <ng-template #checkIfHasError>
-    <ng-container *ngIf="isTemplateError; else checkIfDisplay">
+  } @else {
+    @if (isTemplateError) {
       <div class="error-message">{{ templateErrorMessage | async }}</div>
-    </ng-container>
-    <ng-template #checkIfDisplay>
-      <ng-container *ngIf="isTemplateDisplay; else emptyFieldView">
+    } @else {
+      @if (isTemplateDisplay) {
         <div class="responsive-form-container">
           <ng-template lfFieldView></ng-template>
         </div>
-      </ng-container>
-    <ng-template #emptyFieldView></ng-template>
-    </ng-template>
-  </ng-template>
+      } @else {
+      }
+    }
+  }
 </div>

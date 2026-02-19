@@ -6,41 +6,50 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <button class="dialog-header lf-close-button" [title]="localizedStrings.CLOSE | async" (click)="onCloseDialog()">
     <span class="material-icons-outlined"> close </span>
   </button>
-  <div *ngIf="isFirstPane" class="dialog-content">
-    <lf-feedback-suggestion-selection
-      (feedbackClicked)="onClickFeedback()"
-      (suggestionClicked)="onClickSuggestion()"
-    ></lf-feedback-suggestion-selection>
-  </div>
-  <div *ngIf="isFeedback || isSuggestion" class="dialog-content">
-    <lf-feedback-submission [isFeedback]="isFeedback"></lf-feedback-submission>
-  </div>
-  <div *ngIf="isThankYou" class="dialog-content">
-    <div class="lf-text-body">
-      {{ localizedStrings.THANK_YOU_FOR_SUBMISSION | async }}
+  @if (isFirstPane) {
+    <div class="dialog-content">
+      <lf-feedback-suggestion-selection
+        (feedbackClicked)="onClickFeedback()"
+        (suggestionClicked)="onClickSuggestion()"
+      ></lf-feedback-suggestion-selection>
     </div>
-    <div class="lf-text-body">
-      {{ localizedStrings.IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL | async }}
-      <a href="https://info.laserfiche.com/laserfiche-customer-panel-signup" target="_blank">{{
-        localizedStrings.PLEASE_CLICK_HERE | async
-      }}</a>
+  }
+  @if (isFeedback || isSuggestion) {
+    <div class="dialog-content">
+      <lf-feedback-submission [isFeedback]="isFeedback"></lf-feedback-submission>
     </div>
-  </div>
-  <div *ngIf="isError" class="dialog-content">
-    <p class="lf-text-body lf-user-feedback-thank-you">
-      {{ localizedStrings.SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER | async }}
-    </p>
-  </div>
+  }
+  @if (isThankYou) {
+    <div class="dialog-content">
+      <div class="lf-text-body">
+        {{ localizedStrings.THANK_YOU_FOR_SUBMISSION | async }}
+      </div>
+      <div class="lf-text-body">
+        {{ localizedStrings.IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL | async }}
+        <a href="https://info.laserfiche.com/laserfiche-customer-panel-signup" target="_blank">{{
+          localizedStrings.PLEASE_CLICK_HERE | async
+        }}</a>
+      </div>
+    </div>
+  }
+  @if (isError) {
+    <div class="dialog-content">
+      <p class="lf-text-body lf-user-feedback-thank-you">
+        {{ localizedStrings.SOMETHING_WENT_WRONG_PLEASE_TRY_AGAIN_LATER | async }}
+      </p>
+    </div>
+  }
   <div align="end" class="dialog-footer">
-    <button
-      *ngIf="isFeedback || isSuggestion"
-      id="lf-user-feedback-submit-feedback-button"
-      class="lf-button primary-button dialog-button"
-      [disabled]="isSubmitDisabled"
-      (click)="onClickSubmitAsync()"
-    >
-      {{ localizedStrings.SUBMIT | async }}
-    </button>
+    @if (isFeedback || isSuggestion) {
+      <button
+        id="lf-user-feedback-submit-feedback-button"
+        class="lf-button primary-button dialog-button"
+        [disabled]="isSubmitDisabled"
+        (click)="onClickSubmitAsync()"
+        >
+        {{ localizedStrings.SUBMIT | async }}
+      </button>
+    }
     <button class="lf-button sec-button dialog-button" (click)="onCloseDialog()">
       {{ isThankYou || isError ? (localizedStrings.CLOSE | async) : (localizedStrings.CANCEL | async) }}
     </button>

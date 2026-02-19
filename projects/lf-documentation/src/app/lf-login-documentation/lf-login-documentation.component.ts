@@ -5,14 +5,14 @@ import { Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AbortedLoginError, LfLoginComponent } from './../../../../ui-components/lf-login/lf-login-public-api';
 import { LoginMode, LoginState, RedirectBehavior } from './../../../../ui-components/shared/lf-shared-public-api';
 import { CardComponent } from '../card/card.component';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-lf-login-documentation',
   templateUrl: './lf-login-documentation.component.html',
   styleUrls: ['./lf-login-documentation.component.css', './../app.component.css'],
   standalone: true,
-  imports: [CardComponent, CommonModule, LfLoginComponent],
+  imports: [CardComponent, LfLoginComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LfLoginDocumentationComponent {

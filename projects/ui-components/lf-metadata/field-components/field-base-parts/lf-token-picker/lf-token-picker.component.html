@@ -7,6 +7,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </span>
 </button>
 <mat-menu #tokenMenu="matMenu" class="token-picker-dropdown">
-  <button class="token-picker-option" *ngFor="let token of tokens" mat-menu-item
-      (click)="onTokenChosen(token)">{{token.friendlyName | async}}</button>
+  @for (token of tokens; track token) {
+    <button class="token-picker-option" mat-menu-item
+    (click)="onTokenChosen(token)">{{token.friendlyName | async}}</button>
+  }
 </mat-menu>

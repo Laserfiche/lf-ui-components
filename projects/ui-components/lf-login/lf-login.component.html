@@ -1,30 +1,34 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-<div class="lf-login-button" *ngIf="!isMenuMode">
-  <button [disabled]="isIntermediateState"
-    [ngClass]="{'primary-button': !isLoggedIn,'sec-button': isLoggedIn, 'lf-button': true, 'login-button': true}"
-    (click)="onLoginButtonClickAsync()">
-    {{buttonText | async}}
-  </button>
-</div>
+@if (!isMenuMode) {
+  <div class="lf-login-button">
+    <button [disabled]="isIntermediateState"
+      [ngClass]="{'primary-button': !isLoggedIn,'sec-button': isLoggedIn, 'lf-button': true, 'login-button': true}"
+      (click)="onLoginButtonClickAsync()">
+      {{buttonText | async}}
+    </button>
+  </div>
+}
 
-<div class="lf-login-menu" *ngIf="isMenuMode">
-  <button [disabled]="isIntermediateState" [matMenuTriggerFor]="menu" class="lf-login-menu-trigger"
-    [ngClass]="{'lf-trigger-logged-in': isLoggedIn}">
-    <div [ngClass]="{'lf-logged-in': isLoggedIn, 'lf-login-trigger-button': true}">
-      <span class="material-icons-outlined">
-        person
-      </span>
-    </div>
-  </button>
-  <mat-menu #menu="matMenu" class="lf-login-mat-menu">
-    <div mat-menu-item>
-      <div class="lf-login-menu-button" (click)="onLoginButtonClickAsync()">
-        <button [disabled]="isIntermediateState" class="lf-login-menu-internal-button">
-          {{buttonText | async}}
-        </button>
+@if (isMenuMode) {
+  <div class="lf-login-menu">
+    <button [disabled]="isIntermediateState" [matMenuTriggerFor]="menu" class="lf-login-menu-trigger"
+      [ngClass]="{'lf-trigger-logged-in': isLoggedIn}">
+      <div [ngClass]="{'lf-logged-in': isLoggedIn, 'lf-login-trigger-button': true}">
+        <span class="material-icons-outlined">
+          person
+        </span>
       </div>
-    </div>
-  </mat-menu>
-</div>
+    </button>
+    <mat-menu #menu="matMenu" class="lf-login-mat-menu">
+      <div mat-menu-item>
+        <div class="lf-login-menu-button" (click)="onLoginButtonClickAsync()">
+          <button [disabled]="isIntermediateState" class="lf-login-menu-internal-button">
+            {{buttonText | async}}
+          </button>
+        </div>
+      </div>
+    </mat-menu>
+  </div>
+}

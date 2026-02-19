@@ -10,7 +10,7 @@ import { ThemeService } from './theme.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 
 interface ComponentNode {
@@ -83,15 +83,14 @@ const TREE_DATA: ComponentNode[] = [
     styleUrls: ['./app.component.css'],
     standalone: true,
     imports: [
-        CommonModule,
-        RouterLink,
-        RouterOutlet,
-        MatToolbarModule,
-        MatTreeModule,
-        MatIconModule,
-        MatCheckboxModule,
-        MatButtonModule
-    ]
+    RouterLink,
+    RouterOutlet,
+    MatToolbarModule,
+    MatTreeModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatButtonModule
+]
 })
 export class AppComponent implements OnInit {
   title = 'lf-documentation';

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -11,7 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     templateUrl: './lf-toolbar.component.html',
     styleUrls: ['./lf-toolbar.component.css'],
     standalone: true,
-    imports: [CommonModule, MatMenuModule, MatTooltipModule]
+    imports: [MatMenuModule, MatTooltipModule]
 })
 export class LfToolbarComponent {
 

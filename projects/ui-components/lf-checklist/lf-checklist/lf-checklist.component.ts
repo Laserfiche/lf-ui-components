@@ -10,7 +10,7 @@ import {
   ViewChildren,
   QueryList,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ItemsComponent } from '../items/items.component';
 import { OptionsComponent } from '../options/options.component';
@@ -26,7 +26,7 @@ export interface LfChecklistProviders {
     templateUrl: './lf-checklist.component.html',
     styleUrls: ['./lf-checklist.component.css'],
     standalone: true,
-    imports: [CommonModule, MatExpansionModule, ItemsComponent, OptionsComponent]
+    imports: [MatExpansionModule, ItemsComponent, OptionsComponent]
 })
 export class LfChecklistComponent {
 

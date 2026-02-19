@@ -2,37 +2,46 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <div class="lf-breadcrumbs-container">
-  <div *ngIf="breadcrumbs?.length > 1" class="breadcrumbs-dropdown-container">
+  @if (breadcrumbs?.length > 1) {
+    <div class="breadcrumbs-dropdown-container">
       <mat-button-toggle-group class="breadcrumb-split-button-group" hideSingleSelectionIndicator>
-          <mat-button-toggle class="breadcrumb-clickable-parent lf-button primary-button breadcrumb-split-button"
-              [ngClass]="{'single-selectable': breadcrumbs.length===2}"
-              (click)="onBreadcrumbSelected(breadcrumbs[1])"
-              (keydown.enter)="onBreadcrumbSelected(breadcrumbs[1])"
-              (keydown.space)="onBreadcrumbSelected(breadcrumbs[1])"
-              [title]="breadcrumbs[1]?.name">
-              {{breadcrumbs[1]?.name}}
+        <mat-button-toggle class="breadcrumb-clickable-parent lf-button primary-button breadcrumb-split-button"
+          [ngClass]="{'single-selectable': breadcrumbs.length===2}"
+          (click)="onBreadcrumbSelected(breadcrumbs[1])"
+          (keydown.enter)="onBreadcrumbSelected(breadcrumbs[1])"
+          (keydown.space)="onBreadcrumbSelected(breadcrumbs[1])"
+          [title]="breadcrumbs[1]?.name">
+          {{breadcrumbs[1]?.name}}
+        </mat-button-toggle>
+        @if (breadcrumbs?.length > 2) {
+          <mat-button-toggle class="breadcrumb-select breadcrumb-split-button"
+            value="breadcrumbDropdownMenu" (change)="onDropdownMenuSelected()" tabindex="-1">
+            <button #dropdownMenuButton mat-icon-button [matMenuTriggerFor]="breadcrumbDropdownMenu"
+              (click)="$event.stopPropagation()" tabindex="0">
+              <span class="material-icons breadcrumb-split-button-icon">
+                arrow_drop_down
+              </span>
+            </button>
           </mat-button-toggle>
-          <mat-button-toggle class="breadcrumb-select breadcrumb-split-button" *ngIf="breadcrumbs?.length > 2"
-              value="breadcrumbDropdownMenu" (change)="onDropdownMenuSelected()" tabindex="-1">
-              <button #dropdownMenuButton mat-icon-button [matMenuTriggerFor]="breadcrumbDropdownMenu"
-                (click)="$event.stopPropagation()" tabindex="0">
-                <span class="material-icons breadcrumb-split-button-icon">
-                  arrow_drop_down
-                </span>
-              </button>
-          </mat-button-toggle>
+        }
       </mat-button-toggle-group>
-
       <mat-menu #breadcrumbDropdownMenu="matMenu" xPosition="before">
-          <button class="lf-menu-item folder-dropdown" mat-menu-item *ngFor="let breadcrumbOption of breadcrumbs.slice(1)"
-              title="{{breadcrumbOption?.name}}" (click)="onBreadcrumbSelected(breadcrumbOption)">
-              {{breadcrumbOption?.name}}</button>
+        @for (breadcrumbOption of breadcrumbs.slice(1); track breadcrumbOption) {
+          <button class="lf-menu-item folder-dropdown" mat-menu-item
+            title="{{breadcrumbOption?.name}}" (click)="onBreadcrumbSelected(breadcrumbOption)">
+          {{breadcrumbOption?.name}}</button>
+        }
       </mat-menu>
-  </div>
-  <span *ngIf="breadcrumbs?.length > 1" class="material-icons breadcrumb-arrow_right" id="arrow-right">
+    </div>
+  }
+  @if (breadcrumbs?.length > 1) {
+    <span class="material-icons breadcrumb-arrow_right" id="arrow-right">
       keyboard_arrow_right
     </span>
-  <span *ngIf="breadcrumbs?.length > 0" class="breadcrumb-parent" title="{{breadcrumbs[0]?.name}}">
+  }
+  @if (breadcrumbs?.length > 0) {
+    <span class="breadcrumb-parent" title="{{breadcrumbs[0]?.name}}">
       {{breadcrumbs[0]?.name}}
-  </span>
+    </span>
+  }
 </div>
