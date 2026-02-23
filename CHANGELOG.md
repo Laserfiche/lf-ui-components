@@ -1,5 +1,10 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+## 18.0.7
+
+### Chore & Maintenance
+- Updated minor versions of some other transitive dependencies due to vulnerabilities
+
 ## 18.0.6
 
 ### Fixes
