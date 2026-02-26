@@ -3,7 +3,7 @@
 
 export interface AuthorizationCredentials {
     accessToken: string;
-    refreshToken: string;
+    refreshToken?: string;
     expiresIn: string;
     tokenType: string;
 }
