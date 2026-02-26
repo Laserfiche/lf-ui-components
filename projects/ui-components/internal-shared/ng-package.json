@@ -1,5 +1,6 @@
 {
+  "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
   "lib": {
-      "entryFile": "./lf-internal-shared-public-api.ts"
+    "entryFile": "./lf-internal-shared-public-api.ts"
   }
 }

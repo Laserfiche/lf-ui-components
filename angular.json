@@ -89,19 +89,9 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [],
-            "tsConfig": "projects/lf-cdn/tsconfig.spec.json",
-            "karmaConfig": "projects/lf-cdn/karma.conf.js",
-            "assets": [
-              "projects/lf-cdn/src/favicon.ico",
-              "projects/lf-cdn/src/assets"
-            ],
-            "styles": [
-              "projects/lf-cdn/src/styles.css"
-            ],
-            "scripts": []
+            "tsConfig": "projects/lf-cdn/tsconfig.spec.json"
           }
         },
         "lint": {
@@ -203,19 +193,10 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [],
             "tsConfig": "projects/lf-documentation/tsconfig.spec.json",
-            "karmaConfig": "projects/lf-documentation/karma.conf.js",
-            "assets": [
-              "projects/lf-documentation/src/favicon.ico",
-              "projects/lf-documentation/src/assets"
-            ],
-            "styles": [
-              "projects/lf-documentation/src/styles.css"
-            ],
-            "scripts": []
+            "browsers": ["chrome-headless"]
           }
         },
         "lint": {
@@ -251,11 +232,10 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ui-components/test.ts",
             "tsConfig": "projects/ui-components/tsconfig.spec.json",
-            "karmaConfig": "projects/ui-components/karma.conf.js"
+            "browsers": ["chrome-headless"]
           }
         },
         "lint": {
