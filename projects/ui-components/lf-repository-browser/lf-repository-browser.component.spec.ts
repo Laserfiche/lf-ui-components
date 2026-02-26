@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 import { ComponentFixture, TestBed, TestModuleMetadata, flush, fakeAsync } from '@angular/core/testing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -16,6 +16,46 @@ import { LfRepositoryBrowserComponent } from './lf-repository-browser.component'
 import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ColumnDef, LfSelectionListComponent } from '@laserfiche/lf-ui-components/lf-selection-list';
+
+@Component({
+  selector: 'lf-selection-list-component',
+  template: '',
+  standalone: true,
+})
+class MockLfSelectionListComponent {
+  @Input() uniqueIdentifier: string | undefined;
+  @Input() listItems: ILfSelectable[] = [];
+  @Input() multipleSelection = false;
+  @Input() itemSize = 42;
+  @Input() pageSize = 50;
+  @Input() listItemRef?: TemplateRef<unknown>;
+
+  @Output() scrollChanged = new EventEmitter<undefined>();
+  @Output() itemDoubleClicked = new EventEmitter<unknown>();
+  @Output() itemSelected = new EventEmitter<unknown>();
+  @Output() itemFocused = new EventEmitter<unknown>();
+  @Output() refreshData = new EventEmitter<void>();
+
+  alwaysShowHeader?: boolean;
+  columnOrderBy: unknown;
+  columns: ColumnDef[] = [];
+
+  clearSelectedValues() {
+    // no-op for test doubles
+  }
+
+  async setSelectedNodesAsync(nodes: ILfSelectable[]): Promise<ILfSelectable[]> {
+    return nodes;
+  }
+
+  async resetCachedNodesAsync(): Promise<ILfSelectable[]> {
+    return [];
+  }
+
+  focus() {
+    // no-op for test doubles
+  }
+}
 
 const rootTreeNode: LfTreeNode = {
   icon: '',
@@ -51,7 +91,7 @@ const moduleDef: TestModuleMetadata = {
     MatMenuModule,
     MatButtonToggleModule,
     MatDialogModule,
-    LfSelectionListComponent,
+    MockLfSelectionListComponent,
     LfRepositoryBrowserComponent,
     LfBreadcrumbsComponent,
     LfLoaderComponent,
@@ -93,7 +133,12 @@ describe('LfRepositoryBrowserComponent', () => {
   }
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule(moduleDef).compileComponents();
+    await TestBed.configureTestingModule(moduleDef)
+      .overrideComponent(LfRepositoryBrowserComponent, {
+        remove: { imports: [LfSelectionListComponent] },
+        add: { imports: [MockLfSelectionListComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(async () => {

@@ -7,8 +7,33 @@ import { LfLoginService } from './lf-login.service';
 
 describe('LfLoginService', () => {
   let service: LfLoginService;
+  let storageMock: Storage;
 
   beforeEach(() => {
+    const store = new Map<string, string>();
+    storageMock = {
+      length: 0,
+      clear: () => {
+        store.clear();
+        storageMock.length = 0;
+      },
+      getItem: (key: string) => store.get(key) ?? null,
+      key: (index: number) => Array.from(store.keys())[index] ?? null,
+      removeItem: (key: string) => {
+        store.delete(key);
+        storageMock.length = store.size;
+      },
+      setItem: (key: string, value: string) => {
+        store.set(key, String(value));
+        storageMock.length = store.size;
+      },
+    } as Storage;
+    Object.defineProperty(globalThis, 'localStorage', {
+      value: storageMock,
+      configurable: true,
+      writable: true,
+    });
+
     TestBed.configureTestingModule({});
     service = TestBed.inject(LfLoginService);
   });

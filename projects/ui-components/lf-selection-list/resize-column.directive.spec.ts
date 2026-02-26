@@ -110,7 +110,6 @@ describe('ResizeColumnDirective', () => {
       movementX: moveX,
       bubbles: true,
       cancelable: true,
-      view: window,
       buttons: 2
     });
     resizeHandleEl.dispatchEvent(mouseMoveEvent);

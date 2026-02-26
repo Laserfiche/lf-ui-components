@@ -33,4 +33,3 @@ describe('LfTokenPickerComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
