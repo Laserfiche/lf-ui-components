@@ -35,15 +35,15 @@ import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directi
         table {
           border-spacing: 0;
         }
-    
+
         tr {
           display: grid;
         }
-    
+
         th {
           padding: 0 10px;
         }
-    
+
         .resize-handle {
         display: inline-block;
         position: absolute;
@@ -54,7 +54,7 @@ import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directi
         width: 15px;
         right: -17.5px;
       }
-    
+
       .repository-browser-resize-overlay {
         position: absolute;
         top: 0;
