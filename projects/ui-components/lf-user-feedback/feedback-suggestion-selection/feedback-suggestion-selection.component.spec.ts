@@ -11,7 +11,7 @@ describe('FeedbackSuggestionSelectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FeedbackSuggestionSelectionComponent ]
+      imports: [ FeedbackSuggestionSelectionComponent ]
     })
     .compileComponents();
 

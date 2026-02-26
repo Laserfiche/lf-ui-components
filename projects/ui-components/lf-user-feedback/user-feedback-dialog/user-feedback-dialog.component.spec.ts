@@ -61,8 +61,8 @@ describe('UserFeedbackDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.isFeedback).toBeFalse();
-    expect(component.isSuggestion).toBeFalse();
+    expect(component.isFeedback).toBe(false);
+    expect(component.isSuggestion).toBe(false);
   });
 
   it('should go to feedback mode when feedback button is clicked', () => {
@@ -71,8 +71,8 @@ describe('UserFeedbackDialogComponent', () => {
     );
     mockFeedBackSuggestionSelection.triggerEventHandler('feedbackClicked');
     fixture.detectChanges();
-    expect(component.isFeedback).toBeTrue();
-    expect(component.isSuggestion).toBeFalse();
+    expect(component.isFeedback).toBe(true);
+    expect(component.isSuggestion).toBe(false);
   });
 
   it('should go to suggestion mode when suggestion button is clicked', () => {
@@ -81,51 +81,58 @@ describe('UserFeedbackDialogComponent', () => {
     );
     mockFeedBackSuggestionSelection.triggerEventHandler('suggestionClicked');
     fixture.detectChanges();
-    expect(component.isFeedback).toBeFalse();
-    expect(component.isSuggestion).toBeTrue();
+    expect(component.isFeedback).toBe(false);
+    expect(component.isSuggestion).toBe(true);
   });
 
   it('should disable submit button when textbox is empty', () => {
     goToFeedbackMode();
     triggerFeedbackTextChangedEventWith('');
-    expect(component.isSubmitDisabled).toBeTrue();
+    expect(component.isSubmitDisabled).toBe(true);
   });
 
-  it('should disable submit button when textbox is whitespace', (done) => {
+  it('should disable submit button when textbox is whitespace', () => {
+    return new Promise<void>((done) => {
     goToFeedbackMode();
     const text = '     ';
     triggerFeedbackTextChangedEventWith(text);
     window.setTimeout(() => {
-      expect(component.isSubmitDisabled).toBeTrue();
+      expect(component.isSubmitDisabled).toBe(true);
       // @ts-ignore
       expect(component.feedbackText).toBe(text);
       done();
     }, 350);
+    });
   });
 
-  it('should enable submit button when textbox has non-whitespace value', (done) => {
+  it('should enable submit button when textbox has non-whitespace value', () => {
+    return new Promise<void>((done) => {
     goToFeedbackMode();
     const text = 'Hello';
     triggerFeedbackTextChangedEventWith(text);
     window.setTimeout(() => {
-      expect(component.isSubmitDisabled).toBeFalse();
+      expect(component.isSubmitDisabled).toBe(false);
       // @ts-ignore
       expect(component.feedbackText).toBe(text);
       done();
     }, 350);
+    });
   });
 
-  it('should enable submit button when textbox has non-whitespace value and when email is disabled', (done) => {
+  it('should enable submit button when textbox has non-whitespace value and when email is disabled', () => {
+    return new Promise<void>((done) => {
     goToFeedbackMode();
     triggerFeedbackTextChangedEventWith('Hello');
     component.feedbackSubmission!.feedbackEmailCheckbox = false;
     window.setTimeout(() => {
-      expect(component.isSubmitDisabled).toBeFalse();
+      expect(component.isSubmitDisabled).toBe(false);
       done();
     }, 350);
+    });
   });
 
-  it('getFeedbackDialogData should get feedback dialog data', (done) => {
+  it('getFeedbackDialogData should get feedback dialog data', () => {
+    return new Promise<void>((done) => {
     goToFeedbackMode();
     const text = 'Hello';
     triggerFeedbackTextChangedEventWith(text);
@@ -143,5 +150,6 @@ describe('UserFeedbackDialogComponent', () => {
       expect(dialogData).toEqual(expectedDialogData);
       done();
     }, 350);
+    });
   });
 });

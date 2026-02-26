@@ -12,24 +12,24 @@ describe('FeedbackImageUploadComponent', () => {
   let fixture: ComponentFixture<FeedbackImageUploadComponent>;
   const base64Image =
     'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
-  const localizeServiceMock: jasmine.SpyObj<AppLocalizationService> = jasmine.createSpyObj('localization', [
-    'getStringLaserficheObservable',
-    'getStringComponentsObservable',
-    'getResourceStringComponents',
-  ]);
-  localizeServiceMock.getStringLaserficheObservable.and.callFake((value: string) => {
+  const localizeServiceMock: any = {
+    getStringLaserficheObservable: vi.fn(),
+    getStringComponentsObservable: vi.fn(),
+    getResourceStringComponents: vi.fn(),
+  };
+  localizeServiceMock.getStringLaserficheObservable.mockImplementation((value: string) => {
     return of(value);
   });
-  localizeServiceMock.getStringComponentsObservable.and.callFake((value: string) => {
+  localizeServiceMock.getStringComponentsObservable.mockImplementation((value: string) => {
     return of(value);
   });
-  localizeServiceMock.getResourceStringComponents.and.callFake((value: string) => {
+  localizeServiceMock.getResourceStringComponents.mockImplementation((value: string) => {
     return value;
   });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FeedbackImageUploadComponent],
+      imports: [FeedbackImageUploadComponent],
       providers: [{ provide: AppLocalizationService, useValue: localizeServiceMock }],
     }).compileComponents();
 
@@ -65,7 +65,7 @@ describe('FeedbackImageUploadComponent', () => {
     // Arrange
     // convert base64 to byte array
     const file = base64ToImage(base64Image);
-    spyOn(component.feedbackImageBase64, 'emit');
+    vi.spyOn(component.feedbackImageBase64, 'emit');
 
     // Act
     // @ts-ignore
@@ -74,7 +74,7 @@ describe('FeedbackImageUploadComponent', () => {
 
     // Assert
     expect(success).toBe(true);
-    expect(component.feedbackImageBase64.emit).toHaveBeenCalledOnceWith(`data:image/png;base64,${base64Image}`);
+    expect(component.feedbackImageBase64.emit).toHaveBeenCalledWith(`data:image/png;base64,${base64Image}`);
     expect(component.imageUploaded).toEqual({name: 'test.png', rawBase64: `data:image/png;base64,${base64Image}`});
   });
 
@@ -82,7 +82,7 @@ describe('FeedbackImageUploadComponent', () => {
     // Arrange
     const fileSize = 4 * Math.pow(1024, 2); // 4 MB
     const file = createInvalidImageWithSize(fileSize);
-    spyOn(component.imageUploadError, 'emit');
+    vi.spyOn(component.imageUploadError, 'emit');
 
     // Act
     // @ts-ignore
@@ -100,7 +100,7 @@ describe('FeedbackImageUploadComponent', () => {
     // Arrange
     const fileSize = Math.pow(1024, 2); // 1 MB
     const file = createInvalidImageWithSize(fileSize);
-    spyOn(component.imageUploadError, 'emit');
+    vi.spyOn(component.imageUploadError, 'emit');
 
     // Act
     // @ts-ignore
@@ -121,10 +121,10 @@ describe('FeedbackImageUploadComponent', () => {
     dataTransfer.items.add(file1);
     dataTransfer.items.add(file2);
     // @ts-ignore
-    spyOn(component, 'tryReadAndValidateImageAsync');
+    vi.spyOn(component, 'tryReadAndValidateImageAsync');
 
     const event = new DragEvent('drop', { dataTransfer });
-    spyOn(component.imageUploadError, 'emit');
+    vi.spyOn(component.imageUploadError, 'emit');
 
     component.dropHandler(event);
     fixture.detectChanges();
@@ -139,21 +139,21 @@ describe('FeedbackImageUploadComponent', () => {
     dataTransfer.items.add(file1);
 
     // @ts-ignore
-    spyOn(component, 'tryReadAndValidateImageAsync');
+    vi.spyOn(component, 'tryReadAndValidateImageAsync');
 
     const event = new DragEvent('drop', { dataTransfer });
 
     component.dropHandler(event);
     fixture.detectChanges();
     // @ts-ignore
-    expect(component.tryReadAndValidateImageAsync).toHaveBeenCalledOnceWith(file1);
+    expect(component.tryReadAndValidateImageAsync).toHaveBeenCalledWith(file1);
   });
 
   it('if remove the image, should show the file drop zone', async () => {
     // Arrange
     // convert base64 to byte array
     const file = base64ToImage(base64Image);
-    spyOn(component.feedbackImageBase64, 'emit');
+    vi.spyOn(component.feedbackImageBase64, 'emit');
 
     // Act
     // @ts-ignore

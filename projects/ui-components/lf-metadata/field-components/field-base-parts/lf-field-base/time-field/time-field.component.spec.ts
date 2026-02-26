@@ -1,7 +1,7 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TimeFieldComponent } from './time-field.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldInfo } from '../../../utils/lf-field-types';
@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import { LfUniDateTimeModule } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
+import { UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.component';
 
 describe('TimeFieldComponent', () => {
   let requiredTimeComponent: TimeFieldComponent;
@@ -43,13 +43,11 @@ describe('TimeFieldComponent', () => {
     displayName: 'optionalTimeName'
   };
 
-  beforeEach(waitForAsync(async () => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        TimeFieldComponent,
-        LfTokenPickerComponent
-      ],
       imports: [
+        TimeFieldComponent,
+        LfTokenPickerComponent,
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
@@ -57,15 +55,14 @@ describe('TimeFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        LfUniDateTimeModule,
+        UniDateTimeComponent,
       ],
       providers:[
         LfFieldTokenService,
         AppLocalizationService
       ]
-    })
-      .compileComponents();
-  }));
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     requiredTimeFixture = TestBed.createComponent(TimeFieldComponent);

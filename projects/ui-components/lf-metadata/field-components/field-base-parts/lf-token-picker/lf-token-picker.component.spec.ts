@@ -17,8 +17,7 @@ describe('LfTokenPickerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LfTokenPickerComponent],
-      imports: [MatMenuModule],
+      imports: [LfTokenPickerComponent, MatMenuModule],
       providers: [
         { provide: LfTokenService, useClass: LfFieldTokenService }]
     })

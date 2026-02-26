@@ -228,7 +228,7 @@ describe('LfListComponent single select', () => {
       setupRepoBrowserWithColumns([name, create]);
       flush();
 
-      spyOn(component.list!.refreshData, 'emit');
+      vi.spyOn(component.list!.refreshData, 'emit');
 
       fixture.debugElement.query(By.css('.mat-sort-header-arrow')).nativeElement.click();
       fixture.detectChanges();
@@ -341,7 +341,7 @@ describe('LfListComponent single select', () => {
   //   const element = fixture.nativeElement;
   //   element.querySelector('#lf-list-viewport').dispatchEvent(new Event('scroll'));
   //   tick();
-  //   expect(component.hasScrolled).toBeTrue();
+  //   expect(component.hasScrolled).toBe(true);
   // }));
 
   describe('focus', () => {

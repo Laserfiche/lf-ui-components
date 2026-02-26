@@ -11,7 +11,7 @@ describe('LfChecklistComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfChecklistComponent ]
+      imports: [ LfChecklistComponent ]
     })
     .compileComponents();
   });

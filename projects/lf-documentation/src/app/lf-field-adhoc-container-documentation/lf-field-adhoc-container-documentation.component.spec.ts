@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CardComponent } from '../card/card.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -12,13 +12,12 @@ describe('LfFieldAdhocContainerDocumentationComponent', () => {
   let component: LfFieldAdhocContainerDocumentationComponent;
   let fixture: ComponentFixture<LfFieldAdhocContainerDocumentationComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [LfFieldAdhocContainerDocumentationComponent, CardComponent],
       imports: [RouterTestingModule, LfMetadataModule],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
-  }));
+      schemas: [CUSTOM_ELEMENTS_SCHEMA] }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LfFieldAdhocContainerDocumentationComponent);

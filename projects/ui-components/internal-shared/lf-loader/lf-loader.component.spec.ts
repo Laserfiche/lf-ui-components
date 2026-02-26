@@ -11,7 +11,7 @@ describe('LfLoaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfLoaderComponent ]
+      imports: [ LfLoaderComponent ]
     })
     .compileComponents();
   });

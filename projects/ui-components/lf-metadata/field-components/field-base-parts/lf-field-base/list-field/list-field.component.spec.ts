@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListFieldComponent } from './list-field.component';
 
@@ -25,19 +25,18 @@ describe('ListFieldComponent', () => {
     displayName: 'List Name'
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ListFieldComponent ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
+        ListFieldComponent,
         BrowserAnimationsModule,
         FormsModule,
         MatFormFieldModule,
         MatSelectModule,
         ReactiveFormsModule
       ]
-    })
-    .compileComponents();
-  }));
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ListFieldComponent);

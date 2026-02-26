@@ -5,7 +5,7 @@ import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testi
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
-import { LfLoaderModule, LfModalsModule } from '@laserfiche/lf-ui-components/internal-shared'; 
+import { LfLoaderComponent, LfPopupModalComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfFieldViewDirective } from '../lf-field-view.directive';
 import { FieldValue } from '../field-components/utils/lf-field-types';
 import { LfFieldAddRemoveComponent } from './lf-field-add-remove/lf-field-add-remove.component';
@@ -13,7 +13,7 @@ import { LfFieldAdhocContainerDemoService } from './lf-field-adhoc-container-dem
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
 import { LfFieldAdhocContainerComponent } from './lf-field-adhoc-container.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { LfFieldBaseModule } from '../field-components/field-base-parts/lf-field-base/lf-field-base.module';
+import { LfFieldBaseComponent } from '../field-components/field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
 import { GetFieldTypePipe } from './lf-field-add-remove/get-field-type.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -25,21 +25,19 @@ describe('LfFieldAdhocContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         LfFieldAdhocContainerComponent,
         LfFieldAddRemoveComponent,
         LfFieldViewDirective,
-        GetFieldTypePipe
-      ],
-      imports: [
+        GetFieldTypePipe,
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        LfModalsModule,
-        LfFieldBaseModule,
+        LfPopupModalComponent,
+        LfFieldBaseComponent,
         MatCheckboxModule,
         ScrollingModule,
-        LfLoaderModule,
+        LfLoaderComponent,
         MatDialogModule,
       ],
     }).compileComponents();
@@ -146,7 +144,7 @@ describe('LfFieldAdhocContainerComponent', () => {
     component.addRemoveComponent.onClickApply();
 
     // Assert (required field is blank)
-    expect(component.forceValidation()).toBeFalse();
+    expect(component.forceValidation()).toBe(false);
   }));
 
   it('should getMappedFieldValues with valid input', async () => {
@@ -199,8 +197,8 @@ describe('LfFieldAdhocContainerComponent', () => {
     const fieldValueNameDoesNotExist: FieldValue = { fieldId: 1 };
     const fieldValueNameExist: FieldValue = { fieldId: 2, fieldName: 'hello' };
     component.componentRefs = [
-      { instance: jasmine.createSpyObj({ getFieldValue: fieldValueNameDoesNotExist }) },
-      { instance: jasmine.createSpyObj({ getFieldValue: fieldValueNameExist }) },
+      { instance: { getFieldValue: vi.fn().mockReturnValue(fieldValueNameDoesNotExist) } },
+      { instance: { getFieldValue: vi.fn().mockReturnValue(fieldValueNameExist) } },
     ] as any;
 
     // Act

@@ -10,7 +10,7 @@ describe('LfPopupModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfPopupModalComponent ]
+      imports: [ LfPopupModalComponent ]
     })
     .compileComponents();
   });

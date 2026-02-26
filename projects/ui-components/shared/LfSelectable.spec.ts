@@ -46,7 +46,7 @@ describe('LfListComponent single select', () => {
 
       // Assert
       expect(underTest.selectedItems).toContain(toSelect);
-      expect(toSelect.isSelected).toBeTrue(); 
+      expect(toSelect.isSelected).toBe(true); 
     });
 
     it('should select the current item when also holding ctrl', () => {
@@ -59,7 +59,7 @@ describe('LfListComponent single select', () => {
 
       // Assert
       expect(underTest.selectedItems).toContain(toSelect);
-      expect(toSelect.isSelected).toBeTrue(); 
+      expect(toSelect.isSelected).toBe(true); 
 
     });
 
@@ -78,7 +78,7 @@ describe('LfListComponent single select', () => {
 
       //Assert
       expect(underTest.selectedItems[0]).toBe(toSelectSecond);
-      expect(toSelectFirst.isSelected).toBeFalse();
+      expect(toSelectFirst.isSelected).toBe(false);
     });
 
     it('should select the current item when also holding shift', () => {
@@ -91,7 +91,7 @@ describe('LfListComponent single select', () => {
 
       // Assert
       expect(underTest.selectedItems).toContain(toSelect);
-      expect(toSelect.isSelected).toBeTrue(); 
+      expect(toSelect.isSelected).toBe(true); 
     });
 
     it('should not multi-select when holding shift', () => {
@@ -109,7 +109,7 @@ describe('LfListComponent single select', () => {
 
       //Assert
       expect(underTest.selectedItems[0]).toBe(toSelectSecond);
-      expect(toSelectFirst.isSelected).toBeFalse();
+      expect(toSelectFirst.isSelected).toBe(false);
     });
 
     it('should clear all other selected items when selecting the new item', () => {
@@ -127,7 +127,7 @@ describe('LfListComponent single select', () => {
 
       //Assert
       expect(underTest.selectedItems[0]).toBe(toSelectSecond);
-      expect(toSelectFirst.isSelected).toBeFalse();
+      expect(toSelectFirst.isSelected).toBe(false);
     });
 
     it('should not select a new item that is not selectable', () => {
@@ -140,7 +140,7 @@ describe('LfListComponent single select', () => {
 
       //Assert
       expect(underTest.selectedItems.length).toBe(0);
-      expect(cannotSelect.isSelected).toBeFalse();
+      expect(cannotSelect.isSelected).toBe(false);
     });
 
     it('should not de-select an item that was already selected when a not selectable item is clicked', () => {
@@ -150,13 +150,13 @@ describe('LfListComponent single select', () => {
       const list = [cannotSelect, toSelect];
 
       underTest.onItemClicked(new MouseEvent('click'), toSelect, list);
-      expect(toSelect.isSelected).toBeTrue();
+      expect(toSelect.isSelected).toBe(true);
       // Act
       underTest.onItemClicked(new MouseEvent('click'), cannotSelect, list);
 
       //Assert
       expect(underTest.selectedItems.length).toBe(0);
-      expect(toSelect.isSelected).toBeFalse();
+      expect(toSelect.isSelected).toBe(false);
     });
   });
 
@@ -176,7 +176,7 @@ describe('LfListComponent single select', () => {
 
         // Assert
         expect(underTest.selectedItems.length).toBe(1);
-        expect(toSelect.isSelected).toBeTrue();
+        expect(toSelect.isSelected).toBe(true);
       });
   
       it('should de-select other selected items and select the new passed in item', () => {
@@ -194,7 +194,7 @@ describe('LfListComponent single select', () => {
 
         //Assert
         expect(underTest.selectedItems[0]).toEqual(toSelectSecond);
-        expect(toSelectFirst.isSelected).toBeFalse();
+        expect(toSelectFirst.isSelected).toBe(false);
       });
 
       it('should not select a new item that is not selectable', () => {
@@ -207,7 +207,7 @@ describe('LfListComponent single select', () => {
   
         //Assert
         expect(underTest.selectedItems.length).toBe(0);
-        expect(cannotSelect.isSelected).toBeFalse();
+        expect(cannotSelect.isSelected).toBe(false);
       });
     });
 
@@ -222,7 +222,7 @@ describe('LfListComponent single select', () => {
 
         // Assert
         expect(underTest.selectedItems.length).toBe(1);
-        expect(toSelect.isSelected).toBeTrue();
+        expect(toSelect.isSelected).toBe(true);
       });
 
       it('should append the new item that was clicked into the list of selected items', () => {
@@ -235,9 +235,9 @@ describe('LfListComponent single select', () => {
 
         // Assert
         expect(underTest.selectedItems.length).toBe(2);
-        expect(list[0].isSelected).toBeTrue();
-        expect(list[1].isSelected).toBeTrue();
-        expect(list[2].isSelected).toBeFalse();
+        expect(list[0].isSelected).toBe(true);
+        expect(list[1].isSelected).toBe(true);
+        expect(list[2].isSelected).toBe(false);
       });
 
 
@@ -247,12 +247,12 @@ describe('LfListComponent single select', () => {
 
         // Act
         underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), list[0], list);
-        expect(list[0].isSelected).toBeTrue();
+        expect(list[0].isSelected).toBe(true);
         underTest.onItemClicked(new MouseEvent('click', {ctrlKey: true}), list[0], list);
 
         // Assert
         expect(underTest.selectedItems.length).toBe(0);
-        expect(list[0].isSelected).toBeFalse();
+        expect(list[0].isSelected).toBe(false);
       });
 
       it('should de-select an item that was already selected', () => {
@@ -266,8 +266,8 @@ describe('LfListComponent single select', () => {
 
         // Assert
         expect(underTest.selectedItems.length).toBe(1);
-        expect(list[0].isSelected).toBeFalse();
-        expect(list[1].isSelected).toBeTrue();
+        expect(list[0].isSelected).toBe(false);
+        expect(list[1].isSelected).toBe(true);
       });
 
       it('should not select a new item that is not selectable', () => {
@@ -280,7 +280,7 @@ describe('LfListComponent single select', () => {
   
         //Assert
         expect(underTest.selectedItems.length).toBe(0);
-        expect(cannotSelect.isSelected).toBeFalse();
+        expect(cannotSelect.isSelected).toBe(false);
       });
 
       it('should not remove other selected items when clicking on a non-selecatable item', () => {
@@ -294,7 +294,7 @@ describe('LfListComponent single select', () => {
   
         //Assert
         expect(underTest.selectedItems.length).toBe(1);
-        expect(list[0].isSelected).toBeTrue();
+        expect(list[0].isSelected).toBe(true);
       });
     });
 
@@ -309,7 +309,7 @@ describe('LfListComponent single select', () => {
 
         // Assert
         expect(underTest.selectedItems.length).toBe(1);
-        expect(toSelect.isSelected).toBeTrue();
+        expect(toSelect.isSelected).toBe(true);
       });
 
       it('should select all the items from the start of the list to the passed item', () => {
@@ -324,7 +324,7 @@ describe('LfListComponent single select', () => {
         // Assert
         expect(underTest.selectedItems.length).toBe(5);
         list.forEach((item: ILfSelectable) => {
-           expect(item.isSelected).toBeTrue();
+           expect(item.isSelected).toBe(true);
         });
       });
 
@@ -343,9 +343,9 @@ describe('LfListComponent single select', () => {
         expect(underTest.selectedItems.length).toBe(4);
         list.forEach((item: ILfSelectable, index: number) => {
           if (index <= 1) {
-            expect(item.isSelected).toBeFalse();
+            expect(item.isSelected).toBe(false);
           } else {
-            expect(item.isSelected).toBeTrue();
+            expect(item.isSelected).toBe(true);
           }
         });
       });
@@ -365,9 +365,9 @@ describe('LfListComponent single select', () => {
         expect(underTest.selectedItems.length).toBe(4);
         list.forEach((item: ILfSelectable, index: number) => {
           if (index <= 1) {
-            expect(item.isSelected).toBeFalse();
+            expect(item.isSelected).toBe(false);
           } else {
-            expect(item.isSelected).toBeTrue();
+            expect(item.isSelected).toBe(true);
           }
         });
       });
@@ -389,9 +389,9 @@ describe('LfListComponent single select', () => {
         expect(underTest.selectedItems.length).toBe(3);
         list.forEach((item: ILfSelectable, index: number) => {
           if ([1,2,3].indexOf(index) === -1) {
-            expect(item.isSelected).toBeFalse();
+            expect(item.isSelected).toBe(false);
           } else {
-            expect(item.isSelected).toBeTrue();
+            expect(item.isSelected).toBe(true);
           }
         });
       });
@@ -406,7 +406,7 @@ describe('LfListComponent single select', () => {
   
         //Assert
         expect(underTest.selectedItems.length).toBe(0);
-        expect(cannotSelect.isSelected).toBeFalse();
+        expect(cannotSelect.isSelected).toBe(false);
       });
 
       it('should not select a any items that are not selectable', () => {
@@ -421,9 +421,9 @@ describe('LfListComponent single select', () => {
         expect(underTest.selectedItems.length).toBe(2);
         list.forEach((item: ILfSelectable) => {
           if (!item.isSelectable) {
-            expect(item.isSelected).toBeFalse();
+            expect(item.isSelected).toBe(false);
           } else {
-            expect(item.isSelected).toBeTrue();
+            expect(item.isSelected).toBe(true);
           }
         });
       });
@@ -441,9 +441,9 @@ describe('LfListComponent single select', () => {
         expect(underTest.selectedItems.length).toBe(2);
         list.forEach((item: ILfSelectable) => {
           if (!item.isSelectable) {
-            expect(item.isSelected).toBeFalse();
+            expect(item.isSelected).toBe(false);
           } else {
-            expect(item.isSelected).toBeTrue();
+            expect(item.isSelected).toBe(true);
           }
         });
       });
@@ -460,7 +460,7 @@ describe('LfListComponent single select', () => {
 
         // Assert
         expect(underTest.selectedItems.length).toBe(1);
-        expect(toSelect.isSelected).toBeTrue();
+        expect(toSelect.isSelected).toBe(true);
       });
 
       it('should select all the items from the start of the list to the passed item', () => {
@@ -474,7 +474,7 @@ describe('LfListComponent single select', () => {
         // Assert
         expect(underTest.selectedItems.length).toBe(3);
         list.forEach((item: ILfSelectable) => {
-          expect(item.isSelected).toBeTrue();
+          expect(item.isSelected).toBe(true);
         });
       });
 
@@ -492,9 +492,9 @@ describe('LfListComponent single select', () => {
         expect(underTest.selectedItems.length).toBe(3);
         list.forEach((item: ILfSelectable, index: number) => {
           if (index === 0) {
-            expect(item.isSelected).toBeFalse();
+            expect(item.isSelected).toBe(false);
           } else {
-            expect(item.isSelected).toBeTrue();
+            expect(item.isSelected).toBe(true);
           }
         });
       });
@@ -517,9 +517,9 @@ describe('LfListComponent single select', () => {
         expect(underTest.selectedItems.length).toBe(6);
         list.forEach((item: ILfSelectable, index: number) => {
           if (index <= 2 || index > 8) {
-            expect(item.isSelected).toBeFalse();
+            expect(item.isSelected).toBe(false);
           } else {
-            expect(item.isSelected).toBeTrue();
+            expect(item.isSelected).toBe(true);
           }
         });
       });
@@ -539,12 +539,12 @@ describe('LfListComponent single select', () => {
         expect(underTest.selectedItems.length).toBe(3);
         list.forEach((item: ILfSelectable, index: number) => {
           if (index === 0) {
-            expect(item.isSelected).toBeFalse();
+            expect(item.isSelected).toBe(false);
           } else {
             if (item.isSelectable) {
-              expect(item.isSelected).toBeTrue();
+              expect(item.isSelected).toBe(true);
             } else {
-              expect(item.isSelected).toBeFalse();
+              expect(item.isSelected).toBe(false);
             }
           }
         });

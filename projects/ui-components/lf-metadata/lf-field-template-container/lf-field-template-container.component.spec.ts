@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,9 @@ import { LfFieldTemplateContainerService } from './lf-field-template-container.s
 import { City, County, DynamicFieldIds, fieldInfosPerTemplate, LfFieldTemplateContainerDemoService, State, TemplateIds } from './lf-field-template-container-demo.service';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfFieldViewDirective } from '../lf-field-view.directive';
-import { FieldComponentsModule } from '../field-components/field-components.module';
+import { LfFieldComponent } from '../field-components/lf-field/lf-field.component';
+import { LfFieldMultivalueComponent } from '../field-components/lf-field-multivalue/lf-field-multivalue.component';
+import { LfFieldGroupComponent } from '../field-components/lf-field-group/lf-field-group.component';
 import { TemplateFieldInfo } from '../field-components/utils/lf-field-types';
 
 describe('LfFieldTemplateContainerComponent', () => {
@@ -21,13 +23,11 @@ describe('LfFieldTemplateContainerComponent', () => {
   let templateService!: LfFieldTemplateContainerService;
 
   beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [LfFieldTemplateContainerComponent, LfFieldViewDirective],
-        imports: [CommonModule, FormsModule, MatSelectModule, FieldComponentsModule],
-        providers: [LfFieldMetadataConnectorService],
-      }).compileComponents();
-    })
+    async () => {
+      await TestBed.configureTestingModule({
+        imports: [LfFieldTemplateContainerComponent, LfFieldViewDirective, CommonModule, FormsModule, MatSelectModule, LfFieldComponent, LfFieldMultivalueComponent, LfFieldGroupComponent],
+        providers: [LfFieldMetadataConnectorService] }).compileComponents();
+    }
   );
 
   beforeEach(async () => {
@@ -51,11 +51,8 @@ describe('LfFieldTemplateContainerComponent', () => {
         fieldId: 1,
         values: [
           {
-            value: 'test Value',
-          },
-        ],
-      },
-    };
+            value: 'test Value' },
+        ] } };
     const fieldId: number = 1;
 
     // Act

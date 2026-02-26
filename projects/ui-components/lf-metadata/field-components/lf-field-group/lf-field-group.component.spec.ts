@@ -7,8 +7,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
-import { LfLoaderModule } from '@laserfiche/lf-ui-components/internal-shared';
-import { LfFieldBaseModule } from '../field-base-parts/lf-field-base/lf-field-base.module';
+import { LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
+import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
 import { FieldValue } from '../utils/lf-field-types';
 import { LfFieldGroupIndexDisplayPipe } from './lf-field-group-index-display.pipe';
 import { LfFieldGroupComponent } from './lf-field-group.component';
@@ -19,14 +19,15 @@ describe('LfFieldGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LfFieldGroupComponent, LfFieldGroupIndexDisplayPipe],
       imports: [
+        LfFieldGroupComponent,
+        LfFieldGroupIndexDisplayPipe,
         CommonModule,
         ReactiveFormsModule,
         DragDropModule,
-        LfFieldBaseModule,
+        LfFieldBaseComponent,
         MatIconModule,
-        LfLoaderModule
+        LfLoaderComponent
       ]
     })
       .compileComponents();

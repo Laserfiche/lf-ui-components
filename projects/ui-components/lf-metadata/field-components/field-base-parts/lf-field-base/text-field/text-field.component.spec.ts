@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TextFieldComponent } from './text-field.component';
 import { LfFieldInfo } from '../../../utils/lf-field-types';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
@@ -56,13 +56,11 @@ describe('TextFieldComponent', () => {
     displayName: 'No Length Text'
   };
 
-  beforeEach(waitForAsync(async () => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        TextFieldComponent,
-        LfTokenPickerComponent
-      ],
       imports: [
+        TextFieldComponent,
+        LfTokenPickerComponent,
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
@@ -95,7 +93,7 @@ describe('TextFieldComponent', () => {
     noLengthComponent.lf_field_info = textWithNoLengthInfo;
     noLengthComponent.lf_field_form_control = new FormControl();
     noLengthFixture.detectChanges();
-  }));
+  });
 
   it('should create short text field', () => {
     expect(shortComponent).toBeTruthy();
@@ -232,15 +230,15 @@ describe('TextFieldComponent', () => {
   });
 
   it('should use input for length 40 and under', () => {
-    expect(shortComponent.isShortField).toBeTrue();
+    expect(shortComponent.isShortField).toBe(true);
   });
 
   it('should use textarea for length over 40', () => {
-    expect(longComponent.isShortField).toBeFalse();
+    expect(longComponent.isShortField).toBe(false);
   });
 
   it('should use input for text field with no length', () => {
-    expect(noLengthComponent.isShortField).toBeTrue();
+    expect(noLengthComponent.isShortField).toBe(true);
   });
 
   it('should NOT detect token if field does not contain token', async () => {
@@ -249,7 +247,7 @@ describe('TextFieldComponent', () => {
     shortFixture.detectChanges();
 
     const containsToken = shortComponent.containsToken;
-    expect(containsToken).toBeFalse();
+    expect(containsToken).toBe(false);
   });
 
   it('should detect token if field contains token', async () => {
@@ -258,7 +256,7 @@ describe('TextFieldComponent', () => {
     shortFixture.detectChanges();
 
     const containsToken = shortComponent.containsToken;
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 
   it('should detect token if field contains token with uppercase', async () => {
@@ -267,7 +265,7 @@ describe('TextFieldComponent', () => {
     shortFixture.detectChanges();
 
     const containsToken = shortComponent.containsToken;
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 
   it('should add token to the end of the field if there is no cursor position', async () => {
@@ -285,6 +283,6 @@ describe('TextFieldComponent', () => {
     shortFixture.detectChanges();
 
     const containsToken = shortComponent.containsToken;
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 });

@@ -1,14 +1,14 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldMultivalueComponent } from './lf-field-multivalue.component';
 import { LfFieldInfo, LfFieldValue } from '../../field-components/utils/lf-field-types';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { LfFieldBaseModule } from '../field-base-parts/lf-field-base/lf-field-base.module';
+import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
 
 describe('LfFieldMultivalueComponent', () => {
   let component: LfFieldMultivalueComponent;
@@ -26,19 +26,18 @@ describe('LfFieldMultivalueComponent', () => {
   };
   const values: LfFieldValue[] = ['1', '2', '3'];
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [LfFieldMultivalueComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
+        LfFieldMultivalueComponent,
         MatFormFieldModule,
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        LfFieldBaseModule
+        LfFieldBaseComponent
       ]
-    })
-      .compileComponents();
-  }));
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LfFieldMultivalueComponent);
@@ -60,7 +59,7 @@ describe('LfFieldMultivalueComponent', () => {
   });
 
   it('forceValidation should return true if all values are valid', async () => {
-    expect(component.forceValidation()).toBeTrue();
+    expect(component.forceValidation()).toBe(true);
   });
 
   it('getFieldValue should return FieldValue with cleaned up values', async () => {

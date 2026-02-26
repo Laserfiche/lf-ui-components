@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LfFieldTemplateContainerDocumentationComponent } from './lf-field-template-container-documentation.component';
 import { LfMetadataModule } from './../../../../ui-components/lf-metadata/lf-metadata.module';
 
@@ -10,14 +10,13 @@ describe('LfFieldTemplateContainerDocumentationComponent', () => {
   let component: LfFieldTemplateContainerDocumentationComponent;
   let fixture: ComponentFixture<LfFieldTemplateContainerDocumentationComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [ LfFieldTemplateContainerDocumentationComponent ],
       imports: [LfMetadataModule,],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-    .compileComponents();
-  }));
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LfFieldTemplateContainerDocumentationComponent);

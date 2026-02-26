@@ -13,8 +13,7 @@ describe('LfUserFeedbackComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfUserFeedbackComponent ],
-      imports: [MatCheckboxModule, MatDialogModule, BrowserAnimationsModule],
+      imports: [LfUserFeedbackComponent, MatCheckboxModule, MatDialogModule, BrowserAnimationsModule],
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: {} }

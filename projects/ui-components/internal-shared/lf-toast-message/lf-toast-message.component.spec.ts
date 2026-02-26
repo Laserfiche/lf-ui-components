@@ -11,7 +11,7 @@ describe('LfToastMessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LfToastMessageComponent]
+      imports: [LfToastMessageComponent]
     })
     .compileComponents();
   });
@@ -50,7 +50,8 @@ describe('LfToastMessageComponent', () => {
     expect(component.allMessages.length).toBe(3);
   });
 
-  it('should remove validation and informational after the alloted time', (done) => {
+  it('should remove validation and informational after the alloted time', () => {
+    return new Promise<void>((done) => {
     const timeToShow = 100;
     const validationMessage: LfToastMessage = {
       message: 'Test',
@@ -71,10 +72,11 @@ describe('LfToastMessageComponent', () => {
       expect(component.allMessages.length).toBe(0);
       done();
     }, timeToShow + 100);
-    return;
+    });
   });
 
-  it('should not remove error or warning messages after alloted time', (done) => {
+  it('should not remove error or warning messages after alloted time', () => {
+    return new Promise<void>((done) => {
     const timeToShow = 100;
     const errorMessage: LfToastMessage = {
       message: 'Test',
@@ -96,7 +98,7 @@ describe('LfToastMessageComponent', () => {
       expect(component.allMessages.length).toBe(2);
       done();
     }, timeToShow + 100);
-    return;
+    });
   });
 
   it('should remove all messages when clearToasts is called', () => {

@@ -247,30 +247,30 @@ describe('LfFieldTokenService', () => {
   it('should detect token if field is token', () => {
     const dateFieldWithToken = '%(date)';
     const containsToken = service.containsTokenForFieldType(dateFieldWithToken, FieldType.Date, false);
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 
   it('should detect token if field contains token', () => {
     const stringFieldWithToken = 'Parent name is: %(parentname)';
     const containsToken = service.containsTokenForFieldType(stringFieldWithToken, FieldType.String, false);
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 
   it('should detect token if field contains token with uppercase', () => {
     const stringFieldWithToken = 'Parent name is: %(ParentName)';
     const containsToken = service.containsTokenForFieldType(stringFieldWithToken, FieldType.String, false);
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 
   it('should not detect token if field contains import token when NOT in import mode', () => {
     const datetimeFieldWithImportToken = '%(filemodified)';
     const containsToken = service.containsTokenForFieldType(datetimeFieldWithImportToken, FieldType.DateTime, false);
-    expect(containsToken).toBeFalse();
+    expect(containsToken).toBe(false);
   });
 
   it('should detect token if field contains import token when in import mode', () => {
     const datetimeFieldWithImportToken = '%(filemodified)';
     const containsToken = service.containsTokenForFieldType(datetimeFieldWithImportToken, FieldType.DateTime, true);
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 });

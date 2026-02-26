@@ -10,7 +10,7 @@ describe('UniDatetimeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UniDateTimeComponent]
+      imports: [UniDateTimeComponent]
     })
     .compileComponents();
 

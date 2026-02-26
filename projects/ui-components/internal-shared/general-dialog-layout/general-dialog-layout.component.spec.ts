@@ -3,7 +3,7 @@
 
 import { Component, ViewChild, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GeneralDialogLayoutComponent } from './general-dialog-layout.component';
 
@@ -28,12 +28,11 @@ describe('LfGeneralDialogLayoutComponent UI tests', () => {
   let component: DialogLayoutTesterComponent;
   let fixture: ComponentFixture<DialogLayoutTesterComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [ DialogLayoutTesterComponent ]
-    })
-    .compileComponents();
-  }));
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DialogLayoutTesterComponent);
@@ -58,12 +57,11 @@ describe('LfGeneralDialogLayoutComponent', () => {
   let component: GeneralDialogLayoutComponent;
   let fixture: ComponentFixture<GeneralDialogLayoutComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ GeneralDialogLayoutComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ GeneralDialogLayoutComponent ]
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GeneralDialogLayoutComponent);

@@ -98,7 +98,7 @@ This will launch a Chrome browser and run all projects.
 Press Ctrl+C in the console to run the next project.
 
 You can also run a specific project, for example: `npm run test ui-components`.
-For more details on how to run specific components or tests, visit the karma test documentation.
+For more details on how to run specific components or tests, visit the Vitest test documentation.
 
 ### Run lint
 

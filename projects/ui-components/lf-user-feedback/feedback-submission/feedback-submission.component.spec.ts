@@ -19,14 +19,14 @@ class MockFeedbackImageUploadComponent {}
 describe('FeedbackSubmissionComponent', () => {
   let component: FeedbackSubmissionComponent;
   let fixture: ComponentFixture<FeedbackSubmissionComponent>;
-  const localizeServiceMock: jasmine.SpyObj<AppLocalizationService> = jasmine.createSpyObj('localization', [
-    'getStringLaserficheObservable',
-    'getStringComponentsObservable',
-  ]);
-  localizeServiceMock.getStringLaserficheObservable.and.callFake((value: string) => {
+  const localizeServiceMock: any = {
+    getStringLaserficheObservable: vi.fn(),
+    getStringComponentsObservable: vi.fn(),
+  };
+  localizeServiceMock.getStringLaserficheObservable.mockImplementation((value: string) => {
     return of(value);
   });
-  localizeServiceMock.getStringComponentsObservable.and.callFake((value: string) => {
+  localizeServiceMock.getStringComponentsObservable.mockImplementation((value: string) => {
     return of(value);
   });
 
@@ -76,7 +76,7 @@ describe('FeedbackSubmissionComponent', () => {
 
 
   it('if textarea input changes, should emit feedbackTextChanged', () => {
-    spyOn(component.feedbackTextChanged, 'emit');
+    vi.spyOn(component.feedbackTextChanged, 'emit');
     const textAreaInput = document.getElementsByTagName('textarea')[0];
     const testInput = 'test input';
     textAreaInput.value = testInput;

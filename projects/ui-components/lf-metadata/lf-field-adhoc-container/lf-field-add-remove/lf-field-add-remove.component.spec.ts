@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,14 +21,12 @@ describe('LfFieldAddRemoveComponent', () => {
   let fixture: ComponentFixture<LfFieldAddRemoveComponent>;
   let element: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
         LfFieldAddRemoveComponent,
         LfPopupModalComponent,
-        GetFieldTypePipe
-      ],
-      imports: [
+        GetFieldTypePipe,
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
@@ -37,9 +35,8 @@ describe('LfFieldAddRemoveComponent', () => {
         ScrollingModule
       ],
       providers: [{provide: AdhocFieldConnectorService, useValue: adHocConnectorTestService}]
-    })
-      .compileComponents();
-  }));
+    }).compileComponents();
+  });
 
   beforeEach(async () => {
     fixture = TestBed.createComponent(LfFieldAddRemoveComponent);
@@ -73,7 +70,7 @@ describe('LfFieldAddRemoveComponent', () => {
     // Assert
     const expected = new Set<number>([1, 3]);
     expect(component.selectedFieldIds).toEqual(expected);
-    expect(component.isFieldSelected(fieldInfoToCheck)).toBeTrue();
+    expect(component.isFieldSelected(fieldInfoToCheck)).toBe(true);
   });
 
   it('should update selectedFields when checkbox is unchecked', () => {
@@ -90,13 +87,13 @@ describe('LfFieldAddRemoveComponent', () => {
     // Assert
     const expected = new Set<number>();
     expect(component.selectedFieldIds).toEqual(expected);
-    expect(component.isFieldSelected(fieldInfoToUncheck)).toBeFalse();
+    expect(component.isFieldSelected(fieldInfoToUncheck)).toBe(false);
   });
 
   it('should update connector service when click apply after changes', async () => {
     // Arrange
-    spyOn(component.clickBack, 'emit');
-    spyOn(adHocConnectorTestService, 'setSelectedFieldIds');
+    vi.spyOn(component.clickBack, 'emit');
+    vi.spyOn(adHocConnectorTestService, 'setSelectedFieldIds');
     const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
@@ -107,7 +104,7 @@ describe('LfFieldAddRemoveComponent', () => {
     // Assert
     await fixture.whenStable();
     expect(adHocConnectorTestService.setSelectedFieldIds).toHaveBeenCalledWith(new Set<number>());
-    expect(component.areCheckboxChanges).toBeFalse();
+    expect(component.areCheckboxChanges).toBe(false);
     expect(component.clickBack.emit).toHaveBeenCalled();
 
   });
@@ -125,13 +122,13 @@ describe('LfFieldAddRemoveComponent', () => {
     // Assert
     await fixture.whenStable();
     expect(component.selectedFieldIds).toEqual(new Set<number>([1]));
-    expect(component.areCheckboxChanges).toBeFalse();
+    expect(component.areCheckboxChanges).toBe(false);
   });
 
   it('should update connector service when confirm yes after press back with changes', async () => {
     // Arrange
-    spyOn(component.clickBack, 'emit');
-    spyOn(adHocConnectorTestService, 'setSelectedFieldIds');
+    vi.spyOn(component.clickBack, 'emit');
+    vi.spyOn(adHocConnectorTestService, 'setSelectedFieldIds');
     const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
@@ -143,13 +140,13 @@ describe('LfFieldAddRemoveComponent', () => {
     // Assert
     await fixture.whenStable();
     expect(adHocConnectorTestService.setSelectedFieldIds).toHaveBeenCalledWith(new Set<number>());
-    expect(component.areCheckboxChanges).toBeFalse();
+    expect(component.areCheckboxChanges).toBe(false);
     expect(component.clickBack.emit).toHaveBeenCalled();
   });
 
   it('should not update connector service when confirm no after press back with changes', async () => {
     // Arrange
-    spyOn(component.clickBack, 'emit');
+    vi.spyOn(component.clickBack, 'emit');
     const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
@@ -160,13 +157,13 @@ describe('LfFieldAddRemoveComponent', () => {
 
     // Assert
     await fixture.whenStable();
-    expect(component.areCheckboxChanges).toBeFalse();
+    expect(component.areCheckboxChanges).toBe(false);
     expect(component.clickBack.emit).toHaveBeenCalled();
   });
 
   it('should not update connector service when confirm cancel after press back with changes', async () => {
     // Arrange
-    spyOn(component.clickBack, 'emit');
+    vi.spyOn(component.clickBack, 'emit');
     const checkbox = element.querySelector('.mdc-checkbox__native-control') as HTMLElement;
     checkbox.click();
     fixture.detectChanges();
@@ -176,20 +173,20 @@ describe('LfFieldAddRemoveComponent', () => {
 
     // Assert
     await fixture.whenStable();
-    expect(component.areCheckboxChanges).toBeTrue();
+    expect(component.areCheckboxChanges).toBe(true);
     expect(component.clickBack.emit).not.toHaveBeenCalled();
   });
 
   it('should not update connector service when press back with no changes', async () => {
     // Arrange
-    spyOn(component.clickBack, 'emit');
+    vi.spyOn(component.clickBack, 'emit');
     // Act
     const backButton = element.querySelector('#adhoc-back-button > button') as HTMLButtonElement;
     backButton.click();
 
     // Assert
     await fixture.whenStable();
-    expect(component.areCheckboxChanges).toBeFalse();
+    expect(component.areCheckboxChanges).toBe(false);
     expect(component.clickBack.emit).toHaveBeenCalled();
   });
 
@@ -202,7 +199,7 @@ describe('LfFieldAddRemoveComponent', () => {
     // Assert
     expect(applyButton).toBeFalsy();
     expect(cancelButton).toBeFalsy();
-    expect(component.areCheckboxChanges).toBeFalse();
+    expect(component.areCheckboxChanges).toBe(false);
   });
 });
 
@@ -234,8 +231,7 @@ const adHocConnectorTestService =  {
         { value: '44.788', position: '1' },
         { value: '55555', position: '2' }
       ]
-    },
-  },
+    } },
 
   setSelectedFieldIds(selectedFields: Set<number>) {
   },

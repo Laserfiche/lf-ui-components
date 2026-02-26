@@ -12,8 +12,8 @@ describe('LfLoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfLoginComponent ],
       imports: [
+        LfLoginComponent,
         MatMenuModule
       ]
     })

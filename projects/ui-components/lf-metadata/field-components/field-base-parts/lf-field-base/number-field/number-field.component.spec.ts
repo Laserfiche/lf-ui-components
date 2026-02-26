@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NumberFieldComponent } from './number-field.component';
 import { LfFieldInfo } from '../../../utils/lf-field-types';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -59,10 +59,10 @@ describe('NumberFieldComponent', () => {
     displayName: 'testLongIntName'
   };
 
-  beforeEach(waitForAsync(async () => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NumberFieldComponent],
       imports: [
+        NumberFieldComponent,
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
@@ -73,9 +73,8 @@ describe('NumberFieldComponent', () => {
         NgxMaskPipe
       ],
       providers: [LfFieldTokenService, AppLocalizationService, provideNgxMask()]
-    })
-      .compileComponents();
-  }));
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     numberFixture = TestBed.createComponent(NumberFieldComponent);

@@ -18,7 +18,7 @@ describe('LfFieldValidationUtils', () => {
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(requiredFieldInfo);
         const fc: FormControl = new FormControl('', validators);
-        expect(fc.hasError('required')).toBeTrue();
+        expect(fc.hasError('required')).toBe(true);
     });
 
     it('should not create "required" validator if field is not required', () => {
@@ -32,7 +32,7 @@ describe('LfFieldValidationUtils', () => {
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(optionalFieldInfo);
         const fc: FormControl = new FormControl('', validators);
-        expect(fc.hasError('required')).toBeFalse();
+        expect(fc.hasError('required')).toBe(false);
     });
 
     it('should create "maxlength" validator if field has a length', () => {
@@ -46,7 +46,7 @@ describe('LfFieldValidationUtils', () => {
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(maxLengthFieldInfo);
         const fc: FormControl = new FormControl('12345', validators);
-        expect(fc.hasError('maxlength')).toBeTrue();
+        expect(fc.hasError('maxlength')).toBe(true);
     });
 
     it('should not create "maxlength" validator if field does not have a length', () => {
@@ -59,7 +59,7 @@ describe('LfFieldValidationUtils', () => {
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(noMaxLengthFieldInfo);
         const fc: FormControl = new FormControl('12345', validators);
-        expect(fc.hasError('maxlength')).toBeFalse();
+        expect(fc.hasError('maxlength')).toBe(false);
     });
 
     it('should create "pattern" validator if field is text and has a constraint', () => {
@@ -74,7 +74,7 @@ describe('LfFieldValidationUtils', () => {
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(twoNumberFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
-        expect(fc.hasError('pattern')).toBeTrue();
+        expect(fc.hasError('pattern')).toBe(true);
     });
 
     it('should create "numeric" validator if field is Number and has a constraint', () => {
@@ -89,7 +89,7 @@ describe('LfFieldValidationUtils', () => {
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(twoNumberFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
-        expect(fc.hasError('numeric')).toBeTrue();
+        expect(fc.hasError('numeric')).toBe(true);
     });
 
     it('should create "numeric" validator if field is LongInteger and has a constraint', () => {
@@ -104,7 +104,7 @@ describe('LfFieldValidationUtils', () => {
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(twoNumberFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
-        expect(fc.hasError('numeric')).toBeTrue();
+        expect(fc.hasError('numeric')).toBe(true);
     });
 
     it('should create "numeric" validator if field is ShortInteger and has a constraint', () => {
@@ -119,7 +119,7 @@ describe('LfFieldValidationUtils', () => {
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(twoNumberFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
-        expect(fc.hasError('numeric')).toBeTrue();
+        expect(fc.hasError('numeric')).toBe(true);
     });
 
     it('should not create "pattern" validator if text field has no regex constraint', () => {
@@ -132,7 +132,7 @@ describe('LfFieldValidationUtils', () => {
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(noConstraintFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
-        expect(fc.hasError('pattern')).toBeFalse();
+        expect(fc.hasError('pattern')).toBe(false);
     });
 
     it('should not create "numeric" validator if numeric field has no regex constraint', () => {
@@ -145,7 +145,7 @@ describe('LfFieldValidationUtils', () => {
         };
         const validators: ValidatorFn[] = LfFieldValidationUtils.getDefaultValidators(noConstraintFieldInfo);
         const fc: FormControl = new FormControl('123', validators);
-        expect(fc.hasError('numeric')).toBeFalse();
+        expect(fc.hasError('numeric')).toBe(false);
     });
 
 });

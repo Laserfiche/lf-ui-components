@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateTimeFieldComponent } from './date-time-field.component';
 import { LfFieldBaseComponent } from '../lf-field-base/lf-field-base.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,10 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import {
-  UniDateTimeComponent,
-  LfUniDateTimeModule,
-} from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
+import { UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.component';
 import { UniDateTimeService } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.service';
 
 describe('DateTimeFieldComponent', () => {
@@ -35,21 +32,19 @@ describe('DateTimeFieldComponent', () => {
     description: 'requiredDateTimeDescription',
     isRequired: true,
     fieldType: FieldType.DateTime,
-    displayName: 'requiredDateTimeName',
-  };
+    displayName: 'requiredDateTimeName' };
 
   const optionalDateTime: LfFieldInfo = {
     name: 'optionalDateTimeName',
     id: 2,
     description: 'optionalDateTimeDescription',
     fieldType: FieldType.DateTime,
-    displayName: 'optionalDateTimeName',
-  };
+    displayName: 'optionalDateTimeName' };
 
-  beforeEach(waitForAsync(async () => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DateTimeFieldComponent, LfFieldBaseComponent, LfTokenPickerComponent],
       imports: [
+        DateTimeFieldComponent, LfFieldBaseComponent, LfTokenPickerComponent,
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
@@ -57,11 +52,10 @@ describe('DateTimeFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        LfUniDateTimeModule,
+        UniDateTimeComponent,
       ],
-      providers: [LfFieldTokenService, AppLocalizationService],
-    }).compileComponents();
-  }));
+      providers: [LfFieldTokenService, AppLocalizationService] }).compileComponents();
+  });
 
   beforeEach(() => {
     requiredDateTimeFixture = TestBed.createComponent(DateTimeFieldComponent);
@@ -181,7 +175,7 @@ describe('DateTimeFieldComponent', () => {
     const expectedDateFormat = 'MM/DD/YYYY';
     const expectedTimeFormat = 'hh:mm:ss';
     const expectedDateTimeFomrat = expectedDateFormat + ' ' + expectedTimeFormat;
-    const returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
+    const returnedDateTimeObject = { component: TestBed.createComponent(UniDateTimeComponent).componentInstance };
     returnedDateTimeObject.component.dateControl = new FormControl();
     returnedDateTimeObject.component.timeControl = new FormControl();
     returnedDateTimeObject.component.dateTimeControl = new FormControl();
@@ -232,8 +226,7 @@ describe('DateTimeFieldComponent', () => {
     // arrange
     const expectedDateTimeFormat: string = 'DD/MM/YYYY H:mm';
     optionalDateTimeComponent.lf_field_form_control.setErrors({
-      [ValidationRule.DATETIME_PICKER_PARSE]: { dateTimeFormat: expectedDateTimeFormat },
-    });
+      [ValidationRule.DATETIME_PICKER_PARSE]: { dateTimeFormat: expectedDateTimeFormat } });
     // act
     let actualValue: string | undefined;
 

@@ -24,12 +24,12 @@ describe('LfLoginService', () => {
   });
 
   it('exchangeCodeForTokenAsync should throw error if empty params', async () => {
-    await expectAsync(service.exchangeCodeForTokenAsync({})).toBeRejectedWithError();
+    await expect(service.exchangeCodeForTokenAsync({})).rejects.toThrow();
   });
 
   it('exchangeCodeForTokenAsync should emit logoutCompletedInService if empty code verifier in local storage', async () => {
     localStorage.removeItem(service.codeVerifierStorageKey);
-    spyOn(service.logoutCompletedInService, 'emit');
+    vi.spyOn(service.logoutCompletedInService, 'emit');
     await service.exchangeCodeForTokenAsync({authorizationCode: 'test authorization code' });
     expect(service.logoutCompletedInService.emit).toHaveBeenCalledWith({
       ErrorType: 'no code verifier',
