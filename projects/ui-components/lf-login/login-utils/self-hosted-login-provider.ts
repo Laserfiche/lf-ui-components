@@ -4,11 +4,12 @@
 import { EventEmitter, Inject, Injectable } from '@angular/core';
 import { LoginProvider } from './login-provider';
 import { LfLoginService } from './lf-login.service';
-import { SelfHostedTokenClient, BaseTokenClient} from '@laserfiche/lf-api-client-core';
+import { SelfHostedTokenClient } from '@laserfiche/lf-api-client-core';
 import { AuthorizationCredentials } from './lf-login-types';
 import { RedirectUriQueryParams } from './lf-login-internal-types';
 import { LoginState } from '@laserfiche/lf-ui-components/shared';
 
+/** @internal */
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +20,9 @@ export class SelfHostedLoginProvider implements LoginProvider {
   ) {}
 
   getTokenClient() {
-    return new SelfHostedTokenClient(`${this.lfLoginService.self_hosted_base_url}/v2/Repositories/${this.repositoryId}/Token`);
+    return new SelfHostedTokenClient(
+      `${this.lfLoginService.self_hosted_base_url}/v2/Repositories/${this.repositoryId}/Token`,
+    );
   }
 
   getBaseAuthorizeUrl(): string {
@@ -33,7 +36,7 @@ export class SelfHostedLoginProvider implements LoginProvider {
     }
   }
 
-  exchangeRedirectUriQueryParams(url: URL): RedirectUriQueryParams {
+  exchangeRedirectUriQueryParams(url: URL): RedirectUriQueryParams | undefined {
     const authorizationCode = this.lfLoginService.extractCodeFromUrl(url);
     const error = this.lfLoginService.extractErrorFromUrl(url);
     if (authorizationCode) {
@@ -42,9 +45,8 @@ export class SelfHostedLoginProvider implements LoginProvider {
       };
     } else if (error) {
       return { error };
-    } else {
-      throw new Error('Unable to parse callback');
     }
+    return undefined;
   }
 
   determineCurrentState(
@@ -67,7 +69,7 @@ export class SelfHostedLoginProvider implements LoginProvider {
     }
   }
 
-  logoutInitiatedViaUrl(url: string | undefined, logoutInitiated: { emit: (url?: string) => void; }): void {
+  logoutInitiatedViaUrl(url: string | undefined, logoutInitiated: { emit: (url?: string) => void }): void {
     if (url) {
       logoutInitiated.emit(url);
     }

@@ -10,7 +10,7 @@ import { LoginProvider } from './login-provider';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LfLoginService {
   /** @internal */
@@ -40,14 +40,16 @@ export class LfLoginService {
   /** @internal */
   code_verifier?: string;
   /** @internal */
-  login_type: LoginType = "Cloud";
+  login_type: LoginType = 'Cloud';
   /** @internal */
   loginProvider?: LoginProvider;
   /** @internal */
   login_identifier!: string;
 
   /** @internal */
-  @Output() logoutCompletedInService: EventEmitter<AbortedLoginError | undefined> = new EventEmitter<AbortedLoginError | undefined>();
+  @Output() logoutCompletedInService: EventEmitter<AbortedLoginError | undefined> = new EventEmitter<
+    AbortedLoginError | undefined
+  >();
   /** @internal */
   @Output() loginCompletedInService: EventEmitter<void> = new EventEmitter<void>();
 
@@ -82,16 +84,13 @@ export class LfLoginService {
   /** @internal */
   getAccountEndpoints(): AccountEndpoints | undefined {
     try {
-      // if (this._accountEndpoints) {
-      //   return this._accountEndpoints;
-      // } else {
-        const accountEndpointsFromStorage = localStorage.getItem(this.accountEndpointsStorageKey);
-        if (accountEndpointsFromStorage) {
-          const accountEndpoints: AccountEndpoints = JSON.parse(accountEndpointsFromStorage);
-          return accountEndpoints;
-        } else {
-          return undefined;
-        }
+      const accountEndpointsFromStorage = localStorage.getItem(this.accountEndpointsStorageKey);
+      if (accountEndpointsFromStorage) {
+        const accountEndpoints: AccountEndpoints = JSON.parse(accountEndpointsFromStorage);
+        return accountEndpoints;
+      } else {
+        return undefined;
+      }
       // }
     } catch (err: any) {
       console.warn('Unable to retrieve accountEndpoints: ' + err.message);
@@ -121,56 +120,58 @@ export class LfLoginService {
             this.code_verifier,
           );
           const accessToken = await this.parseTokenResponseAsync(response);
-          this.loginProvider?.storeInLocalStorage(accessToken!, callBackURIParams.customerId!, callBackURIParams.cloudSubDomain!);
+          this.loginProvider?.storeInLocalStorage(
+            accessToken!,
+            callBackURIParams.customerId!,
+            callBackURIParams.cloudSubDomain!,
+          );
           this._state = LoginState.LoggedIn;
           console.info('state changed to LoggedIn');
           this.loginCompletedInService.emit();
-        }
-        catch (e) {
+        } catch (e) {
           const status = (<ApiException>e).status ?? 0;
           const message = (<ApiException>e).message;
           this.removeFromLocalStorage();
           this._state = LoginState.LoggedOut;
           console.error('Login Error (state changed to LoggedOut): ' + message);
-          this.logoutCompletedInService.emit(
-            {
-              ErrorType: status.toString(),
-              ErrorMessage: message
-            });
+          this.logoutCompletedInService.emit({
+            ErrorType: status.toString(),
+            ErrorMessage: message,
+          });
         }
-      }
-      else if (callBackURIParams.error) {
+      } else if (callBackURIParams.error) {
         this._state = LoginState.LoggedOut;
         this.removeFromLocalStorage();
         this.logoutCompletedInService.emit({
           ErrorType: callBackURIParams.error.name,
-          ErrorMessage: callBackURIParams.error.description!
+          ErrorMessage: callBackURIParams.error.description!,
         });
-        console.error('Login Error (state changed to Logged Out): ' + callBackURIParams.error.name + ', ' + callBackURIParams.error.description);
-      }
-      else if (callBackURIParams.authorizationCode && !this.code_verifier) {
+        console.error(
+          'Login Error (state changed to Logged Out): ' +
+            callBackURIParams.error.name +
+            ', ' +
+            callBackURIParams.error.description,
+        );
+      } else if (callBackURIParams.authorizationCode && !this.code_verifier) {
         this._state = LoginState.LoggedOut;
         this.removeFromLocalStorage();
         this.logoutCompletedInService.emit({
           ErrorType: 'no code verifier',
-          ErrorMessage: 'code verifier not found'
+          ErrorMessage: 'code verifier not found',
         });
         console.error('Login Error (state changed to Logged Out): unable to find code verifier');
-      }
-      else if (!tokenClient) {
+      } else if (!tokenClient) {
         this._state = LoginState.LoggedOut;
         this.removeFromLocalStorage();
         this.logoutCompletedInService.emit({
           ErrorType: 'TokenClient is undefined',
-          ErrorMessage: 'TokenClient is undefined'
+          ErrorMessage: 'TokenClient is undefined',
         });
-        console.error('Login Error (state changed to Logged Out): unable to use an undefined TokenClient');
-      }
-      else {
+        console.error('Login Error (state changed to Logged Out): unable to use an undefined TokenClient', tokenClient);
+      } else {
         throw new Error('Unexpected callBackURIParams');
       }
-    }
-    finally {
+    } finally {
       if (!concurrentCallsDetected) {
         this.exchangeCodeForToken_lock = false;
       }
@@ -182,8 +183,7 @@ export class LfLoginService {
     try {
       const authorizationCredentials = this.getExchangeCodeSuccessResponse(response);
       return authorizationCredentials;
-    }
-    catch {
+    } catch {
       throw Error('Parse token response error.');
     }
   }
@@ -203,7 +203,7 @@ export class LfLoginService {
       accessToken,
       refreshToken,
       expiresIn,
-      tokenType
+      tokenType,
     };
   }
 
@@ -235,7 +235,7 @@ export class LfLoginService {
       code: code,
       redirect_uri: this.redirect_uri,
       client_id: this.client_id,
-      code_verifier: this.code_verifier
+      code_verifier: this.code_verifier,
     };
     const requestBody = this.objToWWWFormUrlEncodedBody(body);
     request.headers = headers;
@@ -257,7 +257,7 @@ export class LfLoginService {
   /** @internal */
   getPostRequestHeaders() {
     const headers: Record<string, string> = {
-      'Content-Type': CONTENT_TYPE_WWW_FORM_URLENCODED
+      'Content-Type': CONTENT_TYPE_WWW_FORM_URLENCODED,
     };
 
     return headers;
@@ -289,7 +289,7 @@ export class LfLoginService {
   storeAccountInfo(accountId: string, trusteeId: string) {
     const accountInfo: AccountInfo = {
       accountId,
-      trusteeId
+      trusteeId,
     };
     localStorage.setItem(this.accountIdStorageKey!, JSON.stringify(accountInfo));
     this._accountInfo = accountInfo;
@@ -327,5 +327,4 @@ export class LfLoginService {
   extractCustomerIdFromUrl(url: URL): string | undefined {
     return url.searchParams.get('customerId') ?? undefined;
   }
-
 }

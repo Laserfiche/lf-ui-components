@@ -9,13 +9,12 @@ import { AuthorizationCredentials } from './lf-login-types';
 import { RedirectUriQueryParams } from './lf-login-internal-types';
 import { LoginState } from '@laserfiche/lf-ui-components/shared';
 
+/** @internal */
 @Injectable({
   providedIn: 'root',
 })
 export class CloudLoginProvider implements LoginProvider {
-    /** @internal */
   readonly CLOUDDEV = 'clouddev';
-  /** @internal */
   readonly CLOUDTEST = 'cloudtest';
 
   constructor(private lfLoginService: LfLoginService) {}
@@ -24,21 +23,20 @@ export class CloudLoginProvider implements LoginProvider {
     return new TokenClient(tokenClientUrl);
   }
 
-    /** @internal */
-  getBaseAuthorizeUrl(): string  {
+  getBaseAuthorizeUrl(): string {
     let baseAuthorizeUrl: string;
     const lastOAuthAuthorizeUrl = this.lfLoginService.getAccountEndpoints()?.oauthAuthorizeUrl;
     const configuredHostName = this.lfLoginService.authorize_url_host_name;
 
     const bothClouddev = configuredHostName.includes(this.CLOUDDEV) && lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV);
     const bothCloudtest =
-    configuredHostName.includes(this.CLOUDTEST) && lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
+      configuredHostName.includes(this.CLOUDTEST) && lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
     const bothCloudprod =
-    lastOAuthAuthorizeUrl &&
-    !configuredHostName.includes(this.CLOUDDEV) &&
-    !configuredHostName.includes(this.CLOUDTEST) &&
-    !lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV) &&
-    !lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
+      lastOAuthAuthorizeUrl &&
+      !configuredHostName.includes(this.CLOUDDEV) &&
+      !configuredHostName.includes(this.CLOUDTEST) &&
+      !lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV) &&
+      !lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
 
     const sameEnvironment = bothClouddev || bothCloudtest || bothCloudprod;
 
@@ -51,7 +49,6 @@ export class CloudLoginProvider implements LoginProvider {
     return baseAuthorizeUrl;
   }
 
-
   storeInLocalStorage(accessTokenCredentials: AuthorizationCredentials, accountId: string, regionalDomain: string) {
     this.lfLoginService.storeAccessToken(accessTokenCredentials);
     const trusteeId: string = this.lfLoginService.parseAccessToken(accessTokenCredentials.accessToken);
@@ -60,7 +57,7 @@ export class CloudLoginProvider implements LoginProvider {
     this.lfLoginService.storeAccountEndpoints(endpoints);
   }
 
-  exchangeRedirectUriQueryParams(url: URL): RedirectUriQueryParams {
+  exchangeRedirectUriQueryParams(url: URL): RedirectUriQueryParams | undefined {
     const authorizationCode = this.lfLoginService.extractCodeFromUrl(url);
     const domain = this.lfLoginService.extractDomainFromUrl(url);
     const customerId = this.lfLoginService.extractCustomerIdFromUrl(url);
@@ -73,9 +70,8 @@ export class CloudLoginProvider implements LoginProvider {
       };
     } else if (error) {
       return { error };
-    } else {
-      throw new Error('Unable to parse callback');
     }
+    return undefined;
   }
 
   determineCurrentState(
@@ -102,7 +98,7 @@ export class CloudLoginProvider implements LoginProvider {
     }
   }
 
-  logoutInitiatedViaUrl(url: string | undefined, logoutInitiated: { emit: (url?: string) => void; }): void {
+  logoutInitiatedViaUrl(url: string | undefined, logoutInitiated: { emit: (url?: string) => void }): void {
     logoutInitiated.emit(url);
   }
 }
