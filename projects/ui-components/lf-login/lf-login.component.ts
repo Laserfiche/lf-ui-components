@@ -1,15 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, OnInit } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
 import {
@@ -221,7 +213,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
    */
   @Input()
   refreshTokenAsync: (initiateLoginFlowOnRefreshFailure: boolean) => Promise<string | undefined> = async (
-    initiateLoginFlowOnRefreshFailure: boolean = true
+    initiateLoginFlowOnRefreshFailure: boolean = true,
   ) => {
     try {
       const refreshToken: string | undefined = this.authorization_credentials?.refreshToken;
@@ -233,7 +225,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
           console.log('Logging in. Will not attempt to refresh');
         } else {
           console.warn(
-            'Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false'
+            'Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false',
           );
           this._state = LoginState.LoggedOut;
           this.logoutCompleted.emit({
@@ -267,7 +259,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
               await this.startOAuthLoginFlowAsync();
             } else {
               console.warn(
-                `Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`
+                `Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`,
               );
               this._state = LoginState.LoggedOut;
               this.ref.detectChanges();
@@ -290,9 +282,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
     }
   };
 
-  private async loginFlowHandler(
-    startLoginMethodAsync: () => Promise<void>,
-  ): Promise<string | undefined> {
+  private async loginFlowHandler(startLoginMethodAsync: () => Promise<void>): Promise<string | undefined> {
     try {
       const accessToken: string | undefined = this.authorization_credentials?.accessToken;
       if (this.state === LoginState.LoggedOut && !this.hasLoginError) {
@@ -322,9 +312,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
 
   @Input()
   initLoginFlowAsync: () => Promise<string | undefined> = async () => {
-    return await this.loginFlowHandler(() =>
-      this.startCloudLoginFlowAsync(),
-    );
+    return await this.loginFlowHandler(() => this.startCloudLoginFlowAsync());
   };
 
   private async startSelfHostedLoginFlow(accountEndpoints: AccountEndpoints, repositoryId: string) {
@@ -337,9 +325,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
     accountEndpoints: AccountEndpoints,
     repositoryId: string,
   ) => Promise<string | undefined> = async (accountEndpoints: AccountEndpoints, repositoryId: string) => {
-    return await this.loginFlowHandler(() =>
-      this.startSelfHostedLoginFlow(accountEndpoints, repositoryId),
-    );
+    return await this.loginFlowHandler(() => this.startSelfHostedLoginFlow(accountEndpoints, repositoryId));
   };
 
   @Input() handleRedirectURICallbackAsync = async (url: string) => {
@@ -372,7 +358,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
     /** @internal */
     private loginService: LfLoginService,
     /** @internal */
-    private localizationService: AppLocalizationService
+    private localizationService: AppLocalizationService,
   ) {
     window.addEventListener('storage', (ev) => {
       this.onStorageChanged(ev);
@@ -645,7 +631,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
     } else {
       const concatStrings = this.concatStrings(
         additionalContext,
-        'Redirect behavior none. Redirect must be implemented by container in event initiated handler'
+        'Redirect behavior none. Redirect must be implemented by container in event initiated handler',
       );
       console.log(concatStrings);
     }
