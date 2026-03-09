@@ -1,5 +1,10 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+## 18.0.7
+
+### Features
+- Add support for self-hosted repository login functionality.
+
 ## 18.0.6
 
 ### Fixes
