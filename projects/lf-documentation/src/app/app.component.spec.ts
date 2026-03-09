@@ -17,7 +17,7 @@ describe('AppComponent', () => {
         MatTreeModule,
         MatCheckboxModule
       ],
-      declarations: [
+      imports: [
         AppComponent
       ],
     }).compileComponents();

@@ -13,7 +13,7 @@ describe('GettingStartedComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ RouterTestingModule ],
-      declarations: [ GettingStartedComponent ],
+      imports: [ GettingStartedComponent ],
     })
     .compileComponents();
   });

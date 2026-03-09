@@ -11,7 +11,7 @@ describe('LfUserFeedbackDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfUserFeedbackDocumentationComponent ],
+      imports: [ LfUserFeedbackDocumentationComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();

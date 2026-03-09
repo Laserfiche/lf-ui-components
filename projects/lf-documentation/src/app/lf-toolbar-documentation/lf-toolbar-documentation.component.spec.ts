@@ -11,7 +11,7 @@ describe('LfToolbarDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         LfToolbarDocumentationComponent,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

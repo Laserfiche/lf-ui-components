@@ -12,7 +12,7 @@ describe('LfLoginDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         LfLoginDocumentationComponent,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

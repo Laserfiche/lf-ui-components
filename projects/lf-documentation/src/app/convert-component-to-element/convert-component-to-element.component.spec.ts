@@ -11,7 +11,7 @@ describe('ConvertComponentToElementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConvertComponentToElementComponent ]
+      imports: [ ConvertComponentToElementComponent ]
     })
     .compileComponents();
   });

@@ -11,7 +11,7 @@ describe('LfBreadcrumbsDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfBreadcrumbsDocumentationComponent ],
+      imports: [ LfBreadcrumbsDocumentationComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();

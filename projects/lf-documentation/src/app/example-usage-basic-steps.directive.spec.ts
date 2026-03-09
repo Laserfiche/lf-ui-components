@@ -8,7 +8,7 @@ import { ExampleUsageBasicStepsDirective } from './example-usage-basic-steps.dir
 describe('ExampleUsageBasicStepsDirective', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ExampleUsageBasicStepsDirective],
+      imports: [ExampleUsageBasicStepsDirective],
       providers: [RouterTestingModule]
     }).compileComponents();
   });

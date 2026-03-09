@@ -15,12 +15,7 @@ describe('LfChecklistDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfChecklistDocumentationComponent ],
-      imports: [
-        BrowserAnimationsModule,
-        MatCardModule,
-        RouterTestingModule,
-      ],
+      imports: [ LfChecklistDocumentationComponent, BrowserAnimationsModule, MatCardModule ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();

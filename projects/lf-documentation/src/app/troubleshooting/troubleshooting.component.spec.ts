@@ -13,8 +13,7 @@ describe('TroubleshootingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TroubleshootingComponent, CardComponent ],
-      imports: [MatMenuModule]
+      imports: [ TroubleshootingComponent, CardComponent, MatMenuModule ],
     })
     .compileComponents();
   });
