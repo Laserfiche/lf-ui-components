@@ -109,12 +109,10 @@ describe('LfFieldTemplateContainerComponent', () => {
     // Assert
     const expectedStateValues = [State.CA, State.OH, State.NV];
     const stateFieldInfo = component.allFieldInfos.find((templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.State);
-    // eslint-disable-next-line
     expect(component.dynamicOptions.get(stateFieldInfo?.id ?? 0)![0]).toEqual(expectedStateValues);
 
     const expectedCountyValues: string[] = [];
     const countyFieldInfo = component.allFieldInfos.find((templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.County);
-    // eslint-disable-next-line
     expect(component.dynamicOptions.get(countyFieldInfo?.id ?? 0)![0]).toEqual(expectedCountyValues);
   });
 
@@ -132,12 +130,10 @@ describe('LfFieldTemplateContainerComponent', () => {
     // Assert
     const expectedStateValues = [State.CA, State.OH, State.NV];
     const stateFieldInfo = component.allFieldInfos.find((templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.State);
-    // eslint-disable-next-line
     expect(component.dynamicOptions.get(stateFieldInfo?.id ?? 0)![0]).toEqual(expectedStateValues);
 
     const expectedCountyValues = [County.Cuyahoga, County.Hamilton];
     const countyFieldInfo = component.allFieldInfos.find((templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.County);
-    // eslint-disable-next-line
     expect(component.dynamicOptions.get(countyFieldInfo?.id ?? 0)![0]).toEqual(expectedCountyValues);
   });
 
