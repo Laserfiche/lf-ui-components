@@ -75,7 +75,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
   @Input() set client_id(val: string) {
     this.loginService.client_id = val;
   }
-  get client_id(): string {
+  get client_id(): string | undefined{
     return this.loginService.client_id;
   }
 
@@ -89,7 +89,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
   @Input() set scope(val: string) {
     this.loginService.scope = val;
   }
-  get scope(): string {
+  get scope(): string | undefined {
     return this.loginService.scope;
   }
 
@@ -520,7 +520,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
   /** @internal */
   async startLoginAsync() {
     try {
-      await this.startOAuthLoginFlowAsync();
+      await this.startCloudLoginFlowAsync();
     } catch (err: any) {
       if (this.loginService._state !== LoginState.LoggedOut) {
         this._state = LoginState.LoggedOut;
@@ -561,9 +561,13 @@ export class LfLoginComponent implements OnDestroy, OnInit {
     const baseAuthorizeUrl = this.loginService.loginProvider?.getBaseAuthorizeUrl();
 
     const baseUrl: URL = new URL(baseAuthorizeUrl ?? '');
-    baseUrl.searchParams.set('client_id', this.client_id);
+    if(this.client_id) {
+      baseUrl.searchParams.set('client_id', this.client_id);
+    }
+    if (this.scope) {
+      baseUrl.searchParams.set('scope', this.scope);
+    }
     baseUrl.searchParams.set('redirect_uri', this.redirect_uri);
-    baseUrl.searchParams.set('scope', this.scope);
     baseUrl.searchParams.set('response_type', 'code');
     baseUrl.searchParams.set('response_mode', 'query');
     baseUrl.searchParams.set('state', LOGIN_REDIRECT_STATE);

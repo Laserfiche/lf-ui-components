@@ -23,11 +23,11 @@ export class LfLoginService {
   _state?: LoginState;
 
   /** @internal */
-  client_id!: string;
+  client_id?: string;
   /** @internal */
   redirect_uri!: string;
   /** @internal */
-  scope!: string;
+  scope?: string;
   /** @internal */
   redirect_behavior: RedirectBehavior = RedirectBehavior.Replace;
   /** @internal */
@@ -44,7 +44,7 @@ export class LfLoginService {
   /** @internal */
   loginProvider?: LoginProvider;
   /** @internal */
-  login_identifier!: string;
+  login_identifier: string = this.client_id ?? '';
 
   /** @internal */
   @Output() logoutCompletedInService: EventEmitter<AbortedLoginError | undefined> = new EventEmitter<

@@ -72,7 +72,7 @@ describe('LfLoginComponent', () => {
 
     const authUrl = component.getAuthorizeUrl();
     expect(authUrl).toEqual(
-      'https://signin.laserfiche.com/oauth/Authorize?client_id=undefined&redirect_uri=undefined&scope=undefined&response_type=code&response_mode=query&state=lf-login-redirect&code_challenge=undefined&code_challenge_method=S256',
+      'https://signin.laserfiche.com/oauth/Authorize?redirect_uri=undefined&response_type=code&response_mode=query&state=lf-login-redirect&code_challenge=undefined&code_challenge_method=S256',
     );
   });
 
