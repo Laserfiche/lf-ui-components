@@ -71,7 +71,7 @@ export class ValidationUtils {
             const validationFailedExplanation = {
                 ['required']: { value: control.value },
             };
-            if (!control.value) {
+            if (control.value == null || control.value === '') {
                 return validationFailedExplanation;
             }
             const isEmptyString = LfMetadataValidationUtils.isNullOrEmpty(control.value.toString());

@@ -30,15 +30,19 @@ export class FeedbackImageUploadComponent {
   private megabyteLimit = 3;
   private imageSizeLimitBytes: number = this.megabyteLimit * 1024 * 1024;
 
-  localizedStrings = {
-    OR: this.localizationService.getStringLaserficheObservable('OR'),
-    ATTACH_IMAGE: this.localizationService.getStringComponentsObservable('ATTACH_IMAGE'),
-    DRAG_DROP_FILE: this.localizationService.getStringLaserficheObservable('DRAG_DROP_FILE'),
-    REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
-    BROWSE: this.localizationService.getStringLaserficheObservable('BROWSE'),
-    OPTIONAL: this.localizationService.getStringLaserficheObservable('OPTIONAL'),
-    UNKNOWN_ERROR: this.localizationService.getStringLaserficheObservable('UNKNOWN_ERROR'),
-  };
+  localizedStrings: Record<string, string> = {};
+
+  constructor() {
+    const lfKeys = ['OR', 'DRAG_DROP_FILE', 'REMOVE', 'BROWSE', 'OPTIONAL', 'UNKNOWN_ERROR'];
+    for (const key of lfKeys) {
+      this.localizationService.getStringLaserficheObservable(key).subscribe(v => {
+        this.localizedStrings[key] = v as string;
+      });
+    }
+    this.localizationService.getStringComponentsObservable('ATTACH_IMAGE').subscribe(v => {
+      this.localizedStrings['ATTACH_IMAGE'] = v as string;
+    });
+  }
 
   async dropHandler(ev: DragEvent): Promise<void> {
     let file: File | undefined;

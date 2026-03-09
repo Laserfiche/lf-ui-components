@@ -8,6 +8,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { FeedbackSubmissionComponent } from '../feedback-submission/feedback-submission.component';
+import { FeedbackSuggestionSelectionComponent } from '../feedback-suggestion-selection/feedback-suggestion-selection.component';
 import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-user-feedback-types';
 import { UserFeedbackDialogComponent } from './user-feedback-dialog.component';
 
@@ -37,7 +38,12 @@ describe('UserFeedbackDialogComponent', () => {
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: {} },
       ],
-    }).compileComponents();
+    })
+    .overrideComponent(UserFeedbackDialogComponent, {
+      remove: { imports: [FeedbackSuggestionSelectionComponent] },
+      add: { imports: [MockFeedBackSuggestionSelectionComponent] },
+    })
+    .compileComponents();
   });
 
   beforeEach(() => {

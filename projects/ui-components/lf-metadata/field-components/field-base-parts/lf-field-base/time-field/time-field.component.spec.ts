@@ -64,18 +64,20 @@ describe('TimeFieldComponent', () => {
     }).compileComponents();
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     requiredTimeFixture = TestBed.createComponent(TimeFieldComponent);
     requiredTimeComponent = requiredTimeFixture.componentInstance;
     requiredTimeComponent.lf_field_info = requiredTime;
     requiredTimeComponent.lf_field_form_control = new FormControl();
-    requiredTimeFixture.detectChanges();
+    requiredTimeFixture.autoDetectChanges();
+    await requiredTimeFixture.whenStable();
 
     optionalTimeFixture = TestBed.createComponent(TimeFieldComponent);
     optionalTimeComponent = optionalTimeFixture.componentInstance;
     optionalTimeComponent.lf_field_info = optionalTime;
     optionalTimeComponent.lf_field_form_control = new FormControl();
-    optionalTimeFixture.detectChanges();
+    optionalTimeFixture.autoDetectChanges();
+    await optionalTimeFixture.whenStable();
   });
 
   it('should create required Time field', () => {
@@ -122,7 +124,7 @@ describe('TimeFieldComponent', () => {
 
     // act
     requiredTimeComponent.setLfFieldFormControlValue(valueBadPattern);
-    requiredTimeFixture.detectChanges();
+    await requiredTimeFixture.whenStable();
 
     // assert
     const expectedBrokenRule = ValidationRule.TIME;

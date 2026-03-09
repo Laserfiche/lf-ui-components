@@ -59,8 +59,25 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
   }
 
   protected override fieldOnValueChanged(): void {
-    const currentValue = this.lf_field_form_control.value;
-    this.lf_field_form_control.setValue(currentValue ?? '');
+    if (this.lf_field_info.fieldType === FieldType.Number) {
+      this.lf_field_form_control.setValue('');
+    } else {
+      const currentValue = this.lf_field_form_control.value;
+      this.lf_field_form_control.setValue(currentValue ?? '');
+    }
+  }
+
+  override onValueChanged(emitEvent: boolean = true) {
+    const rawValue = this.lf_field_form_control.value;
+    if (typeof rawValue === 'number' && isNaN(rawValue)) {
+      this.setLfFieldFormControlValue('0');
+      this.lf_field_value = '0';
+      if (emitEvent) {
+        this.fieldValueChange.emit(this.lf_field_value);
+      }
+      return;
+    }
+    super.onValueChanged(emitEvent);
   }
 
 
@@ -109,9 +126,17 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
     }
   }
 
+  override getLfFieldFormControlValue(): string {
+    const value = this.lf_field_form_control.value;
+    if (value == null || value === '') return '';
+    if (typeof value === 'number' && isNaN(value)) return '';
+    return String(value);
+  }
+
   serializeFieldFormControlValue(): string {
+    const rawValue = this.lf_field_form_control.value;
     const currentValue = this.getLfFieldFormControlValue();
-    if (currentValue === '-') {
+    if (currentValue === '-' || (typeof rawValue === 'number' && isNaN(rawValue))) {
       this.setLfFieldFormControlValue('0');
       return '0';
     }

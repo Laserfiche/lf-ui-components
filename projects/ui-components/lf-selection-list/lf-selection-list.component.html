@@ -16,7 +16,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     class="lf-table-selection-list"
     matSort
     (matSortChange)="sortData($event)"
-    multiTemplateDataRows="true"
     >
     @for (column of allColumnDefs; track column; let i = $index) {
       <ng-container [matColumnDef]="column.id">
@@ -109,13 +108,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     ></tr>
 
     <tr
-      [style.height.px]="placeholderHeight"
       mat-row
-      *matRowDef="let row; let index = index; columns: []; when: placeholderWhen"
-    ></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; let i = dataIndex; columns: allColumnHeaders"
+      *matRowDef="let row; let i = index; columns: allColumnHeaders"
       [tabindex]="i === currentFocusIndex ? 0 : -1"
       class="item-holder"
       [ngStyle]="{

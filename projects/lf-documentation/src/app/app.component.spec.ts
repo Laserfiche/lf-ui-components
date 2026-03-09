@@ -2,23 +2,17 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { TestBed } from '@angular/core/testing';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTreeModule } from '@angular/material/tree';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        MatToolbarModule,
-        MatTreeModule,
-        MatCheckboxModule
-      ],
-      imports: [
         AppComponent
+      ],
+      providers: [
+        { provide: ActivatedRoute, useValue: {} }
       ],
     }).compileComponents();
   });

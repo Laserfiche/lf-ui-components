@@ -116,8 +116,10 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       'templateFieldContainerService',
     );
     await this.selectTemplateAsync(templateIdentifier);
-    await this.updateTemplateFieldsAsync();
-    this.ref.detectChanges();
+    if (this.templateSelected) {
+      await this.updateTemplateFieldsAsync();
+    }
+    this.ref.markForCheck();
   };
 
   @Input()
@@ -194,7 +196,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
   /** @internal */
   async renderFieldsAsync(fieldInfos: (TemplateFieldInfo | LfFieldInfo)[]): Promise<void> {
-    if (this.templateState === TemplateState.SHOW_TEMPLATE) {
+    if (this.templateState === TemplateState.SHOW_TEMPLATE && this.lfFieldView) {
       const vf = this.lfFieldView.viewContainerRef;
       vf.clear();
       this.componentRefs = [];
@@ -327,7 +329,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         this.dropdownState = DropDownState.HAS_ERROR;
         this.templateSelected = undefined;
         this.templateState = TemplateState.DEFAULT;
-        this.ref.detectChanges();
+        this.ref.markForCheck();
         console.error('getAvailableTemplatesAsync', err);
       }
     }
@@ -350,6 +352,10 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         this.templateSelected = (await this.templateFieldContainerService.getTemplateDefinitionAsync(
           id,
         )) as TemplateInfo;
+        if (!this.templateSelected) {
+          this.templateState = TemplateState.DEFAULT;
+          return;
+        }
         if (!this.loadedTemplates && this.templateSelected) {
           this.availableTemplates = [this.templateSelected];
         }
@@ -440,7 +446,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         console.error(consoleErrMsg);
         this.templateState = TemplateState.HAS_ERROR;
       } finally {
-        this.ref.detectChanges();
+        this.ref.markForCheck();
       }
     }
   }
@@ -585,7 +591,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   private async getDynamicFieldValueOptionsAsync(indexChanged: number): Promise<{ [fieldId: number]: string[] }> {
     const relevantValues: FieldValues = this.getRelevantValuesForIndex(indexChanged);
     if (!this.templateSelected?.id) {
-      throw new Error('Unexpected: templateSelected is undefined');
+      return {};
     }
     this.templateState = TemplateState.LOADING;
     const dynamicFieldValueOptions = await this.templateFieldContainerService.getDynamicFieldValueOptionsAsync(
@@ -593,7 +599,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       relevantValues,
     );
     this.templateState = TemplateState.SHOW_TEMPLATE;
-    this.ref.detectChanges();
+    this.ref.markForCheck();
     return dynamicFieldValueOptions;
   }
 

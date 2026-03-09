@@ -21,6 +21,7 @@ import { ColumnDef, LfSelectionListComponent } from '@laserfiche/lf-ui-component
   selector: 'lf-selection-list-component',
   template: '',
   standalone: true,
+  providers: [{ provide: LfSelectionListComponent, useExisting: MockLfSelectionListComponent }],
 })
 class MockLfSelectionListComponent {
   @Input() uniqueIdentifier: string | undefined;

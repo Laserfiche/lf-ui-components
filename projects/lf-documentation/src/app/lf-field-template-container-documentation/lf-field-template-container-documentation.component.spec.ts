@@ -16,10 +16,9 @@ describe('LfFieldTemplateContainerDocumentationComponent', () => {
     }).compileComponents();
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(LfFieldTemplateContainerDocumentationComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

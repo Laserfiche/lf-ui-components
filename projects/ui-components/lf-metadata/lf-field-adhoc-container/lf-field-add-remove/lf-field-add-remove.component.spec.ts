@@ -133,8 +133,7 @@ describe('LfFieldAddRemoveComponent', () => {
     checkbox.click();
     fixture.detectChanges();
 
-    // Act
-    component.onClickBack();
+    // Act - simulate confirming "yes" in the dialog (apply changes)
     component.onClickApply();
 
     // Assert
@@ -151,8 +150,7 @@ describe('LfFieldAddRemoveComponent', () => {
     checkbox.click();
     fixture.detectChanges();
 
-    // Act
-    component.onClickBack();
+    // Act - simulate confirming "no" in the dialog (discard changes)
     component.onConfirmNo();
 
     // Assert

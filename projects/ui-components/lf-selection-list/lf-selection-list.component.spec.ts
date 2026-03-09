@@ -4,7 +4,7 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { Component, Directive, EventEmitter,  Input,  Output,  ViewChild } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -54,6 +54,7 @@ const itemList: ILfSelectable[] = [
       (itemSelected)="onitemSelected($event)"
       (itemDoubleClicked)="onItemDoubleClicked($event)"
       [columns]="cols"
+      [alwaysShowHeader]="alwaysShowHeader"
       [uniqueIdentifier]="uniqueIdentifier"
       ></lf-selection-list-component>
   </div>`,
@@ -71,6 +72,7 @@ export class LfListTestComponent {
   doubleClickedItem?: ItemWithId;
   uniqueIdentifier: string = 'test-browser';
   cols: ColumnDef[] = [name];
+  alwaysShowHeader?: boolean;
 
   onScroll(event: any) {
     this.hasScrolled = true;
@@ -97,10 +99,15 @@ describe('LfListComponent single select', () => {
   let component: LfListTestComponent;
   let fixture: ComponentFixture<LfListTestComponent>;
 
-  function setupRepoBrowserWithColumns( columns: ColumnDef[]) {
-    // Act
+  async function waitForRender() {
+    fixture.autoDetectChanges();
+    await new Promise(resolve => setTimeout(resolve, 100));
+    await fixture.whenStable();
+  }
+
+  async function setupRepoBrowserWithColumns( columns: ColumnDef[]) {
     component.cols = columns;
-    fixture.detectChanges();
+    await waitForRender();
   }
 
   beforeEach(async () => {
@@ -119,28 +126,28 @@ describe('LfListComponent single select', () => {
     .compileComponents();
   });
 
-  beforeEach(fakeAsync(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(LfListTestComponent);
     component = fixture.componentInstance;
-    fixture.autoDetectChanges();
     component.items = itemList;
-    fixture.detectChanges();
-    flush(); // Need to add this so we can allow the list to render
-  }));
+  });
 
-  it('should create', () => {
+  it('should create', async () => {
+    await waitForRender();
     expect(component).toBeTruthy();
   });
 
-  it('should emit the itemSelected event when a selectable list item is clicked', fakeAsync(() => {
+  it('should emit the itemSelected event when a selectable list item is clicked', async () => {
+    await waitForRender();
     const element = fixture.nativeElement;
     element.querySelector('#lf-row-0').click();
-    flush();
+    await fixture.whenStable();
     expect(component.selectedEvent?.selected).toEqual(itemList[0]);
     expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
-  }));
+  });
 
-  it('should emit the itemDoubleClicked event when a selectable list item is clicked', fakeAsync(() => {
+  it('should emit the itemDoubleClicked event when a selectable list item is clicked', async () => {
+    await waitForRender();
     const element = fixture.nativeElement;
     const clickEvent = new MouseEvent('dblclick', {
       'view': window,
@@ -148,14 +155,13 @@ describe('LfListComponent single select', () => {
       'cancelable': true
     });
     element.querySelector('#lf-row-0').dispatchEvent(clickEvent);
-    flush();
+    await fixture.whenStable();
     expect(component.doubleClickedItem).toEqual(itemList[0].value);
-  }));
+  });
 
   describe('columns support', () => {
-    it('should be able to set columns', fakeAsync(() => {
-      setupRepoBrowserWithColumns([name, create]);
-      flush();
+    it('should be able to set columns', async () => {
+      await setupRepoBrowserWithColumns([name, create]);
 
       const trEls = Array.from(
         document.getElementsByClassName('mat-mdc-header-row')
@@ -165,12 +171,11 @@ describe('LfListComponent single select', () => {
         trEl.getElementsByClassName('mat-mdc-header-cell')
       );
       expect(thEls.length).toBe(2);
-    }));
+    });
 
-    it('can set column initial width', fakeAsync(async () => {
+    it('can set column initial width', async () => {
       // Act
-      setupRepoBrowserWithColumns([name, create]);
-      flush();
+      await setupRepoBrowserWithColumns([name, create]);
 
       const trEls = Array.from(
         document.getElementsByClassName('mat-mdc-header-row')
@@ -179,14 +184,14 @@ describe('LfListComponent single select', () => {
       const createDateWidth = parseFloat(create.defaultWidth) / 100 * component.containerWidth + 'px';
       const createDateActualWidth = trEl.style.gridTemplateColumns.split(' ')[1];
       expect(createDateWidth).toBe(createDateActualWidth);
-    }));
+    });
 
-    it('if attempt to resize, write in localstorage the new width in pixel', fakeAsync(async () => {
+    it('if attempt to resize, write in localstorage the new width in pixel', async () => {
       // Arrange
-      setupRepoBrowserWithColumns([name, create]);
+      await setupRepoBrowserWithColumns([name, create]);
       const newNameWidth = 200;
       component.list!.onColumnWidthChanges(newNameWidth, 0);
-      flush();
+      await fixture.whenStable();
 
 
       const nameColEl = document.getElementsByClassName('mat-column-name')[0] as HTMLDivElement;
@@ -194,9 +199,9 @@ describe('LfListComponent single select', () => {
       expect(nameColWidth).toBe(newNameWidth);
       const storedItem : RepositoryBrowserData = JSON.parse(localStorage.getItem(component.uniqueIdentifier) ?? '{}');
       expect(storedItem.columns['name']).toBe(newNameWidth+'px');
-    }));
+    });
 
-    it('initialize the columns to have the same size with localstorage data', fakeAsync(async () => {
+    it('initialize the columns to have the same size with localstorage data', async () => {
 
       // Arrange
       const customNameColumnWidth = '300px';
@@ -209,8 +214,7 @@ describe('LfListComponent single select', () => {
       };
       localStorage.setItem(component.uniqueIdentifier, JSON.stringify(initialData));
       // Act
-      setupRepoBrowserWithColumns([name, create]);
-      flush();
+      await setupRepoBrowserWithColumns([name, create]);
 
       // Assert
       const trEls = Array.from(
@@ -220,64 +224,58 @@ describe('LfListComponent single select', () => {
       const gridTemplateColumnsWidth = `${customNameColumnWidth} ${customCreateDateWidth}`;
       expect(trEl.style.gridTemplateColumns).toBe(gridTemplateColumnsWidth);
       localStorage.clear();
-    }));
+    });
 
-    it('sortData sets columnOrderBy and emits refreshData event', fakeAsync(async () => {
+    it('sortData sets columnOrderBy and emits refreshData event', async () => {
 
       // Arrange
-      setupRepoBrowserWithColumns([name, create]);
-      flush();
+      await setupRepoBrowserWithColumns([name, create]);
 
       vi.spyOn(component.list!.refreshData, 'emit');
 
       fixture.debugElement.query(By.css('.mat-sort-header-arrow')).nativeElement.click();
-      fixture.detectChanges();
+      await waitForRender();
       // @ts-ignore
       expect(component.list!._columnOrderBy).toEqual({ columnId: 'name', isDesc: false });
       expect(component.list!.refreshData.emit).toHaveBeenCalled();
-    }));
+    });
 
-    it('if alwaysShowHeader is set to true, header is not hidden', fakeAsync(() => {
+    it('if alwaysShowHeader is set to true, header is not hidden', async () => {
       // Arrange
-      component.list!.alwaysShowHeader = true; // has to be called first
-      setupRepoBrowserWithColumns([create]);
-      fixture.detectChanges();
-      flush();
+      component.alwaysShowHeader = true;
+      await setupRepoBrowserWithColumns([create]);
 
       // Assert
       const headerHidden = document.getElementsByClassName('lf-hidden-column-header')[0];
       expect(headerHidden).toBeUndefined();
-    }));
+    });
 
-    it('if alwaysShowHeader is set to false, header is not hidden even if there are more than one column', fakeAsync(() => {
+    it('if alwaysShowHeader is set to false, header is not hidden even if there are more than one column', async () => {
       // Arrange
-      component.list!.alwaysShowHeader = false;
-      setupRepoBrowserWithColumns([name, create]);
-      fixture.detectChanges();
-      flush();
+      component.alwaysShowHeader = false;
+      await setupRepoBrowserWithColumns([name, create]);
 
       // Assert
       const headerHidden = document.getElementsByClassName('lf-hidden-column-header')[0];
       expect(headerHidden).toBeUndefined();
-    }));
+    });
 
 
-    it('if alwaysShowHeader is set to false, header is hidden if there is only one column', fakeAsync(() => {
+    it('if alwaysShowHeader is set to false, header is hidden if there is only one column', async () => {
       // Arrange
-      component.list!.alwaysShowHeader = false;
-      setupRepoBrowserWithColumns([create]);
-      fixture.detectChanges();
-      flush();
+      component.alwaysShowHeader = false;
+      await setupRepoBrowserWithColumns([create]);
 
       // Assert
       const headerHidden = document.getElementsByClassName('lf-hidden-column-header')[0];
       expect(headerHidden).toBeTruthy();
-    }));
+    });
 
   });
 
   describe('keydown interactions', () => {
-    it('should emit itemSelected when space bar is pressed', fakeAsync(() => {
+    it('should emit itemSelected when space bar is pressed', async () => {
+      await waitForRender();
       const element = fixture.nativeElement;
       const keyboardEvent = new KeyboardEvent('keydown', {
         'key': ' ',
@@ -286,12 +284,13 @@ describe('LfListComponent single select', () => {
         'cancelable': true
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
-      flush();
+      await fixture.whenStable();
       expect(component.selectedEvent?.selected).toEqual(itemList[0]);
       expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
-    }));
+    });
 
-    it('should emit itemDoubleClicked when enter key is pressed', fakeAsync(() => {
+    it('should emit itemDoubleClicked when enter key is pressed', async () => {
+      await waitForRender();
       const element = fixture.nativeElement;
       const keyboardEvent = new KeyboardEvent('keydown', {
         'key': 'Enter',
@@ -300,13 +299,14 @@ describe('LfListComponent single select', () => {
         'cancelable': true
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
-      flush();
+      await fixture.whenStable();
       expect(component.doubleClickedItem).toEqual(itemList[0].value);
       expect(component.selectedEvent?.selected).toEqual(itemList[0]);
       expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
-    }));
+    });
 
-    it('should emit itemSelected when ArrowUp is pressed with shift key', fakeAsync(() => {
+    it('should emit itemSelected when ArrowUp is pressed with shift key', async () => {
+      await waitForRender();
       const element = fixture.nativeElement;
       const keyboardEvent = new KeyboardEvent('keydown', {
         'key': 'ArrowUp',
@@ -316,12 +316,13 @@ describe('LfListComponent single select', () => {
         'cancelable': true
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
-      flush();
+      await fixture.whenStable();
       expect(component.selectedEvent?.selected).toEqual(itemList[0]);
       expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
-    }));
+    });
 
-    it('should emit itemSelected when ArrowDown is pressed with shift key', fakeAsync(() => {
+    it('should emit itemSelected when ArrowDown is pressed with shift key', async () => {
+      await waitForRender();
       const element = fixture.nativeElement;
       const keyboardEvent = new KeyboardEvent('keydown', {
         'key': 'ArrowDown',
@@ -331,32 +332,34 @@ describe('LfListComponent single select', () => {
         'cancelable': true
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
-      flush();
+      await fixture.whenStable();
       expect(component.selectedEvent?.selected).toEqual(itemList[0]);
       expect(component.selectedEvent?.selectedItems).toEqual([itemList[0]]);
-    }));
+    });
   });
 
-  // it('should dispatch a scrollChanged when the user scrolls to the end of the viewport', fakeAsync(() => {
+  // it('should dispatch a scrollChanged when the user scrolls to the end of the viewport', async () => {
   //   const element = fixture.nativeElement;
   //   element.querySelector('#lf-list-viewport').dispatchEvent(new Event('scroll'));
   //   tick();
   //   expect(component.hasScrolled).toBe(true);
-  // }));
+  // });
 
   describe('focus', () => {
-    it('should focus the first list time when focus is called', fakeAsync(() => {
+    it('should focus the first list time when focus is called', async () => {
+      await waitForRender();
       // Arrange
       const focusItem = fixture.nativeElement.querySelector('#lf-row-0.item-holder');
       // Act
       component.list?.focus();
-      flush();
+      await fixture.whenStable();
 
       // Assert
       expect(document.activeElement).toEqual(focusItem);
-    }));
+    });
 
-    it('should be able to move the focus with the arrow keys', fakeAsync(() => {
+    it('should be able to move the focus with the arrow keys', async () => {
+      await waitForRender();
       // Arrange
       const firstFocusItem = fixture.nativeElement.querySelector('#lf-row-1.item-holder');
       const secondFocusItem = fixture.nativeElement.querySelector('#lf-row-0.item-holder');
@@ -376,21 +379,21 @@ describe('LfListComponent single select', () => {
         'cancelable': true
       });
       component.list?.focus();
-      flush();
+      await fixture.whenStable();
 
       // Act
       listElement.dispatchEvent(downEvent);
-      flush();
+      await fixture.whenStable();
       expect(document.activeElement).toEqual(firstFocusItem);
       // @ts-ignore
       expect(component.list?.currentFocusIndex).toBe(1);
 
       // Act again
       listElement.dispatchEvent(upEvent);
-      flush();
+      await fixture.whenStable();
       expect(document.activeElement).toEqual(secondFocusItem);
       // @ts-ignore
       expect(component.list?.currentFocusIndex).toBe(0);
-    }));
+    });
   });
 });

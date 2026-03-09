@@ -34,6 +34,7 @@ describe('LfFieldTemplateContainerComponent', () => {
     fixture = TestBed.createComponent(LfFieldTemplateContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    await fixture.whenStable();
     templateService = new LfFieldTemplateContainerDemoService();
     await component.initAsync({ templateFieldContainerService: templateService });
   });

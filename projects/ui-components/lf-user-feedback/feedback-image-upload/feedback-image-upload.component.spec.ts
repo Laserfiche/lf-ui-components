@@ -35,7 +35,8 @@ describe('FeedbackImageUploadComponent', () => {
 
     fixture = TestBed.createComponent(FeedbackImageUploadComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    fixture.autoDetectChanges();
+    await fixture.whenStable();
   });
 
   it('should create', () => {
@@ -51,10 +52,10 @@ describe('FeedbackImageUploadComponent', () => {
     expect(fileDropZone.length).toBe(1);
   });
 
-  it('if there is image attached, should show the picked file zone', () => {
+  it('if there is image attached, should show the picked file zone', async () => {
     // Act
     component.imageUploaded = {name: 'test.png', rawBase64: ''};
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     // Assert
     const fileDropZone = document.getElementsByClassName('picked-file-zone');
@@ -70,7 +71,6 @@ describe('FeedbackImageUploadComponent', () => {
     // Act
     // @ts-ignore
     const success = await component.tryReadAndValidateImageAsync(file);
-    fixture.detectChanges();
 
     // Assert
     expect(success).toBe(true);
@@ -87,7 +87,6 @@ describe('FeedbackImageUploadComponent', () => {
     // Act
     // @ts-ignore
     await component.tryReadAndValidateImageAsync(file);
-    fixture.detectChanges();
 
     // Assert
     expect(component.imageUploadError.emit).toHaveBeenCalledWith(
@@ -105,7 +104,6 @@ describe('FeedbackImageUploadComponent', () => {
     // Act
     // @ts-ignore
     await component.tryReadAndValidateImageAsync(file);
-    fixture.detectChanges();
 
     // Assert
     expect(component.imageUploadError.emit).toHaveBeenCalledWith(
@@ -114,7 +112,7 @@ describe('FeedbackImageUploadComponent', () => {
     expect(component.imageUploaded).toBeUndefined();
   });
 
-  it('if multiple images are dropped to the file drop zone, should emit warning', () => {
+  it('if multiple images are dropped to the file drop zone, should emit warning', async () => {
     const file1 = new File([''], 'dummy1.png');
     const file2 = new File([''], 'dummy2.png');
     const dataTransfer = new DataTransfer();
@@ -127,13 +125,13 @@ describe('FeedbackImageUploadComponent', () => {
     vi.spyOn(component.imageUploadError, 'emit');
 
     component.dropHandler(event);
-    fixture.detectChanges();
+    await fixture.whenStable();
     // @ts-ignore
     expect(component.tryReadAndValidateImageAsync).not.toHaveBeenCalled();
     expect(component.imageUploadError.emit).toHaveBeenCalledWith('IMAGE_NOT_ATTACHED PLEASE_ATTACH_ONLY_ONE_IMAGE');
   });
 
-  it('if one image is dropped to the file drop zone, should call tryReadAndValidateImageAsync', () => {
+  it('if one image is dropped to the file drop zone, should call tryReadAndValidateImageAsync', async () => {
     const file1 = new File([''], 'dummy1.png');
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(file1);
@@ -144,7 +142,7 @@ describe('FeedbackImageUploadComponent', () => {
     const event = new DragEvent('drop', { dataTransfer });
 
     component.dropHandler(event);
-    fixture.detectChanges();
+    await fixture.whenStable();
     // @ts-ignore
     expect(component.tryReadAndValidateImageAsync).toHaveBeenCalledWith(file1);
   });
@@ -158,9 +156,9 @@ describe('FeedbackImageUploadComponent', () => {
     // Act
     // @ts-ignore
     await component.tryReadAndValidateImageAsync(file);
-    fixture.detectChanges();
+    await fixture.whenStable();
     component.removeImage();
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     // Assert
     expect(component.imageUploaded).toBeUndefined();

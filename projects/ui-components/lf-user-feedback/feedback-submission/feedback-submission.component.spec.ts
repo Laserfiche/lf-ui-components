@@ -4,6 +4,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { FeedbackSubmissionComponent } from './feedback-submission.component';
+import { FeedbackImageUploadComponent } from '../feedback-image-upload/feedback-image-upload.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { By } from '@angular/platform-browser';
 import { AppLocalizationService, LfMessageToastTypes } from '@laserfiche/lf-ui-components/internal-shared';
@@ -34,7 +35,12 @@ describe('FeedbackSubmissionComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MatCheckboxModule, FeedbackSubmissionComponent, MockFeedbackImageUploadComponent],
       providers: [{ provide: AppLocalizationService, useValue: localizeServiceMock }],
-    }).compileComponents();
+    })
+    .overrideComponent(FeedbackSubmissionComponent, {
+      remove: { imports: [FeedbackImageUploadComponent] },
+      add: { imports: [MockFeedbackImageUploadComponent] },
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(FeedbackSubmissionComponent);
     component = fixture.componentInstance;

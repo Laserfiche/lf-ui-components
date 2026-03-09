@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
@@ -92,11 +92,11 @@ describe('LfFieldAdhocContainerComponent', () => {
     expect(expected).toEqual([initialFieldInfo]);
   });
 
-  it('should update selectedFieldValues when checkbox changed',  fakeAsync( async () => {
+  it('should update selectedFieldValues when checkbox changed',  async () => {
     // Arrange
     const addRemoveButton = element.querySelector('#adhoc-add-remove-button') as HTMLButtonElement;
     addRemoveButton.click();
-    flush();
+    await fixture.whenStable();
     component.addRemoveComponent.ref.detectChanges();
 
     // Act
@@ -105,7 +105,7 @@ describe('LfFieldAdhocContainerComponent', () => {
      fixture.detectChanges();
     const applyButton = element.querySelector('#adhoc-apply-button') as HTMLButtonElement;
      applyButton.click();
-    flush();
+    await fixture.whenStable();
 
     // Assert
     expect(component.getFieldValues()).toEqual({
@@ -124,20 +124,20 @@ describe('LfFieldAdhocContainerComponent', () => {
         ],
       },
     });
-  }));
+  });
 
-  it('should be invalid when one of fields is invalid', fakeAsync( async () => {
+  it('should be invalid when one of fields is invalid', async () => {
     // Arrange
     const addRemoveButton = element.querySelector('#adhoc-add-remove-button') as HTMLButtonElement;
     addRemoveButton.click();
-    flush();
+    await fixture.whenStable();
     component.addRemoveComponent.ref.detectChanges();
 
     // Act
     const fieldCheckboxes = element.querySelectorAll('.mdc-checkbox__native-control') as any;
     const requiredField = fieldCheckboxes[1];
     requiredField.click();
-    flush();
+    await fixture.whenStable();
     component.addRemoveComponent.ref.detectChanges();
 
     component.onClickBackAsync();
@@ -145,7 +145,7 @@ describe('LfFieldAdhocContainerComponent', () => {
 
     // Assert (required field is blank)
     expect(component.forceValidation()).toBe(false);
-  }));
+  });
 
   it('should getMappedFieldValues with valid input', async () => {
     // Arrange

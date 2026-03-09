@@ -198,7 +198,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.scrollChanged.emit();
     });
     const dataOffsetSub = this.dataSource.offsetChange.subscribe((offset) => {
-      this.placeholderHeight = offset;
+      this.viewport?.setRenderedContentOffset(offset);
     });
     this.allSubscriptions?.add(dataSourceSub);
     this.allSubscriptions?.add(dataOffsetSub);

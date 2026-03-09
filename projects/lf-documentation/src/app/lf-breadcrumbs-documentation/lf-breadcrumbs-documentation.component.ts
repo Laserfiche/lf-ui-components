@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { AfterViewInit, Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   LfBreadcrumb,
   LfBreadcrumbsComponent,
@@ -16,9 +16,7 @@ import { CardComponent } from '../card/card.component';
   imports: [CardComponent, LfBreadcrumbsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LfBreadcrumbsDocumentationComponent implements AfterViewInit {
-  @ViewChild('breadcrumbs') elementBreadcrumbs!: LfBreadcrumbsComponent;
-
+export class LfBreadcrumbsDocumentationComponent {
   selectedElementBreadcrumb: string | undefined;
 
   elementBreadcrumbOptions = [
@@ -70,13 +68,6 @@ export class LfBreadcrumbsDocumentationComponent implements AfterViewInit {
   ];
 
   constructor() {}
-
-  ngAfterViewInit() {
-    this.elementBreadcrumbs.breadcrumbs = this.elementBreadcrumbOptions;
-    this.elementBreadcrumbs.breadcrumbSelected.subscribe((breadcrumb: LfBreadcrumb) => {
-      this.onElementBreadcrumbSelected(breadcrumb);
-    });
-  }
 
   onElementBreadcrumbSelected(breadcrumb: LfBreadcrumb) {
     this.selectedElementBreadcrumb = JSON.stringify(breadcrumb, null, 2);
