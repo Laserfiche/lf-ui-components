@@ -3,7 +3,7 @@
 
 export interface AuthorizationCredentials {
     accessToken: string;
-    refreshToken: string;
+    refreshToken?: string;
     expiresIn: string;
     tokenType: string;
 }
@@ -48,3 +48,5 @@ export interface LfHttpRequestHandler {
    */
   afterFetchResponseAsync: (url: string, response: Response, request: RequestInit) => Promise<boolean>;
 }
+
+export type LoginType = 'Cloud' | 'Self-Hosted';
