@@ -89,6 +89,7 @@ export class ItemsComponent implements OnInit {
 
   private triggerValidation(field: FormControl) {
     field.markAsDirty();
+    field.markAllAsTouched();
     field.updateValueAndValidity();
   }
 
