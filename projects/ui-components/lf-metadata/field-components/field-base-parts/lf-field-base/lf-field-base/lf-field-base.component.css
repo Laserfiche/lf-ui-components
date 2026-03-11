@@ -224,6 +224,11 @@
 
 ::ng-deep mat-form-field > .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align:before {
   height: unset;
+  display: block;
+}
+
+::ng-deep .lf-checklist-item .mat-form-field-invalid .mat-mdc-form-field-subscript-wrapper {
+  padding-top: 0px !important;
 }
 
 ::ng-deep .lf-field .mdc-text-field {

@@ -1,6 +1,5 @@
 .lf-checklist-item {
   display: flex;
-  align-items: center;
   width: 100%;
 }
 
@@ -29,7 +28,6 @@
 
 .lf-checklist-field {
   width: 100%;
-  height: 34px;
 }
 
 .mat-mdc-input-element {
@@ -84,7 +82,6 @@
 }
 
 ::ng-deep .lf-checklist-item .mat-mdc-form-field-subscript-wrapper {
-  position: static;
   margin-top: 0px;
 }
 
