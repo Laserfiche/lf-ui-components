@@ -5,11 +5,9 @@ const { src, dest } = require('gulp');
 const replace = require('gulp-replace');
 const fs = require('fs');
 
-const argv = require('yargs')(process.argv.slice(2))
-  .parserConfiguration({
-    "parse-numbers": false,
-  })
-  .argv;
+const argv = require('yargs')(process.argv.slice(2)).parserConfiguration({
+  'parse-numbers': false,
+}).argv;
 
 // Strings for replacement
 const BUILD_NUMBER = 'PIPELINE_VERSION';
@@ -30,29 +28,29 @@ const CDN_UI_COMPONENTS_MAP_FILE = 'lf-ui-components.js.map';
 const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/browser/main.js';
 const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/browser/index.html';
 const OLD_LF_STYLE_SHEET_PATH = './lf-laserfiche-lite.css';
-const NEW_LF_STYLE_SHEET_PATH = 'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css';
+const NEW_LF_STYLE_SHEET_PATH =
+  'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css';
 const OLD_MS_OFFICE_STYLE_SHEET_PATH = './lf-ms-office-lite.css';
-const NEW_MS_OFFICE_STYLE_SHEET_PATH = 'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css';
+const NEW_MS_OFFICE_STYLE_SHEET_PATH =
+  'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css';
 
-async function replacePlaceholdersInDocumentation(){
-  src(COMPILED_GETTING_STARTED_FILE_PATH, {base: './'})
-      .pipe(replace(OLD_LF_STYLE_SHEET_PATH, NEW_LF_STYLE_SHEET_PATH))
-      .pipe(replace(OLD_MS_OFFICE_STYLE_SHEET_PATH, NEW_MS_OFFICE_STYLE_SHEET_PATH))
-      .pipe(dest('./'));
-};
+async function replacePlaceholdersInDocumentation() {
+  src(COMPILED_GETTING_STARTED_FILE_PATH, { base: './' })
+    .pipe(replace(OLD_LF_STYLE_SHEET_PATH, NEW_LF_STYLE_SHEET_PATH))
+    .pipe(replace(OLD_MS_OFFICE_STYLE_SHEET_PATH, NEW_MS_OFFICE_STYLE_SHEET_PATH))
+    .pipe(dest('./'));
+}
 
-async function replaceVersionInDocumentation(){
-  src(COMPILED_GETTING_STARTED_FILE_PATH, {base: './'})
-      .pipe(replace(NPM_VERSION, getNpmVersion()))
-      .pipe(dest('./'));
-};
+async function replaceVersionInDocumentation() {
+  src(COMPILED_GETTING_STARTED_FILE_PATH, { base: './' }).pipe(replace(NPM_VERSION, getNpmVersion())).pipe(dest('./'));
+}
 
-async function replaceVersionInIndexHtml(){
-  src(BUILT_INDEX_HTML_FILEPATH, {base: './'})
-      .pipe(replace(BUILD_NUMBER, getNpmVersion()))
-      .pipe(replace(NPM_VERSION, getNpmVersion()))
-      .pipe(dest('./'));
-};
+async function replaceVersionInIndexHtml() {
+  src(BUILT_INDEX_HTML_FILEPATH, { base: './' })
+    .pipe(replace(BUILD_NUMBER, getNpmVersion()))
+    .pipe(replace(NPM_VERSION, getNpmVersion()))
+    .pipe(dest('./'));
+}
 
 function getNpmVersion() {
   const npmVersion = argv.npmVersion;
@@ -61,11 +59,11 @@ function getNpmVersion() {
 
 async function processTypesFile() {
   src([TYPE_FILE_PATH])
-  .pipe(replace(TYPES_IMPORTS, ''))
-  .pipe(replace(TYPES_EXPORTS, ''))
-  .pipe(replace(TYPES_EVENTEMITTER, TYPES_CUSTOMEVENT))
-  .pipe(replace(TYPES_IMPLEMENTS, TYPES_NO_IMPLEMENTS))
-  .pipe(dest(NPM_PUBLISH));
+    .pipe(replace(TYPES_IMPORTS, ''))
+    .pipe(replace(TYPES_EXPORTS, ''))
+    .pipe(replace(TYPES_EVENTEMITTER, TYPES_CUSTOMEVENT))
+    .pipe(replace(TYPES_IMPLEMENTS, TYPES_NO_IMPLEMENTS))
+    .pipe(dest(NPM_PUBLISH));
 }
 
 async function renameLfCdn() {

@@ -1,41 +1,47 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
 ## 18.0.6
 
 ### Fixes
+
 - `[lf-metadata]`: Fixing form layout breaks when hint or error messages wrap to multiple lines.
 
 ## 18.0.5
 
 ### Features
+
 - Add localization `fr-FR`
 
 ## 18.0.4
 
 ### Fixes
+
 - `[lf-repository-browser]`: Improved the keyboard navigation.
 
 ## 18.0.3
 
 ### Fixes
+
 - `types-lf-ui-components`: Removed the Angular type `ElementRef`.
 
 ## 18.0.2
 
 ### Fixes
 
-
 - `[lf-repository-browser]`: Fixed the issue where the opened entry was not updated on opening or refreshing.
-   - `[ILfTreeNodeService]`: The fix requires the implementation of `ILfTreeNodeService.getTreeNodeByIdentifierAsync` to at least support getting the LfTreeNode by Id.
+  - `[ILfTreeNodeService]`: The fix requires the implementation of `ILfTreeNodeService.getTreeNodeByIdentifierAsync` to at least support getting the LfTreeNode by Id.
 - `[lf-field-adhoc-container]`, `[lf-user-feedback]`, `Laserfiche Date/Time fields`: Fixed Keyboard access issues.
 
 ## 18.0.1
 
 ### Features
+
 - Update version of `lf-js-utils` to support more languages
 - Add more translated strings.
 
 ## 18.0.0
+
 ### Chore & Maintenance
 
 - Added keyboard accesses to Date, Time and DateTime pickers in Laserfiche fields.
@@ -67,6 +73,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 - Updated README.
 
 ## 17.0.0
+
 ### Chore & Maintenance
 
 - Removed dependencies @angular-material-components/moment-adapter, @angular-material-components/datetime-picker.
@@ -89,6 +96,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 ## 16.0.3
 
 ### Features
+
 - Update version of `lf-js-utils` to support localization of user feedback component
 
 ### Chore & Maintenance

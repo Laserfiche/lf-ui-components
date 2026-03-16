@@ -32,19 +32,23 @@ describe('DateTimeFieldComponent', () => {
     description: 'requiredDateTimeDescription',
     isRequired: true,
     fieldType: FieldType.DateTime,
-    displayName: 'requiredDateTimeName' };
+    displayName: 'requiredDateTimeName',
+  };
 
   const optionalDateTime: LfFieldInfo = {
     name: 'optionalDateTimeName',
     id: 2,
     description: 'optionalDateTimeDescription',
     fieldType: FieldType.DateTime,
-    displayName: 'optionalDateTimeName' };
+    displayName: 'optionalDateTimeName',
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        DateTimeFieldComponent, LfFieldBaseComponent, LfTokenPickerComponent,
+        DateTimeFieldComponent,
+        LfFieldBaseComponent,
+        LfTokenPickerComponent,
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
@@ -54,7 +58,8 @@ describe('DateTimeFieldComponent', () => {
         ReactiveFormsModule,
         UniDateTimeComponent,
       ],
-      providers: [LfFieldTokenService, AppLocalizationService] }).compileComponents();
+      providers: [LfFieldTokenService, AppLocalizationService],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -180,10 +185,9 @@ describe('DateTimeFieldComponent', () => {
     returnedDateTimeObject.component.timeControl = new FormControl();
     returnedDateTimeObject.component.dateTimeControl = new FormControl();
     returnedDateTimeObject.component.settings = optionalDateTimeComponent.uniDateTimeSettings;
-    returnedDateTimeObject.component.settings.timeFormat= expectedTimeFormat,
-    returnedDateTimeObject.component.settings.dateFormat= expectedDateFormat,
-
-    returnedDateTimeObject.component.dateControl.setValue(invalidDateTimeValue);
+    ((returnedDateTimeObject.component.settings.timeFormat = expectedTimeFormat),
+      (returnedDateTimeObject.component.settings.dateFormat = expectedDateFormat),
+      returnedDateTimeObject.component.dateControl.setValue(invalidDateTimeValue));
 
     // act
     optionalDateTimeComponent.onUniDateOrTimeChanged(returnedDateTimeObject);
@@ -226,7 +230,8 @@ describe('DateTimeFieldComponent', () => {
     // arrange
     const expectedDateTimeFormat: string = 'DD/MM/YYYY H:mm';
     optionalDateTimeComponent.lf_field_form_control.setErrors({
-      [ValidationRule.DATETIME_PICKER_PARSE]: { dateTimeFormat: expectedDateTimeFormat } });
+      [ValidationRule.DATETIME_PICKER_PARSE]: { dateTimeFormat: expectedDateTimeFormat },
+    });
     // act
     let actualValue: string | undefined;
 

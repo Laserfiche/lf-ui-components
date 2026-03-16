@@ -11,10 +11,9 @@ describe('LfBreadcrumbsDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ LfBreadcrumbsDocumentationComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-    .compileComponents();
+      imports: [LfBreadcrumbsDocumentationComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {

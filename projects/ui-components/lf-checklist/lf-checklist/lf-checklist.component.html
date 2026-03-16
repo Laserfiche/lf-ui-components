@@ -8,16 +8,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         @if (!checklist.collapsible) {
           <div>
             <div id="lf-checklist-name-container" class="lf-checklist-name-container">
-              <span id="lf-checklist-name" class="lf-text-label"
-              title="{{checklist.name}}">{{checklist.name}}</span>
+              <span id="lf-checklist-name" class="lf-text-label" title="{{ checklist.name }}">{{
+                checklist.name
+              }}</span>
             </div>
             @if (checklist.checklistItems.length > 0) {
-              <lf-items-component [items]="checklist.checklistItems"
-              (itemsChanged)="emitChecklistChanges()"></lf-items-component>
+              <lf-items-component
+                [items]="checklist.checklistItems"
+                (itemsChanged)="emitChecklistChanges()"
+              ></lf-items-component>
             }
             @if (checklist.checklistOptions.length > 0) {
-              <lf-options-component [options]="checklist.checklistOptions"
-              (optionsChanged)="emitChecklistChanges()"></lf-options-component>
+              <lf-options-component
+                [options]="checklist.checklistOptions"
+                (optionsChanged)="emitChecklistChanges()"
+              ></lf-options-component>
             }
           </div>
         }
@@ -26,17 +31,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <mat-expansion-panel [expanded]="false" class="checklist-expansion-panel">
               <mat-expansion-panel-header class="checklist-expansion-panel">
                 <mat-panel-title>
-                  <span id="lf-checklist-name" class="lf-text-label"
-                  title="{{checklist.name}}">{{checklist.name}}</span>
+                  <span id="lf-checklist-name" class="lf-text-label" title="{{ checklist.name }}">{{
+                    checklist.name
+                  }}</span>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               @if (checklist.checklistItems.length > 0) {
-                <lf-items-component [items]="checklist.checklistItems"
-                (itemsChanged)="emitChecklistChanges()"></lf-items-component>
+                <lf-items-component
+                  [items]="checklist.checklistItems"
+                  (itemsChanged)="emitChecklistChanges()"
+                ></lf-items-component>
               }
               @if (checklist.checklistOptions.length > 0) {
-                <lf-options-component [options]="checklist.checklistOptions"
-                (optionsChanged)="emitChecklistChanges()"></lf-options-component>
+                <lf-options-component
+                  [options]="checklist.checklistOptions"
+                  (optionsChanged)="emitChecklistChanges()"
+                ></lf-options-component>
               }
             </mat-expansion-panel>
           </div>
@@ -46,14 +56,22 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </div>
   <div id="lf-checklist-button-container" class="lf-checklist-button-container">
     @if (action_button_text) {
-      <button id="lf-checklist-action-button"
+      <button
+        id="lf-checklist-action-button"
         class="lf-checklist-action-button primary-button lf-button"
-      (click)="onActionButtonClicked()">{{action_button_text}}</button>
+        (click)="onActionButtonClicked()"
+      >
+        {{ action_button_text }}
+      </button>
     }
     @if (cancel_button_text) {
-      <button id="lf-checklist-cancel-button"
+      <button
+        id="lf-checklist-cancel-button"
         class="lf-checklist-cancel-button lf-button sec-button"
-      (click)="onCancelButtonClicked()">{{cancel_button_text}}</button>
+        (click)="onCancelButtonClicked()"
+      >
+        {{ cancel_button_text }}
+      </button>
     }
   </div>
 </div>

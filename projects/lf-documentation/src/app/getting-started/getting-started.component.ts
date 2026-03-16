@@ -5,19 +5,18 @@ import { AfterViewInit, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'app-getting-started',
-    templateUrl: './getting-started.component.html',
-    styleUrls: ['./getting-started.component.css', './../app.component.css'],
-    standalone: true,
-    imports: []
+  selector: 'app-getting-started',
+  templateUrl: './getting-started.component.html',
+  styleUrls: ['./getting-started.component.css', './../app.component.css'],
+  standalone: true,
+  imports: [],
 })
 export class GettingStartedComponent implements AfterViewInit {
   private route = inject(ActivatedRoute);
 
-
   ngAfterViewInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.navigateToElements(params["id"]);
+    this.route.queryParams.subscribe((params) => {
+      this.navigateToElements(params['id']);
     });
   }
 

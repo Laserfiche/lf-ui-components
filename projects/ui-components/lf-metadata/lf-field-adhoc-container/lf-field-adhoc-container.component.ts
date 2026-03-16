@@ -54,7 +54,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
 
   /** @internal */
   readonly NO_ADDITIONAL_FIELDS_ASSIGNED = this.localizationService.getStringLaserficheObservable(
-    'NO_ADDITIONAL_FIELDS_ASSIGNED',
+    'NO_ADDITIONAL_FIELDS_ASSIGNED'
   );
 
   /** @internal */
@@ -117,7 +117,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     this.resetComponentValues();
     this.adhocFieldContainerService = CoreUtils.validateDefined(
       adhocFieldContainerService,
-      'adhocFieldContainerService',
+      'adhocFieldContainerService'
     );
     this.ref.markForCheck();
   };
@@ -174,7 +174,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   async fieldComponentInitAsync(
     fieldComponentRef: ComponentRef<LfFieldComponent>,
     fieldInfo: LfFieldInfo,
-    value: string,
+    value: string
   ) {
     await fieldComponentRef.instance.initAsync(fieldInfo, value);
   }
@@ -183,7 +183,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   async multivalueComponentInitAsync(
     multivalueFieldComponentRef: ComponentRef<LfFieldMultivalueComponent>,
     fieldInfo: LfFieldInfo,
-    values: string[],
+    values: string[]
   ) {
     await multivalueFieldComponentRef.instance.initAsync(fieldInfo, values);
   }
@@ -281,7 +281,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     this.allFieldInfos = this.adhocFieldConnectorService.getAllFieldInfos();
     this.updateTemplateFields(this.allFieldInfos);
     const fieldInfos: LfFieldInfo[] = this.allFieldInfos?.filter(
-      (fieldInfo) => this.selectedFieldIds.has(fieldInfo.id) && !(fieldInfo as AdhocFieldInfo).inTemplateSelected,
+      (fieldInfo) => this.selectedFieldIds.has(fieldInfo.id) && !(fieldInfo as AdhocFieldInfo).inTemplateSelected
     );
     return fieldInfos ?? [];
   }

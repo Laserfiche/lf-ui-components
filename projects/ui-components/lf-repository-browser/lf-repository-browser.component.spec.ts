@@ -64,7 +64,8 @@ const rootTreeNode: LfTreeNode = {
   isContainer: true,
   isLeaf: false,
   name: 'root',
-  path: '' };
+  path: '',
+};
 
 const rootTreeNodeChildren: LfTreeNode[] = [
   {
@@ -73,14 +74,16 @@ const rootTreeNodeChildren: LfTreeNode[] = [
     isContainer: false,
     isLeaf: false,
     name: 'tree node a realllllllllllllllllllllllllllllllllllllllllllllllllllllllly long name (2)',
-    path: '' },
+    path: '',
+  },
   {
     icon: '',
     id: '3',
     isContainer: true,
     isLeaf: false,
     name: 'tree folder (3)',
-    path: '' },
+    path: '',
+  },
 ];
 
 const moduleDef: TestModuleMetadata = {
@@ -96,7 +99,8 @@ const moduleDef: TestModuleMetadata = {
     LfRepositoryBrowserComponent,
     LfBreadcrumbsComponent,
     LfLoaderComponent,
-  ] };
+  ],
+};
 
 describe('LfRepositoryBrowserComponent', () => {
   let component: LfRepositoryBrowserComponent;
@@ -110,14 +114,16 @@ describe('LfRepositoryBrowserComponent', () => {
       isContainer: true,
       isLeaf: true,
       name: 'test entry (7)',
-      path: '8' };
+      path: '8',
+    };
     const parent: LfTreeNode = {
       icon: '',
       id: '8',
       isContainer: true,
       isLeaf: false,
       name: 'test entry (8)',
-      path: '' };
+      path: '',
+    };
     dataServiceMock.getFolderChildrenAsync.mockReturnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
@@ -159,9 +165,9 @@ describe('LfRepositoryBrowserComponent', () => {
     getFolderChildrenAsync: vi.fn(),
     getRootTreeNodeAsync: vi.fn(),
     getParentTreeNodeAsync: vi.fn(),
-    getTreeNodeByIdentifierAsync: vi.fn() };
+    getTreeNodeByIdentifierAsync: vi.fn(),
+  };
   let matDialogMock: MatDialog;
-
 
   it('should create an instance', () => {
     expect(component).toBeTruthy();
@@ -195,7 +201,8 @@ describe('LfRepositoryBrowserComponent', () => {
         isContainer: true,
         isLeaf: false,
         name: 'test entry (3)',
-        path: '' };
+        path: '',
+      };
       dataServiceMock.getFolderChildrenAsync.mockReturnValue(
         Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
       );
@@ -221,14 +228,16 @@ describe('LfRepositoryBrowserComponent', () => {
         isContainer: false,
         isLeaf: false,
         name: 'test entry (4)',
-        path: '5' };
+        path: '5',
+      };
       const parentEntry: LfTreeNode = {
         icon: '',
         id: parentId,
         isContainer: true,
         isLeaf: false,
         name: 'parent entry',
-        path: '' };
+        path: '',
+      };
       dataServiceMock.getFolderChildrenAsync.mockReturnValue(
         Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
       );
@@ -286,14 +295,16 @@ describe('LfRepositoryBrowserComponent', () => {
         isContainer: true,
         isLeaf: true,
         name: 'test entry (7)',
-        path: '8' };
+        path: '8',
+      };
       const parent: LfTreeNode = {
         icon: '',
         id: '8',
         isContainer: true,
         isLeaf: false,
         name: 'test entry (8)',
-        path: '' };
+        path: '',
+      };
       const newBreadCrumbs = [entry, parent];
       dataServiceMock.getFolderChildrenAsync.mockReturnValue(
         Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
@@ -324,7 +335,8 @@ describe('LfRepositoryBrowserComponent', () => {
       isContainer: true,
       isLeaf: false,
       name: 'test entry (9)',
-      path: '' };
+      path: '',
+    };
     dataServiceMock.getFolderChildrenAsync.mockReturnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
@@ -347,14 +359,16 @@ describe('LfRepositoryBrowserComponent', () => {
       isContainer: true,
       isLeaf: false,
       name: 'test entry (9)',
-      path: '' };
+      path: '',
+    };
     const entry: LfTreeNode = {
       icon: '',
       id: '10',
       isContainer: true,
       isLeaf: true,
       name: 'test entry (10)',
-      path: '9' };
+      path: '9',
+    };
     dataServiceMock.getFolderChildrenAsync.mockReturnValue(Promise.resolve({ nextPage: undefined, page: [] }));
 
     component.treeNodeService = dataServiceMock;
@@ -369,27 +383,30 @@ describe('LfRepositoryBrowserComponent', () => {
 
   it('entrySelected should not emit if node was last selected', async () => {
     vi.spyOn(component.entrySelected, 'emit');
-    const selectedItems = [{
-      isSelected: true,
-      isSelectable: true,
-      value: {
-        icon: '',
-        id: '10',
-        isContainer: true,
-        isLeaf: true,
-        name: 'test entry (10)',
-        path: '9' }
-    }];
+    const selectedItems = [
+      {
+        isSelected: true,
+        isSelectable: true,
+        value: {
+          icon: '',
+          id: '10',
+          isContainer: true,
+          isLeaf: true,
+          name: 'test entry (10)',
+          path: '9',
+        },
+      },
+    ];
     await component.onItemSelected({
       selected: selectedItems[0],
-      selectedItems
+      selectedItems,
     });
 
     expect(component.entrySelected.emit).toHaveBeenCalledTimes(1);
 
     await component.onItemSelected({
       selected: selectedItems[0],
-      selectedItems
+      selectedItems,
     });
 
     expect(component.entrySelected.emit).toHaveBeenCalledTimes(1);
@@ -403,7 +420,8 @@ describe('LfRepositoryBrowserComponent', () => {
       isContainer: false,
       isLeaf: true,
       name: 'test entry (11)',
-      path: '' };
+      path: '',
+    };
     dataServiceMock.getFolderChildrenAsync.mockReturnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
@@ -434,7 +452,8 @@ describe('LfRepositoryBrowserComponent', () => {
         id: '2',
         isContainer: false,
         isLeaf: true,
-        path: '' },
+        path: '',
+      },
     ];
     vi.spyOn(component.entryDblClicked, 'emit');
     await component.openSelectedItemsAsync();
@@ -461,14 +480,16 @@ describe('LfRepositoryBrowserComponent', () => {
         id: '2',
         isContainer: false,
         isLeaf: true,
-        path: '' },
+        path: '',
+      },
       {
         name: 'Test folder',
         icon: '',
         id: '3',
         isContainer: true,
         isLeaf: false,
-        path: '' },
+        path: '',
+      },
     ];
     expect(component.currentFolder).toBe(rootTreeNode);
     await component.openSelectedItemsAsync();
@@ -494,14 +515,16 @@ describe('LfRepositoryBrowserComponent', () => {
         id: '4',
         isContainer: true,
         isLeaf: false,
-        path: '' },
+        path: '',
+      },
       {
         name: 'Test folder',
         icon: '',
         id: '3',
         isContainer: true,
         isLeaf: false,
-        path: '' },
+        path: '',
+      },
     ];
     vi.spyOn(component.entryDblClicked, 'emit');
     await component.openSelectedItemsAsync();
@@ -534,7 +557,6 @@ describe('LfRepositoryBrowserComponent', () => {
     // Assert
     // @ts-ignore
     expect(component.selectedItems).toEqual([]);
-
   });
 
   it('setSelectedNodesAsync should set selectedNode', async () => {
@@ -545,22 +567,30 @@ describe('LfRepositoryBrowserComponent', () => {
     // Assert
     // @ts-ignore
     expect(component.selectedItems).toEqual(selectedNode);
-
   });
   it('if there is no column provided, set the name column to be auto', () => {
     component.setColumnsToDisplay([]);
-    expect(component.entryList?.columns).toEqual([{
-      id: 'name',
-      displayName: 'Name',
-      defaultWidth: 'auto',
-      minWidthPx: 100,
-      resizable: true,
-      sortable: true }]);
+    expect(component.entryList?.columns).toEqual([
+      {
+        id: 'name',
+        displayName: 'Name',
+        defaultWidth: 'auto',
+        minWidthPx: 100,
+        resizable: true,
+        sortable: true,
+      },
+    ]);
   });
 
   it('if a column other than a name column is provided, set the name column to be width to be 50ch', () => {
-
-    const create: ColumnDef = { id: 'creation_date', displayName: 'Creation Date', defaultWidth: '40%', minWidthPx: 100, resizable: true, sortable: true };
+    const create: ColumnDef = {
+      id: 'creation_date',
+      displayName: 'Creation Date',
+      defaultWidth: '40%',
+      minWidthPx: 100,
+      resizable: true,
+      sortable: true,
+    };
     component.setColumnsToDisplay([create]);
     expect(component.entryList?.columns).toEqual([
       {
@@ -569,20 +599,20 @@ describe('LfRepositoryBrowserComponent', () => {
         defaultWidth: '50ch',
         minWidthPx: 100,
         resizable: true,
-        sortable: true },
-      create
+        sortable: true,
+      },
+      create,
     ]);
   });
 
   it('if name column is passed into setAdditionalColumnsToDisplay, set the name column to width to be be the default width', () => {
-
     const nameCol: ColumnDef = {
       id: 'name',
       displayName: 'Name',
       defaultWidth: '80%',
-      minWidthPx: 100, resizable:
-      true,
-      sortable: true
+      minWidthPx: 100,
+      resizable: true,
+      sortable: true,
     };
     component.setColumnsToDisplay([nameCol]);
     expect(component.entryList?.columns).toEqual([nameCol]);

@@ -28,7 +28,6 @@ describe('TextFieldComponent', () => {
   let noLengthComponent: TextFieldComponent;
   let noLengthFixture: ComponentFixture<TextFieldComponent>;
 
-
   const shortStringTextInfo: LfFieldInfo = {
     name: 'Short String',
     id: 1,
@@ -36,7 +35,7 @@ describe('TextFieldComponent', () => {
     fieldType: FieldType.String,
     isRequired: true,
     length: 40,
-    displayName: 'Short String'
+    displayName: 'Short String',
   };
 
   const longStringTextInfo: LfFieldInfo = {
@@ -45,7 +44,7 @@ describe('TextFieldComponent', () => {
     description: 'This field has a max length of 200',
     fieldType: FieldType.String,
     length: 200,
-    displayName: 'Long String'
+    displayName: 'Long String',
   };
 
   const textWithNoLengthInfo: LfFieldInfo = {
@@ -53,7 +52,7 @@ describe('TextFieldComponent', () => {
     id: 3,
     description: 'This field has no max length specified',
     fieldType: FieldType.String,
-    displayName: 'No Length Text'
+    displayName: 'No Length Text',
   };
 
   beforeEach(async () => {
@@ -67,13 +66,13 @@ describe('TextFieldComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatMenuModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
       ],
       providers: [
         { provide: BaseFieldDirective, useExisting: TextFieldComponent },
         { provide: LfTokenService, useClass: LfFieldTokenService },
-        AppLocalizationService
-      ]
+        AppLocalizationService,
+      ],
     }).compileComponents();
 
     shortFixture = TestBed.createComponent(TextFieldComponent);
@@ -117,7 +116,9 @@ describe('TextFieldComponent', () => {
     shortComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -132,7 +133,9 @@ describe('TextFieldComponent', () => {
     longComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -147,7 +150,9 @@ describe('TextFieldComponent', () => {
     shortComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -162,7 +167,9 @@ describe('TextFieldComponent', () => {
     longComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -173,7 +180,10 @@ describe('TextFieldComponent', () => {
 
     const expectedBrokenRule = ValidationRule.MAX_LENGTH;
     const lengthParam: string[] = [shortStringTextInfo?.length?.toString() ?? '0'];
-    const expectedError: string = shortComponent.localizationService.getString('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', lengthParam);
+    const expectedError: string = shortComponent.localizationService.getString(
+      'THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS',
+      lengthParam
+    );
     expect(shortComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     shortComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -183,7 +193,9 @@ describe('TextFieldComponent', () => {
     shortComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -198,7 +210,9 @@ describe('TextFieldComponent', () => {
     longComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -214,7 +228,10 @@ describe('TextFieldComponent', () => {
 
     const expectedBrokenRule = ValidationRule.MAX_LENGTH;
     const lengthParam: string[] = [longStringTextInfo?.length?.toString() ?? '0'];
-    const expectedError: string = longComponent.localizationService.getString('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', lengthParam);
+    const expectedError: string = longComponent.localizationService.getString(
+      'THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS',
+      lengthParam
+    );
     expect(longComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     longComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -224,7 +241,9 @@ describe('TextFieldComponent', () => {
     longComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });

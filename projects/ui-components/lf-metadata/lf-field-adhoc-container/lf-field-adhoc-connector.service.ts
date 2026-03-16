@@ -6,13 +6,12 @@ import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
 
 /** @internal */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdhocFieldConnectorService {
-
   private selectedFieldIds = new Set<number>();
   private allFieldInfos: AdhocFieldInfo[] = [];
-  constructor() { }
+  constructor() {}
 
   setSelectedFieldIds(selectedFields: Set<number>) {
     this.selectedFieldIds = selectedFields;

@@ -83,7 +83,6 @@ to create `./dist/lf-documentation`.
 1. Configure a web server to serve `./dist` (e.g. IIS on WIndows).
 
 2. Browse to `http://localhost/dist-folder/lf-documentation/index.html` to view the documentation (assuming that `dist-folder` is mapped to `./dist`).
-
    - Note that index.html loads the UI components using `<script src="./../lf-cdn/lf-ui-components.js" defer></script>`
 
 ## Things to verify before creating a Pull Request

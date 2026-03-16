@@ -11,9 +11,8 @@ describe('LfToastMessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LfToastMessageComponent]
-    })
-    .compileComponents();
+      imports: [LfToastMessageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -52,52 +51,52 @@ describe('LfToastMessageComponent', () => {
 
   it('should remove validation and informational after the alloted time', () => {
     return new Promise<void>((done) => {
-    const timeToShow = 100;
-    const validationMessage: LfToastMessage = {
-      message: 'Test',
-      type: LfMessageToastTypes.Validation,
-      timeToShow: timeToShow,
-      noIcon: false,
-      hideMessage: false,
-    };
-    const informationalMessage: LfToastMessage = {
-      message: 'Test',
-      type: LfMessageToastTypes.Informational,
-      timeToShow: timeToShow,
-      noIcon: false,
-      hideMessage: false,
-    };
-    component.messages = [validationMessage, informationalMessage];
-    window.setTimeout(() => {
-      expect(component.allMessages.length).toBe(0);
-      done();
-    }, timeToShow + 100);
+      const timeToShow = 100;
+      const validationMessage: LfToastMessage = {
+        message: 'Test',
+        type: LfMessageToastTypes.Validation,
+        timeToShow: timeToShow,
+        noIcon: false,
+        hideMessage: false,
+      };
+      const informationalMessage: LfToastMessage = {
+        message: 'Test',
+        type: LfMessageToastTypes.Informational,
+        timeToShow: timeToShow,
+        noIcon: false,
+        hideMessage: false,
+      };
+      component.messages = [validationMessage, informationalMessage];
+      window.setTimeout(() => {
+        expect(component.allMessages.length).toBe(0);
+        done();
+      }, timeToShow + 100);
     });
   });
 
   it('should not remove error or warning messages after alloted time', () => {
     return new Promise<void>((done) => {
-    const timeToShow = 100;
-    const errorMessage: LfToastMessage = {
-      message: 'Test',
-      type: LfMessageToastTypes.Error,
-      timeToShow: timeToShow,
-      noIcon: false,
-      hideMessage: false,
-    };
+      const timeToShow = 100;
+      const errorMessage: LfToastMessage = {
+        message: 'Test',
+        type: LfMessageToastTypes.Error,
+        timeToShow: timeToShow,
+        noIcon: false,
+        hideMessage: false,
+      };
 
-    const warningMessage: LfToastMessage = {
-      message: 'Test',
-      type: LfMessageToastTypes.Warning,
-      timeToShow: timeToShow,
-      noIcon: false,
-      hideMessage: false,
-    };
-    component.messages = [errorMessage, warningMessage];
-    window.setTimeout(() => {
-      expect(component.allMessages.length).toBe(2);
-      done();
-    }, timeToShow + 100);
+      const warningMessage: LfToastMessage = {
+        message: 'Test',
+        type: LfMessageToastTypes.Warning,
+        timeToShow: timeToShow,
+        noIcon: false,
+        hideMessage: false,
+      };
+      component.messages = [errorMessage, warningMessage];
+      window.setTimeout(() => {
+        expect(component.allMessages.length).toBe(2);
+        done();
+      }, timeToShow + 100);
     });
   });
 
@@ -131,8 +130,8 @@ describe('LfToastMessageComponent', () => {
       hideMessage: false,
     };
     component.messages = [errorMessage, validMessage, validMessage, validMessage];
-    expect(component.allMessages.filter(message => message.type === LfMessageToastTypes.Error).length).toBe(1);
-    expect(component.allMessages.filter(message => message.type === LfMessageToastTypes.Validation).length).toBe(3);
+    expect(component.allMessages.filter((message) => message.type === LfMessageToastTypes.Error).length).toBe(1);
+    expect(component.allMessages.filter((message) => message.type === LfMessageToastTypes.Validation).length).toBe(3);
     component.clearToasts(LfMessageToastTypes.Validation);
     expect(component.allMessages.length).toBe(1);
     expect(component.allMessages[0].type).toBe(LfMessageToastTypes.Error);

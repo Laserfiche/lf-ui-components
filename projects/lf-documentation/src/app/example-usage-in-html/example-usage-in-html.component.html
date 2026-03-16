@@ -2,21 +2,22 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <p class="documentation-title">Using UI Components from CDN in HTML5</p>
-<h3 id="cdn-example-react"> Example: <code>lf-checklist</code></h3>
-<p>In the example below, the implementation comes from the CDN.
+<h3 id="cdn-example-react">Example: <code>lf-checklist</code></h3>
+<p>In the example below, the implementation comes from the CDN.</p>
 <ol>
   <li>
-    <p  class="documentation-text">
-      <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to get started.</a></p>
+    <p class="documentation-text">
+      <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to get started.</a>
+    </p>
   </li>
   <li>
-      <p  class="documentation-text">
-        Add the following tag to the html file of your application.
-      </p>
-      <pre class="code-container"><span class="code-html-tagname">&lt;lf-checklist</span> <span class="code-html-attribute-name">id="myChecklist"</span> <span class="code-html-tagname">&gt;</span><span class="code-html-tagname">&lt;/lf-checklist&gt;</span>
+    <p class="documentation-text">Add the following tag to the html file of your application.</p>
+    <pre
+      class="code-container"
+    ><span class="code-html-tagname">&lt;lf-checklist</span> <span class="code-html-attribute-name">id="myChecklist"</span> <span class="code-html-tagname">&gt;</span><span class="code-html-tagname">&lt;/lf-checklist&gt;</span>
 </pre>
-    </li>
-    <li>
+  </li>
+  <li>
     <p dir="auto">In the <code>.js</code> file (e.g.: <code>app.js</code>),</p>
     <pre class="code-container">
 <span class="code-js-import-item">const</span> <span class="code-js-prop">checklist</span> = document.<span class="code-js-function">getElementById</span>('<span class="code-js-string">mychecklist</span>'); <span class="code-ts-comment"
@@ -32,9 +33,7 @@ checklist.addEventListener('checklistChanged', onChecklistchanged);
     </pre>
   </li>
   <li>
-    <p  class="documentation-text">
-      Add the <code>.js</code> script to <code>index.html</code>
-    </p>
+    <p class="documentation-text">Add the <code>.js</code> script to <code>index.html</code></p>
     <pre class="code-container">
 <span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
 >"./app.js"</span> <span class="code-html-attribute-name"

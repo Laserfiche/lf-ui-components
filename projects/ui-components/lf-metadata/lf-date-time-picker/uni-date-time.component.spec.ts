@@ -10,9 +10,8 @@ describe('UniDatetimeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UniDateTimeComponent]
-    })
-    .compileComponents();
+      imports: [UniDateTimeComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UniDateTimeComponent);
     component = fixture.componentInstance;

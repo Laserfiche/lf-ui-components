@@ -16,10 +16,9 @@ describe('LfUserFeedbackComponent', () => {
       imports: [LfUserFeedbackComponent, MatCheckboxModule, MatDialogModule, BrowserAnimationsModule],
       providers: [
         { provide: MatDialogRef, useValue: {} },
-        { provide: MAT_DIALOG_DATA, useValue: {} }
-      ]
-    })
-    .compileComponents();
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

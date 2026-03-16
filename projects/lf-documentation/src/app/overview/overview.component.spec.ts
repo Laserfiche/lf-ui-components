@@ -12,12 +12,9 @@ describe('OverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        OverviewComponent
-      ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
-    })
-    .compileComponents();
+      imports: [OverviewComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {

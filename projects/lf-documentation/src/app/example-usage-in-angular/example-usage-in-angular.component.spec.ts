@@ -13,9 +13,8 @@ describe('ExampleUsageInAngularComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      imports: [ ExampleUsageInAngularComponent ],
-    })
-    .compileComponents();
+      imports: [ExampleUsageInAngularComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

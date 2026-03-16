@@ -7,23 +7,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       [matTooltip]="displayedOption.name"
       matTooltipClass="lf-web-client-tooltip"
       class="lf-toolbar-expanded-button-span"
-      >
+    >
       <button class="lf-toolbar-button" [disabled]="displayedOption.disabled" (click)="onClickButton(displayedOption)">
         @for (icon of getIcons(displayedOption); track icon) {
-          <img
-            [src]="icon"
-            [alt]="displayedOption.name"
-            class="lf-toolbar-button-icon"
-            />
+          <img [src]="icon" [alt]="displayedOption.name" class="lf-toolbar-button-icon" />
         }
       </button>
     </span>
   }
   @if (dropdown_options && dropdown_options.length > 0) {
-    <button
-      class="lf-toolbar-button"
-      [matMenuTriggerFor]="compactButtonMenu"
-      >
+    <button class="lf-toolbar-button" [matMenuTriggerFor]="compactButtonMenu">
       <span class="material-icons lf-toolbar-dropdown-button-icon"> more_vert </span>
     </button>
   }
@@ -34,7 +27,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         class="lf-dropdown-menu-option"
         mat-menu-item
         (click)="onClickButton(dropdownOption)"
-        >
+      >
         {{ dropdownOption.name }}
       </button>
     }

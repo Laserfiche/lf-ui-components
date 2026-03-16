@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TimeFieldComponent } from './time-field.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldInfo } from '../../../utils/lf-field-types';
-import { AppLocalizationService,ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
+import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfFieldTokenService } from '../lf-field-token.service';
 import { FieldType, FieldFormat } from '@laserfiche/lf-ui-components/shared';
 import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
@@ -31,7 +31,7 @@ describe('TimeFieldComponent', () => {
     isRequired: true,
     fieldType: FieldType.Time,
     format: FieldFormat.ShortTime,
-    displayName: 'requiredTimeName'
+    displayName: 'requiredTimeName',
   };
 
   const optionalTime: LfFieldInfo = {
@@ -40,7 +40,7 @@ describe('TimeFieldComponent', () => {
     description: 'optionalTimeDescription',
     fieldType: FieldType.Time,
     format: FieldFormat.LongTime,
-    displayName: 'optionalTimeName'
+    displayName: 'optionalTimeName',
   };
 
   beforeEach(async () => {
@@ -57,10 +57,7 @@ describe('TimeFieldComponent', () => {
         ReactiveFormsModule,
         UniDateTimeComponent,
       ],
-      providers:[
-        LfFieldTokenService,
-        AppLocalizationService
-      ]
+      providers: [LfFieldTokenService, AppLocalizationService],
     }).compileComponents();
   });
 
@@ -98,7 +95,9 @@ describe('TimeFieldComponent', () => {
     requiredTimeComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -113,7 +112,9 @@ describe('TimeFieldComponent', () => {
     optionalTimeComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -128,7 +129,9 @@ describe('TimeFieldComponent', () => {
 
     // assert
     const expectedBrokenRule = ValidationRule.TIME;
-    const expectedError = requiredTimeComponent.localizationService.getString('TIME_FIELDS_MUST_BE_IN_FORMAT_0', ['hh:mm A']);
+    const expectedError = requiredTimeComponent.localizationService.getString('TIME_FIELDS_MUST_BE_IN_FORMAT_0', [
+      'hh:mm A',
+    ]);
     expect(requiredTimeComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     requiredTimeComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -138,7 +141,9 @@ describe('TimeFieldComponent', () => {
     requiredTimeComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -161,7 +166,9 @@ describe('TimeFieldComponent', () => {
     requiredTimeComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -183,5 +190,4 @@ describe('TimeFieldComponent', () => {
     //@ts-ignore
     expect(requiredTimeComponent.timeDisplayFormat).toEqual('hh:mm A');
   });
-
 });

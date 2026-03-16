@@ -38,9 +38,8 @@ describe('LfFieldContainerComponent', () => {
         MatFormFieldModule,
         MatSelectModule,
         ReactiveFormsModule,
-      ]
-    })
-    .compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

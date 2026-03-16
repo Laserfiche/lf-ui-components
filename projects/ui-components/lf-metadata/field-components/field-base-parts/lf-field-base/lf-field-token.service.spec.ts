@@ -20,12 +20,10 @@ describe('LfFieldTokenService', () => {
 
   it('should get tokens for date field', async () => {
     const data: LfFieldTokenData = {
-      fieldType: FieldType.Date
+      fieldType: FieldType.Date,
     };
     const dateTokens = await service.getTokensAsync(data);
-    const expectedDateTokens = [
-      { id: LfFieldTokenId.DATE, friendlyName: 'Date', text: 'date' }
-    ];
+    const expectedDateTokens = [{ id: LfFieldTokenId.DATE, friendlyName: 'Date', text: 'date' }];
     expect(dateTokens.length).toEqual(expectedDateTokens.length);
     expect(dateTokens[0].id).toEqual(expectedDateTokens[0].id);
 
@@ -35,19 +33,19 @@ describe('LfFieldTokenService', () => {
     });
     await CoreUtils.waitForConditionAsync(
       () => value === expectedDateTokens[0].friendlyName,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedDateTokens[0].friendlyName);
   });
 
   it('should get tokens for datetime field', async () => {
     const data: LfFieldTokenData = {
-      fieldType: FieldType.DateTime
+      fieldType: FieldType.DateTime,
     };
     const datetimeTokens = await service.getTokensAsync(data);
-    const expectedDatetimeTokens = [
-      { id: LfFieldTokenId.DATETIME, friendlyName: 'Date/Time', text: 'datetime' }
-    ];
+    const expectedDatetimeTokens = [{ id: LfFieldTokenId.DATETIME, friendlyName: 'Date/Time', text: 'datetime' }];
     expect(datetimeTokens.length).toEqual(expectedDatetimeTokens.length);
     expect(datetimeTokens[0].id).toEqual(expectedDatetimeTokens[0].id);
     let value: string | undefined;
@@ -56,19 +54,19 @@ describe('LfFieldTokenService', () => {
     });
     await CoreUtils.waitForConditionAsync(
       () => value === expectedDatetimeTokens[0].friendlyName,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedDatetimeTokens[0].friendlyName);
   });
 
   it('should get tokens for time field', async () => {
     const data: LfFieldTokenData = {
-      fieldType: FieldType.Time
+      fieldType: FieldType.Time,
     };
     const timeTokens = await service.getTokensAsync(data);
-    const expectedTimeTokens = [
-      { id: LfFieldTokenId.TIME, friendlyName: 'Time', text: 'time' }
-    ];
+    const expectedTimeTokens = [{ id: LfFieldTokenId.TIME, friendlyName: 'Time', text: 'time' }];
     expect(timeTokens.length).toEqual(expectedTimeTokens.length);
     expect(timeTokens[0].id).toEqual(expectedTimeTokens[0].id);
     let value: string | undefined;
@@ -77,17 +75,19 @@ describe('LfFieldTokenService', () => {
     });
     await CoreUtils.waitForConditionAsync(
       () => value === expectedTimeTokens[0].friendlyName,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedTimeTokens[0].friendlyName);
   });
 
   it('should get tokens for number fields', async () => {
     const numberData: LfFieldTokenData = {
-      fieldType: FieldType.Number
+      fieldType: FieldType.Number,
     };
     const integerData: LfFieldTokenData = {
-      fieldType: FieldType.LongInteger
+      fieldType: FieldType.LongInteger,
     };
     const numberTokens = await service.getTokensAsync(numberData);
     const integerTokens = await service.getTokensAsync(integerData);
@@ -96,7 +96,7 @@ describe('LfFieldTokenService', () => {
       { id: LfFieldTokenId.REPOSITORY_COUNT, friendlyName: 'Repository Count', text: 'gcount' },
       { id: LfFieldTokenId.ENTRY_ID, friendlyName: 'Entry ID', text: 'id' },
       { id: LfFieldTokenId.PARENT_ID, friendlyName: 'Parent ID', text: 'parentid' },
-      { id: LfFieldTokenId.PARENT_FIELD, friendlyName: 'Parent Field', text: 'parent' }
+      { id: LfFieldTokenId.PARENT_FIELD, friendlyName: 'Parent Field', text: 'parent' },
     ];
 
     expect(numberTokens.length).toEqual(expectedNumberTokens.length);
@@ -107,7 +107,9 @@ describe('LfFieldTokenService', () => {
     });
     await CoreUtils.waitForConditionAsync(
       () => value === expectedNumberTokens[0].friendlyName,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedNumberTokens[0].friendlyName);
 
@@ -119,28 +121,30 @@ describe('LfFieldTokenService', () => {
     });
     await CoreUtils.waitForConditionAsync(
       () => intValue === expectedNumberTokens[0].friendlyName,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedNumberTokens[0].friendlyName);
   });
 
   it('should get tokens for string field', async () => {
     const data: LfFieldTokenData = {
-      fieldType: FieldType.String
+      fieldType: FieldType.String,
     };
     const stringTokens = await service.getTokensAsync(data);
     const expectedStringTokens = [
-      {id: LfFieldTokenId.DATE, friendlyName: 'Date', text: 'date'},
-      {id: LfFieldTokenId.TIME, friendlyName: 'Time', text: 'time'},
-      {id: LfFieldTokenId.DATETIME, friendlyName: 'Date/Time', text: 'datetime'},
+      { id: LfFieldTokenId.DATE, friendlyName: 'Date', text: 'date' },
+      { id: LfFieldTokenId.TIME, friendlyName: 'Time', text: 'time' },
+      { id: LfFieldTokenId.DATETIME, friendlyName: 'Date/Time', text: 'datetime' },
       // {id: LfFieldTokenId.SESSION_COUNT, friendlyName: 'Session Count', text: 'count'},
-      {id: LfFieldTokenId.REPOSITORY_COUNT, friendlyName: 'Repository Count', text: 'gcount'},
-      {id: LfFieldTokenId.USER_NAME, friendlyName: 'User Name', text: 'username'},
-      {id: LfFieldTokenId.ENTRY_NAME, friendlyName: 'Entry Name', text: 'name'},
-      {id: LfFieldTokenId.PARENT_NAME, friendlyName: 'Parent Name', text: 'parentname'},
-      {id: LfFieldTokenId.ENTRY_ID, friendlyName: 'Entry ID', text: 'id'},
-      {id: LfFieldTokenId.PARENT_ID, friendlyName: 'Parent ID', text: 'parentid'},
-      {id: LfFieldTokenId.PARENT_FIELD, friendlyName: 'Parent Field', text: 'parent'}
+      { id: LfFieldTokenId.REPOSITORY_COUNT, friendlyName: 'Repository Count', text: 'gcount' },
+      { id: LfFieldTokenId.USER_NAME, friendlyName: 'User Name', text: 'username' },
+      { id: LfFieldTokenId.ENTRY_NAME, friendlyName: 'Entry Name', text: 'name' },
+      { id: LfFieldTokenId.PARENT_NAME, friendlyName: 'Parent Name', text: 'parentname' },
+      { id: LfFieldTokenId.ENTRY_ID, friendlyName: 'Entry ID', text: 'id' },
+      { id: LfFieldTokenId.PARENT_ID, friendlyName: 'Parent ID', text: 'parentid' },
+      { id: LfFieldTokenId.PARENT_FIELD, friendlyName: 'Parent Field', text: 'parent' },
     ];
     expect(stringTokens.length).toEqual(expectedStringTokens.length);
     expect(stringTokens[0].id).toEqual(expectedStringTokens[0].id);
@@ -150,7 +154,9 @@ describe('LfFieldTokenService', () => {
     });
     await CoreUtils.waitForConditionAsync(
       () => value === expectedStringTokens[0].friendlyName,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedStringTokens[0].friendlyName);
   });
@@ -199,7 +205,7 @@ describe('LfFieldTokenService', () => {
       LfFieldTokenId.REPOSITORY_COUNT,
       LfFieldTokenId.ENTRY_ID,
       LfFieldTokenId.PARENT_ID,
-      LfFieldTokenId.PARENT_FIELD
+      LfFieldTokenId.PARENT_FIELD,
     ];
     expect(numberTokensNoImport).toEqual(expectedNumberTokens);
     expect(integerTokensImport).toEqual(expectedNumberTokens);
@@ -218,7 +224,7 @@ describe('LfFieldTokenService', () => {
       LfFieldTokenId.PARENT_NAME,
       LfFieldTokenId.ENTRY_ID,
       LfFieldTokenId.PARENT_ID,
-      LfFieldTokenId.PARENT_FIELD
+      LfFieldTokenId.PARENT_FIELD,
     ];
     expect(stringTokens).toEqual(expectedStringTokens);
   });
@@ -239,7 +245,7 @@ describe('LfFieldTokenService', () => {
       LfFieldTokenId.PARENT_FIELD,
       LfFieldTokenId.FILE_NAME,
       LfFieldTokenId.FILE_EXTENSION,
-      LfFieldTokenId.FILE_MODIFIED
+      LfFieldTokenId.FILE_MODIFIED,
     ];
     expect(stringTokens).toEqual(expectedStringTokens);
   });

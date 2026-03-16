@@ -10,36 +10,35 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-lf-field-container-documentation',
-    templateUrl: './lf-field-container-documentation.component.html',
-    styleUrls: ['./lf-field-container-documentation.component.css', './../app.component.css'],
-    standalone: true,
-    imports: [CardComponent, MatCheckboxModule, FormsModule, LfFieldContainerComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  selector: 'app-lf-field-container-documentation',
+  templateUrl: './lf-field-container-documentation.component.html',
+  styleUrls: ['./lf-field-container-documentation.component.css', './../app.component.css'],
+  standalone: true,
+  imports: [CardComponent, MatCheckboxModule, FormsModule, LfFieldContainerComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LfFieldContainerDocumentationComponent implements AfterViewInit {
-
   elementIsCollapsible: boolean = false;
   @ViewChild('fieldContainer') elementComponent!: LfFieldContainerComponent;
 
-  constructor() { }
+  constructor() {}
 
   async ngAfterViewInit(): Promise<void> {
     const componentService = new LfFieldContainerDemoService();
-      await this.elementComponent.initAsync(componentService, 2);
-      await this.elementComponent.updateFieldValuesAsync([
-        {
-          fieldId: 13,
-          values: [
-            {
-              value: '2021-10-13T11:29:58',
-              position: '1'
-            }
-          ],
-          fieldName: 'Time Received',
-          fieldType: FieldType.DateTime,
-        }
-      ]);
+    await this.elementComponent.initAsync(componentService, 2);
+    await this.elementComponent.updateFieldValuesAsync([
+      {
+        fieldId: 13,
+        values: [
+          {
+            value: '2021-10-13T11:29:58',
+            position: '1',
+          },
+        ],
+        fieldName: 'Time Received',
+        fieldType: FieldType.DateTime,
+      },
+    ]);
   }
 
   onFieldValueChange(isValid: boolean) {
@@ -49,5 +48,4 @@ export class LfFieldContainerDocumentationComponent implements AfterViewInit {
   onTemplateSelectedChanged(templateId: number) {
     console.log('template selected changed! template ID: ', templateId);
   }
-
 }

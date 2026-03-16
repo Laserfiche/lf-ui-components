@@ -24,11 +24,11 @@ export interface LfToastMessage {
 
 /** @internal */
 @Component({
-    selector: 'lf-toast-message',
-    templateUrl: './lf-toast-message.component.html',
-    styleUrls: ['./lf-toast-message.component.css'],
-    standalone: true,
-    imports: [CommonModule]
+  selector: 'lf-toast-message',
+  templateUrl: './lf-toast-message.component.html',
+  styleUrls: ['./lf-toast-message.component.css'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class LfToastMessageComponent {
   private ref = inject(ChangeDetectorRef);

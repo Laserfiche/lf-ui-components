@@ -113,7 +113,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     this.resetComponentValues();
     this.templateFieldContainerService = CoreUtils.validateDefined(
       providers.templateFieldContainerService,
-      'templateFieldContainerService',
+      'templateFieldContainerService'
     );
     await this.selectTemplateAsync(templateIdentifier);
     if (this.templateSelected) {
@@ -263,7 +263,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     vf: ViewContainerRef,
     groupId: number,
     fieldGroups: Map<number, FieldDefinition[]>,
-    newDef: FieldDefinition,
+    newDef: FieldDefinition
   ) {
     const fieldGroupComponentRef = vf.createComponent(LfFieldGroupComponent);
     fieldGroupComponentRef.instance.groupId = groupId;
@@ -274,7 +274,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   /** @internal */
   private async initializeFieldGroupComponentAsync(
     fieldGroupComponentRef: ComponentRef<LfFieldGroupComponent>,
-    group: FieldDefinition[],
+    group: FieldDefinition[]
   ) {
     const firstLength = group[0]?.fieldValues?.length ?? 1;
     const sameSizeGroups = group.every((def) => (def.fieldValues?.length ?? 1) === firstLength);
@@ -287,7 +287,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           const vals: string[] = fieldValue.values ? fieldValue.values?.map((value) => value['value'] ?? '') : [''];
           const fieldInfo = this.allFieldInfos.find((fieldInfo) => fieldInfo.id === id) as TemplateFieldInfo;
           await this.onFieldValueChangedAsync(vals, fieldInfo, fieldChange.indicesChanged);
-        },
+        }
       );
     }
   }
@@ -296,13 +296,13 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   async fieldComponentInitAsync(
     fieldComponentRef: ComponentRef<LfFieldComponent>,
     fieldInfo: LfFieldInfo,
-    value: string,
+    value: string
   ) {
     const optionsForFieldInfo = this.dynamicOptions.get(fieldInfo.id);
     await fieldComponentRef.instance.initAsync(
       fieldInfo,
       value,
-      optionsForFieldInfo ? optionsForFieldInfo[0] : undefined,
+      optionsForFieldInfo ? optionsForFieldInfo[0] : undefined
     );
   }
 
@@ -310,7 +310,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   async multivalueComponentInitAsync(
     multivalueFieldComponentRef: ComponentRef<LfFieldMultivalueComponent>,
     fieldInfo: LfFieldInfo,
-    values: string[],
+    values: string[]
   ) {
     await multivalueFieldComponentRef.instance.initAsync(fieldInfo, values, this.dynamicOptions.get(fieldInfo.id));
   }
@@ -356,7 +356,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       try {
         this.templateState = TemplateState.LOADING;
         this.templateSelected = (await this.templateFieldContainerService.getTemplateDefinitionAsync(
-          id,
+          id
         )) as TemplateInfo;
         if (!this.templateSelected) {
           this.templateState = TemplateState.DEFAULT;
@@ -472,7 +472,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   async onFieldValueChangedAsync(
     fieldValues: string[],
     lfFieldInfo: TemplateFieldInfo,
-    indicesChanged?: number[],
+    indicesChanged?: number[]
   ): Promise<void> {
     this.fieldValuesChanged.emit(this.isValid());
     let indicesOfValueChanged = indicesChanged;
@@ -504,14 +504,14 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   private async addFieldOptionsForIndexAsync(
     indexChanged: number,
     fieldInfoOptions: string[][],
-    lfFieldInfo: TemplateFieldInfo,
+    lfFieldInfo: TemplateFieldInfo
   ) {
     try {
       const dynamicFieldValueOptions = await this.getDynamicFieldValueOptionsAsync(indexChanged);
       fieldInfoOptions[indexChanged] = dynamicFieldValueOptions[lfFieldInfo.id];
       if (fieldInfoOptions[indexChanged] === undefined) {
         console.warn(
-          `Could not get dynamic field options of field ${lfFieldInfo.name} id ${lfFieldInfo.id}, index ${indexChanged}`,
+          `Could not get dynamic field options of field ${lfFieldInfo.name} id ${lfFieldInfo.id}, index ${indexChanged}`
         );
       }
     } catch (error) {
@@ -536,7 +536,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   private async updateDynamicFieldsAsync(
     fieldInfo: TemplateFieldInfo,
     values: string[],
-    indexChanged: number,
+    indexChanged: number
   ): Promise<void> {
     this.setFieldValue(fieldInfo.id, values);
     const children = this.getDynamicFieldChildren(fieldInfo);
@@ -558,7 +558,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         const childFieldValue: FieldValue = this.getUpdatedChildValue(
           childFieldInfo,
           dynamicFieldOptions,
-          indexChanged,
+          indexChanged
         );
         const stringValues = childFieldValue.values?.map((val) => val['value']) ?? [''];
         await this.updateDynamicFieldsAsync(childFieldInfo, stringValues, indexChanged);
@@ -573,7 +573,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   private getUpdatedChildValue(
     childFieldInfo: TemplateFieldInfo,
     dynamicFieldOptions: string[][],
-    indexChanged: number,
+    indexChanged: number
   ) {
     const childFieldValues: FieldValue = this.getOrCreateFieldValue(childFieldInfo.id);
     const optionsForIndex = dynamicFieldOptions[indexChanged];
@@ -601,7 +601,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     }
     const dynamicFieldValueOptions = await this.templateFieldContainerService.getDynamicFieldValueOptionsAsync(
       this.templateSelected.id,
-      relevantValues,
+      relevantValues
     );
     return dynamicFieldValueOptions;
   }
@@ -634,7 +634,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
     const parentId = fieldInfo.id;
     const children = this.allFieldInfos.filter((templateFieldInfo) =>
-      (templateFieldInfo as TemplateFieldInfo).rule?.ancestors.includes(parentId),
+      (templateFieldInfo as TemplateFieldInfo).rule?.ancestors.includes(parentId)
     );
     return children;
   }

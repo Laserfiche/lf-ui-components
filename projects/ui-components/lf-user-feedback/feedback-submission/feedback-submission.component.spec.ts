@@ -11,9 +11,9 @@ import { AppLocalizationService, LfMessageToastTypes } from '@laserfiche/lf-ui-c
 import { of } from 'rxjs';
 
 @Component({
-    selector: 'lf-feedback-image-upload',
-    template: '<p>Mock Image Attach Component</p>',
-    standalone: true
+  selector: 'lf-feedback-image-upload',
+  template: '<p>Mock Image Attach Component</p>',
+  standalone: true,
 })
 class MockFeedbackImageUploadComponent {}
 
@@ -36,11 +36,11 @@ describe('FeedbackSubmissionComponent', () => {
       imports: [MatCheckboxModule, FeedbackSubmissionComponent, MockFeedbackImageUploadComponent],
       providers: [{ provide: AppLocalizationService, useValue: localizeServiceMock }],
     })
-    .overrideComponent(FeedbackSubmissionComponent, {
-      remove: { imports: [FeedbackImageUploadComponent] },
-      add: { imports: [MockFeedbackImageUploadComponent] },
-    })
-    .compileComponents();
+      .overrideComponent(FeedbackSubmissionComponent, {
+        remove: { imports: [FeedbackImageUploadComponent] },
+        add: { imports: [MockFeedbackImageUploadComponent] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(FeedbackSubmissionComponent);
     component = fixture.componentInstance;
@@ -79,7 +79,6 @@ describe('FeedbackSubmissionComponent', () => {
     mockImageUploadComponent.triggerEventHandler('feedbackImageBase64', testUndefined);
     expect(component.feedbackImageBase64).toEqual(testUndefined);
   });
-
 
   it('if textarea input changes, should emit feedbackTextChanged', () => {
     vi.spyOn(component.feedbackTextChanged, 'emit');

@@ -22,11 +22,11 @@ $font-size: 14px;
 $font-stack: $font-weight $font-size "CustomFont";
 
 /* Primary Button */
-$primary-color: #00866B;
+$primary-color: #00866b;
 $primary-border-color: white;
-$prim-font-color: #FAFAFA;
+$prim-font-color: #fafafa;
 
-$primary-disabled-color: #ABD7CE;
+$primary-disabled-color: #abd7ce;
 $primary-disabled-border-color: white;
 $primary-disabled-font-color: white;
 
@@ -34,11 +34,11 @@ $primary-hover-color: white;
 $primary-hover-border-color: #005342;
 
 /* Secondary Button */
-$sec-color: #00866B;
+$sec-color: #00866b;
 $sec-border-color: white;
-$sec-font-color: #FAFAFA;
+$sec-font-color: #fafafa;
 
-$sec-disabled-color: #ABD7CE;
+$sec-disabled-color: #abd7ce;
 $sec-disabled-border-color: white;
 $sec-disabled-font-color: white;
 
@@ -46,20 +46,16 @@ $sec-hover-color: white;
 $sec-hover-border-color: #005342;
 
 /* Tertiary Button */
-$tert-color: #00866B;
+$tert-color: #00866b;
 $tert-border-color: white;
-$tert-font-color: #FAFAFA;
+$tert-font-color: #fafafa;
 
-$tert-disabled-color: #ABD7CE;
+$tert-disabled-color: #abd7ce;
 $tert-disabled-border-color: white;
 $tert-disabled-font-color: white;
 
 $tert-hover-color: white;
 $tert-hover-border-color: #005342;
-
-
-
-
 
 button.lf-button {
   font: $font-stack;
@@ -84,54 +80,51 @@ button.lf-button {
     cursor: default;
   }
 
-  &.primary-button{
+  &.primary-button {
     color: $prim-font-color;
     border-color: $primary-border-color;
     background-color: $primary-color;
 
-    &:disabled{
+    &:disabled {
       border-color: $primary-disabled-border-color;
       background-color: $primary-disabled-color;
       color: $primary-disabled-font-color;
     }
-    &:hover:enabled{
+    &:hover:enabled {
       border-color: $primary-hover-border-color;
       background-color: $primary-hover-color;
-
     }
   }
 
-  &.sec-button{
+  &.sec-button {
     color: $sec-font-color;
     border-color: $sec-border-color;
     background-color: $sec-color;
 
-    &:disabled{
+    &:disabled {
       border-color: $sec-disabled-border-color;
       background-color: $sec-disabled-color;
       color: $sec-disabled-font-color;
     }
-    &:hover:enabled{
+    &:hover:enabled {
       border-color: $sec-hover-border-color;
       background-color: $sec-hover-color;
-
     }
   }
 
-  &.tert-button{
+  &.tert-button {
     color: $tert-font-color;
     border-color: $tert-border-color;
     background-color: $tert-color;
 
-    &:disabled{
+    &:disabled {
       border-color: $tert-disabled-border-color;
       background-color: $tert-disabled-color;
-      color: $tert-disabled-font-color
+      color: $tert-disabled-font-color;
     }
-    &:hover:enabled{
+    &:hover:enabled {
       border-color: $tert-hover-border-color;
-      background-color: $tert-hover-color
-
+      background-color: $tert-hover-color;
     }
   }
 }

@@ -11,9 +11,8 @@ describe('LfBreadcrumbsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ LfBreadcrumbsComponent ]
-    })
-    .compileComponents();
+      imports: [LfBreadcrumbsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

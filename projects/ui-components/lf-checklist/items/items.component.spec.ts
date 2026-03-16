@@ -14,9 +14,8 @@ describe('ItemsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ItemsComponent, FormsModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule]
-    })
-      .compileComponents();
+      imports: [ItemsComponent, FormsModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {

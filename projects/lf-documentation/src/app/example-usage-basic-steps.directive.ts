@@ -6,20 +6,18 @@ import { NavigationExtras, Router } from '@angular/router';
 import { RouterLinks } from './app.config';
 
 @Directive({
-    selector: '[appExampleUsageBasicSteps]',
-    standalone: true
+  selector: '[appExampleUsageBasicSteps]',
+  standalone: true,
 })
 export class ExampleUsageBasicStepsDirective {
   router = inject(Router);
 
-
   navigateToGettingStarted(id: string) {
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        "id": id
-      }
-  };
+        id: id,
+      },
+    };
     this.router.navigate([RouterLinks.GETTING_STARTED], navigationExtras);
   }
-
 }

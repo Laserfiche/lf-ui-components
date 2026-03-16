@@ -5,10 +5,7 @@ import { Directive, OnInit } from '@angular/core';
 import { BaseFieldDirective } from './base-field.directive';
 import { ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { of } from 'rxjs';
-import {
-  UniComponentConfig,
-  UniComponentSettings,
-} from '../../../../lf-date-time-picker/uni-date-time.common';
+import { UniComponentConfig, UniComponentSettings } from '../../../../lf-date-time-picker/uni-date-time.common';
 import { UniDateTimeComponent } from '../../../../lf-date-time-picker/uni-date-time.component';
 
 @Directive()

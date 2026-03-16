@@ -21,7 +21,9 @@ describe('LfFieldGroupIndexDisplayPipe', () => {
     });
     await CoreUtils.waitForConditionAsync(
       () => value === expected,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expected);
   });
@@ -36,7 +38,9 @@ describe('LfFieldGroupIndexDisplayPipe', () => {
     });
     await CoreUtils.waitForConditionAsync(
       () => value === expected,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expected);
   });
@@ -50,7 +54,9 @@ describe('LfFieldGroupIndexDisplayPipe', () => {
     });
     await CoreUtils.waitForConditionAsync(
       () => value === expected,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expected);
   });

@@ -4,10 +4,7 @@
 import { FormControl } from '@angular/forms';
 import { ValidationUtils } from './validation-utils';
 
-
-
 describe('ValidationUtils', () => {
-
   it('should create an instance', () => {
     expect(new ValidationUtils()).toBeTruthy();
   });
@@ -22,14 +19,13 @@ describe('ValidationUtils', () => {
   });
 
   it('should create requiredValidator that tests if the input is empty spaces', () => {
-
     const validator = ValidationUtils.requiredValidator();
     let formControl: FormControl = new FormControl('', [validator]);
     expect(formControl.hasError('required')).toBe(true);
 
     formControl = new FormControl('  ', [validator]);
     expect(formControl.hasError('required')).toBe(true);
-    
+
     formControl = new FormControl(null, [validator]);
     expect(formControl.hasError('required')).toBe(true);
 
@@ -38,8 +34,5 @@ describe('ValidationUtils', () => {
 
     formControl = new FormControl('123', [validator]);
     expect(formControl.hasError('required')).toBe(false);
-
   });
-
 });
-

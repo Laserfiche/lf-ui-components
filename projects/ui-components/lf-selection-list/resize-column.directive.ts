@@ -1,14 +1,25 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef, Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  Renderer2,
+  inject,
+} from '@angular/core';
 import { ColumnDef } from './lf-selection-list-types';
 
 export const COLUMN_MIN_WIDTH: number = 100;
 
 @Directive({
-    selector: '[lfResizeColumn]',
-    standalone: true
+  selector: '[lfResizeColumn]',
+  standalone: true,
 })
 export class ResizeColumnDirective implements OnInit, OnDestroy {
   private renderer = inject(Renderer2);

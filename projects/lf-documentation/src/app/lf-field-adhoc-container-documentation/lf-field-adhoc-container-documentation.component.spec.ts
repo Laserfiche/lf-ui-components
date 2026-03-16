@@ -13,7 +13,8 @@ describe('LfFieldAdhocContainerDocumentationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LfFieldAdhocContainerDocumentationComponent, CardComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA] }).compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {

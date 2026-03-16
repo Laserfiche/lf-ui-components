@@ -27,10 +27,9 @@ describe('LfFieldGroupComponent', () => {
         DragDropModule,
         LfFieldBaseComponent,
         MatIconModule,
-        LfLoaderComponent
-      ]
-    })
-      .compileComponents();
+        LfLoaderComponent,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -49,182 +48,196 @@ describe('LfFieldGroupComponent', () => {
   });
 
   it('should have 1 group after initAsync', async () => {
-    await component.initAsync([{
-      fieldInfo: {
-        id: 1,
-        name: 'hi',
-        fieldType: FieldType.String,
-        displayName: 'hi'
-      },
-      fieldValues: ['test', 'hello']
-    }]);
-
-    expect(component.fieldDefinitions).toEqual([{
-      fieldInfo: {
-        id: 1,
-        name: 'hi',
-        fieldType: FieldType.String,
-        displayName: 'hi'
-      },
-      fieldValues: ['test', 'hello']
-    }]);
-    const mappedFields = new Map<number, FieldValue>();
-    mappedFields.set(1,
+    await component.initAsync([
       {
-        fieldId: 1, fieldName: 'hi', fieldType: FieldType.String, groupId: 0,
-        values: [{ value: 'test', position: '1' }, { value: 'hello', position: '2' }]
-      }
-    );
+        fieldInfo: {
+          id: 1,
+          name: 'hi',
+          fieldType: FieldType.String,
+          displayName: 'hi',
+        },
+        fieldValues: ['test', 'hello'],
+      },
+    ]);
+
+    expect(component.fieldDefinitions).toEqual([
+      {
+        fieldInfo: {
+          id: 1,
+          name: 'hi',
+          fieldType: FieldType.String,
+          displayName: 'hi',
+        },
+        fieldValues: ['test', 'hello'],
+      },
+    ]);
+    const mappedFields = new Map<number, FieldValue>();
+    mappedFields.set(1, {
+      fieldId: 1,
+      fieldName: 'hi',
+      fieldType: FieldType.String,
+      groupId: 0,
+      values: [
+        { value: 'test', position: '1' },
+        { value: 'hello', position: '2' },
+      ],
+    });
     expect(component.fieldValues).toEqual(mappedFields);
   });
 
   it('should have 2 groups after add', async () => {
-    await component.initAsync([{
-      fieldInfo: {
-        id: 1,
-        name: 'hi',
-        fieldType: FieldType.String,
-        displayName: 'hi'
+    await component.initAsync([
+      {
+        fieldInfo: {
+          id: 1,
+          name: 'hi',
+          fieldType: FieldType.String,
+          displayName: 'hi',
+        },
+        fieldValues: ['test'],
       },
-      fieldValues: ['test']
-    }]);
+    ]);
     component.onClickAdd(0);
 
-    expect(component.fieldDefinitions).toEqual([{
-      fieldInfo: {
-        id: 1,
-        name: 'hi',
-        fieldType: FieldType.String,
-        displayName: 'hi'
-      },
-      fieldValues: ['test']
-    }]);
-    const mappedFields = new Map<number, FieldValue>();
-    mappedFields.set(1,
+    expect(component.fieldDefinitions).toEqual([
       {
-        fieldId: 1,
-        fieldName: 'hi',
-        fieldType: FieldType.String,
-        groupId: 0,
-        values: [
-          { value: 'test', position: '1' },
-          { value: '', position: '2' }
-        ]
-      }
-    );
+        fieldInfo: {
+          id: 1,
+          name: 'hi',
+          fieldType: FieldType.String,
+          displayName: 'hi',
+        },
+        fieldValues: ['test'],
+      },
+    ]);
+    const mappedFields = new Map<number, FieldValue>();
+    mappedFields.set(1, {
+      fieldId: 1,
+      fieldName: 'hi',
+      fieldType: FieldType.String,
+      groupId: 0,
+      values: [
+        { value: 'test', position: '1' },
+        { value: '', position: '2' },
+      ],
+    });
     expect(component.fieldValues).toEqual(mappedFields);
   });
 
   it('should have 1 groups after add then remove', async () => {
-    await component.initAsync([{
-      fieldInfo: {
-        id: 1,
-        name: 'hi',
-        fieldType: FieldType.String,
-        displayName: 'hi'
+    await component.initAsync([
+      {
+        fieldInfo: {
+          id: 1,
+          name: 'hi',
+          fieldType: FieldType.String,
+          displayName: 'hi',
+        },
+        fieldValues: ['test'],
       },
-      fieldValues: ['test']
-    }]);
+    ]);
     component.onClickAdd(0);
     component.onClickDelete(0);
 
-    expect(component.fieldDefinitions).toEqual([{
-      fieldInfo: {
-        id: 1,
-        name: 'hi',
-        fieldType: FieldType.String,
-        displayName: 'hi'
-      },
-      fieldValues: ['test']
-    }]);
-    const mappedFields = new Map<number, FieldValue>();
-    mappedFields.set(1,
+    expect(component.fieldDefinitions).toEqual([
       {
-        fieldId: 1,
-        fieldName: 'hi',
-        fieldType: FieldType.String,
-        groupId: 0,
-        values: [
-          { value: '', position: '1' }
-        ]
-      }
-    );
+        fieldInfo: {
+          id: 1,
+          name: 'hi',
+          fieldType: FieldType.String,
+          displayName: 'hi',
+        },
+        fieldValues: ['test'],
+      },
+    ]);
+    const mappedFields = new Map<number, FieldValue>();
+    mappedFields.set(1, {
+      fieldId: 1,
+      fieldName: 'hi',
+      fieldType: FieldType.String,
+      groupId: 0,
+      values: [{ value: '', position: '1' }],
+    });
     expect(component.fieldValues).toEqual(mappedFields);
   });
 
   it('should reverse order after add then move up', async () => {
-    await component.initAsync([{
-      fieldInfo: {
-        id: 1,
-        name: 'hi',
-        fieldType: FieldType.String,
-        displayName: 'hi'
+    await component.initAsync([
+      {
+        fieldInfo: {
+          id: 1,
+          name: 'hi',
+          fieldType: FieldType.String,
+          displayName: 'hi',
+        },
+        fieldValues: ['test'],
       },
-      fieldValues: ['test']
-    }]);
+    ]);
     component.onClickAdd(0);
     component.onClickUp(1);
 
-    expect(component.fieldDefinitions).toEqual([{
-      fieldInfo: {
-        id: 1,
-        name: 'hi',
-        fieldType: FieldType.String,
-        displayName: 'hi'
-      },
-      fieldValues: ['test']
-    }]);
-    const mappedFields = new Map<number, FieldValue>();
-    mappedFields.set(1,
+    expect(component.fieldDefinitions).toEqual([
       {
-        fieldId: 1,
-        fieldName: 'hi',
-        fieldType: FieldType.String,
-        groupId: 0,
-        values: [
-          { value: '', position: '1' },
-          { value: 'test', position: '2' }
-        ]
-      }
-    );
+        fieldInfo: {
+          id: 1,
+          name: 'hi',
+          fieldType: FieldType.String,
+          displayName: 'hi',
+        },
+        fieldValues: ['test'],
+      },
+    ]);
+    const mappedFields = new Map<number, FieldValue>();
+    mappedFields.set(1, {
+      fieldId: 1,
+      fieldName: 'hi',
+      fieldType: FieldType.String,
+      groupId: 0,
+      values: [
+        { value: '', position: '1' },
+        { value: 'test', position: '2' },
+      ],
+    });
     expect(component.fieldValues).toEqual(mappedFields);
   });
 
   it('should reverse order after add then move down', async () => {
-    await component.initAsync([{
-      fieldInfo: {
-        id: 1,
-        name: 'hi',
-        fieldType: FieldType.String,
-        displayName: 'hi'
+    await component.initAsync([
+      {
+        fieldInfo: {
+          id: 1,
+          name: 'hi',
+          fieldType: FieldType.String,
+          displayName: 'hi',
+        },
+        fieldValues: ['test'],
       },
-      fieldValues: ['test']
-    }]);
+    ]);
     component.onClickAdd(0);
     component.onClickDown(0);
 
-    expect(component.fieldDefinitions).toEqual([{
-      fieldInfo: {
-        id: 1,
-        name: 'hi',
-        fieldType: FieldType.String,
-        displayName: 'hi'
-      },
-      fieldValues: ['test']
-    }]);
-    const mappedFields = new Map<number, FieldValue>();
-    mappedFields.set(1,
+    expect(component.fieldDefinitions).toEqual([
       {
-        fieldId: 1,
-        fieldName: 'hi',
-        fieldType: FieldType.String,
-        groupId: 0,
-        values: [
-          { value: '', position: '1' },
-          { value: 'test', position: '2' }
-        ]
-      }
-    );
+        fieldInfo: {
+          id: 1,
+          name: 'hi',
+          fieldType: FieldType.String,
+          displayName: 'hi',
+        },
+        fieldValues: ['test'],
+      },
+    ]);
+    const mappedFields = new Map<number, FieldValue>();
+    mappedFields.set(1, {
+      fieldId: 1,
+      fieldName: 'hi',
+      fieldType: FieldType.String,
+      groupId: 0,
+      values: [
+        { value: '', position: '1' },
+        { value: 'test', position: '2' },
+      ],
+    });
     expect(component.fieldValues).toEqual(mappedFields);
   });
 });

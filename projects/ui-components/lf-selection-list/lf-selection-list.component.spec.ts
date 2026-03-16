@@ -3,7 +3,7 @@
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { Component, Directive, EventEmitter,  Input,  Output,  ViewChild } from '@angular/core';
+import { Component, Directive, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
@@ -15,52 +15,75 @@ import { ColumnDef, SelectedItemEvent } from './lf-selection-list-types';
 import { LfSelectionListComponent, RepositoryBrowserData } from './lf-selection-list.component';
 
 const propIdCreateDate: string = 'create_date';
-  const createDateInitialWidth = '35%';
-  const create : ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: createDateInitialWidth, minWidthPx: 100, resizable: true, sortable: true };
-  const name: ColumnDef = { id: 'name', displayName: 'Name', defaultWidth: '80%', minWidthPx: 100, resizable: true, sortable: true  };
+const createDateInitialWidth = '35%';
+const create: ColumnDef = {
+  id: propIdCreateDate,
+  displayName: 'Creation Date',
+  defaultWidth: createDateInitialWidth,
+  minWidthPx: 100,
+  resizable: true,
+  sortable: true,
+};
+const name: ColumnDef = {
+  id: 'name',
+  displayName: 'Name',
+  defaultWidth: '80%',
+  minWidthPx: 100,
+  resizable: true,
+  sortable: true,
+};
 const itemList: ILfSelectable[] = [
-  {isSelectable: true, isSelected: false, value: {id: '1', attributes: new Map<string, PropertyValue>([
-    [propIdCreateDate, { value: Date.now(), displayValue: Intl.DateTimeFormat().format(Date.now()) }],
-  ]),}},
-  {isSelectable: true, isSelected: false, value: {id: '2'}},
-  {isSelectable: true, isSelected: false, value: {id: '3'}},
-  {isSelectable: true, isSelected: false, value: {id: '4'}},
-  {isSelectable: true, isSelected: false, value: {id: '5'}},
-  {isSelectable: true, isSelected: false, value: {id: '6'}},
-  {isSelectable: true, isSelected: false, value: {id: '7'}},
-  {isSelectable: true, isSelected: false, value: {id: '8'}},
-  {isSelectable: true, isSelected: false, value: {id: '9'}},
-  {isSelectable: true, isSelected: false, value: {id: '10'}},
-  {isSelectable: true, isSelected: false, value: {id: '11'}},
-  {isSelectable: true, isSelected: false, value: {id: '12'}},
-  {isSelectable: true, isSelected: false, value: {id: '13'}},
-  {isSelectable: true, isSelected: false, value: {id: '14'}},
-  {isSelectable: true, isSelected: false, value: {id: '15'}},
-  {isSelectable: true, isSelected: false, value: {id: '16'}},
-  {isSelectable: true, isSelected: false, value: {id: '17'}},
-  {isSelectable: true, isSelected: false, value: {id: '18'}},
-  {isSelectable: true, isSelected: false, value: {id: '19'}},
-  {isSelectable: true, isSelected: false, value: {id: '20'}},
-  {isSelectable: true, isSelected: false, value: {id: '21'}},
+  {
+    isSelectable: true,
+    isSelected: false,
+    value: {
+      id: '1',
+      attributes: new Map<string, PropertyValue>([
+        [propIdCreateDate, { value: Date.now(), displayValue: Intl.DateTimeFormat().format(Date.now()) }],
+      ]),
+    },
+  },
+  { isSelectable: true, isSelected: false, value: { id: '2' } },
+  { isSelectable: true, isSelected: false, value: { id: '3' } },
+  { isSelectable: true, isSelected: false, value: { id: '4' } },
+  { isSelectable: true, isSelected: false, value: { id: '5' } },
+  { isSelectable: true, isSelected: false, value: { id: '6' } },
+  { isSelectable: true, isSelected: false, value: { id: '7' } },
+  { isSelectable: true, isSelected: false, value: { id: '8' } },
+  { isSelectable: true, isSelected: false, value: { id: '9' } },
+  { isSelectable: true, isSelected: false, value: { id: '10' } },
+  { isSelectable: true, isSelected: false, value: { id: '11' } },
+  { isSelectable: true, isSelected: false, value: { id: '12' } },
+  { isSelectable: true, isSelected: false, value: { id: '13' } },
+  { isSelectable: true, isSelected: false, value: { id: '14' } },
+  { isSelectable: true, isSelected: false, value: { id: '15' } },
+  { isSelectable: true, isSelected: false, value: { id: '16' } },
+  { isSelectable: true, isSelected: false, value: { id: '17' } },
+  { isSelectable: true, isSelected: false, value: { id: '18' } },
+  { isSelectable: true, isSelected: false, value: { id: '19' } },
+  { isSelectable: true, isSelected: false, value: { id: '20' } },
+  { isSelectable: true, isSelected: false, value: { id: '21' } },
 ];
 
 @Component({
-    selector: 'lf-selection-list-test',
-    template: `<div [style.width.px]="containerWidth" [style.height.px]="'250'">
-    <lf-selection-list-component id="lf-selection-list"
+  selector: 'lf-selection-list-test',
+  template: `<div [style.width.px]="containerWidth" [style.height.px]="'250'">
+    <lf-selection-list-component
+      id="lf-selection-list"
       style="height: 100%; width: 100%;"
-      [listItems]="items" [multipleSelection]="multiple"
+      [listItems]="items"
+      [multipleSelection]="multiple"
       (scrollChanged)="onScroll($event)"
       (itemSelected)="onitemSelected($event)"
       (itemDoubleClicked)="onItemDoubleClicked($event)"
       [columns]="cols"
       [alwaysShowHeader]="alwaysShowHeader"
       [uniqueIdentifier]="uniqueIdentifier"
-      ></lf-selection-list-component>
+    ></lf-selection-list-component>
   </div>`,
-    styles: [],
-    standalone: true,
-    imports: [LfSelectionListComponent]
+  styles: [],
+  standalone: true,
+  imports: [LfSelectionListComponent],
 })
 export class LfListTestComponent {
   @ViewChild(LfSelectionListComponent) list?: LfSelectionListComponent;
@@ -86,8 +109,8 @@ export class LfListTestComponent {
 }
 
 @Directive({
-    selector: "[lfResizeColumn]",
-    standalone: true
+  selector: '[lfResizeColumn]',
+  standalone: true,
 })
 export class MockResizeDirective {
   @Input('lfResizeColumn') resizable: boolean = false;
@@ -101,11 +124,11 @@ describe('LfListComponent single select', () => {
 
   async function waitForRender() {
     fixture.autoDetectChanges();
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 200));
     await fixture.whenStable();
   }
 
-  async function setupRepoBrowserWithColumns( columns: ColumnDef[]) {
+  async function setupRepoBrowserWithColumns(columns: ColumnDef[]) {
     component.cols = columns;
     await waitForRender();
   }
@@ -120,10 +143,9 @@ describe('LfListComponent single select', () => {
         MatSortModule,
         BrowserAnimationsModule,
         LfListTestComponent,
-        MockResizeDirective
-      ]
-    })
-    .compileComponents();
+        MockResizeDirective,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(async () => {
@@ -150,9 +172,9 @@ describe('LfListComponent single select', () => {
     await waitForRender();
     const element = fixture.nativeElement;
     const clickEvent = new MouseEvent('dblclick', {
-      'view': window,
-      'bubbles': true,
-      'cancelable': true
+      view: window,
+      bubbles: true,
+      cancelable: true,
     });
     element.querySelector('#lf-row-0').dispatchEvent(clickEvent);
     await fixture.whenStable();
@@ -163,13 +185,9 @@ describe('LfListComponent single select', () => {
     it('should be able to set columns', async () => {
       await setupRepoBrowserWithColumns([name, create]);
 
-      const trEls = Array.from(
-        document.getElementsByClassName('mat-mdc-header-row')
-      );
+      const trEls = Array.from(document.getElementsByClassName('mat-mdc-header-row'));
       const trEl = trEls[0] as HTMLDivElement;
-      const thEls = Array.from(
-        trEl.getElementsByClassName('mat-mdc-header-cell')
-      );
+      const thEls = Array.from(trEl.getElementsByClassName('mat-mdc-header-cell'));
       expect(thEls.length).toBe(2);
     });
 
@@ -177,11 +195,9 @@ describe('LfListComponent single select', () => {
       // Act
       await setupRepoBrowserWithColumns([name, create]);
 
-      const trEls = Array.from(
-        document.getElementsByClassName('mat-mdc-header-row')
-      );
+      const trEls = Array.from(document.getElementsByClassName('mat-mdc-header-row'));
       const trEl = trEls[0] as HTMLDivElement;
-      const createDateWidth = parseFloat(create.defaultWidth) / 100 * component.containerWidth + 'px';
+      const createDateWidth = (parseFloat(create.defaultWidth) / 100) * component.containerWidth + 'px';
       const createDateActualWidth = trEl.style.gridTemplateColumns.split(' ')[1];
       expect(createDateWidth).toBe(createDateActualWidth);
     });
@@ -193,33 +209,29 @@ describe('LfListComponent single select', () => {
       component.list!.onColumnWidthChanges(newNameWidth, 0);
       await fixture.whenStable();
 
-
       const nameColEl = document.getElementsByClassName('mat-column-name')[0] as HTMLDivElement;
       const nameColWidth = nameColEl.offsetWidth;
       expect(nameColWidth).toBe(newNameWidth);
-      const storedItem : RepositoryBrowserData = JSON.parse(localStorage.getItem(component.uniqueIdentifier) ?? '{}');
-      expect(storedItem.columns['name']).toBe(newNameWidth+'px');
+      const storedItem: RepositoryBrowserData = JSON.parse(localStorage.getItem(component.uniqueIdentifier) ?? '{}');
+      expect(storedItem.columns['name']).toBe(newNameWidth + 'px');
     });
 
     it('initialize the columns to have the same size with localstorage data', async () => {
-
       // Arrange
       const customNameColumnWidth = '300px';
       const customCreateDateWidth = '400px';
-      const initialData : RepositoryBrowserData = {
+      const initialData: RepositoryBrowserData = {
         columns: {
-          'name': customNameColumnWidth,
-          'create_date': customCreateDateWidth,
-        }
+          name: customNameColumnWidth,
+          create_date: customCreateDateWidth,
+        },
       };
       localStorage.setItem(component.uniqueIdentifier, JSON.stringify(initialData));
       // Act
       await setupRepoBrowserWithColumns([name, create]);
 
       // Assert
-      const trEls = Array.from(
-        document.getElementsByClassName('mat-mdc-header-row')
-      );
+      const trEls = Array.from(document.getElementsByClassName('mat-mdc-header-row'));
       const trEl = trEls[0] as HTMLDivElement;
       const gridTemplateColumnsWidth = `${customNameColumnWidth} ${customCreateDateWidth}`;
       expect(trEl.style.gridTemplateColumns).toBe(gridTemplateColumnsWidth);
@@ -227,7 +239,6 @@ describe('LfListComponent single select', () => {
     });
 
     it('sortData sets columnOrderBy and emits refreshData event', async () => {
-
       // Arrange
       await setupRepoBrowserWithColumns([name, create]);
 
@@ -260,7 +271,6 @@ describe('LfListComponent single select', () => {
       expect(headerHidden).toBeUndefined();
     });
 
-
     it('if alwaysShowHeader is set to false, header is hidden if there is only one column', async () => {
       // Arrange
       component.alwaysShowHeader = false;
@@ -270,7 +280,6 @@ describe('LfListComponent single select', () => {
       const headerHidden = document.getElementsByClassName('lf-hidden-column-header')[0];
       expect(headerHidden).toBeTruthy();
     });
-
   });
 
   describe('keydown interactions', () => {
@@ -278,10 +287,10 @@ describe('LfListComponent single select', () => {
       await waitForRender();
       const element = fixture.nativeElement;
       const keyboardEvent = new KeyboardEvent('keydown', {
-        'key': ' ',
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
+        key: ' ',
+        view: window,
+        bubbles: true,
+        cancelable: true,
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
       await fixture.whenStable();
@@ -293,10 +302,10 @@ describe('LfListComponent single select', () => {
       await waitForRender();
       const element = fixture.nativeElement;
       const keyboardEvent = new KeyboardEvent('keydown', {
-        'key': 'Enter',
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
+        key: 'Enter',
+        view: window,
+        bubbles: true,
+        cancelable: true,
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
       await fixture.whenStable();
@@ -309,11 +318,11 @@ describe('LfListComponent single select', () => {
       await waitForRender();
       const element = fixture.nativeElement;
       const keyboardEvent = new KeyboardEvent('keydown', {
-        'key': 'ArrowUp',
-        'shiftKey': true,
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
+        key: 'ArrowUp',
+        shiftKey: true,
+        view: window,
+        bubbles: true,
+        cancelable: true,
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
       await fixture.whenStable();
@@ -325,11 +334,11 @@ describe('LfListComponent single select', () => {
       await waitForRender();
       const element = fixture.nativeElement;
       const keyboardEvent = new KeyboardEvent('keydown', {
-        'key': 'ArrowDown',
-        'shiftKey': true,
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
+        key: 'ArrowDown',
+        shiftKey: true,
+        view: window,
+        bubbles: true,
+        cancelable: true,
       });
       element.querySelector('#lf-row-0').dispatchEvent(keyboardEvent);
       await fixture.whenStable();
@@ -365,18 +374,18 @@ describe('LfListComponent single select', () => {
       const secondFocusItem = fixture.nativeElement.querySelector('#lf-row-0.item-holder');
       const listElement = fixture.nativeElement.querySelector('#lf-list-viewport');
       const downEvent = new KeyboardEvent('keydown', {
-        'key': 'ArrowDown',
-        'shiftKey': true,
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
+        key: 'ArrowDown',
+        shiftKey: true,
+        view: window,
+        bubbles: true,
+        cancelable: true,
       });
       const upEvent = new KeyboardEvent('keydown', {
-        'key': 'ArrowUp',
-        'shiftKey': true,
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
+        key: 'ArrowUp',
+        shiftKey: true,
+        view: window,
+        bubbles: true,
+        cancelable: true,
       });
       component.list?.focus();
       await fixture.whenStable();

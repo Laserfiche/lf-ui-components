@@ -54,7 +54,7 @@ describe('FeedbackImageUploadComponent', () => {
 
   it('if there is image attached, should show the picked file zone', async () => {
     // Act
-    component.imageUploaded = {name: 'test.png', rawBase64: ''};
+    component.imageUploaded = { name: 'test.png', rawBase64: '' };
     await fixture.whenStable();
 
     // Assert
@@ -75,7 +75,7 @@ describe('FeedbackImageUploadComponent', () => {
     // Assert
     expect(success).toBe(true);
     expect(component.feedbackImageBase64.emit).toHaveBeenCalledWith(`data:image/png;base64,${base64Image}`);
-    expect(component.imageUploaded).toEqual({name: 'test.png', rawBase64: `data:image/png;base64,${base64Image}`});
+    expect(component.imageUploaded).toEqual({ name: 'test.png', rawBase64: `data:image/png;base64,${base64Image}` });
   });
 
   it('if tryReadAndValidateImageAsync is called with a file above 3MB, should emit warning, and should not attach image', async () => {
@@ -89,9 +89,7 @@ describe('FeedbackImageUploadComponent', () => {
     await component.tryReadAndValidateImageAsync(file);
 
     // Assert
-    expect(component.imageUploadError.emit).toHaveBeenCalledWith(
-      'IMAGE_NOT_ATTACHED IMAGE_EXCEEDS_MAX_FILE_SIZE_0'
-    );
+    expect(component.imageUploadError.emit).toHaveBeenCalledWith('IMAGE_NOT_ATTACHED IMAGE_EXCEEDS_MAX_FILE_SIZE_0');
     expect(component.imageUploaded).toBeUndefined();
   });
 

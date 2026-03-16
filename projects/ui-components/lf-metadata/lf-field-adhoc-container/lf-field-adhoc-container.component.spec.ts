@@ -86,13 +86,13 @@ describe('LfFieldAdhocContainerComponent', () => {
       fieldType: FieldType.String,
       isMultiValue: true,
       inTemplateSelected: false,
-      displayName: 'Attendance List'
+      displayName: 'Attendance List',
     };
     const expected = component.getSelectedFieldInfos();
     expect(expected).toEqual([initialFieldInfo]);
   });
 
-  it('should update selectedFieldValues when checkbox changed',  async () => {
+  it('should update selectedFieldValues when checkbox changed', async () => {
     // Arrange
     const addRemoveButton = element.querySelector('#adhoc-add-remove-button') as HTMLButtonElement;
     addRemoveButton.click();
@@ -102,14 +102,19 @@ describe('LfFieldAdhocContainerComponent', () => {
     // Act
     const attendanceListField = (element.querySelectorAll('.mdc-checkbox__native-control') as any)[2];
     attendanceListField.click();
-     fixture.detectChanges();
+    fixture.detectChanges();
     const applyButton = element.querySelector('#adhoc-apply-button') as HTMLButtonElement;
-     applyButton.click();
+    applyButton.click();
     await fixture.whenStable();
 
     // Assert
     expect(component.getFieldValues()).toEqual({
-      'Amount (AUD)': { fieldName: 'Amount (AUD)', fieldId: 61, fieldType: FieldType.Number, values: [{ value: '', position: '1' }] },
+      'Amount (AUD)': {
+        fieldName: 'Amount (AUD)',
+        fieldId: 61,
+        fieldType: FieldType.Number,
+        values: [{ value: '', position: '1' }],
+      },
       'Attendance List': {
         fieldName: 'Attendance List',
         fieldId: 1,

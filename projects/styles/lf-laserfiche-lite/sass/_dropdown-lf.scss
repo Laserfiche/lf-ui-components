@@ -63,7 +63,7 @@ mat-form-field.lf-dropdown {
 }
 
 .lf-field .mdc-line-ripple {
-    display: none;
+  display: none;
 }
 
 .lf-dropdown div.mat-mdc-select-arrow-wrapper {
@@ -80,7 +80,10 @@ mat-form-field.lf-dropdown {
   border-top: 0 solid transparent;
 }
 
-.lf-dropdown.mat-mdc-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
+.lf-dropdown.mat-mdc-form-field.lf-field
+  > .mat-mdc-text-field-wrapper
+  > .mat-mdc-form-field-flex
+  > .mat-mdc-form-field-infix {
   padding: 0px;
 }
 
@@ -98,7 +101,10 @@ mat-form-field.lf-dropdown {
   background-color: white;
 }
 
-.lf-field.lf-dropdown.lf-template-picker > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
+.lf-field.lf-dropdown.lf-template-picker
+  > .mat-mdc-text-field-wrapper
+  > .mat-mdc-form-field-flex
+  > .mat-mdc-form-field-infix {
   height: 35px;
 }
 

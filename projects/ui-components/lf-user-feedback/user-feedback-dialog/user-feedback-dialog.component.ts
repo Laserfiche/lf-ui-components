@@ -2,7 +2,18 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { LocalizedString } from '@angular/compiler';
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, OnDestroy, Output, ViewChild, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  OnDestroy,
+  Output,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AppLocalizationService, GeneralDialogLayoutComponent } from '@laserfiche/lf-ui-components/internal-shared';
@@ -24,11 +35,16 @@ export enum FeedbackDialogState {
  * @internal
  */
 @Component({
-    selector: 'lf-user-feedback-dialog-component',
-    templateUrl: './user-feedback-dialog.component.html',
-    styleUrls: ['./user-feedback-dialog.component.css'],
-    standalone: true,
-    imports: [CommonModule, GeneralDialogLayoutComponent, FeedbackSubmissionComponent, FeedbackSuggestionSelectionComponent]
+  selector: 'lf-user-feedback-dialog-component',
+  templateUrl: './user-feedback-dialog.component.html',
+  styleUrls: ['./user-feedback-dialog.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    GeneralDialogLayoutComponent,
+    FeedbackSubmissionComponent,
+    FeedbackSuggestionSelectionComponent,
+  ],
 })
 export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   dialogRef = inject<MatDialogRef<UserFeedbackDialogComponent>>(MatDialogRef);

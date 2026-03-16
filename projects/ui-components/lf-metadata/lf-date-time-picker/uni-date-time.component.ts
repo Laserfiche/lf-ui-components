@@ -2,7 +2,20 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 // Core and essentials
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, HostBinding, Input, AfterContentInit, EventEmitter, Output, ChangeDetectorRef, inject } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  AfterViewInit,
+  HostBinding,
+  Input,
+  AfterContentInit,
+  EventEmitter,
+  Output,
+  ChangeDetectorRef,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,11 +46,11 @@ import { LFTimePickerPlugin } from './plugin-lfTimePicker';
 import { LFDatePickerPlugin } from './plugin-lfDatePicker';
 
 @Component({
-    selector: 'lf-uni-date-time',
-    templateUrl: './uni-date-time.component.html',
-    styleUrls: ['./uni-date-time.component.less'],
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule]
+  selector: 'lf-uni-date-time',
+  templateUrl: './uni-date-time.component.html',
+  styleUrls: ['./uni-date-time.component.less'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
 })
 export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContentInit {
   dateTimeService = inject(UniDateTimeService);
@@ -206,10 +219,10 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         // Format using current language
         defaultDateToSet = parsedDefaultDate
           ? this.dateTimeService.format({
-            dateTimeObj: parsedDefaultDate,
-            dateFormat: this.settings.dateFormat,
-            language: this.config.language,
-          })
+              dateTimeObj: parsedDefaultDate,
+              dateFormat: this.settings.dateFormat,
+              language: this.config.language,
+            })
           : defaultDateToSet;
       }
       const dateTimeData = this.state.data as StateDataDateTime;
@@ -259,7 +272,8 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           allowInput: true,
           allowInvalidPreload: true,
           dateFormat: this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(
-            this.settings.dateFormat + (this.settings.combinedDateTime ? ' ' + this.settings.timeFormat : ''), true
+            this.settings.dateFormat + (this.settings.combinedDateTime ? ' ' + this.settings.timeFormat : ''),
+            true
           ),
           defaultDate:
             defaultDate +
@@ -706,24 +720,24 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         dateTimeObj =
           dateStr || timeStr
             ? this.dateTimeService.parse({
-              dateTimeStr:
-                (dateStr ? this.substituteTokens(dateStr, false) : '') +
-                (timeStr ? ' ' + this.substituteTokens(timeStr, false) : ''),
-              dateTimeFormat: dateFormat + (timeStr ? ' ' + timeFormat : ''),
-              language: this.config.language,
-            })
+                dateTimeStr:
+                  (dateStr ? this.substituteTokens(dateStr, false) : '') +
+                  (timeStr ? ' ' + this.substituteTokens(timeStr, false) : ''),
+                dateTimeFormat: dateFormat + (timeStr ? ' ' + timeFormat : ''),
+                language: this.config.language,
+              })
             : null;
       } else {
         // parse using current language
         dateTimeObj =
           dateStr || timeStr
             ? this.dateTimeService.parse({
-              dateStr: dateStr ? this.substituteTokens(dateStr, false) : '',
-              timeStr: timeStr ? this.substituteTokens(timeStr, false) : '',
-              dateFormat,
-              timeFormat,
-              language: this.config.language,
-            })
+                dateStr: dateStr ? this.substituteTokens(dateStr, false) : '',
+                timeStr: timeStr ? this.substituteTokens(timeStr, false) : '',
+                dateFormat,
+                timeFormat,
+                language: this.config.language,
+              })
             : null;
       }
 

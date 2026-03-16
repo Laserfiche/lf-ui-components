@@ -5,9 +5,9 @@ name: lf-ui-components-CI
 
 on:
   push:
-    branches: [ '\d+.x' ]
+    branches: ['\d+.x']
   pull_request:
-    branches: [ '\d+.x' ]
+    branches: ['\d+.x']
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -36,13 +36,16 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: "24"
 
       - name: Update npm
         run: npm install -g npm@latest
 
       - name: npm ci
         run: npm ci
+
+      - name: Npm run format:check
+        run: npm run format:check
 
       - name: Npm run lint
         run: npm run lint
@@ -79,44 +82,44 @@ jobs:
           name: Jest Test Results
           path: ./test-results.xml
           reporter: java-junit
-          only-summary: 'true'
-          use-actions-summary: 'true'
-          fail-on-error: 'false'
+          only-summary: "true"
+          use-actions-summary: "true"
+          fail-on-error: "false"
 
-      - name: 'create an empty ./dist/ui-components/cdn folder'
-        run: 'mkdir -p ./dist/ui-components/cdn'
+      - name: "create an empty ./dist/ui-components/cdn folder"
+        run: "mkdir -p ./dist/ui-components/cdn"
 
-      - name: 'npm run gulp-replace-placeholders-in-documentation'
+      - name: "npm run gulp-replace-placeholders-in-documentation"
         run: npm run gulp-replace-placeholders-in-documentation
 
-      - name: 'move indigo-pink to ui-components/cdn'
+      - name: "move indigo-pink to ui-components/cdn"
         run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
 
-      - name: 'move lf-ui-components.js to ui-components/cdn'
+      - name: "move lf-ui-components.js to ui-components/cdn"
         run: |
           mv main.js.map ../ui-components/cdn
           mv main.js ../ui-components/cdn/lf-ui-components.js
         working-directory: ./dist/lf-cdn
 
-      - name: 'Append flatpickr.min.css to lf-laserfiche-lite.css'
+      - name: "Append flatpickr.min.css to lf-laserfiche-lite.css"
         run: |
           echo "/*" >> ./dist/lf-documentation/lf-laserfiche-lite.css
           cat LICENSE >> ./dist/lf-documentation/lf-laserfiche-lite.css
           echo "The following styles are copied from flatpickr.min.css */" >> ./dist/lf-documentation/lf-laserfiche-lite.css
           cat ./node_modules/flatpickr/dist/flatpickr.min.css >> ./dist/lf-documentation/lf-laserfiche-lite.css
 
-      - name: 'Append flatpickr.min.css to lf-ms-office-lite.css'
+      - name: "Append flatpickr.min.css to lf-ms-office-lite.css"
         run: |
-            echo "/*" >> ./dist/lf-documentation/lf-ms-office-lite.css
-            cat LICENSE >> ./dist/lf-documentation/lf-ms-office-lite.css
-            echo "The following styles are copied from flatpickr.min.css */" >> ./dist/lf-documentation/lf-ms-office-lite.css
-            cat ./node_modules/flatpickr/dist/flatpickr.min.css >> ./dist/lf-documentation/lf-ms-office-lite.css
+          echo "/*" >> ./dist/lf-documentation/lf-ms-office-lite.css
+          cat LICENSE >> ./dist/lf-documentation/lf-ms-office-lite.css
+          echo "The following styles are copied from flatpickr.min.css */" >> ./dist/lf-documentation/lf-ms-office-lite.css
+          cat ./node_modules/flatpickr/dist/flatpickr.min.css >> ./dist/lf-documentation/lf-ms-office-lite.css
 
-      - name: 'move lf-documentation/styles to ui-components/cdn'
+      - name: "move lf-documentation/styles to ui-components/cdn"
         run: mv lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map ../ui-components/cdn/
         working-directory: ./dist/lf-documentation
 
-      - name: 'move README to ui-components'
+      - name: "move README to ui-components"
         run: mv README.md ./dist/ui-components
 
       - name: Upload a Build Artifact
@@ -137,7 +140,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: npm_publish
     if: ${{ github.run_attempt != 1 }}
-    needs: [ build ]
+    needs: [build]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -151,8 +154,8 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Update npm
         run: npm install -g npm@latest
@@ -160,7 +163,7 @@ jobs:
       - name: set NpmPackageVersion environment
         run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
 
-      - name: 'copy license'
+      - name: "copy license"
         run: |
           cp LICENSE ./types-lf-ui-components-publish
           cp LICENSE ./dist/ui-components
@@ -188,12 +191,11 @@ jobs:
           commit_sha: ${{ github.sha }}
           message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
-
   publish_to_npm_release:
     runs-on: ubuntu-latest
     environment: npm_publish
     if: ${{ github.run_attempt != 1 }}
-    needs: [ build ]
+    needs: [build]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -207,13 +209,13 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Update npm
         run: npm install -g npm@latest
 
-      - name: 'copy license'
+      - name: "copy license"
         run: |
           cp LICENSE ./types-lf-ui-components-publish
           cp LICENSE ./dist/ui-components
@@ -244,7 +246,7 @@ jobs:
   publish_documentation:
     runs-on: ubuntu-latest
     if: ${{ github.run_attempt != 1 }}
-    needs: [ build ]
+    needs: [build]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -258,16 +260,16 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Npm install gulp
         run: npm install gulp
 
-      - name: 'gulp replaceVersionInDocumentation'
+      - name: "gulp replaceVersionInDocumentation"
         run: gulp replaceVersionInDocumentation --npmVersion ${{ env.NPM_VERSION }}
 
-      - name: 'gulp replaceVersionInIndexHtml'
+      - name: "gulp replaceVersionInIndexHtml"
         run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
 
       - name: Upload pages artifact

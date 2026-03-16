@@ -7,16 +7,15 @@ import { FieldValue, FieldValues } from './field-components/utils/lf-field-types
 
 /** @internal */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LfFieldMetadataConnectorService {
-
   private allFieldValues: FieldValues = {};
   private readonly templateFields = new BehaviorSubject<number[]>([]);
   private readonly adhocFieldsRefresh = new Subject<void>();
   private readonly adhocDialogOpened = new Subject<boolean>();
 
-  constructor() { }
+  constructor() {}
 
   setFieldValue(fieldValue: FieldValue) {
     this.allFieldValues[fieldValue.fieldId] = fieldValue;
@@ -43,7 +42,7 @@ export class LfFieldMetadataConnectorService {
     return this.templateFields;
   }
 
-  adhocFieldDataUpdated(): Observable<void>{
+  adhocFieldDataUpdated(): Observable<void> {
     return this.adhocFieldsRefresh;
   }
 

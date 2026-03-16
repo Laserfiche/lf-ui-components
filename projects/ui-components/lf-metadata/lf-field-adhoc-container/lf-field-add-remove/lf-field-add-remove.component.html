@@ -1,9 +1,15 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-<div id="add-remove-container" class="add-remove-container" cdkTrapFocus tabindex="0" (keydown.escape)="ignoreEscapeKeydown($event)">
+<div
+  id="add-remove-container"
+  class="add-remove-container"
+  cdkTrapFocus
+  tabindex="0"
+  (keydown.escape)="ignoreEscapeKeydown($event)"
+>
   <div id="adhoc-back-button" class="back-button-overlay">
-    <button class="adhoc-back-button-container" (click)="onClickBack()" >
+    <button class="adhoc-back-button-container" (click)="onClickBack()">
       <span class="material-icons adhoc-back-button" id="arrow-left-18" aria-label="back"> arrow_back_ios_new </span>
     </button>
     <div class="ms-font-m back-button-text">{{ ADD_REMOVE_FIELDS | async }}</div>
@@ -17,17 +23,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       } @else {
         <div class="field-picker-container" [ngClass]="{ 'has-changes': areCheckboxChanges }">
           <div class="search">
-            <input
-              [formControl]="filterFieldsControl"
-              placeholder="{{ SEARCH_FIELDS | async }}"
-              class="searchBox"
-            />
+            <input [formControl]="filterFieldsControl" placeholder="{{ SEARCH_FIELDS | async }}" class="searchBox" />
             <div class="icon icon-search"></div>
             @if (fieldFilterText && fieldFilterText.length > 0) {
-              <div
-                (click)="onClearFields()"
-                class="icon icon-clear"
-              ></div>
+              <div (click)="onClearFields()" class="icon icon-clear"></div>
             }
           </div>
           @if (displayFieldInfos && displayFieldInfos.length > 0) {

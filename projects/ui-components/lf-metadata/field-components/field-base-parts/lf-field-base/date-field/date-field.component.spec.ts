@@ -31,7 +31,7 @@ describe('DateFieldComponent', () => {
     description: 'requiredDateDescription',
     isRequired: true,
     fieldType: FieldType.Date,
-    displayName: 'requiredDateName'
+    displayName: 'requiredDateName',
   };
 
   const optionalDate: LfFieldInfo = {
@@ -40,7 +40,7 @@ describe('DateFieldComponent', () => {
     description: 'optionalDateDescription',
     isRequired: false,
     fieldType: FieldType.Date,
-    displayName: 'optionalDateName'
+    displayName: 'optionalDateName',
   };
 
   beforeEach(async () => {
@@ -55,12 +55,9 @@ describe('DateFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        UniDateTimeComponent
+        UniDateTimeComponent,
       ],
-      providers: [
-        LfFieldTokenService,
-        AppLocalizationService
-      ]
+      providers: [LfFieldTokenService, AppLocalizationService],
     }).compileComponents();
   });
 
@@ -100,7 +97,9 @@ describe('DateFieldComponent', () => {
     requiredDateComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -116,7 +115,9 @@ describe('DateFieldComponent', () => {
     optionalDateComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -139,7 +140,9 @@ describe('DateFieldComponent', () => {
     requiredDateComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -155,14 +158,15 @@ describe('DateFieldComponent', () => {
     returnedDateTimeObject.component.timeControl = new FormControl();
     returnedDateTimeObject.component.dateTimeControl = new FormControl();
     returnedDateTimeObject.component.settings = optionalDateComponent.uniDateTimeSettings;
-    returnedDateTimeObject.component.settings.dateFormat= expectedDateFormat,
-
-    returnedDateTimeObject.component.dateControl.setValue(invalidDateValue);
+    ((returnedDateTimeObject.component.settings.dateFormat = expectedDateFormat),
+      returnedDateTimeObject.component.dateControl.setValue(invalidDateValue));
     // act
     optionalDateComponent.onUniDateOrTimeChanged(returnedDateTimeObject);
 
     // assert
-    const expectedError = optionalDateComponent.localizationService.getString('DATE_FIELDS_MUST_BE_IN_FORMAT_0', ['MM/DD/YYYY']);
+    const expectedError = optionalDateComponent.localizationService.getString('DATE_FIELDS_MUST_BE_IN_FORMAT_0', [
+      'MM/DD/YYYY',
+    ]);
     expect(optionalDateComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     optionalDateComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -172,7 +176,9 @@ describe('DateFieldComponent', () => {
     optionalDateComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -227,7 +233,8 @@ describe('DateFieldComponent', () => {
     // arrange
     const expectedDateFormat: string = 'DD/MM/YYYY';
     optionalDateComponent.lf_field_form_control.setErrors({
-      [ValidationRule.DATEPICKER_PARSE]: { dateTimeFormat: expectedDateFormat } });
+      [ValidationRule.DATEPICKER_PARSE]: { dateTimeFormat: expectedDateFormat },
+    });
     // act
     let value: string | undefined;
     optionalDateComponent.getValidationTextForFieldType(ValidationRule.DATEPICKER_PARSE);
@@ -240,7 +247,9 @@ describe('DateFieldComponent', () => {
     // assert
     await CoreUtils.waitForConditionAsync(
       () => value === 'DD/MM/YYYY',
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual('DD/MM/YYYY');
   });

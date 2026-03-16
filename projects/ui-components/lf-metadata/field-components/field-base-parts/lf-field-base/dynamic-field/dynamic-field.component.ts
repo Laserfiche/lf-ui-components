@@ -10,11 +10,11 @@ import { ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'lf-dynamic-field-component',
-    templateUrl: './dynamic-field.component.html',
-    styleUrls: ['./dynamic-field.component.css', './../lf-field-base/lf-field-base.component.css'],
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule]
+  selector: 'lf-dynamic-field-component',
+  templateUrl: './dynamic-field.component.html',
+  styleUrls: ['./dynamic-field.component.css', './../lf-field-base/lf-field-base.component.css'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule],
 })
 export class DynamicFieldComponent {
   @Input() options: string[] = [];

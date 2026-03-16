@@ -80,7 +80,7 @@ sign_out_text.
       (logoutInitiated)="logoutInitHandler($event)"
       (loginCompleted)="loginCompleteHandler($event)"
       (logoutCompleted)="logoutCompleteHandler($event)"
-      >
+    >
     </lf-login-component>
   }
 </app-card>
@@ -133,7 +133,7 @@ sign_out_text.
       (logoutInitiated)="logoutInitHandler($event)"
       (loginCompleted)="loginCompleteHandler($event)"
       (logoutCompleted)="logoutCompleteHandler($event)"
-      >
+    >
     </lf-login-component>
   }
 </app-card>
@@ -296,79 +296,79 @@ sign_out_text.
       <a
         href="https://laserfiche.github.io/lf-repository-api-client-js/docs/1.x/classes/RepositoryApiClient.html#createFromHttpRequestHandler"
         >RepositoryApiClient</a
-        >. This handler adds an API authorization request header representing the current logged-in user.
-      </td>
-    </tr>
-    <tr>
-      <td>authorization_credentials</td>
-      <td>AuthorizationCredentials</td>
-      <td>read-only property to get the current AuthorizationCredentials</td>
-    </tr>
-    <tr>
-      <td>account_id</td>
-      <td>string</td>
-      <td>read-only property to get the current accountId</td>
-    </tr>
-    <tr>
-      <td>trustee_id</td>
-      <td>string</td>
-      <td>read-only property to get the current trusteeId</td>
-    </tr>
-    <tr>
-      <td>account_endpoints</td>
-      <td>AccountEndpoints</td>
-      <td>read-only property to get the current accountEndpoints</td>
-    </tr>
-    <tr>
-      <td>state</td>
-      <td>LoginState</td>
-      <td>read-only property to get the current state</td>
-    </tr>
-  </table>
+      >. This handler adds an API authorization request header representing the current logged-in user.
+    </td>
+  </tr>
+  <tr>
+    <td>authorization_credentials</td>
+    <td>AuthorizationCredentials</td>
+    <td>read-only property to get the current AuthorizationCredentials</td>
+  </tr>
+  <tr>
+    <td>account_id</td>
+    <td>string</td>
+    <td>read-only property to get the current accountId</td>
+  </tr>
+  <tr>
+    <td>trustee_id</td>
+    <td>string</td>
+    <td>read-only property to get the current trusteeId</td>
+  </tr>
+  <tr>
+    <td>account_endpoints</td>
+    <td>AccountEndpoints</td>
+    <td>read-only property to get the current accountEndpoints</td>
+  </tr>
+  <tr>
+    <td>state</td>
+    <td>LoginState</td>
+    <td>read-only property to get the current state</td>
+  </tr>
+</table>
 
-  <p class="documentation-sub-header">RedirectBehavior Enum</p>
-  <ul>
-    <li>
-      Replace - if you use this behavior the flow will happen automatically and redirect in place back to the redirect url
-    </li>
-    <li>Popup (not implemented yet)</li>
-    <li>
-      None - if you use this behavior, you must call handleRedirectURICallbackAsync so you can parse the callback url
-    </li>
-  </ul>
+<p class="documentation-sub-header">RedirectBehavior Enum</p>
+<ul>
+  <li>
+    Replace - if you use this behavior the flow will happen automatically and redirect in place back to the redirect url
+  </li>
+  <li>Popup (not implemented yet)</li>
+  <li>
+    None - if you use this behavior, you must call handleRedirectURICallbackAsync so you can parse the callback url
+  </li>
+</ul>
 
-  <p class="documentation-sub-header">LoginMode Enum</p>
-  <ul>
-    <li>Button - default</li>
-    <li>Menu</li>
-  </ul>
+<p class="documentation-sub-header">LoginMode Enum</p>
+<ul>
+  <li>Button - default</li>
+  <li>Menu</li>
+</ul>
 
-  <p class="documentation-sub-header">LoginState Enum</p>
-  <ul>
-    <li>LoggedOut</li>
-    <li>LoggingIn</li>
-    <li>LoggedIn</li>
-    <li>LoggingOut</li>
-  </ul>
+<p class="documentation-sub-header">LoginState Enum</p>
+<ul>
+  <li>LoggedOut</li>
+  <li>LoggingIn</li>
+  <li>LoggedIn</li>
+  <li>LoggingOut</li>
+</ul>
 
-  <p class="documentation-sub-header">AbortedLoginError Interface</p>
-  <ul>
-    <li>ErrorType: string</li>
-    <li>ErrorMessage: string</li>
-  </ul>
+<p class="documentation-sub-header">AbortedLoginError Interface</p>
+<ul>
+  <li>ErrorType: string</li>
+  <li>ErrorMessage: string</li>
+</ul>
 
-  <p class="documentation-sub-header">AccountEndpoints Interface</p>
-  <ul>
-    <li>webClientUrl: string</li>
-    <li>wsignoutUrl: string</li>
-    <li>regionalDomain: string</li>
-    <li>oauthAuthorizeUrl: string</li>
-  </ul>
+<p class="documentation-sub-header">AccountEndpoints Interface</p>
+<ul>
+  <li>webClientUrl: string</li>
+  <li>wsignoutUrl: string</li>
+  <li>regionalDomain: string</li>
+  <li>oauthAuthorizeUrl: string</li>
+</ul>
 
-  <p class="documentation-sub-header">AuthorizationCredentials Interface</p>
-  <ul>
-    <li>accessToken: string</li>
-    <li>refreshToken: string</li>
-    <li>expiresIn: string</li>
-    <li>tokenType: string</li>
-  </ul>
+<p class="documentation-sub-header">AuthorizationCredentials Interface</p>
+<ul>
+  <li>accessToken: string</li>
+  <li>refreshToken: string</li>
+  <li>expiresIn: string</li>
+  <li>tokenType: string</li>
+</ul>

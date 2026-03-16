@@ -6,34 +6,31 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <div cdkDrag class="lf-field-group">
       <div class="field-group-top-bar">
         <span class="drag-index-section">
-          <span class="material-icons field-group-button field-group-drag-handle" cdkDragHandle>
-            drag_indicator
-          </span>
-          <span class="index-display">{{res_0_of_1 | lfFieldGroupIndexDisplay: currentIndex :
-          fieldGroupControlsArray().length | async}}</span>
+          <span class="material-icons field-group-button field-group-drag-handle" cdkDragHandle> drag_indicator </span>
+          <span class="index-display">{{
+            res_0_of_1 | lfFieldGroupIndexDisplay: currentIndex : fieldGroupControlsArray().length | async
+          }}</span>
         </span>
         <span class="field-group-buttons">
           <button class="field-group-button" (click)="onClickAdd(currentIndex)">
-            <span class="material-icons">
-              add
-            </span>
+            <span class="material-icons"> add </span>
           </button>
           <button class="field-group-button" [disabled]="currentIndex === 0" (click)="onClickUp(currentIndex)">
-            <span class="material-icons">
-              arrow_upward
-            </span>
+            <span class="material-icons"> arrow_upward </span>
           </button>
-          <button class="field-group-button" [disabled]="currentIndex >= (fieldGroupControlsArray().length - 1)"
-            (click)="onClickDown(currentIndex)">
-            <span class="material-icons">
-              arrow_downward
-            </span>
+          <button
+            class="field-group-button"
+            [disabled]="currentIndex >= fieldGroupControlsArray().length - 1"
+            (click)="onClickDown(currentIndex)"
+          >
+            <span class="material-icons"> arrow_downward </span>
           </button>
-          <button class="field-group-button" [disabled]="fieldGroupControlsArray().length <= 1"
-            (click)="onClickDelete(currentIndex)">
-            <span class="material-icons-outlined">
-              delete
-            </span>
+          <button
+            class="field-group-button"
+            [disabled]="fieldGroupControlsArray().length <= 1"
+            (click)="onClickDelete(currentIndex)"
+          >
+            <span class="material-icons-outlined"> delete </span>
           </button>
         </span>
       </div>
@@ -42,7 +39,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           <span class="lf-field-container" id="lf-field-container">
             @if (fieldDef?.fieldInfo.name) {
               <span class="lf-field-title-container">
-                <span class="lf-field-title" title="{{fieldDef?.fieldInfo.displayName}}">{{fieldDef?.fieldInfo.displayName }}</span>
+                <span class="lf-field-title" title="{{ fieldDef?.fieldInfo.displayName }}">{{
+                  fieldDef?.fieldInfo.displayName
+                }}</span>
                 @if (fieldDef?.fieldInfo.isRequired) {
                   <span class="lf-field-is-required">*</span>
                 }
@@ -51,12 +50,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 }
               </span>
             }
-            <lf-field-base-component id="{{fieldDef.fieldInfo.name}}{{currentIndex}}" [parentForm]="group"
+            <lf-field-base-component
+              id="{{ fieldDef.fieldInfo.name }}{{ currentIndex }}"
+              [parentForm]="group"
               [lfFieldFormControl]="getSingleField(currentIndex, fieldDef.fieldInfo.id)"
               [lfFieldValue]="getSingleField(currentIndex, fieldDef.fieldInfo.id)?.value"
               [lfFieldInfo]="fieldDef.fieldInfo"
               [dynamicFieldValueOptions]="getOptions(fieldDef.fieldInfo, currentIndex)"
-              (fieldValueChange)="fieldDataChange($event, fieldDef.fieldInfo, currentIndex)">
+              (fieldValueChange)="fieldDataChange($event, fieldDef.fieldInfo, currentIndex)"
+            >
             </lf-field-base-component>
           </span>
         </div>

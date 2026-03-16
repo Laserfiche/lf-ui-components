@@ -14,15 +14,22 @@ import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.co
 import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
-    selector: 'lf-text-field-component',
-    templateUrl: './text-field.component.html',
-    styleUrls: ['./text-field.component.css', './../lf-field-base/lf-field-base.component.css'],
-    providers: [
-        { provide: BaseFieldDirective, useExisting: TextFieldComponent },
-        { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
-    ],
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, LfTokenPickerComponent, DynamicFieldComponent]
+  selector: 'lf-text-field-component',
+  templateUrl: './text-field.component.html',
+  styleUrls: ['./text-field.component.css', './../lf-field-base/lf-field-base.component.css'],
+  providers: [
+    { provide: BaseFieldDirective, useExisting: TextFieldComponent },
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    LfTokenPickerComponent,
+    DynamicFieldComponent,
+  ],
 })
 export class TextFieldComponent extends BaseFieldDirective implements OnInit {
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
@@ -31,7 +38,7 @@ export class TextFieldComponent extends BaseFieldDirective implements OnInit {
 
   focusState: boolean | undefined;
   get isShortField(): boolean {
-    return (!this.lf_field_info.length || this.lf_field_info.length <= 40);
+    return !this.lf_field_info.length || this.lf_field_info.length <= 40;
   }
 
   serializeFieldFormControlValue(): string {
@@ -74,8 +81,7 @@ export class TextFieldComponent extends BaseFieldDirective implements OnInit {
     this.ref.detectChanges();
     if (this.containsToken) {
       this.lf_field_form_control.clearValidators();
-    }
-    else {
+    } else {
       this.resetToDefaultValidators();
     }
     this.lf_field_form_control.updateValueAndValidity();
@@ -90,8 +96,7 @@ export class TextFieldComponent extends BaseFieldDirective implements OnInit {
   onTextValueChanged() {
     if (this.containsToken) {
       this.lf_field_form_control.clearValidators();
-    }
-    else {
+    } else {
       this.resetToDefaultValidators();
     }
     this.lf_field_form_control.updateValueAndValidity();

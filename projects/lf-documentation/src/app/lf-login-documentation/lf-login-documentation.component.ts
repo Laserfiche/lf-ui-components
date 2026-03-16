@@ -6,7 +6,6 @@ import { AbortedLoginError, LfLoginComponent } from './../../../../ui-components
 import { LoginMode, LoginState, RedirectBehavior } from './../../../../ui-components/shared/lf-shared-public-api';
 import { CardComponent } from '../card/card.component';
 
-
 @Component({
   selector: 'app-lf-login-documentation',
   templateUrl: './lf-login-documentation.component.html',

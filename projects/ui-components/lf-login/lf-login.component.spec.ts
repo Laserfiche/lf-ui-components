@@ -12,12 +12,8 @@ describe('LfLoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        LfLoginComponent,
-        MatMenuModule
-      ]
-    })
-    .compileComponents();
+      imports: [LfLoginComponent, MatMenuModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -41,17 +37,20 @@ describe('LfLoginComponent', () => {
   });
 
   it('parseCallbackURI with code, domain, and customerId', () => {
-    const uriParams = component.parseCallbackURI('https://testurl.com/hi?code=auth-code&state=lf-login-redirect&domain=laserfiche.com&customerId=123456789');
-    expect(uriParams).toEqual(
-      {
-        authorizationCode: 'auth-code',
-        cloudSubDomain: 'laserfiche.com',
-        customerId: '123456789'
-      });
+    const uriParams = component.parseCallbackURI(
+      'https://testurl.com/hi?code=auth-code&state=lf-login-redirect&domain=laserfiche.com&customerId=123456789'
+    );
+    expect(uriParams).toEqual({
+      authorizationCode: 'auth-code',
+      cloudSubDomain: 'laserfiche.com',
+      customerId: '123456789',
+    });
   });
 
   it('parseCallbackURI with error', () => {
-    const uriParams = component.parseCallbackURI('https://testurl.com/hi?state=lf-login-redirect&error=test-name&description=test-description');
+    const uriParams = component.parseCallbackURI(
+      'https://testurl.com/hi?state=lf-login-redirect&error=test-name&description=test-description'
+    );
     expect(uriParams).toEqual({ error: { name: 'test-name', description: 'test-description' } });
   });
 
@@ -86,11 +85,11 @@ describe('LfLoginComponent', () => {
         accessToken: `${testHeader}.${encodedJWT}.test`,
         refreshToken: 'test-refresh',
         expiresIn: '100',
-        tokenType: 'bearer'
+        tokenType: 'bearer',
       },
       '123456789',
       'laserfiche.com'
-      );
+    );
 
     const currentState = component.determineCurrentState(undefined);
     expect(currentState).toEqual(LoginState.LoggedIn);
@@ -104,13 +103,20 @@ describe('LfLoginComponent', () => {
   it('determineCurrentState as LoggingIn', () => {
     const currentCodeState = component.determineCurrentState({ authorizationCode: 'test-code' });
     expect(currentCodeState).toEqual(LoginState.LoggingIn);
-    const currentErrorState = component.determineCurrentState({ error: { name: 'test-name', description: 'test-description' } });
+    const currentErrorState = component.determineCurrentState({
+      error: { name: 'test-name', description: 'test-description' },
+    });
     expect(currentErrorState).toEqual(LoginState.LoggingIn);
   });
 
   it('createRefreshTokenRequest creates request', () => {
     // @ts-ignore
-    component.loginService._accessToken = { accessToken: 'test-access', refreshToken: 'test-refresh', expiresIn: '100', tokenType: 'bearer' };
+    component.loginService._accessToken = {
+      accessToken: 'test-access',
+      refreshToken: 'test-refresh',
+      expiresIn: '100',
+      tokenType: 'bearer',
+    };
     const refreshTokenRequest = component.createRefreshTokenRequest();
     expect(refreshTokenRequest.body).toEqual('grant_type=refresh_token&refresh_token=test-refresh&client_id=undefined');
     expect(refreshTokenRequest.method).toEqual('POST');
@@ -133,7 +139,9 @@ describe('LfLoginComponent', () => {
 
   it('getAuthorizeUrl returns full OAuth url', () => {
     const authUrl = component.getAuthorizeUrl();
-    expect(authUrl).toEqual('https://signin.laserfiche.com/oauth/Authorize?client_id=undefined&redirect_uri=undefined&scope=undefined&response_type=code&response_mode=query&state=lf-login-redirect&code_challenge=undefined&code_challenge_method=S256');
+    expect(authUrl).toEqual(
+      'https://signin.laserfiche.com/oauth/Authorize?client_id=undefined&redirect_uri=undefined&scope=undefined&response_type=code&response_mode=query&state=lf-login-redirect&code_challenge=undefined&code_challenge_method=S256'
+    );
   });
 
   it('getFullLogoutUrl returns logout url', () => {
@@ -145,10 +153,11 @@ describe('LfLoginComponent', () => {
         accessToken: `${testHeader}.${encodedJWT}.test`,
         refreshToken: 'test-refresh',
         expiresIn: '100',
-        tokenType: 'bearer'
+        tokenType: 'bearer',
       },
       '123456789',
-      'laserfiche.com');
+      'laserfiche.com'
+    );
     component.redirect_uri = 'test-url';
     const logoutUrl = component.getFullLogoutUrl();
 

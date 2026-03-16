@@ -1,58 +1,55 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-<p class="documentation-title">
-  LfFieldContainer
-</p>
+<p class="documentation-title">LfFieldContainer</p>
 
 <p class="documentation-text code-container">
   <code>
-      <span class="code-html-tagname">&lt;lf-field-container </span>
-      <span class="code-html-attribute-name">collapsible</span>
-      <span>=</span>
-      <span class="code-html-attribute-value">"true" </span>
-      <span class="code-html-attribute-name">start_collapsed</span>
-      <span>=</span>
-      <span class="code-html-attribute-value">"true" </span>
-      <span class="code-html-tagname">&gt;&lt;/lf-field-container&gt;</span>
+    <span class="code-html-tagname">&lt;lf-field-container </span>
+    <span class="code-html-attribute-name">collapsible</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"true" </span>
+    <span class="code-html-attribute-name">start_collapsed</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"true" </span>
+    <span class="code-html-tagname">&gt;&lt;/lf-field-container&gt;</span>
   </code>
 </p>
 <p class="documentation-text code-container">
   <code>
-        <span class="code-html-tagname">const </span>
-        <span class="code-html-attribute-name">fieldContainerElement</span>
-        <span> = </span>
-        <span>document.querySelector('lf-field-container');</span>
-        <p>fieldContainerElement.addEventListener('fieldValuesChanged', onElementFieldValueChange(event));</p>
-        <p>fieldContainerElement.addEventListener('templateSelectedChanged', onElementTemplateSelectedChanged(event));</p>
-        <p>await fieldContainerElement.initAsync(fieldProvidersObject);</p>
-    </code>
+    <span class="code-html-tagname">const </span>
+    <span class="code-html-attribute-name">fieldContainerElement</span>
+    <span> = </span>
+    <span>document.querySelector('lf-field-container');</span>
+    <p>fieldContainerElement.addEventListener('fieldValuesChanged', onElementFieldValueChange(event));</p>
+    <p>fieldContainerElement.addEventListener('templateSelectedChanged', onElementTemplateSelectedChanged(event));</p>
+    <p>await fieldContainerElement.initAsync(fieldProvidersObject);</p>
+  </code>
 </p>
-<mat-checkbox class="margin-right" ngDefaultControl [(ngModel)]="elementIsCollapsible" id="collapsible">collapsible</mat-checkbox>
+<mat-checkbox class="margin-right" ngDefaultControl [(ngModel)]="elementIsCollapsible" id="collapsible"
+  >collapsible</mat-checkbox
+>
 <app-card>
-  <div style="min-height: 300px;">
-    <lf-field-container-component #fieldContainer [collapsible]="elementIsCollapsible" [start_collapsed]="true"
-      (fieldValuesChanged)="onFieldValueChange($event)" (templateSelectedChanged)="onTemplateSelectedChanged($event)">
+  <div style="min-height: 300px">
+    <lf-field-container-component
+      #fieldContainer
+      [collapsible]="elementIsCollapsible"
+      [start_collapsed]="true"
+      (fieldValuesChanged)="onFieldValueChange($event)"
+      (templateSelectedChanged)="onTemplateSelectedChanged($event)"
+    >
     </lf-field-container-component>
   </div>
 </app-card>
 
-<p class="documentation-header">
-  Overview
-</p>
-<p class="documentation-text">
-  Web Component that contains both template and adhoc fields
-</p>
-<p class="documentation-header">
-  Use Case
-</p>
+<p class="documentation-header">Overview</p>
+<p class="documentation-text">Web Component that contains both template and adhoc fields</p>
+<p class="documentation-header">Use Case</p>
 <p class="documentation-text">
   Use the field container to add and edit fields from a template and add additional fields outside of the chosen
   template.
 </p>
-<p class="documentation-header">
-  HTML Element
-</p>
+<p class="documentation-header">HTML Element</p>
 <table>
   <tr>
     <th>Attribute</th>
@@ -67,8 +64,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <tr>
     <td>start_collapsed</td>
     <td>boolean</td>
-    <td>Input indicating whether or not template and adhoc container views will initialize collapsed
-      (only valid if collapsible is set to true)</td>
+    <td>
+      Input indicating whether or not template and adhoc container views will initialize collapsed (only valid if
+      collapsible is set to true)
+    </td>
   </tr>
 </table>
 <br />
@@ -81,27 +80,25 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <tr>
     <td>fieldValuesChanged</td>
     <td>() => CustomEvent&lt;boolean&gt;</td>
-    <td>Event emitted when any field values are changed. Emits whether the container is valid or not without
-      forcing validation.</td>
+    <td>
+      Event emitted when any field values are changed. Emits whether the container is valid or not without forcing
+      validation.
+    </td>
   </tr>
   <tr>
     <td>templateSelectedChange</td>
     <td>() => CustomEvent&lt;number&gt;</td>
-    <td>Event emitted when the template selected is changed. Emits the templateId of the newly selected
-      template.
-    </td>
+    <td>Event emitted when the template selected is changed. Emits the templateId of the newly selected template.</td>
   </tr>
   <tr>
     <td>dialogOpened</td>
     <td>() => CustomEvent&lt;void&gt;</td>
-    <td>Event emitted when the adhoc field selector is opened.
-    </td>
+    <td>Event emitted when the adhoc field selector is opened.</td>
   </tr>
   <tr>
     <td>dialogClosed</td>
     <td>() => CustomEvent&lt;void&gt;</td>
-    <td>Event emitted when the adhoc field selector is closed.
-    </td>
+    <td>Event emitted when the adhoc field selector is closed.</td>
   </tr>
 </table>
 <br />
@@ -113,29 +110,33 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </tr>
   <tr>
     <td>initAsync</td>
-    <td>(lfFieldContainerService: LfFieldContainerService, templateIdentifier?: number | string) =>
-      Promise&lt;void&gt;</td>
-    <td>Function that initializes the field container with given provider. Optionally initialize to a template with
-      a given id or name
+    <td>
+      (lfFieldContainerService: LfFieldContainerService, templateIdentifier?: number | string) => Promise&lt;void&gt;
+    </td>
+    <td>
+      Function that initializes the field container with given provider. Optionally initialize to a template with a
+      given id or name
     </td>
   </tr>
   <tr>
     <td>forceValidation</td>
     <td>() => boolean</td>
-    <td>Function that triggers any validation messages and returns whether or not the fields in the container are
-      valid</td>
+    <td>
+      Function that triggers any validation messages and returns whether or not the fields in the container are valid
+    </td>
   </tr>
   <tr>
     <td>getFieldValues</td>
     <td>() => &#123;[key: string]: FieldValue&#125;</td>
-    <td>Function that removes blank values and returns an object, keyed by fieldName, of FieldValues (which contains
-      the updated, serialized string values)</td>
+    <td>
+      Function that removes blank values and returns an object, keyed by fieldName, of FieldValues (which contains the
+      updated, serialized string values)
+    </td>
   </tr>
   <tr>
     <td>resetFieldDataAsync</td>
     <td>(fields: &#123; value: FieldValue, definition: LfFieldInfo &#125;[]) => Promise&lt;void&gt;</td>
-    <td>Function that resets the currently selected fields to the definitions and values passed into this function
-    </td>
+    <td>Function that resets the currently selected fields to the definitions and values passed into this function</td>
   </tr>
   <tr>
     <td>updateFieldValuesAsync</td>
@@ -159,9 +160,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </tr>
 </table>
 
-<p class="documentation-sub-header">
-  LfFieldContainerService Interface
-</p>
+<p class="documentation-sub-header">LfFieldContainerService Interface</p>
 <ul>
   <li>getAllFieldDefinitionsAsync() : Promise&lt;LfFieldInfo[]&gt;</li>
 </ul>
@@ -172,6 +171,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li>getTemplateFieldsAsync(templateId: number): Promise&lt;TemplateFieldInfo[]&gt;</li>
 </ul>
 <ul>
-  <li>getDynamicFieldValueOptionsAsync(templateId: number, currentValues: FieldValues): Promise&lt;&#123; [fieldId:
-    number]: string[] &#125;&gt;</li>
+  <li>
+    getDynamicFieldValueOptionsAsync(templateId: number, currentValues: FieldValues): Promise&lt;&#123; [fieldId:
+    number]: string[] &#125;&gt;
+  </li>
 </ul>

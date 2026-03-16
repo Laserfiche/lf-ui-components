@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 describe('NumberFieldComponent', () => {
@@ -35,7 +35,7 @@ describe('NumberFieldComponent', () => {
     isRequired: true,
     isMultiValue: false,
     fieldType: FieldType.Number,
-    displayName: 'testNumberName'
+    displayName: 'testNumberName',
   };
 
   const testShortInt: LfFieldInfo = {
@@ -46,7 +46,7 @@ describe('NumberFieldComponent', () => {
     isMultiValue: false,
     fieldType: FieldType.ShortInteger,
     length: 3,
-    displayName: 'testShortIntName'
+    displayName: 'testShortIntName',
   };
 
   const testLongInt: LfFieldInfo = {
@@ -56,7 +56,7 @@ describe('NumberFieldComponent', () => {
     isRequired: true,
     isMultiValue: false,
     fieldType: FieldType.LongInteger,
-    displayName: 'testLongIntName'
+    displayName: 'testLongIntName',
   };
 
   beforeEach(async () => {
@@ -70,9 +70,9 @@ describe('NumberFieldComponent', () => {
         MatInputModule,
         ReactiveFormsModule,
         NgxMaskDirective,
-        NgxMaskPipe
+        NgxMaskPipe,
       ],
-      providers: [LfFieldTokenService, AppLocalizationService, provideNgxMask()]
+      providers: [LfFieldTokenService, AppLocalizationService, provideNgxMask()],
     }).compileComponents();
   });
 
@@ -121,14 +121,19 @@ describe('NumberFieldComponent', () => {
     numberComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
 
   it('should validate a ShortInteger with invalid length and pattern', async () => {
     const lengthParam: string[] = [testShortInt?.length?.toString() ?? '0'];
-    const expectedError: string = shortIntComponent.localizationService.getString('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', lengthParam);
+    const expectedError: string = shortIntComponent.localizationService.getString(
+      'THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS',
+      lengthParam
+    );
     let value: string | undefined;
     shortIntComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;
@@ -137,7 +142,9 @@ describe('NumberFieldComponent', () => {
     shortIntComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -151,7 +158,9 @@ describe('NumberFieldComponent', () => {
     longIntComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -166,7 +175,9 @@ describe('NumberFieldComponent', () => {
     numberComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -181,14 +192,18 @@ describe('NumberFieldComponent', () => {
     shortIntComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
 
   it('should dynamically change LongInteger value', async () => {
     longIntComponent.setLfFieldFormControlValue('9999999999999999999999999999999999');
-    const expectedError = longIntComponent.localizationService.getString('LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999');
+    const expectedError = longIntComponent.localizationService.getString(
+      'LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999'
+    );
     let value: string | undefined;
     longIntComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;
@@ -197,7 +212,9 @@ describe('NumberFieldComponent', () => {
     longIntComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -215,7 +232,9 @@ describe('NumberFieldComponent', () => {
     numberComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -233,7 +252,9 @@ describe('NumberFieldComponent', () => {
     numberComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -251,7 +272,9 @@ describe('NumberFieldComponent', () => {
     numberComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -269,7 +292,9 @@ describe('NumberFieldComponent', () => {
     numberComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -287,7 +312,9 @@ describe('NumberFieldComponent', () => {
     numberComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -296,7 +323,7 @@ describe('NumberFieldComponent', () => {
     numberComponent.setLfFieldFormControlValue('asdf');
     numberComponent.onValueChanged();
     expect(numberComponent.lf_field_value).toEqual('');
-    const expectedError = numberComponent.localizationService.getString("REQUIRED_FIELD_IS_EMPTY");
+    const expectedError = numberComponent.localizationService.getString('REQUIRED_FIELD_IS_EMPTY');
     let value: string | undefined;
     numberComponent.fieldValidationErrorMsg.subscribe((val) => {
       value = val;
@@ -305,7 +332,9 @@ describe('NumberFieldComponent', () => {
     numberComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -323,7 +352,9 @@ describe('NumberFieldComponent', () => {
     shortIntComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -348,7 +379,9 @@ describe('NumberFieldComponent', () => {
     longIntComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });

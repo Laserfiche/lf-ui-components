@@ -16,15 +16,23 @@ import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.co
 import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
-    selector: 'lf-time-field-component',
-    templateUrl: './time-field.component.html',
-    styleUrls: ['./time-field.component.css', './../lf-field-base/lf-field-base.component.css'],
-    providers: [
-        { provide: DateTimeBaseFieldDirective, useExisting: TimeFieldComponent },
-        { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-    ],
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, UniDateTimeComponent, LfTokenPickerComponent, DynamicFieldComponent]
+  selector: 'lf-time-field-component',
+  templateUrl: './time-field.component.html',
+  styleUrls: ['./time-field.component.css', './../lf-field-base/lf-field-base.component.css'],
+  providers: [
+    { provide: DateTimeBaseFieldDirective, useExisting: TimeFieldComponent },
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    UniDateTimeComponent,
+    LfTokenPickerComponent,
+    DynamicFieldComponent,
+  ],
 })
 export class TimeFieldComponent extends DateTimeBaseFieldDirective implements OnInit {
   private timeDisplayFormat: string | undefined;
@@ -78,8 +86,7 @@ export class TimeFieldComponent extends DateTimeBaseFieldDirective implements On
   }
 
   private getTimeFormat(): string {
-    if (this.timeDisplayFormat)
-    {
+    if (this.timeDisplayFormat) {
       return this.timeDisplayFormat;
     }
     switch (this.lf_field_info?.format) {

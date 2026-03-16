@@ -11,10 +11,9 @@ describe('LfUserFeedbackDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ LfUserFeedbackDocumentationComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-    .compileComponents();
+      imports: [LfUserFeedbackDocumentationComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {

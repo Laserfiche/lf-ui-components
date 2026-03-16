@@ -8,12 +8,8 @@ import { AppComponent } from './app.component';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        AppComponent
-      ],
-      providers: [
-        { provide: ActivatedRoute, useValue: {} }
-      ],
+      imports: [AppComponent],
+      providers: [{ provide: ActivatedRoute, useValue: {} }],
     }).compileComponents();
   });
 

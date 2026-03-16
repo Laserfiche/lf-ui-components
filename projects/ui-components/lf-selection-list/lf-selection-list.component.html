@@ -7,7 +7,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   tabindex="-1"
   [itemSize]="itemSize"
   (keydown)="onViewportKeyDown($event)"
-  >
+>
   <table
     #matTable
     role="grid"
@@ -16,24 +16,24 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     class="lf-table-selection-list"
     matSort
     (matSortChange)="sortData($event)"
-    >
+  >
     @for (column of allColumnDefs; track column; let i = $index) {
       <ng-container [matColumnDef]="column.id">
         @switch (column.id) {
-          @case ('name') {
+          @case ("name") {
             <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
               <div
                 class="lf-resize-wrapper-div"
                 [lfResizeColumn]="column.resizable"
                 [columnDef]="column"
                 (widthChanged)="onColumnWidthChanges($event, i)"
-                >
+              >
                 <div
                   class="column-text-div"
                   [ngStyle]="{ height: itemSize + 'px' }"
                   mat-sort-header
                   [disabled]="!column.sortable"
-                  >
+                >
                   <div class="lf-ellipsis-label">
                     {{ column.displayName }}
                   </div>
@@ -50,7 +50,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               </div>
             </td>
           }
-          @case ('select') {
+          @case ("select") {
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell class="multiselect-column" *matCellDef="let row">
               @if (multipleSelection && row?.isSelectable) {
@@ -60,7 +60,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                   [checked]="row?.isSelected"
                   color="primary"
                   disableRipple
-                  >
+                >
                 </mat-checkbox>
               }
             </td>
@@ -72,13 +72,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 [lfResizeColumn]="column.resizable"
                 [columnDef]="column"
                 (widthChanged)="onColumnWidthChanges($event, i)"
-                >
+              >
                 <div
                   class="column-text-div"
                   [ngStyle]="{ height: itemSize + 'px' }"
                   mat-sort-header
                   [disabled]="!column.sortable"
-                  >
+                >
                   <div class="lf-ellipsis-label">
                     {{ column.displayName }}
                   </div>
@@ -115,13 +115,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       [ngStyle]="{
         height: itemSize + 'px',
         'min-height': itemSize + 'px',
-        'max-height': itemSize + 'px'
+        'max-height': itemSize + 'px',
       }"
       [ngClass]="{
         'non-selectable-option': !row.isSelectable,
         'selectable-option': row.isSelectable,
         'node-selected': row.isSelected,
-        'lf-row-border-top': !_showHeader
+        'lf-row-border-top': !_showHeader,
       }"
       [attr.id]="_computeRowId(i + (dataSource?.dataStart ?? 0))"
       (click)="onClickMatListOption($event, row, i + (dataSource?.dataStart ?? 0))"

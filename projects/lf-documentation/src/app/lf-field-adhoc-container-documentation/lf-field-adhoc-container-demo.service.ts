@@ -1,9 +1,9 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { FieldValue, LfFieldInfo } from "./../../../../ui-components/lf-metadata/field-components/utils/lf-field-types";
-import { LfFieldAdhocContainerService } from "./../../../../ui-components/lf-metadata/lf-field-adhoc-container/public-api";
-import { FieldFormat, FieldType } from "./../../../../ui-components/shared/lf-shared-public-api";
+import { FieldValue, LfFieldInfo } from './../../../../ui-components/lf-metadata/field-components/utils/lf-field-types';
+import { LfFieldAdhocContainerService } from './../../../../ui-components/lf-metadata/lf-field-adhoc-container/public-api';
+import { FieldFormat, FieldType } from './../../../../ui-components/shared/lf-shared-public-api';
 
 export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerService {
   fieldInfos: LfFieldInfo[] = [
@@ -12,14 +12,14 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       id: 1,
       fieldType: FieldType.String,
       isMultiValue: true,
-      displayName: 'Attendance List'
+      displayName: 'Attendance List',
     },
     {
       name: 'Full Name',
       id: 2,
       fieldType: FieldType.String,
       isRequired: true,
-      displayName: 'Full Name'
+      displayName: 'Full Name',
     },
     {
       name: 'Birthdays',
@@ -27,7 +27,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Date,
       format: FieldFormat.LongDate,
       isMultiValue: true,
-      displayName: 'Birthdays'
+      displayName: 'Birthdays',
     },
     {
       name: 'Birthdays w/ Time',
@@ -35,7 +35,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.DateTime,
       format: FieldFormat.LongDateTime,
       isMultiValue: true,
-      displayName: 'Birthdays w/ Time'
+      displayName: 'Birthdays w/ Time',
     },
     {
       name: 'Start Times',
@@ -43,14 +43,14 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Time,
       format: FieldFormat.ShortTime,
       isMultiValue: true,
-      displayName: 'Start Times'
+      displayName: 'Start Times',
     },
     {
       name: 'Number (no format)',
       id: 6,
       fieldType: FieldType.Number,
       format: FieldFormat.GeneralNumber,
-      displayName: 'Number (no format)'
+      displayName: 'Number (no format)',
     },
     {
       name: 'Amount (AUD)',
@@ -58,7 +58,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Number,
       format: FieldFormat.Currency,
       currency: 'AUD',
-      displayName: 'Amount (AUD)'
+      displayName: 'Amount (AUD)',
     },
     {
       name: 'Test Scores',
@@ -68,35 +68,35 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       isMultiValue: true,
       constraint: '>=0&<=100',
       constraintError: 'Must be between 0-100.',
-      displayName: 'Test Scores'
+      displayName: 'Test Scores',
     },
     {
       name: 'Calories Per Serving',
       id: 63,
       fieldType: FieldType.Number,
       format: FieldFormat.Scientific,
-      displayName: 'Calories Per Serving'
+      displayName: 'Calories Per Serving',
     },
     {
       name: 'General Number',
       id: 64,
       fieldType: FieldType.Number,
       format: FieldFormat.GeneralNumber,
-      displayName: 'General Number'
+      displayName: 'General Number',
     },
     {
       name: 'Int',
       id: 7,
       fieldType: FieldType.ShortInteger,
       format: FieldFormat.GeneralNumber,
-      displayName: 'Int'
+      displayName: 'Int',
     },
     {
       name: 'LongInt',
       id: 8,
       fieldType: FieldType.LongInteger,
       format: FieldFormat.GeneralNumber,
-      displayName: 'LongInt'
+      displayName: 'LongInt',
     },
     {
       name: 'Additional Comments',
@@ -105,35 +105,35 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       format: FieldFormat.None,
       isRequired: true,
       length: 200,
-      displayName: 'Additional Comments'
+      displayName: 'Additional Comments',
     },
     {
       name: 'Date',
       id: 11,
       fieldType: FieldType.Date,
       format: FieldFormat.LongDate,
-      displayName: 'Date'
+      displayName: 'Date',
     },
     {
       name: 'DateTime',
       id: 12,
       fieldType: FieldType.DateTime,
       format: FieldFormat.LongDateTime,
-      displayName: 'DateTime'
+      displayName: 'DateTime',
     },
     {
       name: 'Attendance List (1)',
       id: 101,
       fieldType: FieldType.String,
       isMultiValue: true,
-      displayName: 'Attendance List (1)'
+      displayName: 'Attendance List (1)',
     },
     {
       name: 'Full Name (1)',
       id: 102,
       fieldType: FieldType.String,
       isRequired: true,
-      displayName: 'Full Name (1)'
+      displayName: 'Full Name (1)',
     },
     {
       name: 'Birthdays (1)',
@@ -141,7 +141,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Date,
       format: FieldFormat.LongDate,
       isMultiValue: true,
-      displayName: 'Birthdays (1)'
+      displayName: 'Birthdays (1)',
     },
     {
       name: 'Birthdays w/ Time (1)',
@@ -149,7 +149,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.DateTime,
       format: FieldFormat.LongDateTime,
       isMultiValue: true,
-      displayName: 'Birthdays w/ Time (1)'
+      displayName: 'Birthdays w/ Time (1)',
     },
     {
       name: 'Start Times (1)',
@@ -157,14 +157,14 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Time,
       format: FieldFormat.ShortTime,
       isMultiValue: true,
-      displayName: 'Start Times (1)'
+      displayName: 'Start Times (1)',
     },
     {
       name: 'Number (no format) (1)',
       id: 106,
       fieldType: FieldType.Number,
       format: FieldFormat.GeneralNumber,
-      displayName: 'Number (no format) (1)'
+      displayName: 'Number (no format) (1)',
     },
     {
       name: 'Amount (AUD) (1)',
@@ -172,7 +172,7 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       fieldType: FieldType.Number,
       format: FieldFormat.Currency,
       currency: 'AUD',
-      displayName: 'Amount (AUD) (1)'
+      displayName: 'Amount (AUD) (1)',
     },
     {
       name: 'Test Scores (1)',
@@ -182,35 +182,35 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       isMultiValue: true,
       constraint: '>=0&<=1',
       constraintError: 'Must be between 0-1.',
-      displayName: 'Test Scores (1)'
+      displayName: 'Test Scores (1)',
     },
     {
       name: 'Calories Per Serving (1)',
       id: 163,
       fieldType: FieldType.Number,
       format: FieldFormat.Scientific,
-      displayName: 'Calories Per Serving (1)'
+      displayName: 'Calories Per Serving (1)',
     },
     {
       name: 'General Number (1)',
       id: 164,
       fieldType: FieldType.Number,
       format: FieldFormat.GeneralNumber,
-      displayName: 'General Number (1)'
+      displayName: 'General Number (1)',
     },
     {
       name: 'Int (1)',
       id: 107,
       fieldType: FieldType.ShortInteger,
       format: FieldFormat.GeneralNumber,
-      displayName: 'Int (1)'
+      displayName: 'Int (1)',
     },
     {
       name: 'LongInt (1)',
       id: 108,
       fieldType: FieldType.LongInteger,
       format: FieldFormat.GeneralNumber,
-      displayName: 'LongInt (1)'
+      displayName: 'LongInt (1)',
     },
     {
       name: 'Additional Comments (1)',
@@ -219,28 +219,28 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       format: FieldFormat.None,
       isRequired: true,
       length: 2,
-      displayName: 'Additional Comments (1)'
+      displayName: 'Additional Comments (1)',
     },
     {
       name: 'Date (1)',
       id: 110,
       fieldType: FieldType.Date,
       format: FieldFormat.LongDate,
-      displayName: 'Date (1)'
+      displayName: 'Date (1)',
     },
     {
       name: 'DateTime (1)',
       id: 120,
       fieldType: FieldType.DateTime,
       format: FieldFormat.LongDateTime,
-      displayName: 'DateTime (1)'
+      displayName: 'DateTime (1)',
     },
     {
       name: 'Time',
       id: 13,
       fieldType: FieldType.Time,
       format: FieldFormat.LongTime,
-      displayName: 'Time'
+      displayName: 'Time',
     },
   ];
   values: FieldValue[] = [
@@ -263,8 +263,8 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
   async getAllFieldDefinitionsAsync(): Promise<LfFieldInfo[]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-       return resolve(this.fieldInfos);
-    }, 100);
-  });
+        return resolve(this.fieldInfos);
+      }, 100);
+    });
   }
 }

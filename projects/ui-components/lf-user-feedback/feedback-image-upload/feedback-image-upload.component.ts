@@ -64,7 +64,7 @@ export class FeedbackImageUploadComponent {
       this.imageUploadError.emit(
         this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') +
           ' ' +
-          this.localizationService.getResourceStringComponents('PLEASE_ATTACH_ONLY_ONE_IMAGE'),
+          this.localizationService.getResourceStringComponents('PLEASE_ATTACH_ONLY_ONE_IMAGE')
       );
     } else {
       await this.tryReadAndValidateImageAsync(file);
@@ -116,7 +116,7 @@ export class FeedbackImageUploadComponent {
   private handleImageUploadError(error: any): void {
     const errorMessage = this.getImageUploadErrorMessage(error);
     this.imageUploadError.emit(
-      this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') + ' ' + errorMessage,
+      this.localizationService.getResourceStringComponents('IMAGE_NOT_ATTACHED') + ' ' + errorMessage
     );
     this.feedbackImageBase64.emit(undefined);
     this.imageUploaded = undefined;
@@ -203,7 +203,7 @@ class ImageUploadError extends Error {
   name = ImageUploadError_name;
   constructor(
     public imageUploadErrorType: ImageUploadErrorType,
-    message?: string,
+    message?: string
   ) {
     super(message ?? imageUploadErrorType.toString());
   }

@@ -55,10 +55,10 @@ describe('LfLoginService', () => {
   it('exchangeCodeForTokenAsync should emit logoutCompletedInService if empty code verifier in local storage', async () => {
     localStorage.removeItem(service.codeVerifierStorageKey);
     vi.spyOn(service.logoutCompletedInService, 'emit');
-    await service.exchangeCodeForTokenAsync({authorizationCode: 'test authorization code' });
+    await service.exchangeCodeForTokenAsync({ authorizationCode: 'test authorization code' });
     expect(service.logoutCompletedInService.emit).toHaveBeenCalledWith({
       ErrorType: 'no code verifier',
-      ErrorMessage: 'code verifier not found'
+      ErrorMessage: 'code verifier not found',
     });
   });
 
@@ -83,7 +83,7 @@ describe('LfLoginService', () => {
       code: 'testcode-string-hi',
       redirect_uri: service.redirect_uri,
       client_id: service.client_id,
-      code_verifier: 'test-code-verifier'
+      code_verifier: 'test-code-verifier',
     });
 
     expect(request.headers).toEqual({
@@ -95,19 +95,26 @@ describe('LfLoginService', () => {
 
   it('getExchangeCodeSuccessResponse should get access token response', () => {
     const accessTokenCredentials = service.getExchangeCodeSuccessResponse({
-      "access_token": "test-access",
-      "expires_in": '3600',
-      "token_type": "bearer",
-      "refresh_token": "test-refresh"
+      access_token: 'test-access',
+      expires_in: '3600',
+      token_type: 'bearer',
+      refresh_token: 'test-refresh',
     });
-    expect(accessTokenCredentials).toEqual({ accessToken: 'test-access', refreshToken: 'test-refresh', expiresIn: '3600', tokenType: 'bearer' });
+    expect(accessTokenCredentials).toEqual({
+      accessToken: 'test-access',
+      refreshToken: 'test-refresh',
+      expiresIn: '3600',
+      tokenType: 'bearer',
+    });
   });
 
   it('getExchangeCodeSuccessResponse should throw when not all properties exist', () => {
-    expect(() => service.getExchangeCodeSuccessResponse({
-      "token_type": "bearer",
-      "refresh_token": "test-refresh"
-    })).toThrow();
+    expect(() =>
+      service.getExchangeCodeSuccessResponse({
+        token_type: 'bearer',
+        refresh_token: 'test-refresh',
+      })
+    ).toThrow();
   });
 
   it('getPostRequestHeaders should get headers', () => {
@@ -122,11 +129,13 @@ describe('LfLoginService', () => {
       accessToken: `${testHeader}.${encodedJWT}.hello`,
       refreshToken: 'test-refresh',
       expiresIn: '100',
-      tokenType: 'bearer'
+      tokenType: 'bearer',
     };
     service.storeInLocalStorage(credentials, '123456789', 'laserfiche.com');
     expect(localStorage.getItem(service.accessTokenStorageKey)).toEqual(JSON.stringify(credentials));
-    expect(localStorage.getItem(service.accountEndpointsStorageKey)).toEqual('{"webClientUrl":"https://app.laserfiche.com/laserfiche","wsignoutUrl":"https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0","regionalDomain":"laserfiche.com","oauthAuthorizeUrl":"https://signin.laserfiche.com/oauth/Authorize"}');
+    expect(localStorage.getItem(service.accountEndpointsStorageKey)).toEqual(
+      '{"webClientUrl":"https://app.laserfiche.com/laserfiche","wsignoutUrl":"https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0","regionalDomain":"laserfiche.com","oauthAuthorizeUrl":"https://signin.laserfiche.com/oauth/Authorize"}'
+    );
     expect(localStorage.getItem(service.accountIdStorageKey)).toEqual('{"accountId":"123456789","trusteeId":"1"}');
   });
 
@@ -137,7 +146,7 @@ describe('LfLoginService', () => {
 
   it('parseAccessToken should parse data from jwt', () => {
     const testHeader = btoa('{"test": "test"}');
-    const JWT = {csid: '123456789', trid: '1'};
+    const JWT = { csid: '123456789', trid: '1' };
     const encodedJWT = btoa(JSON.stringify(JWT));
     const parsedToken = service.parseAccessToken(`${testHeader}.${encodedJWT}.hello`);
     expect(parsedToken).toEqual('1');
@@ -146,7 +155,7 @@ describe('LfLoginService', () => {
   it('parseAccessToken should parse data from jwt with different environment/region', () => {
     service.authorize_url_host_name = 'a.clouddev.laserfiche.com';
     const testHeader = btoa('{"test": "test"}');
-    const JWT = {csid: '1123456789', trid: '1'};
+    const JWT = { csid: '1123456789', trid: '1' };
     const encodedJWT = btoa(JSON.stringify(JWT));
     const parsedToken = service.parseAccessToken(`${testHeader}.${encodedJWT}.hello`);
     expect(parsedToken).toEqual('1');

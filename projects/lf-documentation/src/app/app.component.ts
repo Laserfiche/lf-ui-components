@@ -79,19 +79,19 @@ const TREE_DATA: ComponentNode[] = [
 ];
 
 @Component({
-    selector: 'app-root-lf-documentation',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    standalone: true,
-    imports: [
+  selector: 'app-root-lf-documentation',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [
     RouterLink,
     RouterOutlet,
     MatToolbarModule,
     MatTreeModule,
     MatIconModule,
     MatCheckboxModule,
-    MatButtonModule
-]
+    MatButtonModule,
+  ],
 })
 export class AppComponent implements OnInit {
   private themeService = inject(ThemeService);

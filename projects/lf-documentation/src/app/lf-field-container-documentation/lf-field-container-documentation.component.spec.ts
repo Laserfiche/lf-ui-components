@@ -11,12 +11,9 @@ describe('LfFieldContainerDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        LfFieldContainerDocumentationComponent,
-       ],
-       schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-    .compileComponents();
+      imports: [LfFieldContainerDocumentationComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {

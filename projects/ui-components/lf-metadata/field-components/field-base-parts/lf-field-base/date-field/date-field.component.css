@@ -1,17 +1,17 @@
 ::ng-deep .lf-datepicker-toggle > .mdc-icon-button:hover {
   color: rgba(0, 0, 0, 0.8);
 }
-::ng-deep mat-datepicker-toggle.mat-datepicker-toggle.lf-datepicker-toggle >.mat-mdc-icon-button.mat-mdc-button-base {
-    padding-top: 12px;
-    padding-right: 0px;
+::ng-deep mat-datepicker-toggle.mat-datepicker-toggle.lf-datepicker-toggle > .mat-mdc-icon-button.mat-mdc-button-base {
+  padding-top: 12px;
+  padding-right: 0px;
 }
 
-::ng-deep .lf-datepicker-toggle > .mdc-icon-button .mat-mdc-button-persistent-ripple, 
+::ng-deep .lf-datepicker-toggle > .mdc-icon-button .mat-mdc-button-persistent-ripple,
 ::ng-deep .lf-datepicker-toggle > .mdc-icon-button .mat-ripple.mat-mdc-button-ripple {
-    top: 6px;
-    left: 12px;
-    height: 35px;
-    width: 35px;
+  top: 6px;
+  left: 12px;
+  height: 35px;
+  width: 35px;
 }
 
 /* Add extra spacing only when no error is shown to keep date field visually consistent with other form fields */

@@ -7,11 +7,14 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-sh
 
 /** @internal */
 @Component({
-    selector: 'lf-feedback-suggestion-selection',
-    templateUrl: './feedback-suggestion-selection.component.html',
-    styleUrls: ['./feedback-suggestion-selection.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
-    standalone: true,
-    imports: [CommonModule]
+  selector: 'lf-feedback-suggestion-selection',
+  templateUrl: './feedback-suggestion-selection.component.html',
+  styleUrls: [
+    './feedback-suggestion-selection.component.css',
+    '../user-feedback-dialog/user-feedback-dialog.component.css',
+  ],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class FeedbackSuggestionSelectionComponent {
   private localizationService = inject(AppLocalizationService);

@@ -31,9 +31,7 @@ export class LfChecklistDocumentationComponent implements AfterViewInit {
 
   async ngAfterViewInit() {
     this.elementChecklistService = new LfChecklistDemoService();
-    await Promise.all([
-      this.elementChecklist.initAsync({ checklistService: this.elementChecklistService }),
-    ]);
+    await Promise.all([this.elementChecklist.initAsync({ checklistService: this.elementChecklistService })]);
   }
 
   /** Element event handlers */

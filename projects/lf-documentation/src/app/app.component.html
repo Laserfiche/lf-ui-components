@@ -4,9 +4,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <mat-toolbar color="primary" class="documentation-font">
   <mat-toolbar-row>
     <a [href]="landingPageUrl">
-      <span class="material-icons lf-doc-arrow-back" >
-        arrow_back
-      </span>
+      <span class="material-icons lf-doc-arrow-back"> arrow_back </span>
     </a>
     <div class="lf-back-button-vertical-divider"></div>
     <span id="header-title">Laserfiche UI Components</span>
@@ -57,15 +55,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <li class="mat-tree-node">
           <button mat-icon-button disabled></button>
           @if (!node.routerLink && !node.hyperLink) {
-            <p>{{node.name}}</p>
+            <p>{{ node.name }}</p>
           }
           @if (node.routerLink) {
-            <a class="navigation-tree-item"
-            [routerLink]="node.routerLink">{{node.name}}</a>
+            <a class="navigation-tree-item" [routerLink]="node.routerLink">{{ node.name }}</a>
           }
           @if (node.hyperLink) {
-            <a class="navigation-tree-item"
-            [href]="node.hyperLink"  target="_blank">{{node.name}}</a>
+            <a class="navigation-tree-item" [href]="node.hyperLink" target="_blank">{{ node.name }}</a>
           }
         </li>
       </mat-tree-node>
@@ -74,22 +70,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           <div class="mat-tree-node">
             <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
               @if (treeControl.isExpanded(node)) {
-                <span class="material-icons mat-icon-rtl-mirror">
-                  expand_more
-                </span>
+                <span class="material-icons mat-icon-rtl-mirror"> expand_more </span>
               }
               @if (!treeControl.isExpanded(node)) {
-                <span class="material-icons mat-icon-rtl-mirror">
-                  navigate_next
-                </span>
+                <span class="material-icons mat-icon-rtl-mirror"> navigate_next </span>
               }
             </button>
             @if (!node.routerLink) {
-              <p class="navigation-tree-item" matTreeNodeToggle>{{node.name}}</p>
+              <p class="navigation-tree-item" matTreeNodeToggle>{{ node.name }}</p>
             }
             @if (node.routerLink) {
-              <a class="navigation-tree-item"
-              [routerLink]="node.routerLink">{{node.name}}</a>
+              <a class="navigation-tree-item" [routerLink]="node.routerLink">{{ node.name }}</a>
             }
           </div>
           <ul [class.navigation-tree-invisible]="!treeControl.isExpanded(node)">

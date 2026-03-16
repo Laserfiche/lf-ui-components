@@ -5,9 +5,9 @@ import { Directive, ViewContainerRef, inject } from '@angular/core';
 
 /** @internal */
 @Directive({
-    selector: '[lfFieldView]',
-    standalone: true
+  selector: '[lfFieldView]',
+  standalone: true,
 })
-export class LfFieldViewDirective {  viewContainerRef = inject(ViewContainerRef);
-
+export class LfFieldViewDirective {
+  viewContainerRef = inject(ViewContainerRef);
 }

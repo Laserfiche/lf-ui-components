@@ -16,15 +16,23 @@ import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.co
 import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
-    selector: 'lf-date-time-field-component',
-    templateUrl: './date-time-field.component.html',
-    styleUrls: ['./date-time-field.component.css', './../lf-field-base/lf-field-base.component.css'],
-    providers: [
-        { provide: DateTimeBaseFieldDirective, useExisting: DateTimeFieldComponent },
-        { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-    ],
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, UniDateTimeComponent, LfTokenPickerComponent, DynamicFieldComponent]
+  selector: 'lf-date-time-field-component',
+  templateUrl: './date-time-field.component.html',
+  styleUrls: ['./date-time-field.component.css', './../lf-field-base/lf-field-base.component.css'],
+  providers: [
+    { provide: DateTimeBaseFieldDirective, useExisting: DateTimeFieldComponent },
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    UniDateTimeComponent,
+    LfTokenPickerComponent,
+    DynamicFieldComponent,
+  ],
 })
 export class DateTimeFieldComponent extends DateTimeBaseFieldDirective implements OnInit {
   private LOCALE_DATE_TIME: Observable<string> | undefined;

@@ -3,22 +3,25 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 @if (data) {
   <div>
-    <span class="lf-dialog-title lf-popup-dialog-title">{{data.popupTitle | async}}</span>
+    <span class="lf-dialog-title lf-popup-dialog-title">{{ data.popupTitle | async }}</span>
     <div class="lf-dialog-message">
-      <p>{{data.popupMessage | async}}</p>
+      <p>{{ data.popupMessage | async }}</p>
     </div>
     <div class="lf-dialog-actions">
       @if (data.confirmButtonText) {
-        <button class="lf-button primary-button dialog-button"
-        (click)="onConfirmClick()" cdkFocusInitial>{{data.confirmButtonText | async}}</button>
+        <button class="lf-button primary-button dialog-button" (click)="onConfirmClick()" cdkFocusInitial>
+          {{ data.confirmButtonText | async }}
+        </button>
       }
       @if (data.noButtonText) {
-        <button class="lf-button sec-button dialog-button"
-        (click)="onNoClick()">{{data.noButtonText | async}}</button>
+        <button class="lf-button sec-button dialog-button" (click)="onNoClick()">
+          {{ data.noButtonText | async }}
+        </button>
       }
       @if (data.cancelButtonText) {
-        <button class="lf-button sec-button dialog-button"
-        (click)="onCancelClick()">{{data.cancelButtonText | async}}</button>
+        <button class="lf-button sec-button dialog-button" (click)="onCancelClick()">
+          {{ data.cancelButtonText | async }}
+        </button>
       }
     </div>
   </div>

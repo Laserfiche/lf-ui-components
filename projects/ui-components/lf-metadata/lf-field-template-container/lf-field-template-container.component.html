@@ -18,7 +18,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       (openedChange)="onToggleDropdownAsync($event)"
       [(value)]="templateSelected"
       [compareWith]="compareTemplateInfoFunc"
-      >
+    >
       @if (isDropdownDefault) {
         <mat-option selected>{{ emptyTemplateName | async }}</mat-option>
       }
@@ -28,9 +28,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       @if (isDropdownDefault) {
         <div>
           @for (template of availableTemplates; track template) {
-            <mat-option [value]="template"
-              >{{template.displayName}}
-            </mat-option>
+            <mat-option [value]="template">{{ template.displayName }} </mat-option>
           }
         </div>
       }
@@ -46,8 +44,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <div class="responsive-form-container">
           <ng-template lfFieldView></ng-template>
         </div>
-      } @else {
-      }
+      } @else {}
     }
   }
 </div>

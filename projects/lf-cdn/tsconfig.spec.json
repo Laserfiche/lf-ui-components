@@ -4,12 +4,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
     "skipLibCheck": true,
-    "types": [
-      "vitest/globals"
-    ]
+    "types": ["vitest/globals"]
   },
-  "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
-  ]
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }

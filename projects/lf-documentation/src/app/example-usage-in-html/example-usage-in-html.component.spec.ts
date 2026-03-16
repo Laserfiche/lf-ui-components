@@ -13,9 +13,8 @@ describe('ExampleUsageInHtmlComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      imports: [ ExampleUsageInHtmlComponent ],
-    })
-    .compileComponents();
+      imports: [ExampleUsageInHtmlComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

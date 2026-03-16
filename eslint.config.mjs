@@ -35,22 +35,13 @@ export default tseslint.config(
     },
     languageOptions: {
       parserOptions: {
-        project: [
-          "projects/ui-components/tsconfig.lib.json",
-          "projects/ui-components/tsconfig.spec.json",
-        ],
+        project: ["projects/ui-components/tsconfig.lib.json", "projects/ui-components/tsconfig.spec.json"],
       },
     },
     rules: {
-        ...sharedRules,
-      "@angular-eslint/directive-selector": [
-        "error",
-        { type: "attribute", prefix: "lf", style: "camelCase" },
-      ],
-      "@angular-eslint/component-selector": [
-        "error",
-        { type: "element", prefix: "lf", style: "kebab-case" },
-      ],
+      ...sharedRules,
+      "@angular-eslint/directive-selector": ["error", { type: "attribute", prefix: "lf", style: "camelCase" }],
+      "@angular-eslint/component-selector": ["error", { type: "element", prefix: "lf", style: "kebab-case" }],
     },
   },
 
@@ -64,22 +55,13 @@ export default tseslint.config(
     },
     languageOptions: {
       parserOptions: {
-        project: [
-          "projects/lf-cdn/tsconfig.app.json",
-          "projects/lf-cdn/tsconfig.spec.json",
-        ],
+        project: ["projects/lf-cdn/tsconfig.app.json", "projects/lf-cdn/tsconfig.spec.json"],
       },
     },
     rules: {
       ...sharedRules,
-      "@angular-eslint/directive-selector": [
-        "error",
-        { type: "attribute", prefix: "app", style: "camelCase" },
-      ],
-      "@angular-eslint/component-selector": [
-        "error",
-        { type: "element", prefix: "app", style: "kebab-case" },
-      ],
+      "@angular-eslint/directive-selector": ["error", { type: "attribute", prefix: "app", style: "camelCase" }],
+      "@angular-eslint/component-selector": ["error", { type: "element", prefix: "app", style: "kebab-case" }],
     },
   },
 
@@ -93,22 +75,13 @@ export default tseslint.config(
     },
     languageOptions: {
       parserOptions: {
-        project: [
-          "projects/lf-documentation/tsconfig.app.json",
-          "projects/lf-documentation/tsconfig.spec.json",
-        ],
+        project: ["projects/lf-documentation/tsconfig.app.json", "projects/lf-documentation/tsconfig.spec.json"],
       },
     },
     rules: {
       ...sharedRules,
-      "@angular-eslint/directive-selector": [
-        "error",
-        { type: "attribute", prefix: "app", style: "camelCase" },
-      ],
-      "@angular-eslint/component-selector": [
-        "error",
-        { type: "element", prefix: "app", style: "kebab-case" },
-      ],
+      "@angular-eslint/directive-selector": ["error", { type: "attribute", prefix: "app", style: "camelCase" }],
+      "@angular-eslint/component-selector": ["error", { type: "element", prefix: "app", style: "kebab-case" }],
     },
   },
 

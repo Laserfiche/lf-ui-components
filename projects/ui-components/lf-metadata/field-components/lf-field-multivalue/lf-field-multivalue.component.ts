@@ -86,7 +86,7 @@ export class LfFieldMultivalueComponent {
   initAsync = async (
     fieldDefinition: LfFieldInfo,
     fieldValues: LfFieldValue[] = [],
-    dynamicFieldOptions?: string[][],
+    dynamicFieldOptions?: string[][]
   ): Promise<void> => {
     this.lfFieldInfo = CoreUtils.validateDefined(fieldDefinition, 'fieldDefinition');
     this.dynamicFieldOptions = dynamicFieldOptions;

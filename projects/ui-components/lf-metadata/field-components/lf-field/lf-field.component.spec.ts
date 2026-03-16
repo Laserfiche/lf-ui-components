@@ -20,8 +20,8 @@ describe('LfFieldComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        LfFieldBaseComponent
-      ]
+        LfFieldBaseComponent,
+      ],
     }).compileComponents();
   });
 

@@ -5,11 +5,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';;
+import { MatSelectModule } from '@angular/material/select';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldTemplateContainerComponent } from './lf-field-template-container.component';
 import { LfFieldTemplateContainerService } from './lf-field-template-container.service';
-import { City, County, DynamicFieldIds, fieldInfosPerTemplate, LfFieldTemplateContainerDemoService, State, TemplateIds } from './lf-field-template-container-demo.service';
+import {
+  City,
+  County,
+  DynamicFieldIds,
+  fieldInfosPerTemplate,
+  LfFieldTemplateContainerDemoService,
+  State,
+  TemplateIds,
+} from './lf-field-template-container-demo.service';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfFieldViewDirective } from '../lf-field-view.directive';
 import { LfFieldComponent } from '../field-components/lf-field/lf-field.component';
@@ -22,13 +30,21 @@ describe('LfFieldTemplateContainerComponent', () => {
   let fixture: ComponentFixture<LfFieldTemplateContainerComponent>;
   let templateService!: LfFieldTemplateContainerService;
 
-  beforeEach(
-    async () => {
-      await TestBed.configureTestingModule({
-        imports: [LfFieldTemplateContainerComponent, LfFieldViewDirective, CommonModule, FormsModule, MatSelectModule, LfFieldComponent, LfFieldMultivalueComponent, LfFieldGroupComponent],
-        providers: [LfFieldMetadataConnectorService] }).compileComponents();
-    }
-  );
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        LfFieldTemplateContainerComponent,
+        LfFieldViewDirective,
+        CommonModule,
+        FormsModule,
+        MatSelectModule,
+        LfFieldComponent,
+        LfFieldMultivalueComponent,
+        LfFieldGroupComponent,
+      ],
+      providers: [LfFieldMetadataConnectorService],
+    }).compileComponents();
+  });
 
   beforeEach(async () => {
     fixture = TestBed.createComponent(LfFieldTemplateContainerComponent);
@@ -52,8 +68,11 @@ describe('LfFieldTemplateContainerComponent', () => {
         fieldId: 1,
         values: [
           {
-            value: 'test Value' },
-        ] } };
+            value: 'test Value',
+          },
+        ],
+      },
+    };
     const fieldId: number = 1;
 
     // Act
@@ -71,7 +90,7 @@ describe('LfFieldTemplateContainerComponent', () => {
         name: 'test field',
         id: 1,
         fieldType: FieldType.String,
-        displayName: 'test field'
+        displayName: 'test field',
       },
     ];
 
@@ -109,11 +128,15 @@ describe('LfFieldTemplateContainerComponent', () => {
 
     // Assert
     const expectedStateValues = [State.CA, State.OH, State.NV];
-    const stateFieldInfo = component.allFieldInfos.find((templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.State);
+    const stateFieldInfo = component.allFieldInfos.find(
+      (templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.State
+    );
     expect(component.dynamicOptions.get(stateFieldInfo?.id ?? 0)![0]).toEqual(expectedStateValues);
 
     const expectedCountyValues: string[] = [];
-    const countyFieldInfo = component.allFieldInfos.find((templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.County);
+    const countyFieldInfo = component.allFieldInfos.find(
+      (templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.County
+    );
     expect(component.dynamicOptions.get(countyFieldInfo?.id ?? 0)![0]).toEqual(expectedCountyValues);
   });
 
@@ -130,11 +153,15 @@ describe('LfFieldTemplateContainerComponent', () => {
 
     // Assert
     const expectedStateValues = [State.CA, State.OH, State.NV];
-    const stateFieldInfo = component.allFieldInfos.find((templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.State);
+    const stateFieldInfo = component.allFieldInfos.find(
+      (templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.State
+    );
     expect(component.dynamicOptions.get(stateFieldInfo?.id ?? 0)![0]).toEqual(expectedStateValues);
 
     const expectedCountyValues = [County.Cuyahoga, County.Hamilton];
-    const countyFieldInfo = component.allFieldInfos.find((templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.County);
+    const countyFieldInfo = component.allFieldInfos.find(
+      (templateFieldInfo) => templateFieldInfo.id === DynamicFieldIds.County
+    );
     expect(component.dynamicOptions.get(countyFieldInfo?.id ?? 0)![0]).toEqual(expectedCountyValues);
   });
 
@@ -204,7 +231,10 @@ describe('LfFieldTemplateContainerComponent', () => {
 
     // Assert
     const stateOptions = component.dynamicOptions.get(fieldInfos[0].id);
-    expect(stateOptions).toEqual([[State.CA, State.OH, State.NV], [State.CA, State.OH, State.NV]]);
+    expect(stateOptions).toEqual([
+      [State.CA, State.OH, State.NV],
+      [State.CA, State.OH, State.NV],
+    ]);
   });
 
   it('when a second field is added, then baseFieldOptions should be populated', async () => {
@@ -220,7 +250,10 @@ describe('LfFieldTemplateContainerComponent', () => {
 
     // Assert
     const stateOptions = component.dynamicOptions.get(fieldInfos[0].id);
-    expect(stateOptions).toEqual([[State.CA, State.OH, State.NV], [State.CA, State.OH, State.NV]]);
+    expect(stateOptions).toEqual([
+      [State.CA, State.OH, State.NV],
+      [State.CA, State.OH, State.NV],
+    ]);
 
     const countyOptions = component.dynamicOptions.get(fieldInfos[1].id);
     expect(countyOptions).toEqual([[], [County.Clark]]);
@@ -229,12 +262,21 @@ describe('LfFieldTemplateContainerComponent', () => {
     expect(cityOptions).toEqual([[], [City.LasVegas]]);
 
     const stateValues = component.allFieldValues[DynamicFieldIds.State].values;
-    expect(stateValues).toEqual([{ value: '', position: '1' }, {value: State.NV, position: '2'}]);
+    expect(stateValues).toEqual([
+      { value: '', position: '1' },
+      { value: State.NV, position: '2' },
+    ]);
 
     const countyValues = component.allFieldValues[DynamicFieldIds.County].values;
-    expect(countyValues).toEqual([{ value: '', position: '1' }, {value: County.Clark, position: '2'}]);
+    expect(countyValues).toEqual([
+      { value: '', position: '1' },
+      { value: County.Clark, position: '2' },
+    ]);
 
     const cityValues = component.allFieldValues[DynamicFieldIds.City].values;
-    expect(cityValues).toEqual([{ value: '', position: '1' }, {value: City.LasVegas, position: '2'}]);
+    expect(cityValues).toEqual([
+      { value: '', position: '1' },
+      { value: City.LasVegas, position: '2' },
+    ]);
   });
 });

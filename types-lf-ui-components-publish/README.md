@@ -11,6 +11,9 @@ This is the type NPM package that contains the declaration files for lf-prefixed
 
 - To use the types in a typescript file:
 
-   ```ts
-      import { LfChecklistComponent, Checklist } from '@laserfiche/types-lf-ui-components';
-   ```
+  ```ts
+  import {
+    LfChecklistComponent,
+    Checklist,
+  } from "@laserfiche/types-lf-ui-components";
+  ```

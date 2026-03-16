@@ -1,7 +1,16 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, ViewChildren, QueryList, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectorRef,
+  ViewChildren,
+  QueryList,
+  inject,
+} from '@angular/core';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ItemsComponent } from '../items/items.component';

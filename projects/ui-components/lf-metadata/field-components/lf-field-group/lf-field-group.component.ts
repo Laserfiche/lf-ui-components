@@ -78,7 +78,7 @@ export class LfFieldGroupComponent {
   @Input()
   initAsync = async (
     fieldDefinitions: FieldDefinition[],
-    dynamicFieldOptions?: Map<number, string[][]>,
+    dynamicFieldOptions?: Map<number, string[][]>
   ): Promise<void> => {
     this.fieldDefinitions = fieldDefinitions ?? [];
     this.groupId = fieldDefinitions[0]?.fieldInfo?.groupId ?? 0;

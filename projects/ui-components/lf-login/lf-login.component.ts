@@ -236,7 +236,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
    */
   @Input()
   refreshTokenAsync: (initiateLoginFlowOnRefreshFailure: boolean) => Promise<string | undefined> = async (
-    initiateLoginFlowOnRefreshFailure: boolean = true,
+    initiateLoginFlowOnRefreshFailure: boolean = true
   ) => {
     try {
       const refreshToken: string | undefined = this.authorization_credentials?.refreshToken;
@@ -248,7 +248,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
           console.log('Logging in. Will not attempt to refresh');
         } else {
           console.warn(
-            'Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false',
+            'Unable to refresh, refreshToken is not defined, initiateLoginFlowOnRefreshFailure set to false'
           );
           this._state = LoginState.LoggedOut;
           this.logoutCompleted.emit({
@@ -281,7 +281,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
               await this.startOAuthLoginFlowAsync();
             } else {
               console.warn(
-                `Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`,
+                `Unable to refresh, initiateLoginFlowOnRefreshFailure set to ${initiateLoginFlowOnRefreshFailure}, state is ${this.state}`
               );
               this._state = LoginState.LoggedOut;
               this.ref.detectChanges();
@@ -713,7 +713,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
     } else {
       const concatStrings = this.concatStrings(
         additionalContext,
-        'Redirect behavior none. Redirect must be implemented by container in event initiated handler',
+        'Redirect behavior none. Redirect must be implemented by container in event initiated handler'
       );
       console.log(concatStrings);
     }

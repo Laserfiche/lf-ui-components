@@ -32,9 +32,9 @@ describe('LfFieldAddRemoveComponent', () => {
         BrowserAnimationsModule,
         MatCheckboxModule,
         MatDialogModule,
-        ScrollingModule
+        ScrollingModule,
       ],
-      providers: [{provide: AdhocFieldConnectorService, useValue: adHocConnectorTestService}]
+      providers: [{ provide: AdhocFieldConnectorService, useValue: adHocConnectorTestService }],
     }).compileComponents();
   });
 
@@ -52,7 +52,14 @@ describe('LfFieldAddRemoveComponent', () => {
   });
 
   it('should have initial field checked', () => {
-    const initialFieldInfo: LfFieldInfo = { name: 'test field 1', id: 1, description: '', fieldType: FieldType.String, isMultiValue: true, displayName: 'test field 1' };
+    const initialFieldInfo: LfFieldInfo = {
+      name: 'test field 1',
+      id: 1,
+      description: '',
+      fieldType: FieldType.String,
+      isMultiValue: true,
+      displayName: 'test field 1',
+    };
     expect(component.isFieldSelected(initialFieldInfo)).toBeTruthy();
   });
 
@@ -61,7 +68,12 @@ describe('LfFieldAddRemoveComponent', () => {
     const matCheckboxUpdate = new MatCheckboxChange();
     matCheckboxUpdate.checked = true;
     const fieldInfoToCheck: LfFieldInfo = {
-      name: 'test field 3', id: 3, description: '', fieldType: FieldType.DateTime, isMultiValue: true, displayName: 'test field 3'
+      name: 'test field 3',
+      id: 3,
+      description: '',
+      fieldType: FieldType.DateTime,
+      isMultiValue: true,
+      displayName: 'test field 3',
     };
 
     // Act
@@ -78,7 +90,12 @@ describe('LfFieldAddRemoveComponent', () => {
     const matCheckboxUpdate = new MatCheckboxChange();
     matCheckboxUpdate.checked = false;
     const fieldInfoToUncheck: LfFieldInfo = {
-      name: 'test field 1', id: 1, description: '', fieldType: FieldType.String, isMultiValue: true, displayName: 'test field 1'
+      name: 'test field 1',
+      id: 1,
+      description: '',
+      fieldType: FieldType.String,
+      isMultiValue: true,
+      displayName: 'test field 1',
     };
 
     // Act
@@ -106,7 +123,6 @@ describe('LfFieldAddRemoveComponent', () => {
     expect(adHocConnectorTestService.setSelectedFieldIds).toHaveBeenCalledWith(new Set<number>());
     expect(component.areCheckboxChanges).toBe(false);
     expect(component.clickBack.emit).toHaveBeenCalled();
-
   });
 
   it('should not update connector service when click cancel after changes', async () => {
@@ -201,18 +217,60 @@ describe('LfFieldAddRemoveComponent', () => {
   });
 });
 
-const adHocConnectorTestService =  {
+const adHocConnectorTestService = {
   fieldInfos: [
-    { name: 'test field 1', id: 1, description: '', fieldType: FieldType.String, isMultiValue: true, displayName: 'test field 1' },
-    { name: 'test field 2', id: 2, description: '', fieldType: FieldType.String, isRequired: true, displayName: 'test field 2' },
-    { name: 'test field 3', id: 3, description: '', fieldType: FieldType.Date, isMultiValue: true, displayName: 'test field 3' },
-    { name: 'test field 4', id: 4, description: '', fieldType: FieldType.DateTime, isMultiValue: true, displayName: 'test field 4' },
-    { name: 'test field 5', id: 5, description: '', fieldType: FieldType.Time, isMultiValue: true, displayName: 'test field 5' },
+    {
+      name: 'test field 1',
+      id: 1,
+      description: '',
+      fieldType: FieldType.String,
+      isMultiValue: true,
+      displayName: 'test field 1',
+    },
+    {
+      name: 'test field 2',
+      id: 2,
+      description: '',
+      fieldType: FieldType.String,
+      isRequired: true,
+      displayName: 'test field 2',
+    },
+    {
+      name: 'test field 3',
+      id: 3,
+      description: '',
+      fieldType: FieldType.Date,
+      isMultiValue: true,
+      displayName: 'test field 3',
+    },
+    {
+      name: 'test field 4',
+      id: 4,
+      description: '',
+      fieldType: FieldType.DateTime,
+      isMultiValue: true,
+      displayName: 'test field 4',
+    },
+    {
+      name: 'test field 5',
+      id: 5,
+      description: '',
+      fieldType: FieldType.Time,
+      isMultiValue: true,
+      displayName: 'test field 5',
+    },
     { name: 'test field 6', id: 6, description: '', fieldType: FieldType.Number, displayName: 'test field 6' },
     { name: 'test field 7', id: 7, description: '', fieldType: FieldType.ShortInteger, displayName: 'test field 7' },
     { name: 'test field 8', id: 8, description: '', fieldType: FieldType.LongInteger, displayName: 'test field 8' },
     { name: 'test field 9', id: 9, description: '', fieldType: FieldType.String, displayName: 'test field 9' },
-    { name: 'test field 10', id: 10, description: '', fieldType: FieldType.String, isRequired: true, displayName: 'test field 10' },
+    {
+      name: 'test field 10',
+      id: 10,
+      description: '',
+      fieldType: FieldType.String,
+      isRequired: true,
+      displayName: 'test field 10',
+    },
     { name: 'test field 11', id: 11, description: '', fieldType: FieldType.Date, displayName: 'test field 11' },
     { name: 'test field 12', id: 12, description: '', fieldType: FieldType.DateTime, displayName: 'test field 12' },
     { name: 'test field 13', id: 13, description: '', fieldType: FieldType.Time, displayName: 'test field 13' },
@@ -227,25 +285,23 @@ const adHocConnectorTestService =  {
       fieldType: FieldType.String,
       values: [
         { value: '44.788', position: '1' },
-        { value: '55555', position: '2' }
-      ]
-    } },
-
-  setSelectedFieldIds(selectedFields: Set<number>) {
+        { value: '55555', position: '2' },
+      ],
+    },
   },
+
+  setSelectedFieldIds(selectedFields: Set<number>) {},
   getSelectedFieldIds(): Set<number> {
     const fieldIds = new Set<number>();
     fieldIds.add(1);
     return fieldIds;
   },
-  setAllFieldInfos(fieldInfos: LfFieldInfo[]) {
-  },
+  setAllFieldInfos(fieldInfos: LfFieldInfo[]) {},
   getAllFieldInfos(): LfFieldInfo[] {
     return this.fieldInfos;
   },
-  setAllFieldValues(fieldValues: FieldValues) {
-  },
+  setAllFieldValues(fieldValues: FieldValues) {},
   getAllFieldValues(): FieldValues {
     return this.fieldValues;
-  }
+  },
 };

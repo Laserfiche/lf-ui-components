@@ -65,14 +65,14 @@ export class LfFieldContainerComponent {
   @Input()
   initAsync = async (
     lfFieldContainerService: LfFieldContainerService,
-    templateIdentifier?: number | string,
+    templateIdentifier?: number | string
   ): Promise<void> => {
     this.ref.detectChanges();
     this.lfFieldContainerService = CoreUtils.validateDefined(lfFieldContainerService, 'lfFieldContainerService');
     await this.adhocContainer.initAsync(this.lfFieldContainerService);
     await this.templateContainer.initAsync(
       { templateFieldContainerService: this.lfFieldContainerService },
-      templateIdentifier,
+      templateIdentifier
     );
     this.SELECTED_TEMPLATE_NAME = this.getSelectedTemplateName();
     this.ref.markForCheck();

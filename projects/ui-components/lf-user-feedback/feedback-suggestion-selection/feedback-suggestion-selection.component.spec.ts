@@ -11,9 +11,8 @@ describe('FeedbackSuggestionSelectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ FeedbackSuggestionSelectionComponent ]
-    })
-    .compileComponents();
+      imports: [FeedbackSuggestionSelectionComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FeedbackSuggestionSelectionComponent);
     component = fixture.componentInstance;

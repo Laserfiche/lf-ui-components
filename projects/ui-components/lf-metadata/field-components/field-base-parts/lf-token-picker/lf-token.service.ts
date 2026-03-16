@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 /** @internal */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export abstract class LfTokenService {
   abstract getTokensAsync(lfTokenSubject: any): Promise<LfToken[]>;

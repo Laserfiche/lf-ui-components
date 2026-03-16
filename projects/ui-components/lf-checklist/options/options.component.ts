@@ -8,18 +8,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChecklistOption } from './checklist-option';
 
 @Component({
-    selector: 'lf-options-component',
-    templateUrl: './options.component.html',
-    styleUrls: ['./options.component.css', './../lf-checklist/lf-checklist.component.css'],
-    standalone: true,
-    imports: [FormsModule, MatCheckboxModule]
+  selector: 'lf-options-component',
+  templateUrl: './options.component.html',
+  styleUrls: ['./options.component.css', './../lf-checklist/lf-checklist.component.css'],
+  standalone: true,
+  imports: [FormsModule, MatCheckboxModule],
 })
 export class OptionsComponent {
-
   @Input() options: ChecklistOption[] = [];
   @Output() optionsChanged: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor() { }
+  constructor() {}
 
   onOptionCheckboxChanged() {
     this.optionsChanged.emit();

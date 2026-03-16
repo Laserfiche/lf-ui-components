@@ -13,12 +13,9 @@ describe('GettingStartedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ GettingStartedComponent ],
-      providers: [
-        { provide: ActivatedRoute, useValue: { queryParams: of({}) } }
-      ],
-    })
-    .compileComponents();
+      imports: [GettingStartedComponent],
+      providers: [{ provide: ActivatedRoute, useValue: { queryParams: of({}) } }],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -35,9 +35,7 @@ export class DemoRepoService implements LfTreeNodeService {
       isLeaf: false,
       name: 'folder2',
       path: '/2',
-      attributes: new Map<string, PropertyValue>([
-        [propIdCreateDate, { value: undefined, displayValue: undefined}],
-      ]),
+      attributes: new Map<string, PropertyValue>([[propIdCreateDate, { value: undefined, displayValue: undefined }]]),
     },
     '3': {
       icon: IconUtils.getDocumentIconUrlFromIconId('document-20'),
@@ -47,8 +45,8 @@ export class DemoRepoService implements LfTreeNodeService {
       name: 'entry1',
       path: '/3',
       attributes: new Map<string, PropertyValue>([
-        [propIdCreateDate, { value: this.currentDate, displayValue: Intl.DateTimeFormat().format(this.currentDate)}],
-        [propIdNumberCol, {value: 123456123456, displayValue: '123456123456'}]
+        [propIdCreateDate, { value: this.currentDate, displayValue: Intl.DateTimeFormat().format(this.currentDate) }],
+        [propIdNumberCol, { value: 123456123456, displayValue: '123456123456' }],
       ]),
     },
     '4': {

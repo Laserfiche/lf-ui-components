@@ -3,18 +3,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 <p class="documentation-title">Using UI components from CDN in Angular</p>
 
-<h3 id="cdn-example-angular"> Example: <code>lf-checklist</code></h3>
-<p>In the example below, the implementation comes from the CDN and the types are provided
-  in the <code>&#64;laserfiche/types-lf-ui-components</code> NPM package.</p>
+<h3 id="cdn-example-angular">Example: <code>lf-checklist</code></h3>
+<p>
+  In the example below, the implementation comes from the CDN and the types are provided in the
+  <code>&#64;laserfiche/types-lf-ui-components</code> NPM package.
+</p>
 <ol>
   <li>
-    <p  class="documentation-text">
-      <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to get started.</a></p>
+    <p class="documentation-text">
+      <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to get started.</a>
+    </p>
   </li>
-<li>
+  <li>
     <p>
-      Since the CDN provides custom elements, add <code>CUSTOM_ELEMENTS_SCHEMA</code> to your standalone component.
-      This allows you to use custom non-Angular elements in your Angular application.
+      Since the CDN provides custom elements, add <code>CUSTOM_ELEMENTS_SCHEMA</code> to your standalone component. This
+      allows you to use custom non-Angular elements in your Angular application.
     </p>
     <div>
       <pre class="code-container">
@@ -26,14 +29,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <span class="code-ts-key-name">templateUrl</span>: './attachments.component.html',
 &#125;)
       </pre>
-      <div class="zeroclipboard-container position-absolute right-0 top-0">
-      </div>
+      <div class="zeroclipboard-container position-absolute right-0 top-0"></div>
     </div>
   </li>
   <li>
     <p dir="auto">Add to a component</p>
     <p dir="auto">In the html file,</p>
-      <pre class="code-container"><span class="code-html-tagname">&lt;lf-checklist</span> <span class="code-html-attribute-name">#myChecklist</span> <span class="code-html-attribute-name">(checklistChanged)</span>="<span class="code-html-attribute-value">onChecklistChanged($event)</span>"<span class="code-html-tagname">&gt;</span><span class="code-html-tagname">&lt;/lf-checklist&gt;</span>
+    <pre
+      class="code-container"
+    ><span class="code-html-tagname">&lt;lf-checklist</span> <span class="code-html-attribute-name">#myChecklist</span> <span class="code-html-attribute-name">(checklistChanged)</span>="<span class="code-html-attribute-value">onChecklistChanged($event)</span>"<span class="code-html-tagname">&gt;</span><span class="code-html-tagname">&lt;/lf-checklist&gt;</span>
 <span class="code-html-comment">&lt;!-- checklistChanged is a HTML custom event --&gt;</span>
       </pre>
     <p dir="auto">In the <code>.ts</code> file,</p>

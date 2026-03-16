@@ -14,11 +14,18 @@ import { ListFieldComponent } from '../list-field/list-field.component';
 import { TimeFieldComponent } from '../time-field/time-field.component';
 
 @Component({
-    selector: 'lf-field-base-component',
-    templateUrl: './lf-field-base.component.html',
-    styleUrls: ['./lf-field-base.component.css'],
-    standalone: true,
-    imports: [DateTimeFieldComponent, TextFieldComponent, DateFieldComponent, NumberFieldComponent, ListFieldComponent, TimeFieldComponent]
+  selector: 'lf-field-base-component',
+  templateUrl: './lf-field-base.component.html',
+  styleUrls: ['./lf-field-base.component.css'],
+  standalone: true,
+  imports: [
+    DateTimeFieldComponent,
+    TextFieldComponent,
+    DateFieldComponent,
+    NumberFieldComponent,
+    ListFieldComponent,
+    TimeFieldComponent,
+  ],
 })
 export class LfFieldBaseComponent {
   @Input() lfFieldInfo!: LfFieldInfo;
@@ -29,7 +36,7 @@ export class LfFieldBaseComponent {
   @Input() dynamicFieldValueOptions: string[] | undefined;
   @Output() fieldValueChange = new EventEmitter<LfFieldValue>();
 
-  constructor() { }
+  constructor() {}
 
   onChange(event: LfFieldValue) {
     this.fieldValueChange.emit(event);

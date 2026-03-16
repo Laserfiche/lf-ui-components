@@ -10,12 +10,11 @@ import { LfFieldInfo } from './../../field-components/utils/lf-field-types';
  * Pipe that returns the localized field type, given a fieldInfo and a set of localized strings
  */
 @Pipe({
-    name: 'getFieldType',
-    standalone: true
+  name: 'getFieldType',
+  standalone: true,
 })
 export class GetFieldTypePipe implements PipeTransform {
-
-  constructor() { }
+  constructor() {}
 
   private localizedFieldTypes?: Map<string, Observable<string>>;
 
@@ -25,7 +24,10 @@ export class GetFieldTypePipe implements PipeTransform {
    * @param localizedFieldTypes A Map of various localized strings that correspond to different FieldTypes, (i.e. 'FIELD_TYPE_STRING')
    * @returns The localized field type
    */
-  transform(fieldInfo: LfFieldInfo, localizedFieldTypes: Map<string, Observable<string>>): Observable<string> | undefined {
+  transform(
+    fieldInfo: LfFieldInfo,
+    localizedFieldTypes: Map<string, Observable<string>>
+  ): Observable<string> | undefined {
     this.localizedFieldTypes = localizedFieldTypes;
     return this.getFieldType(fieldInfo);
   }

@@ -4,41 +4,67 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 @if (!isDynamic) {
   <span class="token-picker-field-box">
     @if (isShortField) {
-      <mat-form-field title="{{lf_field_info.displayName}}" appearance="outline" class="lf-field">
-        <input #tokenTarget matInput type="text" [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
-          (change)="onTextValueChanged()" (focus)="onFocusIn()" (focusout)="onFocusOut()"
-          (input)="onEveryInputChange()">
-          @if (focusState && this.lf_field_info.length) {
-            <mat-hint align="end">
-              {{containsToken ? (tokenCharacterCountHint | async) : (noTokenCharacterCountHint | async)}}
-            </mat-hint>
-          }
-          @if (getBrokenValidationRule()) {
-            <mat-error>{{fieldValidationErrorMsg | async}}</mat-error>
-          }
-        </mat-form-field>
-      }
-      @if (!isShortField) {
-        <mat-form-field title="{{lf_field_info.displayName}}" appearance="outline" class="lf-textarea">
-          <textarea #tokenTarget matInput type="text" [formControl]="lf_field_form_control" title="{{lf_field_form_control.value}}"
-            (change)="onTextValueChanged()" (focus)="onFocusIn()" (focusout)="onFocusOut()"
-          (input)="onEveryInputChange()"></textarea>
-          @if (focusState && this.lf_field_info?.length) {
-            <mat-hint align="end">
-              {{containsToken ? (tokenCharacterCountHint | async) : (noTokenCharacterCountHint | async)}}
-            </mat-hint>
-          }
-          @if (getBrokenValidationRule()) {
-            <mat-error>{{fieldValidationErrorMsg | async}}</mat-error>
-          }
-        </mat-form-field>
-      }
-      <lf-token-picker-component class="lf-field-token-picker" (tokenPicked)="onTextTokenChosen($event)" [data]="lfFieldTokenData">
-      </lf-token-picker-component>
-    </span>
-  } @else {
-    <lf-dynamic-field-component ngDefaultControl [options]="dynamic_field_value_options" [formControl]="lf_field_form_control"
-      [title]="lf_field_info.displayName" [fieldValidationErrorMsg]="fieldValidationErrorMsg"
-      [getBrokenValidationRule]="getBrokenValidationRule.bind(this)" (valueChange)="onTextValueChanged()">
-    </lf-dynamic-field-component>
-  }
+      <mat-form-field title="{{ lf_field_info.displayName }}" appearance="outline" class="lf-field">
+        <input
+          #tokenTarget
+          matInput
+          type="text"
+          [formControl]="lf_field_form_control"
+          title="{{ lf_field_form_control.value }}"
+          (change)="onTextValueChanged()"
+          (focus)="onFocusIn()"
+          (focusout)="onFocusOut()"
+          (input)="onEveryInputChange()"
+        />
+        @if (focusState && this.lf_field_info.length) {
+          <mat-hint align="end">
+            {{ containsToken ? (tokenCharacterCountHint | async) : (noTokenCharacterCountHint | async) }}
+          </mat-hint>
+        }
+        @if (getBrokenValidationRule()) {
+          <mat-error>{{ fieldValidationErrorMsg | async }}</mat-error>
+        }
+      </mat-form-field>
+    }
+    @if (!isShortField) {
+      <mat-form-field title="{{ lf_field_info.displayName }}" appearance="outline" class="lf-textarea">
+        <textarea
+          #tokenTarget
+          matInput
+          type="text"
+          [formControl]="lf_field_form_control"
+          title="{{ lf_field_form_control.value }}"
+          (change)="onTextValueChanged()"
+          (focus)="onFocusIn()"
+          (focusout)="onFocusOut()"
+          (input)="onEveryInputChange()"
+        ></textarea>
+        @if (focusState && this.lf_field_info?.length) {
+          <mat-hint align="end">
+            {{ containsToken ? (tokenCharacterCountHint | async) : (noTokenCharacterCountHint | async) }}
+          </mat-hint>
+        }
+        @if (getBrokenValidationRule()) {
+          <mat-error>{{ fieldValidationErrorMsg | async }}</mat-error>
+        }
+      </mat-form-field>
+    }
+    <lf-token-picker-component
+      class="lf-field-token-picker"
+      (tokenPicked)="onTextTokenChosen($event)"
+      [data]="lfFieldTokenData"
+    >
+    </lf-token-picker-component>
+  </span>
+} @else {
+  <lf-dynamic-field-component
+    ngDefaultControl
+    [options]="dynamic_field_value_options"
+    [formControl]="lf_field_form_control"
+    [title]="lf_field_info.displayName"
+    [fieldValidationErrorMsg]="fieldValidationErrorMsg"
+    [getBrokenValidationRule]="getBrokenValidationRule.bind(this)"
+    (valueChange)="onTextValueChanged()"
+  >
+  </lf-dynamic-field-component>
+}

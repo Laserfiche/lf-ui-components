@@ -13,9 +13,9 @@ import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-use
 import { UserFeedbackDialogComponent } from './user-feedback-dialog.component';
 
 @Component({
-    selector: 'lf-feedback-suggestion-selection',
-    template: '<p>Mock Feedback Suggestion Selection Component</p>',
-    standalone: true
+  selector: 'lf-feedback-suggestion-selection',
+  template: '<p>Mock Feedback Suggestion Selection Component</p>',
+  standalone: true,
 })
 class MockFeedBackSuggestionSelectionComponent {}
 
@@ -39,11 +39,11 @@ describe('UserFeedbackDialogComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
       ],
     })
-    .overrideComponent(UserFeedbackDialogComponent, {
-      remove: { imports: [FeedbackSuggestionSelectionComponent] },
-      add: { imports: [MockFeedBackSuggestionSelectionComponent] },
-    })
-    .compileComponents();
+      .overrideComponent(UserFeedbackDialogComponent, {
+        remove: { imports: [FeedbackSuggestionSelectionComponent] },
+        add: { imports: [MockFeedBackSuggestionSelectionComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -99,63 +99,63 @@ describe('UserFeedbackDialogComponent', () => {
 
   it('should disable submit button when textbox is whitespace', () => {
     return new Promise<void>((done) => {
-    goToFeedbackMode();
-    const text = '     ';
-    triggerFeedbackTextChangedEventWith(text);
-    window.setTimeout(() => {
-      expect(component.isSubmitDisabled).toBe(true);
-      // @ts-ignore
-      expect(component.feedbackText).toBe(text);
-      done();
-    }, 350);
+      goToFeedbackMode();
+      const text = '     ';
+      triggerFeedbackTextChangedEventWith(text);
+      window.setTimeout(() => {
+        expect(component.isSubmitDisabled).toBe(true);
+        // @ts-ignore
+        expect(component.feedbackText).toBe(text);
+        done();
+      }, 350);
     });
   });
 
   it('should enable submit button when textbox has non-whitespace value', () => {
     return new Promise<void>((done) => {
-    goToFeedbackMode();
-    const text = 'Hello';
-    triggerFeedbackTextChangedEventWith(text);
-    window.setTimeout(() => {
-      expect(component.isSubmitDisabled).toBe(false);
-      // @ts-ignore
-      expect(component.feedbackText).toBe(text);
-      done();
-    }, 350);
+      goToFeedbackMode();
+      const text = 'Hello';
+      triggerFeedbackTextChangedEventWith(text);
+      window.setTimeout(() => {
+        expect(component.isSubmitDisabled).toBe(false);
+        // @ts-ignore
+        expect(component.feedbackText).toBe(text);
+        done();
+      }, 350);
     });
   });
 
   it('should enable submit button when textbox has non-whitespace value and when email is disabled', () => {
     return new Promise<void>((done) => {
-    goToFeedbackMode();
-    triggerFeedbackTextChangedEventWith('Hello');
-    component.feedbackSubmission!.feedbackEmailCheckbox = false;
-    window.setTimeout(() => {
-      expect(component.isSubmitDisabled).toBe(false);
-      done();
-    }, 350);
+      goToFeedbackMode();
+      triggerFeedbackTextChangedEventWith('Hello');
+      component.feedbackSubmission!.feedbackEmailCheckbox = false;
+      window.setTimeout(() => {
+        expect(component.isSubmitDisabled).toBe(false);
+        done();
+      }, 350);
     });
   });
 
   it('getFeedbackDialogData should get feedback dialog data', () => {
     return new Promise<void>((done) => {
-    goToFeedbackMode();
-    const text = 'Hello';
-    triggerFeedbackTextChangedEventWith(text);
+      goToFeedbackMode();
+      const text = 'Hello';
+      triggerFeedbackTextChangedEventWith(text);
 
-    component.feedbackSubmission!.feedbackEmailCheckbox = false;
-    const expectedDialogData: UserFeedbackDialogData = {
-      canContact: component.feedbackSubmission!.feedbackEmailCheckbox,
-      userFeedbackTrackingEventType: UserFeedbackTrackingEventType.Feedback,
-      feedbackText: text,
-      feedbackImageBase64: component.feedbackSubmission!.feedbackImageBase64,
-    };
-    window.setTimeout(() => {
-      // @ts-ignore
-      const dialogData = component.getFeedbackDialogData();
-      expect(dialogData).toEqual(expectedDialogData);
-      done();
-    }, 350);
+      component.feedbackSubmission!.feedbackEmailCheckbox = false;
+      const expectedDialogData: UserFeedbackDialogData = {
+        canContact: component.feedbackSubmission!.feedbackEmailCheckbox,
+        userFeedbackTrackingEventType: UserFeedbackTrackingEventType.Feedback,
+        feedbackText: text,
+        feedbackImageBase64: component.feedbackSubmission!.feedbackImageBase64,
+      };
+      window.setTimeout(() => {
+        // @ts-ignore
+        const dialogData = component.getFeedbackDialogData();
+        expect(dialogData).toEqual(expectedDialogData);
+        done();
+      }, 350);
     });
   });
 });

@@ -5,8 +5,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 <p class="documentation-text">
   Starting with the Angular 21 version, all Laserfiche UI Components are <b>standalone</b> and <b>zoneless</b>.
-  NgModules (e.g. <code>LfChecklistModule</code>, <code>LfRepositoryBrowserModule</code>) have been removed.
-  Components are now imported directly into other standalone components.
+  NgModules (e.g. <code>LfChecklistModule</code>, <code>LfRepositoryBrowserModule</code>) have been removed. Components
+  are now imported directly into other standalone components.
 </p>
 
 <div class="toc-container">
@@ -22,10 +22,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 <h2 id="overview">Overview of Changes</h2>
 <ul>
-  <li class="documentation-text"><b>No more NgModules:</b> <code>LfChecklistModule</code>, <code>LfLoginModule</code>,
-    <code>LfMetadataModule</code>, <code>LfUserFeedbackModule</code>, and <code>LfRepositoryBrowserModule</code> have been removed.</li>
-  <li class="documentation-text"><b>Standalone components:</b> Import components directly (e.g. <code>LfChecklistComponent</code>)
-    into your standalone component's <code>imports</code> array.</li>
+  <li class="documentation-text">
+    <b>No more NgModules:</b> <code>LfChecklistModule</code>, <code>LfLoginModule</code>, <code>LfMetadataModule</code>,
+    <code>LfUserFeedbackModule</code>, and <code>LfRepositoryBrowserModule</code> have been removed.
+  </li>
+  <li class="documentation-text">
+    <b>Standalone components:</b> Import components directly (e.g. <code>LfChecklistComponent</code>) into your
+    standalone component's <code>imports</code> array.
+  </li>
   <li class="documentation-text"><b>Zoneless:</b> Laserfiche components no longer depend on <code>zone.js</code>.</li>
 </ul>
 
@@ -45,7 +49,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li class="num-list">
     <b>Make your components standalone.</b>
     <p class="documentation-text">
-      Add <code>standalone: true</code> to each component that uses Laserfiche UI Components (if not already standalone).
+      Add <code>standalone: true</code> to each component that uses Laserfiche UI Components (if not already
+      standalone).
     </p>
   </li>
   <li class="num-list">
@@ -162,8 +167,8 @@ this.<span class="code-ts-key-name">checklist</span>.<span class="code-ts-functi
   </li>
 </ol>
 <p class="documentation-text">
-  Note: Going zoneless in your own app is optional. The Laserfiche UI Components work correctly
-  whether your app uses <code>zone.js</code> or not.
+  Note: Going zoneless in your own app is optional. The Laserfiche UI Components work correctly whether your app uses
+  <code>zone.js</code> or not.
 </p>
 
 <h2 id="before-after">Before &amp; After Examples</h2>

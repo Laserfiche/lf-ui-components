@@ -17,15 +17,23 @@ import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.co
 import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
-    selector: 'lf-date-field-component',
-    templateUrl: './date-field.component.html',
-    styleUrls: ['./date-field.component.css', './../lf-field-base/lf-field-base.component.css'],
-    providers: [
-        { provide: DateTimeBaseFieldDirective, useExisting: DateFieldComponent },
-        { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-    ],
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, UniDateTimeComponent, LfTokenPickerComponent, DynamicFieldComponent]
+  selector: 'lf-date-field-component',
+  templateUrl: './date-field.component.html',
+  styleUrls: ['./date-field.component.css', './../lf-field-base/lf-field-base.component.css'],
+  providers: [
+    { provide: DateTimeBaseFieldDirective, useExisting: DateFieldComponent },
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    UniDateTimeComponent,
+    LfTokenPickerComponent,
+    DynamicFieldComponent,
+  ],
 })
 export class DateFieldComponent extends DateTimeBaseFieldDirective implements OnInit {
   private LOCALE_DATE: Observable<string> | undefined;
@@ -68,10 +76,7 @@ export class DateFieldComponent extends DateTimeBaseFieldDirective implements On
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
     switch (validationRuleName) {
       case ValidationRule.DATEPICKER_PARSE:
-        if (
-          this.lf_field_form_control.errors &&
-          ValidationRule.DATEPICKER_PARSE in this.lf_field_form_control.errors
-        ) {
+        if (this.lf_field_form_control.errors && ValidationRule.DATEPICKER_PARSE in this.lf_field_form_control.errors) {
           this.LOCALE_DATE = of(this.lf_field_form_control.errors[ValidationRule.DATEPICKER_PARSE].dateTimeFormat);
           var errorMessage = this.localizationService.getStringLaserficheWithObservableParams(
             'DATE_FIELDS_MUST_BE_IN_FORMAT_0',

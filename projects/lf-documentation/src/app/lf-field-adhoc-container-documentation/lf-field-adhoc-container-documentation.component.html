@@ -1,27 +1,25 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-<p class="documentation-title">
-  LfFieldAdhocContainer
-</p>
+<p class="documentation-title">LfFieldAdhocContainer</p>
 
 <p class="documentation-text code-container">
   <code>
-      <span class="code-html-tagname">&lt;lf-field-adhoc-container&gt;&lt;/lf-field-adhoc-container&gt;</span>
+    <span class="code-html-tagname">&lt;lf-field-adhoc-container&gt;&lt;/lf-field-adhoc-container&gt;</span>
   </code>
 </p>
 <p class="documentation-text code-container">
   <code>
-        <span class="code-html-tagname">const </span>
-        <span>adhocContainerElement</span>
-        <span> = </span>
-        <span>document.querySelector('lf-field-adhoc-container');</span>
-        <p>adhocContainerElement.addEventListener('fieldValuesChanged', onElementFieldValueChange(event));</p>
-        <p>await adhocContainerElement.initAsync(adhocProvidersObject);</p>
-    </code>
+    <span class="code-html-tagname">const </span>
+    <span>adhocContainerElement</span>
+    <span> = </span>
+    <span>document.querySelector('lf-field-adhoc-container');</span>
+    <p>adhocContainerElement.addEventListener('fieldValuesChanged', onElementFieldValueChange(event));</p>
+    <p>await adhocContainerElement.initAsync(adhocProvidersObject);</p>
+  </code>
 </p>
 <app-card>
-  <div style="min-height: 300px;">
+  <div style="min-height: 300px">
     <lf-field-adhoc-container-component #adhocContainer (fieldValuesChanged)="onElementFieldValueChange($event)">
     </lf-field-adhoc-container-component>
   </div>
@@ -30,24 +28,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <button (click)="elementForceValidation()" class="primary-button lf-button">Force Validation</button>
 <button (click)="elementGetFieldValues()" class="primary-button lf-button">Log Field Values</button>
 <button (click)="elementClearFieldValuesAsync()" class="primary-button lf-button">Clear Field Values</button>
-<br>
+<br />
 <textarea disabled cols="80" rows="10">Container is valid: {{ elementIsValid }}</textarea>
-<p class="documentation-header">
-  Overview
-</p>
-<p class="documentation-text">
-  Web Component that contains single-value and multi-value fields
-</p>
-<p class="documentation-header">
-  Use Case
-</p>
+<p class="documentation-header">Overview</p>
+<p class="documentation-text">Web Component that contains single-value and multi-value fields</p>
+<p class="documentation-header">Use Case</p>
 <p class="documentation-text">
   The adhoc container is used for fields that do not belong in a template. The user can add, remove, and edit fields
   from a pre-defined list.
 </p>
-<p class="documentation-header">
-  HTML Element
-</p>
+<p class="documentation-header">HTML Element</p>
 
 <table>
   <tr>
@@ -57,21 +47,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </tr>
   <tr>
     <td>fieldValuesChanged</td>
-    <td>() => CustomEvent &lt;boolean&gt; </td>
-    <td>Event emitted when any field values are changed. Emits whether adhoc container is valid or not without
-      forcing validation.</td>
+    <td>() => CustomEvent &lt;boolean&gt;</td>
+    <td>
+      Event emitted when any field values are changed. Emits whether adhoc container is valid or not without forcing
+      validation.
+    </td>
   </tr>
   <tr>
     <td>dialogOpened</td>
     <td>() => CustomEvent&lt;void&gt;</td>
-    <td>Event emitted when the adhoc field selector is opened.
-    </td>
+    <td>Event emitted when the adhoc field selector is opened.</td>
   </tr>
   <tr>
     <td>dialogClosed</td>
     <td>() => CustomEvent&lt;void&gt;</td>
-    <td>Event emitted when the adhoc field selector is closed.
-    </td>
+    <td>Event emitted when the adhoc field selector is closed.</td>
   </tr>
 </table>
 <br />
@@ -89,15 +79,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <tr>
     <td>forceValidation</td>
     <td>() => boolean</td>
-    <td>Function that triggers any validation messages and returns whether or not the fields in the container are
-      valid</td>
+    <td>
+      Function that triggers any validation messages and returns whether or not the fields in the container are valid
+    </td>
   </tr>
   <tr>
     <td>getFieldValues</td>
     <td>() => &#123;[key: string]: FieldValue&#125;</td>
-    <td>Function that removes blank values and returns an object, keyed by fieldName, of FieldValues (which contains
-      the updated,
-      serialized string values)</td>
+    <td>
+      Function that removes blank values and returns an object, keyed by fieldName, of FieldValues (which contains the
+      updated, serialized string values)
+    </td>
   </tr>
   <tr>
     <td>resetFieldDataAsync</td>
@@ -116,9 +108,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </tr>
 </table>
 
-<p class="documentation-sub-header">
-  LfFieldAdhocContainerService Interface
-</p>
+<p class="documentation-sub-header">LfFieldAdhocContainerService Interface</p>
 <ul>
   <li>getAllFieldDefinitionsAsync() : Promise&lt;LfFieldInfo[]&gt;</li>
 </ul>

@@ -22,7 +22,7 @@ describe('ListFieldComponent', () => {
     description: 'List Description',
     fieldType: FieldType.List,
     isRequired: true,
-    displayName: 'List Name'
+    displayName: 'List Name',
   };
 
   beforeEach(async () => {
@@ -33,8 +33,8 @@ describe('ListFieldComponent', () => {
         FormsModule,
         MatFormFieldModule,
         MatSelectModule,
-        ReactiveFormsModule
-      ]
+        ReactiveFormsModule,
+      ],
     }).compileComponents();
   });
 

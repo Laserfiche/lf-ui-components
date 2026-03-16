@@ -11,9 +11,8 @@ describe('LfToolbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatMenuModule, LfToolbarComponent]
-    })
-      .compileComponents();
+      imports: [MatMenuModule, LfToolbarComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

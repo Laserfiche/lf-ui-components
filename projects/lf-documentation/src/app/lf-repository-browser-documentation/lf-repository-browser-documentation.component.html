@@ -13,7 +13,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <label>Web Element with LfToolbar</label>
   <br />
   <code>
-    <span class="code-html-tagname">&lt;lf-repository-browser&gt;&lt;lf-toolbar&gt;&lt;/lf-toolbar&gt;&lt;/lf-repository-browser&gt;</span>
+    <span class="code-html-tagname"
+      >&lt;lf-repository-browser&gt;&lt;lf-toolbar&gt;&lt;/lf-toolbar&gt;&lt;/lf-repository-browser&gt;</span
+    >
   </code>
 </p>
 <p class="documentation-text code-container">
@@ -34,7 +36,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <span>document.querySelector('lf-repository-browser');</span>
     <p>repoBrowser.addEventListener('entrySelected', onElementNodeSelected(event));</p>
     <p>await repoBrowser.initAsync(treeProvidersObject);</p>
-    <p>const create: ColumnDef = 	&#123; id: 'creationTime', displayName: 'Creation Date', defaultWidth: '40%', minWidthPx: 100, resizable: true, sortable: true &#125;;</p>
+    <p>
+      const create: ColumnDef = &#123; id: 'creationTime', displayName: 'Creation Date', defaultWidth: '40%',
+      minWidthPx: 100, resizable: true, sortable: true &#125;;
+    </p>
     <p>const columns: ColumnDef[] = [create];</p>
     <p>repoBrowser.setAdditionalColumnsToDisplay(columns);</p>
   </code>
@@ -52,12 +57,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 </label>
 <div class="column-checkbox-section documentation-text">
   Columns to display:
-  <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="singleColChange()" [(ngModel)]="creation_col_single"
+  <mat-checkbox
+    class="lf-checkbox checkbox-left-padding"
+    color="primary"
+    (change)="singleColChange()"
+    [(ngModel)]="creation_col_single"
     >Creation Date</mat-checkbox
   >
-  <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="singleColChange()" [(ngModel)]="number_col_single"
+  <mat-checkbox
+    class="lf-checkbox checkbox-left-padding"
+    color="primary"
+    (change)="singleColChange()"
+    [(ngModel)]="number_col_single"
     >Number Column</mat-checkbox
-  ></div>
+  >
+</div>
 <app-card>
   <lf-repository-browser-component
     multiple="false"
@@ -67,7 +81,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     (entryFocused)="onEntryFocused($event)"
     style="height: 500px"
     #singleSelectRepoBrowser
-  ><lf-toolbar-component [dropdown_options]="elementToolbarOptions"></lf-toolbar-component></lf-repository-browser-component>
+    ><lf-toolbar-component [dropdown_options]="elementToolbarOptions"></lf-toolbar-component
+  ></lf-repository-browser-component>
 </app-card>
 
 <label>
@@ -84,10 +99,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <button class="lf-button primary-button" (click)="onRefresh()">Refresh and clear selected</button>
 <div class="column-checkbox-section documentation-text">
   Columns to display:
-  <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="multiColChange()" [(ngModel)]="creation_col_multi"
+  <mat-checkbox
+    class="lf-checkbox checkbox-left-padding"
+    color="primary"
+    (change)="multiColChange()"
+    [(ngModel)]="creation_col_multi"
     >Creation Date</mat-checkbox
   >
-  <mat-checkbox class="lf-checkbox checkbox-left-padding" color="primary" (change)="multiColChange()" [(ngModel)]="number_col_multi"
+  <mat-checkbox
+    class="lf-checkbox checkbox-left-padding"
+    color="primary"
+    (change)="multiColChange()"
+    [(ngModel)]="number_col_multi"
     >Number Column</mat-checkbox
   >
 </div>
@@ -192,9 +215,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <td>(treeNodeService: LfTreeNodeService, initialOpenedNode?: LfTreeNode | string) => Promise&lt;void&gt;</td>
     <td>
       Initializes the lf-repository-browser with an LfTreeNodeService. You <b>must</b> call this method. Each time this
-      is called, the state of lf-repository-browser is reset. If an initialOpenedNode is specified, the tree is directly opened
-      to that node. The initialOpenedNode can be a LfTreeNode or an identifier for a node. The identifier should match the implementation
-      for the service method getTreeNodeByIdentifierAsync (i.e. path, id, etc.).
+      is called, the state of lf-repository-browser is reset. If an initialOpenedNode is specified, the tree is directly
+      opened to that node. The initialOpenedNode can be a LfTreeNode or an identifier for a node. The identifier should
+      match the implementation for the service method getTreeNodeByIdentifierAsync (i.e. path, id, etc.).
     </td>
   </tr>
   <tr>
@@ -207,15 +230,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <tr>
     <td>refreshAsync</td>
     <td>(clearSelectedValues?: boolean) => Promise&lt;void&gt;</td>
-    <td>Refreshes the current folder. Calls for all of the data again. By default will clear all currently selected values.</td>
+    <td>
+      Refreshes the current folder. Calls for all of the data again. By default will clear all currently selected
+      values.
+    </td>
   </tr>
   <tr>
     <td>openSelectedNodesAsync</td>
     <td>() => Promise&lt;void&gt;</td>
     <td>
-      Opens the selected nodes. If one container is selected it will open that folder in the UI and emit the entryDblClicked event, if multiple items or an
-      item that is not a container is selected, then this function will just emit the entryDblClicked event with the
-      selected nodes.
+      Opens the selected nodes. If one container is selected it will open that folder in the UI and emit the
+      entryDblClicked event, if multiple items or an item that is not a container is selected, then this function will
+      just emit the entryDblClicked event with the selected nodes.
     </td>
   </tr>
   <tr>
@@ -224,8 +250,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <td>
       Opens the focused node (the one with a thick blue line around it in the UI). If a container is focused it will
       open that folder in the UI, if an item that is not a container is selected, then this function will just emit the
-      entryDblClicked event with the focused node. Note: Be sure to call this when the focus is still on the item. This may
-      require adding preventDefault on a click event to stop the item from losing focus
+      entryDblClicked event with the focused node. Note: Be sure to call this when the focus is still on the item. This
+      may require adding preventDefault on a click event to stop the item from losing focus
     </td>
   </tr>
   <tr>
@@ -246,8 +272,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <tr>
     <td>setColumnsToDisplay</td>
     <td>(ColumnDef[]) => void</td>
-    <td>Set the columns to display.<br/>
-      Note 1: The default column with id = 'name' cannot be removed but its definition can be updated.<br/>
+    <td>
+      Set the columns to display.<br />
+      Note 1: The default column with id = 'name' cannot be removed but its definition can be updated.<br />
       Note 2: It may be necessary ta call refreshAsync after adding new columns to fetch the data.
     </td>
   </tr>
@@ -257,7 +284,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <ul>
   <li>getRootTreeNodeAsync() : Promise&lt;LfTreeNode&gt;</li>
   <li>
-    getFolderChildrenAsync(folder: LfTreeNode, nextPage: string | undefined, orderBy?: ColumnOrderBy): Promise&lt;LfTreeNodePage&gt;
+    getFolderChildrenAsync(folder: LfTreeNode, nextPage: string | undefined, orderBy?: ColumnOrderBy):
+    Promise&lt;LfTreeNodePage&gt;
     <ul>
       <li>The LfTreeNodePage that this returns represents one page of data, not the cumulative data</li>
     </ul>
@@ -274,15 +302,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li>
     getTreeNodeByIdentifierAsync(identifier: string): Promise&lt;LfTreeNode | undefined&gt;
     <ul>
+      <li>Returns the LfTreeNode specified by the identifier.</li>
       <li>
-        Returns the LfTreeNode specified by the identifier.
+        This function must support getting the LfTreeNode by Id, optionally by secondary identifiers, such as the path,
+        etc.
       </li>
       <li>
-        This function must support getting the LfTreeNode by Id, optionally by secondary identifiers, such as the path, etc.
-      </li>
-      <li>
-        If you use initAsync with an initialOpenedNode specified by string, it should
-        match the implementation of identifier for this function.
+        If you use initAsync with an initialOpenedNode specified by string, it should match the implementation of
+        identifier for this function.
       </li>
     </ul>
   </li>

@@ -12,8 +12,5 @@ if (environment.production) {
 }
 
 createApplication({
-  providers: [
-    provideAnimations(),
-    provideZonelessChangeDetection(),
-  ]
-}).catch(err => console.error(err));
+  providers: [provideAnimations(), provideZonelessChangeDetection()],
+}).catch((err) => console.error(err));

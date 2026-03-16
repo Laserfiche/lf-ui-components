@@ -84,7 +84,7 @@ export class LfFieldComponent {
   initAsync = async (
     field: LfFieldInfo,
     fieldValue: LfFieldValue = '',
-    dynamicFieldValueOptions?: string[],
+    dynamicFieldValueOptions?: string[]
   ): Promise<void> => {
     this.lfFieldInfo = CoreUtils.validateDefined(field, 'field');
     this.lfFieldValue = this.getInitialValue(fieldValue);

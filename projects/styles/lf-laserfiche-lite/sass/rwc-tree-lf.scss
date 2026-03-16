@@ -5,7 +5,7 @@
   font: typography-lf.$body-stack;
   color: typography-lf.$body-color;
   &.selected {
-    background-color: #EAF5FF;
+    background-color: #eaf5ff;
     border: 1px solid typography-lf.$link-color;
   }
   &.selectable:hover {

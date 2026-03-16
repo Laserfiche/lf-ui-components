@@ -13,61 +13,55 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       id: 1,
       fieldType: FieldType.String,
       isMultiValue: true,
-      displayName: 'Attendance List'
+      displayName: 'Attendance List',
     },
     {
       name: 'Full Name',
       id: 2,
       fieldType: FieldType.String,
       isRequired: true,
-      displayName: 'Full Name'
+      displayName: 'Full Name',
     },
     {
-
       name: 'Birthdays',
       id: 3,
       fieldType: FieldType.Date,
       format: FieldFormat.LongDate,
       isMultiValue: true,
-      displayName: 'Birthdays'
+      displayName: 'Birthdays',
     },
     {
-
       name: 'Birthdays w/ Time',
       id: 4,
       fieldType: FieldType.DateTime,
       format: FieldFormat.LongDateTime,
       isMultiValue: true,
-      displayName: 'Birthdays w/ Time'
+      displayName: 'Birthdays w/ Time',
     },
     {
-
       name: 'Start Times',
       id: 5,
       fieldType: FieldType.Time,
       format: FieldFormat.ShortTime,
       isMultiValue: true,
-      displayName: 'Start Times'
+      displayName: 'Start Times',
     },
     {
-
       name: 'Number (no format)',
       id: 6,
       fieldType: FieldType.Number,
       format: FieldFormat.GeneralNumber,
-      displayName: 'Number (no format)'
+      displayName: 'Number (no format)',
     },
     {
-
       name: 'Amount (AUD)',
       id: 61,
       fieldType: FieldType.Number,
       format: FieldFormat.Currency,
       currency: 'AUD',
-      displayName: 'Amount (AUD)'
+      displayName: 'Amount (AUD)',
     },
     {
-
       name: 'Test Scores',
       id: 62,
       fieldType: FieldType.Number,
@@ -75,73 +69,65 @@ export class LfFieldAdhocContainerDemoService implements LfFieldAdhocContainerSe
       isMultiValue: true,
       constraint: '>=0&<=100',
       constraintError: 'Must be between 0-100.',
-      displayName: 'Test Scores'
+      displayName: 'Test Scores',
     },
     {
-
       name: 'Calories Per Serving',
       id: 63,
       fieldType: FieldType.Number,
       format: FieldFormat.Scientific,
-      displayName: 'Calories Per Serving'
+      displayName: 'Calories Per Serving',
     },
     {
-
       name: 'General Number',
       id: 64,
       fieldType: FieldType.Number,
       format: FieldFormat.GeneralNumber,
-      displayName: 'General Number'
+      displayName: 'General Number',
     },
     {
-
       name: 'Int',
       id: 7,
       fieldType: FieldType.ShortInteger,
       format: FieldFormat.GeneralNumber,
-      displayName: 'Int'
+      displayName: 'Int',
     },
     {
-
       name: 'LongInt',
       id: 8,
       fieldType: FieldType.LongInteger,
       format: FieldFormat.GeneralNumber,
-      displayName: 'LongInt'
+      displayName: 'LongInt',
     },
     {
-
       name: 'Additional Comments',
       id: 9,
       fieldType: FieldType.String,
       format: FieldFormat.None,
       isRequired: true,
       length: 200,
-      displayName: 'Additional Comments'
+      displayName: 'Additional Comments',
     },
     {
-
       name: 'Date',
       id: 11,
       fieldType: FieldType.Date,
       format: FieldFormat.LongDate,
-      displayName: 'Date'
+      displayName: 'Date',
     },
     {
-
       name: 'DateTime',
       id: 12,
       fieldType: FieldType.DateTime,
       format: FieldFormat.LongDateTime,
-      displayName: 'DateTime'
+      displayName: 'DateTime',
     },
     {
-
       name: 'Time',
       id: 13,
       fieldType: FieldType.Time,
       format: FieldFormat.LongTime,
-      displayName: 'Time'
+      displayName: 'Time',
     },
   ];
   values: FieldValue[] = [

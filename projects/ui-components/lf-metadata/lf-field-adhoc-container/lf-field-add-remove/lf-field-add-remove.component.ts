@@ -1,7 +1,17 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, EventEmitter, Output, Input, ChangeDetectorRef, AfterViewInit, ViewChild, TemplateRef, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  Input,
+  ChangeDetectorRef,
+  AfterViewInit,
+  ViewChild,
+  TemplateRef,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -15,7 +25,14 @@ import { LfFieldAdhocContainerService } from '../lf-field-adhoc-container.servic
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { LfFieldInfo } from '../../field-components/utils/lf-field-types';
 import { Observable } from 'rxjs';
-import { PopupModalResult, AppLocalizationService, filterObjectsByName, PopupModalData, LfLoaderComponent, LfPopupModalComponent } from '@laserfiche/lf-ui-components/internal-shared';
+import {
+  PopupModalResult,
+  AppLocalizationService,
+  filterObjectsByName,
+  PopupModalData,
+  LfLoaderComponent,
+  LfPopupModalComponent,
+} from '@laserfiche/lf-ui-components/internal-shared';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 import { GetFieldTypePipe } from './get-field-type.pipe';
 
@@ -26,18 +43,27 @@ export enum AddRemoveState {
   DEFAULT = 'default',
   LOADING = 'isLoading',
   HAS_ERROR = 'hasError',
-  DISPLAY_FIELD = 'displayField'
+  DISPLAY_FIELD = 'displayField',
 }
 
 /**
  * @internal
  */
 @Component({
-    selector: 'lf-field-add-remove-component',
-    templateUrl: './lf-field-add-remove.component.html',
-    styleUrls: ['./lf-field-add-remove.component.css'],
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, A11yModule, ScrollingModule, MatCheckboxModule, LfLoaderComponent, LfPopupModalComponent, GetFieldTypePipe]
+  selector: 'lf-field-add-remove-component',
+  templateUrl: './lf-field-add-remove.component.html',
+  styleUrls: ['./lf-field-add-remove.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    A11yModule,
+    ScrollingModule,
+    MatCheckboxModule,
+    LfLoaderComponent,
+    LfPopupModalComponent,
+    GetFieldTypePipe,
+  ],
 })
 export class LfFieldAddRemoveComponent implements AfterViewInit {
   private adHocConnectorService = inject(AdhocFieldConnectorService);
@@ -46,13 +72,17 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   private localizationService = inject(AppLocalizationService);
 
   private readonly APPLY_CHANGES = this.localizationService.getStringLaserficheObservable('APPLY_CHANGES');
-  private readonly DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES = this.localizationService.getStringLaserficheObservable('DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES');
+  private readonly DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES = this.localizationService.getStringLaserficheObservable(
+    'DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES'
+  );
   private readonly YES = this.localizationService.getStringLaserficheObservable('YES');
   private readonly NO = this.localizationService.getStringLaserficheObservable('NO');
   readonly CANCEL: Observable<string> = this.localizationService.getStringLaserficheObservable('CANCEL');
   readonly APPLY: Observable<string> = this.localizationService.getStringLaserficheObservable('APPLY');
-  readonly ADD_REMOVE_FIELDS: Observable<string> = this.localizationService.getStringLaserficheObservable('ADD_REMOVE_FIELDS');
-  readonly NO_MATCHING_FIELDS_FOUND: Observable<string> = this.localizationService.getStringLaserficheObservable('NO_MATCHING_FIELDS_FOUND');
+  readonly ADD_REMOVE_FIELDS: Observable<string> =
+    this.localizationService.getStringLaserficheObservable('ADD_REMOVE_FIELDS');
+  readonly NO_MATCHING_FIELDS_FOUND: Observable<string> =
+    this.localizationService.getStringLaserficheObservable('NO_MATCHING_FIELDS_FOUND');
   readonly SEARCH_FIELDS: Observable<string> = this.localizationService.getStringLaserficheObservable('SEARCH_FIELDS');
   readonly AN_ERROR_OCCURED = this.localizationService.getStringLaserficheObservable('AN_ERROR_OCCURED');
 
@@ -99,8 +129,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
       this.state = AddRemoveState.LOADING;
       await this.loadFieldDefinitionsInOrderAsync();
       this.state = AddRemoveState.DISPLAY_FIELD;
-    }
-    catch (error) {
+    } catch (error) {
       this.state = AddRemoveState.HAS_ERROR;
       console.error(error);
     }
@@ -123,26 +152,21 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
         popupMessage: this.DO_YOU_WANT_TO_APPLY_YOUR_FIELD_CHANGES,
         cancelButtonText: this.CANCEL,
         confirmButtonText: this.YES,
-        noButtonText: this.NO
+        noButtonText: this.NO,
       };
-      this.dialogRef = this.popupDialog.open(
-        this.popupModal!,
-        {
-          width: '280px',
-          maxWidth: 'none',
-          data: popupModalData
-        }
-      );
+      this.dialogRef = this.popupDialog.open(this.popupModal!, {
+        width: '280px',
+        maxWidth: 'none',
+        data: popupModalData,
+      });
 
       const result = await this.dialogRef.afterClosed().toPromise();
       if (result === PopupModalResult.CONFIRM) {
         this.onClickApply();
-      }
-      else if (result === PopupModalResult.NO) {
+      } else if (result === PopupModalResult.NO) {
         this.onConfirmNo();
       }
-    }
-    else {
+    } else {
       this.state = AddRemoveState.DEFAULT;
       this.clickBack.emit();
     }
@@ -195,8 +219,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   private updateSelectedOptions(checked: boolean, field: LfFieldInfo) {
     if (checked) {
       this.selectedFieldIds.add(field.id);
-    }
-    else {
+    } else {
       this.selectedFieldIds.delete(field.id);
     }
   }
@@ -210,12 +233,16 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   }
 
   private partitionFieldInfos(fieldDefinitions: AdhocFieldInfo[]) {
-    const selectedFieldInfos: AdhocFieldInfo[] = fieldDefinitions?.filter(
-      (fieldInfo) => (this.selectedFieldIds.has(fieldInfo.id) && !fieldInfo.inTemplateSelected)) ?? [];
-    const unselectedFieldInfos: LfFieldInfo[] = fieldDefinitions?.filter(
-      (fieldInfo) => !(this.selectedFieldIds.has(fieldInfo.id) || fieldInfo.inTemplateSelected)) ?? [];
-    const disabledFields: AdhocFieldInfo[] = fieldDefinitions?.filter(
-      (fieldInfo) => fieldInfo.inTemplateSelected) ?? [];
+    const selectedFieldInfos: AdhocFieldInfo[] =
+      fieldDefinitions?.filter(
+        (fieldInfo) => this.selectedFieldIds.has(fieldInfo.id) && !fieldInfo.inTemplateSelected
+      ) ?? [];
+    const unselectedFieldInfos: LfFieldInfo[] =
+      fieldDefinitions?.filter(
+        (fieldInfo) => !(this.selectedFieldIds.has(fieldInfo.id) || fieldInfo.inTemplateSelected)
+      ) ?? [];
+    const disabledFields: AdhocFieldInfo[] =
+      fieldDefinitions?.filter((fieldInfo) => fieldInfo.inTemplateSelected) ?? [];
 
     const allOrderedFields = selectedFieldInfos.concat(unselectedFieldInfos).concat(disabledFields);
     return allOrderedFields;
@@ -227,47 +254,44 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
     return selectedItemExists || isSelected;
   }
 
-
   getAppliedFields() {
     this.selectedFieldIds = this.adHocConnectorService.getSelectedFieldIds();
   }
 
   private async loadFieldDefinitionsInOrderAsync(): Promise<void> {
-  const fieldInfos: LfFieldInfo[] = await this.getCurrentFieldOptionsAsync();
-  this.allFieldInfos = this.orderFieldInfosByName(fieldInfos);
-  this.adHocConnectorService.setAllFieldInfos(this.allFieldInfos);
-}
-
-  private async getCurrentFieldOptionsAsync(): Promise<LfFieldInfo[]> {
-      const fieldInfos: AdhocFieldInfo[] = await this.adhocFieldContainerService.getAllFieldDefinitionsAsync();
-      const fieldDefinitions = fieldInfos.filter((val) => {
-        const validFieldType: boolean = val.fieldType in FieldType && val.fieldType !== FieldType.Blob;
-        if (!validFieldType) {
-          console.warn(`Invalid FieldType: ${val.fieldType}. Will not display field with name: ${val.name}`);
-        }
-        return validFieldType;
-      });
-      this.adHocConnectorService.setAllFieldInfos(fieldDefinitions);
-
-      if (fieldDefinitions?.length === 0) {
-        console.warn('getAllFieldDefinitionsAsync returned no definitions');
-      }
-      return fieldDefinitions;
+    const fieldInfos: LfFieldInfo[] = await this.getCurrentFieldOptionsAsync();
+    this.allFieldInfos = this.orderFieldInfosByName(fieldInfos);
+    this.adHocConnectorService.setAllFieldInfos(this.allFieldInfos);
   }
 
-    /** @internal */
-    private orderFieldInfosByName(fieldInfos: LfFieldInfo[]): LfFieldInfo[] {
-      if (fieldInfos) {
-        const sortSelectedFieldInfosAlphabetically = fieldInfos?.sort((a, b) => {
-          const aName = a.name?.toLowerCase() ?? '';
-          const bName = b.name?.toLowerCase() ?? '';
-          return aName < bName ? -1 : 1;
-        });
-        return sortSelectedFieldInfosAlphabetically;
+  private async getCurrentFieldOptionsAsync(): Promise<LfFieldInfo[]> {
+    const fieldInfos: AdhocFieldInfo[] = await this.adhocFieldContainerService.getAllFieldDefinitionsAsync();
+    const fieldDefinitions = fieldInfos.filter((val) => {
+      const validFieldType: boolean = val.fieldType in FieldType && val.fieldType !== FieldType.Blob;
+      if (!validFieldType) {
+        console.warn(`Invalid FieldType: ${val.fieldType}. Will not display field with name: ${val.name}`);
       }
-      else {
-        return [];
-      }
-    }
+      return validFieldType;
+    });
+    this.adHocConnectorService.setAllFieldInfos(fieldDefinitions);
 
+    if (fieldDefinitions?.length === 0) {
+      console.warn('getAllFieldDefinitionsAsync returned no definitions');
+    }
+    return fieldDefinitions;
+  }
+
+  /** @internal */
+  private orderFieldInfosByName(fieldInfos: LfFieldInfo[]): LfFieldInfo[] {
+    if (fieldInfos) {
+      const sortSelectedFieldInfosAlphabetically = fieldInfos?.sort((a, b) => {
+        const aName = a.name?.toLowerCase() ?? '';
+        const bName = b.name?.toLowerCase() ?? '';
+        return aName < bName ? -1 : 1;
+      });
+      return sortSelectedFieldInfosAlphabetically;
+    } else {
+      return [];
+    }
+  }
 }

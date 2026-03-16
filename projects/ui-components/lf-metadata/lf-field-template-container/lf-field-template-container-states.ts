@@ -7,7 +7,7 @@
 export enum DropDownState {
   DEFAULT = 'default',
   LOADING = 'isLoading',
-  HAS_ERROR = 'hasError'
+  HAS_ERROR = 'hasError',
 }
 
 /**
@@ -17,5 +17,5 @@ export enum TemplateState {
   DEFAULT = 'default',
   LOADING = 'isLoading',
   HAS_ERROR = 'hasError',
-  SHOW_TEMPLATE = 'showTemplate'
+  SHOW_TEMPLATE = 'showTemplate',
 }

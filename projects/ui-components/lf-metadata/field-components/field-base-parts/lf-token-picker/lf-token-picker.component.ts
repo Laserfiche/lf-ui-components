@@ -8,16 +8,15 @@ import { LfFieldTokenService } from '../lf-field-base/lf-field-token.service';
 import { LfToken } from './lf-token.service';
 
 @Component({
-    selector: 'lf-token-picker-component',
-    templateUrl: './lf-token-picker.component.html',
-    styleUrls: ['./lf-token-picker.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [CommonModule, MatMenuModule]
+  selector: 'lf-token-picker-component',
+  templateUrl: './lf-token-picker.component.html',
+  styleUrls: ['./lf-token-picker.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, MatMenuModule],
 })
 export class LfTokenPickerComponent implements OnInit {
   tokenService = inject(LfFieldTokenService);
-
 
   @Input() data: any;
   @Output() tokenPicked: EventEmitter<string> = new EventEmitter();

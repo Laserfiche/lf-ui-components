@@ -22,7 +22,7 @@ describe('LfFieldMultivalueComponent', () => {
     length: 10,
     isMultiValue: true,
     isRequired: true,
-    displayName: 'element text 1'
+    displayName: 'element text 1',
   };
   const values: LfFieldValue[] = ['1', '2', '3'];
 
@@ -34,8 +34,8 @@ describe('LfFieldMultivalueComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        LfFieldBaseComponent
-      ]
+        LfFieldBaseComponent,
+      ],
     }).compileComponents();
   });
 
@@ -47,7 +47,8 @@ describe('LfFieldMultivalueComponent', () => {
         new FormControl('some value 1'),
         new FormControl('some value 2'),
         new FormControl('some value 3'),
-        new FormControl('some value 4')])
+        new FormControl('some value 4'),
+      ]),
     });
     component.lfFieldValues = values;
     component.lfFieldInfo = info;
@@ -70,8 +71,8 @@ describe('LfFieldMultivalueComponent', () => {
       values: [
         { value: '1', position: '1' },
         { value: '2', position: '2' },
-        { value: '3', position: '3' }
-      ]
+        { value: '3', position: '3' },
+      ],
     });
   });
 });

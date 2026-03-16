@@ -30,9 +30,7 @@
                 "output": ""
               }
             ],
-            "styles": [
-              "projects/lf-cdn/src/styles.css"
-            ],
+            "styles": ["projects/lf-cdn/src/styles.css"],
             "scripts": [],
             "browser": "projects/lf-cdn/src/main.ts"
           },
@@ -97,10 +95,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/lf-cdn/**/*.ts",
-              "projects/lf-cdn/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/lf-cdn/**/*.ts", "projects/lf-cdn/**/*.html"]
           }
         }
       }
@@ -132,10 +127,7 @@
                 "output": ""
               }
             ],
-            "styles": [
-              "projects/lf-documentation/src/styles.css",
-              "./node_modules/flatpickr/dist/flatpickr.min.css"
-            ],
+            "styles": ["projects/lf-documentation/src/styles.css", "./node_modules/flatpickr/dist/flatpickr.min.css"],
             "scripts": [],
             "browser": "projects/lf-documentation/src/main.ts"
           },
@@ -202,10 +194,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/lf-documentation/**/*.ts",
-              "projects/lf-documentation/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/lf-documentation/**/*.ts", "projects/lf-documentation/**/*.html"]
           }
         }
       }
@@ -241,10 +230,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/ui-components/**/*.ts",
-              "projects/ui-components/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/ui-components/**/*.ts", "projects/ui-components/**/*.html"]
           }
         }
       }

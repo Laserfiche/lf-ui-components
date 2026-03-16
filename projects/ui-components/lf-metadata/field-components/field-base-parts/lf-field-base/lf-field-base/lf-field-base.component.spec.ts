@@ -12,7 +12,7 @@ describe('LfFieldBaseComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LfFieldBaseComponent],
-      providers: [LfTokenService]
+      providers: [LfTokenService],
     }).compileComponents();
   });
 

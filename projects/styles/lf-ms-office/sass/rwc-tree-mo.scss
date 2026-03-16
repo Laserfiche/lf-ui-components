@@ -6,7 +6,7 @@
   color: typography-mo.$font-color;
   &.selected {
     font: typography-mo.$label-stack;
-    background-color: rgb(237,235,233);
+    background-color: rgb(237, 235, 233);
     border-left: solid typography-mo.$primary-color;
     border-width: 0px 0px 0px 2px;
   }
@@ -29,4 +29,3 @@
 .lf-button#cancelButton {
   margin-left: 12px;
 }
-

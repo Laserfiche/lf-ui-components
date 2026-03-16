@@ -11,9 +11,8 @@ describe('MigrateModulesToStandaloneComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ MigrateModulesToStandaloneComponent ]
-    })
-    .compileComponents();
+      imports: [MigrateModulesToStandaloneComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

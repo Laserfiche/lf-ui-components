@@ -22,7 +22,6 @@ import { Observable, of } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
-
 /** @internal */
 @Directive()
 export abstract class BaseFieldDirective implements OnInit {
@@ -211,7 +210,6 @@ export abstract class BaseFieldDirective implements OnInit {
       return this.getValidationTextForFieldType(validationRuleName);
     }
   }
-
 
   onTokenChosen(token: string) {
     if (this.tokenTarget) {

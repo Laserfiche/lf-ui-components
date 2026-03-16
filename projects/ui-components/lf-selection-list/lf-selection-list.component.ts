@@ -298,7 +298,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         item,
         this.items,
         false,
-        event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'),
+        event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')
       );
       this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
     }
@@ -312,7 +312,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         item,
         this.items,
         false,
-        event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown'),
+        event.shiftKey && (event.key === 'ArrowUp' || event.key === 'ArrowDown')
       );
       this.itemSelected.emit({ selected: item, selectedItems: this.selectable.selectedItems });
     }
@@ -345,7 +345,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       if (activeElement?.nodeName.toLowerCase() === 'cdk-virtual-scroll-viewport') {
         this.focusCurrentIndex();
         const ele = this.viewport.elementRef.nativeElement.querySelector(
-          '#lf-row-' + this.currentFocusIndex,
+          '#lf-row-' + this.currentFocusIndex
         ) as HTMLElement;
         (ele?.childNodes[0] as HTMLElement).focus();
       } else {
@@ -356,7 +356,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
           this.currentFocusIndex = this.currentFocusIndex - moveDirection;
         }
         const ele = this.viewport.elementRef.nativeElement.querySelector(
-          '#lf-row-' + this.currentFocusIndex,
+          '#lf-row-' + this.currentFocusIndex
         ) as HTMLElement;
         ele?.focus();
       }
@@ -399,7 +399,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
           this.allColumnDefs.forEach((col) => {
             const columnEls = Array.from(
-              this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id),
+              this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
             );
             const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
             const minWidthPx = col.minWidthPx ?? COLUMN_MIN_WIDTH;
@@ -442,11 +442,11 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   async setSelectedNodesAsync(
     nodesToSelect: ILfSelectable[] | undefined,
     checkForMoreDataCallback: () => Promise<ILfSelectable[] | undefined>,
-    maxFetchIterations: number,
+    maxFetchIterations: number
   ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
     const idsToSelectable: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(
-      nodesToSelect?.map((v) => [v.value.id, v]),
+      nodesToSelect?.map((v) => [v.value.id, v])
     );
     await this.selectable.setSelectedNodesAsync(idsToSelectable, this.items, maxFetchIterations);
     this.ref.detectChanges();
@@ -487,7 +487,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     this.focusCurrentIndex();
     const ele = this.viewport?.elementRef.nativeElement.querySelector(
-      '#lf-row-' + this.currentFocusIndex,
+      '#lf-row-' + this.currentFocusIndex
     ) as HTMLElement;
     ele?.focus();
   }

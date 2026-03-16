@@ -76,9 +76,5 @@ const routes: Routes = [
 ];
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideRouter(routes, withHashLocation()),
-    provideAnimations(),
-    provideZonelessChangeDetection(),
-  ],
+  providers: [provideRouter(routes, withHashLocation()), provideAnimations(), provideZonelessChangeDetection()],
 };

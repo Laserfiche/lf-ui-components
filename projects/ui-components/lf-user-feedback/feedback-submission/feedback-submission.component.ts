@@ -5,16 +5,21 @@ import { Component, Input, Output, EventEmitter, AfterViewInit, inject } from '@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { AppLocalizationService, LfMessageToastTypes, LfToastMessage, LfToastMessageComponent } from '@laserfiche/lf-ui-components/internal-shared';
+import {
+  AppLocalizationService,
+  LfMessageToastTypes,
+  LfToastMessage,
+  LfToastMessageComponent,
+} from '@laserfiche/lf-ui-components/internal-shared';
 import { FeedbackImageUploadComponent } from '../feedback-image-upload/feedback-image-upload.component';
 
 /** @internal */
 @Component({
-    selector: 'lf-feedback-submission',
-    templateUrl: './feedback-submission.component.html',
-    styleUrls: ['./feedback-submission.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
-    standalone: true,
-    imports: [CommonModule, FormsModule, MatCheckboxModule, LfToastMessageComponent, FeedbackImageUploadComponent]
+  selector: 'lf-feedback-submission',
+  templateUrl: './feedback-submission.component.html',
+  styleUrls: ['./feedback-submission.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatCheckboxModule, LfToastMessageComponent, FeedbackImageUploadComponent],
 })
 export class FeedbackSubmissionComponent {
   private localizationService = inject(AppLocalizationService);
@@ -48,7 +53,6 @@ export class FeedbackSubmissionComponent {
     TELL_US_ABOUT_IDEA: this.localizationService.getStringComponentsObservable('TELL_US_ABOUT_IDEA'),
     REQUIRED: this.localizationService.getStringLaserficheObservable('REQUIRED'),
   };
-
 
   onFeedbackImageBase64(imageBase64: string | undefined) {
     this.feedbackImageBase64 = imageBase64;

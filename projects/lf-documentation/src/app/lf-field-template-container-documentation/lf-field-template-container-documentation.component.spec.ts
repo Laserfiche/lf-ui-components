@@ -11,13 +11,13 @@ describe('LfFieldTemplateContainerDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ LfFieldTemplateContainerDocumentationComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      imports: [LfFieldTemplateContainerDocumentationComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
-    .overrideComponent(LfFieldTemplateContainerDocumentationComponent, {
-      set: { imports: [], schemas: [CUSTOM_ELEMENTS_SCHEMA] }
-    })
-    .compileComponents();
+      .overrideComponent(LfFieldTemplateContainerDocumentationComponent, {
+        set: { imports: [], schemas: [CUSTOM_ELEMENTS_SCHEMA] },
+      })
+      .compileComponents();
   });
 
   beforeEach(async () => {

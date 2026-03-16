@@ -3,18 +3,18 @@
 
 /** @internal */
 export interface AccessTokenError {
-    type?: string;
-    title: string;
-    status: number;
-    instance?: string;
-    operationId?: string;
-    traceId?: string;
+  type?: string;
+  title: string;
+  status: number;
+  instance?: string;
+  operationId?: string;
+  traceId?: string;
 }
 
 /** @internal */
 export interface AccountInfo {
-    accountId: string;
-    trusteeId: string;
+  accountId: string;
+  trusteeId: string;
 }
 
 /** @internal */

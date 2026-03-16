@@ -20,7 +20,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </ul>
 </div>
 <h2 id="cdn-usage">Using Via CDN</h2>
-<p>Laserfiche UI Components can be imported using any CDN hosting the npm package, including jsdelivr, unpkg, and lfxstatic. Below, we use jsdelivr.</p>
+<p>
+  Laserfiche UI Components can be imported using any CDN hosting the npm package, including jsdelivr, unpkg, and
+  lfxstatic. Below, we use jsdelivr.
+</p>
 <ol>
   <li>
     <p class="documentation-text">Add the following script tags to <code>index.html</code>.</p>
@@ -69,7 +72,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </li>
   <li>
     <p class="documentation-text">
-      If you are using a different version of Angular Material or not using Angular Material, you must add an Angular Material stylesheet.
+      If you are using a different version of Angular Material or not using Angular Material, you must add an Angular
+      Material stylesheet.
     </p>
     <p class="documentation-text">
       <code class="code-container">
@@ -110,11 +114,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </p>
     <p class="documentation-text">
       For example to use <code>&lt;lf-repository-browser-component&gt;</code> you would do <br />
-      <code class="code-container">import &#123;LfRepositoryBrowserComponent&#125; from '&#64;laserfiche/lf-ui-components/lf-repository-browser'</code>;
+      <code class="code-container"
+        >import &#123;LfRepositoryBrowserComponent&#125; from
+        '&#64;laserfiche/lf-ui-components/lf-repository-browser'</code
+      >;
     </p>
-    <p class="documentation-text">
-      Then add it to your component's imports:
-    </p>
+    <p class="documentation-text">Then add it to your component's imports:</p>
     <pre class="code-container">
 <span class="code-ts-import">import</span> &#123; Component &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/core'</span>;
 <span class="code-ts-import">import</span> &#123; LfRepositoryBrowserComponent &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;laserfiche/lf-ui-components/lf-repository-browser'</span>;
@@ -133,7 +138,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <ol>
       <li>
         Either manually or as part of a build script, copy the CDN folder
-        <code>node_modules/&#64;laserfiche/lf-ui-components/cdn/</code> into a destination served by your web server e.g.:
+        <code>node_modules/&#64;laserfiche/lf-ui-components/cdn/</code> into a destination served by your web server
+        e.g.:
         <code>static_assets</code>
       </li>
       <li>Reference that location in a script tag within the HTML file in your project e.g.:</li>
@@ -157,8 +163,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     UI components may be used with other Laserfiche libraries:
     <ul>
       <li>
-        <a href="https://www.npmjs.com/package/@laserfiche/lf-js-utils"><code>&#64;laserfiche/lf-js-utils</code></a> - this
-        library contains utility functions and a reusable localization service.
+        <a href="https://www.npmjs.com/package/@laserfiche/lf-js-utils"><code>&#64;laserfiche/lf-js-utils</code></a> -
+        this library contains utility functions and a reusable localization service.
       </li>
       <li>
         <a href="https://www.npmjs.com/package/@laserfiche/lf-ui-components-services"

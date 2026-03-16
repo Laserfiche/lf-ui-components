@@ -163,7 +163,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    */
   @Input() initAsync = async (
     treeNodeService: LfTreeNodeService,
-    initialOpenedNode?: LfTreeNode | string,
+    initialOpenedNode?: LfTreeNode | string
   ): Promise<void> => {
     try {
       this.hasError = false;
@@ -182,7 +182,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
             }
           } else {
             console.warn(
-              'initialOpenedNode is specified by an id, but getTreeNodeByIdentifierAsync is not implemented. Will initialize to root.',
+              'initialOpenedNode is specified by an id, but getTreeNodeByIdentifierAsync is not implemented. Will initialize to root.'
             );
             initialOpenedNode = undefined;
           }
@@ -230,7 +230,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   @Input()
   setSelectedNodesAsync: (nodesToSelect: LfTreeNode[], maxFetchIterations?: number) => Promise<void> = async (
     nodesToSelect: LfTreeNode[],
-    maxFetchIterations: number = 5,
+    maxFetchIterations: number = 5
   ) => {
     const selectableValues = await this.mapTreeNodesToLfSelectableAsync(nodesToSelect);
     if (!this.entryList && this.isLoading) {
@@ -244,7 +244,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       const selectedNodes: ILfSelectable[] = await this.entryList.setSelectedNodesAsync(
         selectableValues,
         this.checkForMoreDataCallback.bind(this),
-        maxFetchIterations,
+        maxFetchIterations
       );
       const selectedItems = this.convertSelectedItemsToTreeNode(selectedNodes);
       if (
@@ -778,7 +778,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     const dataPage: LfTreeNodePage = await this.treeNodeService.getFolderChildrenAsync(
       parentEntry,
       this.nextPage,
-      sortState,
+      sortState
     );
     this.nextPage = dataPage.nextPage;
     const pageTreeNodes: LfTreeNode[] = dataPage.page;

@@ -45,7 +45,7 @@ export abstract class LfFieldContainerDirective {
   abstract onFieldValueChangedAsync(
     fieldValues: string[],
     lfFieldInfo: LfFieldInfo,
-    indicesChanged?: number[],
+    indicesChanged?: number[]
   ): Promise<void>;
   /** @internal */
   abstract renderFieldsAsync(fieldInfos: (TemplateFieldInfo | LfFieldInfo | AdhocFieldInfo)[]): Promise<void>;
@@ -53,13 +53,13 @@ export abstract class LfFieldContainerDirective {
   abstract multivalueComponentInitAsync(
     componentRef: ComponentRef<LfFieldMultivalueComponent>,
     fieldInfo: LfFieldInfo,
-    stringValues: LfFieldValue[],
+    stringValues: LfFieldValue[]
   ): Promise<void>;
   /** @internal */
   abstract fieldComponentInitAsync(
     componentRef: ComponentRef<LfFieldComponent>,
     fieldInfo: LfFieldInfo,
-    stringValues: LfFieldValue,
+    stringValues: LfFieldValue
   ): Promise<void>;
 
   @Input()
@@ -116,7 +116,7 @@ export abstract class LfFieldContainerDirective {
   protected async initializeFieldComponentAsync(
     fieldComponentRef: ComponentRef<LfFieldComponent>,
     fieldInfo: LfFieldInfo,
-    value: string,
+    value: string
   ) {
     await this.fieldComponentInitAsync(fieldComponentRef, fieldInfo, value);
     fieldComponentRef.instance.fieldValueChanged.subscribe(async (updatedValue: string) => {
@@ -128,7 +128,7 @@ export abstract class LfFieldContainerDirective {
   protected async initializeMultivalueComponentAsync(
     multivalueComponentRef: ComponentRef<LfFieldMultivalueComponent>,
     fieldInfo: LfFieldInfo,
-    stringValues: string[],
+    stringValues: string[]
   ): Promise<void> {
     await this.multivalueComponentInitAsync(multivalueComponentRef, fieldInfo, stringValues);
     multivalueComponentRef.instance.fieldValuesChanged.subscribe(
@@ -136,7 +136,7 @@ export abstract class LfFieldContainerDirective {
         await this.onFieldValueChangedAsync(fieldChange.fieldValues, multivalueComponentRef.instance.lfFieldInfo, [
           fieldChange.indexChanged,
         ]);
-      },
+      }
     );
   }
 

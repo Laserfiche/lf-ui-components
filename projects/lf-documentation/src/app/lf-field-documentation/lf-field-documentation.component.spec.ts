@@ -12,7 +12,7 @@ describe('LfFieldDocumentationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LfFieldDocumentationComponent],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });
 

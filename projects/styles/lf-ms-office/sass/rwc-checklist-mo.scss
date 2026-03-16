@@ -1,4 +1,7 @@
-.lf-checklist-container .mat-checkbox-label, .lf-checklist-container .mat-checkbox-layout, .lf-checklist-item-name, .lf-text-field {
+.lf-checklist-container .mat-checkbox-label,
+.lf-checklist-container .mat-checkbox-layout,
+.lf-checklist-item-name,
+.lf-text-field {
   width: 100%;
 }
 
@@ -14,7 +17,15 @@
   display: block;
   text-overflow: ellipsis;
   overflow: hidden;
-  font: 400 14px "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  font:
+    400 14px "Segoe UI",
+    "Segoe UI Web (West European)",
+    "Segoe UI",
+    -apple-system,
+    BlinkMacSystemFont,
+    Roboto,
+    "Helvetica Neue",
+    sans-serif;
 }
 
 lf-checklist .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
@@ -43,10 +54,7 @@ lf-checklist .mat-form-field-appearance-outline.mat-focused .mat-form-field-outl
   display: block;
 }
 
-mat-form-field.lf-checklist-field >
-.mat-form-field-wrapper >
-.mat-form-field-flex >
-.mat-form-field-infix input{
+mat-form-field.lf-checklist-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix input {
   margin-bottom: 4px;
 }
 

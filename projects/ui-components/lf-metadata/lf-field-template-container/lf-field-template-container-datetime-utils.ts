@@ -15,8 +15,7 @@ export class DatetimeUtils {
     const offset: number = fieldValueAsDate.getTimezoneOffset();
     if (offset === 0) {
       return fieldValueAsDate.toISOString();
-    }
-    else {
+    } else {
       const offsetMs: number = offset * 60000;
       const dateAsNumber: number = fieldValueAsDate.getTime() + offsetMs;
       const dateWithoutOffset: Date = new Date(dateAsNumber);
@@ -52,8 +51,6 @@ export class DatetimeUtils {
       pad(date.getSeconds())
     );
   }
-
-
 
   static isValidDate(date: Date): boolean {
     return !isNaN(date.getTime());
