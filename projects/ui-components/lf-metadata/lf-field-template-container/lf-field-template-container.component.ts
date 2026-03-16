@@ -230,6 +230,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
       for (const mapItem of fieldGroups) {
         await this.initializeFieldGroupAsync(mapItem);
       }
+      this.ref.detectChanges();
     } else {
       console.warn(`Fields not displayed in current template state: ${this.templateState}.`);
     }
@@ -593,13 +594,10 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     if (!this.templateSelected?.id) {
       return {};
     }
-    this.templateState = TemplateState.LOADING;
     const dynamicFieldValueOptions = await this.templateFieldContainerService.getDynamicFieldValueOptionsAsync(
       this.templateSelected.id,
       relevantValues,
     );
-    this.templateState = TemplateState.SHOW_TEMPLATE;
-    this.ref.markForCheck();
     return dynamicFieldValueOptions;
   }
 
