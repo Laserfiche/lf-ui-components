@@ -49,3 +49,4 @@ testem.log
 Thumbs.db
 **/TESTS-**.xml
 **.tgz
+test-results.xml
