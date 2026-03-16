@@ -1,7 +1,17 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
 import {
@@ -26,7 +36,7 @@ const CODE_CHALLENGE_METHOD = 'S256';
   templateUrl: './lf-login.component.html',
   styleUrls: ['./lf-login.component.css'],
 })
-export class LfLoginComponent implements OnDestroy, OnInit {
+export class LfLoginComponent implements OnDestroy, OnInit, OnChanges {
   @Input() mode: LoginMode = LoginMode.Button;
 
   /**
@@ -365,6 +375,23 @@ export class LfLoginComponent implements OnDestroy, OnInit {
     });
   }
 
+  /** @internal */
+  async ngOnChanges(changes: SimpleChanges) {
+    // initialize the login state according to the access token
+    const currentLoginIdentifier = changes['login_identifier'];
+    if (
+      (currentLoginIdentifier?.currentValue && currentLoginIdentifier?.isFirstChange()) ||
+      currentLoginIdentifier?.previousValue !== currentLoginIdentifier?.currentValue
+    ) {
+      const accessToken = this.authorization_credentials?.accessToken;
+      if (accessToken) {
+        this._state = LoginState.LoggedIn;
+      } else {
+        await this.initializeLoginAsync();
+      }
+    }
+  }
+
   private setButtonText() {
     if (this.state === LoginState.LoggedIn) {
       this.buttonText = this._sign_out_text;
@@ -561,7 +588,7 @@ export class LfLoginComponent implements OnDestroy, OnInit {
     const baseAuthorizeUrl = this.loginService.loginProvider?.getBaseAuthorizeUrl();
 
     const baseUrl: URL = new URL(baseAuthorizeUrl ?? '');
-    if(this.client_id) {
+    if (this.client_id) {
       baseUrl.searchParams.set('client_id', this.client_id);
     }
     if (this.scope) {
