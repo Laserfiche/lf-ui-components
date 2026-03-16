@@ -23,6 +23,7 @@ const NPM_PUBLISH = './types-lf-ui-components-publish/';
 const LF_CDN_BROWSER_DIR = './dist/lf-cdn/browser/';
 const MAIN_SCRIPT_FILE = 'main.js';
 const MAIN_SCRIPT_MAP_FILE = 'main.js.map';
+const LF_CDN_INDEX_FILE = 'index.html';
 const CDN_UI_COMPONENTS_FILE = 'lf-ui-components.js';
 const CDN_UI_COMPONENTS_MAP_FILE = 'lf-ui-components.js.map';
 const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/browser/main.js';
@@ -69,13 +70,22 @@ async function processTypesFile() {
 async function renameLfCdn() {
   const mainJsPath = LF_CDN_BROWSER_DIR + MAIN_SCRIPT_FILE;
   const mainJsMapPath = LF_CDN_BROWSER_DIR + MAIN_SCRIPT_MAP_FILE;
+  const lfCdnIndexPath = LF_CDN_BROWSER_DIR + LF_CDN_INDEX_FILE;
   const cdnJsPath = LF_CDN_BROWSER_DIR + CDN_UI_COMPONENTS_FILE;
   const cdnJsMapPath = LF_CDN_BROWSER_DIR + CDN_UI_COMPONENTS_MAP_FILE;
 
-  const content = fs.readFileSync(mainJsPath, 'utf8');
-  fs.writeFileSync(cdnJsPath, content.replace(MAIN_SCRIPT_MAP_FILE, CDN_UI_COMPONENTS_MAP_FILE));
-  fs.unlinkSync(mainJsPath);
-  fs.renameSync(mainJsMapPath, cdnJsMapPath);
+  if (fs.existsSync(mainJsPath)) {
+    const content = fs.readFileSync(mainJsPath, 'utf8');
+    fs.writeFileSync(cdnJsPath, content.replace(MAIN_SCRIPT_MAP_FILE, CDN_UI_COMPONENTS_MAP_FILE));
+    fs.unlinkSync(mainJsPath);
+  }
+
+  if (fs.existsSync(mainJsMapPath)) {
+    fs.renameSync(mainJsMapPath, cdnJsMapPath);
+  }
+
+  const indexHtmlContent = fs.readFileSync(lfCdnIndexPath, 'utf8');
+  fs.writeFileSync(lfCdnIndexPath, indexHtmlContent.replace(/src="main\.js"/g, `src="${CDN_UI_COMPONENTS_FILE}"`));
 }
 
 exports.processTypesFile = processTypesFile;

@@ -98,25 +98,25 @@ jobs:
       - name: "move lf-ui-components.js to ui-components/cdn"
         run: |
           mv lf-ui-components.js lf-ui-components.js.map ../ui-components/cdn
-        working-directory: ./dist/lf-cdn
+        working-directory: ./dist/lf-cdn/browser
 
       - name: "Append flatpickr.min.css to lf-laserfiche-lite.css"
         run: |
-          echo "/*" >> ./dist/lf-documentation/lf-laserfiche-lite.css
-          cat LICENSE >> ./dist/lf-documentation/lf-laserfiche-lite.css
-          echo "The following styles are copied from flatpickr.min.css */" >> ./dist/lf-documentation/lf-laserfiche-lite.css
-          cat ./node_modules/flatpickr/dist/flatpickr.min.css >> ./dist/lf-documentation/lf-laserfiche-lite.css
+          echo "/*" >> ./dist/lf-documentation/browser/lf-laserfiche-lite.css
+          cat LICENSE >> ./dist/lf-documentation/browser/lf-laserfiche-lite.css
+          echo "The following styles are copied from flatpickr.min.css */" >> ./dist/lf-documentation/browser/lf-laserfiche-lite.css
+          cat ./node_modules/flatpickr/dist/flatpickr.min.css >> ./dist/lf-documentation/browser/lf-laserfiche-lite.css
 
       - name: "Append flatpickr.min.css to lf-ms-office-lite.css"
         run: |
-          echo "/*" >> ./dist/lf-documentation/lf-ms-office-lite.css
-          cat LICENSE >> ./dist/lf-documentation/lf-ms-office-lite.css
-          echo "The following styles are copied from flatpickr.min.css */" >> ./dist/lf-documentation/lf-ms-office-lite.css
-          cat ./node_modules/flatpickr/dist/flatpickr.min.css >> ./dist/lf-documentation/lf-ms-office-lite.css
+          echo "/*" >> ./dist/lf-documentation/browser/lf-ms-office-lite.css
+          cat LICENSE >> ./dist/lf-documentation/browser/lf-ms-office-lite.css
+          echo "The following styles are copied from flatpickr.min.css */" >> ./dist/lf-documentation/browser/lf-ms-office-lite.css
+          cat ./node_modules/flatpickr/dist/flatpickr.min.css >> ./dist/lf-documentation/browser/lf-ms-office-lite.css
 
       - name: "move lf-documentation/styles to ui-components/cdn"
-        run: mv lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map ../ui-components/cdn/
-        working-directory: ./dist/lf-documentation
+        run: mv lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map ../../ui-components/cdn/
+        working-directory: ./dist/lf-documentation/browser
 
       - name: "move README to ui-components"
         run: mv README.md ./dist/ui-components
@@ -128,7 +128,7 @@ jobs:
           # A file, directory or wildcard pattern that describes what to upload
           path: |
             ./dist/ui-components
-            ./dist/lf-documentation
+            ./dist/lf-documentation/browser
             ./types-lf-ui-components-publish/index.d.ts
             ./types-lf-ui-components-publish/index.js
 
@@ -272,9 +272,9 @@ jobs:
         run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
 
       - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: ./dist/lf-documentation
+          path: ./dist/lf-documentation/browser
 
       - name: Deploy to GitHub Pages
         id: deployment
