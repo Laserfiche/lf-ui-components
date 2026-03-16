@@ -65,6 +65,9 @@ jobs:
       - name: Npm run sass-ms
         run: npm run sass-ms
 
+      - name: Install Playwright browser
+        run: npx playwright install chromium
+
       - name: Npm run test
         shell: pwsh
         run: npm run test:ci
