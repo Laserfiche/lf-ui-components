@@ -15,7 +15,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </mat-button-toggle>
         @if (breadcrumbs?.length > 2) {
           <mat-button-toggle class="breadcrumb-select breadcrumb-split-button"
-            value="breadcrumbDropdownMenu" (change)="onDropdownMenuSelected()" tabindex="-1">
+            value="breadcrumbDropdownMenu" (change)="onDropdownMenuSelected(dropdownMenuButton)" tabindex="-1">
             <button #dropdownMenuButton mat-icon-button [matMenuTriggerFor]="breadcrumbDropdownMenu"
               (click)="$event.stopPropagation()" tabindex="0">
               <span class="material-icons breadcrumb-split-button-icon">

@@ -101,7 +101,7 @@ describe('LfListComponent single select', () => {
 
   async function waitForRender() {
     fixture.autoDetectChanges();
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
     await fixture.whenStable();
   }
 

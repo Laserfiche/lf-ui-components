@@ -11,7 +11,6 @@ import {
   AfterViewInit,
   EventEmitter,
   Output,
-  ElementRef,
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -47,8 +46,6 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
 
   /** @internal */
   @ViewChild(LfFieldAddRemoveComponent) addRemoveComponent!: LfFieldAddRemoveComponent;
-  /** @internal */
-  @ViewChild('adhocPanel') adhocPanel?: ElementRef<HTMLElement>;
   @Output() dialogOpened = new EventEmitter<void>();
   @Output() dialogClosed = new EventEmitter<void>();
 
@@ -244,8 +241,8 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   }
 
   /** @internal */
-  async addRemoveFieldsAsync(): Promise<void> {
-    this.toggleAdhocModal(true);
+  async addRemoveFieldsAsync(adhocPanel?: HTMLElement): Promise<void> {
+    this.toggleAdhocModal(true, adhocPanel);
     await this.addRemoveComponent.initAsync(this.adhocFieldContainerService);
     const fieldDefinitions = this.adhocFieldConnectorService.getAllFieldInfos();
     this.updateTemplateFields(fieldDefinitions);
@@ -259,12 +256,12 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   }
 
   /** @internal */
-  private toggleAdhocModal(open: boolean) {
+  private toggleAdhocModal(open: boolean, panel?: HTMLElement) {
     this.showAdhocModal = open;
     this.metadataFieldConnectorService.setAddRemoveContainerToggled(open);
     if (open) {
       this.dialogOpened.emit();
-      setTimeout(() => this.adhocPanel?.nativeElement.focus());
+      setTimeout(() => panel?.focus());
     } else {
       this.dialogClosed.emit();
     }

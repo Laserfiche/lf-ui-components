@@ -5,7 +5,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <div id="adhoc-back-button" class="back-button-overlay">
     <button class="adhoc-back-button-container" (click)="onClickBack()" >
       <span class="material-icons adhoc-back-button" id="arrow-left-18" aria-label="back"> arrow_back_ios_new </span>
-    </button>    
+    </button>
     <div class="ms-font-m back-button-text">{{ ADD_REMOVE_FIELDS | async }}</div>
   </div>
   <div class="add-remove-content">
@@ -18,7 +18,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <div class="field-picker-container" [ngClass]="{ 'has-changes': areCheckboxChanges }">
           <div class="search">
             <input
-              [value]="fieldFilterText"
               [formControl]="filterFieldsControl"
               placeholder="{{ SEARCH_FIELDS | async }}"
               class="searchBox"

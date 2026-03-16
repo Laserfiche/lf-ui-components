@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -24,9 +24,6 @@ export class LfBreadcrumbsComponent {
   }>();
 
   /** @internal */
-  @ViewChild('dropdownMenuButton') dropdownMenuButton!: ElementRef<HTMLButtonElement>;
-
-  /** @internal */
   constructor() { }
 
   /** @internal */
@@ -47,7 +44,7 @@ export class LfBreadcrumbsComponent {
   }
 
   /** @internal */
-  onDropdownMenuSelected() {
-    setTimeout(() => this.dropdownMenuButton.nativeElement.focus());
+  onDropdownMenuSelected(button: HTMLButtonElement) {
+    setTimeout(() => button.focus());
   }
 }

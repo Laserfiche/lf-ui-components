@@ -18,7 +18,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           <div id="file-upload-area">
             <span id="upload-icon" class="material-icons"> file_upload </span>
             <label for="uploadFile">
-              <button class="sec-button lf-button" (click)="onInputClickArea()">{{ localizedStrings.BROWSE }}</button>
+              <button class="sec-button lf-button" (click)="onInputClickArea(uploadFile)">{{ localizedStrings.BROWSE }}</button>
             </label>
             <div class="file-upload-sub-text lf-text-body">{{ localizedStrings.OR }}</div>
             <div class="file-upload-sub-text lf-text-body">{{ localizedStrings.DRAG_DROP_FILE }}</div>
@@ -32,7 +32,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               <div id="uploaded-file-name" class="lf-text-body" title="{{ imageUploaded?.name }}">
                 {{ imageUploaded?.name }}
               </div>
-              <button class="lf-close-button" title="{{ localizedStrings.REMOVE }}" (click)="removeImage()">
+              <button class="lf-close-button" title="{{ localizedStrings.REMOVE }}" (click)="removeImage(uploadFile)">
                 <span class="material-icons-outlined"> close </span>
               </button>
           </div>

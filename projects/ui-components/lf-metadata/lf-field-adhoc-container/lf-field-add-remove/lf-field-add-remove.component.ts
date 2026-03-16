@@ -88,6 +88,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
     this.filterFieldsControl.valueChanges.pipe(debounceTime(200)).subscribe((value) => {
       this.fieldFilterText = value;
       this.filterDisplayedFields();
+      this.ref.detectChanges();
     });
   }
 
@@ -175,8 +176,10 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
   }
 
   onClearFields() {
+    this.filterFieldsControl.setValue('');
     this.fieldFilterText = '';
     this.filterDisplayedFields();
+    this.ref.detectChanges();
   }
 
   onUpdateCheckbox(changeEvent: MatCheckboxChange, field: LfFieldInfo) {

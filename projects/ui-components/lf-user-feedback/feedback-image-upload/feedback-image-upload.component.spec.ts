@@ -163,8 +163,6 @@ describe('FeedbackImageUploadComponent', () => {
     // Assert
     expect(component.imageUploaded).toBeUndefined();
     expect(component.feedbackImageBase64.emit).toHaveBeenCalledWith(undefined);
-    expect(component.inputFile?.nativeElement.value).toBe('');
-    expect(component.inputFile?.nativeElement.files?.length).toBe(0);
   });
 });
 

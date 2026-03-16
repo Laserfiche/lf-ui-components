@@ -196,7 +196,12 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
   /** @internal */
   async renderFieldsAsync(fieldInfos: (TemplateFieldInfo | LfFieldInfo)[]): Promise<void> {
-    if (this.templateState === TemplateState.SHOW_TEMPLATE && this.lfFieldView) {
+    if (this.templateState === TemplateState.SHOW_TEMPLATE) {
+      this.ref.detectChanges();
+      if (!this.lfFieldView) {
+        console.warn('Fields not displayed: lfFieldView not available.');
+        return;
+      }
       const vf = this.lfFieldView.viewContainerRef;
       vf.clear();
       this.componentRefs = [];
