@@ -97,8 +97,7 @@ jobs:
 
       - name: "move lf-ui-components.js to ui-components/cdn"
         run: |
-          mv main.js.map ../ui-components/cdn
-          mv main.js ../ui-components/cdn/lf-ui-components.js
+          mv lf-ui-components.js lf-ui-components.js.map ../ui-components/cdn
         working-directory: ./dist/lf-cdn
 
       - name: "Append flatpickr.min.css to lf-laserfiche-lite.css"
