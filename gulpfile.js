@@ -11,11 +11,7 @@ const argv = require('yargs')(process.argv.slice(2))
   })
   .argv;
 
-// File paths
-const INDEX_HTML_FILEPATH = './dist/lf-documentation/browser/index.html';
 // Strings for replacement
-const RUNTIME = 'runtime.js';
-const REMAINING_INDEX_SCRIPT_TAGS = '<script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>';
 const BUILD_NUMBER = 'PIPELINE_VERSION';
 const NPM_VERSION = 'NPM_VERSION';
 const TYPE_FILE_PATH = './types-lf-ui-components-publish/index.d.ts';
@@ -37,13 +33,6 @@ const OLD_LF_STYLE_SHEET_PATH = './lf-laserfiche-lite.css';
 const NEW_LF_STYLE_SHEET_PATH = 'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css';
 const OLD_MS_OFFICE_STYLE_SHEET_PATH = './lf-ms-office-lite.css';
 const NEW_MS_OFFICE_STYLE_SHEET_PATH = 'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css';
-
-async function replaceScriptsInIndexHtml(){
-  src(INDEX_HTML_FILEPATH, {base: './'})
-      .pipe(replace(RUNTIME, MAIN_SCRIPT_FILE))
-      .pipe(replace(REMAINING_INDEX_SCRIPT_TAGS, ''))
-      .pipe(dest('./'));
-};
 
 async function replacePlaceholdersInDocumentation(){
   src(COMPILED_GETTING_STARTED_FILE_PATH, {base: './'})
@@ -91,7 +80,6 @@ async function renameLfCdn() {
   fs.renameSync(mainJsMapPath, cdnJsMapPath);
 }
 
-exports.replaceScriptsInIndexHtml = replaceScriptsInIndexHtml;
 exports.processTypesFile = processTypesFile;
 exports.replacePlaceholdersInDocumentation = replacePlaceholdersInDocumentation;
 exports.replaceVersionInIndexHtml = replaceVersionInIndexHtml;

@@ -86,9 +86,6 @@ jobs:
       - name: 'create an empty ./dist/ui-components/cdn folder'
         run: 'mkdir -p ./dist/ui-components/cdn'
 
-      - name: 'npm run gulp-replace-scripts-in-index-html'
-        run: npm run gulp-replace-scripts-in-index-html
-
       - name: 'npm run gulp-replace-placeholders-in-documentation'
         run: npm run gulp-replace-placeholders-in-documentation
 

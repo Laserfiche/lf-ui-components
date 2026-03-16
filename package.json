@@ -29,7 +29,6 @@
     "create-lf-cdn": "npm run build-lf-cdn-prod && npm run rename-lf-cdn",
     "build-enum-types": "tsc projects/ui-components/shared/enums.ts --outDir types-lf-ui-components-publish --module es2022 --target es2022 --declaration false --skipLibCheck --moduleResolution node && node -e \"require('fs').renameSync('types-lf-ui-components-publish/enums.js','types-lf-ui-components-publish/index.js')\"",
     "create-types-lf-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run build-enum-types && cd ./types-lf-ui-components-publish && npm pack",
-    "gulp-replace-scripts-in-index-html": "gulp replaceScriptsInIndexHtml",
     "gulp-replace-placeholders-in-documentation": "gulp replacePlaceholdersInDocumentation"
   },
   "devDependencies": {
