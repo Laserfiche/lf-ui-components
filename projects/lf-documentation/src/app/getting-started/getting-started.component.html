@@ -105,13 +105,28 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       <br /><br />
     </p>
     <p class="documentation-text">
-      This installs Angular components. You can use the strictly Angular components or the Angular elements by importing
-      the relevant module into your app.module.ts.
+      This installs standalone Angular components. All components are zoneless and standalone — no NgModules are needed.
+      Simply import the component directly in your standalone component's <code>imports</code> array.
     </p>
     <p class="documentation-text">
-      For example to use <code>&lt;lf-repository-browser&gt;</code> or <code>&lt;lf-repository-browser-component&gt;</code> you would do <br />
-      <code class="code-container">import &#123;LfRepositoryBrowserModule&#125; from '&#64;laserfiche/lf-ui-components/lf-repository-browser'</code>;
+      For example to use <code>&lt;lf-repository-browser-component&gt;</code> you would do <br />
+      <code class="code-container">import &#123;LfRepositoryBrowserComponent&#125; from '&#64;laserfiche/lf-ui-components/lf-repository-browser'</code>;
     </p>
+    <p class="documentation-text">
+      Then add it to your component's imports:
+    </p>
+    <pre class="code-container">
+<span class="code-ts-import">import</span> &#123; Component &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/core'</span>;
+<span class="code-ts-import">import</span> &#123; LfRepositoryBrowserComponent &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;laserfiche/lf-ui-components/lf-repository-browser'</span>;
+
+&#64;Component(&#123;
+  <span class="code-ts-key-name">selector</span>: 'app-example',
+  <span class="code-ts-key-name">standalone</span>: true,
+  <span class="code-ts-key-name">imports</span>: [LfRepositoryBrowserComponent],
+  <span class="code-ts-key-name">template</span>: '&lt;lf-repository-browser-component /&gt;',
+&#125;)
+<span class="code-ts-import">export class</span> ExampleComponent &#123; &#125;
+    </pre>
   </li>
   <li>
     To use in a non-angular project:

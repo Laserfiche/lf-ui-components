@@ -24,6 +24,7 @@ import { ExampleUsageInAngularComponent } from './example-usage-in-angular/examp
 import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
 import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
 import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-browser-documentation/lf-repository-browser-documentation.component';
+import { MigrateModulesToStandaloneComponent } from './migrate-modules-to-standalone/migrate-modules-to-standalone.component';
 import { Routes } from '@angular/router';
 
 export enum RouterLinks {
@@ -36,6 +37,7 @@ export enum RouterLinks {
   STYLING = 'styling',
   TROUBLESHOOTING = 'troubleshooting',
   CONVERT_COMPONENT = 'convert-component',
+  MIGRATE_MODULES_TO_STANDALONE = 'migrate-modules-to-standalone',
   RELEASE_NOTES = 'release-notes',
   LF_BREADCRUMBS = 'lf-breadcrumbs',
   LF_CHECKLIST = 'lf-checklist',
@@ -68,6 +70,7 @@ const routes: Routes = [
   { path: RouterLinks.OVERVIEW, component: OverviewComponent },
   { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },
   { path: RouterLinks.TROUBLESHOOTING, component: TroubleshootingComponent },
+  { path: RouterLinks.MIGRATE_MODULES_TO_STANDALONE, component: MigrateModulesToStandaloneComponent },
   { path: RouterLinks.LF_REPOSITORY_BROWSER, component: LfRepositoryBrowserDocumentationComponent },
   { path: '', component: OverviewComponent },
 ];

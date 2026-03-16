@@ -69,6 +69,7 @@ const TREE_DATA: ComponentNode[] = [
     children: [
       { name: 'Troubleshooting', routerLink: RouterLinks.TROUBLESHOOTING },
       { name: 'Converting Angular Component to Element', routerLink: RouterLinks.CONVERT_COMPONENT },
+      { name: 'Migrating from Modules to Standalone', routerLink: RouterLinks.MIGRATE_MODULES_TO_STANDALONE },
     ],
   },
   {

@@ -13,20 +13,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </li>
 <li>
     <p>
-      Inside <code>./app.module.ts</code>, add <code>CUSTOM_ELEMENTS_SCHEMA</code> to &#64;NgModule.schemas. This allows you to use custom non-Angular components in your Angular application.
+      Since the CDN provides custom elements, add <code>CUSTOM_ELEMENTS_SCHEMA</code> to your standalone component.
+      This allows you to use custom non-Angular elements in your Angular application.
     </p>
     <div>
       <pre class="code-container">
-<span class="code-ts-import">import</span> &#123;  NgModule, CUSTOM_ELEMENTS_SCHEMA &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/core'</span>;
-&#64;NgModule(&#123;
-  <span class="code-ts-key-name">declarations:</span> [
-    AppComponent,
-    ...
-  ],
-  <span class="code-ts-key-name">imports:</span> [
-    ...
-  ],
-  <span class="code-ts-key-name">schemas</span>: [CUSTOM_ELEMENTS_SCHEMA]
+<span class="code-ts-import">import</span> &#123; Component, CUSTOM_ELEMENTS_SCHEMA &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/core'</span>;
+&#64;Component(&#123;
+  <span class="code-ts-key-name">selector</span>: 'app-attachments',
+  <span class="code-ts-key-name">standalone</span>: true,
+  <span class="code-ts-key-name">schemas</span>: [CUSTOM_ELEMENTS_SCHEMA],
+  <span class="code-ts-key-name">templateUrl</span>: './attachments.component.html',
 &#125;)
       </pre>
       <div class="zeroclipboard-container position-absolute right-0 top-0">
@@ -41,12 +38,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       </pre>
     <p dir="auto">In the <code>.ts</code> file,</p>
     <pre class="code-container">
-<span class="code-ts-import">import</span> &#123; AfterViewInit, Component, ViewChild, ElementRef &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/core'</span>;
+<span class="code-ts-import">import</span> &#123; AfterViewInit, Component, ViewChild &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/core'</span>;
 <span class="code-ts-comment">// we can directly import types from the NPM package</span>
-<span class="code-ts-import">import</span> &#123;LfChecklistComponent, Checklist &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;laserfiche/types-lf-ui-components'</span>;
+<span class="code-ts-import">import</span> &#123; LfChecklistComponent, Checklist &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;laserfiche/types-lf-ui-components'</span>;
 
 &#64;Component(&#123;
   <span class="code-ts-key-name">selector</span>: 'app-attachments',
+  <span class="code-ts-key-name">standalone</span>: true,
+  <span class="code-ts-key-name">schemas</span>: [CUSTOM_ELEMENTS_SCHEMA],
+  <span class="code-ts-key-name">imports</span>: [LfChecklistComponent],
   <span class="code-ts-key-name">templateUrl</span>:  './attachments.component.html',
   <span class="code-ts-key-name">styleUrls</span>: ['./attachments.component.css'],
 &#125;)
@@ -54,7 +54,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <span class="code-ts-import">export class</span> ExampleApp <span class="code-ts-import">implements</span> AfterViewInit &#123;
 
   <span class="code-ts-comment">// allows access to the LfChecklistElement in the html above, available starting in ngAfterViewInit hook</span>
-  &#64;ViewChild('myChecklist') <span class="code-ts-key-name">checklist!</span>: ElementRef&lt;LfChecklistComponent>;
+  &#64;ViewChild('myChecklist') <span class="code-ts-key-name">checklist!</span>: LfChecklistComponent;
 
   <span class="code-ts-comment">// type Checklist is the type of the custom element imported from the NPM package</span>
   <span class="code-ts-key-name">currentChecklist: Checklist[];</span>
@@ -66,7 +66,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
   <span class="code-ts-function">ngAfterViewInit()</span> &#123;
     <span class="code-ts-comment">// the element's view is initialized after ngAfterViewInit</span>
-    this.<span class="code-ts-key-name">checklist.nativeElement</span>.<span class="code-ts-function">initAsync</span>(...);
+    this.<span class="code-ts-key-name">checklist</span>.<span class="code-ts-function">initAsync</span>(...);
   &#125;
 &#125;
     </pre>
