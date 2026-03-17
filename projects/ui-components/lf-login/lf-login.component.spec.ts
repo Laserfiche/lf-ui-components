@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { LfLoginComponent } from './lf-login.component';
 import { LoginState } from '@laserfiche/lf-ui-components/shared';
 import { LfLoginService } from './login-utils/lf-login.service';
+import { AccountEndpoints } from 'types-lf-ui-components-publish';
 
 describe('LfLoginComponent', () => {
   let loginService: LfLoginService;
@@ -76,23 +77,31 @@ describe('LfLoginComponent', () => {
     );
   });
 
-  it('getFullLogoutUrl returns logout url', () => {
-    loginService._accountEndpoints = {
-      wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
-      webClientUrl: '',
-      regionalDomain: '',
-      oauthAuthorizeUrl: '',
-    };
-    component.redirect_uri = 'test-url';
-    const logoutUrl = component.getFullLogoutUrl();
+  describe('getFullLogoutUrl', () => {
+    it('should return a logout URL when wsignoutUrl is available', () => {
+      const accountEndpoints: AccountEndpoints | undefined = {
+        wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
+        webClientUrl: '',
+        regionalDomain: '',
+        oauthAuthorizeUrl: '',
+      };
+      const originalGetAccountEndpointsSpy = spyOn<any>(loginService, 'getAccountEndpoints');
+      originalGetAccountEndpointsSpy.and.returnValue(accountEndpoints);
 
-    expect(logoutUrl).toEqual('https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0&wreply=test-url');
+      component.redirect_uri = 'test-url';
+      const logoutUrl = component.getFullLogoutUrl();
+
+      expect(logoutUrl).toEqual('https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0&wreply=test-url');
+    });
+
+    it('should return undefined when wsignoutUrl is unavailable', () => {
+      const originalGetAccountEndpointsSpy = spyOn<any>(loginService, 'getAccountEndpoints');
+      originalGetAccountEndpointsSpy.and.returnValue(undefined);
+
+      expect(component.getFullLogoutUrl()).toBeUndefined();
+    });
   });
 
-  it('getFullLogoutUrl when no signout url available', () => {
-    loginService._accountEndpoints = undefined;
-    expect(component.getFullLogoutUrl()).toBeUndefined();
-  });
 
   it('concatStrings should return second string when no first string', () => {
     expect(component.concatStrings(undefined, 'test')).toEqual('test');
