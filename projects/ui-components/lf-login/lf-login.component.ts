@@ -11,6 +11,7 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges,
+  AfterViewInit,
 } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { AccountInfo, RedirectUriQueryParams } from './login-utils/lf-login-internal-types';
@@ -20,9 +21,8 @@ import {
   AuthorizationCredentials,
   LfBeforeFetchResult,
   LfHttpRequestHandler,
-  LoginType,
 } from './login-utils/lf-login-types';
-import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
+import { LoginMode, LoginState, LoginType, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfLoginService } from './login-utils/lf-login.service';
 import { ApiException, PKCEUtils } from '@laserfiche/lf-api-client-core';
@@ -36,7 +36,7 @@ const CODE_CHALLENGE_METHOD = 'S256';
   templateUrl: './lf-login.component.html',
   styleUrls: ['./lf-login.component.css'],
 })
-export class LfLoginComponent implements OnDestroy, OnInit, OnChanges {
+export class LfLoginComponent implements OnDestroy, OnInit, OnChanges, AfterViewInit {
   @Input() mode: LoginMode = LoginMode.Button;
 
   /**
@@ -85,7 +85,7 @@ export class LfLoginComponent implements OnDestroy, OnInit, OnChanges {
   @Input() set client_id(val: string) {
     this.loginService.client_id = val;
   }
-  get client_id(): string | undefined{
+  get client_id(): string | undefined {
     return this.loginService.client_id;
   }
 
@@ -375,6 +375,15 @@ export class LfLoginComponent implements OnDestroy, OnInit, OnChanges {
     });
   }
 
+  async ngAfterViewInit() {
+    const accessToken = this.authorization_credentials?.accessToken;
+    if (accessToken) {
+      this._state = LoginState.LoggedIn;
+    } else {
+      await this.initializeLoginAsync();
+    }
+  }
+
   /** @internal */
   async ngOnChanges(changes: SimpleChanges) {
     // initialize the login state according to the access token
@@ -389,6 +398,18 @@ export class LfLoginComponent implements OnDestroy, OnInit, OnChanges {
       } else {
         await this.initializeLoginAsync();
       }
+    }
+
+    const currentLoginType = changes['login_type'];
+    if (
+      !this.loginService.loginProvider &&
+      ((currentLoginType?.currentValue && currentLoginType?.isFirstChange()) ||
+        currentLoginType?.previousValue !== currentLoginType?.currentValue)
+    ) {
+      this.loginService.loginProvider =
+        currentLoginType.currentValue === LoginType.SelfHosted
+          ? new SelfHostedLoginProvider(this.loginService, currentLoginIdentifier.currentValue)
+          : new CloudLoginProvider(this.loginService);
     }
   }
 
@@ -640,8 +661,8 @@ export class LfLoginComponent implements OnDestroy, OnInit, OnChanges {
 
   /** @internal */
   getFullLogoutUrl(): string | undefined {
-    if (this.loginService._accountEndpoints?.wsignoutUrl) {
-      const acsToLfLogout = new URL(this.loginService._accountEndpoints?.wsignoutUrl);
+    if (this.account_endpoints?.wsignoutUrl) {
+      const acsToLfLogout = new URL(this.account_endpoints?.wsignoutUrl);
       // Warning: if we are already logged out this will behave strangely
       // won't redirect back to redirect Url
       acsToLfLogout.searchParams.set('wreply', this.redirect_uri);
