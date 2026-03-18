@@ -48,5 +48,3 @@ export interface LfHttpRequestHandler {
    */
   afterFetchResponseAsync: (url: string, response: Response, request: RequestInit) => Promise<boolean>;
 }
-
-export type LoginType = 'Cloud' | 'Self-Hosted';

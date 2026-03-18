@@ -3,8 +3,8 @@
 
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AccountInfo, RedirectUriQueryParams } from './lf-login-internal-types';
-import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints, LoginType } from './lf-login-types';
-import { LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
+import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';
+import { LoginState, RedirectBehavior, LoginType } from '@laserfiche/lf-ui-components/shared';
 import { GetAccessTokenResponse, ApiException, JwtUtils } from '@laserfiche/lf-api-client-core';
 import { LoginProvider } from './login-provider';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
@@ -40,7 +40,7 @@ export class LfLoginService {
   /** @internal */
   code_verifier?: string;
   /** @internal */
-  login_type: LoginType = 'Cloud';
+  login_type: LoginType = LoginType.Cloud;
   /** @internal */
   loginProvider?: LoginProvider;
   /** @internal */

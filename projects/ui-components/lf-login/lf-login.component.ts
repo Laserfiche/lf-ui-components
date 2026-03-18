@@ -21,9 +21,8 @@ import {
   AuthorizationCredentials,
   LfBeforeFetchResult,
   LfHttpRequestHandler,
-  LoginType,
 } from './login-utils/lf-login-types';
-import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
+import { LoginMode, LoginState, LoginType, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfLoginService } from './login-utils/lf-login.service';
 import { ApiException, PKCEUtils } from '@laserfiche/lf-api-client-core';
@@ -408,7 +407,7 @@ export class LfLoginComponent implements OnDestroy, OnInit, OnChanges, AfterView
         currentLoginType?.previousValue !== currentLoginType?.currentValue)
     ) {
       this.loginService.loginProvider =
-        currentLoginType.currentValue === 'Self-Hosted'
+        currentLoginType.currentValue === LoginType.SelfHosted
           ? new SelfHostedLoginProvider(this.loginService, currentLoginIdentifier.currentValue)
           : new CloudLoginProvider(this.loginService);
     }
