@@ -33,6 +33,10 @@ lf-checklist .mat-form-field-appearance-outline.mat-focused .mat-form-field-outl
   margin-top: 5px;
 }
 
+.lf-checklist-item .mat-mdc-checkbox {
+  margin-top: -3px;
+}
+
 .lf-checklist-item .lf-text-field {
   padding: 0px;
   border: none;
