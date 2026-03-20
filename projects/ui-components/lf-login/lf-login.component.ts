@@ -345,7 +345,7 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
   @Input()
   initSelfHostedLoginFlowAsync: (
     accountEndpoints: AccountEndpoints,
-    repositoryId: string,
+    repositoryId: string
   ) => Promise<string | undefined> = async (accountEndpoints: AccountEndpoints, repositoryId: string) => {
     return await this.loginFlowHandler(() => this.startSelfHostedLoginFlow(accountEndpoints, repositoryId));
   };
@@ -509,7 +509,7 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
         this.loginService.loginProvider?.determineCurrentState(
           callBackURIParams,
           this.loginCompleted,
-          this.logoutCompleted,
+          this.logoutCompleted
         ) ?? LoginState.LoggedOut;
       this.ref.detectChanges();
       if (this.loginService._state === LoginState.LoggingIn) {

@@ -1,7 +1,7 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { LoginProvider } from './login-provider';
 import { DomainUtils, TokenClient } from '@laserfiche/lf-api-client-core';
 import { LfLoginService } from './lf-login.service';
@@ -9,10 +9,6 @@ import { AuthorizationCredentials } from './lf-login-types';
 import { RedirectUriQueryParams } from './lf-login-internal-types';
 import { LoginState } from '@laserfiche/lf-ui-components/shared';
 
-/** @internal */
-@Injectable({
-  providedIn: 'root',
-})
 export class CloudLoginProvider implements LoginProvider {
   readonly CLOUDDEV = 'clouddev';
   readonly CLOUDTEST = 'cloudtest';
@@ -77,7 +73,7 @@ export class CloudLoginProvider implements LoginProvider {
   determineCurrentState(
     callBackURIParams: RedirectUriQueryParams | undefined,
     loginCompleted: EventEmitter<void>,
-    logoutCompleted: EventEmitter<void>,
+    logoutCompleted: EventEmitter<void>
   ): LoginState {
     const storedAccessToken = localStorage.getItem(this.lfLoginService.accessTokenStorageKey!);
     const storedAccountEndpoints = localStorage.getItem(this.lfLoginService.accountEndpointsStorageKey);

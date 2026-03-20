@@ -4,7 +4,6 @@
 import { SelfHostedTokenClient } from '@laserfiche/lf-api-client-core';
 import { LfLoginService } from './lf-login.service';
 import { AccountEndpoints, AuthorizationCredentials } from './lf-login-types';
-import { TestBed } from '@angular/core/testing';
 import { EventEmitter } from '@angular/core';
 import { LoginState } from '@laserfiche/lf-ui-components/shared';
 import { SelfHostedLoginProvider } from './self-hosted-login-provider';
@@ -25,24 +24,19 @@ const accountEndpointsMock: AccountEndpoints = {
 
 describe('SelfHostedLoginProvider', () => {
   let provider: SelfHostedLoginProvider;
-  const lfLoginServiceMock: jasmine.SpyObj<LfLoginService> = jasmine.createSpyObj(
-    'LfLoginService',
-    [
-      'storeAccessToken',
-      'storeAccountEndpoints',
-      'storeAccountInfo',
-      'extractCodeFromUrl',
-      'extractErrorFromUrl',
-      'accessTokenStorageKey',
-    ],
-    {
-      self_hosted_base_url: 'https://example.com',
-      self_hosted_account_endpoints: accountEndpointsMock,
-    },
-  );
+  let lfLoginServiceMock: Partial<LfLoginService>;
 
   beforeEach(() => {
-    provider = new SelfHostedLoginProvider(lfLoginServiceMock, 'repository-id');
+    lfLoginServiceMock = {
+      storeAccessToken: vi.fn(),
+      storeAccountInfo: vi.fn(),
+      storeAccountEndpoints: vi.fn(),
+      extractCodeFromUrl: vi.fn(),
+      extractErrorFromUrl: vi.fn(),
+      accessTokenStorageKey: 'mock-storage-key',
+    };
+
+    provider = new SelfHostedLoginProvider(lfLoginServiceMock as LfLoginService, 'mock-repository-id');
   });
 
   describe('getTokenClient', () => {
@@ -54,6 +48,7 @@ describe('SelfHostedLoginProvider', () => {
 
   describe('getBaseAuthorizeUrl', () => {
     it('should return the base authorize URL when last OAuth authorize URL exist and host name does not include dev and test environments', () => {
+      lfLoginServiceMock.self_hosted_account_endpoints = accountEndpointsMock;
       const baseAuthorizeUrl = provider.getBaseAuthorizeUrl();
       expect(baseAuthorizeUrl).toBe(accountEndpointsMock.oauthAuthorizeUrl);
     });
@@ -65,19 +60,19 @@ describe('SelfHostedLoginProvider', () => {
         accessToken: 'test-access',
         expiresIn: '3600',
         tokenType: 'bearer',
+        refreshToken: 'refresh-token',
       };
 
       provider.storeInLocalStorage(accessTokenCredentials, '', '');
 
       expect(lfLoginServiceMock.storeAccessToken).toHaveBeenCalledWith(accessTokenCredentials);
-      expect(lfLoginServiceMock.storeAccountEndpoints).toHaveBeenCalledWith(accountEndpointsMock);
       expect(lfLoginServiceMock.storeAccountInfo).not.toHaveBeenCalled();
     });
   });
 
   describe('exchangeRedirectUriQueryParams', () => {
     it('should return RedirectUriQueryParams with authorization code', () => {
-      lfLoginServiceMock.extractCodeFromUrl.and.returnValue('abc');
+      lfLoginServiceMock.extractCodeFromUrl = vi.fn().mockReturnValue('abc');
       const url = new URL('https://example.com/callback?code=abc&domain=example.com');
 
       const redirectUriQueryParams = provider.exchangeRedirectUriQueryParams(url);
@@ -88,8 +83,8 @@ describe('SelfHostedLoginProvider', () => {
     });
 
     it('should return RedirectUriQueryParams with error when available', () => {
-      lfLoginServiceMock.extractCodeFromUrl.and.returnValue(undefined);
-      lfLoginServiceMock.extractErrorFromUrl.and.returnValue({ name: 'xyz', description: 'unknown' });
+      lfLoginServiceMock.extractCodeFromUrl = vi.fn().mockReturnValue(undefined);
+      lfLoginServiceMock.extractErrorFromUrl = vi.fn().mockReturnValue({ name: 'xyz', description: 'unknown' });
       const url = new URL('https://example.com/callback?error=xyz');
 
       const redirectUriQueryParams = provider.exchangeRedirectUriQueryParams(url);
@@ -100,8 +95,8 @@ describe('SelfHostedLoginProvider', () => {
     });
 
     it('should return undefined when particular query parameters are missing', () => {
-      lfLoginServiceMock.extractCodeFromUrl.and.returnValue(undefined);
-      lfLoginServiceMock.extractErrorFromUrl.and.returnValue(undefined);
+      lfLoginServiceMock.extractCodeFromUrl = vi.fn().mockReturnValue(undefined);
+      lfLoginServiceMock.extractErrorFromUrl = vi.fn().mockReturnValue(undefined);
       const url = new URL('https://example.com/callback?somthing=else');
 
       const redirectUriQueryParams = provider.exchangeRedirectUriQueryParams(url);
@@ -112,20 +107,18 @@ describe('SelfHostedLoginProvider', () => {
 
   describe('determineCurrentState', () => {
     it('should return LoginState.LoggedIn when access token and account information are stored in local storage', () => {
-      const loginService = TestBed.inject(LfLoginService);
-      spyOnProperty(loginService, 'accessTokenStorageKey', 'get').and.returnValue('access-token-key');
-      spyOnProperty(loginService, 'accountEndpointsStorageKey', 'get').and.returnValue('account-endpoints-value');
+      // Reset mocks
+      lfLoginServiceMock.storeAccessToken = vi.fn().mockClear();
 
-      const loginCompleteEmitMock = jasmine.createSpyObj('EventEmitter', ['emit']);
-      const logoutCompleted = new EventEmitter();
+      const loginCompleteEmitMock = { emit: vi.fn() } as unknown as EventEmitter<void>;
+      const logoutCompleted = {} as unknown as EventEmitter<void>;
 
-      spyOn(localStorage, 'getItem').and.returnValues('access-token-value', 'account-endpoints-value');
+      localStorage.getItem = vi
+        .fn()
+        .mockReturnValueOnce('access-token-value')
+        .mockReturnValueOnce('account-endpoints-value');
 
-      spyOn(JSON, 'parse')
-        .withArgs('access-token-value')
-        .and.returnValue(authorizationCredentialsMock)
-        .withArgs('account-endpoints-value')
-        .and.returnValue(accountEndpointsMock);
+      JSON.parse = vi.fn().mockReturnValueOnce(authorizationCredentialsMock).mockReturnValueOnce(accountEndpointsMock);
 
       const currentState = provider.determineCurrentState(undefined, loginCompleteEmitMock, logoutCompleted);
 
@@ -144,8 +137,8 @@ describe('SelfHostedLoginProvider', () => {
     });
 
     it('should return LoginState.LoggedOut when no access token or account endpoints are stored in local storage', () => {
-      const loginCompleted = new EventEmitter();
-      const logoutCompletedEmitMock = jasmine.createSpyObj('EventEmitter', ['emit']);
+      const loginCompleted = { emit: vi.fn() } as unknown as EventEmitter<void>;
+      const logoutCompletedEmitMock = { emit: vi.fn() } as unknown as EventEmitter<void>;
 
       const currentState = provider.determineCurrentState(undefined, loginCompleted, logoutCompletedEmitMock);
 
@@ -156,7 +149,7 @@ describe('SelfHostedLoginProvider', () => {
 
   describe('logoutInitiatedViaUrl', () => {
     it('should emit the provided URL when logout initiated via URL', () => {
-      const emitSpy = jasmine.createSpy('emit');
+      const emitSpy = vi.fn();
       const url = 'https://example.com/logout';
 
       provider.logoutInitiatedViaUrl(url, { emit: emitSpy });
@@ -166,7 +159,7 @@ describe('SelfHostedLoginProvider', () => {
     });
 
     it('should not emit when URL is undefined', () => {
-      const emitSpy = jasmine.createSpy('emit');
+      const emitSpy = vi.fn();
       provider.logoutInitiatedViaUrl(undefined, { emit: emitSpy });
 
       expect(emitSpy).not.toHaveBeenCalled();

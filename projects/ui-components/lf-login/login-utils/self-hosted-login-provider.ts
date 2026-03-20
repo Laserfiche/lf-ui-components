@@ -1,7 +1,7 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { EventEmitter, Inject, Injectable } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { LoginProvider } from './login-provider';
 import { LfLoginService } from './lf-login.service';
 import { SelfHostedTokenClient } from '@laserfiche/lf-api-client-core';
@@ -10,18 +10,15 @@ import { RedirectUriQueryParams } from './lf-login-internal-types';
 import { LoginState } from '@laserfiche/lf-ui-components/shared';
 
 /** @internal */
-@Injectable({
-  providedIn: 'root',
-})
 export class SelfHostedLoginProvider implements LoginProvider {
   constructor(
     private lfLoginService: LfLoginService,
-    @Inject('repositoryId') private readonly repositoryId: string,
+    private readonly repositoryId: string
   ) {}
 
   getTokenClient() {
     return new SelfHostedTokenClient(
-      `${this.lfLoginService.self_hosted_base_url}/v2/Repositories/${this.repositoryId}/Token`,
+      `${this.lfLoginService.self_hosted_base_url}/v2/Repositories/${this.repositoryId}/Token`
     );
   }
 
@@ -52,7 +49,7 @@ export class SelfHostedLoginProvider implements LoginProvider {
   determineCurrentState(
     callBackURIParams: RedirectUriQueryParams | undefined,
     loginCompleted: EventEmitter<void>,
-    logoutCompleted: EventEmitter<void>,
+    logoutCompleted: EventEmitter<void>
   ): LoginState {
     const storedAccessToken = localStorage.getItem(this.lfLoginService.accessTokenStorageKey!);
     const storedAccountEndpoints = localStorage.getItem(this.lfLoginService.accountEndpointsStorageKey);

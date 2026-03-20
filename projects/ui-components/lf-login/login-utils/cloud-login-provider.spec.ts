@@ -10,7 +10,7 @@ describe('CloudLoginProvider', () => {
   let provider: CloudLoginProvider;
   let lfLoginServiceMock: Partial<LfLoginService>;
 
-   beforeEach(() => {
+  beforeEach(() => {
     lfLoginServiceMock = {
       storeAccessToken: vi.fn(),
       parseAccessToken: vi.fn(),
@@ -136,19 +136,20 @@ describe('CloudLoginProvider', () => {
     };
 
     it('should return LoginState.LoggedIn when access token and account information are stored in local storage', () => {
-       // Reset mocks
+      // Reset mocks
       lfLoginServiceMock.storeAccessToken = vi.fn().mockClear();
 
       const loginCompleteEmitMock = { emit: vi.fn() } as unknown as EventEmitter<void>;
-      const logoutCompleted = {} as unknown as EventEmitter<void>;;
+      const logoutCompleted = {} as unknown as EventEmitter<void>;
 
-      localStorage.getItem = vi.fn()
+      localStorage.getItem = vi
+        .fn()
         .mockReturnValueOnce('access-token-value')
         .mockReturnValueOnce('account-endpoints-value')
-        .mockReturnValueOnce('account-id-value')
-        .mockReturnValueOnce(null); // simulate read for other keys if needed
+        .mockReturnValueOnce('account-id-value');
 
-      JSON.parse = vi.fn()
+      JSON.parse = vi
+        .fn()
         .mockReturnValueOnce(authorizationCredentialsMock)
         .mockReturnValueOnce(accountEndpointsMock)
         .mockReturnValueOnce(accountInfoMock);
@@ -170,8 +171,8 @@ describe('CloudLoginProvider', () => {
     });
 
     it('should return LoginState.LoggedOut when no access token or account endpoints are stored in local storage', () => {
-      const loginCompleted = { emit: vi.fn() } as unknown as EventEmitter<void>;;
-      const logoutCompletedEmitMock = { emit: vi.fn() } as unknown as EventEmitter<void>;;
+      const loginCompleted = { emit: vi.fn() } as unknown as EventEmitter<void>;
+      const logoutCompletedEmitMock = { emit: vi.fn() } as unknown as EventEmitter<void>;
 
       const currentState = provider.determineCurrentState(undefined, loginCompleted, logoutCompletedEmitMock);
 
