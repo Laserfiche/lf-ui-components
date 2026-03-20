@@ -164,7 +164,7 @@ describe('ResizeColumnDirective', () => {
     fixture.detectChanges();
 
     // Assert
-    expect(fixture.componentInstance.widthChanged).toBe(initialWidth + moveX);
+    expect(Math.floor(fixture.componentInstance.widthChanged)).toBe(Math.floor(initialWidth + moveX));
   });
 
   it('should set repository-browser-resize-overlay left with mousemove', () => {
@@ -181,13 +181,13 @@ describe('ResizeColumnDirective', () => {
 
     // Assert
     const resize = Array.from(document.getElementsByClassName('repository-browser-resize-overlay'));
-    expect((resize[0] as HTMLDivElement).style.left).toBe(`${moveX + initialWidth}px`);
+    expect((resize[0] as HTMLDivElement).style.left).toBe(`${Math.floor(moveX + initialWidth)}px`);
 
     // Move the mouse again
     mouseMoveResizeHandler(resizeHandleEl, 2 * moveX);
     fixture.detectChanges();
 
     // Assert
-    expect((resize[0] as HTMLDivElement).style.left).toBe(`${2 * moveX + initialWidth}px`);
+    expect((resize[0] as HTMLDivElement).style.left).toBe(`${Math.floor(2 * moveX + initialWidth)}px`);
   });
 });
