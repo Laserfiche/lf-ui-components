@@ -46,3 +46,8 @@ export enum LoginMode {
   'Button' = 'Button',
   'Menu' = 'Menu',
 }
+
+export enum LoginType {
+  Cloud = 'Cloud',
+  SelfHosted = 'Self-Hosted',
+}

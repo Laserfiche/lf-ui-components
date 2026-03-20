@@ -4,14 +4,9 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AccountInfo, RedirectUriQueryParams } from './lf-login-internal-types';
 import { AbortedLoginError, AuthorizationCredentials, AccountEndpoints } from './lf-login-types';
-import { LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
-import {
-  DomainUtils,
-  GetAccessTokenResponse,
-  ApiException,
-  JwtUtils,
-  TokenClient,
-} from '@laserfiche/lf-api-client-core';
+import { LoginState, RedirectBehavior, LoginType } from '@laserfiche/lf-ui-components/shared';
+import { GetAccessTokenResponse, ApiException, JwtUtils } from '@laserfiche/lf-api-client-core';
+import { LoginProvider } from './login-provider';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
 @Injectable({
@@ -28,17 +23,28 @@ export class LfLoginService {
   _state?: LoginState;
 
   /** @internal */
-  client_id!: string;
+  client_id?: string;
   /** @internal */
   redirect_uri!: string;
   /** @internal */
-  scope!: string;
+  scope?: string;
   /** @internal */
   redirect_behavior: RedirectBehavior = RedirectBehavior.Replace;
   /** @internal */
   authorize_url_host_name: string = 'laserfiche.com';
   /** @internal */
+  self_hosted_base_url?: string;
+  /** @internal */
+  self_hosted_account_endpoints?: AccountEndpoints;
+
+  /** @internal */
   code_verifier?: string;
+  /** @internal */
+  login_type: LoginType = LoginType.Cloud;
+  /** @internal */
+  loginProvider?: LoginProvider;
+  /** @internal */
+  login_identifier: string = this.client_id ?? '';
 
   /** @internal */
   @Output() logoutCompletedInService: EventEmitter<AbortedLoginError | undefined> = new EventEmitter<
@@ -48,32 +54,49 @@ export class LfLoginService {
   @Output() loginCompletedInService: EventEmitter<void> = new EventEmitter<void>();
 
   /** @internal */
-  private get base64EncodedClientId(): string {
-    return btoa(this.client_id);
+  private get base64EncodedLoginIdentifier(): string {
+    return btoa(this.login_identifier);
   }
 
   /** @internal */
   get accountIdStorageKey() {
-    return `lf-login.${this.base64EncodedClientId}.account-id`;
+    return `lf-login.${this.base64EncodedLoginIdentifier}.account-id`;
   }
 
   /** @internal */
   get accountEndpointsStorageKey() {
-    return `lf-login.${this.base64EncodedClientId}.account-endpoints`;
+    return `lf-login.${this.base64EncodedLoginIdentifier}.account-endpoints`;
   }
 
   /** @internal */
   get accessTokenStorageKey() {
-    return `lf-login.${this.base64EncodedClientId}.access-token`;
+    return `lf-login.${this.base64EncodedLoginIdentifier}.access-token`;
   }
 
   /** @internal */
   get codeVerifierStorageKey() {
-    return `lf-login.${this.base64EncodedClientId}.code-verifier`;
+    return `lf-login.${this.base64EncodedLoginIdentifier}.code-verifier`;
   }
 
   /** @internal */
   private exchangeCodeForToken_lock: boolean = false;
+
+  /** @internal */
+  getAccountEndpoints(): AccountEndpoints | undefined {
+    try {
+      const accountEndpointsFromStorage = localStorage.getItem(this.accountEndpointsStorageKey);
+      if (accountEndpointsFromStorage) {
+        const accountEndpoints: AccountEndpoints = JSON.parse(accountEndpointsFromStorage);
+        return accountEndpoints;
+      } else {
+        return undefined;
+      }
+      // }
+    } catch (err: any) {
+      console.warn('Unable to retrieve accountEndpoints: ' + err.message);
+      return undefined;
+    }
+  }
 
   /** @internal */
   async exchangeCodeForTokenAsync(callBackURIParams: RedirectUriQueryParams) {
@@ -86,18 +109,22 @@ export class LfLoginService {
       }
       this.exchangeCodeForToken_lock = true;
       this.code_verifier = localStorage.getItem(this.codeVerifierStorageKey)!;
-      if (callBackURIParams.authorizationCode && this.code_verifier) {
+      const tokenClient = this.loginProvider?.getTokenClient(callBackURIParams.cloudSubDomain!);
+      if (callBackURIParams.authorizationCode && this.code_verifier && tokenClient) {
         try {
-          const tokenClient = new TokenClient(callBackURIParams.cloudSubDomain!);
           const response = await tokenClient.getAccessTokenFromCode(
             callBackURIParams.authorizationCode,
             this.redirect_uri,
             this.client_id,
             undefined,
-            this.code_verifier
+            this.code_verifier,
           );
           const accessToken = await this.parseTokenResponseAsync(response);
-          this.storeInLocalStorage(accessToken!, callBackURIParams.customerId!, callBackURIParams.cloudSubDomain!);
+          this.loginProvider?.storeInLocalStorage(
+            accessToken!,
+            callBackURIParams.customerId!,
+            callBackURIParams.cloudSubDomain!,
+          );
           this._state = LoginState.LoggedIn;
           console.info('state changed to LoggedIn');
           this.loginCompletedInService.emit();
@@ -133,6 +160,14 @@ export class LfLoginService {
           ErrorMessage: 'code verifier not found',
         });
         console.error('Login Error (state changed to Logged Out): unable to find code verifier');
+      } else if (!tokenClient) {
+        this._state = LoginState.LoggedOut;
+        this.removeFromLocalStorage();
+        this.logoutCompletedInService.emit({
+          ErrorType: 'TokenClient is undefined',
+          ErrorMessage: 'TokenClient is undefined',
+        });
+        console.error('Login Error (state changed to Logged Out): unable to use an undefined TokenClient', tokenClient);
       } else {
         throw new Error('Unexpected callBackURIParams');
       }
@@ -151,6 +186,25 @@ export class LfLoginService {
     } catch {
       throw Error('Parse token response error.');
     }
+  }
+
+  /** @internal */
+  getExchangeCodeSuccessResponse(jsonResponse: any) {
+    const accessToken = jsonResponse['access_token'];
+    const refreshToken = jsonResponse['refresh_token'] ?? jsonResponse['refreshToken'];
+    const expiresIn = jsonResponse['expires_in'];
+    const tokenType = jsonResponse['token_type'];
+    if (!accessToken) throw new Error('access_token undefined');
+    if (!expiresIn) throw new Error('expires_in undefined');
+    if (!tokenType) throw new Error('token_type undefined');
+    if (!refreshToken) throw new Error('refresh_token undefined');
+
+    return {
+      accessToken,
+      refreshToken,
+      expiresIn,
+      tokenType,
+    };
   }
 
   /** @internal */
@@ -190,26 +244,6 @@ export class LfLoginService {
   }
 
   /** @internal */
-  getExchangeCodeSuccessResponse(jsonResponse: any) {
-    const accessToken = jsonResponse['access_token'];
-    const refreshToken = jsonResponse['refresh_token'];
-    const expiresIn = jsonResponse['expires_in'];
-    const tokenType = jsonResponse['token_type'];
-    if (!accessToken) throw new Error('access_token undefined');
-    if (!refreshToken) throw new Error('refresh_token undefined');
-    if (!expiresIn) throw new Error('expires_in undefined');
-    if (!tokenType) throw new Error('token_type undefined');
-
-    const accessTokenResponse: AuthorizationCredentials = {
-      accessToken,
-      refreshToken,
-      expiresIn,
-      tokenType,
-    };
-    return accessTokenResponse;
-  }
-
-  /** @internal */
   storeAccessToken(responseBody: AuthorizationCredentials) {
     localStorage.setItem(this.accessTokenStorageKey!, JSON.stringify(responseBody));
     this._accessToken = responseBody;
@@ -218,15 +252,6 @@ export class LfLoginService {
   /** @internal */
   storeCodeVerifier(code_verifier: string) {
     localStorage.setItem(this.codeVerifierStorageKey!, code_verifier);
-  }
-
-  /** @internal */
-  storeInLocalStorage(accessTokenCredentials: AuthorizationCredentials, accountId: string, regionalDomain: string) {
-    const trusteeId: string = this.parseAccessToken(accessTokenCredentials.accessToken);
-    const endpoints = DomainUtils.getLfEndpoints(regionalDomain);
-    this.storeAccountInfo(accountId, trusteeId);
-    this.storeAccountEndpoints(endpoints);
-    this.storeAccessToken(accessTokenCredentials);
   }
 
   /** @internal */
@@ -255,13 +280,13 @@ export class LfLoginService {
   }
 
   /** @internal */
-  private storeAccountEndpoints(accountEndpoints: AccountEndpoints) {
+  storeAccountEndpoints(accountEndpoints: AccountEndpoints) {
     localStorage.setItem(this.accountEndpointsStorageKey!, JSON.stringify(accountEndpoints));
     this._accountEndpoints = accountEndpoints;
   }
 
   /** @internal */
-  private storeAccountInfo(accountId: string, trusteeId: string) {
+  storeAccountInfo(accountId: string, trusteeId: string) {
     const accountInfo: AccountInfo = {
       accountId,
       trusteeId,
@@ -275,5 +300,31 @@ export class LfLoginService {
     const accountEndpoints = localStorage.getItem(this.accountEndpointsStorageKey);
     this._accountInfo = JSON.parse(accountInfo!);
     this._accountEndpoints = JSON.parse(accountEndpoints!);
+  }
+
+  /** @internal */
+  extractErrorFromUrl(url: URL): { name: string; description: string } | undefined {
+    const error = url.searchParams.get('error');
+    if (error) {
+      const description = url.searchParams.get('description') ?? 'unknown';
+      return { name: error, description };
+    } else {
+      return undefined;
+    }
+  }
+
+  /** @internal */
+  extractCodeFromUrl(url: URL): string | undefined {
+    return url.searchParams.get('code') ?? undefined;
+  }
+
+  /** @internal */
+  extractDomainFromUrl(url: URL): string | undefined {
+    return url.searchParams.get('domain') ?? undefined;
+  }
+
+  /** @internal */
+  extractCustomerIdFromUrl(url: URL): string | undefined {
+    return url.searchParams.get('customerId') ?? undefined;
   }
 }

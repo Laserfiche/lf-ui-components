@@ -1,6 +1,5 @@
 .lf-checklist-item {
   display: flex;
-  align-items: center;
   width: 100%;
 }
 
@@ -13,7 +12,7 @@
   display: flex;
   min-width: 30px;
   width: 30px;
-  height: 30px;
+  height: 34px;
   align-items: center;
   margin-right: 5px;
   position: relative;
@@ -29,7 +28,6 @@
 
 .lf-checklist-field {
   width: 100%;
-  height: 34px;
 }
 
 .mat-mdc-input-element {
@@ -76,6 +74,14 @@
   font-size: 14px;
 }
 
+::ng-deep mat-form-field.lf-checklist-field >
+.mat-mdc-text-field-wrapper >
+.mat-mdc-form-field-flex >
+.mat-mdc-form-field-infix {
+  min-height: 28px !important;
+  padding: 4px 0;
+}
+
 ::ng-deep .lf-checklist-item .mat-form-field-appearance-fill .mat-mdc-form-field-flex {
   align-items: center;
   border-radius: 2px;
@@ -86,7 +92,6 @@
 }
 
 ::ng-deep .lf-checklist-item .mat-mdc-form-field-subscript-wrapper {
-  position: static;
   margin-top: 0px;
 }
 

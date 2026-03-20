@@ -193,7 +193,7 @@ sign_out_text.
   <tr>
     <td>client_id</td>
     <td>string</td>
-    <td>the client_id you received when registering your application in LF developer console</td>
+    <td>(optional) the client_id you received when registering your application in LF developer console</td>
   </tr>
   <tr>
     <td>redirect_uri</td>
@@ -204,7 +204,7 @@ sign_out_text.
     <td>scope</td>
     <td>string</td>
     <td>
-      scope is passed to OAuth service, will determine which rights are requested from user and what the API able to
+      (optional) scope is passed to OAuth service, will determine which rights are requested from user and what the API able to
       access with the corresponding token
     </td>
   </tr>
@@ -217,6 +217,16 @@ sign_out_text.
     <td>authorize_url_host_name</td>
     <td>string</td>
     <td>pass in a specific host name (i.e. "a.clouddev.laserfiche.com"), defaults to production ("laserfiche.com")</td>
+  </tr>
+  <tr>
+    <td>login_type</td>
+    <td>LoginType</td>
+    <td>specify the login type of the component. Possible values are "Cloud" and "Self-Hosted". Default value is "Cloud"</td>
+  </tr>
+  <tr>
+    <td>login_identifier</td>
+    <td>string</td>
+    <td>specify the login identifier for the component. Typically, this is the <i>client_id</i> for cloud-base login or the repository name for self-hosted environments</td>
   </tr>
 </table>
 <br />
@@ -274,9 +284,17 @@ sign_out_text.
     <td>initLoginFlowAsync</td>
     <td>() => Promise&lt;string | undefined&gt;</td>
     <td>
-      Prompts the login flow to begin. The use case for this is if you want to start the login flow on page load, rather
+      Triggers the cloud login flow to begin. This creates a Cloud login provider instance. The use case for this is if you want to start the login flow on page load, rather
       than making the user click the button. If the user is already logged in, the function will return the current
       access token. If the user is not logged in, it will return undefined and start the OAuth login flow.
+    </td>
+  </tr>
+  <tr>
+    <td>initSelfHostedLoginFlowAsync</td>
+    <td>() => Promise&lt;string | undefined&gt;</td>
+    <td>
+      Triggers the self-hosted login flow to begin. This creates a Self-Hosted login provider instance. The rest of the flow is the same as initLoginFlowAsync,
+      but this function should be used if you are using the component in a self-hosted environment.
     </td>
   </tr>
   <tr>
@@ -341,6 +359,12 @@ sign_out_text.
 <ul>
   <li>Button - default</li>
   <li>Menu</li>
+</ul>
+
+<p class="documentation-sub-header">LoginType Enum</p>
+<ul>
+  <li>Cloud - default</li>
+  <li>Self-Hosted</li>
 </ul>
 
 <p class="documentation-sub-header">LoginState Enum</p>

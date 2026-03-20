@@ -8,6 +8,7 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
   Output,
   SimpleChanges,
   AfterViewInit,
@@ -24,10 +25,12 @@ import {
   LfBeforeFetchResult,
   LfHttpRequestHandler,
 } from './login-utils/lf-login-types';
-import { LoginMode, LoginState, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
+import { LoginMode, LoginState, LoginType, RedirectBehavior } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfLoginService } from './login-utils/lf-login.service';
-import { ApiException, PKCEUtils, TokenClient } from '@laserfiche/lf-api-client-core';
+import { ApiException, PKCEUtils } from '@laserfiche/lf-api-client-core';
+import { CloudLoginProvider } from './login-utils/cloud-login-provider';
+import { SelfHostedLoginProvider } from './login-utils/self-hosted-login-provider';
 
 const LOGIN_REDIRECT_STATE = 'lf-login-redirect';
 const CODE_CHALLENGE_METHOD = 'S256';
@@ -38,18 +41,13 @@ const CODE_CHALLENGE_METHOD = 'S256';
   standalone: true,
   imports: [CommonModule, MatMenuModule],
 })
-export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
+export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterViewInit {
   /**@internal */
   private ref = inject(ChangeDetectorRef);
   /**@internal */
   private loginService = inject(LfLoginService);
   /**@internal */
   private localizationService = inject(AppLocalizationService);
-
-  /** @internal */
-  private readonly CLOUDDEV = 'clouddev';
-  /** @internal */
-  private readonly CLOUDTEST = 'cloudtest';
 
   @Input() mode: LoginMode = LoginMode.Button;
 
@@ -99,7 +97,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   @Input() set client_id(val: string) {
     this.loginService.client_id = val;
   }
-  get client_id(): string {
+  get client_id(): string | undefined {
     return this.loginService.client_id;
   }
 
@@ -113,7 +111,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   @Input() set scope(val: string) {
     this.loginService.scope = val;
   }
-  get scope(): string {
+  get scope(): string | undefined {
     return this.loginService.scope;
   }
 
@@ -130,6 +128,22 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
 
   get authorize_url_host_name(): string {
     return this.loginService.authorize_url_host_name;
+  }
+
+  @Input() set login_type(val: LoginType) {
+    this.loginService.login_type = val;
+  }
+
+  get login_type(): LoginType {
+    return this.loginService.login_type;
+  }
+
+  @Input() set login_identifier(val: string) {
+    this.loginService.login_identifier = val;
+  }
+
+  get login_identifier(): string {
+    return this.loginService.login_identifier;
   }
 
   @Input()
@@ -154,22 +168,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
 
   @Input()
   get account_endpoints(): AccountEndpoints | undefined {
-    try {
-      if (this.loginService._accountEndpoints) {
-        return this.loginService._accountEndpoints;
-      } else {
-        const accountEndpointsFromStorage = localStorage.getItem(this.loginService.accountEndpointsStorageKey);
-        if (accountEndpointsFromStorage) {
-          const accountEndpoints: AccountEndpoints = JSON.parse(accountEndpointsFromStorage);
-          return accountEndpoints;
-        } else {
-          return undefined;
-        }
-      }
-    } catch (err: any) {
-      console.warn('Unable to retrieve accountEndpoints: ' + err.message);
-      return undefined;
-    }
+    return this.loginService.getAccountEndpoints();
   }
 
   @Input()
@@ -265,8 +264,9 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
           if (!oauthRegion) {
             throw new Error('Unable to refresh. Cannot construct tokenClient.');
           }
-          const tokenClient = new TokenClient(oauthRegion);
-          const response = await tokenClient.refreshAccessToken(refreshToken, this.client_id);
+
+          const tokenClient = this.loginService.loginProvider?.getTokenClient(oauthRegion);
+          const response = await tokenClient!.refreshAccessToken(refreshToken, this.client_id);
           const newAccessToken = await this.loginService.parseTokenResponseAsync(response);
           this.loginService.storeAccessToken(newAccessToken!);
           this._state = LoginState.LoggedIn;
@@ -304,14 +304,14 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
     }
   };
 
-  @Input()
-  initLoginFlowAsync: () => Promise<string | undefined> = async () => {
+  private async loginFlowHandler(startLoginMethodAsync: () => Promise<void>): Promise<string | undefined> {
     try {
       const accessToken: string | undefined = this.authorization_credentials?.accessToken;
       if (this.state === LoginState.LoggedOut && !this.hasLoginError) {
-        await this.startOAuthLoginFlowAsync();
+        await startLoginMethodAsync();
         return undefined;
       } else {
+        await this.initializeLoginAsync();
         return accessToken;
       }
     } catch (err: any) {
@@ -325,6 +325,29 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
       console.error('Unable to login, logged out: ' + err.message);
       return undefined;
     }
+  }
+
+  private async startCloudLoginFlowAsync() {
+    this.loginService.loginProvider = new CloudLoginProvider(this.loginService);
+    await this.startOAuthLoginFlowAsync();
+  }
+
+  @Input()
+  initLoginFlowAsync: () => Promise<string | undefined> = async () => {
+    return await this.loginFlowHandler(() => this.startCloudLoginFlowAsync());
+  };
+
+  private async startSelfHostedLoginFlow(accountEndpoints: AccountEndpoints, repositoryId: string) {
+    this.loginService.loginProvider = new SelfHostedLoginProvider(this.loginService, repositoryId);
+    await this.startSelfHostedLoginFlowAsync(accountEndpoints);
+  }
+
+  @Input()
+  initSelfHostedLoginFlowAsync: (
+    accountEndpoints: AccountEndpoints,
+    repositoryId: string,
+  ) => Promise<string | undefined> = async (accountEndpoints: AccountEndpoints, repositoryId: string) => {
+    return await this.loginFlowHandler(() => this.startSelfHostedLoginFlow(accountEndpoints, repositoryId));
   };
 
   @Input() handleRedirectURICallbackAsync = async (url: string) => {
@@ -355,6 +378,44 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
     window.addEventListener('storage', (ev) => {
       this.onStorageChanged(ev);
     });
+  }
+
+  async ngAfterViewInit() {
+    const accessToken = this.authorization_credentials?.accessToken;
+    if (accessToken) {
+      this._state = LoginState.LoggedIn;
+    } else {
+      await this.initializeLoginAsync();
+    }
+  }
+
+  /** @internal */
+  async ngOnChanges(changes: SimpleChanges) {
+    // initialize the login state according to the access token
+    const currentLoginIdentifier = changes['login_identifier'];
+    if (
+      (currentLoginIdentifier?.currentValue && currentLoginIdentifier?.isFirstChange()) ||
+      currentLoginIdentifier?.previousValue !== currentLoginIdentifier?.currentValue
+    ) {
+      const accessToken = this.authorization_credentials?.accessToken;
+      if (accessToken) {
+        this._state = LoginState.LoggedIn;
+      } else {
+        await this.initializeLoginAsync();
+      }
+    }
+
+    const currentLoginType = changes['login_type'];
+    if (
+      !this.loginService.loginProvider &&
+      ((currentLoginType?.currentValue && currentLoginType?.isFirstChange()) ||
+        currentLoginType?.previousValue !== currentLoginType?.currentValue)
+    ) {
+      this.loginService.loginProvider =
+        currentLoginType.currentValue === LoginType.SelfHosted
+          ? new SelfHostedLoginProvider(this.loginService, currentLoginIdentifier.currentValue)
+          : new CloudLoginProvider(this.loginService);
+    }
   }
 
   private setButtonText() {
@@ -422,20 +483,16 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   }
 
   /** @internal */
-  async ngAfterViewInit() {
-    // duplicate of ngOnChanges code to support angular elements and components
-    await this.initializeLoginAsync();
-  }
-
-  /** @internal */
-  async ngOnChanges(changes: SimpleChanges) {
-    const currentClientId = changes['client_id'];
-    if (
-      (currentClientId?.currentValue && currentClientId?.isFirstChange()) ||
-      currentClientId?.previousValue !== currentClientId?.currentValue
-    ) {
-      await this.initializeLoginAsync();
-    }
+  async ngOnInit() {
+    this.logoutCompleteSub = this.loginService.logoutCompletedInService.subscribe((error) => {
+      this.hasLoginError = true;
+      this.setButtonText();
+      this.logoutCompleted.emit(error);
+    });
+    this.loginCompleteSub = this.loginService.loginCompletedInService.subscribe(() => {
+      this.setButtonText();
+      this.loginCompleted.emit();
+    });
   }
 
   /** @internal */
@@ -447,23 +504,16 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   /** @internal */
   private async initializeLoginAsync() {
     try {
-      if (!this.initialized && this.client_id) {
-        this.logoutCompleteSub = this.loginService.logoutCompletedInService.subscribe((error) => {
-          this.hasLoginError = true;
-          this.setButtonText();
-          this.logoutCompleted.emit(error);
-        });
-        this.loginCompleteSub = this.loginService.loginCompletedInService.subscribe(() => {
-          this.setButtonText();
-          this.loginCompleted.emit();
-        });
-        const callBackURIParams = this.parseCallbackURI(window.location.href);
-        this._state = this.determineCurrentState(callBackURIParams);
-        this.ref.detectChanges();
-        if (this.loginService._state === LoginState.LoggingIn) {
-          await this.loginService.exchangeCodeForTokenAsync(callBackURIParams!);
-        }
-        this.initialized = true;
+      const callBackURIParams = this.parseCallbackURI(window.location.href);
+      this._state =
+        this.loginService.loginProvider?.determineCurrentState(
+          callBackURIParams,
+          this.loginCompleted,
+          this.logoutCompleted,
+        ) ?? LoginState.LoggedOut;
+      this.ref.detectChanges();
+      if (this.loginService._state === LoginState.LoggingIn) {
+        await this.loginService.exchangeCodeForTokenAsync(callBackURIParams!);
       }
     } catch (err: any) {
       this.logoutCompleted.emit({
@@ -480,73 +530,12 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   /** @internal */
   parseCallbackURI(urlString: string): RedirectUriQueryParams | undefined {
     const url = new URL(urlString);
-
     const state = url.searchParams.get('state');
-    if (state === LOGIN_REDIRECT_STATE) {
-      const authorizationCode = this.extractCodeFromUrl(url);
-      const domain = this.extractDomainFromUrl(url);
-      const customerId = this.extractCustomerIdFromUrl(url);
-      const error = this.extractErrorFromUrl(url);
-      if (authorizationCode && domain && customerId) {
-        return {
-          authorizationCode,
-          cloudSubDomain: domain,
-          customerId,
-        };
-      } else if (error) {
-        return { error };
-      } else {
-        throw new Error('Unable to parse callback');
-      }
-    } else {
+    if (state !== LOGIN_REDIRECT_STATE) {
       return undefined;
     }
-  }
 
-  /** @internal */
-  extractErrorFromUrl(url: URL): { name: string; description: string } | undefined {
-    const error = url.searchParams.get('error');
-    if (error) {
-      const description = url.searchParams.get('description') ?? 'unknown';
-      return { name: error, description };
-    } else {
-      return undefined;
-    }
-  }
-
-  /** @internal */
-  extractCodeFromUrl(url: URL): string | undefined {
-    return url.searchParams.get('code') ?? undefined;
-  }
-
-  /** @internal */
-  extractDomainFromUrl(url: URL): string | undefined {
-    return url.searchParams.get('domain') ?? undefined;
-  }
-
-  /** @internal */
-  extractCustomerIdFromUrl(url: URL): string | undefined {
-    return url.searchParams.get('customerId') ?? undefined;
-  }
-
-  /** @internal */
-  determineCurrentState(callBackURIParams: RedirectUriQueryParams | undefined): LoginState {
-    const storedAccessToken = localStorage.getItem(this.loginService.accessTokenStorageKey!);
-    const storedAccountEndpoints = localStorage.getItem(this.loginService.accountEndpointsStorageKey);
-    const storedAccountId = localStorage.getItem(this.loginService.accountIdStorageKey);
-    if (storedAccessToken && storedAccountEndpoints && storedAccountId) {
-      this.loginService._accessToken = JSON.parse(storedAccessToken);
-      this.loginService._accountEndpoints = JSON.parse(storedAccountEndpoints);
-      const accountInfo = JSON.parse(storedAccountId);
-      this.loginService._accountInfo = accountInfo;
-      this.loginCompleted.emit();
-      return LoginState.LoggedIn;
-    } else if (callBackURIParams?.authorizationCode || callBackURIParams?.error) {
-      return LoginState.LoggingIn;
-    } else {
-      this.logoutCompleted.emit();
-      return LoginState.LoggedOut;
-    }
+    return this.loginService.loginProvider?.exchangeRedirectUriQueryParams(url);
   }
 
   /** @internal */
@@ -584,7 +573,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
   /** @internal */
   async startLoginAsync() {
     try {
-      await this.startOAuthLoginFlowAsync();
+      await this.startCloudLoginFlowAsync();
     } catch (err: any) {
       if (this.loginService._state !== LoginState.LoggedOut) {
         this._state = LoginState.LoggedOut;
@@ -614,45 +603,31 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
     this.handleRedirectBehavior(fullAuthorizeUrl, 'Log in button clicked.');
   }
 
+  private async startSelfHostedLoginFlowAsync(accountEndpoints: AccountEndpoints) {
+    this.loginService.self_hosted_account_endpoints = accountEndpoints;
+    this.loginService.self_hosted_base_url = accountEndpoints.regionalDomain;
+    await this.startOAuthLoginFlowAsync();
+  }
+
   /** @internal */
   getAuthorizeUrl(): string {
-    const lastOAuthAuthorizeUrl = this.account_endpoints?.oauthAuthorizeUrl;
-    const configuredHostName = this.loginService.authorize_url_host_name;
+    const baseAuthorizeUrl = this.loginService.loginProvider?.getBaseAuthorizeUrl();
 
-    const bothClouddev = configuredHostName.includes(this.CLOUDDEV) && lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV);
-    const bothCloudtest =
-      configuredHostName.includes(this.CLOUDTEST) && lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
-    const bothCloudprod =
-      lastOAuthAuthorizeUrl &&
-      !configuredHostName.includes(this.CLOUDDEV) &&
-      !configuredHostName.includes(this.CLOUDTEST) &&
-      !lastOAuthAuthorizeUrl?.includes(this.CLOUDDEV) &&
-      !lastOAuthAuthorizeUrl?.includes(this.CLOUDTEST);
-
-    const sameEnvironment = bothClouddev || bothCloudtest || bothCloudprod;
-
-    let currentAuthorizeUrl: string;
-    if (sameEnvironment && lastOAuthAuthorizeUrl) {
-      currentAuthorizeUrl = lastOAuthAuthorizeUrl;
-    } else {
-      currentAuthorizeUrl = this.getAuthorizeUrlWithConfiguredHostName();
+    const baseUrl: URL = new URL(baseAuthorizeUrl ?? '');
+    if (this.client_id) {
+      baseUrl.searchParams.set('client_id', this.client_id);
     }
-
-    const baseUrl: URL = new URL(currentAuthorizeUrl);
-    baseUrl.searchParams.set('client_id', this.client_id);
+    if (this.scope) {
+      baseUrl.searchParams.set('scope', this.scope);
+    }
     baseUrl.searchParams.set('redirect_uri', this.redirect_uri);
-    baseUrl.searchParams.set('scope', this.scope);
     baseUrl.searchParams.set('response_type', 'code');
     baseUrl.searchParams.set('response_mode', 'query');
     baseUrl.searchParams.set('state', LOGIN_REDIRECT_STATE);
     baseUrl.searchParams.set('code_challenge', this.code_challenge!);
     baseUrl.searchParams.set('code_challenge_method', CODE_CHALLENGE_METHOD);
-    return baseUrl.toString();
-  }
 
-  /** @internal */
-  private getAuthorizeUrlWithConfiguredHostName(): string {
-    return `https://signin.${this.loginService.authorize_url_host_name}/oauth/Authorize`;
+    return baseUrl.toString();
   }
 
   /** @internal */
@@ -663,7 +638,7 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
       console.info('state changed to LoggingOut');
 
       const logoutUrl = this.getFullLogoutUrl();
-      this.logoutInitiated.emit(logoutUrl);
+      this.loginService.loginProvider?.logoutInitiatedViaUrl(logoutUrl, this.logoutInitiated);
 
       this.loginService.removeFromLocalStorage();
       this._state = LoginState.LoggedOut;
@@ -691,8 +666,8 @@ export class LfLoginComponent implements OnChanges, OnDestroy, AfterViewInit {
 
   /** @internal */
   getFullLogoutUrl(): string | undefined {
-    if (this.loginService._accountEndpoints?.wsignoutUrl) {
-      const acsToLfLogout = new URL(this.loginService._accountEndpoints?.wsignoutUrl);
+    if (this.account_endpoints?.wsignoutUrl) {
+      const acsToLfLogout = new URL(this.account_endpoints?.wsignoutUrl);
       // Warning: if we are already logged out this will behave strangely
       // won't redirect back to redirect Url
       acsToLfLogout.searchParams.set('wreply', this.redirect_uri);
