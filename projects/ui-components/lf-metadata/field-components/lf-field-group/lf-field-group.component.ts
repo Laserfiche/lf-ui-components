@@ -40,7 +40,7 @@ export class LfFieldGroupComponent {
   /**@internal */
   private fb = inject(FormBuilder);
   /**@internal */
-  private cdr = inject(ChangeDetectorRef);
+  private ref = inject(ChangeDetectorRef);
   /**@internal */
   localizationService = inject(AppLocalizationService);
 
@@ -84,7 +84,7 @@ export class LfFieldGroupComponent {
     this.groupId = fieldDefinitions[0]?.fieldInfo?.groupId ?? 0;
     this.dynamicFieldOptions = dynamicFieldOptions;
     this.setFieldGroups(fieldDefinitions);
-    this.cdr.detectChanges();
+    this.ref.detectChanges();
   };
 
   /** @internal */
@@ -128,7 +128,7 @@ export class LfFieldGroupComponent {
   @Input()
   showLoader(index: number) {
     this.showLoaderIndex = index;
-    this.cdr.detectChanges();
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -152,6 +152,7 @@ export class LfFieldGroupComponent {
       });
       this.fieldGroups.push(formGroup);
     }
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -170,6 +171,7 @@ export class LfFieldGroupComponent {
     this.updateFieldValues(fieldInfo, initialValue, fieldNumber);
     const formControl = new FormControl(initialValue ?? '');
     formGroup.addControl(fieldInfo.id.toString(), formControl);
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -188,6 +190,7 @@ export class LfFieldGroupComponent {
       };
       this.fieldValues.set(fieldInfo.id, newConfig);
     }
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -199,6 +202,7 @@ export class LfFieldGroupComponent {
     if (fieldValue) {
       this.fieldValuesChanged.emit({ fieldValue, indicesChanged: [indexChanged] });
     }
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -243,6 +247,7 @@ export class LfFieldGroupComponent {
         this.fieldValuesChanged.emit({ fieldValue, indicesChanged });
       }
     });
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -265,6 +270,7 @@ export class LfFieldGroupComponent {
         this.fieldValuesChanged.emit({ fieldValue, indicesChanged });
       }
     });
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -272,6 +278,7 @@ export class LfFieldGroupComponent {
     fieldValue?.values?.forEach((value, currIndex) => {
       value['position'] = (currIndex + 1).toString();
     });
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -302,7 +309,7 @@ export class LfFieldGroupComponent {
       }
     });
     this.fieldGroups.insert(currentIndex + 1, formGroup);
-    this.cdr.detectChanges();
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -320,6 +327,7 @@ export class LfFieldGroupComponent {
         this.fieldValuesChanged.emit({ fieldValue, indicesChanged: [currentIndex, currentIndex - 1] });
       }
     });
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -337,5 +345,6 @@ export class LfFieldGroupComponent {
         this.fieldValuesChanged.emit({ fieldValue, indicesChanged: [currentIndex, currentIndex + 1] });
       }
     });
+    this.ref.detectChanges();
   }
 }

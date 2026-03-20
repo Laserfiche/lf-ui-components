@@ -30,6 +30,7 @@ export {
   LfFieldTemplateProviders,
   LfFieldTemplateContainerService,
 } from './lf-metadata/lf-metadata-public-api';
+export type { FieldValue, LfFieldInfo, TemplateFieldInfo } from './lf-metadata/field-components/utils/lf-field-types';
 export { LfUserFeedbackComponent } from './lf-user-feedback/lf-user-feedback-public-api';
 export {
   LfRepositoryBrowserComponent,

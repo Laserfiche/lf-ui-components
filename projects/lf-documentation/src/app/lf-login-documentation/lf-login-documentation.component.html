@@ -204,8 +204,8 @@ sign_out_text.
     <td>scope</td>
     <td>string</td>
     <td>
-      (optional) scope is passed to OAuth service, will determine which rights are requested from user and what the API able to
-      access with the corresponding token
+      (optional) scope is passed to OAuth service, will determine which rights are requested from user and what the API
+      able to access with the corresponding token
     </td>
   </tr>
   <tr>
@@ -221,12 +221,17 @@ sign_out_text.
   <tr>
     <td>login_type</td>
     <td>LoginType</td>
-    <td>specify the login type of the component. Possible values are "Cloud" and "Self-Hosted". Default value is "Cloud"</td>
+    <td>
+      specify the login type of the component. Possible values are "Cloud" and "Self-Hosted". Default value is "Cloud"
+    </td>
   </tr>
   <tr>
     <td>login_identifier</td>
     <td>string</td>
-    <td>specify the login identifier for the component. Typically, this is the <i>client_id</i> for cloud-base login or the repository name for self-hosted environments</td>
+    <td>
+      specify the login identifier for the component. Typically, this is the <i>client_id</i> for cloud-base login or
+      the repository name for self-hosted environments
+    </td>
   </tr>
 </table>
 <br />
@@ -284,17 +289,19 @@ sign_out_text.
     <td>initLoginFlowAsync</td>
     <td>() => Promise&lt;string | undefined&gt;</td>
     <td>
-      Triggers the cloud login flow to begin. This creates a Cloud login provider instance. The use case for this is if you want to start the login flow on page load, rather
-      than making the user click the button. If the user is already logged in, the function will return the current
-      access token. If the user is not logged in, it will return undefined and start the OAuth login flow.
+      Triggers the cloud login flow to begin. This creates a Cloud login provider instance. The use case for this is if
+      you want to start the login flow on page load, rather than making the user click the button. If the user is
+      already logged in, the function will return the current access token. If the user is not logged in, it will return
+      undefined and start the OAuth login flow.
     </td>
   </tr>
   <tr>
     <td>initSelfHostedLoginFlowAsync</td>
     <td>() => Promise&lt;string | undefined&gt;</td>
     <td>
-      Triggers the self-hosted login flow to begin. This creates a Self-Hosted login provider instance. The rest of the flow is the same as initLoginFlowAsync,
-      but this function should be used if you are using the component in a self-hosted environment.
+      Triggers the self-hosted login flow to begin. This creates a Self-Hosted login provider instance. The rest of the
+      flow is the same as initLoginFlowAsync, but this function should be used if you are using the component in a
+      self-hosted environment.
     </td>
   </tr>
   <tr>

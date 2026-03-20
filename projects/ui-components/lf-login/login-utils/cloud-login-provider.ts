@@ -9,6 +9,7 @@ import { AuthorizationCredentials } from './lf-login-types';
 import { RedirectUriQueryParams } from './lf-login-internal-types';
 import { LoginState } from '@laserfiche/lf-ui-components/shared';
 
+/** @internal */
 export class CloudLoginProvider implements LoginProvider {
   readonly CLOUDDEV = 'clouddev';
   readonly CLOUDTEST = 'cloudtest';

@@ -46,7 +46,7 @@ describe('LfLoginComponent', () => {
     } as any;
 
     component.parseCallbackURI(
-      'https://testurl.com/hi?code=auth-code&state=lf-login-redirect&domain=laserfiche.com&customerId=123456789',
+      'https://testurl.com/hi?code=auth-code&state=lf-login-redirect&domain=laserfiche.com&customerId=123456789'
     );
     expect(mockExchangeRedirectUriQueryParams).toHaveBeenCalled();
   });
@@ -74,7 +74,7 @@ describe('LfLoginComponent', () => {
 
     const authUrl = component.getAuthorizeUrl();
     expect(authUrl).toEqual(
-      'https://signin.laserfiche.com/oauth/Authorize?redirect_uri=undefined&response_type=code&response_mode=query&state=lf-login-redirect&code_challenge=undefined&code_challenge_method=S256',
+      'https://signin.laserfiche.com/oauth/Authorize?redirect_uri=undefined&response_type=code&response_mode=query&state=lf-login-redirect&code_challenge=undefined&code_challenge_method=S256'
     );
   });
 
@@ -102,7 +102,6 @@ describe('LfLoginComponent', () => {
       expect(component.getFullLogoutUrl()).toBeUndefined();
     });
   });
-
 
   it('concatStrings should return second string when no first string', () => {
     expect(component.concatStrings(undefined, 'test')).toEqual('test');

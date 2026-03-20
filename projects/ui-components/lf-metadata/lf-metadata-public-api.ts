@@ -8,3 +8,4 @@ export {
   LfFieldTemplateProviders,
   LfFieldTemplateContainerService,
 } from './lf-field-template-container/public-api';
+export type { FieldValue, LfFieldInfo, TemplateFieldInfo } from './field-components/utils/lf-field-types';

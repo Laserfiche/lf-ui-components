@@ -74,10 +74,11 @@
   font-size: 14px;
 }
 
-::ng-deep mat-form-field.lf-checklist-field >
-.mat-mdc-text-field-wrapper >
-.mat-mdc-form-field-flex >
-.mat-mdc-form-field-infix {
+::ng-deep
+  mat-form-field.lf-checklist-field
+  > .mat-mdc-text-field-wrapper
+  > .mat-mdc-form-field-flex
+  > .mat-mdc-form-field-infix {
   min-height: 28px !important;
   padding: 4px 0;
 }

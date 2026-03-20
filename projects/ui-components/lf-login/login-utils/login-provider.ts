@@ -33,7 +33,7 @@ export interface LoginProvider {
   storeInLocalStorage(
     accessTokenCredentials: AuthorizationCredentials,
     accountId: string,
-    regionalDomain: string,
+    regionalDomain: string
   ): void;
 
   /**
@@ -56,7 +56,7 @@ export interface LoginProvider {
   determineCurrentState(
     callBackURIParams: RedirectUriQueryParams | undefined,
     loginCompleted: { emit: () => void },
-    logoutCompleted: { emit: () => void },
+    logoutCompleted: { emit: () => void }
   ): LoginState;
 
   /**

@@ -117,13 +117,13 @@ export class LfLoginService {
             this.redirect_uri,
             this.client_id,
             undefined,
-            this.code_verifier,
+            this.code_verifier
           );
           const accessToken = await this.parseTokenResponseAsync(response);
           this.loginProvider?.storeInLocalStorage(
             accessToken!,
             callBackURIParams.customerId!,
-            callBackURIParams.cloudSubDomain!,
+            callBackURIParams.cloudSubDomain!
           );
           this._state = LoginState.LoggedIn;
           console.info('state changed to LoggedIn');

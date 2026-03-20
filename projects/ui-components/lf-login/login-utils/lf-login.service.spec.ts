@@ -14,7 +14,7 @@ describe('LfLoginService', () => {
     localStorage.clear();
 
     await TestBed.configureTestingModule({
-      providers: [LfLoginService]
+      providers: [LfLoginService],
     }).compileComponents();
 
     service = TestBed.inject(LfLoginService);
@@ -40,8 +40,8 @@ describe('LfLoginService', () => {
     await service.exchangeCodeForTokenAsync({
       error: {
         description: 'Test error description',
-        name: 'Test error name'
-      }
+        name: 'Test error name',
+      },
     });
 
     expect(mockEmit).toHaveBeenCalled();
@@ -113,7 +113,7 @@ describe('LfLoginService', () => {
       service.getExchangeCodeSuccessResponse({
         token_type: 'bearer',
         refresh_token: 'test-refresh',
-      }),
+      })
     ).toThrow();
   });
 

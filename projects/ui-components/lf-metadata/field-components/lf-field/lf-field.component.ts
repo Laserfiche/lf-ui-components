@@ -30,7 +30,7 @@ export class LfFieldComponent {
   /**@internal */
   private fb = inject(FormBuilder);
   /**@internal */
-  private cdr = inject(ChangeDetectorRef);
+  private ref = inject(ChangeDetectorRef);
 
   /** @internal */
   lfFieldInfo!: LfFieldInfo;
@@ -96,7 +96,7 @@ export class LfFieldComponent {
       this.showField = true;
     }
     this.dynamicFieldValueOptions = dynamicFieldValueOptions;
-    this.cdr.detectChanges();
+    this.ref.detectChanges();
     this.removeInvalidFieldValues(this.lfFieldValue);
   };
 
@@ -107,7 +107,7 @@ export class LfFieldComponent {
       this.getSingleField().setValue('');
       fieldValue = '';
       this.lfFieldValue = fieldValue;
-      this.cdr.detectChanges();
+      this.ref.detectChanges();
     }
   }
 
@@ -143,7 +143,7 @@ export class LfFieldComponent {
   fieldDataChange(value: LfFieldValue) {
     this.lfFieldValue = value;
     this.fieldValueChanged.emit(value);
-    this.cdr.detectChanges();
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -154,6 +154,6 @@ export class LfFieldComponent {
   /** @internal */
   set isLoading(val: boolean) {
     this.showLoader = val;
-    this.cdr.detectChanges();
+    this.ref.detectChanges();
   }
 }
