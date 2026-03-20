@@ -21,8 +21,9 @@ describe('LfLoginService', () => {
   });
 
   afterEach(() => {
-    // Cleanup local storage after each test
+    // Cleanup local storage and test doubles after each test
     localStorage.clear();
+    vi.restoreAllMocks();
   });
 
   it('should be created', () => {
@@ -128,19 +129,17 @@ describe('LfLoginService', () => {
   });
 
   it('parseAccessToken should parse data from jwt', () => {
-    const testHeader = btoa('{"test": "test"}');
-    const JWT = { csid: '123456789', trid: '1' };
-    const encodedJWT = btoa(JSON.stringify(JWT));
-    const parsedToken = service.parseAccessToken(`${testHeader}.${encodedJWT}.hello`);
+    const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjc2lkIjoiMTIzNDU2Nzg5IiwidHJpZCI6IjEifQ.hello';
+    const parsedToken = service.parseAccessToken(accessToken);
+
     expect(parsedToken).toEqual('1');
   });
 
   it('parseAccessToken should parse data from jwt with different environment/region', () => {
     service.authorize_url_host_name = 'a.clouddev.laserfiche.com';
-    const testHeader = btoa('{"test": "test"}');
-    const JWT = { csid: '1123456789', trid: '1' };
-    const encodedJWT = btoa(JSON.stringify(JWT));
-    const parsedToken = service.parseAccessToken(`${testHeader}.${encodedJWT}.hello`);
+    const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjc2lkIjoiMTEyMzQ1Njc4OSIsInRyaWQiOiIxIn0.hello';
+    const parsedToken = service.parseAccessToken(accessToken);
+
     expect(parsedToken).toEqual('1');
   });
 
