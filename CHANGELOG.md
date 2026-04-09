@@ -5,6 +5,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 ### Features
 - Add support for self-hosted repository login functionality.
 
+### Fixes
+- `[lf-checklist]`: Adjusted item spacing to properly display validation messages.
+
 ## 18.0.6
 
 ### Fixes

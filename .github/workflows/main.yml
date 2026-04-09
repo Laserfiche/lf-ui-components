@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 env:
-  NPM_VERSION: "18.0.6"
+  NPM_VERSION: "18.0.7"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -37,7 +37,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      
+
       - name: Update npm
         run: npm install -g npm@latest
 
@@ -157,10 +157,10 @@ jobs:
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-          
+
       - name: Update npm
         run: npm install -g npm@latest
-        
+
       - name: set NpmPackageVersion environment
         run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
 
@@ -213,10 +213,10 @@ jobs:
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-          
+
       - name: Update npm
         run: npm install -g npm@latest
-        
+
       - name: 'copy license'
         run: |
           cp LICENSE ./types-lf-ui-components-publish
