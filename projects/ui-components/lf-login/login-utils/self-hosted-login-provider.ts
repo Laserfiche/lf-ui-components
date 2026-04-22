@@ -17,9 +17,9 @@ export class SelfHostedLoginProvider implements LoginProvider {
   ) {}
 
   getTokenClient() {
-    return new SelfHostedTokenClient(
-      `${this.lfLoginService.self_hosted_base_url}/v2/Repositories/${this.repositoryId}/Token`
-    );
+    const selfHostedBaseUrl =
+      this.lfLoginService.self_hosted_base_url ?? this.lfLoginService.getAccountEndpoints()?.regionalDomain;
+    return new SelfHostedTokenClient(`${selfHostedBaseUrl}/v2/Repositories/${this.repositoryId}/Token`);
   }
 
   getBaseAuthorizeUrl(): string {

@@ -391,8 +391,21 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
 
   /** @internal */
   async ngOnChanges(changes: SimpleChanges) {
-    // initialize the login state according to the access token
     const currentLoginIdentifier = changes['login_identifier'];
+    const currentLoginType = changes['login_type'];
+
+    if (
+      !this.loginService.loginProvider &&
+      ((currentLoginType?.currentValue && currentLoginType?.isFirstChange()) ||
+        currentLoginType?.previousValue !== currentLoginType?.currentValue)
+    ) {
+      this.loginService.loginProvider =
+        currentLoginType.currentValue === LoginType.SelfHosted
+          ? new SelfHostedLoginProvider(this.loginService, currentLoginIdentifier.currentValue)
+          : new CloudLoginProvider(this.loginService);
+    }
+
+    // initialize the login state according to the access token
     if (
       (currentLoginIdentifier?.currentValue && currentLoginIdentifier?.isFirstChange()) ||
       currentLoginIdentifier?.previousValue !== currentLoginIdentifier?.currentValue
@@ -403,18 +416,6 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
       } else {
         await this.initializeLoginAsync();
       }
-    }
-
-    const currentLoginType = changes['login_type'];
-    if (
-      !this.loginService.loginProvider &&
-      ((currentLoginType?.currentValue && currentLoginType?.isFirstChange()) ||
-        currentLoginType?.previousValue !== currentLoginType?.currentValue)
-    ) {
-      this.loginService.loginProvider =
-        currentLoginType.currentValue === LoginType.SelfHosted
-          ? new SelfHostedLoginProvider(this.loginService, currentLoginIdentifier.currentValue)
-          : new CloudLoginProvider(this.loginService);
     }
   }
 
@@ -606,6 +607,7 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
   private async startSelfHostedLoginFlowAsync(accountEndpoints: AccountEndpoints) {
     this.loginService.self_hosted_account_endpoints = accountEndpoints;
     this.loginService.self_hosted_base_url = accountEndpoints.regionalDomain;
+    this.loginService.storeAccountEndpoints(accountEndpoints);
     await this.startOAuthLoginFlowAsync();
   }
 
