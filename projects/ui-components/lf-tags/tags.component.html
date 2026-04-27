@@ -3,9 +3,9 @@
 <span class="lf-text-label">{{ TAGS }}</span>
 <mat-form-field class="tag-list" appearance="outline">
   <mat-chip-grid #chipGrid class="chip-list">
-    @for (tag of selectedTags; track tag; let i = $index) {
-      <mat-chip-row #chip (keydown)="onChipKeyDown($event, i)" (removed)="remove(tag)" tabindex="0">
-        {{ tag.displayName }}
+    @for (tagName of selectedTagNames; track tagName; let i = $index) {
+      <mat-chip-row #chip (keydown)="onChipKeyDown($event, i)" (removed)="remove(tagName)" tabindex="0">
+        {{ tagName }}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>
@@ -18,20 +18,18 @@
     [formControl]="tagCtrl"
     [matAutocomplete]="auto"
     [matChipInputFor]="chipGrid"
-    placeholder="+ {{ selectedTags.length === 0 ? ADD_TAGS : ADD_MORE_TAGS }}"
+    placeholder="+ {{ selectedTagNames.length === 0 ? ADD_TAGS : ADD_MORE_TAGS }}"
   />
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-    @if (filteredTags$ | async; as filteredTags) {
-      @for (tag of filteredTags; track tag) {
-        <mat-option [value]="tag">
-          <mat-chip>{{ tag.displayName }}</mat-chip>
-        </mat-option>
-      }
-      @if (filteredTags.length === 0) {
-        <mat-option disabled class="no-more-tags">
-          {{ NO_TAGS_AVAILABLE }}
-        </mat-option>
-      }
+    @for (tag of filteredTags; track tag) {
+      <mat-option [value]="tag">
+        <mat-chip>{{ tag.displayName }}</mat-chip>
+      </mat-option>
+    }
+    @if (filteredTags.length === 0) {
+      <mat-option disabled class="no-more-tags">
+        {{ NO_TAGS_AVAILABLE }}
+      </mat-option>
     }
   </mat-autocomplete>
 </mat-form-field>

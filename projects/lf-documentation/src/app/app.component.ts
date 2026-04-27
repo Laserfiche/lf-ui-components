@@ -46,6 +46,7 @@ const TREE_DATA: ComponentNode[] = [
           { name: 'lf-checklist', routerLink: RouterLinks.LF_CHECKLIST },
           { name: 'lf-toolbar', routerLink: RouterLinks.LF_TOOLBAR },
           { name: 'lf-repository-browser', routerLink: RouterLinks.LF_REPOSITORY_BROWSER },
+          { name: 'lf-tags', routerLink: RouterLinks.LF_TAGS },
         ],
       },
       {

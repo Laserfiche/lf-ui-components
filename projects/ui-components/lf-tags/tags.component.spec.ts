@@ -17,7 +17,6 @@ describe('LfTagsComponent', () => {
   let tagDefinitionsSub: BehaviorSubject<LfTagDefinition[] | undefined>;
 
   let tagsServiceMock: {
-    updateTagDefinitions: ReturnType<typeof vi.fn>;
     getTagDefinitions: ReturnType<typeof vi.fn>;
     getTagDefinitionsSub: ReturnType<typeof vi.fn>;
   };
@@ -37,7 +36,6 @@ describe('LfTagsComponent', () => {
     ] as LfTagDefinition[];
 
     tagsServiceMock = {
-      updateTagDefinitions: vi.fn(),
       getTagDefinitions: vi.fn(),
       getTagDefinitionsSub: vi.fn(),
     };
@@ -63,11 +61,6 @@ describe('LfTagsComponent', () => {
     component = fixture.componentInstance;
     component.tagCtrl = new FormControl();
     component.tagsService = tagsServiceMock as ILfTagsService;
-    // Spy on refreshFilteredTags to prevent it from creating a pipe on tagCtrl.valueChanges,
-    // which causes ObjectUnsubscribedError during teardown when the FormControl's Subject closes.
-    vi.spyOn(component, 'refreshFilteredTags').mockImplementation(() => {
-      component.filteredTags$ = new BehaviorSubject<LfTagDefinition[]>([]).asObservable();
-    });
     fixture.detectChanges();
   });
 
@@ -92,29 +85,23 @@ describe('LfTagsComponent', () => {
     expect(component.tagDefinitions).toEqual(mockTagDefinitions);
   });
 
-  it('should collect the selected tags and call the updateTagDefinitions with the current selected tag list', async () => {
+  it('should collect the selected tags and emit selectedTagsChanged', async () => {
     const selectedTag = { id: 3, name: 'Tag 3', displayName: 'Tag 3' } as LfTagDefinition;
     await component.ngAfterViewInit();
     await fixture.whenStable();
     fixture.detectChanges();
 
-    component.selectedTags = [{ id: 1, name: 'Tag 1', displayName: 'Tag 1' } as LfTagDefinition];
+    component.selectedTagNames = ['Tag 1'];
+    const emitSpy = vi.spyOn(component.selectedTagsChanged, 'emit');
     component.selected({ option: { value: selectedTag } } as MatAutocompleteSelectedEvent);
 
-    expect(component.selectedTags.length).toBe(2);
-    expect(component.selectedTags.pop()).toEqual(selectedTag);
-    expect(tagsServiceMock.updateTagDefinitions).toHaveBeenCalledWith([
-      { id: 1, name: 'Tag 1', displayName: 'Tag 1' } as LfTagDefinition,
-      { id: 2, name: 'Tag 2', displayName: 'Tag 2' } as LfTagDefinition,
-    ]);
+    expect(component.selectedTagNames.length).toBe(2);
+    expect(component.selectedTagNames.pop()).toBe('Tag 3');
+    expect(emitSpy).toHaveBeenCalledWith(['Tag 1', 'Tag 3']);
   });
 
   it('should remove the selected tag', async () => {
-    component.selectedTags = [
-      { id: 1, name: 'Tag 1', displayName: 'Tag 1' },
-      { id: 2, name: 'Tag 2', displayName: 'Tag 2' },
-      { id: 3, name: 'Tag 3', displayName: 'Tag 3' },
-    ] as LfTagDefinition[];
+    component.selectedTagNames = ['Tag 1', 'Tag 2', 'Tag 3'];
     fixture.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -126,14 +113,11 @@ describe('LfTagsComponent', () => {
     removeButton.removed.emit();
     fixture.detectChanges();
 
-    expect(component.selectedTags).toHaveLength(2);
+    expect(component.selectedTagNames).toHaveLength(2);
   });
 
   it('should handle keyboard navigation among the tags', async () => {
-    component.selectedTags = [
-      { id: 1, name: 'Tag 1', displayName: 'Tag 1' },
-      { id: 3, name: 'Tag 3', displayName: 'Tag 3' },
-    ] as LfTagDefinition[];
+    component.selectedTagNames = ['Tag 1', 'Tag 3'];
     fixture.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     await fixture.whenStable();

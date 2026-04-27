@@ -34,6 +34,7 @@ describe('SelfHostedLoginProvider', () => {
       extractCodeFromUrl: vi.fn(),
       extractErrorFromUrl: vi.fn(),
       accessTokenStorageKey: 'mock-storage-key',
+      getAccountEndpoints: vi.fn(),
     };
 
     provider = new SelfHostedLoginProvider(lfLoginServiceMock as LfLoginService, 'mock-repository-id');
