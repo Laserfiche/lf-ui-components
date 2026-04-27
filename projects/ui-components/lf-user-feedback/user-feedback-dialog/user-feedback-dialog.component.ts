@@ -113,15 +113,19 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   onClickFeedback(): void {
     this.dialogState = FeedbackDialogState.FEEDBACK;
     this.USER_FEEDBACK_TITLE = this.localizedStrings.FEEDBACK;
-    setTimeout(() => document.getElementById('feedback-suggestion-textbox')?.focus());
-    this.onTextChanges();
+    setTimeout(() => {
+      document.getElementById('feedback-suggestion-textbox')?.focus();
+      this.onTextChanges();
+    });
   }
 
   onClickSuggestion(): void {
     this.dialogState = FeedbackDialogState.SUGGESTION;
     this.USER_FEEDBACK_TITLE = this.localizedStrings.SUGGESTION;
-    setTimeout(() => document.getElementById('feedback-suggestion-textbox')?.focus());
-    this.onTextChanges();
+    setTimeout(() => {
+      document.getElementById('feedback-suggestion-textbox')?.focus();
+      this.onTextChanges();
+    });
   }
 
   @HostListener('document:keydown.escape', ['$event'])
@@ -130,13 +134,13 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   }
 
   private onTextChanges(): void {
-    this.ref.detectChanges();
     const feedbackTextSub = this.feedbackSubmission?.feedbackTextChanged
       .asObservable()
       .pipe(debounceTime(250))
       .subscribe((text) => {
         this.feedbackText = text;
         this.isSubmitDisabled = this.isEmptyOrWhitespace(text);
+        this.ref.detectChanges();
       });
     this.allSubscriptions.add(feedbackTextSub);
   }
