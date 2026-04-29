@@ -6,12 +6,25 @@ import { LoginState } from '@laserfiche/lf-ui-components/shared';
 import { LfLoginService } from './lf-login.service';
 import { CloudLoginProvider } from './cloud-login-provider';
 
+const trusteeId = '1';
+vi.mock(import('@laserfiche/lf-api-client-core'), async (importOriginal) => {
+  // const actual = await vi.importActual('@laserfiche/lf-api-client-core');
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    JwtUtils: {
+      ...actual.JwtUtils,
+      parseAccessToken: vi.fn(),
+      getTrusteeIdFromLfJWT: vi.fn().mockReturnValue('1'),
+    },
+  };
+});
+
 function createJwt(payload: Record<string, unknown>): string {
   const header = { alg: 'ES256', typ: 'JWT' };
   const encode = (obj: Record<string, unknown>) => btoa(JSON.stringify(obj));
   return `${encode(header)}.${encode(payload)}.signature`;
 }
-
 describe('LfLoginService', () => {
   let service: LfLoginService;
 
@@ -135,18 +148,17 @@ describe('LfLoginService', () => {
   });
 
   it('parseAccessToken should parse data from jwt', () => {
-    const accessToken = createJwt({ csid: '123456789', trid: '1' });
+    const accessToken = createJwt({ csid: '123456789', trid: trusteeId });
+    // the parsedToken should be the trusteeId (trid) from the accessToken
     const parsedToken = service.parseAccessToken(accessToken);
-
-    expect(parsedToken).toEqual('1');
+    expect(parsedToken).toEqual(trusteeId);
   });
 
   it('parseAccessToken should parse data from jwt with different environment/region', () => {
     service.authorize_url_host_name = 'a.clouddev.laserfiche.com';
-    const accessToken = createJwt({ csid: '1123456789', trid: '1' });
+    const accessToken = createJwt({ csid: '123456789', trid: trusteeId });
     const parsedToken = service.parseAccessToken(accessToken);
-
-    expect(parsedToken).toEqual('1');
+    expect(parsedToken).toEqual(trusteeId);
   });
 
   it('extractErrorFromUrl with error', () => {
