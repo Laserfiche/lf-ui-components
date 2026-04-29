@@ -7,7 +7,7 @@ import { LfLoginService } from './lf-login.service';
 import { CloudLoginProvider } from './cloud-login-provider';
 
 function createJwt(payload: Record<string, unknown>): string {
-  const header = { alg: 'HS256', typ: 'JWT' };
+  const header = { alg: 'ES256', typ: 'JWT' };
   const encode = (obj: Record<string, unknown>) => btoa(JSON.stringify(obj));
   return `${encode(header)}.${encode(payload)}.signature`;
 }

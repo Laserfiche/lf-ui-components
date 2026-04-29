@@ -16,7 +16,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   }
   @if (isFeedback || isSuggestion) {
     <div class="dialog-content">
-      <lf-feedback-submission [isFeedback]="isFeedback"></lf-feedback-submission>
+      <lf-feedback-submission
+        [isFeedback]="isFeedback"
+        (feedbackTextChanged)="onFeedbackTextChanged($event)"
+      ></lf-feedback-submission>
     </div>
   }
   @if (isThankYou) {

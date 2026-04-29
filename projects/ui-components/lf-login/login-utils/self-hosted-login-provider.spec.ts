@@ -33,6 +33,7 @@ describe('SelfHostedLoginProvider', () => {
       storeAccountEndpoints: vi.fn(),
       extractCodeFromUrl: vi.fn(),
       extractErrorFromUrl: vi.fn(),
+      getAccountEndpoints: vi.fn(),
       accessTokenStorageKey: 'mock-storage-key',
     };
 
@@ -41,6 +42,14 @@ describe('SelfHostedLoginProvider', () => {
 
   describe('getTokenClient', () => {
     it('should return a TokenClient instance', () => {
+      lfLoginServiceMock.self_hosted_base_url = 'https://api.example.com';
+      const tokenClient = provider.getTokenClient();
+      expect(tokenClient).toBeInstanceOf(SelfHostedTokenClient);
+    });
+
+    it('should return a TokenClient instance when self_hosted_base_url is not provided, but exist account endpoints object', () => {
+      lfLoginServiceMock.self_hosted_base_url = undefined;
+      lfLoginServiceMock.getAccountEndpoints = vi.fn().mockReturnValue({ regionalDomain: 'api.example.com' });
       const tokenClient = provider.getTokenClient();
       expect(tokenClient).toBeInstanceOf(SelfHostedTokenClient);
     });

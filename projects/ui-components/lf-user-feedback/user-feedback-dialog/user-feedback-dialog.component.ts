@@ -6,7 +6,6 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   HostListener,
   OnDestroy,
@@ -17,7 +16,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AppLocalizationService, GeneralDialogLayoutComponent } from '@laserfiche/lf-ui-components/internal-shared';
-import { debounceTime, map, Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { FeedbackSubmissionComponent } from '../feedback-submission/feedback-submission.component';
 import { FeedbackSuggestionSelectionComponent } from '../feedback-suggestion-selection/feedback-suggestion-selection.component';
 import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-user-feedback-types';
@@ -113,18 +112,18 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   onClickFeedback(): void {
     this.dialogState = FeedbackDialogState.FEEDBACK;
     this.USER_FEEDBACK_TITLE = this.localizedStrings.FEEDBACK;
+    this.ref.detectChanges();
     setTimeout(() => {
       document.getElementById('feedback-suggestion-textbox')?.focus();
-      this.onTextChanges();
     });
   }
 
   onClickSuggestion(): void {
     this.dialogState = FeedbackDialogState.SUGGESTION;
     this.USER_FEEDBACK_TITLE = this.localizedStrings.SUGGESTION;
+    this.ref.detectChanges();
     setTimeout(() => {
       document.getElementById('feedback-suggestion-textbox')?.focus();
-      this.onTextChanges();
     });
   }
 
@@ -133,16 +132,10 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  private onTextChanges(): void {
-    const feedbackTextSub = this.feedbackSubmission?.feedbackTextChanged
-      .asObservable()
-      .pipe(debounceTime(250))
-      .subscribe((text) => {
-        this.feedbackText = text;
-        this.isSubmitDisabled = this.isEmptyOrWhitespace(text);
-        this.ref.detectChanges();
-      });
-    this.allSubscriptions.add(feedbackTextSub);
+  onFeedbackTextChanged(text: string): void {
+    this.feedbackText = text;
+    this.isSubmitDisabled = this.isEmptyOrWhitespace(text);
+    this.ref.detectChanges();
   }
 
   async onClickSubmitAsync(): Promise<void> {
