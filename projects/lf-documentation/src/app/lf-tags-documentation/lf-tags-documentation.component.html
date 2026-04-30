@@ -1,0 +1,82 @@
+<!--Copyright (c) Laserfiche.
+Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
+<p class="documentation-title">LfTags</p>
+
+<p class="documentation-text code-container">
+  <code>
+    <span class="code-html-tagname">&lt;lf-tags</span>
+    <span class="code-html-attribute-name"> initial_tags</span>
+    <span>=</span>
+    <span class="code-html-attribute-value">"['Tag1', 'Tag2']" </span>
+    <span class="code-html-tagname">&gt;&lt;/lf-tags&gt;</span>
+  </code>
+</p>
+<p class="documentation-text code-container">
+  <code>
+    <span class="code-html-tagname">const </span>
+    <span>tags</span>
+    <span> = </span>
+    <span>document.querySelector('lf-tags');</span>
+    <p>tags.tagsService = tagsServiceObject;</p>
+    <p>tags.addEventListener('selectedTagsChanged', onSelectedTagsChanged(event));</p>
+  </code>
+</p>
+<app-card>
+  <lf-tags-component
+    [initialTags]="initialTags"
+    [tagsService]="tagsService"
+    (selectedTagsChanged)="onSelectedTagsChanged($event)"
+  >
+  </lf-tags-component>
+</app-card>
+<p class="documentation-text">selectedTagsChanged output:</p>
+<textarea disabled cols="80" rows="10">{{ selectedTagsOutput }}</textarea>
+
+<p class="documentation-header">Overview</p>
+<p class="documentation-text">
+  Web Component for selecting and managing tags with an autocomplete input and chip display
+</p>
+<p class="documentation-header">Use Case</p>
+<p class="documentation-text">Assigning metadata tags to documents</p>
+<p class="documentation-header">HTML Element</p>
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>initial_tags</td>
+    <td>string[]</td>
+    <td>List of tag display names to pre-select on initialization</td>
+  </tr>
+</table>
+<br />
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>selectedTagsChanged</td>
+    <td>(event: CustomEvent&lt;string[]&gt;) => void</td>
+    <td>Event raised when the selected tags change</td>
+  </tr>
+</table>
+
+<p class="documentation-header">LfTagsProvider</p>
+<p class="documentation-sub-header">ILfTagsService Interface</p>
+<ul>
+  <li>getTagDefinitionsSub(): BehaviorSubject&lt;LfTagDefinition[] | undefined&gt;</li>
+  <li>getTagDefinitions(): LfTagDefinition[] | undefined</li>
+</ul>
+<p class="documentation-sub-header">LfTagDefinition Interface</p>
+<ul>
+  <li>id?: number</li>
+  <li>name?: string | undefined</li>
+  <li>displayName?: string | undefined</li>
+  <li>description?: string | undefined</li>
+  <li>isSecure?: boolean</li>
+</ul>

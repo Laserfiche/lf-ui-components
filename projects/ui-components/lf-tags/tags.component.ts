@@ -26,7 +26,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
-import { map, Observable, of, startWith, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ILfTagsService, LfTagDefinition } from './ILfTagsService';
 
 @Component({
@@ -59,8 +59,8 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
   private componentSub: Subscription = new Subscription();
   private openPanelTimeout: ReturnType<typeof setTimeout> | undefined;
   tagDefinitions: LfTagDefinition[] = [];
-  selectedTags: LfTagDefinition[] = [];
-  filteredTags$: Observable<LfTagDefinition[]> = of([]);
+  selectedTagNames: string[] = [];
+  filteredTags: LfTagDefinition[] = [];
 
   tagCtrl = new FormControl();
   @ViewChild(MatAutocompleteTrigger) autoCompleteTrigger!: MatAutocompleteTrigger;
@@ -70,20 +70,31 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
   private ref = inject(ChangeDetectorRef);
 
   ngAfterViewInit() {
+    this.componentSub.add(
+      this.tagCtrl.valueChanges.subscribe((value) => {
+        if (typeof value === 'string' || value === null || value === undefined) {
+          this.filteredTags = this.filterTags(value ?? '');
+        }
+      })
+    );
+
     if (this.tagsService) {
       const tagsSub = this.tagsService.getTagDefinitionsSub().subscribe((tagDefinitions) => {
         this.tagDefinitions = tagDefinitions ?? [];
 
         if (this.initialTags.length > 0) {
+          const tags = this.tagsService!.getTagDefinitions() ?? [];
           const initialTagNames = new Set(this.initialTags);
-          const toSelect = this.tagDefinitions.filter((t) => t.displayName && initialTagNames.has(t.displayName));
-          this.selectedTags = toSelect;
-          this.tagDefinitions = this.tagDefinitions.filter((t) => !initialTagNames.has(t.displayName!));
-          this.tagsService!.updateTagDefinitions(this.selectedTags);
+          const toSelect = tags.filter((t) => t.displayName && initialTagNames.has(t.displayName));
+          setTimeout(() => {
+            this.selectedTagNames = toSelect.map((t) => t.displayName!);
+            this.emitSelectedTagNames();
+            this.refreshFilteredTags();
+          });
           this.initialTags = [];
+        } else {
+          setTimeout(() => this.refreshFilteredTags());
         }
-
-        this.refreshFilteredTags();
       });
 
       this.componentSub.add(tagsSub);
@@ -97,48 +108,42 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
   }
 
   filterTags(value: string) {
-    const filterValue = value.toLowerCase();
-    return this.tagDefinitions.filter((tag) => tag.displayName?.toLowerCase().includes(filterValue));
+    const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
+    return this.tagDefinitions.filter(
+      (tag) =>
+        tag.displayName?.toLowerCase().includes(filterValue) && !this.selectedTagNames.includes(tag.displayName!)
+    );
   }
 
   refreshFilteredTags() {
-    this.filteredTags$ = this.tagCtrl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this.filterTags(value))
-    );
-    this.ref.markForCheck();
+    this.filteredTags = this.filterTags(this.tagCtrl.value ?? '');
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    // update the selected tags list with the new element
-    this.selectedTags.push(event.option.value);
-    // remove selected tag from the list
-    this.tagDefinitions = this.tagDefinitions.filter((tag) => tag.id !== event.option.value.id);
-    this.tagsService?.updateTagDefinitions(this.tagDefinitions);
+    this.selectedTagNames.push(event.option.value.displayName);
     this.emitSelectedTagNames();
-
-    this.openPanelTimeout = setTimeout(() => {
-      this.openPanel();
-    });
 
     this.refreshFilteredTags();
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue('');
-    this.ref.markForCheck();
+    this.ref.detectChanges();
+
+    this.openPanelTimeout = setTimeout(() => {
+      this.openPanel();
+    });
   }
 
-  remove(tag: LfTagDefinition): void {
-    const index = this.selectedTags.indexOf(tag);
+  remove(tagName: string): void {
+    const index = this.selectedTagNames.indexOf(tagName);
 
     if (index >= 0) {
-      this.selectedTags.splice(index, 1);
+      this.selectedTagNames.splice(index, 1);
+      this.emitSelectedTagNames();
     }
-    this.tagDefinitions.push(tag);
-    this.tagsService?.updateTagDefinitions(this.tagDefinitions);
-    this.emitSelectedTagNames();
 
-    this.focusInput();
     this.refreshFilteredTags();
+    this.ref.detectChanges();
+    this.focusInput();
   }
 
   focusInput() {
@@ -164,7 +169,6 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
   }
 
   private emitSelectedTagNames(): void {
-    const tagNames = this.selectedTags.map((t) => t.displayName!);
-    this.selectedTagsChanged.emit(tagNames);
+    this.selectedTagsChanged.emit([...this.selectedTagNames]);
   }
 }

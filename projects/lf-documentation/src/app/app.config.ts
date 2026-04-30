@@ -24,6 +24,7 @@ import { ExampleUsageInAngularComponent } from './example-usage-in-angular/examp
 import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
 import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
 import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-browser-documentation/lf-repository-browser-documentation.component';
+import { LfTagsDocumentationComponent } from './lf-tags-documentation/lf-tags-documentation.component';
 import { MigrateModulesToStandaloneComponent } from './migrate-modules-to-standalone/migrate-modules-to-standalone.component';
 import { Routes } from '@angular/router';
 
@@ -49,6 +50,7 @@ export enum RouterLinks {
   LF_LOGIN = 'lf-login',
   LF_USER_FEEDBACK = 'lf-user-feedback',
   LF_REPOSITORY_BROWSER = 'lf-repository-browser',
+  LF_TAGS = 'lf-tags',
 }
 
 const routes: Routes = [
@@ -72,6 +74,7 @@ const routes: Routes = [
   { path: RouterLinks.TROUBLESHOOTING, component: TroubleshootingComponent },
   { path: RouterLinks.MIGRATE_MODULES_TO_STANDALONE, component: MigrateModulesToStandaloneComponent },
   { path: RouterLinks.LF_REPOSITORY_BROWSER, component: LfRepositoryBrowserDocumentationComponent },
+  { path: RouterLinks.LF_TAGS, component: LfTagsDocumentationComponent },
   { path: '', component: OverviewComponent },
 ];
 

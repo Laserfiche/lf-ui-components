@@ -16,8 +16,6 @@ export interface LfTagDefinition {
 }
 
 export interface ILfTagsService {
-  updateTagDefinitions(newTagDefinitions: LfTagDefinition[]): void;
-
   getTagDefinitionsSub(): BehaviorSubject<LfTagDefinition[] | undefined>;
 
   getTagDefinitions(): LfTagDefinition[] | undefined;
