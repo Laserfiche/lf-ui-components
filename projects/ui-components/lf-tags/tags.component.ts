@@ -110,8 +110,7 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
   filterTags(value: string) {
     const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
     return this.tagDefinitions.filter(
-      (tag) =>
-        tag.displayName?.toLowerCase().includes(filterValue) && !this.selectedTagNames.includes(tag.displayName!)
+      (tag) => tag.displayName?.toLowerCase().includes(filterValue) && !this.selectedTagNames.includes(tag.displayName!)
     );
   }
 
