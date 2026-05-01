@@ -1,11 +1,11 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
-import { LfLoaderModule, LfModalsModule } from '@laserfiche/lf-ui-components/internal-shared'; 
+import { LfLoaderComponent, LfPopupModalComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfFieldViewDirective } from '../lf-field-view.directive';
 import { FieldValue } from '../field-components/utils/lf-field-types';
 import { LfFieldAddRemoveComponent } from './lf-field-add-remove/lf-field-add-remove.component';
@@ -13,7 +13,7 @@ import { LfFieldAdhocContainerDemoService } from './lf-field-adhoc-container-dem
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
 import { LfFieldAdhocContainerComponent } from './lf-field-adhoc-container.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { LfFieldBaseModule } from '../field-components/field-base-parts/lf-field-base/lf-field-base.module';
+import { LfFieldBaseComponent } from '../field-components/field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
 import { GetFieldTypePipe } from './lf-field-add-remove/get-field-type.pipe';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -25,21 +25,19 @@ describe('LfFieldAdhocContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         LfFieldAdhocContainerComponent,
         LfFieldAddRemoveComponent,
         LfFieldViewDirective,
-        GetFieldTypePipe
-      ],
-      imports: [
+        GetFieldTypePipe,
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        LfModalsModule,
-        LfFieldBaseModule,
+        LfPopupModalComponent,
+        LfFieldBaseComponent,
         MatCheckboxModule,
         ScrollingModule,
-        LfLoaderModule,
+        LfLoaderComponent,
         MatDialogModule,
       ],
     }).compileComponents();
@@ -88,30 +86,35 @@ describe('LfFieldAdhocContainerComponent', () => {
       fieldType: FieldType.String,
       isMultiValue: true,
       inTemplateSelected: false,
-      displayName: 'Attendance List'
+      displayName: 'Attendance List',
     };
     const expected = component.getSelectedFieldInfos();
     expect(expected).toEqual([initialFieldInfo]);
   });
 
-  it('should update selectedFieldValues when checkbox changed',  fakeAsync( async () => {
+  it('should update selectedFieldValues when checkbox changed', async () => {
     // Arrange
     const addRemoveButton = element.querySelector('#adhoc-add-remove-button') as HTMLButtonElement;
     addRemoveButton.click();
-    flush();
+    await fixture.whenStable();
     component.addRemoveComponent.ref.detectChanges();
 
     // Act
     const attendanceListField = (element.querySelectorAll('.mdc-checkbox__native-control') as any)[2];
     attendanceListField.click();
-     fixture.detectChanges();
+    fixture.detectChanges();
     const applyButton = element.querySelector('#adhoc-apply-button') as HTMLButtonElement;
-     applyButton.click();
-    flush();
+    applyButton.click();
+    await fixture.whenStable();
 
     // Assert
     expect(component.getFieldValues()).toEqual({
-      'Amount (AUD)': { fieldName: 'Amount (AUD)', fieldId: 61, fieldType: FieldType.Number, values: [{ value: '', position: '1' }] },
+      'Amount (AUD)': {
+        fieldName: 'Amount (AUD)',
+        fieldId: 61,
+        fieldType: FieldType.Number,
+        values: [{ value: '', position: '1' }],
+      },
       'Attendance List': {
         fieldName: 'Attendance List',
         fieldId: 1,
@@ -126,28 +129,28 @@ describe('LfFieldAdhocContainerComponent', () => {
         ],
       },
     });
-  }));
+  });
 
-  it('should be invalid when one of fields is invalid', fakeAsync( async () => {
+  it('should be invalid when one of fields is invalid', async () => {
     // Arrange
     const addRemoveButton = element.querySelector('#adhoc-add-remove-button') as HTMLButtonElement;
     addRemoveButton.click();
-    flush();
+    await fixture.whenStable();
     component.addRemoveComponent.ref.detectChanges();
 
     // Act
     const fieldCheckboxes = element.querySelectorAll('.mdc-checkbox__native-control') as any;
     const requiredField = fieldCheckboxes[1];
     requiredField.click();
-    flush();
+    await fixture.whenStable();
     component.addRemoveComponent.ref.detectChanges();
 
     component.onClickBackAsync();
     component.addRemoveComponent.onClickApply();
 
     // Assert (required field is blank)
-    expect(component.forceValidation()).toBeFalse();
-  }));
+    expect(component.forceValidation()).toBe(false);
+  });
 
   it('should getMappedFieldValues with valid input', async () => {
     // Arrange
@@ -199,8 +202,8 @@ describe('LfFieldAdhocContainerComponent', () => {
     const fieldValueNameDoesNotExist: FieldValue = { fieldId: 1 };
     const fieldValueNameExist: FieldValue = { fieldId: 2, fieldName: 'hello' };
     component.componentRefs = [
-      { instance: jasmine.createSpyObj({ getFieldValue: fieldValueNameDoesNotExist }) },
-      { instance: jasmine.createSpyObj({ getFieldValue: fieldValueNameExist }) },
+      { instance: { getFieldValue: vi.fn().mockReturnValue(fieldValueNameDoesNotExist) } },
+      { instance: { getFieldValue: vi.fn().mockReturnValue(fieldValueNameExist) } },
     ] as any;
 
     // Act

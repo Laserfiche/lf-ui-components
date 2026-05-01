@@ -51,13 +51,11 @@ import * as strings_th_common from '@laserfiche/lf-resource-library/resources/la
 import * as strings_zhHans_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/zh-Hans.json';
 import * as strings_zhHant_common from '@laserfiche/lf-resource-library/resources/laserfiche-base/zh-Hant.json';
 
-
 /** @internal */
 @Injectable({
   providedIn: 'root',
 })
 export class AppLocalizationService {
-
   localResources: Map<string, object> = new Map<string, object>([
     ['ar-EG', (strings_ar as any).default],
     ['cs-CZ', (strings_cs as any).default],
@@ -129,8 +127,7 @@ export class AppLocalizationService {
               this.internalGetString.next();
             }
           }
-        }
-        catch (err: any) {
+        } catch (err: any) {
           // Do not log, this will happen on most message events
         }
       }
@@ -145,7 +142,12 @@ export class AppLocalizationService {
 
   languageChanged(): Observable<string | undefined> {
     const currentLanguage = this.lfCommonLocalizationService.currentResource?.language;
-    return this.internalGetString.pipe(startWith(currentLanguage), map(() => { return this.lfCommonLocalizationService.currentResource?.language; }));
+    return this.internalGetString.pipe(
+      startWith(currentLanguage),
+      map(() => {
+        return this.lfCommonLocalizationService.currentResource?.language;
+      })
+    );
   }
 
   get currentLanguage(): string | undefined {
@@ -231,5 +233,4 @@ export class AppLocalizationService {
   getString(key: string, params?: string[]): string {
     return this.lfCommonLocalizationService.getString(key, params);
   }
-
 }

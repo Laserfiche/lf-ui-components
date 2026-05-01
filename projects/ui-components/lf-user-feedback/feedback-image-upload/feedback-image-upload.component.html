@@ -2,10 +2,10 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <label for="image-upload" class="lf-text-label"
-  >{{ localizedStrings.ATTACH_IMAGE | async }} ({{ localizedStrings.OPTIONAL | async }})</label
+  >{{ localizedStrings.ATTACH_IMAGE }} ({{ localizedStrings.OPTIONAL }})</label
 >
 <div (drop)="dropHandler($event)" (dragover)="dragOverHandler($event)">
-  <div id="image-upload" class="file-drop-zone" *ngIf="!(showLoader || imageUploaded); else showSelectedFile">
+  <div id="image-upload" class="file-drop-zone" [hidden]="showLoader || imageUploaded">
     <input
       id="browseFileInput"
       type="file"
@@ -15,34 +15,31 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       (change)="onFileSelectedAsync($event)"
       #uploadFile
     />
-
     <div id="file-upload-area">
       <span id="upload-icon" class="material-icons"> file_upload </span>
       <label for="uploadFile">
-        <button class="sec-button lf-button" (click)="onInputClickArea()">{{ localizedStrings.BROWSE | async }}</button>
+        <button class="sec-button lf-button" (click)="onInputClickArea(uploadFile)">
+          {{ localizedStrings.BROWSE }}
+        </button>
       </label>
-      <div class="file-upload-sub-text lf-text-body">{{ localizedStrings.OR | async }}</div>
-      <div class="file-upload-sub-text lf-text-body">{{ localizedStrings.DRAG_DROP_FILE | async }}</div>
+      <div class="file-upload-sub-text lf-text-body">{{ localizedStrings.OR }}</div>
+      <div class="file-upload-sub-text lf-text-body">{{ localizedStrings.DRAG_DROP_FILE }}</div>
     </div>
   </div>
-  <ng-template #showSelectedFile>
-    <div class="picked-file-zone">
-      <div *ngIf="imageUploaded; else displayLoader" class="selected-file-info">
-          <div class="image-preview">
-            <img [src]="imageUploaded?.rawBase64" style="max-width: 100%; max-height: 100%; object-fit: contain" />
-          </div>
-          <div id="uploaded-file-name" class="lf-text-body" title="{{ imageUploaded?.name }}">
-            {{ imageUploaded?.name }}
-          </div>
-          <button class="lf-close-button" title="{{ localizedStrings.REMOVE | async }}" (click)="removeImage()">
-            <span class="material-icons-outlined"> close </span>
-          </button>
+  <div class="picked-file-zone" [hidden]="!(showLoader || imageUploaded)">
+    <div class="selected-file-info" [hidden]="!imageUploaded">
+      <div class="image-preview">
+        <img [src]="imageUploaded?.rawBase64" style="max-width: 100%; max-height: 100%; object-fit: contain" />
       </div>
-      <ng-template #displayLoader>
-        <div class="loader-wrapper">
-          <lf-loader-component></lf-loader-component>
-        </div>
-      </ng-template>
+      <div id="uploaded-file-name" class="lf-text-body" title="{{ imageUploaded?.name }}">
+        {{ imageUploaded?.name }}
+      </div>
+      <button class="lf-close-button" title="{{ localizedStrings.REMOVE }}" (click)="removeImage(uploadFile)">
+        <span class="material-icons-outlined"> close </span>
+      </button>
     </div>
-  </ng-template>
+    <div class="loader-wrapper" [hidden]="!!imageUploaded">
+      <lf-loader-component></lf-loader-component>
+    </div>
+  </div>
 </div>

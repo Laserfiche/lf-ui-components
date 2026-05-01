@@ -10,7 +10,7 @@ import { GetFieldTypePipe } from './get-field-type.pipe';
 describe('GetFieldTypePipe', () => {
   const pipe = new GetFieldTypePipe();
   const mappedObservables: Map<string, Observable<string>> = new Map<string, Observable<string>>([
-    ['TEXT', of('string type')]
+    ['TEXT', of('string type')],
   ]);
   it('create an instance', () => {
     expect(pipe).toBeTruthy();
@@ -21,7 +21,7 @@ describe('GetFieldTypePipe', () => {
       id: 1,
       name: 'test name',
       fieldType: FieldType.String,
-      displayName: 'test name'
+      displayName: 'test name',
     };
     let value: string | undefined;
     pipe.transform(item, mappedObservables)?.subscribe((val) => {
@@ -31,7 +31,9 @@ describe('GetFieldTypePipe', () => {
 
     await CoreUtils.waitForConditionAsync(
       () => value === expectedValue,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedValue);
   });
@@ -41,11 +43,10 @@ describe('GetFieldTypePipe', () => {
       id: 1,
       name: 'test name',
       fieldType: FieldType.List,
-      displayName: 'test name'
+      displayName: 'test name',
     };
     const value = pipe.transform(item, mappedObservables);
 
     expect(value).toBeUndefined();
   });
-
 });

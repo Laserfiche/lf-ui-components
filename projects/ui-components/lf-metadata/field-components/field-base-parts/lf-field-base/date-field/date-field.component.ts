@@ -2,14 +2,19 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import { ValidatorFn } from '@angular/forms';
-import { LfFieldTokenService } from '../lf-field-token.service';
 import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfMetadataDatetimeUtils } from '@laserfiche/lf-js-utils';
 import { Observable, of } from 'rxjs';
 import { DateTimeBaseFieldDirective } from '../base-field/datetime-base-field.directives';
 import { FieldFormat } from '@laserfiche/lf-ui-components/shared';
+import { UniDateTimeComponent } from '../../../../lf-date-time-picker/uni-date-time.component';
+import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
+import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
   selector: 'lf-date-field-component',
@@ -18,6 +23,16 @@ import { FieldFormat } from '@laserfiche/lf-ui-components/shared';
   providers: [
     { provide: DateTimeBaseFieldDirective, useExisting: DateFieldComponent },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    UniDateTimeComponent,
+    LfTokenPickerComponent,
+    DynamicFieldComponent,
   ],
 })
 export class DateFieldComponent extends DateTimeBaseFieldDirective implements OnInit {
@@ -61,10 +76,7 @@ export class DateFieldComponent extends DateTimeBaseFieldDirective implements On
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
     switch (validationRuleName) {
       case ValidationRule.DATEPICKER_PARSE:
-        if (
-          this.lf_field_form_control.errors &&
-          ValidationRule.DATEPICKER_PARSE in this.lf_field_form_control.errors
-        ) {
+        if (this.lf_field_form_control.errors && ValidationRule.DATEPICKER_PARSE in this.lf_field_form_control.errors) {
           this.LOCALE_DATE = of(this.lf_field_form_control.errors[ValidationRule.DATEPICKER_PARSE].dateTimeFormat);
           var errorMessage = this.localizationService.getStringLaserficheWithObservableParams(
             'DATE_FIELDS_MUST_BE_IN_FORMAT_0',

@@ -15,13 +15,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/lf-cdn",
             "index": "projects/lf-cdn/src/index.html",
-            "polyfills": [
-              "projects/lf-cdn/src/polyfills.ts"
-            ],
+            "polyfills": [],
             "tsConfig": "projects/lf-cdn/tsconfig.app.json",
             "assets": [
               "projects/lf-cdn/src/favicon.ico",
@@ -32,11 +30,9 @@
                 "output": ""
               }
             ],
-            "styles": [
-              "projects/lf-cdn/src/styles.css"
-            ],
+            "styles": ["projects/lf-cdn/src/styles.css"],
             "scripts": [],
-            "main": "projects/lf-cdn/src/main.ts"
+            "browser": "projects/lf-cdn/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -74,7 +70,7 @@
           "defaultConfiguration": ""
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "options": {
             "buildTarget": "lf-cdn:build"
           },
@@ -91,29 +87,15 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/lf-cdn/src/test.ts",
-            "polyfills": "projects/lf-cdn/src/polyfills.ts",
-            "tsConfig": "projects/lf-cdn/tsconfig.spec.json",
-            "karmaConfig": "projects/lf-cdn/karma.conf.js",
-            "assets": [
-              "projects/lf-cdn/src/favicon.ico",
-              "projects/lf-cdn/src/assets"
-            ],
-            "styles": [
-              "projects/lf-cdn/src/styles.css"
-            ],
-            "scripts": []
+            "tsConfig": "projects/lf-cdn/tsconfig.spec.json"
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/lf-cdn/**/*.ts",
-              "projects/lf-cdn/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/lf-cdn/**/*.ts", "projects/lf-cdn/**/*.html"]
           }
         }
       }
@@ -130,13 +112,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/lf-documentation",
             "index": "projects/lf-documentation/src/index.html",
-            "polyfills": [
-              "projects/lf-documentation/src/polyfills.ts"
-            ],
+            "polyfills": [],
             "tsConfig": "projects/lf-documentation/tsconfig.app.json",
             "assets": [
               "projects/lf-documentation/src/favicon.ico",
@@ -147,12 +127,9 @@
                 "output": ""
               }
             ],
-            "styles": [
-              "projects/lf-documentation/src/styles.css",
-              "./node_modules/flatpickr/dist/flatpickr.min.css"
-            ],
+            "styles": ["projects/lf-documentation/src/styles.css", "./node_modules/flatpickr/dist/flatpickr.min.css"],
             "scripts": [],
-            "main": "projects/lf-documentation/src/main.ts"
+            "browser": "projects/lf-documentation/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -160,8 +137,6 @@
               "sourceMap": true,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -185,8 +160,6 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "sourceMap": true,
               "namedChunks": true
             }
@@ -194,7 +167,7 @@
           "defaultConfiguration": ""
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "lf-documentation:build:production"
@@ -212,29 +185,16 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/lf-documentation/src/test.ts",
-            "polyfills": "projects/lf-documentation/src/polyfills.ts",
             "tsConfig": "projects/lf-documentation/tsconfig.spec.json",
-            "karmaConfig": "projects/lf-documentation/karma.conf.js",
-            "assets": [
-              "projects/lf-documentation/src/favicon.ico",
-              "projects/lf-documentation/src/assets"
-            ],
-            "styles": [
-              "projects/lf-documentation/src/styles.css"
-            ],
-            "scripts": []
+            "browsers": ["chrome-headless"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/lf-documentation/**/*.ts",
-              "projects/lf-documentation/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/lf-documentation/**/*.ts", "projects/lf-documentation/**/*.html"]
           }
         }
       }
@@ -261,20 +221,16 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "main": "projects/ui-components/test.ts",
             "tsConfig": "projects/ui-components/tsconfig.spec.json",
-            "karmaConfig": "projects/ui-components/karma.conf.js"
+            "browsers": ["chrome-headless"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/ui-components/**/*.ts",
-              "projects/ui-components/**/*.html"
-            ]
+            "lintFilePatterns": ["projects/ui-components/**/*.ts", "projects/ui-components/**/*.html"]
           }
         }
       }

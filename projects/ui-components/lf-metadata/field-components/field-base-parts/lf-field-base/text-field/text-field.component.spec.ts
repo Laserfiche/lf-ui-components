@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TextFieldComponent } from './text-field.component';
 import { LfFieldInfo } from '../../../utils/lf-field-types';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
@@ -28,7 +28,6 @@ describe('TextFieldComponent', () => {
   let noLengthComponent: TextFieldComponent;
   let noLengthFixture: ComponentFixture<TextFieldComponent>;
 
-
   const shortStringTextInfo: LfFieldInfo = {
     name: 'Short String',
     id: 1,
@@ -36,7 +35,7 @@ describe('TextFieldComponent', () => {
     fieldType: FieldType.String,
     isRequired: true,
     length: 40,
-    displayName: 'Short String'
+    displayName: 'Short String',
   };
 
   const longStringTextInfo: LfFieldInfo = {
@@ -45,7 +44,7 @@ describe('TextFieldComponent', () => {
     description: 'This field has a max length of 200',
     fieldType: FieldType.String,
     length: 200,
-    displayName: 'Long String'
+    displayName: 'Long String',
   };
 
   const textWithNoLengthInfo: LfFieldInfo = {
@@ -53,29 +52,27 @@ describe('TextFieldComponent', () => {
     id: 3,
     description: 'This field has no max length specified',
     fieldType: FieldType.String,
-    displayName: 'No Length Text'
+    displayName: 'No Length Text',
   };
 
-  beforeEach(waitForAsync(async () => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        TextFieldComponent,
-        LfTokenPickerComponent
-      ],
       imports: [
+        TextFieldComponent,
+        LfTokenPickerComponent,
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
         MatFormFieldModule,
         MatInputModule,
         MatMenuModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
       ],
       providers: [
         { provide: BaseFieldDirective, useExisting: TextFieldComponent },
         { provide: LfTokenService, useClass: LfFieldTokenService },
-        AppLocalizationService
-      ]
+        AppLocalizationService,
+      ],
     }).compileComponents();
 
     shortFixture = TestBed.createComponent(TextFieldComponent);
@@ -95,7 +92,7 @@ describe('TextFieldComponent', () => {
     noLengthComponent.lf_field_info = textWithNoLengthInfo;
     noLengthComponent.lf_field_form_control = new FormControl();
     noLengthFixture.detectChanges();
-  }));
+  });
 
   it('should create short text field', () => {
     expect(shortComponent).toBeTruthy();
@@ -119,7 +116,9 @@ describe('TextFieldComponent', () => {
     shortComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -134,7 +133,9 @@ describe('TextFieldComponent', () => {
     longComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -149,7 +150,9 @@ describe('TextFieldComponent', () => {
     shortComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -164,7 +167,9 @@ describe('TextFieldComponent', () => {
     longComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -175,7 +180,10 @@ describe('TextFieldComponent', () => {
 
     const expectedBrokenRule = ValidationRule.MAX_LENGTH;
     const lengthParam: string[] = [shortStringTextInfo?.length?.toString() ?? '0'];
-    const expectedError: string = shortComponent.localizationService.getString('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', lengthParam);
+    const expectedError: string = shortComponent.localizationService.getString(
+      'THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS',
+      lengthParam
+    );
     expect(shortComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     shortComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -185,7 +193,9 @@ describe('TextFieldComponent', () => {
     shortComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -200,7 +210,9 @@ describe('TextFieldComponent', () => {
     longComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -216,7 +228,10 @@ describe('TextFieldComponent', () => {
 
     const expectedBrokenRule = ValidationRule.MAX_LENGTH;
     const lengthParam: string[] = [longStringTextInfo?.length?.toString() ?? '0'];
-    const expectedError: string = longComponent.localizationService.getString('THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS', lengthParam);
+    const expectedError: string = longComponent.localizationService.getString(
+      'THIS_FIELD_HAS_MAXIMUM_ALLOWED_LENGTH_0_CHARACTERS',
+      lengthParam
+    );
     expect(longComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     longComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -226,21 +241,23 @@ describe('TextFieldComponent', () => {
     longComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
 
   it('should use input for length 40 and under', () => {
-    expect(shortComponent.isShortField).toBeTrue();
+    expect(shortComponent.isShortField).toBe(true);
   });
 
   it('should use textarea for length over 40', () => {
-    expect(longComponent.isShortField).toBeFalse();
+    expect(longComponent.isShortField).toBe(false);
   });
 
   it('should use input for text field with no length', () => {
-    expect(noLengthComponent.isShortField).toBeTrue();
+    expect(noLengthComponent.isShortField).toBe(true);
   });
 
   it('should NOT detect token if field does not contain token', async () => {
@@ -249,7 +266,7 @@ describe('TextFieldComponent', () => {
     shortFixture.detectChanges();
 
     const containsToken = shortComponent.containsToken;
-    expect(containsToken).toBeFalse();
+    expect(containsToken).toBe(false);
   });
 
   it('should detect token if field contains token', async () => {
@@ -258,7 +275,7 @@ describe('TextFieldComponent', () => {
     shortFixture.detectChanges();
 
     const containsToken = shortComponent.containsToken;
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 
   it('should detect token if field contains token with uppercase', async () => {
@@ -267,7 +284,7 @@ describe('TextFieldComponent', () => {
     shortFixture.detectChanges();
 
     const containsToken = shortComponent.containsToken;
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 
   it('should add token to the end of the field if there is no cursor position', async () => {
@@ -285,6 +302,6 @@ describe('TextFieldComponent', () => {
     shortFixture.detectChanges();
 
     const containsToken = shortComponent.containsToken;
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 });

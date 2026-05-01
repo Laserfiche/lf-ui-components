@@ -1,17 +1,25 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ComponentRef, Directive, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ComponentRef, Directive, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { LfFieldMetadataConnectorService } from './lf-field-metadata-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container/lf-field-adhoc-container-types';
 import { LfFieldViewDirective } from './lf-field-view.directive';
 import { LfFieldComponent } from './field-components/lf-field/lf-field.component';
 import { LfFieldMultivalueComponent } from './field-components/lf-field-multivalue/lf-field-multivalue.component';
 import { LfFieldGroupComponent } from './field-components/lf-field-group/lf-field-group.component';
-import { FieldValue, FieldValues, LfFieldInfo, LfFieldValue, TemplateFieldInfo } from './field-components/utils/lf-field-types';
+import {
+  FieldValue,
+  FieldValues,
+  LfFieldInfo,
+  LfFieldValue,
+  TemplateFieldInfo,
+} from './field-components/utils/lf-field-types';
 
 @Directive()
 export abstract class LfFieldContainerDirective {
+  /** @internal */
+  public metadataFieldConnectorService = inject(LfFieldMetadataConnectorService);
 
   @Output() fieldValuesChanged = new EventEmitter<boolean>();
 
@@ -29,20 +37,30 @@ export abstract class LfFieldContainerDirective {
   private readonly VALUE_ACCESSOR = 'value';
 
   /** @internal */
-  constructor(
-    /** @internal */
-    public metadataConnectorService: LfFieldMetadataConnectorService) { }
+  constructor() {}
 
   /** @internal */
   abstract clearAsync(): Promise<void>;
   /** @internal */
-  abstract onFieldValueChangedAsync(fieldValues: string[], lfFieldInfo: LfFieldInfo, indicesChanged?: number[]): Promise<void>;
+  abstract onFieldValueChangedAsync(
+    fieldValues: string[],
+    lfFieldInfo: LfFieldInfo,
+    indicesChanged?: number[]
+  ): Promise<void>;
   /** @internal */
   abstract renderFieldsAsync(fieldInfos: (TemplateFieldInfo | LfFieldInfo | AdhocFieldInfo)[]): Promise<void>;
   /** @internal */
-  abstract multivalueComponentInitAsync(componentRef: ComponentRef<LfFieldMultivalueComponent>, fieldInfo: LfFieldInfo, stringValues: LfFieldValue[]): Promise<void>;
+  abstract multivalueComponentInitAsync(
+    componentRef: ComponentRef<LfFieldMultivalueComponent>,
+    fieldInfo: LfFieldInfo,
+    stringValues: LfFieldValue[]
+  ): Promise<void>;
   /** @internal */
-  abstract fieldComponentInitAsync(componentRef: ComponentRef<LfFieldComponent>, fieldInfo: LfFieldInfo, stringValues: LfFieldValue): Promise<void>;
+  abstract fieldComponentInitAsync(
+    componentRef: ComponentRef<LfFieldComponent>,
+    fieldInfo: LfFieldInfo,
+    stringValues: LfFieldValue
+  ): Promise<void>;
 
   @Input()
   forceValidation = (): boolean => {
@@ -73,14 +91,15 @@ export abstract class LfFieldContainerDirective {
   /** @internal */
   setFieldValue(fieldId: number, values: string[]): void {
     const fieldValue = this.getOrCreateFieldValue(fieldId);
-    const formattedValues: { position: string; value: string }[] = values?.map((value, index) => {
-      return { value, position: (index + 1).toString() };
-    }) ?? [];
+    const formattedValues: { position: string; value: string }[] =
+      values?.map((value, index) => {
+        return { value, position: (index + 1).toString() };
+      }) ?? [];
     if (formattedValues?.length > 0) {
       fieldValue.values = formattedValues;
     }
     this.allFieldValues[fieldId] = fieldValue;
-    this.metadataConnectorService.setFieldValue(fieldValue);
+    this.metadataFieldConnectorService.setFieldValue(fieldValue);
   }
 
   /** @internal */
@@ -88,7 +107,7 @@ export abstract class LfFieldContainerDirective {
     if (!(fieldId in this.allFieldValues)) {
       const val = this.createDefaultFieldValue(fieldId);
       this.allFieldValues[fieldId] = val;
-      this.metadataConnectorService.setFieldValue(val);
+      this.metadataFieldConnectorService.setFieldValue(val);
     }
     return this.allFieldValues[fieldId];
   }
@@ -112,17 +131,22 @@ export abstract class LfFieldContainerDirective {
     stringValues: string[]
   ): Promise<void> {
     await this.multivalueComponentInitAsync(multivalueComponentRef, fieldInfo, stringValues);
-    multivalueComponentRef.instance.fieldValuesChanged.subscribe(async (fieldChange: { fieldValues: string[]; indexChanged: number }) => {
-      await this.onFieldValueChangedAsync(fieldChange.fieldValues, multivalueComponentRef.instance.lfFieldInfo, [fieldChange.indexChanged]);
-    });
+    multivalueComponentRef.instance.fieldValuesChanged.subscribe(
+      async (fieldChange: { fieldValues: string[]; indexChanged: number }) => {
+        await this.onFieldValueChangedAsync(fieldChange.fieldValues, multivalueComponentRef.instance.lfFieldInfo, [
+          fieldChange.indexChanged,
+        ]);
+      }
+    );
   }
 
   /** @internal */
   protected getValuesById(fieldId: number): string[] {
     const fieldValue: FieldValue = this.getOrCreateFieldValue(fieldId);
-    const stringValues = fieldValue.values?.map((value) => {
-      return value[this.VALUE_ACCESSOR];
-    }) ?? [];
+    const stringValues =
+      fieldValue.values?.map((value) => {
+        return value[this.VALUE_ACCESSOR];
+      }) ?? [];
     return stringValues;
   }
 
@@ -140,5 +164,4 @@ export abstract class LfFieldContainerDirective {
   private createFieldValueFromFieldInfo(field: LfFieldInfo): FieldValue {
     return { fieldName: field.name, fieldId: field.id, fieldType: field.fieldType };
   }
-
 }

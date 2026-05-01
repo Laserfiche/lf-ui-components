@@ -1,4 +1,7 @@
-.lf-checklist-container .mat-checkbox-label, .lf-checklist-container .mat-checkbox-layout, .lf-checklist-item-name, .lf-text-field {
+.lf-checklist-container .mat-checkbox-label,
+.lf-checklist-container .mat-checkbox-layout,
+.lf-checklist-item-name,
+.lf-text-field {
   width: 100%;
 }
 
@@ -33,13 +36,12 @@ lf-checklist .mat-form-field-appearance-outline.mat-focused .mat-form-field-outl
   margin-top: 14px;
 }
 
-.lf-checklist-item .fixed-size-icon-container {
-  margin-top: 7px;
+.lf-checklist-item .mat-mdc-checkbox {
+  margin-top: -3px;
 }
 
 .lf-checklist-item .lf-text-field {
   border: none;
-  margin-top: 5px;
   padding: 0px;
 }
 

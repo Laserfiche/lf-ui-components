@@ -14,9 +14,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { LfModalsModule } from '@laserfiche/lf-ui-components/internal-shared';
+import { LfPopupModalComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfFieldContainerDemoService } from 'projects/lf-documentation/src/app/lf-field-container-documentation/lf-field-container-demo.service';
-import { LfMetadataModule } from '../lf-metadata.module';
 
 describe('LfFieldContainerComponent', () => {
   let component: LfFieldContainerComponent;
@@ -24,27 +23,23 @@ describe('LfFieldContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         LfFieldContainerComponent,
         LfFieldTemplateContainerComponent,
         LfFieldAdhocContainerComponent,
         LfFieldAddRemoveComponent,
-        LfFieldViewDirective
-      ],
-      imports: [
+        LfFieldViewDirective,
         BrowserAnimationsModule,
         FormsModule,
-        LfModalsModule,
+        LfPopupModalComponent,
         MatExpansionModule,
         MatDialogModule,
         MatInputModule,
         MatFormFieldModule,
         MatSelectModule,
         ReactiveFormsModule,
-        LfMetadataModule
-      ]
-    })
-    .compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

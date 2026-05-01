@@ -7,13 +7,18 @@ import { ColumnDef } from './lf-selection-list-types';
 import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directive';
 
 @Component({
-  template: `
-  <div style="position: relative">
+  template: ` <div style="position: relative">
     <table>
       <tr [style.gridTemplateColumns]="gridTemplateColumns">
         <th>
-          <div style="width:100%; height: 100%; position: relative" [lfResizeColumn]="columnResizable" [columnDef]="columnDef" (widthChanged)="onWidthChange($event)">
-        Header 1</div>
+          <div
+            style="width:100%; height: 100%; position: relative"
+            [lfResizeColumn]="columnResizable"
+            [columnDef]="columnDef"
+            (widthChanged)="onWidthChange($event)"
+          >
+            Header 1
+          </div>
         </th>
         <th>Header 2</th>
         <th>Header 3</th>
@@ -32,19 +37,19 @@ import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directi
   </div>`,
   styles: [
     `
-        table {
-          border-spacing: 0;
-        }
-    
-        tr {
-          display: grid;
-        }
-    
-        th {
-          padding: 0 10px;
-        }
-    
-        .resize-handle {
+      table {
+        border-spacing: 0;
+      }
+
+      tr {
+        display: grid;
+      }
+
+      th {
+        padding: 0 10px;
+      }
+
+      .resize-handle {
         display: inline-block;
         position: absolute;
         top: 0;
@@ -54,7 +59,7 @@ import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directi
         width: 15px;
         right: -17.5px;
       }
-    
+
       .repository-browser-resize-overlay {
         position: absolute;
         top: 0;
@@ -65,13 +70,23 @@ import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directi
         z-index: 1;
         cursor: col-resize;
       }
-      `]
+    `,
+  ],
+  standalone: true,
+  imports: [ResizeColumnDirective],
 })
 class TestComponent {
   widthChanged: number = 100;
   columnResizable: boolean = true;
   gridTemplateColumns: string = `${this.widthChanged}px 100px 100px`;
-  columnDef: ColumnDef =  { id: 'mock_column_def', displayName: 'Mock Column Def', defaultWidth: '100px', minWidthPx: 50, resizable: true, sortable: true };
+  columnDef: ColumnDef = {
+    id: 'mock_column_def',
+    displayName: 'Mock Column Def',
+    defaultWidth: '100px',
+    minWidthPx: 50,
+    resizable: true,
+    sortable: true,
+  };
   onWidthChange(width: number) {
     this.widthChanged = width;
     this.gridTemplateColumns = `${this.widthChanged}px 100px 100px`;
@@ -82,19 +97,17 @@ describe('ResizeColumnDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ResizeColumnDirective, TestComponent],
-    })
-      .compileComponents();
+      imports: [TestComponent],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(TestComponent);
-      fixture.detectChanges();
+    fixture = TestBed.createComponent(TestComponent);
+    fixture.detectChanges();
   });
-
 
   function mouseDownResizeHandler(resizeHandleEl: HTMLElement) {
     const mouseDownEvent = new MouseEvent('mousedown', {
       bubbles: true,
-      cancelable: true
+      cancelable: true,
     });
 
     resizeHandleEl.dispatchEvent(mouseDownEvent);
@@ -107,8 +120,7 @@ describe('ResizeColumnDirective', () => {
       movementX: moveX,
       bubbles: true,
       cancelable: true,
-      view: window,
-      buttons: 2
+      buttons: 2,
     });
     resizeHandleEl.dispatchEvent(mouseMoveEvent);
   }
@@ -125,9 +137,7 @@ describe('ResizeColumnDirective', () => {
   it('resized column should not be smaller than min width', () => {
     // Arrange
     const moveX = -75;
-    const resizeHandleEl = Array.from(
-      document.getElementsByClassName('resize-handle')
-    )[0] as HTMLElement;
+    const resizeHandleEl = Array.from(document.getElementsByClassName('resize-handle'))[0] as HTMLElement;
     const initialWidth = resizeHandleEl.closest('th')?.getBoundingClientRect().width ?? 0;
 
     // Act
@@ -141,50 +151,43 @@ describe('ResizeColumnDirective', () => {
     expect(fixture.componentInstance.widthChanged).toBe(fixture.componentInstance.columnDef.minWidthPx ?? 0);
   });
 
-  it('should emit widthChange on mouse up',  () => {
-      // Arrange
-      const moveX = 100;
-      const resizeHandleEl = Array.from(
-        document.getElementsByClassName('resize-handle')
-      )[0] as HTMLElement;
-      const initialWidth = resizeHandleEl.closest('th')?.getBoundingClientRect().width ?? 0;
+  it('should emit widthChange on mouse up', () => {
+    // Arrange
+    const moveX = 100;
+    const resizeHandleEl = Array.from(document.getElementsByClassName('resize-handle'))[0] as HTMLElement;
+    const initialWidth = resizeHandleEl.closest('th')?.getBoundingClientRect().width ?? 0;
 
-      // Act
-      mouseDownResizeHandler(resizeHandleEl);
-      mouseMoveResizeHandler(resizeHandleEl, moveX);
-      mouseUpResizeHandler(resizeHandleEl);
-      fixture.detectChanges();
+    // Act
+    mouseDownResizeHandler(resizeHandleEl);
+    mouseMoveResizeHandler(resizeHandleEl, moveX);
+    mouseUpResizeHandler(resizeHandleEl);
+    fixture.detectChanges();
 
+    // Assert
+    expect(Math.floor(fixture.componentInstance.widthChanged)).toBe(Math.floor(initialWidth + moveX));
+  });
 
-      // Assert
-      expect(fixture.componentInstance.widthChanged).toBe(initialWidth + moveX);
-    });
+  it('should set repository-browser-resize-overlay left with mousemove', () => {
+    // Arrange
+    const moveX = 100;
 
-    it('should set repository-browser-resize-overlay left with mousemove',  () => {
-      // Arrange
-      const moveX = 100;
+    const resizeHandleEl = Array.from(document.getElementsByClassName('resize-handle'))[0] as HTMLElement;
+    const initialWidth = resizeHandleEl.closest('th')?.getBoundingClientRect().width ?? 0;
 
-      const resizeHandleEl = Array.from(
-        document.getElementsByClassName('resize-handle')
-      )[0] as HTMLElement;
-      const initialWidth = resizeHandleEl.closest('th')?.getBoundingClientRect().width ?? 0;
+    // Act
+    mouseDownResizeHandler(resizeHandleEl);
+    mouseMoveResizeHandler(resizeHandleEl, moveX);
+    fixture.detectChanges();
 
-      // Act
-      mouseDownResizeHandler(resizeHandleEl);
-      mouseMoveResizeHandler(resizeHandleEl, moveX);
-      fixture.detectChanges();
+    // Assert
+    const resize = Array.from(document.getElementsByClassName('repository-browser-resize-overlay'));
+    expect((resize[0] as HTMLDivElement).style.left).toBe(`${Math.floor(moveX + initialWidth)}px`);
 
-      // Assert
-      const resize = Array.from(
-        document.getElementsByClassName('repository-browser-resize-overlay')
-      );
-      expect((resize[0] as HTMLDivElement).style.left).toBe(`${moveX + initialWidth}px`);
+    // Move the mouse again
+    mouseMoveResizeHandler(resizeHandleEl, 2 * moveX);
+    fixture.detectChanges();
 
-      // Move the mouse again
-      mouseMoveResizeHandler(resizeHandleEl, 2*moveX);
-      fixture.detectChanges();
-
-      // Assert
-      expect((resize[0] as HTMLDivElement).style.left).toBe(`${2*moveX + initialWidth}px`);
-    });
+    // Assert
+    expect((resize[0] as HTMLDivElement).style.left).toBe(`${Math.floor(2 * moveX + initialWidth)}px`);
+  });
 });

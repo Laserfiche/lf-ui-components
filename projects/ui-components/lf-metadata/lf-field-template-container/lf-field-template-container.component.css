@@ -17,13 +17,13 @@
   padding-right: 0px;
 }
 
-::ng-deep lf-field-template-container  {
+::ng-deep lf-field-template-container {
   font-size: 14px;
 }
 
 ::ng-deep lf-field-template-container .lf-template-picker > .mat-mdc-form-field-subscript-wrapper {
   height: 0px;
-} 
+}
 
 .responsive-form-container {
   display: flex;

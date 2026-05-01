@@ -1,13 +1,17 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
-import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import { LfFieldTokenService } from '../lf-field-token.service';
-import { AppLocalizationService, ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
+import { ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable } from 'rxjs';
+import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
+import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
   selector: 'lf-text-field-component',
@@ -15,8 +19,17 @@ import { Observable } from 'rxjs';
   styleUrls: ['./text-field.component.css', './../lf-field-base/lf-field-base.component.css'],
   providers: [
     { provide: BaseFieldDirective, useExisting: TextFieldComponent },
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
-  ]
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    LfTokenPickerComponent,
+    DynamicFieldComponent,
+  ],
 })
 export class TextFieldComponent extends BaseFieldDirective implements OnInit {
   getValidationTextForFieldType(validationRuleName: ValidationRule): Observable<string> | undefined {
@@ -25,14 +38,7 @@ export class TextFieldComponent extends BaseFieldDirective implements OnInit {
 
   focusState: boolean | undefined;
   get isShortField(): boolean {
-    return (!this.lf_field_info.length || this.lf_field_info.length <= 40);
-  }
-
-  constructor(
-    public tokenService: LfFieldTokenService,
-    public ref: ChangeDetectorRef,
-    public localizationService: AppLocalizationService) {
-    super(tokenService, ref, localizationService);
+    return !this.lf_field_info.length || this.lf_field_info.length <= 40;
   }
 
   serializeFieldFormControlValue(): string {
@@ -75,8 +81,7 @@ export class TextFieldComponent extends BaseFieldDirective implements OnInit {
     this.ref.detectChanges();
     if (this.containsToken) {
       this.lf_field_form_control.clearValidators();
-    }
-    else {
+    } else {
       this.resetToDefaultValidators();
     }
     this.lf_field_form_control.updateValueAndValidity();
@@ -91,8 +96,7 @@ export class TextFieldComponent extends BaseFieldDirective implements OnInit {
   onTextValueChanged() {
     if (this.containsToken) {
       this.lf_field_form_control.clearValidators();
-    }
-    else {
+    } else {
       this.resetToDefaultValidators();
     }
     this.lf_field_form_control.updateValueAndValidity();

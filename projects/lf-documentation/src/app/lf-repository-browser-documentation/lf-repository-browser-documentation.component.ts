@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ColumnDef } from './../../../../ui-components/lf-selection-list/lf-selection-list-public-api';
 import {
   LfTreeNode,
@@ -10,21 +10,47 @@ import {
 import { DemoRepoService, propIdCreateDate, propIdNameCol, propIdNumberCol } from './demo-repo-service';
 import { ToolbarOption } from './../../../../ui-components/shared/lf-toolbar/lf-toolbar-public-api';
 import { IconUtils } from '@laserfiche/lf-js-utils';
+import { CardComponent } from '../card/card.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
-
-
-const CREATE_COL: ColumnDef = { id: propIdCreateDate, displayName: 'Creation Date', defaultWidth: 'auto', minWidthPx: 100, resizable: true, sortable: true };
-const NUMBER_COL: ColumnDef = { id: propIdNumberCol, displayName: 'Number Column', defaultWidth: 'auto', minWidthPx: 100, resizable: true, sortable: true  };
-const NAME_COL: ColumnDef = { id: propIdNameCol, displayName: 'Name', defaultWidth: 'auto', minWidthPx: 100, resizable: true, sortable: true  };
+const CREATE_COL: ColumnDef = {
+  id: propIdCreateDate,
+  displayName: 'Creation Date',
+  defaultWidth: 'auto',
+  minWidthPx: 100,
+  resizable: true,
+  sortable: true,
+};
+const NUMBER_COL: ColumnDef = {
+  id: propIdNumberCol,
+  displayName: 'Number Column',
+  defaultWidth: 'auto',
+  minWidthPx: 100,
+  resizable: true,
+  sortable: true,
+};
+const NAME_COL: ColumnDef = {
+  id: propIdNameCol,
+  displayName: 'Name',
+  defaultWidth: 'auto',
+  minWidthPx: 100,
+  resizable: true,
+  sortable: true,
+};
 
 @Component({
   selector: 'app-lf-repository-browser-documentation',
   templateUrl: './lf-repository-browser-documentation.component.html',
   styleUrls: ['./lf-repository-browser-documentation.component.css', '../app.component.css'],
+  standalone: true,
+  imports: [CardComponent, MatCheckboxModule, FormsModule, CommonModule, LfRepositoryBrowserComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit {
-  @ViewChild('repoBrowser') repoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
-  @ViewChild('singleSelectRepoBrowser') singleSelectRepoBrowser?: ElementRef<LfRepositoryBrowserComponent>;
+  @ViewChild('repoBrowser') repoBrowser?: LfRepositoryBrowserComponent;
+  @ViewChild('singleSelectRepoBrowser') singleSelectRepoBrowser?: LfRepositoryBrowserComponent;
   allSelectable: boolean = true;
   dataService: DemoRepoService = new DemoRepoService();
   selectable = this._selectable.bind(this);
@@ -37,7 +63,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     { name: 'Scan', disabled: true, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
     { name: 'Rename', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
     { name: 'Share', disabled: false, icon: IconUtils.getDocumentIconUrlFromIconId('document-20') },
-  ]; 
+  ];
 
   elementSelectedEntry: LfTreeNode[] | undefined;
 
@@ -53,37 +79,37 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       if (!this.repoBrowser) {
         throw new Error('repoBrowser is undefined');
       }
-      await this.repoBrowser.nativeElement.initAsync(this.dataService, this.dataService._entries['21']);
-      this.repoBrowser.nativeElement.always_show_header = true;
-      this.multiColChange() ;
+      await this.repoBrowser.initAsync(this.dataService, this.dataService._entries['21']);
+      this.repoBrowser.always_show_header = true;
+      this.multiColChange();
       if (this.repoBrowser != null) {
-        this.repoBrowser.nativeElement.focus();
+        this.repoBrowser.focus();
       }
     }, 1000);
-    
+
     if (!this.singleSelectRepoBrowser) {
       throw new Error('repoBrowser is undefined');
     }
     this.singleColChange();
-    await this.singleSelectRepoBrowser.nativeElement?.initAsync(this.singleSelectDataService);
-    this.singleSelectRepoBrowser.nativeElement.column_order_by = {columnId: 'name', isDesc: false};
+    await this.singleSelectRepoBrowser?.initAsync(this.singleSelectDataService);
+    this.singleSelectRepoBrowser.column_order_by = { columnId: 'name', isDesc: false };
   }
 
-  onEntrySelected(event: CustomEvent<LfTreeNode[] | undefined>) {
-    console.debug('entry selected', event.detail);
-    this.elementSelectedEntry = event.detail;
+  onEntrySelected(entries: LfTreeNode[] | undefined) {
+    console.debug('entry selected', entries);
+    this.elementSelectedEntry = entries;
   }
 
-  onEntryOpened(event: CustomEvent<LfTreeNode[] | undefined>) {
-    console.debug('entry double clicked', event.detail);
+  onEntryOpened(entries: LfTreeNode[] | undefined) {
+    console.debug('entry double clicked', entries);
   }
 
-  onEntryFocused(event: CustomEvent<LfTreeNode | undefined>) {
-    console.debug('entry focused', event.detail);
+  onEntryFocused(entry: LfTreeNode | undefined) {
+    console.debug('entry focused', entry);
   }
 
   onRefresh() {
-    this.repoBrowser?.nativeElement.refreshAsync();
+    this.repoBrowser?.refreshAsync();
   }
 
   singleColChange() {
@@ -95,7 +121,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     if (this.number_col_single) {
       columns.push(NUMBER_COL);
     }
-    this.singleSelectRepoBrowser!.nativeElement.setColumnsToDisplay(columns);
+    this.singleSelectRepoBrowser!.setColumnsToDisplay(columns);
   }
 
   multiColChange() {
@@ -106,7 +132,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
     if (this.number_col_multi) {
       columns.push(NUMBER_COL);
     }
-    this.repoBrowser!.nativeElement.setColumnsToDisplay(columns);
+    this.repoBrowser!.setColumnsToDisplay(columns);
   }
 
   private _selectable(node: LfTreeNode): Promise<boolean> {
@@ -122,7 +148,7 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
   toggleSelectable() {
     this.allSelectable = !this.allSelectable;
     this.dataService = new DemoRepoService();
-    this.repoBrowser?.nativeElement.initAsync(this.dataService);
+    this.repoBrowser?.initAsync(this.dataService);
   }
 
   async setSelectedValue() {
@@ -133,6 +159,6 @@ export class LfRepositoryBrowserDocumentationComponent implements AfterViewInit 
       this.dataService._entries['60'],
       this.dataService._entries['1000'],
     ];
-    await this.repoBrowser?.nativeElement.setSelectedNodesAsync(selectedValues as LfTreeNode[]);
+    await this.repoBrowser?.setSelectedNodesAsync(selectedValues as LfTreeNode[]);
   }
 }

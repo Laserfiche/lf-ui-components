@@ -1,19 +1,22 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { NgElement, WithProperties } from '@angular/elements';
-import { LfBreadcrumb, LfBreadcrumbsComponent } from './../../../../ui-components/shared/lf-breadcrumbs/lf-breadcrumbs-public-api';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  LfBreadcrumb,
+  LfBreadcrumbsComponent,
+} from './../../../../ui-components/shared/lf-breadcrumbs/lf-breadcrumbs-public-api';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-lf-breadcrumbs-documentation',
   templateUrl: './lf-breadcrumbs-documentation.component.html',
-  styleUrls: ['./lf-breadcrumbs-documentation.component.css', './../app.component.css']
+  styleUrls: ['./lf-breadcrumbs-documentation.component.css', './../app.component.css'],
+  standalone: true,
+  imports: [CardComponent, LfBreadcrumbsComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LfBreadcrumbsDocumentationComponent implements AfterViewInit {
-
-  @ViewChild('breadcrumbs') elementBreadcrumbs!: ElementRef<NgElement & WithProperties<LfBreadcrumbsComponent>>;
-
+export class LfBreadcrumbsDocumentationComponent {
   selectedElementBreadcrumb: string | undefined;
 
   elementBreadcrumbOptions = [
@@ -24,7 +27,7 @@ export class LfBreadcrumbsDocumentationComponent implements AfterViewInit {
       isLeaf: false,
       isSelectable: false,
       name: 'Folder E',
-      path: 'Folder A/Folder B/Folder C/Folder D/Folder E'
+      path: 'Folder A/Folder B/Folder C/Folder D/Folder E',
     },
     {
       id: 'D',
@@ -33,7 +36,7 @@ export class LfBreadcrumbsDocumentationComponent implements AfterViewInit {
       isLeaf: false,
       isSelectable: false,
       name: 'Folder D',
-      path: 'Folder A/Folder B/Folder C/Folder D'
+      path: 'Folder A/Folder B/Folder C/Folder D',
     },
     {
       id: 'C',
@@ -42,7 +45,7 @@ export class LfBreadcrumbsDocumentationComponent implements AfterViewInit {
       isLeaf: false,
       isSelectable: false,
       name: 'Folder C',
-      path: 'Folder A/Folder B/Folder C'
+      path: 'Folder A/Folder B/Folder C',
     },
     {
       id: 'B',
@@ -51,7 +54,7 @@ export class LfBreadcrumbsDocumentationComponent implements AfterViewInit {
       isLeaf: false,
       isSelectable: false,
       name: 'Folder B',
-      path: 'Folder A/Folder B'
+      path: 'Folder A/Folder B',
     },
     {
       id: 'A',
@@ -60,21 +63,13 @@ export class LfBreadcrumbsDocumentationComponent implements AfterViewInit {
       isLeaf: false,
       isSelectable: false,
       name: 'Folder A',
-      path: 'Folder A'
-    }
+      path: 'Folder A',
+    },
   ];
 
-  constructor() { }
+  constructor() {}
 
-  ngAfterViewInit() {
-    this.elementBreadcrumbs.nativeElement.breadcrumbs = this.elementBreadcrumbOptions;
-    this.elementBreadcrumbs.nativeElement.addEventListener('breadcrumbSelected', (event) => {
-      this.onElementBreadcrumbSelected(event as CustomEvent<LfBreadcrumb>);
-    });
+  onElementBreadcrumbSelected(breadcrumb: LfBreadcrumb) {
+    this.selectedElementBreadcrumb = JSON.stringify(breadcrumb, null, 2);
   }
-
-  onElementBreadcrumbSelected(event: CustomEvent<LfBreadcrumb>) {
-    this.selectedElementBreadcrumb = JSON.stringify(event.detail, null, 2);
-  }
-
 }

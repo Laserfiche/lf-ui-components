@@ -1,12 +1,13 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Directive, ViewContainerRef } from '@angular/core';
+import { Directive, ViewContainerRef, inject } from '@angular/core';
 
 /** @internal */
 @Directive({
   selector: '[lfFieldView]',
+  standalone: true,
 })
 export class LfFieldViewDirective {
-  constructor(public viewContainerRef: ViewContainerRef) { }
+  viewContainerRef = inject(ViewContainerRef);
 }

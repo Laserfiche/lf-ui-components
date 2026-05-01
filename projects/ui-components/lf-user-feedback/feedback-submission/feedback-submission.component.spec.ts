@@ -4,6 +4,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { FeedbackSubmissionComponent } from './feedback-submission.component';
+import { FeedbackImageUploadComponent } from '../feedback-image-upload/feedback-image-upload.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { By } from '@angular/platform-browser';
 import { AppLocalizationService, LfMessageToastTypes } from '@laserfiche/lf-ui-components/internal-shared';
@@ -12,29 +13,34 @@ import { of } from 'rxjs';
 @Component({
   selector: 'lf-feedback-image-upload',
   template: '<p>Mock Image Attach Component</p>',
+  standalone: true,
 })
 class MockFeedbackImageUploadComponent {}
 
 describe('FeedbackSubmissionComponent', () => {
   let component: FeedbackSubmissionComponent;
   let fixture: ComponentFixture<FeedbackSubmissionComponent>;
-  const localizeServiceMock: jasmine.SpyObj<AppLocalizationService> = jasmine.createSpyObj('localization', [
-    'getStringLaserficheObservable',
-    'getStringComponentsObservable',
-  ]);
-  localizeServiceMock.getStringLaserficheObservable.and.callFake((value: string) => {
+  const localizeServiceMock: any = {
+    getStringLaserficheObservable: vi.fn(),
+    getStringComponentsObservable: vi.fn(),
+  };
+  localizeServiceMock.getStringLaserficheObservable.mockImplementation((value: string) => {
     return of(value);
   });
-  localizeServiceMock.getStringComponentsObservable.and.callFake((value: string) => {
+  localizeServiceMock.getStringComponentsObservable.mockImplementation((value: string) => {
     return of(value);
   });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FeedbackSubmissionComponent, MockFeedbackImageUploadComponent],
-      imports: [MatCheckboxModule],
+      imports: [MatCheckboxModule, FeedbackSubmissionComponent, MockFeedbackImageUploadComponent],
       providers: [{ provide: AppLocalizationService, useValue: localizeServiceMock }],
-    }).compileComponents();
+    })
+      .overrideComponent(FeedbackSubmissionComponent, {
+        remove: { imports: [FeedbackImageUploadComponent] },
+        add: { imports: [MockFeedbackImageUploadComponent] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(FeedbackSubmissionComponent);
     component = fixture.componentInstance;
@@ -74,9 +80,8 @@ describe('FeedbackSubmissionComponent', () => {
     expect(component.feedbackImageBase64).toEqual(testUndefined);
   });
 
-
   it('if textarea input changes, should emit feedbackTextChanged', () => {
-    spyOn(component.feedbackTextChanged, 'emit');
+    vi.spyOn(component.feedbackTextChanged, 'emit');
     const textAreaInput = document.getElementsByTagName('textarea')[0];
     const testInput = 'test input';
     textAreaInput.value = testInput;

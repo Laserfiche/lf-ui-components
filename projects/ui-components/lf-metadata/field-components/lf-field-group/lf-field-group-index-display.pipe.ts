@@ -10,11 +10,11 @@ import { map } from 'rxjs/operators';
  * Pipe that formats a string '{0} of {1}' with the given parameters
  */
 @Pipe({
-  name: 'lfFieldGroupIndexDisplay'
+  name: 'lfFieldGroupIndexDisplay',
+  standalone: true,
 })
 export class LfFieldGroupIndexDisplayPipe implements PipeTransform {
-
-  constructor() { }
+  constructor() {}
 
   /**
    * Formats the given string with the two expected params
@@ -24,17 +24,17 @@ export class LfFieldGroupIndexDisplayPipe implements PipeTransform {
    * @returns The string formatted with the given numbers. Adds one to the current index.
    * Returns undefined if the string does not contain 2 params
    */
-  transform(res_0_of_1: Observable<string>, currentIndex: number, totalNumber: number,): Observable<string> {
-    const stringObservable = res_0_of_1.pipe(map((stringToFormat) => {
-      try {
-        return StringUtils.formatString(stringToFormat, [(currentIndex + 1).toString(), totalNumber.toString()]);
-      }
-      catch (err: any) {
-        console.warn('Unable to format string', err.message);
-        return stringToFormat;
-      }
-    }));
+  transform(res_0_of_1: Observable<string>, currentIndex: number, totalNumber: number): Observable<string> {
+    const stringObservable = res_0_of_1.pipe(
+      map((stringToFormat) => {
+        try {
+          return StringUtils.formatString(stringToFormat, [(currentIndex + 1).toString(), totalNumber.toString()]);
+        } catch (err: any) {
+          console.warn('Unable to format string', err.message);
+          return stringToFormat;
+        }
+      })
+    );
     return stringObservable;
   }
-
 }

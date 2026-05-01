@@ -2,11 +2,16 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { RouterLinks } from './app-routing.module';
+import { Component, OnInit, inject } from '@angular/core';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTreeNestedDataSource, MatTreeModule } from '@angular/material/tree';
+import { RouterLinks } from './app.config';
 import { ThemeService } from './theme.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink, RouterOutlet } from '@angular/router';
+
+import { MatButtonModule } from '@angular/material/button';
 
 interface ComponentNode {
   name: string;
@@ -41,6 +46,7 @@ const TREE_DATA: ComponentNode[] = [
           { name: 'lf-checklist', routerLink: RouterLinks.LF_CHECKLIST },
           { name: 'lf-toolbar', routerLink: RouterLinks.LF_TOOLBAR },
           { name: 'lf-repository-browser', routerLink: RouterLinks.LF_REPOSITORY_BROWSER },
+          { name: 'lf-tags', routerLink: RouterLinks.LF_TAGS },
         ],
       },
       {
@@ -64,6 +70,7 @@ const TREE_DATA: ComponentNode[] = [
     children: [
       { name: 'Troubleshooting', routerLink: RouterLinks.TROUBLESHOOTING },
       { name: 'Converting Angular Component to Element', routerLink: RouterLinks.CONVERT_COMPONENT },
+      { name: 'Migrating from Modules to Standalone', routerLink: RouterLinks.MIGRATE_MODULES_TO_STANDALONE },
     ],
   },
   {
@@ -76,14 +83,26 @@ const TREE_DATA: ComponentNode[] = [
   selector: 'app-root-lf-documentation',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [
+    RouterLink,
+    RouterOutlet,
+    MatToolbarModule,
+    MatTreeModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatButtonModule,
+  ],
 })
 export class AppComponent implements OnInit {
+  private themeService = inject(ThemeService);
+
   title = 'lf-documentation';
   treeControl = new NestedTreeControl<ComponentNode>((node) => node.children);
   dataSource = new MatTreeNestedDataSource<ComponentNode>();
   landingPageUrl = 'https://developer.laserfiche.com'; // TODO: update this URL once we have the landing page
 
-  constructor(private themeService: ThemeService) {
+  constructor() {
     this.dataSource.data = TREE_DATA;
   }
 

@@ -1,7 +1,8 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 /** @internal */
 export enum LfMessageToastTypes {
@@ -26,8 +27,12 @@ export interface LfToastMessage {
   selector: 'lf-toast-message',
   templateUrl: './lf-toast-message.component.html',
   styleUrls: ['./lf-toast-message.component.css'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class LfToastMessageComponent {
+  private ref = inject(ChangeDetectorRef);
+
   @Input()
   set messages(messages: LfToastMessage[]) {
     if (typeof messages === 'undefined') {
@@ -70,18 +75,26 @@ export class LfToastMessageComponent {
     }
   }
 
-  _closeToast(messageId: string) {
+  _closeToast(messageId?: string) {
+    if (!messageId) {
+      return;
+    }
     this._removeToast(messageId);
   }
 
-  _removeToast(messageId: string) {
+  _removeToast(messageId?: string) {
+    if (!messageId) {
+      return;
+    }
     const idx = this.allMessages.findIndex((message) => message.id === messageId);
     if (idx !== -1) {
       this.allMessages.splice(idx, 1);
+      this.ref.markForCheck();
     }
   }
 
   clearToasts(toastFilter?: LfMessageToastTypes) {
     this.allMessages = toastFilter ? this.allMessages.filter((message) => message.type !== toastFilter) : [];
+    this.ref.markForCheck();
   }
 }

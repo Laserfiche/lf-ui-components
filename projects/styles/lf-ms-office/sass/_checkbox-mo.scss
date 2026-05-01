@@ -1,7 +1,7 @@
 @use "typography-mo";
 
-$checked-hover-color: rgb(0,90,158);
-$disabled-color: rgb(200,198,196);
+$checked-hover-color: rgb(0, 90, 158);
+$disabled-color: rgb(200, 198, 196);
 $border-color: black;
 $checkmark-width: 1.5px;
 $checkmark-color: #fafafa;
@@ -12,7 +12,6 @@ $focus-border-width: 2px;
 $ripple-size: 0px;
 
 .lf-checkbox {
-  
   & .mdc-checkbox__background {
     border-width: $border-width;
     border-color: $border-color;
@@ -35,7 +34,8 @@ $ripple-size: 0px;
     border-color: typography-mo.$primary-color;
   }
 
-  & .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background, .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+  & .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
+  .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
     background-color: typography-mo.$primary-color !important;
   }
 
@@ -46,20 +46,21 @@ $ripple-size: 0px;
   }
 
   &:hover .mdc-checkbox--selected .mdc-checkbox__background {
-      background-color: $checked-hover-color;
-      .mdc-checkbox__checkmark-path {
-        stroke: $checkmark-color !important;
-      }
+    background-color: $checked-hover-color;
+    .mdc-checkbox__checkmark-path {
+      stroke: $checkmark-color !important;
     }
+  }
 
   &.mat-mdc-checkbox-disabled {
-    &.mat-mdc-checkbox-checked .mdc-checkbox__background{
+    &.mat-mdc-checkbox-checked .mdc-checkbox__background {
       background-color: $disabled-color;
       opacity: 0.33;
       border-color: none;
     }
   }
-  .mat-mdc-checkbox-ripple.mat-ripple, .mdc-checkbox__ripple {
+  .mat-mdc-checkbox-ripple.mat-ripple,
+  .mdc-checkbox__ripple {
     width: $ripple-size;
     height: $ripple-size;
   }
@@ -73,12 +74,6 @@ $ripple-size: 0px;
   }
 }
 
-input[type=checkbox] {
+input[type="checkbox"] {
   opacity: 0;
 }
-
-
-
-
-
-

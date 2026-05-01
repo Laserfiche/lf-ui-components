@@ -6,7 +6,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LfChecklistModule } from './../../../../ui-components/lf-checklist/lf-checklist.module';
 
 import { LfChecklistDocumentationComponent } from './lf-checklist-documentation.component';
 
@@ -16,16 +15,9 @@ describe('LfChecklistDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LfChecklistDocumentationComponent ],
-      imports: [
-        BrowserAnimationsModule,
-        MatCardModule,
-        RouterTestingModule,
-        LfChecklistModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-    .compileComponents();
+      imports: [LfChecklistDocumentationComponent, BrowserAnimationsModule, MatCardModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -11,9 +11,8 @@ describe('OptionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OptionsComponent ]
-    })
-    .compileComponents();
+      imports: [OptionsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

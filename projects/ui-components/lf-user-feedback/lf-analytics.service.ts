@@ -7,10 +7,9 @@ import { IUserTrackingEvent, UserFeedbackUserTrackingEvent } from './lf-user-fee
 
 /** @internal */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LfAnalyticsService {
-
   private businessIntelligenceInitialized: boolean = false;
   constructor() {}
 
@@ -26,7 +25,9 @@ export class LfAnalyticsService {
         const isHostEmpower = this.isHostEmpower(window.origin);
         if (isHostEmpower) {
           const hosting_context = (event as UserFeedbackUserTrackingEvent).hosting_context;
-          (event as UserFeedbackUserTrackingEvent).hosting_context = hosting_context ? 'Empower Environment - ' + hosting_context : 'Empower Environment';
+          (event as UserFeedbackUserTrackingEvent).hosting_context = hosting_context
+            ? 'Empower Environment - ' + hosting_context
+            : 'Empower Environment';
         }
         console.log(`track ${event.eventName}`);
         const eventWithoutName: Partial<IUserTrackingEvent> = { ...event };
@@ -61,19 +62,20 @@ export class LfAnalyticsService {
   }
 
   private isNotProductionUrl(_url: URL) {
-    if (_url.host != 'app.laserfiche.com'
-      && _url.host != 'signin.laserfiche.com'
-      && _url.host != 'accounts.laserfiche.com'
-      && _url.host != 'app.laserfiche.ca'
-      && _url.host != 'signin.laserfiche.ca'
-      && _url.host != 'accounts.laserfiche.ca'
-      && _url.host != 'app.eu.laserfiche.com'
-      && _url.host != 'signin.eu.laserfiche.com'
-      && _url.host != 'accounts.eu.laserfiche.com'
-      && _url.host != 'lfxstatic.com'
-      && _url.host != 'app.clouddemo.laserfiche.com'
-      && _url.host != 'accounts.clouddemo.laserfiche.com'
-      && _url.host != 'signin.clouddemo.laserfiche.com'
+    if (
+      _url.host != 'app.laserfiche.com' &&
+      _url.host != 'signin.laserfiche.com' &&
+      _url.host != 'accounts.laserfiche.com' &&
+      _url.host != 'app.laserfiche.ca' &&
+      _url.host != 'signin.laserfiche.ca' &&
+      _url.host != 'accounts.laserfiche.ca' &&
+      _url.host != 'app.eu.laserfiche.com' &&
+      _url.host != 'signin.eu.laserfiche.com' &&
+      _url.host != 'accounts.eu.laserfiche.com' &&
+      _url.host != 'lfxstatic.com' &&
+      _url.host != 'app.clouddemo.laserfiche.com' &&
+      _url.host != 'accounts.clouddemo.laserfiche.com' &&
+      _url.host != 'signin.clouddemo.laserfiche.com'
     ) {
       return true; // not production
     } else {
@@ -83,9 +85,10 @@ export class LfAnalyticsService {
 
   private isHostEmpower(url: string) {
     const _url = new URL(url.toLowerCase());
-    if (_url.host == 'accounts.clouddemo.laserfiche.com'
-      || _url.host == 'signin.clouddemo.laserfiche.com'
-      || _url.host == 'app.clouddemo.laserfiche.com'
+    if (
+      _url.host == 'accounts.clouddemo.laserfiche.com' ||
+      _url.host == 'signin.clouddemo.laserfiche.com' ||
+      _url.host == 'app.clouddemo.laserfiche.com'
     ) {
       return true; // empower
     } else {

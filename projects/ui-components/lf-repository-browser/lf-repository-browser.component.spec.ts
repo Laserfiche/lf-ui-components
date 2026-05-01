@@ -1,8 +1,8 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { ChangeDetectorRef, NgZone } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync, TestModuleMetadata, flush, fakeAsync } from '@angular/core/testing';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { ComponentFixture, TestBed, TestModuleMetadata, flush, fakeAsync } from '@angular/core/testing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
@@ -13,9 +13,50 @@ import { LfBreadcrumbsComponent, ILfSelectable } from '@laserfiche/lf-ui-compone
 import { MatDialog } from '@angular/material/dialog';
 import { LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfRepositoryBrowserComponent } from './lf-repository-browser.component';
-import { LfTreeNodeService, LfTreeNode } from './ILfTreeNodeService';
+import { LfTreeNode } from './ILfTreeNodeService';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ColumnDef, LfSelectionListModule } from '@laserfiche/lf-ui-components/lf-selection-list';
+import { ColumnDef, LfSelectionListComponent } from '@laserfiche/lf-ui-components/lf-selection-list';
+
+@Component({
+  selector: 'lf-selection-list-component',
+  template: '',
+  standalone: true,
+  providers: [{ provide: LfSelectionListComponent, useExisting: MockLfSelectionListComponent }],
+})
+class MockLfSelectionListComponent {
+  @Input() uniqueIdentifier: string | undefined;
+  @Input() listItems: ILfSelectable[] = [];
+  @Input() multipleSelection = false;
+  @Input() itemSize = 42;
+  @Input() pageSize = 50;
+  @Input() listItemRef?: TemplateRef<unknown>;
+
+  @Output() scrollChanged = new EventEmitter<undefined>();
+  @Output() itemDoubleClicked = new EventEmitter<unknown>();
+  @Output() itemSelected = new EventEmitter<unknown>();
+  @Output() itemFocused = new EventEmitter<unknown>();
+  @Output() refreshData = new EventEmitter<void>();
+
+  alwaysShowHeader?: boolean;
+  columnOrderBy: unknown;
+  columns: ColumnDef[] = [];
+
+  clearSelectedValues() {
+    // no-op for test doubles
+  }
+
+  async setSelectedNodesAsync(nodes: ILfSelectable[]): Promise<ILfSelectable[]> {
+    return nodes;
+  }
+
+  async resetCachedNodesAsync(): Promise<ILfSelectable[]> {
+    return [];
+  }
+
+  focus() {
+    // no-op for test doubles
+  }
+}
 
 const rootTreeNode: LfTreeNode = {
   icon: '',
@@ -54,9 +95,11 @@ const moduleDef: TestModuleMetadata = {
     MatMenuModule,
     MatButtonToggleModule,
     MatDialogModule,
-    LfSelectionListModule,
+    MockLfSelectionListComponent,
+    LfRepositoryBrowserComponent,
+    LfBreadcrumbsComponent,
+    LfLoaderComponent,
   ],
-  declarations: [LfRepositoryBrowserComponent, LfBreadcrumbsComponent, LfLoaderComponent],
 };
 
 describe('LfRepositoryBrowserComponent', () => {
@@ -81,10 +124,10 @@ describe('LfRepositoryBrowserComponent', () => {
       name: 'test entry (8)',
       path: '',
     };
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
-    dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
+    dataServiceMock.getParentTreeNodeAsync.mockImplementation((treeNode: LfTreeNode) => {
       if (treeNode.id === id) {
         return Promise.resolve(parent);
       }
@@ -96,16 +139,18 @@ describe('LfRepositoryBrowserComponent', () => {
     await component.setSelectedNodesAsync(selectedNode);
   }
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(moduleDef).compileComponents();
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule(moduleDef)
+      .overrideComponent(LfRepositoryBrowserComponent, {
+        remove: { imports: [LfSelectionListComponent] },
+        add: { imports: [MockLfSelectionListComponent] },
+      })
+      .compileComponents();
+  });
 
   beforeEach(async () => {
-    changeRefMock = jasmine.createSpyObj('ref', ['detectChanges']);
-    matDialogMock = jasmine.createSpyObj('popupDialog', ['open']);
-    ngZoneMock = jasmine.createSpyObj('zone', {
-      run: (cb: Function) => cb(),
-    });
+    changeRefMock = { detectChanges: vi.fn() } as unknown as ChangeDetectorRef;
+    matDialogMock = { open: vi.fn() } as unknown as MatDialog;
 
     fixture = TestBed.createComponent(LfRepositoryBrowserComponent);
     component = fixture.componentInstance;
@@ -116,15 +161,13 @@ describe('LfRepositoryBrowserComponent', () => {
   });
 
   let changeRefMock: ChangeDetectorRef;
-  const dataServiceMock: jasmine.SpyObj<LfTreeNodeService> = jasmine.createSpyObj('dataService', [
-    'getFolderChildrenAsync',
-    'getRootTreeNodeAsync',
-    'getParentTreeNodeAsync',
-    'getTreeNodeByIdentifierAsync',
-  ]);
+  const dataServiceMock: any = {
+    getFolderChildrenAsync: vi.fn(),
+    getRootTreeNodeAsync: vi.fn(),
+    getParentTreeNodeAsync: vi.fn(),
+    getTreeNodeByIdentifierAsync: vi.fn(),
+  };
   let matDialogMock: MatDialog;
-  let ngZoneMock: NgZone;
-
 
   it('should create an instance', () => {
     expect(component).toBeTruthy();
@@ -133,11 +176,11 @@ describe('LfRepositoryBrowserComponent', () => {
   describe('initAsync', () => {
     it('should get the rootEntry and its folder data when no parameter is passed', async () => {
       // Arrange
-      dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
-      dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      dataServiceMock.getRootTreeNodeAsync.mockReturnValue(Promise.resolve(rootTreeNode));
+      dataServiceMock.getFolderChildrenAsync.mockReturnValue(
         Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
       );
-      dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+      dataServiceMock.getParentTreeNodeAsync.mockReturnValue(Promise.resolve(undefined));
 
       // Act
       await component.initAsync(dataServiceMock);
@@ -160,10 +203,10 @@ describe('LfRepositoryBrowserComponent', () => {
         name: 'test entry (3)',
         path: '',
       };
-      dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      dataServiceMock.getFolderChildrenAsync.mockReturnValue(
         Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
       );
-      dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+      dataServiceMock.getParentTreeNodeAsync.mockReturnValue(Promise.resolve(undefined));
 
       // Act
       await component.initAsync(dataServiceMock, entryToGet);
@@ -195,10 +238,10 @@ describe('LfRepositoryBrowserComponent', () => {
         name: 'parent entry',
         path: '',
       };
-      dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      dataServiceMock.getFolderChildrenAsync.mockReturnValue(
         Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
       );
-      dataServiceMock.getParentTreeNodeAsync.and.callFake((entry: LfTreeNode) => {
+      dataServiceMock.getParentTreeNodeAsync.mockImplementation((entry: LfTreeNode) => {
         if (entry.id === id) {
           return Promise.resolve(parentEntry);
         }
@@ -217,19 +260,19 @@ describe('LfRepositoryBrowserComponent', () => {
 
     it('should be in an erorr state when there is no root tree node found when being called without the selectedEntry parameter', async () => {
       // Arrange
-      dataServiceMock.getRootTreeNodeAsync.and.rejectWith('error');
+      dataServiceMock.getRootTreeNodeAsync.mockRejectedValue('error');
 
       // Act
       await component.initAsync(dataServiceMock);
 
       // Assert
-      expect(component.hasError).toBeTrue();
+      expect(component.hasError).toBe(true);
     });
 
     it('should setup the repository browser with the root entry returned by the dataService', async () => {
       // Arrange
-      dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
-      dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      dataServiceMock.getRootTreeNodeAsync.mockReturnValue(Promise.resolve(rootTreeNode));
+      dataServiceMock.getFolderChildrenAsync.mockReturnValue(
         Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
       );
 
@@ -263,10 +306,10 @@ describe('LfRepositoryBrowserComponent', () => {
         path: '',
       };
       const newBreadCrumbs = [entry, parent];
-      dataServiceMock.getFolderChildrenAsync.and.returnValue(
+      dataServiceMock.getFolderChildrenAsync.mockReturnValue(
         Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
       );
-      dataServiceMock.getParentTreeNodeAsync.and.callFake((treeNode: LfTreeNode) => {
+      dataServiceMock.getParentTreeNodeAsync.mockImplementation((treeNode: LfTreeNode) => {
         if (treeNode.id === id) {
           return Promise.resolve(parent);
         }
@@ -294,7 +337,7 @@ describe('LfRepositoryBrowserComponent', () => {
       name: 'test entry (9)',
       path: '',
     };
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
     component.treeNodeService = dataServiceMock;
@@ -326,7 +369,7 @@ describe('LfRepositoryBrowserComponent', () => {
       name: 'test entry (10)',
       path: '9',
     };
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({ nextPage: undefined, page: [] }));
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(Promise.resolve({ nextPage: undefined, page: [] }));
 
     component.treeNodeService = dataServiceMock;
 
@@ -339,29 +382,31 @@ describe('LfRepositoryBrowserComponent', () => {
   });
 
   it('entrySelected should not emit if node was last selected', async () => {
-    spyOn(component.entrySelected, 'emit');
-    const selectedItems = [{
-      isSelected: true,
-      isSelectable: true,
-      value: {
-        icon: '',
-        id: '10',
-        isContainer: true,
-        isLeaf: true,
-        name: 'test entry (10)',
-        path: '9',
-      }
-    }];
+    vi.spyOn(component.entrySelected, 'emit');
+    const selectedItems = [
+      {
+        isSelected: true,
+        isSelectable: true,
+        value: {
+          icon: '',
+          id: '10',
+          isContainer: true,
+          isLeaf: true,
+          name: 'test entry (10)',
+          path: '9',
+        },
+      },
+    ];
     await component.onItemSelected({
       selected: selectedItems[0],
-      selectedItems
+      selectedItems,
     });
 
     expect(component.entrySelected.emit).toHaveBeenCalledTimes(1);
 
     await component.onItemSelected({
       selected: selectedItems[0],
-      selectedItems
+      selectedItems,
     });
 
     expect(component.entrySelected.emit).toHaveBeenCalledTimes(1);
@@ -377,7 +422,7 @@ describe('LfRepositoryBrowserComponent', () => {
       name: 'test entry (11)',
       path: '',
     };
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
     component.treeNodeService = dataServiceMock;
@@ -391,11 +436,11 @@ describe('LfRepositoryBrowserComponent', () => {
 
   it('openSelectedItemsAsync should emit event if document selected', async () => {
     // Arrange
-    dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+    dataServiceMock.getRootTreeNodeAsync.mockReturnValue(Promise.resolve(rootTreeNode));
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
-    dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+    dataServiceMock.getParentTreeNodeAsync.mockReturnValue(Promise.resolve(undefined));
 
     // Act
     await component.initAsync(dataServiceMock);
@@ -410,7 +455,7 @@ describe('LfRepositoryBrowserComponent', () => {
         path: '',
       },
     ];
-    spyOn(component.entryDblClicked, 'emit');
+    vi.spyOn(component.entryDblClicked, 'emit');
     await component.openSelectedItemsAsync();
     expect(component.currentFolder).toBe(rootTreeNode);
     expect(component.entryDblClicked.emit).toHaveBeenCalled();
@@ -418,12 +463,12 @@ describe('LfRepositoryBrowserComponent', () => {
 
   it('openSelectedItemsAsync should emit event if different entry types selected without changing current folder', async () => {
     // Arrange
-    dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+    dataServiceMock.getRootTreeNodeAsync.mockReturnValue(Promise.resolve(rootTreeNode));
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
-    dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
-    spyOn(component.entryDblClicked, 'emit');
+    dataServiceMock.getParentTreeNodeAsync.mockReturnValue(Promise.resolve(undefined));
+    vi.spyOn(component.entryDblClicked, 'emit');
 
     // Act
     await component.initAsync(dataServiceMock);
@@ -454,11 +499,11 @@ describe('LfRepositoryBrowserComponent', () => {
 
   it('openSelectedItemsAsync should emit event if multiple folders selected', async () => {
     // Arrange
-    dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+    dataServiceMock.getRootTreeNodeAsync.mockReturnValue(Promise.resolve(rootTreeNode));
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
-    dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+    dataServiceMock.getParentTreeNodeAsync.mockReturnValue(Promise.resolve(undefined));
 
     // Act
     await component.initAsync(dataServiceMock);
@@ -481,7 +526,7 @@ describe('LfRepositoryBrowserComponent', () => {
         path: '',
       },
     ];
-    spyOn(component.entryDblClicked, 'emit');
+    vi.spyOn(component.entryDblClicked, 'emit');
     await component.openSelectedItemsAsync();
     expect(component.currentFolder).toBe(rootTreeNode);
     expect(component.entryDblClicked.emit).toHaveBeenCalled();
@@ -489,17 +534,17 @@ describe('LfRepositoryBrowserComponent', () => {
 
   it('openSelectedItemsAsync should emit event and open folder if single folder selected', async () => {
     // Arrange
-    dataServiceMock.getRootTreeNodeAsync.and.returnValue(Promise.resolve(rootTreeNode));
-    dataServiceMock.getFolderChildrenAsync.and.returnValue(
+    dataServiceMock.getRootTreeNodeAsync.mockReturnValue(Promise.resolve(rootTreeNode));
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(
       Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
     );
-    dataServiceMock.getParentTreeNodeAsync.and.returnValue(Promise.resolve(undefined));
+    dataServiceMock.getParentTreeNodeAsync.mockReturnValue(Promise.resolve(undefined));
 
     // Act
     await component.initAsync(dataServiceMock);
     // @ts-ignore
     component.selectedItems = [rootTreeNodeChildren[1]];
-    spyOn(component.entryDblClicked, 'emit');
+    vi.spyOn(component.entryDblClicked, 'emit');
     await component.openSelectedItemsAsync();
     expect(component.currentFolder).toBe(rootTreeNodeChildren[1]);
     expect(component.entryDblClicked.emit).toHaveBeenCalled();
@@ -512,7 +557,6 @@ describe('LfRepositoryBrowserComponent', () => {
     // Assert
     // @ts-ignore
     expect(component.selectedItems).toEqual([]);
-
   });
 
   it('setSelectedNodesAsync should set selectedNode', async () => {
@@ -523,23 +567,30 @@ describe('LfRepositoryBrowserComponent', () => {
     // Assert
     // @ts-ignore
     expect(component.selectedItems).toEqual(selectedNode);
-
   });
   it('if there is no column provided, set the name column to be auto', () => {
     component.setColumnsToDisplay([]);
-    expect(component.entryList?.columns).toEqual([{
-      id: 'name',
-      displayName: 'Name',
-      defaultWidth: 'auto',
-      minWidthPx: 100,
-      resizable: true,
-      sortable: true,
-    }]);
+    expect(component.entryList?.columns).toEqual([
+      {
+        id: 'name',
+        displayName: 'Name',
+        defaultWidth: 'auto',
+        minWidthPx: 100,
+        resizable: true,
+        sortable: true,
+      },
+    ]);
   });
 
   it('if a column other than a name column is provided, set the name column to be width to be 50ch', () => {
-
-    const create: ColumnDef = { id: 'creation_date', displayName: 'Creation Date', defaultWidth: '40%', minWidthPx: 100, resizable: true, sortable: true };
+    const create: ColumnDef = {
+      id: 'creation_date',
+      displayName: 'Creation Date',
+      defaultWidth: '40%',
+      minWidthPx: 100,
+      resizable: true,
+      sortable: true,
+    };
     component.setColumnsToDisplay([create]);
     expect(component.entryList?.columns).toEqual([
       {
@@ -550,19 +601,18 @@ describe('LfRepositoryBrowserComponent', () => {
         resizable: true,
         sortable: true,
       },
-      create
+      create,
     ]);
   });
 
   it('if name column is passed into setAdditionalColumnsToDisplay, set the name column to width to be be the default width', () => {
-
     const nameCol: ColumnDef = {
       id: 'name',
       displayName: 'Name',
       defaultWidth: '80%',
-      minWidthPx: 100, resizable:
-      true,
-      sortable: true
+      minWidthPx: 100,
+      resizable: true,
+      sortable: true,
     };
     component.setColumnsToDisplay([nameCol]);
     expect(component.entryList?.columns).toEqual([nameCol]);
@@ -589,7 +639,7 @@ describe('LfRepositoryBrowserComponent', () => {
 
   //     it('should build the breadcrumbs from the passed in parentEntry', async () => {
   //         Arrange
-  //         dataServiceMock.getParentTreeNodeAsync.and.callFake((entry: TreeNode) => {
+  //         dataServiceMock.getParentTreeNodeAsync.mockImplementation((entry: TreeNode) => {
   //             if (entry.id !== entryId) {
   //                 return Promise.resolve(undefined);
   //             }
@@ -618,7 +668,7 @@ describe('LfRepositoryBrowserComponent', () => {
 
   //     it('should get the new data when called', async () => {
   //         Arrange
-  //         dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
+  //         dataServiceMock.getFolderChildrenAsync.mockReturnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
   //         directive.treeNodeService = dataServiceMock;
   //         directive.currentFolderChildren = [{
   //             isSelectable: true,
@@ -643,7 +693,7 @@ describe('LfRepositoryBrowserComponent', () => {
   //             name: 'test entry (16)',
   //             path: ''
   //         };
-  //         dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
+  //         dataServiceMock.getFolderChildrenAsync.mockReturnValue(Promise.resolve({nextPage: undefined, page: rootTreeNodeChildren}));
   //         directive.treeNodeService = dataServiceMock;
   //         directive.currentFolderChildren = [{
   //             isSelectable: true,
@@ -677,33 +727,33 @@ describe('LfRepositoryBrowserComponent', () => {
   //     });
   //     it('should set the component to error state when dataService has an error', async () => {
   //         Arrange
-  //         dataServiceMock.getFolderChildrenAsync.and.rejectWith(Promise.reject());
+  //         dataServiceMock.getFolderChildrenAsync.mockRejectedValue(Promise.reject());
   //         directive.treeNodeService = dataServiceMock;
 
   //         Act
   //         await directive.updateAllPossibleEntriesAsync(entry);
 
   //         Assert
-  //         expect(directive.hasError).toBeTrue();
+  //         expect(directive.hasError).toBe(true);
   //     });
 
   //     it('should not be loading or errored when the dataService returns data', async () => {
   //         Arrange
-  //         dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: []}));
+  //         dataServiceMock.getFolderChildrenAsync.mockReturnValue(Promise.resolve({nextPage: undefined, page: []}));
   //         directive.treeNodeService = dataServiceMock;
 
   //         Act
   //         await directive.updateAllPossibleEntriesAsync(entry);
 
   //         Assert
-  //         expect(directive.hasError).toBeFalse();
-  //         expect(directive.isLoading).toBeFalse();
+  //         expect(directive.hasError).toBe(false);
+  //         expect(directive.isLoading).toBe(false);
   //     });
 
   //     it('should reset the selection when call to dataService errors', async () => {
   //         // Arrange
   //         const resetSpy = jasmine.createSpy('reset');
-  //         dataServiceMock.getFolderChildrenAsync.and.rejectWith(Promise.reject());
+  //         dataServiceMock.getFolderChildrenAsync.mockRejectedValue(Promise.reject());
   //         directive.treeNodeService = dataServiceMock;
   //         directive.resetSelection = resetSpy;
 
@@ -711,23 +761,23 @@ describe('LfRepositoryBrowserComponent', () => {
   //         await directive.updateAllPossibleEntriesAsync(entry);
 
   //         // Assert
-  //         expect(resetSpy).toHaveBeenCalledOnceWith();
+  //         expect(resetSpy).toHaveBeenCalledWith();
   //     });
 
   //     it('should reset the selection when dataService retrives the data', async () => {
   //         const resetSpy = jasmine.createSpy('reset');
-  //         dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: undefined, page: []}));
+  //         dataServiceMock.getFolderChildrenAsync.mockReturnValue(Promise.resolve({nextPage: undefined, page: []}));
   //         directive.treeNodeService = dataServiceMock;
   //         directive.resetSelection = resetSpy;
 
   //         await directive.updateAllPossibleEntriesAsync(entry);
 
-  //         expect(resetSpy).toHaveBeenCalledOnceWith();
+  //         expect(resetSpy).toHaveBeenCalledWith();
   //     });
 
   //     it('should update the nextPage when called multiple times', async () => {
   //         const nextPageLink = 'test.com/nextpage';
-  //         dataServiceMock.getFolderChildrenAsync.and.returnValue(Promise.resolve({nextPage: nextPageLink, page: []}));
+  //         dataServiceMock.getFolderChildrenAsync.mockReturnValue(Promise.resolve({nextPage: nextPageLink, page: []}));
   //         directive.treeNodeService = dataServiceMock;
 
   //         await directive.updateAllPossibleEntriesAsync(entry);
@@ -736,4 +786,3 @@ describe('LfRepositoryBrowserComponent', () => {
   //     });
   // });
 });
-

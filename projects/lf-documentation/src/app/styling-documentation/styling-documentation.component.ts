@@ -1,18 +1,19 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ThemeService } from '../theme.service';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-styling-documentation',
   templateUrl: './styling-documentation.component.html',
-  styleUrls: ['./styling-documentation.component.css', './../app.component.css']
+  styleUrls: ['./styling-documentation.component.css', './../app.component.css'],
+  standalone: true,
+  imports: [CardComponent],
 })
 export class StylingDocumentationComponent {
-
-  constructor(private themeService: ThemeService) {
-  }
+  private themeService = inject(ThemeService);
 
   showCode(divID: string, tabGroup: string): void {
     const divElement = document.getElementById(divID);
@@ -27,8 +28,7 @@ export class StylingDocumentationComponent {
         tab.style.display = 'none';
       }
       divElement.style.display = 'block';
-    }
-    else {
+    } else {
       divElement.style.display = 'none';
     }
   }
@@ -46,5 +46,4 @@ export class StylingDocumentationComponent {
   removeTheme(): void {
     this.themeService.removeTheme();
   }
-
 }

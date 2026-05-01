@@ -1,11 +1,24 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AppLocalizationService, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable } from 'rxjs';
 import { ChecklistItem } from './checklist-item';
+import { ItemsValidationTextPipe } from './items-validation-text.pipe';
 
 /**
  * @internal
@@ -13,9 +26,22 @@ import { ChecklistItem } from './checklist-item';
 @Component({
   selector: 'lf-items-component',
   templateUrl: './items.component.html',
-  styleUrls: ['./items.component.css', './../lf-checklist/lf-checklist.component.css']
+  styleUrls: ['./items.component.css', './../lf-checklist/lf-checklist.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    ItemsValidationTextPipe,
+  ],
 })
 export class ItemsComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private ref = inject(ChangeDetectorRef);
+  private localizationService = inject(AppLocalizationService);
 
   @Input() items: ChecklistItem[] = [];
   @Output() itemsChanged: EventEmitter<void> = new EventEmitter<void>();
@@ -24,12 +50,12 @@ export class ItemsComponent implements OnInit {
 
   /** @internal */
   readonly LOCALIZED_STRINGS: Map<string, Observable<string>> = new Map<string, Observable<string>>([
-    ['REQUIRED', this.localizationService.getStringLaserficheObservable('REQUIRED')]
+    ['REQUIRED', this.localizationService.getStringLaserficheObservable('REQUIRED')],
   ]);
 
-  constructor(private fb: FormBuilder, private ref: ChangeDetectorRef, private localizationService: AppLocalizationService) {
+  constructor() {
     this.checklistParentForm = this.fb.group({
-      fieldArray: new FormArray([])
+      fieldArray: new FormArray([]),
     });
   }
 
@@ -65,8 +91,7 @@ export class ItemsComponent implements OnInit {
     item.name = field.value;
     if (!item.checked) {
       field.clearValidators();
-    }
-    else {
+    } else {
       this.addValidators(item, field);
     }
     this.triggerValidation(field);
@@ -89,6 +114,7 @@ export class ItemsComponent implements OnInit {
 
   private triggerValidation(field: FormControl) {
     field.markAsDirty();
+    field.markAllAsTouched();
     field.updateValueAndValidity();
   }
 
@@ -100,10 +126,9 @@ export class ItemsComponent implements OnInit {
 
   getIcons(item: ChecklistItem): string[] {
     // TODO add error icon if there is an error on node
-    if (typeof (item.icon) === 'string') {
+    if (typeof item.icon === 'string') {
       return [item.icon];
-    }
-    else {
+    } else {
       return item.icon;
     }
   }
@@ -119,7 +144,7 @@ export class ItemsComponent implements OnInit {
   syncFormControlDataToFieldValues() {
     this.getArray().clear();
     if (this.items) {
-      this.items.forEach(item => {
+      this.items.forEach((item) => {
         const formControl = new FormControl(item.name);
         if (item.editable && item.checked) {
           this.addValidators(item, formControl);

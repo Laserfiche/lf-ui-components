@@ -1,0 +1,234 @@
+<!--Copyright (c) Laserfiche.
+Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
+<p class="documentation-title">Migrating from Modules to Standalone Components</p>
+
+<p class="documentation-text">
+  Starting with the Angular 21 version, all Laserfiche UI Components are <b>standalone</b> and <b>zoneless</b>.
+  NgModules (e.g. <code>LfChecklistModule</code>, <code>LfRepositoryBrowserModule</code>) have been removed. Components
+  are now imported directly into other standalone components.
+</p>
+
+<div class="toc-container">
+  <p class="toc-container-header">Contents</p>
+  <ul>
+    <li><a href="#overview">Overview of Changes</a></li>
+    <li><a href="#step-by-step">Step-by-Step Migration</a></li>
+    <li><a href="#module-to-component">Module-to-Component Mapping</a></li>
+    <li><a href="#zoneless">Going Zoneless</a></li>
+    <li><a href="#before-after">Before &amp; After Examples</a></li>
+  </ul>
+</div>
+
+<h2 id="overview">Overview of Changes</h2>
+<ul>
+  <li class="documentation-text">
+    <b>No more NgModules:</b> <code>LfChecklistModule</code>, <code>LfLoginModule</code>, <code>LfMetadataModule</code>,
+    <code>LfUserFeedbackModule</code>, and <code>LfRepositoryBrowserModule</code> have been removed.
+  </li>
+  <li class="documentation-text">
+    <b>Standalone components:</b> Import components directly (e.g. <code>LfChecklistComponent</code>) into your
+    standalone component's <code>imports</code> array.
+  </li>
+  <li class="documentation-text"><b>Zoneless:</b> Laserfiche components no longer depend on <code>zone.js</code>.</li>
+</ul>
+
+<h2 id="step-by-step">Step-by-Step Migration</h2>
+<ol>
+  <li class="num-list">
+    <b>Remove module imports.</b>
+    <p class="documentation-text">
+      In your <code>app.module.ts</code> (or any NgModule), remove the Laserfiche module imports:
+    </p>
+    <pre class="code-container">
+<span class="code-ts-comment">// BEFORE (remove these)</span>
+<span class="code-ts-import">import</span> &#123; LfChecklistModule &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;laserfiche/lf-ui-components/lf-checklist'</span>;
+<span class="code-ts-import">import</span> &#123; LfRepositoryBrowserModule &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;laserfiche/lf-ui-components/lf-repository-browser'</span>;
+    </pre>
+  </li>
+  <li class="num-list">
+    <b>Make your components standalone.</b>
+    <p class="documentation-text">
+      Add <code>standalone: true</code> to each component that uses Laserfiche UI Components (if not already
+      standalone).
+    </p>
+  </li>
+  <li class="num-list">
+    <b>Import the standalone component directly.</b>
+    <p class="documentation-text">
+      In each component that uses a Laserfiche component, add it to the <code>imports</code> array:
+    </p>
+    <pre class="code-container">
+<span class="code-ts-comment">// AFTER</span>
+<span class="code-ts-import">import</span> &#123; LfChecklistComponent &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;laserfiche/lf-ui-components/lf-checklist'</span>;
+
+&#64;Component(&#123;
+  <span class="code-ts-key-name">selector</span>: 'app-my-component',
+  <span class="code-ts-key-name">standalone</span>: true,
+  <span class="code-ts-key-name">imports</span>: [LfChecklistComponent],
+  <span class="code-ts-key-name">templateUrl</span>: './my-component.component.html',
+&#125;)
+<span class="code-ts-import">export class</span> MyComponent &#123; &#125;
+    </pre>
+  </li>
+  <li class="num-list">
+    <b>Update <code>ViewChild</code> references.</b>
+    <p class="documentation-text">
+      You no longer need <code>ElementRef</code> wrappers. Reference the component type directly:
+    </p>
+    <pre class="code-container">
+<span class="code-ts-comment">// BEFORE</span>
+&#64;ViewChild('myChecklist') <span class="code-ts-key-name">checklist!</span>: ElementRef&lt;LfChecklistComponent>;
+this.<span class="code-ts-key-name">checklist.nativeElement</span>.<span class="code-ts-function">initAsync</span>(...);
+
+<span class="code-ts-comment">// AFTER</span>
+&#64;ViewChild('myChecklist') <span class="code-ts-key-name">checklist!</span>: LfChecklistComponent;
+this.<span class="code-ts-key-name">checklist</span>.<span class="code-ts-function">initAsync</span>(...);
+    </pre>
+  </li>
+  <li class="num-list">
+    <b>Remove <code>app.module.ts</code> if fully standalone.</b>
+    <p class="documentation-text">
+      If all your components are standalone, replace your root NgModule with <code>bootstrapApplication()</code>:
+    </p>
+    <pre class="code-container">
+<span class="code-ts-comment">// main.ts</span>
+<span class="code-ts-import">import</span> &#123; bootstrapApplication &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/platform-browser'</span>;
+<span class="code-ts-import">import</span> &#123; provideZonelessChangeDetection &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/core'</span>;
+<span class="code-ts-import">import</span> &#123; provideRouter &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/router'</span>;
+<span class="code-ts-import">import</span> &#123; AppComponent &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'./app/app.component'</span>;
+
+<span class="code-ts-function">bootstrapApplication</span>(AppComponent, &#123;
+  <span class="code-ts-key-name">providers</span>: [
+    <span class="code-ts-function">provideZonelessChangeDetection</span>(),
+    <span class="code-ts-function">provideRouter</span>(routes),
+  ],
+&#125;);
+    </pre>
+  </li>
+</ol>
+
+<h2 id="module-to-component">Module-to-Component Mapping</h2>
+<p class="documentation-text">
+  The following table shows the old module imports and their standalone component replacements:
+</p>
+<table>
+  <tr>
+    <th>Old Module (removed)</th>
+    <th>New Standalone Component</th>
+    <th>Entry Point</th>
+  </tr>
+  <tr>
+    <td><code>LfChecklistModule</code></td>
+    <td><code>LfChecklistComponent</code></td>
+    <td><code>&#64;laserfiche/lf-ui-components/lf-checklist</code></td>
+  </tr>
+  <tr>
+    <td><code>LfLoginModule</code></td>
+    <td><code>LfLoginComponent</code></td>
+    <td><code>&#64;laserfiche/lf-ui-components/lf-login</code></td>
+  </tr>
+  <tr>
+    <td><code>LfMetadataModule</code></td>
+    <td>
+      <code>LfFieldContainerComponent</code><br />
+      <code>LfFieldAdhocContainerComponent</code><br />
+      <code>LfFieldTemplateContainerComponent</code>
+    </td>
+    <td><code>&#64;laserfiche/lf-ui-components/lf-metadata</code></td>
+  </tr>
+  <tr>
+    <td><code>LfUserFeedbackModule</code></td>
+    <td><code>LfUserFeedbackComponent</code></td>
+    <td><code>&#64;laserfiche/lf-ui-components/lf-user-feedback</code></td>
+  </tr>
+  <tr>
+    <td><code>LfRepositoryBrowserModule</code></td>
+    <td><code>LfRepositoryBrowserComponent</code></td>
+    <td><code>&#64;laserfiche/lf-ui-components/lf-repository-browser</code></td>
+  </tr>
+</table>
+
+<h2 id="zoneless">Going Zoneless</h2>
+<p class="documentation-text">
+  Laserfiche UI Components no longer depend on <code>zone.js</code>. To adopt zoneless change detection in your app:
+</p>
+<ol>
+  <li class="num-list">
+    Replace <code>provideZoneChangeDetection()</code> with <code>provideZonelessChangeDetection()</code> in your
+    application config or bootstrap call.
+  </li>
+  <li class="num-list">
+    Remove <code>zone.js</code> from your <code>polyfills</code> in <code>angular.json</code> (if present).
+  </li>
+  <li class="num-list">
+    Uninstall <code>zone.js</code> if no other dependency requires it:
+    <pre class="code-container">npm uninstall zone.js</pre>
+  </li>
+</ol>
+<p class="documentation-text">
+  Note: Going zoneless in your own app is optional. The Laserfiche UI Components work correctly whether your app uses
+  <code>zone.js</code> or not.
+</p>
+
+<h2 id="before-after">Before &amp; After Examples</h2>
+
+<h3>Before: Module-based (old)</h3>
+<pre class="code-container">
+<span class="code-ts-comment">// app.module.ts</span>
+<span class="code-ts-import">import</span> &#123; NgModule &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/core'</span>;
+<span class="code-ts-import">import</span> &#123; LfChecklistModule &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;laserfiche/lf-ui-components/lf-checklist'</span>;
+
+&#64;NgModule(&#123;
+  <span class="code-ts-key-name">declarations</span>: [AppComponent, MyComponent],
+  <span class="code-ts-key-name">imports</span>: [BrowserModule, LfChecklistModule],
+  <span class="code-ts-key-name">bootstrap</span>: [AppComponent],
+&#125;)
+<span class="code-ts-import">export class</span> AppModule &#123; &#125;
+</pre>
+
+<pre class="code-container">
+<span class="code-ts-comment">// my-component.component.ts</span>
+&#64;Component(&#123;
+  <span class="code-ts-key-name">selector</span>: 'app-my-component',
+  <span class="code-ts-key-name">template</span>: '&lt;lf-checklist #myChecklist&gt;&lt;/lf-checklist&gt;',
+&#125;)
+<span class="code-ts-import">export class</span> MyComponent &#123;
+  &#64;ViewChild('myChecklist') <span class="code-ts-key-name">checklist!</span>: ElementRef&lt;LfChecklistComponent>;
+
+  <span class="code-ts-function">ngAfterViewInit</span>() &#123;
+    this.<span class="code-ts-key-name">checklist.nativeElement</span>.<span class="code-ts-function">initAsync</span>(...);
+  &#125;
+&#125;
+</pre>
+
+<h3>After: Standalone (new)</h3>
+<pre class="code-container">
+<span class="code-ts-comment">// main.ts</span>
+<span class="code-ts-import">import</span> &#123; bootstrapApplication &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/platform-browser'</span>;
+<span class="code-ts-import">import</span> &#123; provideZonelessChangeDetection &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;angular/core'</span>;
+<span class="code-ts-import">import</span> &#123; AppComponent &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'./app/app.component'</span>;
+
+<span class="code-ts-function">bootstrapApplication</span>(AppComponent, &#123;
+  <span class="code-ts-key-name">providers</span>: [<span class="code-ts-function">provideZonelessChangeDetection</span>()],
+&#125;);
+</pre>
+
+<pre class="code-container">
+<span class="code-ts-comment">// my-component.component.ts</span>
+<span class="code-ts-import">import</span> &#123; LfChecklistComponent &#125; <span class="code-ts-import">from</span> <span class="code-ts-import-source">'&#64;laserfiche/lf-ui-components/lf-checklist'</span>;
+
+&#64;Component(&#123;
+  <span class="code-ts-key-name">selector</span>: 'app-my-component',
+  <span class="code-ts-key-name">standalone</span>: true,
+  <span class="code-ts-key-name">imports</span>: [LfChecklistComponent],
+  <span class="code-ts-key-name">template</span>: '&lt;lf-checklist-component #myChecklist&gt;&lt;/lf-checklist-component&gt;',
+&#125;)
+<span class="code-ts-import">export class</span> MyComponent &#123;
+  &#64;ViewChild('myChecklist') <span class="code-ts-key-name">checklist!</span>: LfChecklistComponent;
+
+  <span class="code-ts-function">ngAfterViewInit</span>() &#123;
+    this.<span class="code-ts-key-name">checklist</span>.<span class="code-ts-function">initAsync</span>(...);
+  &#125;
+&#125;
+</pre>

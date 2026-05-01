@@ -7,6 +7,8 @@ import { ExampleUsageBasicStepsDirective } from '../example-usage-basic-steps.di
 @Component({
   selector: 'app-example-usage-in-react',
   templateUrl: './example-usage-in-react.component.html',
-  styleUrls: ['./example-usage-in-react.component.css', '../app.component.css']
+  styleUrls: ['./example-usage-in-react.component.css', '../app.component.css'],
+  standalone: true,
+  imports: [],
 })
-export class ExampleUsageInReactComponent extends ExampleUsageBasicStepsDirective { }
+export class ExampleUsageInReactComponent extends ExampleUsageBasicStepsDirective {}

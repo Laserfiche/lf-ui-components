@@ -2,55 +2,67 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <div cdkDropList [cdkDropListData]="fieldGroupControlsArray()" (cdkDropListDropped)="onDragAndDrop($event)">
-    <div *ngFor="let group of fieldGroupControlsArray(); index as currentIndex" cdkDrag class="lf-field-group">
-        <div class="field-group-top-bar">
-            <span class="drag-index-section">
-                <span class="material-icons field-group-button field-group-drag-handle" cdkDragHandle>
-                  drag_indicator
-                </span>
-                <span class="index-display">{{res_0_of_1 | lfFieldGroupIndexDisplay: currentIndex :
-                    fieldGroupControlsArray().length | async}}</span>
-            </span>
-            <span class="field-group-buttons">
-                <button class="field-group-button" (click)="onClickAdd(currentIndex)">
-                    <span class="material-icons">
-                      add
-                    </span>
-                </button>
-                <button class="field-group-button" [disabled]="currentIndex === 0" (click)="onClickUp(currentIndex)">
-                    <span class="material-icons">
-                      arrow_upward
-                    </span>
-                </button>
-                <button class="field-group-button" [disabled]="currentIndex >= (fieldGroupControlsArray().length - 1)"
-                    (click)="onClickDown(currentIndex)">
-                    <span class="material-icons">
-                      arrow_downward
-                    </span>
-                </button>
-                <button class="field-group-button" [disabled]="fieldGroupControlsArray().length <= 1"
-                    (click)="onClickDelete(currentIndex)">
-                    <span class="material-icons-outlined">
-                      delete
-                    </span>
-                </button>
-            </span>
+  @for (group of fieldGroupControlsArray(); track group; let currentIndex = $index) {
+    <div cdkDrag class="lf-field-group">
+      <div class="field-group-top-bar">
+        <span class="drag-index-section">
+          <span class="material-icons field-group-button field-group-drag-handle" cdkDragHandle> drag_indicator </span>
+          <span class="index-display">{{
+            res_0_of_1 | lfFieldGroupIndexDisplay: currentIndex : fieldGroupControlsArray().length | async
+          }}</span>
+        </span>
+        <span class="field-group-buttons">
+          <button class="field-group-button" (click)="onClickAdd(currentIndex)">
+            <span class="material-icons"> add </span>
+          </button>
+          <button class="field-group-button" [disabled]="currentIndex === 0" (click)="onClickUp(currentIndex)">
+            <span class="material-icons"> arrow_upward </span>
+          </button>
+          <button
+            class="field-group-button"
+            [disabled]="currentIndex >= fieldGroupControlsArray().length - 1"
+            (click)="onClickDown(currentIndex)"
+          >
+            <span class="material-icons"> arrow_downward </span>
+          </button>
+          <button
+            class="field-group-button"
+            [disabled]="fieldGroupControlsArray().length <= 1"
+            (click)="onClickDelete(currentIndex)"
+          >
+            <span class="material-icons-outlined"> delete </span>
+          </button>
+        </span>
+      </div>
+      @for (fieldDef of fieldDefinitions; track fieldDef) {
+        <div>
+          <span class="lf-field-container" id="lf-field-container">
+            @if (fieldDef?.fieldInfo.name) {
+              <span class="lf-field-title-container">
+                <span class="lf-field-title" title="{{ fieldDef?.fieldInfo.displayName }}">{{
+                  fieldDef?.fieldInfo.displayName
+                }}</span>
+                @if (fieldDef?.fieldInfo.isRequired) {
+                  <span class="lf-field-is-required">*</span>
+                }
+                @if (isLoading(fieldDef.fieldInfo, currentIndex)) {
+                  <lf-loader-component></lf-loader-component>
+                }
+              </span>
+            }
+            <lf-field-base-component
+              id="{{ fieldDef.fieldInfo.name }}{{ currentIndex }}"
+              [parentForm]="group"
+              [lfFieldFormControl]="getSingleField(currentIndex, fieldDef.fieldInfo.id)"
+              [lfFieldValue]="getSingleField(currentIndex, fieldDef.fieldInfo.id)?.value"
+              [lfFieldInfo]="fieldDef.fieldInfo"
+              [dynamicFieldValueOptions]="getOptions(fieldDef.fieldInfo, currentIndex)"
+              (fieldValueChange)="fieldDataChange($event, fieldDef.fieldInfo, currentIndex)"
+            >
+            </lf-field-base-component>
+          </span>
         </div>
-        <div *ngFor="let fieldDef of fieldDefinitions">
-            <span class="lf-field-container" id="lf-field-container">
-                <span *ngIf="fieldDef?.fieldInfo.name" class="lf-field-title-container">
-                    <span class="lf-field-title" title="{{fieldDef?.fieldInfo.displayName}}">{{fieldDef?.fieldInfo.displayName }}</span>
-                    <span class="lf-field-is-required" *ngIf="fieldDef?.fieldInfo.isRequired">*</span>
-                    <lf-loader-component *ngIf="isLoading(fieldDef.fieldInfo, currentIndex)"></lf-loader-component>
-                </span>
-                <lf-field-base-component id="{{fieldDef.fieldInfo.name}}{{currentIndex}}" [parentForm]="group"
-                    [lfFieldFormControl]="getSingleField(currentIndex, fieldDef.fieldInfo.id)"
-                    [lfFieldValue]="getSingleField(currentIndex, fieldDef.fieldInfo.id)?.value"
-                    [lfFieldInfo]="fieldDef.fieldInfo"
-                    [dynamicFieldValueOptions]="getOptions(fieldDef.fieldInfo, currentIndex)"
-                    (fieldValueChange)="fieldDataChange($event, fieldDef.fieldInfo, currentIndex)">
-                </lf-field-base-component>
-            </span>
-        </div>
+      }
     </div>
+  }
 </div>

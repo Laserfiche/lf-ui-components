@@ -3,13 +3,17 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 @Component({
   selector: 'lf-toolbar-component',
   templateUrl: './lf-toolbar.component.html',
-  styleUrls: ['./lf-toolbar.component.css']
+  styleUrls: ['./lf-toolbar.component.css'],
+  standalone: true,
+  imports: [MatMenuModule, MatTooltipModule],
 })
 export class LfToolbarComponent {
-
   // TODO: if there is not enough room for displayed options, put everything in dropdown
   @Input() displayed_options: ToolbarOption[] = [];
   @Input() dropdown_options: ToolbarOption[] = [];
@@ -28,10 +32,9 @@ export class LfToolbarComponent {
     if (!option.icon) {
       return [];
     }
-    if (typeof (option.icon) === 'string') {
+    if (typeof option.icon === 'string') {
       return [option.icon];
-    }
-    else {
+    } else {
       return option.icon;
     }
   }

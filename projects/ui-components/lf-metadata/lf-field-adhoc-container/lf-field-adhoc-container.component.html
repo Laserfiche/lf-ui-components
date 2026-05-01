@@ -7,23 +7,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       title="{{ ADD_REMOVE_FIELDS | async }}"
       id="adhoc-add-remove-button"
       class="lf-ellipsis-label sec-button lf-button adhoc-add-remove-button"
-      (click)="addRemoveFieldsAsync()"
+      (click)="addRemoveFieldsAsync(adhocPanel)"
     >
       {{ ADD_REMOVE_FIELDS | async }}
     </button>
-    <div
-      class="fields-empty lf-ellipsis-label"
-      title="{{ NO_ADDITIONAL_FIELDS_ASSIGNED | async }}"
-      *ngIf="fieldsEmpty()"
-    >
-      {{ NO_ADDITIONAL_FIELDS_ASSIGNED | async }}
-    </div>
+    @if (fieldsEmpty()) {
+      <div class="fields-empty lf-ellipsis-label" title="{{ NO_ADDITIONAL_FIELDS_ASSIGNED | async }}">
+        {{ NO_ADDITIONAL_FIELDS_ASSIGNED | async }}
+      </div>
+    }
     <div class="responsive-form-container">
       <ng-template lfFieldView></ng-template>
     </div>
   </div>
 </div>
-<div [hidden]="!showAdhocModal" class="addRemoveModal" class="adhoc-modal" >
+<div [hidden]="!showAdhocModal" class="addRemoveModal" class="adhoc-modal">
   <div class="adhoc-modal-content" #adhocPanel tabindex="0">
     <lf-field-add-remove-component (clickBack)="onClickBackAsync()"></lf-field-add-remove-component>
   </div>

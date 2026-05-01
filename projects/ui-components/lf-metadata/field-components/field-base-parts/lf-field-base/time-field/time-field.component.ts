@@ -2,12 +2,18 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Component, OnInit } from '@angular/core';
-import { ValidatorFn } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { FieldFormat } from '@laserfiche/lf-ui-components/shared';
 import { ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable, of } from 'rxjs';
 import { DateTimeBaseFieldDirective } from '../base-field/datetime-base-field.directives';
+import { UniDateTimeComponent } from '../../../../lf-date-time-picker/uni-date-time.component';
+import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.component';
+import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
   selector: 'lf-time-field-component',
@@ -16,6 +22,16 @@ import { DateTimeBaseFieldDirective } from '../base-field/datetime-base-field.di
   providers: [
     { provide: DateTimeBaseFieldDirective, useExisting: TimeFieldComponent },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    UniDateTimeComponent,
+    LfTokenPickerComponent,
+    DynamicFieldComponent,
   ],
 })
 export class TimeFieldComponent extends DateTimeBaseFieldDirective implements OnInit {
@@ -70,8 +86,7 @@ export class TimeFieldComponent extends DateTimeBaseFieldDirective implements On
   }
 
   private getTimeFormat(): string {
-    if (this.timeDisplayFormat)
-    {
+    if (this.timeDisplayFormat) {
       return this.timeDisplayFormat;
     }
     switch (this.lf_field_info?.format) {

@@ -1,14 +1,14 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldMultivalueComponent } from './lf-field-multivalue.component';
 import { LfFieldInfo, LfFieldValue } from '../../field-components/utils/lf-field-types';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { LfFieldBaseModule } from '../field-base-parts/lf-field-base/lf-field-base.module';
+import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
 
 describe('LfFieldMultivalueComponent', () => {
   let component: LfFieldMultivalueComponent;
@@ -22,23 +22,22 @@ describe('LfFieldMultivalueComponent', () => {
     length: 10,
     isMultiValue: true,
     isRequired: true,
-    displayName: 'element text 1'
+    displayName: 'element text 1',
   };
   const values: LfFieldValue[] = ['1', '2', '3'];
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [LfFieldMultivalueComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
+        LfFieldMultivalueComponent,
         MatFormFieldModule,
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        LfFieldBaseModule
-      ]
-    })
-      .compileComponents();
-  }));
+        LfFieldBaseComponent,
+      ],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LfFieldMultivalueComponent);
@@ -48,7 +47,8 @@ describe('LfFieldMultivalueComponent', () => {
         new FormControl('some value 1'),
         new FormControl('some value 2'),
         new FormControl('some value 3'),
-        new FormControl('some value 4')])
+        new FormControl('some value 4'),
+      ]),
     });
     component.lfFieldValues = values;
     component.lfFieldInfo = info;
@@ -60,7 +60,7 @@ describe('LfFieldMultivalueComponent', () => {
   });
 
   it('forceValidation should return true if all values are valid', async () => {
-    expect(component.forceValidation()).toBeTrue();
+    expect(component.forceValidation()).toBe(true);
   });
 
   it('getFieldValue should return FieldValue with cleaned up values', async () => {
@@ -71,8 +71,8 @@ describe('LfFieldMultivalueComponent', () => {
       values: [
         { value: '1', position: '1' },
         { value: '2', position: '2' },
-        { value: '3', position: '3' }
-      ]
+        { value: '3', position: '3' },
+      ],
     });
   });
 });

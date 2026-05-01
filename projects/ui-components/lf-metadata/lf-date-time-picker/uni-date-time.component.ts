@@ -13,11 +13,16 @@ import {
   AfterContentInit,
   EventEmitter,
   Output,
+  ChangeDetectorRef,
+  inject,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import forEach from 'lodash/forEach';
 import isNil from 'lodash/isNil';
 import cloneDeep from 'lodash/cloneDeep';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 
 // Component dependencies
 import {
@@ -44,8 +49,13 @@ import { LFDatePickerPlugin } from './plugin-lfDatePicker';
   selector: 'lf-uni-date-time',
   templateUrl: './uni-date-time.component.html',
   styleUrls: ['./uni-date-time.component.less'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
 })
 export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContentInit {
+  dateTimeService = inject(UniDateTimeService);
+  private ref = inject(ChangeDetectorRef);
+
   @HostBinding('class.required') isRequired = false;
   @HostBinding('class.readonly') isReadonly = false;
   @HostBinding('class.disabled') isDisabled = false;
@@ -153,8 +163,6 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
   @ViewChild('dateTimeInput') dateTimeInput?: ElementRef;
   supportedLanguage = 'en';
 
-  constructor(public dateTimeService: UniDateTimeService) { }
-
   ngOnInit() {
     this.populateConfig();
     this.populateStrings();
@@ -211,10 +219,10 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         // Format using current language
         defaultDateToSet = parsedDefaultDate
           ? this.dateTimeService.format({
-            dateTimeObj: parsedDefaultDate,
-            dateFormat: this.settings.dateFormat,
-            language: this.config.language,
-          })
+              dateTimeObj: parsedDefaultDate,
+              dateFormat: this.settings.dateFormat,
+              language: this.config.language,
+            })
           : defaultDateToSet;
       }
       const dateTimeData = this.state.data as StateDataDateTime;
@@ -264,7 +272,8 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           allowInput: true,
           allowInvalidPreload: true,
           dateFormat: this.dateTimeService.fromDisplayDateTimeFormatToFlatpickrFormat(
-            this.settings.dateFormat + (this.settings.combinedDateTime ? ' ' + this.settings.timeFormat : ''), true
+            this.settings.dateFormat + (this.settings.combinedDateTime ? ' ' + this.settings.timeFormat : ''),
+            true
           ),
           defaultDate:
             defaultDate +
@@ -276,6 +285,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
               if (this.settings.combinedDateTime) {
                 this.onDateTimeChange(selectedDates[0], true, FormChangeEvent.TimeClose);
               }
+              this.ref.markForCheck();
             }, 0);
           },
           onOpen: (selectedDates: Date[], dateStr: string, instance: Instance) => {
@@ -331,6 +341,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         this.state.readonly = this.settings.readOnly; // Revise
         this.isReadonly = this.settings.readOnly ? this.settings.readOnly : this.isReadonly;
         this.isRequired = this.settings.required ? this.settings.required : this.isRequired;
+        this.ref.markForCheck();
       }, 0);
     }
   }
@@ -641,6 +652,7 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         event: key === 'date' ? FormChangeEvent.DateBlur : FormChangeEvent.TimeBlur,
         component: this,
       });
+      this.ref.markForCheck();
     });
   }
 
@@ -708,24 +720,24 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
         dateTimeObj =
           dateStr || timeStr
             ? this.dateTimeService.parse({
-              dateTimeStr:
-                (dateStr ? this.substituteTokens(dateStr, false) : '') +
-                (timeStr ? ' ' + this.substituteTokens(timeStr, false) : ''),
-              dateTimeFormat: dateFormat + (timeStr ? ' ' + timeFormat : ''),
-              language: this.config.language,
-            })
+                dateTimeStr:
+                  (dateStr ? this.substituteTokens(dateStr, false) : '') +
+                  (timeStr ? ' ' + this.substituteTokens(timeStr, false) : ''),
+                dateTimeFormat: dateFormat + (timeStr ? ' ' + timeFormat : ''),
+                language: this.config.language,
+              })
             : null;
       } else {
         // parse using current language
         dateTimeObj =
           dateStr || timeStr
             ? this.dateTimeService.parse({
-              dateStr: dateStr ? this.substituteTokens(dateStr, false) : '',
-              timeStr: timeStr ? this.substituteTokens(timeStr, false) : '',
-              dateFormat,
-              timeFormat,
-              language: this.config.language,
-            })
+                dateStr: dateStr ? this.substituteTokens(dateStr, false) : '',
+                timeStr: timeStr ? this.substituteTokens(timeStr, false) : '',
+                dateFormat,
+                timeFormat,
+                language: this.config.language,
+              })
             : null;
       }
 

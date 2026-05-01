@@ -13,23 +13,25 @@ $options-padding-stack: 7px 10px 8px;
 
 mat-label.lf-dropdown-label {
   padding-left: $padding-left;
-  line-height:  $height - 2*$border-width;
+  line-height: $height - 2 * $border-width;
 }
 
-.lf-dropdown .mat-form-field-label-wrapper, .lf-dropdown .mat-form-field-label {
+.lf-dropdown .mat-form-field-label-wrapper,
+.lf-dropdown .mat-form-field-label {
   top: 0;
   padding-top: 0;
   height: $height;
 }
 
-mat-select.lf-dropdown, select.lf-dropdown{
+mat-select.lf-dropdown,
+select.lf-dropdown {
   font: typography-mo.$body-stack;
   color: typography-mo.$hover-color;
   padding-left: $padding-left;
   padding-right: $padding-right;
   cursor: pointer;
   height: $height;
-  line-height: $height - 2*$border-width;
+  line-height: $height - 2 * $border-width;
   box-sizing: border-box;
   border-width: $border-width;
   border-style: solid;
@@ -43,7 +45,7 @@ mat-select.lf-dropdown, select.lf-dropdown{
   &:focus {
     border-color: typography-mo.$primary-color;
     border-width: $focus-border-width;
-    line-height: $height - 2*$focus-border-width;
+    line-height: $height - 2 * $focus-border-width;
     outline: 0px;
     padding-left: $padding-left - math.div($focus-border-width, 2);
   }
@@ -54,7 +56,6 @@ mat-select.lf-dropdown, select.lf-dropdown{
     padding: $options-padding-stack;
     box-sizing: border-box;
   }
-
 }
 
 mat-form-field.lf-dropdown {
@@ -63,7 +64,7 @@ mat-form-field.lf-dropdown {
 }
 
 .lf-field .mdc-line-ripple {
-    display: none;
+  display: none;
 }
 
 .lf-dropdown div.mat-mdc-select-arrow-wrapper {
@@ -80,7 +81,10 @@ mat-form-field.lf-dropdown {
   border-top: 0 solid transparent;
 }
 
-.lf-dropdown.mat-mdc-form-field.lf-field > .mat-mdc-form-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
+.lf-dropdown.mat-mdc-form-field.lf-field
+  > .mat-mdc-form-field-wrapper
+  > .mat-mdc-form-field-flex
+  > .mat-mdc-form-field-infix {
   padding: 0px;
 }
 
@@ -93,7 +97,10 @@ mat-form-field.lf-dropdown {
   background-color: white;
 }
 
-.lf-dropdown.mat-mdc-form-field.lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
+.lf-dropdown.mat-mdc-form-field.lf-field
+  > .mat-mdc-text-field-wrapper
+  > .mat-mdc-form-field-flex
+  > .mat-mdc-form-field-infix {
   padding: 0px;
 }
 

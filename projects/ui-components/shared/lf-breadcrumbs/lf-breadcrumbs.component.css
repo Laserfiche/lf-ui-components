@@ -6,7 +6,7 @@
 .lf-breadcrumbs-container .mat-button-toggle-button,
 .lf-breadcrumbs-container .mat-button-toggle,
 .lf-breadcrumbs-container {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
 }
 
 .breadcrumb-parent {
@@ -70,7 +70,6 @@
   min-width: 90px;
   max-width: 125px;
 }
-
 
 ::ng-deep .breadcrumb-split-button-group.mat-button-toggle-group-appearance-standard {
   border: none;

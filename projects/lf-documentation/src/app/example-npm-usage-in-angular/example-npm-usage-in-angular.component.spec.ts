@@ -13,9 +13,8 @@ describe('ExampleNpmUsageInAngularComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ ExampleNpmUsageInAngularComponent ],
-    })
-    .compileComponents();
+      imports: [ExampleNpmUsageInAngularComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

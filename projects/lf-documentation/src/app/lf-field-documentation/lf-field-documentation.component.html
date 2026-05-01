@@ -1,11 +1,8 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-
 <p class="documentation-header">Field Types</p>
-<p class="documentation-sub-header">
-  LfFieldInfo Interface
-</p>
+<p class="documentation-sub-header">LfFieldInfo Interface</p>
 <ul>
   <li>id: number</li>
   <li>name: string</li>
@@ -23,9 +20,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li>currency?: string</li>
   <li>formatPattern?: string</li>
 </ul>
-<p class="documentation-sub-header">
-  FieldType Enum
-</p>
+<p class="documentation-sub-header">FieldType Enum</p>
 <ul>
   <li>DateTime</li>
   <li>String</li>
@@ -37,9 +32,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li>Time</li>
   <li>Blob (NOT IMPLEMENTED)</li>
 </ul>
-<p class="documentation-sub-header">
-  FieldFormat Enum
-</p>
+<p class="documentation-sub-header">FieldFormat Enum</p>
 <ul>
   <li>None</li>
   <li>ShortDate (NOT IMPLEMENTED)</li>
@@ -54,9 +47,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li>Scientific (NOT IMPLEMENTED)</li>
   <li>Custom (NOT IMPLEMENTED)</li>
 </ul>
-<p class="documentation-sub-header">
-  FieldValue Interface
-</p>
+<p class="documentation-sub-header">FieldValue Interface</p>
 <ul>
   <li>fieldId: number</li>
   <li>fieldName?: string</li>
@@ -65,20 +56,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li>groupId?: number</li>
   <li>flags?: number</li>
 </ul>
-<p class="documentation-sub-header">
-  type LfFieldValue = string;
-</p>
-<p class="documentation-sub-header">
-  FieldValues Interface
-</p>
+<p class="documentation-sub-header">type LfFieldValue = string;</p>
+<p class="documentation-sub-header">FieldValues Interface</p>
 <ul>
   <li>[fieldId: number]: FieldValue</li>
 </ul>
 
 <p class="documentation-header">Template Specific Types</p>
-<p class="documentation-sub-header">
-  TemplateInfo Interface
-</p>
+<p class="documentation-sub-header">TemplateInfo Interface</p>
 <ul>
   <li>id: number</li>
   <li>name: string</li>
@@ -87,27 +72,21 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li>fieldCount?: number</li>
   <li>color?: LfColor</li>
 </ul>
-<p class="documentation-sub-header">
-  TemplateValue Interface
-</p>
+<p class="documentation-sub-header">TemplateValue Interface</p>
 <ul>
   <li>id: number</li>
   <li>name: string</li>
   <li>fieldValues: &#123; [key: string]: FieldValue &#125;</li>
 </ul>
 
-<p class="documentation-sub-header">
-  LfColor Interface
-</p>
+<p class="documentation-sub-header">LfColor Interface</p>
 <ul>
   <li>a: number</li>
   <li>r: number</li>
   <li>b: number</li>
   <li>g: number</li>
 </ul>
-<p class="documentation-sub-header">
-  TemplateFieldInfo Interface extends LfFieldInfo
-</p>
+<p class="documentation-sub-header">TemplateFieldInfo Interface extends LfFieldInfo</p>
 <ul>
   <li>all properties of LfFieldInfo</li>
   <li>rule?: Rule</li>
@@ -115,9 +94,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li>groupName?: string</li>
 </ul>
 
-<p class="documentation-sub-header">
-  Rule Interface
-</p>
+<p class="documentation-sub-header">Rule Interface</p>
 <ul>
   <li>ancestors: number[]</li>
 </ul>

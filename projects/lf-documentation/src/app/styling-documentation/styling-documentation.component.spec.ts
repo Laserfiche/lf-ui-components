@@ -13,13 +13,8 @@ describe('StylingDocumentationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        StylingDocumentationComponent,
-        CardComponent
-      ],
-      imports: [ MatCardModule ]
-    })
-    .compileComponents();
+      imports: [StylingDocumentationComponent, CardComponent, MatCardModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {

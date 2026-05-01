@@ -2,22 +2,22 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 export interface AuthorizationCredentials {
-    accessToken: string;
-    refreshToken: string;
-    expiresIn: string;
-    tokenType: string;
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: string;
+  tokenType: string;
 }
 
 export interface AccountEndpoints {
-    webClientUrl: string;
-    wsignoutUrl: string;
-    regionalDomain: string;
-    oauthAuthorizeUrl: string;
+  webClientUrl: string;
+  wsignoutUrl: string;
+  regionalDomain: string;
+  oauthAuthorizeUrl: string;
 }
 
 export interface AbortedLoginError {
-    ErrorType: string;
-    ErrorMessage: string;
+  ErrorType: string;
+  ErrorMessage: string;
 }
 
 /**

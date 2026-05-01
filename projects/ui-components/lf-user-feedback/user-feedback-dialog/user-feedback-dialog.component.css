@@ -71,7 +71,7 @@
 }
 
 .feedback-suggestion-button:hover {
-  background-color: #E0E0E0;
+  background-color: #e0e0e0;
 }
 
 .email-checkbox-container {
@@ -105,17 +105,16 @@
   padding-bottom: 0px;
 }
 
-
 ::ng-deep .lf-user-feedback-checkbox.mat-mdc-checkbox .mdc-checkbox .mat-mdc-checkbox-touch-target {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 ::ng-deep .lf-user-feedback-checkbox.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control {
-    width: 18px;
-    height: 18px;
+  width: 18px;
+  height: 18px;
 }
 ::ng-deep .lf-user-feedback-checkbox.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__background {
-    left: 0px;
-    top: 0px;
+  left: 0px;
+  top: 0px;
 }

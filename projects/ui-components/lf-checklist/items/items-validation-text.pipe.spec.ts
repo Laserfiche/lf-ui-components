@@ -9,10 +9,10 @@ import { ItemsValidationTextPipe } from './items-validation-text.pipe';
 
 describe('ItemsValidationTextPipe', () => {
   const mappedObservables: Map<string, Observable<string>> = new Map<string, Observable<string>>([
-    ['REQUIRED', of('required')]
+    ['REQUIRED', of('required')],
   ]);
   const mappedObservablesNoRequired: Map<string, Observable<string>> = new Map<string, Observable<string>>([
-    ['TEST', of('test')]
+    ['TEST', of('test')],
   ]);
   const pipe = new ItemsValidationTextPipe();
 
@@ -27,7 +27,7 @@ describe('ItemsValidationTextPipe', () => {
       name: 'test',
       icon: 'test',
       disabled: false,
-      editable: true
+      editable: true,
     };
     const testForm: AbstractControl = new FormControl('test form');
     testForm.setValidators(Validators.required);
@@ -42,7 +42,9 @@ describe('ItemsValidationTextPipe', () => {
 
     await CoreUtils.waitForConditionAsync(
       () => value === expectedValue,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedValue);
   });
@@ -54,7 +56,7 @@ describe('ItemsValidationTextPipe', () => {
       name: 'test',
       icon: 'test',
       disabled: false,
-      editable: true
+      editable: true,
     };
     const testForm: AbstractControl = new FormControl('test form');
     testForm.setValidators(Validators.required);
@@ -68,7 +70,9 @@ describe('ItemsValidationTextPipe', () => {
 
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined;
   });
@@ -80,7 +84,7 @@ describe('ItemsValidationTextPipe', () => {
       name: 'test',
       icon: 'test',
       disabled: false,
-      editable: true
+      editable: true,
     };
     const testForm: AbstractControl = new FormControl('test form');
     let value: string | undefined;
@@ -92,7 +96,9 @@ describe('ItemsValidationTextPipe', () => {
 
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -106,7 +112,7 @@ describe('ItemsValidationTextPipe', () => {
       icon: 'test',
       disabled: false,
       editable: true,
-      requiredError: expected
+      requiredError: expected,
     };
     const testForm: AbstractControl = new FormControl('test form');
     testForm.setValidators(Validators.required);
@@ -120,7 +126,9 @@ describe('ItemsValidationTextPipe', () => {
 
     await CoreUtils.waitForConditionAsync(
       () => value === expected,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expected);
   });
@@ -134,7 +142,7 @@ describe('ItemsValidationTextPipe', () => {
       icon: 'test',
       disabled: false,
       editable: true,
-      constraintError: expected
+      constraintError: expected,
     };
     const testForm: AbstractControl = new FormControl('test form');
     testForm.setValidators(Validators.pattern('^\d$'));
@@ -148,7 +156,9 @@ describe('ItemsValidationTextPipe', () => {
 
     await CoreUtils.waitForConditionAsync(
       () => value === expected,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expected);
   });
@@ -162,7 +172,7 @@ describe('ItemsValidationTextPipe', () => {
       icon: 'test',
       disabled: false,
       editable: true,
-      constraintError: expected
+      constraintError: expected,
     };
     const testForm: AbstractControl = new FormControl('test form');
     testForm.setValidators(Validators.pattern('^\d$'));
@@ -176,7 +186,9 @@ describe('ItemsValidationTextPipe', () => {
 
     await CoreUtils.waitForConditionAsync(
       () => value === expected,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expected);
   });

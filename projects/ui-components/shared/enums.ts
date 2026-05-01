@@ -32,17 +32,22 @@ export enum FieldFormat {
 export enum RedirectBehavior {
   Replace = 'Replace',
   Popup = 'Popup',
-  None = 'None'
+  None = 'None',
 }
 
 export enum LoginState {
   LoggingIn = 'LoggingIn', // starting OAuth flow, previous state: LoggedOut, LoggedIn
-  LoggedIn = 'LoggedIn',  // have tokens, previous state: LoggingIn
+  LoggedIn = 'LoggedIn', // have tokens, previous state: LoggingIn
   LoggingOut = 'LoggingOut', // do have tokens, but getting rid of them, previous state: LoggedIn
-  LoggedOut = 'LoggedOut' // don't have tokens, previous state: LoggingOut, LoggingIn
+  LoggedOut = 'LoggedOut', // don't have tokens, previous state: LoggingOut, LoggingIn
 }
 
 export enum LoginMode {
   'Button' = 'Button',
-  'Menu' = 'Menu'
+  'Menu' = 'Menu',
+}
+
+export enum LoginType {
+  Cloud = 'Cloud',
+  SelfHosted = 'Self-Hosted',
 }

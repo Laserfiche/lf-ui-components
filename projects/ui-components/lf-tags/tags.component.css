@@ -1,0 +1,47 @@
+/*Copyright Laserfiche.*/
+
+.tag-list {
+  margin-top: 4px;
+  width: 100%;
+  font-size: 14px;
+}
+.tag-selector-placeholder {
+  opacity: 0.4;
+  font-size: 14px;
+  margin-left: 16px;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag-control {
+  width: 1px;
+}
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  cursor: pointer;
+}
+
+::ng-deep mat-option.mat-mdc-option.mdc-list-item--disabled {
+  cursor: default;
+  background: transparent !important;
+}
+
+::ng-deep mat-option.mat-mdc-option.mdc-list-item--disabled > span {
+  font-size: 14px;
+}
+
+::ng-deep mat-form-field.tag-list > .mat-mdc-text-field-wrapper {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+::ng-deep mat-form-field.tag-list > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
+  padding: 4px 0 !important;
+}

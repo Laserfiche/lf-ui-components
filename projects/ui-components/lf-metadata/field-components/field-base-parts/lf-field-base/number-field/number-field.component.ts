@@ -1,14 +1,18 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { BaseFieldDirective } from '../base-field/base-field.directive';
-import { ValidatorFn } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { FieldFormat, FieldType } from '@laserfiche/lf-ui-components/shared';
-import { AppLocalizationService, ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
+import { ValidationRule, ValidationUtils } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable, of } from 'rxjs';
-import { LfFieldTokenService } from '../lf-field-token.service';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
   selector: 'lf-number-field-component',
@@ -16,13 +20,27 @@ import { LfFieldTokenService } from '../lf-field-token.service';
   styleUrls: ['./number-field.component.css', './../lf-field-base/lf-field-base.component.css'],
   providers: [
     { provide: BaseFieldDirective, useExisting: NumberFieldComponent },
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
-  ]
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    provideNgxMask(),
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxMaskDirective,
+    DynamicFieldComponent,
+  ],
 })
 export class NumberFieldComponent extends BaseFieldDirective implements OnInit, AfterViewInit {
-  private readonly NUMBER_FIELD_MUST_BE_VALID_NUMBER = this.localizationService.getStringLaserficheObservable('NUMBER_FIELD_MUST_BE_VALID_NUMBER');
-  private readonly SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999 = this.localizationService.getStringLaserficheObservable('SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999');
-  private readonly LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999 = this.localizationService.getStringLaserficheObservable('LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999');
+  private readonly NUMBER_FIELD_MUST_BE_VALID_NUMBER = this.localizationService.getStringLaserficheObservable(
+    'NUMBER_FIELD_MUST_BE_VALID_NUMBER'
+  );
+  private readonly SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999 =
+    this.localizationService.getStringLaserficheObservable('SHORT_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_64999');
+  private readonly LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999 =
+    this.localizationService.getStringLaserficheObservable('LONG_FIELDS_MUST_BE_INTEGERS_BETWEEN_0_3999999999');
 
   prefix: string | undefined;
   suffix: string | undefined;
@@ -31,13 +49,6 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
   decimalMarker: string | undefined;
   separatorLimit: string | undefined;
   focusState: boolean | undefined;
-
-  constructor(
-    public tokenService: LfFieldTokenService,
-    public ref: ChangeDetectorRef,
-    public localizationService: AppLocalizationService) {
-    super(tokenService, ref, localizationService);
-  }
 
   ngAfterViewInit() {
     this.setMaskForNumber();
@@ -59,10 +70,26 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
   }
 
   protected override fieldOnValueChanged(): void {
-    const currentValue = this.lf_field_form_control.value;
-    this.lf_field_form_control.setValue(currentValue ?? '');
+    if (this.lf_field_info.fieldType === FieldType.Number) {
+      this.lf_field_form_control.setValue('');
+    } else {
+      const currentValue = this.lf_field_form_control.value;
+      this.lf_field_form_control.setValue(currentValue ?? '');
+    }
   }
 
+  override onValueChanged(emitEvent: boolean = true) {
+    const rawValue = this.lf_field_form_control.value;
+    if (typeof rawValue === 'number' && isNaN(rawValue)) {
+      this.setLfFieldFormControlValue('0');
+      this.lf_field_value = '0';
+      if (emitEvent) {
+        this.fieldValueChange.emit(this.lf_field_value);
+      }
+      return;
+    }
+    super.onValueChanged(emitEvent);
+  }
 
   getAdditionalValidatorsForFieldType(): ValidatorFn[] {
     const validators: ValidatorFn[] = [];
@@ -71,7 +98,7 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
   }
 
   getValidationTextForFieldType(rule: ValidationRule): Observable<string> | undefined {
-    switch(rule) {
+    switch (rule) {
       case ValidationRule.NUMERIC:
         return this.lf_field_info.constraintError ? of(this.lf_field_info.constraintError) : undefined;
       case ValidationRule.NUMBER:
@@ -95,23 +122,42 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
         const longIntPattern = new RegExp(`^(|[0-9]{0,9}|[0-3][0-9]{9}${tokenRegexString})$`, 'i');
         return ValidationUtils.generalRegexValidator(longIntPattern, ValidationRule.LONG_INT);
       default:
-        const numberPattern = new RegExp(`^(|[-](\\d{0,12}(\\` + decimalSeparator + `\\d{0,5})?|\\d{13}(\\` +
-          decimalSeparator + `\\d{0,4})?)|[\\+]?\\d{0,13}(\\` + decimalSeparator + `\\d{0,5})?${tokenRegexString})$`, 'i');
+        const numberPattern = new RegExp(
+          `^(|[-](\\d{0,12}(\\` +
+            decimalSeparator +
+            `\\d{0,5})?|\\d{13}(\\` +
+            decimalSeparator +
+            `\\d{0,4})?)|[\\+]?\\d{0,13}(\\` +
+            decimalSeparator +
+            `\\d{0,5})?${tokenRegexString})$`,
+          'i'
+        );
         return ValidationUtils.generalRegexValidator(numberPattern, ValidationRule.NUMBER);
     }
   }
 
   numberOnly(event: KeyboardEvent) {
-    if (this.lf_field_info.fieldType === FieldType.ShortInteger || this.lf_field_info.fieldType === FieldType.LongInteger) {
+    if (
+      this.lf_field_info.fieldType === FieldType.ShortInteger ||
+      this.lf_field_info.fieldType === FieldType.LongInteger
+    ) {
       if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].indexOf(event.key) === -1) {
         event.preventDefault();
       }
     }
   }
 
+  override getLfFieldFormControlValue(): string {
+    const value = this.lf_field_form_control.value;
+    if (value == null || value === '') return '';
+    if (typeof value === 'number' && isNaN(value)) return '';
+    return String(value);
+  }
+
   serializeFieldFormControlValue(): string {
+    const rawValue = this.lf_field_form_control.value;
     const currentValue = this.getLfFieldFormControlValue();
-    if (currentValue === '-') {
+    if (currentValue === '-' || (typeof rawValue === 'number' && isNaN(rawValue))) {
       this.setLfFieldFormControlValue('0');
       return '0';
     }
@@ -121,7 +167,10 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
         return parsedNumber.toString();
       }
     }
-    if (this.lf_field_info.fieldType === FieldType.ShortInteger || this.lf_field_info.fieldType === FieldType.LongInteger) {
+    if (
+      this.lf_field_info.fieldType === FieldType.ShortInteger ||
+      this.lf_field_info.fieldType === FieldType.LongInteger
+    ) {
       const parsedNumber = Number.parseInt(currentValue, 10);
       if (!isNaN(parsedNumber)) {
         return parsedNumber.toString();
@@ -140,8 +189,7 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
     const separators = numberString.replace(/1/g, '');
     if (separatorType === 'group') {
       return separators.slice(0, 1);
-    }
-    else {
+    } else {
       return separators.slice(1, 2);
     }
   }

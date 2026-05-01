@@ -20,7 +20,6 @@ import {
   isLeapYear,
   startOfDay,
   endOfMonth,
-  getWeek,
   getISOWeek,
   differenceInYears,
   differenceInMonths,
@@ -270,10 +269,10 @@ export class UniDateTimeService {
       }
       return info.language
         ? this.flatpickrFormatDate(
-          info.dateTimeObj,
-          this.fromDisplayDateTimeFormatToFlatpickrFormat(info.dateTimeFormat),
-          info.language
-        )
+            info.dateTimeObj,
+            this.fromDisplayDateTimeFormatToFlatpickrFormat(info.dateTimeFormat),
+            info.language
+          )
         : format(info.dateTimeObj, info.dateTimeFormat);
     }
 
@@ -290,10 +289,10 @@ export class UniDateTimeService {
     return dateTimeFormat
       ? info.language
         ? this.flatpickrFormatDate(
-          info.dateTimeObj,
-          this.fromDisplayDateTimeFormatToFlatpickrFormat(dateTimeFormat),
-          info.language
-        )
+            info.dateTimeObj,
+            this.fromDisplayDateTimeFormatToFlatpickrFormat(dateTimeFormat),
+            info.language
+          )
         : format(info.dateTimeObj, this.fromDisplayDateTimeFormatToUnicodeTokens(dateTimeFormat))
       : '';
   }
@@ -309,7 +308,7 @@ export class UniDateTimeService {
         ? this.getFlatpickrLocale(customLocaleOrLanguageStr)
         : customLocaleOrLanguageStr;
     // create dummy flatpickr instance in order to localize parsing
-    const localFp = flatpickr(document.createElement("input"), { locale: customLocale });
+    const localFp = flatpickr(document.createElement('input'), { locale: customLocale });
     return localFp.parseDate(date, format, timeless);
   }
 
@@ -319,7 +318,7 @@ export class UniDateTimeService {
         ? this.getFlatpickrLocale(customLocaleOrLanguageStr)
         : customLocaleOrLanguageStr;
     // create dummy flatpickr instance in order to localize formatting
-    const localFp = flatpickr(document.createElement("input"), { locale: customLocale });
+    const localFp = flatpickr(document.createElement('input'), { locale: customLocale });
     return localFp.formatDate(date, format);
   }
 
@@ -461,17 +460,17 @@ export class UniDateTimeService {
         // format using current language
         dateStr = settings.defaultDate
           ? this.format({
-            dateTimeObj,
-            dateFormat,
-            language: config.language,
-          })
+              dateTimeObj,
+              dateFormat,
+              language: config.language,
+            })
           : '';
         timeStr = settings.defaultTimeOfDate
           ? this.format({
-            dateTimeObj: dateTimeObj,
-            timeFormat,
-            language: config.language,
-          })
+              dateTimeObj: dateTimeObj,
+              timeFormat,
+              language: config.language,
+            })
           : '';
 
         return {
@@ -496,20 +495,20 @@ export class UniDateTimeService {
       // format using current language
       return dateTimeObj
         ? {
-          dateStr: this.format({
-            dateTimeObj,
-            dateFormat: settings.dateFormat,
-            language: config.language,
-          }),
-          timeStr: settings.showTime
-            ? this.format({
+            dateStr: this.format({
               dateTimeObj,
-              timeFormat: settings.timeFormat,
+              dateFormat: settings.dateFormat,
               language: config.language,
-            })
-            : '',
-          dateTimeObj,
-        }
+            }),
+            timeStr: settings.showTime
+              ? this.format({
+                  dateTimeObj,
+                  timeFormat: settings.timeFormat,
+                  language: config.language,
+                })
+              : '',
+            dateTimeObj,
+          }
         : { dateStr: '', timeStr: '', dateTimeObj: null };
     }
   }
@@ -523,7 +522,7 @@ export class UniDateTimeService {
     const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       const randomValues = new Uint8Array(1);
       window.crypto.getRandomValues(randomValues);
-      const r = (d + (randomValues[0] % 16)) % 16 | 0;
+      const r = ((d + (randomValues[0] % 16)) % 16) | 0;
       d = Math.floor(d / 16);
       return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
     });
@@ -660,10 +659,13 @@ export class UniDateTimeService {
         : parts.length == 2 && parts[1] != 'hans' && parts[1] != 'hant'
           ? parts[0] + '-' + parts[1].toUpperCase()
           : parts.length == 3
-            ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1) + '-' + parts[2].toUpperCase()
-            : 'hans' || parts[1] != 'hant'
-              ? parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1)
-              : locale;
+            ? parts[0] +
+              '-' +
+              parts[1].substring(0, 1).toUpperCase() +
+              parts[1].substring(1) +
+              '-' +
+              parts[2].toUpperCase()
+            : parts[0] + '-' + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1);
     }
   };
 
@@ -751,8 +753,8 @@ export class UniDateTimeService {
       } else {
         return config.storedValueDateTimeFormat
           ? config.storedValueDateTimeFormat
-            .replace('{DATE}', dateStr ? dateStr : '')
-            .replace('{TIME}', timeStr ? timeStr : '')
+              .replace('{DATE}', dateStr ? dateStr : '')
+              .replace('{TIME}', timeStr ? timeStr : '')
           : dateStr + ' ' + timeStr; // default to "{DATE} {TIME}" for backend if tokens are present
       }
     } else {
@@ -761,8 +763,8 @@ export class UniDateTimeService {
       }
       const storedValueFormat = config.storedValueDateTimeFormat
         ? config.storedValueDateTimeFormat
-          .replace('{DATE}', storedValueDateFormat)
-          .replace('{TIME}', storedValueTimeFormat)
+            .replace('{DATE}', storedValueDateFormat)
+            .replace('{TIME}', storedValueTimeFormat)
         : this.getFormatByLocale(config.storedValueLocale, FormatType.DATETIME_FORMAT, true);
       return this.flatpickrFormatDate(
         dateTime,

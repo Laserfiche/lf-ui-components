@@ -3,13 +3,13 @@
   overflow: hidden;
   white-space: nowrap;
   vertical-align: middle;
-  color: rgb(84,84,84);
+  color: rgb(84, 84, 84);
   user-select: none;
 }
 
 .loader {
   margin: 0 5px 0 15px;
-  background-image: url('https://lfxstatic.com/Site/WA/10.4.2.641_2020-12-31_103500/assets/images/newdoc_sprite.png');
+  background-image: url("https://lfxstatic.com/Site/WA/10.4.2.641_2020-12-31_103500/assets/images/newdoc_sprite.png");
   display: inline-block;
   -moz-animation: spin 2s infinite linear;
   -o-animation: spin 2s infinite linear;

@@ -1,15 +1,12 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Directive, OnInit } from "@angular/core";
-import { BaseFieldDirective } from "./base-field.directive";
-import {
-  UniComponentConfig,
-  UniComponentSettings,
-  UniDateTimeComponent,
-} from '../../../../lf-date-time-picker/uni-date-time.module';
-import { ValidationRule } from "@laserfiche/lf-ui-components/internal-shared";
-import { of } from "rxjs";
+import { Directive, OnInit } from '@angular/core';
+import { BaseFieldDirective } from './base-field.directive';
+import { ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
+import { of } from 'rxjs';
+import { UniComponentConfig, UniComponentSettings } from '../../../../lf-date-time-picker/uni-date-time.common';
+import { UniDateTimeComponent } from '../../../../lf-date-time-picker/uni-date-time.component';
 
 @Directive()
 export abstract class DateTimeBaseFieldDirective extends BaseFieldDirective implements OnInit {

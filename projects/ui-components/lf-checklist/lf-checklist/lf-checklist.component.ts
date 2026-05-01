@@ -6,11 +6,15 @@ import {
   Input,
   Output,
   EventEmitter,
-  NgZone,
+  ChangeDetectorRef,
   ViewChildren,
   QueryList,
+  inject,
 } from '@angular/core';
+
+import { MatExpansionModule } from '@angular/material/expansion';
 import { ItemsComponent } from '../items/items.component';
+import { OptionsComponent } from '../options/options.component';
 import { Checklist } from '../checklist';
 import { LfChecklistService } from '../lf-checklist.service';
 
@@ -22,8 +26,12 @@ export interface LfChecklistProviders {
   selector: 'lf-checklist-component',
   templateUrl: './lf-checklist.component.html',
   styleUrls: ['./lf-checklist.component.css'],
+  standalone: true,
+  imports: [MatExpansionModule, ItemsComponent, OptionsComponent],
 })
 export class LfChecklistComponent {
+  /**@internal */
+  private ref = inject(ChangeDetectorRef);
 
   @Input() action_button_text: string | undefined;
 
@@ -38,30 +46,17 @@ export class LfChecklistComponent {
   /** @internal */
   @ViewChildren(ItemsComponent) private itemsComponents!: QueryList<ItemsComponent>;
 
-
   /** @internal */
   checklists: Checklist[] = [];
 
-  /** @internal */
-  constructor(
-    /** @internal */
-    private zone: NgZone
-  ) { }
-
-  @Input() initAsync = async (
-    providers: LfChecklistProviders
-  ): Promise<void> => {
+  @Input() initAsync = async (providers: LfChecklistProviders): Promise<void> => {
     return new Promise((resolve) => {
-      this.zone.run(() => {
-        requestAnimationFrame(async () => {
-          this.checklists =
-            await providers.checklistService.loadChecklistsAsync();
-          this.itemsComponents?.forEach((component) =>
-            component.refreshChecklistItems()
-          );
-          this.checklistChanged.emit(this.checklists);
-          resolve();
-        });
+      requestAnimationFrame(async () => {
+        this.checklists = await providers.checklistService.loadChecklistsAsync();
+        this.itemsComponents?.forEach((component) => component.refreshChecklistItems());
+        this.checklistChanged.emit(this.checklists);
+        this.ref.markForCheck();
+        resolve();
       });
     });
   };

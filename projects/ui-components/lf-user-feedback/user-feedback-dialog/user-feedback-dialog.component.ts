@@ -6,17 +6,19 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   HostListener,
   OnDestroy,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
-import { debounceTime, map, Observable, Subscription } from 'rxjs';
+import { AppLocalizationService, GeneralDialogLayoutComponent } from '@laserfiche/lf-ui-components/internal-shared';
+import { map, Observable, Subscription } from 'rxjs';
 import { FeedbackSubmissionComponent } from '../feedback-submission/feedback-submission.component';
+import { FeedbackSuggestionSelectionComponent } from '../feedback-suggestion-selection/feedback-suggestion-selection.component';
 import { UserFeedbackDialogData, UserFeedbackTrackingEventType } from '../lf-user-feedback-types';
 
 /** @internal */
@@ -35,8 +37,19 @@ export enum FeedbackDialogState {
   selector: 'lf-user-feedback-dialog-component',
   templateUrl: './user-feedback-dialog.component.html',
   styleUrls: ['./user-feedback-dialog.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    GeneralDialogLayoutComponent,
+    FeedbackSubmissionComponent,
+    FeedbackSuggestionSelectionComponent,
+  ],
 })
 export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
+  dialogRef = inject<MatDialogRef<UserFeedbackDialogComponent>>(MatDialogRef);
+  private ref = inject(ChangeDetectorRef);
+  private localizationService = inject(AppLocalizationService);
+
   @Output() submitFeedback: EventEmitter<UserFeedbackDialogData> = new EventEmitter();
   @ViewChild(FeedbackSubmissionComponent) feedbackSubmission?: FeedbackSubmissionComponent;
 
@@ -83,12 +96,6 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
 
   USER_FEEDBACK_TITLE: Observable<string> = this.localizedStrings.FEEDBACK;
 
-  constructor(
-    public dialogRef: MatDialogRef<UserFeedbackDialogComponent>,
-    private ref: ChangeDetectorRef,
-    private localizationService: AppLocalizationService
-  ) {}
-
   ngAfterViewInit() {
     const elem = document.getElementById('lf-user-feedback-feedback-mode-button');
     elem?.focus();
@@ -105,15 +112,19 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   onClickFeedback(): void {
     this.dialogState = FeedbackDialogState.FEEDBACK;
     this.USER_FEEDBACK_TITLE = this.localizedStrings.FEEDBACK;
-    setTimeout(() => document.getElementById('feedback-suggestion-textbox')?.focus());
-    this.onTextChanges();
+    this.ref.detectChanges();
+    setTimeout(() => {
+      document.getElementById('feedback-suggestion-textbox')?.focus();
+    });
   }
 
   onClickSuggestion(): void {
     this.dialogState = FeedbackDialogState.SUGGESTION;
     this.USER_FEEDBACK_TITLE = this.localizedStrings.SUGGESTION;
-    setTimeout(() => document.getElementById('feedback-suggestion-textbox')?.focus());
-    this.onTextChanges();
+    this.ref.detectChanges();
+    setTimeout(() => {
+      document.getElementById('feedback-suggestion-textbox')?.focus();
+    });
   }
 
   @HostListener('document:keydown.escape', ['$event'])
@@ -121,16 +132,10 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  private onTextChanges(): void {
+  onFeedbackTextChanged(text: string): void {
+    this.feedbackText = text;
+    this.isSubmitDisabled = this.isEmptyOrWhitespace(text);
     this.ref.detectChanges();
-    const feedbackTextSub = this.feedbackSubmission?.feedbackTextChanged
-      .asObservable()
-      .pipe(debounceTime(250))
-      .subscribe((text) => {
-        this.feedbackText = text;
-        this.isSubmitDisabled = this.isEmptyOrWhitespace(text);
-      });
-    this.allSubscriptions.add(feedbackTextSub);
   }
 
   async onClickSubmitAsync(): Promise<void> {

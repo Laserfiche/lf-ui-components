@@ -1,0 +1,173 @@
+// Copyright Laserfiche.
+
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  inject,
+  Input,
+  OnDestroy,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatAutocompleteModule,
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger,
+} from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { Subscription } from 'rxjs';
+import { ILfTagsService, LfTagDefinition } from './ILfTagsService';
+
+@Component({
+  selector: 'lf-tags-component',
+  templateUrl: './tags.component.html',
+  styleUrl: './tags.component.css',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+  ],
+})
+export class LfTagsComponent implements OnDestroy, AfterViewInit {
+  private localizationService = inject(AppLocalizationService);
+
+  @Input() initialTags: string[] = [];
+  @Input() tagsService: ILfTagsService | undefined;
+  @Output() selectedTagsChanged = new EventEmitter<string[]>();
+
+  TAGS = this.localizationService.getResourceStringComponents('TAGS');
+  ADD_TAGS = this.localizationService.getResourceStringComponents('ADD_TAGS');
+  ADD_MORE_TAGS = this.localizationService.getResourceStringComponents('ADD_MORE_TAGS');
+  NO_TAGS_AVAILABLE = this.localizationService.getResourceStringComponents('NO_TAGS_AVAILABLE');
+
+  private componentSub: Subscription = new Subscription();
+  private openPanelTimeout: ReturnType<typeof setTimeout> | undefined;
+  tagDefinitions: LfTagDefinition[] = [];
+  selectedTagNames: string[] = [];
+  filteredTags: LfTagDefinition[] = [];
+
+  tagCtrl = new FormControl();
+  @ViewChild(MatAutocompleteTrigger) autoCompleteTrigger!: MatAutocompleteTrigger;
+  @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
+  @ViewChildren('chip', { read: ElementRef }) chips!: QueryList<ElementRef>;
+
+  private ref = inject(ChangeDetectorRef);
+
+  ngAfterViewInit() {
+    this.componentSub.add(
+      this.tagCtrl.valueChanges.subscribe((value) => {
+        if (typeof value === 'string' || value === null || value === undefined) {
+          this.filteredTags = this.filterTags(value ?? '');
+        }
+      })
+    );
+
+    if (this.tagsService) {
+      const tagsSub = this.tagsService.getTagDefinitionsSub().subscribe((tagDefinitions) => {
+        this.tagDefinitions = tagDefinitions ?? [];
+
+        if (this.initialTags.length > 0) {
+          const tags = this.tagsService!.getTagDefinitions() ?? [];
+          const initialTagNames = new Set(this.initialTags);
+          const toSelect = tags.filter((t) => t.displayName && initialTagNames.has(t.displayName));
+          setTimeout(() => {
+            this.selectedTagNames = toSelect.map((t) => t.displayName!);
+            this.emitSelectedTagNames();
+            this.refreshFilteredTags();
+          });
+          this.initialTags = [];
+        } else {
+          setTimeout(() => this.refreshFilteredTags());
+        }
+      });
+
+      this.componentSub.add(tagsSub);
+    }
+  }
+
+  ngOnDestroy(): void {
+    clearTimeout(this.openPanelTimeout);
+    this.autoCompleteTrigger?.closePanel();
+    this.componentSub.unsubscribe();
+  }
+
+  filterTags(value: string) {
+    const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
+    return this.tagDefinitions.filter(
+      (tag) => tag.displayName?.toLowerCase().includes(filterValue) && !this.selectedTagNames.includes(tag.displayName!)
+    );
+  }
+
+  refreshFilteredTags() {
+    this.filteredTags = this.filterTags(this.tagCtrl.value ?? '');
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.selectedTagNames.push(event.option.value.displayName);
+    this.emitSelectedTagNames();
+
+    this.refreshFilteredTags();
+    this.tagInput.nativeElement.value = '';
+    this.tagCtrl.setValue('');
+    this.ref.detectChanges();
+
+    this.openPanelTimeout = setTimeout(() => {
+      this.openPanel();
+    });
+  }
+
+  remove(tagName: string): void {
+    const index = this.selectedTagNames.indexOf(tagName);
+
+    if (index >= 0) {
+      this.selectedTagNames.splice(index, 1);
+      this.emitSelectedTagNames();
+    }
+
+    this.refreshFilteredTags();
+    this.ref.detectChanges();
+    this.focusInput();
+  }
+
+  focusInput() {
+    this.tagInput.nativeElement.focus();
+    this.openPanel();
+  }
+
+  onChipKeyDown(event: KeyboardEvent, index: number) {
+    const chipsArray = this.chips.toArray();
+
+    if (event.key === 'ArrowLeft') {
+      const prev = index > 0 ? index - 1 : 0;
+      chipsArray[prev].nativeElement.focus();
+    } else if (event.key === 'ArrowRight') {
+      const next = index < chipsArray.length - 1 ? index + 1 : 0;
+      chipsArray[next].nativeElement.focus();
+    }
+    event.preventDefault();
+  }
+
+  openPanel() {
+    this.autoCompleteTrigger?.openPanel();
+  }
+
+  private emitSelectedTagNames(): void {
+    this.selectedTagsChanged.emit([...this.selectedTagNames]);
+  }
+}

@@ -1,0 +1,83 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+import { ApplicationConfig, CUSTOM_ELEMENTS_SCHEMA, provideZonelessChangeDetection } from '@angular/core';
+import { provideRouter, withHashLocation } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
+import { LfChecklistDocumentationComponent } from './lf-checklist-documentation/lf-checklist-documentation.component';
+import { GettingStartedComponent } from './getting-started/getting-started.component';
+import { StylingDocumentationComponent } from './styling-documentation/styling-documentation.component';
+import { LfFieldDocumentationComponent } from './lf-field-documentation/lf-field-documentation.component';
+import { OverviewComponent } from './overview/overview.component';
+import { LfUserFeedbackDocumentationComponent } from './lf-user-feedback-documentation/lf-user-feedback-documentation.component';
+import { LfFieldAdhocContainerDocumentationComponent } from './lf-field-adhoc-container-documentation/lf-field-adhoc-container-documentation.component';
+import { LfFieldContainerDocumentationComponent } from './lf-field-container-documentation/lf-field-container-documentation.component';
+import { LfFieldTemplateContainerDocumentationComponent } from './lf-field-template-container-documentation/lf-field-template-container-documentation.component';
+import { LfBreadcrumbsDocumentationComponent } from './lf-breadcrumbs-documentation/lf-breadcrumbs-documentation.component';
+import { LfToolbarDocumentationComponent } from './lf-toolbar-documentation/lf-toolbar-documentation.component';
+import { ConvertComponentToElementComponent } from './convert-component-to-element/convert-component-to-element.component';
+import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
+import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
+import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angular/example-npm-usage-in-angular.component';
+import { ExampleUsageInAngularComponent } from './example-usage-in-angular/example-usage-in-angular.component';
+import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
+import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
+import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-browser-documentation/lf-repository-browser-documentation.component';
+import { LfTagsDocumentationComponent } from './lf-tags-documentation/lf-tags-documentation.component';
+import { MigrateModulesToStandaloneComponent } from './migrate-modules-to-standalone/migrate-modules-to-standalone.component';
+import { Routes } from '@angular/router';
+
+export enum RouterLinks {
+  OVERVIEW = 'overview',
+  GETTING_STARTED = 'getting-started',
+  EXAMPLE_USAGE_ANGULAR = 'using-ui-components-from-cdn-in-angular',
+  EXAMPLE_USAGE_REACT = 'using-ui-components-from-cdn-in-react',
+  EXAMPLE_USAGE_HTML = 'using-ui-components-from-cdn-in-html5',
+  EXAMPLE_NPM_USAGE_ANGULAR = 'using-ui-components-from-npm-package-in-angular',
+  STYLING = 'styling',
+  TROUBLESHOOTING = 'troubleshooting',
+  CONVERT_COMPONENT = 'convert-component',
+  MIGRATE_MODULES_TO_STANDALONE = 'migrate-modules-to-standalone',
+  RELEASE_NOTES = 'release-notes',
+  LF_BREADCRUMBS = 'lf-breadcrumbs',
+  LF_CHECKLIST = 'lf-checklist',
+  LF_TOOLBAR = 'lf-toolbar',
+  LF_FIELD_CONTAINER = 'lf-field-container',
+  LF_FIELD_TYPES = 'lf-field-types',
+  LF_FIELD_ADHOC_CONTAINER = 'lf-field-adhoc-container',
+  LF_FIELD_TEMPLATE_CONTAINER = 'lf-field-template-container',
+  LF_LOGIN = 'lf-login',
+  LF_USER_FEEDBACK = 'lf-user-feedback',
+  LF_REPOSITORY_BROWSER = 'lf-repository-browser',
+  LF_TAGS = 'lf-tags',
+}
+
+const routes: Routes = [
+  { path: RouterLinks.LF_TOOLBAR, component: LfToolbarDocumentationComponent },
+  { path: RouterLinks.LF_BREADCRUMBS, component: LfBreadcrumbsDocumentationComponent },
+  { path: RouterLinks.LF_CHECKLIST, component: LfChecklistDocumentationComponent },
+  { path: RouterLinks.LF_FIELD_TYPES, component: LfFieldDocumentationComponent },
+  { path: RouterLinks.LF_FIELD_ADHOC_CONTAINER, component: LfFieldAdhocContainerDocumentationComponent },
+  { path: RouterLinks.LF_FIELD_CONTAINER, component: LfFieldContainerDocumentationComponent },
+  { path: RouterLinks.LF_FIELD_TEMPLATE_CONTAINER, component: LfFieldTemplateContainerDocumentationComponent },
+  { path: RouterLinks.LF_LOGIN, component: LfLoginDocumentationComponent },
+  { path: RouterLinks.LF_USER_FEEDBACK, component: LfUserFeedbackDocumentationComponent },
+  { path: RouterLinks.STYLING, component: StylingDocumentationComponent },
+  { path: RouterLinks.GETTING_STARTED, component: GettingStartedComponent },
+  { path: RouterLinks.EXAMPLE_NPM_USAGE_ANGULAR, component: ExampleNpmUsageInAngularComponent },
+  { path: RouterLinks.EXAMPLE_USAGE_ANGULAR, component: ExampleUsageInAngularComponent },
+  { path: RouterLinks.EXAMPLE_USAGE_REACT, component: ExampleUsageInReactComponent },
+  { path: RouterLinks.EXAMPLE_USAGE_HTML, component: ExampleUsageInHtmlComponent },
+  { path: RouterLinks.OVERVIEW, component: OverviewComponent },
+  { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },
+  { path: RouterLinks.TROUBLESHOOTING, component: TroubleshootingComponent },
+  { path: RouterLinks.MIGRATE_MODULES_TO_STANDALONE, component: MigrateModulesToStandaloneComponent },
+  { path: RouterLinks.LF_REPOSITORY_BROWSER, component: LfRepositoryBrowserDocumentationComponent },
+  { path: RouterLinks.LF_TAGS, component: LfTagsDocumentationComponent },
+  { path: '', component: OverviewComponent },
+];
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes, withHashLocation()), provideAnimations(), provideZonelessChangeDetection()],
+};

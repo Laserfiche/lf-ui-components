@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { Observable } from 'rxjs';
@@ -9,9 +9,10 @@ import { LfToken, LfTokenService } from '../lf-token-picker/lf-token.service';
 
 /** @internal */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LfFieldTokenService implements LfTokenService {
+  private localizationService = inject(AppLocalizationService);
 
   private readonly defaultStringTokens: LfFieldTokenId[] = [
     LfFieldTokenId.DATE,
@@ -24,7 +25,7 @@ export class LfFieldTokenService implements LfTokenService {
     LfFieldTokenId.PARENT_NAME,
     LfFieldTokenId.ENTRY_ID,
     LfFieldTokenId.PARENT_ID,
-    LfFieldTokenId.PARENT_FIELD
+    LfFieldTokenId.PARENT_FIELD,
   ];
 
   private readonly defaultNumberTokens: LfFieldTokenId[] = [
@@ -32,7 +33,7 @@ export class LfFieldTokenService implements LfTokenService {
     LfFieldTokenId.REPOSITORY_COUNT,
     LfFieldTokenId.ENTRY_ID,
     LfFieldTokenId.PARENT_ID,
-    LfFieldTokenId.PARENT_FIELD
+    LfFieldTokenId.PARENT_FIELD,
   ];
 
   private readonly DATE = this.localizationService.getStringLaserficheObservable('DATE');
@@ -70,12 +71,10 @@ export class LfFieldTokenService implements LfTokenService {
     [LfFieldTokenId.PARENT_FIELD, 'parent'],
     [LfFieldTokenId.FILE_NAME, 'filename'],
     [LfFieldTokenId.FILE_EXTENSION, 'fileextension'],
-    [LfFieldTokenId.FILE_MODIFIED, 'filemodified']
+    [LfFieldTokenId.FILE_MODIFIED, 'filemodified'],
   ]);
 
-  constructor(
-    private localizationService: AppLocalizationService
-  ) { }
+  constructor() {}
 
   async getTokensAsync(lfFieldTokenData: LfFieldTokenData): Promise<LfToken[]> {
     if (lfFieldTokenData?.fieldType === undefined) {
@@ -113,7 +112,7 @@ export class LfFieldTokenService implements LfTokenService {
       const LfToken: LfToken = {
         id: tokenId,
         friendlyName: this.getTokenFriendlyName(tokenId),
-        text: this.fieldTokenTexts.get(tokenId) ?? ''
+        text: this.fieldTokenTexts.get(tokenId) ?? '',
       };
       return LfToken;
     });
@@ -183,11 +182,13 @@ export class LfFieldTokenService implements LfTokenService {
       case FieldType.ShortInteger:
         return this.defaultNumberTokens;
       case FieldType.String:
-        return isImport ? this.defaultStringTokens.concat([
-          LfFieldTokenId.FILE_NAME,
-          LfFieldTokenId.FILE_EXTENSION,
-          LfFieldTokenId.FILE_MODIFIED
-        ]) : this.defaultStringTokens;
+        return isImport
+          ? this.defaultStringTokens.concat([
+              LfFieldTokenId.FILE_NAME,
+              LfFieldTokenId.FILE_EXTENSION,
+              LfFieldTokenId.FILE_MODIFIED,
+            ])
+          : this.defaultStringTokens;
       default:
         return [];
     }
@@ -206,8 +207,7 @@ export class LfFieldTokenService implements LfTokenService {
           if (this.fieldIsToken(lowercaseFieldValue, tokenText)) {
             return true;
           }
-        }
-        else {
+        } else {
           if (this.fieldIsOnlyToken(lowercaseFieldValue, tokenText)) {
             return true;
           }
@@ -221,14 +221,14 @@ export class LfFieldTokenService implements LfTokenService {
     const trimmedFieldVal = fieldVal.trim();
     const tokenRegExp: RegExp = new RegExp(`%\\(${token}(:.*)?\\)`);
     const matches = trimmedFieldVal.match(tokenRegExp);
-    return (matches !== null);
+    return matches !== null;
   }
 
   private fieldIsOnlyToken(fieldVal: string, token: string): boolean {
     const trimmedFieldVal = fieldVal.trim();
     const tokenRegExp: RegExp = new RegExp(`^%\\(${token}(:.*)?\\)$`);
     const matches = trimmedFieldVal.match(tokenRegExp);
-    return (matches !== null && trimmedFieldVal === matches[0]);
+    return matches !== null && trimmedFieldVal === matches[0];
   }
 }
 
@@ -246,7 +246,7 @@ export enum LfFieldTokenId {
   PARENT_FIELD,
   FILE_NAME,
   FILE_EXTENSION,
-  FILE_MODIFIED
+  FILE_MODIFIED,
 }
 
 export interface LfFieldTokenData {

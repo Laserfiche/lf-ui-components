@@ -11,9 +11,8 @@ describe('ConvertComponentToElementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConvertComponentToElementComponent ]
-    })
-    .compileComponents();
+      imports: [ConvertComponentToElementComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

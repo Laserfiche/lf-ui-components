@@ -13,9 +13,8 @@ describe('ExampleUsageInReactComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ ExampleUsageInReactComponent ],
-    })
-    .compileComponents();
+      imports: [ExampleUsageInReactComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

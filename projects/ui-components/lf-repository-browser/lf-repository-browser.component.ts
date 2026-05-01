@@ -8,14 +8,16 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnDestroy,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -25,6 +27,7 @@ import {
   LfSelectionListComponent,
   SelectedItemEvent,
 } from '@laserfiche/lf-ui-components/lf-selection-list';
+import { LfBreadcrumbsComponent } from '@laserfiche/lf-ui-components/shared';
 
 /** @internal */
 const NAME_COL_AUTO: ColumnDef = {
@@ -49,8 +52,19 @@ const NAME_COL_50CH: ColumnDef = {
   selector: 'lf-repository-browser-component',
   templateUrl: './lf-repository-browser.component.html',
   styleUrls: ['./lf-repository-browser.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, LfBreadcrumbsComponent, LfLoaderComponent, LfSelectionListComponent],
 })
 export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
+  /**@internal */
+  ref = inject(ChangeDetectorRef);
+  /**@internal */
+  popupDialog = inject(MatDialog);
+  /**@internal */
+  private localizationService = inject(AppLocalizationService);
+  /**@internal */
+  private el = inject(ElementRef);
+
   /**
    * read-only property to get current breadcrumbs
    */
@@ -151,40 +165,38 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     treeNodeService: LfTreeNodeService,
     initialOpenedNode?: LfTreeNode | string
   ): Promise<void> => {
-    await this.zone.run(async () => {
-      try {
-        this.hasError = false;
-        this.isLoading = true;
-        this.treeNodeService = treeNodeService;
-        if (typeof initialOpenedNode === 'string') {
-          if (!initialOpenedNode || initialOpenedNode.trim().length === 0) {
-            initialOpenedNode = undefined;
-          } else {
-            if (this.treeNodeService.getTreeNodeByIdentifierAsync) {
-              try {
-                initialOpenedNode = await this.treeNodeService.getTreeNodeByIdentifierAsync(initialOpenedNode);
-              } catch {
-                console.warn('Unable to determine LfTreeNode by id. Will initialize to root.');
-                initialOpenedNode = undefined;
-              }
-            } else {
-              console.warn(
-                'initialOpenedNode is specified by an id, but getTreeNodeByIdentifierAsync is not implemented. Will initialize to root.'
-              );
+    try {
+      this.hasError = false;
+      this.isLoading = true;
+      this.treeNodeService = treeNodeService;
+      if (typeof initialOpenedNode === 'string') {
+        if (!initialOpenedNode || initialOpenedNode.trim().length === 0) {
+          initialOpenedNode = undefined;
+        } else {
+          if (this.treeNodeService.getTreeNodeByIdentifierAsync) {
+            try {
+              initialOpenedNode = await this.treeNodeService.getTreeNodeByIdentifierAsync(initialOpenedNode);
+            } catch {
+              console.warn('Unable to determine LfTreeNode by id. Will initialize to root.');
               initialOpenedNode = undefined;
             }
+          } else {
+            console.warn(
+              'initialOpenedNode is specified by an id, but getTreeNodeByIdentifierAsync is not implemented. Will initialize to root.'
+            );
+            initialOpenedNode = undefined;
           }
         }
-
-        await this.initializeAsync(initialOpenedNode);
-      } catch (error) {
-        console.error(error);
-        this.hasError = true;
-      } finally {
-        this.isLoading = false;
-        this.ref.detectChanges();
       }
-    });
+
+      await this.initializeAsync(initialOpenedNode);
+    } catch (error) {
+      console.error(error);
+      this.hasError = true;
+    } finally {
+      this.isLoading = false;
+      this.ref.detectChanges();
+    }
   };
 
   /**
@@ -243,6 +255,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       } else {
         this.selectedItems = selectedItems;
         this.entrySelected.emit(this.selectedItems);
+        this.ref.markForCheck();
       }
     }
   };
@@ -383,18 +396,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
   private lastDataCall?: Promise<ILfSelectable[]>;
 
   /** @internal */
-  constructor(
-    /** @internal */
-    public ref: ChangeDetectorRef,
-    /** @internal */
-    public popupDialog: MatDialog,
-    /** @internal */
-    public zone: NgZone,
-    /** @internal */
-    private localizationService: AppLocalizationService,
-    /** @internal */
-    private el: ElementRef
-  ) {
+  constructor() {
     this.scrolledIndexChanged.pipe(debounceTime(200)).subscribe(async () => {
       if (!this._currentFolder) {
         return;
@@ -563,7 +565,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     }
     if (this.shouldShowEmptyMessage || this.shouldShowErrorMessage) {
       setTimeout(() => {
-        (document.querySelector(".lf-repo-entry-container") as HTMLElement)?.focus();
+        (document.querySelector('.lf-repo-entry-container') as HTMLElement)?.focus();
       });
     } else {
       this.entryList?.focus();

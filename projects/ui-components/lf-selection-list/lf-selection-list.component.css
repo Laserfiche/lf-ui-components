@@ -9,7 +9,7 @@
 
 ::ng-deep .mat-mdc-table.lf-table-selection-list .mat-mdc-header-row,
 ::ng-deep .mat-mdc-table.lf-table-selection-list .mat-mdc-row {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
 }
 
 .lf-name-col-container {
@@ -22,7 +22,8 @@
   color: var(--lf-body-text-color, #333333);
 }
 
-.node-selected.item-holder, .node-selected.item-holder:focus {
+.node-selected.item-holder,
+.node-selected.item-holder:focus {
   background-color: var(--lf-menu-item-selected-color, #eaf5ff);
 }
 

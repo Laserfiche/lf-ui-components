@@ -1,7 +1,19 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, ChangeDetectorRef, Input, ViewChild, OnDestroy, ComponentRef, AfterViewInit, EventEmitter, Output, NgZone, ElementRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectorRef,
+  Input,
+  ViewChild,
+  OnDestroy,
+  ComponentRef,
+  AfterViewInit,
+  EventEmitter,
+  Output,
+  inject,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { LfFieldAdhocContainerService as LfFieldAdhocContainerService } from './lf-field-adhoc-container.service';
 import { AdhocFieldConnectorService } from './lf-field-adhoc-connector.service';
 import { AdhocFieldInfo } from './lf-field-adhoc-container-types';
@@ -13,19 +25,27 @@ import { LfFieldComponent } from '../field-components/lf-field/lf-field.componen
 import { LfFieldMultivalueComponent } from '../field-components/lf-field-multivalue/lf-field-multivalue.component';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldContainerDirective } from '../lf-field-container.directive';
+import { LfFieldViewDirective } from '../lf-field-view.directive';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
   selector: 'lf-field-adhoc-container-component',
   templateUrl: './lf-field-adhoc-container.component.html',
   styleUrls: ['./lf-field-adhoc-container.component.css'],
-  providers: [AdhocFieldConnectorService]
+  providers: [AdhocFieldConnectorService],
+  standalone: true,
+  imports: [CommonModule, LfFieldViewDirective, LfFieldAddRemoveComponent],
 })
 export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective implements OnDestroy, AfterViewInit {
+  /**@internal */
+  private adhocFieldConnectorService = inject(AdhocFieldConnectorService);
+  /**@internal */
+  private ref = inject(ChangeDetectorRef);
+  /**@internal */
+  private localizationService = inject(AppLocalizationService);
+
   /** @internal */
   @ViewChild(LfFieldAddRemoveComponent) addRemoveComponent!: LfFieldAddRemoveComponent;
-  /** @internal */
-  @ViewChild('adhocPanel') adhocPanel?: ElementRef<HTMLElement>;
   @Output() dialogOpened = new EventEmitter<void>();
   @Output() dialogClosed = new EventEmitter<void>();
 
@@ -33,7 +53,9 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   readonly ADD_REMOVE_FIELDS = this.localizationService.getStringLaserficheObservable('ADD_REMOVE_FIELDS');
 
   /** @internal */
-  readonly NO_ADDITIONAL_FIELDS_ASSIGNED = this.localizationService.getStringLaserficheObservable('NO_ADDITIONAL_FIELDS_ASSIGNED');
+  readonly NO_ADDITIONAL_FIELDS_ASSIGNED = this.localizationService.getStringLaserficheObservable(
+    'NO_ADDITIONAL_FIELDS_ASSIGNED'
+  );
 
   /** @internal */
   showAdhocModal: boolean = false;
@@ -47,27 +69,18 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   private templateFieldsSub: Subscription | undefined;
 
   /** @internal */
-  constructor(
-    /** @internal */
-    private ref: ChangeDetectorRef,
-    /** @internal */
-    private adhocFieldConnectorService: AdhocFieldConnectorService,
-    /** @internal */
-    public metadataFieldConnectorService: LfFieldMetadataConnectorService,
-    /** @internal */
-    private zone: NgZone,
-    /** @internal */
-    private localizationService: AppLocalizationService
-  ) {
-    super(metadataFieldConnectorService);
+  constructor() {
+    super();
   }
 
   /** @internal */
   ngAfterViewInit() {
-    this.templateFieldsSub = this.metadataFieldConnectorService.getTemplateFields().subscribe(async (currentTemplateFields) => {
-      this.templateFields = currentTemplateFields;
-      await this.refreshFieldsAsync();
-    });
+    this.templateFieldsSub = this.metadataFieldConnectorService
+      .getTemplateFields()
+      .subscribe(async (currentTemplateFields) => {
+        this.templateFields = currentTemplateFields;
+        await this.refreshFieldsAsync();
+      });
   }
 
   /** @internal */
@@ -78,64 +91,61 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
 
   @Input()
   getFieldValues = (): { [fieldName: string]: FieldValue } => {
-    return this.zone.run(() => {
-      const fieldValues: { [fieldName: string]: FieldValue } = {};
-      this.componentRefs?.forEach((componentRef) => {
-        const fieldValue = componentRef.instance.getFieldValue();
-        const fieldName = fieldValue.fieldName ?? undefined;
-        if (fieldName !== undefined) {
-          fieldValues[fieldName] = fieldValue;
-        } else {
-          console.warn('FieldValue.fieldName is undefined, skipping.');
-        }
-      });
-      return fieldValues;
+    const fieldValues: { [fieldName: string]: FieldValue } = {};
+    this.componentRefs?.forEach((componentRef) => {
+      const fieldValue = componentRef.instance.getFieldValue();
+      const fieldName = fieldValue.fieldName ?? undefined;
+      if (fieldName !== undefined) {
+        fieldValues[fieldName] = fieldValue;
+      } else {
+        console.warn('FieldValue.fieldName is undefined, skipping.');
+      }
     });
+    return fieldValues;
   };
 
   @Input()
   clearAsync = async (): Promise<void> => {
-    await this.zone.run(async () => {
-      this.resetComponentValues();
-      this.metadataFieldConnectorService.clearAllFieldValues();
-      await this.resetFieldDataAsync([]);
-    });
+    this.resetComponentValues();
+    this.metadataFieldConnectorService.clearAllFieldValues();
+    await this.resetFieldDataAsync([]);
+    this.ref.markForCheck();
   };
 
   @Input()
   initAsync = async (adhocFieldContainerService: LfFieldAdhocContainerService): Promise<void> => {
-    this.zone.run(() => {
-      this.resetComponentValues();
-      this.adhocFieldContainerService = CoreUtils.validateDefined(adhocFieldContainerService, 'adhocFieldContainerService');
-    });
+    this.resetComponentValues();
+    this.adhocFieldContainerService = CoreUtils.validateDefined(
+      adhocFieldContainerService,
+      'adhocFieldContainerService'
+    );
+    this.ref.markForCheck();
   };
 
   @Input()
   resetFieldDataAsync = async (fields: { value: FieldValue; definition: LfFieldInfo }[]): Promise<void> => {
-    await this.zone.run(async () => {
-      this.loadSelectedFieldValues(fields);
-      await this.refreshFieldsAsync();
-      this.metadataFieldConnectorService.updatedAdhocFieldData();
-    });
+    this.loadSelectedFieldValues(fields);
+    await this.refreshFieldsAsync();
+    this.metadataFieldConnectorService.updatedAdhocFieldData();
+    this.ref.markForCheck();
   };
 
   @Input()
   updateFieldValuesAsync = async (values: FieldValue[]): Promise<void> => {
-    await this.zone.run(async () => {
-      values.forEach((field) => {
-        this.allFieldValues[field.fieldId] = field;
-      });
-
-      this.metadataFieldConnectorService.setAllFieldValues(this.allFieldValues);
-      await this.refreshFieldsAsync();
-      this.metadataFieldConnectorService.updatedAdhocFieldData();
+    values.forEach((field) => {
+      this.allFieldValues[field.fieldId] = field;
     });
+
+    this.metadataFieldConnectorService.setAllFieldValues(this.allFieldValues);
+    await this.refreshFieldsAsync();
+    this.metadataFieldConnectorService.updatedAdhocFieldData();
+    this.ref.markForCheck();
   };
 
   /** @internal */
   private resetComponentValues() {
     this.templateFields = [];
-    this.metadataConnectorService.setAllFieldValues({});
+    this.metadataFieldConnectorService.setAllFieldValues({});
     this.adhocFieldConnectorService.setSelectedFieldIds(new Set<number>());
   }
 
@@ -152,22 +162,29 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
         const multivalueComponentRef = vf.createComponent(LfFieldMultivalueComponent);
         this.componentRefs.push(multivalueComponentRef);
         await this.initializeMultivalueComponentAsync(multivalueComponentRef, fieldInfo, values);
-      }
-      else {
+      } else {
         const fieldComponentRef = vf.createComponent(LfFieldComponent);
         this.componentRefs.push(fieldComponentRef);
-        await this.initializeFieldComponentAsync(fieldComponentRef, fieldInfo, (values?.length > 0) ? values[0] : '');
+        await this.initializeFieldComponentAsync(fieldComponentRef, fieldInfo, values?.length > 0 ? values[0] : '');
       }
     }
   }
 
   /** @internal */
-  async fieldComponentInitAsync(fieldComponentRef: ComponentRef<LfFieldComponent>, fieldInfo: LfFieldInfo, value: string) {
+  async fieldComponentInitAsync(
+    fieldComponentRef: ComponentRef<LfFieldComponent>,
+    fieldInfo: LfFieldInfo,
+    value: string
+  ) {
     await fieldComponentRef.instance.initAsync(fieldInfo, value);
   }
 
   /** @internal */
-  async multivalueComponentInitAsync(multivalueFieldComponentRef: ComponentRef<LfFieldMultivalueComponent>, fieldInfo: LfFieldInfo, values: string[]) {
+  async multivalueComponentInitAsync(
+    multivalueFieldComponentRef: ComponentRef<LfFieldMultivalueComponent>,
+    fieldInfo: LfFieldInfo,
+    values: string[]
+  ) {
     await multivalueFieldComponentRef.instance.initAsync(fieldInfo, values);
   }
 
@@ -195,7 +212,6 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     return fieldsSet;
   }
 
-
   /** @internal */
   private getInitialSelectedOptions(fields: { value: FieldValue; definition: LfFieldInfo }[]): void {
     const mappedFields = fields ?? [];
@@ -206,8 +222,7 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
       if (field.value && field.definition) {
         fieldInfos.push(field.definition);
         fieldValues.push(field.value);
-      }
-      else {
+      } else {
         // skip field
       }
     });
@@ -226,8 +241,8 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   }
 
   /** @internal */
-  async addRemoveFieldsAsync(): Promise<void> {
-    this.toggleAdhocModal(true);
+  async addRemoveFieldsAsync(adhocPanel?: HTMLElement): Promise<void> {
+    this.toggleAdhocModal(true, adhocPanel);
     await this.addRemoveComponent.initAsync(this.adhocFieldContainerService);
     const fieldDefinitions = this.adhocFieldConnectorService.getAllFieldInfos();
     this.updateTemplateFields(fieldDefinitions);
@@ -241,14 +256,13 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   }
 
   /** @internal */
-  private toggleAdhocModal(open: boolean) {
+  private toggleAdhocModal(open: boolean, panel?: HTMLElement) {
     this.showAdhocModal = open;
-    this.metadataConnectorService.setAddRemoveContainerToggled(open);
+    this.metadataFieldConnectorService.setAddRemoveContainerToggled(open);
     if (open) {
       this.dialogOpened.emit();
-      setTimeout(() => this.adhocPanel?.nativeElement.focus());
-    }
-    else {
+      setTimeout(() => panel?.focus());
+    } else {
       this.dialogClosed.emit();
     }
   }
@@ -266,8 +280,8 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
   getSelectedFieldInfos(): LfFieldInfo[] {
     this.allFieldInfos = this.adhocFieldConnectorService.getAllFieldInfos();
     this.updateTemplateFields(this.allFieldInfos);
-    const fieldInfos: LfFieldInfo[] = this.allFieldInfos?.filter((fieldInfo) =>
-      (this.selectedFieldIds.has(fieldInfo.id) && !(fieldInfo as AdhocFieldInfo).inTemplateSelected)
+    const fieldInfos: LfFieldInfo[] = this.allFieldInfos?.filter(
+      (fieldInfo) => this.selectedFieldIds.has(fieldInfo.id) && !(fieldInfo as AdhocFieldInfo).inTemplateSelected
     );
     return fieldInfos ?? [];
   }
@@ -277,13 +291,11 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     fieldInfos?.forEach((fieldInfo) => {
       if (this.templateFields?.includes(fieldInfo.id)) {
         fieldInfo.inTemplateSelected = true;
-      }
-      else {
+      } else {
         fieldInfo.inTemplateSelected = false;
       }
     });
   }
-
 
   /** @internal */
   async onFieldValueChangedAsync(values: string[], fieldInfo: LfFieldInfo): Promise<void> {

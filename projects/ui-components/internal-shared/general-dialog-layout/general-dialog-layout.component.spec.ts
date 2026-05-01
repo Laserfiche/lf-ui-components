@@ -3,20 +3,22 @@
 
 import { Component, ViewChild, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GeneralDialogLayoutComponent } from './general-dialog-layout.component';
 
 @Component({
   selector: 'lf-dialog-layout-tester',
   template: `<lf-general-dialog-layout id="layout">
-      <div class="dialog-header">Header</div>
-      <div class="dialog-header">Header Two</div>
-      <div class="dialog-content">Content</div>
-      <div class="dialog-content">Content2</div>
-      <div class="dialog-content">Content3</div>
-      <div class="dialog-footer">Footer</div>
-    </lf-general-dialog-layout>`,
+    <div class="dialog-header">Header</div>
+    <div class="dialog-header">Header Two</div>
+    <div class="dialog-content">Content</div>
+    <div class="dialog-content">Content2</div>
+    <div class="dialog-content">Content3</div>
+    <div class="dialog-footer">Footer</div>
+  </lf-general-dialog-layout>`,
+  standalone: true,
+  imports: [GeneralDialogLayoutComponent],
 })
 export class DialogLayoutTesterComponent {
   @ViewChild('#layout', /* TODO: add static flag */ {}) layout?: GeneralDialogLayoutComponent;
@@ -26,12 +28,11 @@ describe('LfGeneralDialogLayoutComponent UI tests', () => {
   let component: DialogLayoutTesterComponent;
   let fixture: ComponentFixture<DialogLayoutTesterComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ GeneralDialogLayoutComponent, DialogLayoutTesterComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [DialogLayoutTesterComponent],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DialogLayoutTesterComponent);
@@ -56,12 +57,11 @@ describe('LfGeneralDialogLayoutComponent', () => {
   let component: GeneralDialogLayoutComponent;
   let fixture: ComponentFixture<GeneralDialogLayoutComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ GeneralDialogLayoutComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [GeneralDialogLayoutComponent],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GeneralDialogLayoutComponent);

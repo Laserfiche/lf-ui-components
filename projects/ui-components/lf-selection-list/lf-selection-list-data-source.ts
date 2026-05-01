@@ -22,8 +22,8 @@ export class GridSelectionListDataSource extends DataSource<any> {
   offset = 0;
   offsetChange = new BehaviorSubject(0);
 
-  extraData: number = this.pageSize / 2;
-  bufferToEnd: number = this.pageSize / 4;
+  extraData!: number;
+  bufferToEnd!: number;
 
   get allData(): ILfSelectable[] {
     return this._data.slice();
@@ -46,8 +46,15 @@ export class GridSelectionListDataSource extends DataSource<any> {
     this.offsetChange.next(0);
   }
 
-  constructor(initialData: ILfSelectable[], private viewport: CdkVirtualScrollViewport, private itemSize: number, public pageSize: number) {
+  constructor(
+    initialData: ILfSelectable[],
+    private viewport: CdkVirtualScrollViewport,
+    private itemSize: number,
+    public pageSize: number
+  ) {
     super();
+    this.extraData = this.pageSize / 2;
+    this.bufferToEnd = this.pageSize / 4;
     this._data = initialData;
     this.viewport.setTotalContentSize(this.itemSize * initialData.length);
     this.dataStart = 0;

@@ -1,7 +1,7 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateFieldComponent } from './date-field.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldInfo } from '../../../utils/lf-field-types';
@@ -15,7 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
-import { UniDateTimeComponent, LfUniDateTimeModule } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.module';
+import { UniDateTimeComponent } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.component';
 import { UniDateTimeService } from 'projects/ui-components/lf-metadata/lf-date-time-picker/uni-date-time.service';
 
 describe('DateFieldComponent', () => {
@@ -31,7 +31,7 @@ describe('DateFieldComponent', () => {
     description: 'requiredDateDescription',
     isRequired: true,
     fieldType: FieldType.Date,
-    displayName: 'requiredDateName'
+    displayName: 'requiredDateName',
   };
 
   const optionalDate: LfFieldInfo = {
@@ -40,16 +40,14 @@ describe('DateFieldComponent', () => {
     description: 'optionalDateDescription',
     isRequired: false,
     fieldType: FieldType.Date,
-    displayName: 'optionalDateName'
+    displayName: 'optionalDateName',
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        DateFieldComponent,
-        LfTokenPickerComponent
-      ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
+        DateFieldComponent,
+        LfTokenPickerComponent,
         BrowserAnimationsModule,
         CommonModule,
         FormsModule,
@@ -57,15 +55,11 @@ describe('DateFieldComponent', () => {
         MatInputModule,
         MatMenuModule,
         ReactiveFormsModule,
-        LfUniDateTimeModule
+        UniDateTimeComponent,
       ],
-      providers: [
-        LfFieldTokenService,
-        AppLocalizationService
-      ]
-    })
-      .compileComponents();
-  }));
+      providers: [LfFieldTokenService, AppLocalizationService],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     requiredDateFixture = TestBed.createComponent(DateFieldComponent);
@@ -103,7 +97,9 @@ describe('DateFieldComponent', () => {
     requiredDateComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -119,7 +115,9 @@ describe('DateFieldComponent', () => {
     optionalDateComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -142,7 +140,9 @@ describe('DateFieldComponent', () => {
     requiredDateComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === undefined,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toBeUndefined();
   });
@@ -153,19 +153,20 @@ describe('DateFieldComponent', () => {
     const expectedBrokenRule = ValidationRule.DATEPICKER_PARSE;
     const expectedDateFormat = 'MM/DD/YYYY';
 
-    const returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
+    const returnedDateTimeObject = { component: TestBed.createComponent(UniDateTimeComponent).componentInstance };
     returnedDateTimeObject.component.dateControl = new FormControl();
     returnedDateTimeObject.component.timeControl = new FormControl();
     returnedDateTimeObject.component.dateTimeControl = new FormControl();
     returnedDateTimeObject.component.settings = optionalDateComponent.uniDateTimeSettings;
-    returnedDateTimeObject.component.settings.dateFormat= expectedDateFormat,
-
-    returnedDateTimeObject.component.dateControl.setValue(invalidDateValue);
+    ((returnedDateTimeObject.component.settings.dateFormat = expectedDateFormat),
+      returnedDateTimeObject.component.dateControl.setValue(invalidDateValue));
     // act
     optionalDateComponent.onUniDateOrTimeChanged(returnedDateTimeObject);
 
     // assert
-    const expectedError = optionalDateComponent.localizationService.getString('DATE_FIELDS_MUST_BE_IN_FORMAT_0', ['MM/DD/YYYY']);
+    const expectedError = optionalDateComponent.localizationService.getString('DATE_FIELDS_MUST_BE_IN_FORMAT_0', [
+      'MM/DD/YYYY',
+    ]);
     expect(optionalDateComponent.getBrokenValidationRule()).toEqual(expectedBrokenRule);
     let value: string | undefined;
     optionalDateComponent.fieldValidationErrorMsg.subscribe((val) => {
@@ -175,7 +176,9 @@ describe('DateFieldComponent', () => {
     optionalDateComponent.lf_field_form_control.updateValueAndValidity();
     await CoreUtils.waitForConditionAsync(
       () => value === expectedError,
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual(expectedError);
   });
@@ -184,7 +187,7 @@ describe('DateFieldComponent', () => {
     // arrange
     const expectedDateValue = '2020-12-29T00:00:00';
 
-    const returnedDateTimeObject = { component: new UniDateTimeComponent(new UniDateTimeService()) };
+    const returnedDateTimeObject = { component: TestBed.createComponent(UniDateTimeComponent).componentInstance };
     returnedDateTimeObject.component.dateControl = new FormControl();
     returnedDateTimeObject.component.timeControl = new FormControl();
     returnedDateTimeObject.component.dateTimeControl = new FormControl();
@@ -209,7 +212,7 @@ describe('DateFieldComponent', () => {
     const containsToken = requiredDateComponent.containsToken;
 
     // assert
-    expect(containsToken).toBeTrue();
+    expect(containsToken).toBe(true);
   });
 
   it('should not detect token if token does not exist in token list', async () => {
@@ -223,7 +226,7 @@ describe('DateFieldComponent', () => {
     const containsToken = optionalDateComponent.containsToken;
 
     // assert
-    expect(containsToken).toBeFalse();
+    expect(containsToken).toBe(false);
   });
 
   it('should update locale when format error occurs', async () => {
@@ -244,7 +247,9 @@ describe('DateFieldComponent', () => {
     // assert
     await CoreUtils.waitForConditionAsync(
       () => value === 'DD/MM/YYYY',
-      () => { throw Error(`Timeout: value was ${value}`); }
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
     );
     expect(value).toEqual('DD/MM/YYYY');
   });

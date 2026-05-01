@@ -83,7 +83,6 @@ to create `./dist/lf-documentation`.
 1. Configure a web server to serve `./dist` (e.g. IIS on WIndows).
 
 2. Browse to `http://localhost/dist-folder/lf-documentation/index.html` to view the documentation (assuming that `dist-folder` is mapped to `./dist`).
-
    - Note that index.html loads the UI components using `<script src="./../lf-cdn/lf-ui-components.js" defer></script>`
 
 ## Things to verify before creating a Pull Request
@@ -98,7 +97,7 @@ This will launch a Chrome browser and run all projects.
 Press Ctrl+C in the console to run the next project.
 
 You can also run a specific project, for example: `npm run test ui-components`.
-For more details on how to run specific components or tests, visit the karma test documentation.
+For more details on how to run specific components or tests, visit the Vitest test documentation.
 
 ### Run lint
 

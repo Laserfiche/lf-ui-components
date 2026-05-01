@@ -12,26 +12,22 @@ describe('LfTokenPickerComponent', () => {
   let component: LfTokenPickerComponent;
   let fixture: ComponentFixture<LfTokenPickerComponent>;
   const data: LfFieldTokenData = {
-    fieldType: FieldType.Date
+    fieldType: FieldType.Date,
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LfTokenPickerComponent],
-      imports: [MatMenuModule],
-      providers: [
-        { provide: LfTokenService, useClass: LfFieldTokenService }]
-    })
-      .compileComponents();
+      imports: [LfTokenPickerComponent, MatMenuModule],
+      providers: [{ provide: LfTokenService, useClass: LfFieldTokenService }],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(LfTokenPickerComponent);
-      component = fixture.componentInstance;
-      component.data = data;
-      fixture.detectChanges();
+    fixture = TestBed.createComponent(LfTokenPickerComponent);
+    component = fixture.componentInstance;
+    component.data = data;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 });
-

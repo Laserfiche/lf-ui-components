@@ -1,4 +1,3 @@
-
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
 
@@ -6,15 +5,13 @@
 
   "bundledPackages": ["@laserfiche/lf-ui-components"],
 
-  "compiler": {
-  },
+  "compiler": {},
 
   "apiReport": {
     "enabled": false
   },
 
   "docModel": {
-
     "enabled": false
   },
 
@@ -27,15 +24,12 @@
   },
 
   "tsdocMetadata": {
-
     "enabled": false
   },
 
   "messages": {
     "compilerMessageReporting": {
-
       "default": {
-
         "logLevel": "warning",
 
         "addToApiReportFile": false

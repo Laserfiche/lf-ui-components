@@ -1,22 +1,27 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { ChangeDetectorRef, Component, EventEmitter, Output, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 
 /** @internal */
 @Component({
   selector: 'lf-feedback-image-upload',
   templateUrl: './feedback-image-upload.component.html',
   styleUrls: ['./feedback-image-upload.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
+  standalone: true,
+  imports: [CommonModule, LfLoaderComponent],
 })
 export class FeedbackImageUploadComponent {
+  private localizationService = inject(AppLocalizationService);
+  private ref = inject(ChangeDetectorRef);
+
   @Output() imageUploadError: EventEmitter<string> = new EventEmitter<string>();
   @Output() feedbackImageBase64: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
 
-  @ViewChild('uploadFile') inputFile?: ElementRef<HTMLInputElement>;
   showLoader: boolean = false;
-  imageUploaded?: {name: string; rawBase64: string};
+  imageUploaded?: { name: string; rawBase64: string };
   acceptedImageTypes: string = '.jpg,.jpeg,.png,.gif,.webp';
   private acceptedImageFormats: string = 'JPEG, PNG, GIF, WebP';
   private supportedImageTypeArray: string[] = this.acceptedImageTypes
@@ -25,17 +30,19 @@ export class FeedbackImageUploadComponent {
   private megabyteLimit = 3;
   private imageSizeLimitBytes: number = this.megabyteLimit * 1024 * 1024;
 
-  localizedStrings = {
-    OR: this.localizationService.getStringLaserficheObservable('OR'),
-    ATTACH_IMAGE: this.localizationService.getStringComponentsObservable('ATTACH_IMAGE'),
-    DRAG_DROP_FILE: this.localizationService.getStringLaserficheObservable('DRAG_DROP_FILE'),
-    REMOVE: this.localizationService.getStringLaserficheObservable('REMOVE'),
-    BROWSE: this.localizationService.getStringLaserficheObservable('BROWSE'),
-    OPTIONAL: this.localizationService.getStringLaserficheObservable('OPTIONAL'),
-    UNKNOWN_ERROR: this.localizationService.getStringLaserficheObservable('UNKNOWN_ERROR'),
-  };
+  localizedStrings: Record<string, string> = {};
 
-  constructor(private localizationService: AppLocalizationService) {}
+  constructor() {
+    const lfKeys = ['OR', 'DRAG_DROP_FILE', 'REMOVE', 'BROWSE', 'OPTIONAL', 'UNKNOWN_ERROR'];
+    for (const key of lfKeys) {
+      this.localizationService.getStringLaserficheObservable(key).subscribe((v) => {
+        this.localizedStrings[key] = v as string;
+      });
+    }
+    this.localizationService.getStringComponentsObservable('ATTACH_IMAGE').subscribe((v) => {
+      this.localizedStrings['ATTACH_IMAGE'] = v as string;
+    });
+  }
 
   async dropHandler(ev: DragEvent): Promise<void> {
     let file: File | undefined;
@@ -71,11 +78,13 @@ export class FeedbackImageUploadComponent {
   private async tryReadAndValidateImageAsync(image: File | undefined): Promise<boolean> {
     try {
       this.showLoader = true;
+      this.ref.detectChanges();
       await this.uploadImageOrThrow(image);
     } catch (error: any) {
       this.handleImageUploadError(error);
     } finally {
       this.showLoader = false;
+      this.ref.detectChanges();
       return !!this.imageUploaded;
     }
   }
@@ -85,19 +94,21 @@ export class FeedbackImageUploadComponent {
     const encodingData = await this.getBase64Async(image as File);
     this.feedbackImageBase64.emit(encodingData);
     this.imageUploaded = {
-      name: (<File>image).name, rawBase64: encodingData
+      name: (image as File).name,
+      rawBase64: encodingData,
     };
+    this.ref.detectChanges();
   }
 
   private checkImageForErrors(image: File | undefined): void {
     if (!image) {
-      throw new Error("image does not exist");
+      throw new Error('image does not exist');
     }
     const isImageSupported = this.supportedImageTypeArray.includes(image.type);
     if (!isImageSupported) {
       throw new ImageUploadError(ImageUploadErrorType.UnsupportedFormat);
     }
-    if (image.size > this.imageSizeLimitBytes){
+    if (image.size > this.imageSizeLimitBytes) {
       throw new ImageUploadError(ImageUploadErrorType.TooLarge);
     }
   }
@@ -109,15 +120,22 @@ export class FeedbackImageUploadComponent {
     );
     this.feedbackImageBase64.emit(undefined);
     this.imageUploaded = undefined;
+    this.ref.detectChanges();
   }
 
-  private getImageUploadErrorMessage(error: any): string{
+  private getImageUploadErrorMessage(error: any): string {
     if (error.name === ImageUploadError_name) {
       switch ((<ImageUploadError>error).imageUploadErrorType) {
         case ImageUploadErrorType.TooLarge:
-          return this.localizationService.getResourceStringComponents('IMAGE_EXCEEDS_MAX_FILE_SIZE_0', [`${this.megabyteLimit} MB`]);
+          return this.localizationService.getResourceStringComponents('IMAGE_EXCEEDS_MAX_FILE_SIZE_0', [
+            `${this.megabyteLimit} MB`,
+          ]);
         case ImageUploadErrorType.UnsupportedFormat:
-          return this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT') + ' ' + this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', [this.acceptedImageFormats,]);
+          return (
+            this.localizationService.getResourceStringComponents('IMAGE_CORRUPTED_UNRECOGNIZED_FORMAT') +
+            ' ' +
+            this.localizationService.getResourceStringComponents('ACCEPTED_FORMATS_ARE_0', [this.acceptedImageFormats])
+          );
         default:
           return error.message ?? this.localizedStrings.UNKNOWN_ERROR;
       }
@@ -126,12 +144,8 @@ export class FeedbackImageUploadComponent {
     }
   }
 
-  onInputClickArea(): void {
-    if (!this.inputFile) {
-      console.warn('Input Element unexpectedly does not exist.');
-      return;
-    }
-    this.inputFile.nativeElement.click();
+  onInputClickArea(fileInput: HTMLInputElement): void {
+    fileInput.click();
   }
 
   async onFileSelectedAsync(event: InputEvent): Promise<void> {
@@ -167,9 +181,12 @@ export class FeedbackImageUploadComponent {
     });
   }
 
-  removeImage(): void {
+  removeImage(fileInput?: HTMLInputElement): void {
     this.imageUploaded = undefined;
     this.feedbackImageBase64.emit(undefined);
+    if (fileInput) {
+      fileInput.value = '';
+    }
   }
 }
 
@@ -184,7 +201,10 @@ const ImageUploadError_name = 'ImageUploadError';
 /** @internal */
 class ImageUploadError extends Error {
   name = ImageUploadError_name;
-  constructor(public imageUploadErrorType: ImageUploadErrorType, message?: string) {
+  constructor(
+    public imageUploadErrorType: ImageUploadErrorType,
+    message?: string
+  ) {
     super(message ?? imageUploadErrorType.toString());
   }
 }

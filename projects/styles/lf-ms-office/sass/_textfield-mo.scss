@@ -10,14 +10,14 @@ $padding-stack: $padding-tb $padding-lr;
 $margin-stack: 0px 0px;
 $background-color: white;
 
-.lf-text-field{
+.lf-text-field {
   padding: $padding-stack;
   margin: $margin-stack;
   height: $height;
 
   font: typography-mo.$body-stack;
   color: typography-mo.$font-color;
-  line-height: $height - 2*$border-width;
+  line-height: $height - 2 * $border-width;
 
   border-radius: $border-radius;
   border-color: typography-mo.$hover-color;

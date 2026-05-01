@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -15,13 +15,17 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
+import { CommonModule } from '@angular/common';
+import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Subscription } from 'rxjs';
 import { GridSelectionListDataSource } from './lf-selection-list-data-source';
 import { ColumnDef, ColumnOrderBy, SelectedItemEvent } from './lf-selection-list-types';
-import { COLUMN_MIN_WIDTH } from './resize-column.directive';
+import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directive';
 
 /** @internal */
 export interface RepositoryBrowserData {
@@ -43,8 +47,15 @@ const SELECT_COL: ColumnDef = {
   templateUrl: './lf-selection-list.component.html',
   styleUrls: ['./lf-selection-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, ScrollingModule, MatCheckboxModule, MatTableModule, MatSortModule, ResizeColumnDirective],
 })
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
+  /**@internal */
+  private focusMonitor = inject(FocusMonitor);
+  /**@internal */
+  private ref = inject(ChangeDetectorRef);
+
   @Output() scrollChanged = new EventEmitter<undefined>();
   @Output() itemDoubleClicked = new EventEmitter<ItemWithId>();
   @Output() itemSelected = new EventEmitter<SelectedItemEvent>();
@@ -181,20 +192,13 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   currentFocusIndex: number = 0;
 
   /** @internal */
-  constructor(
-    /** @internal */
-    private focusMonitor: FocusMonitor,
-    private ref: ChangeDetectorRef
-  ) {}
-
-  /** @internal */
   ngAfterViewInit(): void {
     this.dataSource = new GridSelectionListDataSource(this.items, this.viewport!, this.itemSize, this._pageSize);
     const dataSourceSub = this.dataSource.checkForData.subscribe(() => {
       this.scrollChanged.emit();
     });
     const dataOffsetSub = this.dataSource.offsetChange.subscribe((offset) => {
-      this.placeholderHeight = offset;
+      this.viewport?.setRenderedContentOffset(offset);
     });
     this.allSubscriptions?.add(dataSourceSub);
     this.allSubscriptions?.add(dataOffsetSub);
@@ -225,7 +229,6 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   placeholderWhen(index: number, _: any) {
     return index === 0;
   }
-
 
   focus() {
     this._focus();
@@ -442,7 +445,9 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     maxFetchIterations: number
   ): Promise<ILfSelectable[]> {
     this.selectable.callback = checkForMoreDataCallback;
-    const idsToSelectable: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(nodesToSelect?.map(v => [v.value.id, v]));
+    const idsToSelectable: Map<string, ILfSelectable> = new Map<string, ILfSelectable>(
+      nodesToSelect?.map((v) => [v.value.id, v])
+    );
     await this.selectable.setSelectedNodesAsync(idsToSelectable, this.items, maxFetchIterations);
     this.ref.detectChanges();
     return this.selectable.selectedItems;

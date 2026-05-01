@@ -1,29 +1,49 @@
 // Copyright Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-drop';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  inject,
 } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
-import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
+import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldDefinition } from '../utils/lf-field-internal-types';
 import { FieldValue, TemplateFieldInfo } from '../utils/lf-field-types';
 import { isDynamicField } from '../utils/metadata-utils';
+import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
+import { LfFieldGroupIndexDisplayPipe } from './lf-field-group-index-display.pipe';
 
 @Component({
   selector: 'lf-field-group-component',
   templateUrl: './lf-field-group.component.html',
   styleUrls: ['./lf-field-group.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DragDropModule,
+    LfLoaderComponent,
+    LfFieldBaseComponent,
+    LfFieldGroupIndexDisplayPipe,
+  ],
 })
 export class LfFieldGroupComponent {
+  /**@internal */
+  private fb = inject(FormBuilder);
+  /**@internal */
+  private ref = inject(ChangeDetectorRef);
+  /**@internal */
+  localizationService = inject(AppLocalizationService);
+
   /** @internal */
   fieldDefinitions: FieldDefinition[] = [];
   /** @internal */
@@ -44,14 +64,7 @@ export class LfFieldGroupComponent {
   readonly res_0_of_1 = this.localizationService.getStringLaserficheObservable('0_OF_1', ['{0}', '{1}']);
 
   /** @internal */
-  constructor(
-    /** @internal */
-    private fb: FormBuilder,
-    /** @internal */
-    private cdr: ChangeDetectorRef,
-    /** @internal */
-    public localizationService: AppLocalizationService
-  ) {
+  constructor() {
     this.fieldGroups = this.fb.array([]);
   }
 
@@ -71,7 +84,7 @@ export class LfFieldGroupComponent {
     this.groupId = fieldDefinitions[0]?.fieldInfo?.groupId ?? 0;
     this.dynamicFieldOptions = dynamicFieldOptions;
     this.setFieldGroups(fieldDefinitions);
-    this.cdr.detectChanges();
+    this.ref.detectChanges();
   };
 
   /** @internal */
@@ -115,7 +128,7 @@ export class LfFieldGroupComponent {
   @Input()
   showLoader(index: number) {
     this.showLoaderIndex = index;
-    this.cdr.detectChanges();
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -139,6 +152,7 @@ export class LfFieldGroupComponent {
       });
       this.fieldGroups.push(formGroup);
     }
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -157,6 +171,7 @@ export class LfFieldGroupComponent {
     this.updateFieldValues(fieldInfo, initialValue, fieldNumber);
     const formControl = new FormControl(initialValue ?? '');
     formGroup.addControl(fieldInfo.id.toString(), formControl);
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -175,6 +190,7 @@ export class LfFieldGroupComponent {
       };
       this.fieldValues.set(fieldInfo.id, newConfig);
     }
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -186,6 +202,7 @@ export class LfFieldGroupComponent {
     if (fieldValue) {
       this.fieldValuesChanged.emit({ fieldValue, indicesChanged: [indexChanged] });
     }
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -230,6 +247,7 @@ export class LfFieldGroupComponent {
         this.fieldValuesChanged.emit({ fieldValue, indicesChanged });
       }
     });
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -252,6 +270,7 @@ export class LfFieldGroupComponent {
         this.fieldValuesChanged.emit({ fieldValue, indicesChanged });
       }
     });
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -259,6 +278,7 @@ export class LfFieldGroupComponent {
     fieldValue?.values?.forEach((value, currIndex) => {
       value['position'] = (currIndex + 1).toString();
     });
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -289,7 +309,7 @@ export class LfFieldGroupComponent {
       }
     });
     this.fieldGroups.insert(currentIndex + 1, formGroup);
-    this.cdr.detectChanges();
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -307,6 +327,7 @@ export class LfFieldGroupComponent {
         this.fieldValuesChanged.emit({ fieldValue, indicesChanged: [currentIndex, currentIndex - 1] });
       }
     });
+    this.ref.detectChanges();
   }
 
   /** @internal */
@@ -324,5 +345,6 @@ export class LfFieldGroupComponent {
         this.fieldValuesChanged.emit({ fieldValue, indicesChanged: [currentIndex, currentIndex + 1] });
       }
     });
+    this.ref.detectChanges();
   }
 }

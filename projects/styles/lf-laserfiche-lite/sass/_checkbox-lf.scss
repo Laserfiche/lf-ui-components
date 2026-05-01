@@ -1,8 +1,8 @@
 @use "typography-lf";
 
-$checked-color: #6D6D6D;
-$disabled-color: #6D6D6D;
-$border-color: #6D6D6D;
+$checked-color: #6d6d6d;
+$disabled-color: #6d6d6d;
+$border-color: #6d6d6d;
 $focus-border-color: #000000;
 $checkbox-size: 18px;
 
@@ -12,7 +12,6 @@ $ripple-size: 0px;
 
 mat-checkbox {
   &.lf-checkbox {
-
     &.cdk-focused .mdc-checkbox__background {
       border-width: $hover-border-width;
     }
@@ -26,14 +25,15 @@ mat-checkbox {
     & .mdc-checkbox:hover .mdc-checkbox__background {
       border-width: $hover-border-width;
     }
-    
-    & .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background, .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
+
+    & .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
+    .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background {
       border-color: $border-color !important;
       background-color: $checked-color !important;
     }
 
     & .mdc-checkbox__native-control:focus ~ .mdc-checkbox__background,
-      .mdc-checkbox__native-control:checked:focus ~ .mdc-checkbox__background {
+    .mdc-checkbox__native-control:checked:focus ~ .mdc-checkbox__background {
       border-width: $hover-border-width;
       border-color: $focus-border-color !important;
     }
@@ -47,24 +47,25 @@ mat-checkbox {
     }
 
     &.mat-mdc-checkbox-disabled {
-      &.mat-mdc-checkbox-checked .mdc-checkbox__background{
+      &.mat-mdc-checkbox-checked .mdc-checkbox__background {
         background-color: $disabled-color;
         opacity: 0.33;
       }
     }
 
-    .mat-mdc-checkbox-ripple.mat-ripple, .mdc-checkbox__ripple {
+    .mat-mdc-checkbox-ripple.mat-ripple,
+    .mdc-checkbox__ripple {
       width: $ripple-size;
       height: $ripple-size;
     }
 
     &.mat-mdc-checkbox {
       .mdc-label {
-      font: typography-lf.$body-stack;
+        font: typography-lf.$body-stack;
       }
     }
 
-    input[type=checkbox] {
+    input[type="checkbox"] {
       opacity: 0;
     }
   }

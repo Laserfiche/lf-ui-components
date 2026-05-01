@@ -7,6 +7,8 @@ import { ExampleUsageBasicStepsDirective } from '../example-usage-basic-steps.di
 @Component({
   selector: 'app-example-npm-usage-in-angular',
   templateUrl: './example-npm-usage-in-angular.component.html',
-  styleUrls: ['./example-npm-usage-in-angular.component.css', '../app.component.css']
+  styleUrls: ['./example-npm-usage-in-angular.component.css', '../app.component.css'],
+  standalone: true,
+  imports: [],
 })
-export class ExampleNpmUsageInAngularComponent extends ExampleUsageBasicStepsDirective { }
+export class ExampleNpmUsageInAngularComponent extends ExampleUsageBasicStepsDirective {}
