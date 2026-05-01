@@ -21,12 +21,9 @@ We welcome contributions and feedback. Please follow our [contributing guideline
 
 ## Development Setup
 
-### Prerequisites
-
-See .github/workflows/main.yml for Node and NPM version used.
-
 ### Build ui-components CDN script
 
+1. Use node 24 see [main.yml](.github/workflows/main.yml)
 1. Cd to repo's root folder.
 1. `npm install ./projects/ui-components`
 1. Build ui-components using: `npm run build-ui-components-prod`
