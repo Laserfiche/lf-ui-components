@@ -12,7 +12,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     #matTable
     role="grid"
     mat-table
-    [dataSource]="dataSource"
+    [dataSource]="dataSource!"
     class="lf-table-selection-list"
     matSort
     (matSortChange)="sortData($event)"
@@ -24,7 +24,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
               <div
                 class="lf-resize-wrapper-div"
-                [lfResizeColumn]="column.resizable"
+                [lfResizeColumn]="column.resizable ?? false"
                 [columnDef]="column"
                 (widthChanged)="onColumnWidthChanges($event, i)"
               >
@@ -69,7 +69,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
               <div
                 class="lf-resize-wrapper-div"
-                [lfResizeColumn]="column.resizable"
+                [lfResizeColumn]="column.resizable ?? false"
                 [columnDef]="column"
                 (widthChanged)="onColumnWidthChanges($event, i)"
               >

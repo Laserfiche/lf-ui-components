@@ -2,48 +2,29 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 @if (!isDynamic) {
-  <span class="token-picker-field-box">
-    @if (!containsToken) {
-      <mat-form-field title="{{ lf_field_info.displayName }}" appearance="outline" class="lf-field">
-        <input
-          #tokenTarget
-          mask="{{ mask }}"
-          thousandSeparator="{{ thousandSeparator }}"
-          decimalMarker="{{ decimalMarker }}"
-          prefix="{{ prefix }}"
-          suffix="{{ suffix }}"
-          [allowNegativeNumbers]="true"
-          separatorLimit="{{ separatorLimit }}"
-          matInput
-          type="text"
-          [formControl]="lf_field_form_control"
-          title="{{ lf_field_form_control.value }}"
-          (keypress)="numberOnly($event)"
-          (change)="onValueChanged()"
-          (focus)="onFocusIn()"
-          (focusout)="onFocusOut()"
-          (input)="onEveryInputChange()"
-        />
-        @if (focusState && this.lf_field_info?.length) {
-          <mat-hint align="end">
-            {{ noTokenCharacterCountHint | async }}
-          </mat-hint>
-        }
-        @if (getBrokenValidationRule()) {
-          <mat-error>{{ fieldValidationErrorMsg | async }}</mat-error>
-        }
-      </mat-form-field>
+<span class="token-picker-field-box">
+  @if (!containsToken) {
+  <mat-form-field title="{{ lf_field_info.displayName }}" appearance="outline" class="lf-field">
+    <input #tokenTarget mask="{{ mask }}" thousandSeparator="{{ thousandSeparator }}"
+      [decimalMarker]="decimalMarker ?? '.'" prefix="{{ prefix }}" suffix="{{ suffix }}" [allowNegativeNumbers]="true"
+      separatorLimit="{{ separatorLimit }}" matInput type="text" [formControl]="lf_field_form_control"
+      title="{{ lf_field_form_control.value }}" (keypress)="numberOnly($event)" (change)="onValueChanged()"
+      (focus)="onFocusIn()" (focusout)="onFocusOut()" (input)="onEveryInputChange()" />
+    @if (focusState && this.lf_field_info.length) {
+    <mat-hint align="end">
+      {{ noTokenCharacterCountHint | async }}
+    </mat-hint>
     }
-  </span>
+    @if (getBrokenValidationRule()) {
+    <mat-error>{{ fieldValidationErrorMsg | async }}</mat-error>
+    }
+  </mat-form-field>
+  }
+</span>
 } @else {
-  <lf-dynamic-field-component
-    ngDefaultControl
-    [options]="dynamic_field_value_options"
-    [formControl]="lf_field_form_control"
-    [title]="lf_field_info.displayName"
-    [fieldValidationErrorMsg]="fieldValidationErrorMsg"
-    [getBrokenValidationRule]="getBrokenValidationRule.bind(this)"
-    (valueChange)="onValueChanged()"
-  >
-  </lf-dynamic-field-component>
+<lf-dynamic-field-component ngDefaultControl [options]="dynamic_field_value_options"
+  [formControl]="lf_field_form_control" [title]="lf_field_info.displayName"
+  [fieldValidationErrorMsg]="fieldValidationErrorMsg" [getBrokenValidationRule]="getBrokenValidationRule.bind(this)"
+  (valueChange)="onValueChanged()">
+</lf-dynamic-field-component>
 }

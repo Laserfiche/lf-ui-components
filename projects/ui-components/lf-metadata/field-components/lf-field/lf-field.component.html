@@ -2,27 +2,22 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 @if (showField) {
-  <span class="lf-field-container" id="lf-field-container">
-    @if (lfFieldInfo?.name) {
-      <span class="lf-field-title-container">
-        <span class="lf-field-title" title="{{ lfFieldInfo?.displayName }}">{{ lfFieldInfo?.displayName }}</span>
-        @if (lfFieldInfo?.isRequired) {
-          <span class="lf-field-is-required">*</span>
-        }
-        @if (isLoading) {
-          <lf-loader-component></lf-loader-component>
-        }
-      </span>
+<span class="lf-field-container" id="lf-field-container">
+  @if (lfFieldInfo.name) {
+  <span class="lf-field-title-container">
+    <span class="lf-field-title" title="{{ lfFieldInfo.displayName }}">{{ lfFieldInfo.displayName }}</span>
+    @if (lfFieldInfo.isRequired) {
+    <span class="lf-field-is-required">*</span>
     }
-    <form class="lf-field-form" [formGroup]="singleFieldParentForm">
-      <lf-field-base-component
-        [parentForm]="singleFieldParentForm"
-        [lfFieldFormControl]="getSingleField()"
-        [dynamicFieldValueOptions]="getOptions()"
-        [lfFieldInfo]="lfFieldInfo"
-        [lfFieldValue]="lfFieldValue"
-        (fieldValueChange)="fieldDataChange($event)"
-      ></lf-field-base-component>
-    </form>
+    @if (isLoading) {
+    <lf-loader-component></lf-loader-component>
+    }
   </span>
+  }
+  <form class="lf-field-form" [formGroup]="singleFieldParentForm">
+    <lf-field-base-component [parentForm]="singleFieldParentForm" [lfFieldFormControl]="getSingleField()"
+      [dynamicFieldValueOptions]="getOptions()" [lfFieldInfo]="lfFieldInfo" [lfFieldValue]="lfFieldValue"
+      (fieldValueChange)="fieldDataChange($event)"></lf-field-base-component>
+  </form>
+</span>
 }

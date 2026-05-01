@@ -5,8 +5,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   @if (settings.showLabel && settings.label) {
     <div class="lib-datetime-label">{{ settings.label }}</div>
   }
-  <div [formGroup]="abstractControl" class="fl-datetime-inputs" [style]="this.getCombinedStyles(this.settings)">
-    <input type="text" #dateTimeInput [formControlName]="dateTimeControlName" hidden />
+  <div [formGroup]="$any(abstractControl)" class="fl-datetime-inputs" [style]="this.getCombinedStyles(this.settings)">
+    <input type="text" #dateTimeInput [formControlName]="dateTimeControlName ?? ''" hidden />
     <br />
     @if (settings.capturedInBackend) {
       <span>
@@ -41,8 +41,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 [readonly]="state.readonly || state.disabled"
                 (blur)="onBlurWithKey('date')"
                 [hidden]="settings.useCurrentDate && config.isDisplayOnly"
-                [placeholder]="settings.datePlaceholder"
-                [formControlName]="dateControlName"
+                [placeholder]="settings.datePlaceholder ?? ''"
+                [formControlName]="dateControlName ?? ''"
                 [ngClass]="{
                   'ng-wrapper-invalid': dateTimeControl?.invalid,
                   'ng-wrapper-touched': dateTimeControl?.touched,
@@ -101,8 +101,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 [hidden]="settings.useCurrentDate && config.isDisplayOnly"
                 [readonly]="state.readonly || state.disabled"
                 (blur)="onBlurWithKey('time')"
-                [placeholder]="settings.timePlaceholder"
-                [formControlName]="timeControlName"
+                [placeholder]="settings.timePlaceholder ?? ''"
+                [formControlName]="timeControlName ?? ''"
                 [ngClass]="{
                   'ng-wrapper-invalid': dateTimeControl?.invalid,
                   'ng-wrapper-touched': dateTimeControl?.touched,

@@ -2,49 +2,38 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <div class="lf-repository-browser-header">
-  <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbClicked)="onBreadcrumbClicked($event)">
+  <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbClicked)="onBreadcrumbClicked($any($event))">
   </lf-breadcrumbs-component>
   <ng-content select="[lf-toolbar]"></ng-content>
 </div>
-<div
-  class="lf-repo-entry-container"
-  [attr.tabindex]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage ? 0 : -1"
->
+<div class="lf-repo-entry-container"
+  [attr.tabindex]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage ? 0 : -1">
   @if (isLoading) {
-    <lf-loader-component class="lf-text-body lf-no-user-select"></lf-loader-component>
+  <lf-loader-component class="lf-text-body lf-no-user-select"></lf-loader-component>
   }
   @if (!isLoading && (shouldShowErrorMessage || shouldShowEmptyMessage)) {
-    <div id="message-display">
-      @if (shouldShowErrorMessage) {
-        <div class="lf-text-body lf-text-error lf-no-user-select">{{ AN_ERROR_OCCURED | async }}</div>
-      }
-      @if (shouldShowEmptyMessage) {
-        <div class="lf-text-body lf-no-user-select">{{ THIS_FOLDER_IS_EMPTY | async }}</div>
-      }
-    </div>
+  <div id="message-display">
+    @if (shouldShowErrorMessage) {
+    <div class="lf-text-body lf-text-error lf-no-user-select">{{ AN_ERROR_OCCURED | async }}</div>
+    }
+    @if (shouldShowEmptyMessage) {
+    <div class="lf-text-body lf-no-user-select">{{ THIS_FOLDER_IS_EMPTY | async }}</div>
+    }
+  </div>
   }
 
-  <lf-selection-list-component
-    [hidden]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage"
-    [uniqueIdentifier]="repoBrowserUniqueId"
-    [listItems]="currentFolderChildren"
-    [multipleSelection]="multiple"
-    [itemSize]="item_size"
-    [pageSize]="page_size"
-    (scrollChanged)="onScroll()"
-    [listItemRef]="listOption"
-    (itemDoubleClicked)="onDblClickAsync($event)"
-    (itemSelected)="onItemSelected($event)"
-    (itemFocused)="onEntryFocused($event)"
-    (refreshData)="refreshAsync(false)"
-  >
+  <lf-selection-list-component [hidden]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage"
+    [uniqueIdentifier]="repoBrowserUniqueId" [listItems]="currentFolderChildren" [multipleSelection]="multiple"
+    [itemSize]="item_size" [pageSize]="page_size" (scrollChanged)="onScroll()" [listItemRef]="listOption"
+    (itemDoubleClicked)="onDblClickAsync($any($event))" (itemSelected)="onItemSelected($event)"
+    (itemFocused)="onEntryFocused($event)" (refreshData)="refreshAsync(false)">
     <ng-template #listOption let-item="value">
       @if (getIcons(item).length > 0) {
-        <div class="fixed-size-icon-container lf-no-user-select">
-          @for (icon of getIcons(item); track icon) {
-            <img src="{{ icon }}" alt="" class="lf-entry-icon" />
-          }
-        </div>
+      <div class="fixed-size-icon-container lf-no-user-select">
+        @for (icon of getIcons(item); track icon) {
+        <img src="{{ icon }}" alt="" class="lf-entry-icon" />
+        }
+      </div>
       }
       <div title="{{ item?.name }}" class="lf-ellipsis-label lf-no-user-select">{{ item?.name }}</div>
     </ng-template>

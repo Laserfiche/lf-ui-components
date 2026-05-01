@@ -230,7 +230,7 @@ export class LfFieldGroupComponent {
   }
 
   /** @internal */
-  onDragAndDrop(event: CdkDragDrop<string[]>) {
+  onDragAndDrop(event: CdkDragDrop<AbstractControl[]>) {
     const first: number = Math.min(event.previousIndex, event.currentIndex);
     const last: number = Math.max(event.previousIndex, event.currentIndex);
     const indicesChanged: number[] = [];

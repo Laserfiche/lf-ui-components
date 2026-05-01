@@ -27,7 +27,6 @@
     },
     "sourceMap": true,
     "declaration": true,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
@@ -36,8 +35,13 @@
     "useDefineForClassFields": false,
     "types": [
       "vitest/globals"
-    ],
-    "strictTemplates": true
+    ]
+  },
+  "angularCompilerOptions": {
+    "strictStandalone": true,
+    "strictTemplates": true,
+    "strictInjectionParameters": true,
+    "enableI18nLegacyMessageIdFormat": false
   },
   "exclude": [
     "index.d.ts",
