@@ -24,12 +24,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       [lfFieldValue]="lfFieldValue" [dynamicFieldValueOptions]="getOptions()"
       (fieldValueChange)="onChange($event, currentIndex)">
     </lf-field-base-component>
-    @if (!isLast && (lfFieldValues.length ?? 0) > 1) {
+    @if (!isLast && lfFieldValues.length > 1) {
     <button class="lf-multivalue-remove-button" (click)="removeField(currentIndex)">
       <span class="material-icons" id="lf-multivalue-remove-icon"> close </span>
     </button>
     }
-    @if (isLast && (lfFieldValues.length ?? 0) > 1) {
+    @if (isLast && lfFieldValues.length > 1) {
     <span class="lf-multivalue-remove-span"></span>
     }
   </span>
