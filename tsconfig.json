@@ -12,10 +12,7 @@
     "resolveJsonModule": true,
     "preserveConstEnums": true,
     "paths": {
-      "@laserfiche/lf-ui-components/shared": [
-        "dist/ui-components/shared",
-        "projects/ui-components/shared"
-      ],
+      "@laserfiche/lf-ui-components/shared": ["dist/ui-components/shared", "projects/ui-components/shared"],
       "@laserfiche/lf-ui-components/internal-shared": [
         "dist/ui-components/internal-shared",
         "projects/ui-components/internal-shared"
@@ -33,9 +30,7 @@
     "target": "ES2022",
     "module": "es2020",
     "useDefineForClassFields": false,
-    "types": [
-      "vitest/globals"
-    ]
+    "types": ["vitest/globals"]
   },
   "angularCompilerOptions": {
     "strictStandalone": true,
@@ -43,8 +38,5 @@
     "strictInjectionParameters": true,
     "enableI18nLegacyMessageIdFormat": false
   },
-  "exclude": [
-    "index.d.ts",
-    "dist/*"
-  ]
+  "exclude": ["index.d.ts", "dist/*"]
 }

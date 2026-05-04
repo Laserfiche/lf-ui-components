@@ -3,10 +3,7 @@
   "powerHeader.autoInsert.enable": true,
   "powerHeader.autoInsert.allow": "all",
   "powerHeader.template": "Copyright <author>.\\nLicensed under the <licenseType> License. See LICENSE in the project root for license information.",
-  "powerHeader.variables": [
-    "<author>='Laserfiche'",
-    "<licenseType>='MIT'"
-  ],
+  "powerHeader.variables": ["<author>='Laserfiche'", "<licenseType>='MIT'"],
   "[html]": {
     "powerHeader.commentMode": "block"
   },
@@ -16,10 +13,5 @@
   "[markdown]": {
     "powerHeader.commentMode": "block"
   },
-  "powerHeader.autoInsert.languages": [
-    "plaintext",
-    "Log",
-    "json"
-  ],
-  "editor.formatOnSave": true
+  "powerHeader.autoInsert.languages": ["plaintext", "Log", "json"]
 }
