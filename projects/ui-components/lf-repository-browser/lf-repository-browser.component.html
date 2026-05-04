@@ -2,7 +2,7 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <div class="lf-repository-browser-header">
-  <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbClicked)="onBreadcrumbClicked($any($event))">
+  <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbClicked)="onBreadcrumbClicked($event)">
   </lf-breadcrumbs-component>
   <ng-content select="[lf-toolbar]"></ng-content>
 </div>
@@ -33,7 +33,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     [pageSize]="page_size"
     (scrollChanged)="onScroll()"
     [listItemRef]="listOption"
-    (itemDoubleClicked)="onDblClickAsync($any($event))"
+    (itemDoubleClicked)="onDblClickAsync($event)"
     (itemSelected)="onItemSelected($event)"
     (itemFocused)="onEntryFocused($event)"
     (refreshData)="refreshAsync(false)"

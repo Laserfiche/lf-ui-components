@@ -16,7 +16,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
+import { ILfSelectable, ItemWithId, LfBreadcrumb } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
@@ -426,13 +426,13 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * @param event
    * @returns
    */
-  async onBreadcrumbClicked(event: { breadcrumbs: LfTreeNode[]; selected: LfTreeNode }) {
+  async onBreadcrumbClicked(event: { breadcrumbs: LfBreadcrumb[]; selected: LfBreadcrumb }) {
     if (!event.breadcrumbs || !event.selected) {
       console.error('onBreadcrumbClicked event is required to have a breadcrumbs as well as a selected entry');
       return;
     }
-    this._breadcrumbs = event.breadcrumbs;
-    this._currentFolder = event.selected;
+    this._breadcrumbs = event.breadcrumbs as LfTreeNode[];
+    this._currentFolder = event.selected as LfTreeNode;
     await this.updateAllPossibleEntriesAsync(this._currentFolder);
     this.entryDblClicked.emit([this._currentFolder]);
     setTimeout(() => this.entryList?.focus());
@@ -453,9 +453,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * @param entry
    * @returns
    */
-  async onDblClickAsync(treeNode: LfTreeNode | undefined) {
-    await this.openChildFolderAsync(treeNode as LfTreeNode);
-    this.entryDblClicked.emit([treeNode as LfTreeNode]);
+  async onDblClickAsync(treeNode: ItemWithId | undefined) {
+    const entry = treeNode as LfTreeNode | undefined;
+    if (!entry) {
+      return;
+    }
+
+    await this.openChildFolderAsync(entry);
+    this.entryDblClicked.emit([entry]);
   }
 
   /**
