@@ -23,7 +23,8 @@ We welcome contributions and feedback. Please follow our [contributing guideline
 
 ### Build ui-components CDN script
 
-1. Use node 24 see [main.yml](.github/workflows/main.yml)
+1. Execute [build-test-locally.ps1](./build-test-locally.ps1) to build and test this project.
+   - See [main.yml](.github/workflows/main.yml) workflow for production build steps.
 1. Cd to repo's root folder.
 1. `npm install ./projects/ui-components`
 1. Build ui-components using: `npm run build-ui-components-prod`

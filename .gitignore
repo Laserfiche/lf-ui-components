@@ -49,5 +49,6 @@ testem.log
 Thumbs.db
 **/TESTS-**.xml
 **.tgz
-test-results.xml
-test-output.txt
+**/test-**.xml
+**/test-**.txt
+
