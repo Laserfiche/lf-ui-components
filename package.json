@@ -20,6 +20,7 @@
     "build-ui-components-dev-watch": "ng build ui-components --configuration development --watch",
     "test": "vitest --browser.enabled --run",
     "test:ci": "vitest --browser.enabled --run",
+    "prepare": "playwright install chromium || true",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "ng lint",
