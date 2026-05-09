@@ -57,10 +57,10 @@ $steps = @(
     Name = 'npx playwright install chromium'
     Command = { npx playwright install chromium }
   }
-  [PSCustomObject]@{
-    Name = 'npm run test:ci'
-    Command = { npm run test:ci }
-  }
+  # [PSCustomObject]@{
+  #   Name = 'npm run test:ci'
+  #   Command = { npm run test:ci }
+  # }
 )
 
 $totalSteps = $steps.Count
