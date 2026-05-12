@@ -37,7 +37,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "24"
-      
+
       - name: npm ci
         run: npm ci
 
@@ -71,6 +71,17 @@ jobs:
       - name: npm run test:ci
         shell: pwsh
         run: npm run test:ci
+
+      - name: Verify test results file exists
+        shell: pwsh
+        run: |
+          if (Test-Path ./test-results.xml) {
+            Write-Host "test-results.xml found"
+            Get-Item ./test-results.xml | Select-Object FullName, Length
+          } else {
+            Write-Host "test-results.xml NOT found"
+          }
+        continue-on-error: true
 
       - name: Test Report
         uses: dorny/test-reporter@v2
@@ -153,9 +164,6 @@ jobs:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Update npm
-        run: npm install -g npm@latest
-
       - name: set NpmPackageVersion environment
         run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
 
@@ -207,9 +215,6 @@ jobs:
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
-
-      - name: Update npm
-        run: npm install -g npm@latest
 
       - name: "copy license"
         run: |
