@@ -37,41 +37,38 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "24"
-
-      - name: Update npm
-        run: npm install -g npm@latest
-
+      
       - name: npm ci
         run: npm ci
 
-      - name: Npm run format:check
+      - name: npm run format:check
         run: npm run format:check
 
-      - name: Npm run lint
+      - name: npm run lint
         run: npm run lint
 
-      - name: Npm run build-ui-components
+      - name: npm run build-ui-components-prod
         run: npm run build-ui-components-prod
 
-      - name: Npm run create types ui components
+      - name: npm run create-types-lf-ui-components
         run: npm run create-types-lf-ui-components
 
-      - name: Npm run create-lf-cdn
+      - name: npm run create-lf-cdn
         run: npm run create-lf-cdn
 
-      - name: Npm run build-lf-documentation-prod
+      - name: npm run build-lf-documentation-prod
         run: npm run build-lf-documentation-prod
 
-      - name: Npm run sass-lf
+      - name: npm run sass-lf
         run: npm run sass-lf
 
-      - name: Npm run sass-ms
+      - name: npm run sass-ms
         run: npm run sass-ms
 
       - name: Install Playwright browser
         run: npx playwright install chromium
 
-      - name: Npm run test
+      - name: npm run test:ci
         shell: pwsh
         run: npm run test:ci
 
@@ -86,14 +83,14 @@ jobs:
           use-actions-summary: "true"
           fail-on-error: "false"
 
-      - name: "create an empty ./dist/ui-components/cdn folder"
+      - name: "create folder ./dist/ui-components/cdn"
         run: "mkdir -p ./dist/ui-components/cdn"
 
       - name: "npm run gulp-replace-placeholders-in-documentation"
         run: npm run gulp-replace-placeholders-in-documentation
 
-      - name: "move indigo-pink to ui-components/cdn"
-        run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
+      - name: "copy indigo-pink to ui-components/cdn"
+        run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn
 
       - name: "move lf-ui-components.js to ui-components/cdn"
         run: |

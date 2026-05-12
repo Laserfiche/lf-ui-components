@@ -30,8 +30,8 @@ $steps = @(
     Command = { npm run lint }
   }
   [PSCustomObject]@{
-    Name = 'npm run format:check'
-    Command = { npm run format:check }
+    Name = 'npm run format:write'
+    Command = { npm run format:write }
   }
   [PSCustomObject]@{
     Name = 'npm run create-lf-cdn'
