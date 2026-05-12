@@ -5,7 +5,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTreeNestedDataSource, MatTreeModule } from '@angular/material/tree';
-import { RouterLinks } from './app.config';
+import { RouterLinks } from './router-links';
 import { ThemeService } from './theme.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
