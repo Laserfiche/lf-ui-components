@@ -84,7 +84,7 @@ jobs:
         continue-on-error: true
 
       - name: Test Report
-        uses: dorny/test-reporter@v2
+        uses: dorny/test-reporter@v3
         if: always()
         with:
           name: Jest Test Results
@@ -165,7 +165,8 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: set NpmPackageVersion environment
-        run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
+        id: preview_version
+        run: echo "value=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_OUTPUT
 
       - name: "copy license"
         run: |
@@ -173,7 +174,7 @@ jobs:
           cp LICENSE ./dist/ui-components
 
       - name: npm version @laserfiche/types-lf-ui-components
-        run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
+        run: npm version ${{ steps.preview_version.outputs.value }} --no-git-tag-version
         working-directory: ./types-lf-ui-components-publish
 
       - name: Npm publish @laserfiche/types-lf-ui-components
@@ -181,7 +182,7 @@ jobs:
         working-directory: ./types-lf-ui-components-publish
 
       - name: npm version @laserfiche/lf-ui-components
-        run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
+        run: npm version ${{ steps.preview_version.outputs.value }} --no-git-tag-version
         working-directory: ./dist/ui-components
 
       - name: Npm publish @laserfiche/lf-ui-components
@@ -191,7 +192,7 @@ jobs:
       - name: Tag commit
         uses: rickstaa/action-create-tag@v1
         with:
-          tag: ${{ env.NpmPackageVersion }}
+          tag: ${{ steps.preview_version.outputs.value }}
           commit_sha: ${{ github.sha }}
           message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
@@ -274,10 +275,10 @@ jobs:
         run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
 
       - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist/lf-documentation/browser
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
