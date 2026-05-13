@@ -74,6 +74,22 @@
     <source>The accepted formats are: {0}.</source>
     <target>Kabul edilen formatlar: {0}.</target>
    </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Etiket ekle</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Etiketler</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Daha fazla etiket ekle</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Kullanılabilir etiket yok</target>
+   </segment>
   </unit>
  </file>
 </xliff>

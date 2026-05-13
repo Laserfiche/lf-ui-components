@@ -74,6 +74,22 @@
     <source>Attach Image</source>
     <target>이미지 첨부</target>
    </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>태그 추가</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>사용 가능한 태그가 없습니다</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>태그 더 추가</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>태그</target>
+   </segment>
   </unit>
  </file>
 </xliff>

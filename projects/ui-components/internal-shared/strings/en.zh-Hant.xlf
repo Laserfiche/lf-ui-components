@@ -74,6 +74,22 @@
     <source>我有反馈</source>
     <target>我有反饋</target>
    </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>添加更多标签</source>
+    <target>添加更多標籤</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>没有可用的标签</source>
+    <target>沒有可用的標籤</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>标签</source>
+    <target>標籤</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>添加标签</source>
+    <target>添加標籤</target>
+   </segment>
   </unit>
  </file>
 </xliff>

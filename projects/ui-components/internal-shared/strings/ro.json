@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "Formatele acceptate sunt: {0}.",
   "IMAGE_NOT_ATTACHED": "Imaginea nu este atașată.",
   "ATTACH_IMAGE": "Atașați imagine",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Vă rugăm să atașați doar o singură imagine."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Vă rugăm să atașați doar o singură imagine.",
+  "TAGS": "Etichete",
+  "ADD_TAGS": "Adăugați etichete",
+  "ADD_MORE_TAGS": "Adăugați mai multe etichete",
+  "NO_TAGS_AVAILABLE": "Nu sunt disponibile etichete"
 }

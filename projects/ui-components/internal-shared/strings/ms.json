@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "Format yang diterima ialah: {0}.",
   "IMAGE_NOT_ATTACHED": "Imej tidak dilampirkan.",
   "ATTACH_IMAGE": "Lampirkan Imej",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Sila lampirkan hanya satu imej."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Sila lampirkan hanya satu imej.",
+  "TAGS": "Tanda-tanda",
+  "ADD_TAGS": "Tambah tag",
+  "ADD_MORE_TAGS": "Tambah lebih banyak tag",
+  "NO_TAGS_AVAILABLE": "Tiada tag tersedia"
 }

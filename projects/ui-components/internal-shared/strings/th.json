@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "รูปแบบที่ยอมรับคือ: {0}.",
   "IMAGE_NOT_ATTACHED": "ไม่ได้แนบรูปภาพ",
   "ATTACH_IMAGE": "แนบรูปภาพ",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "โปรดแนบภาพเพียงภาพเดียว"
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "โปรดแนบภาพเพียงภาพเดียว",
+  "TAGS": "แท็ก",
+  "ADD_TAGS": "เพิ่มแท็ก",
+  "ADD_MORE_TAGS": "เพิ่มแท็กเพิ่มเติม",
+  "NO_TAGS_AVAILABLE": "ไม่มีแท็ก"
 }

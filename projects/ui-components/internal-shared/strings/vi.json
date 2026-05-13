@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "Các định dạng được chấp nhận là: {0}.",
   "IMAGE_NOT_ATTACHED": "Hình ảnh không đính kèm.",
   "ATTACH_IMAGE": "Đính kèm hình ảnh",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Vui lòng chỉ đính kèm một hình ảnh."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Vui lòng chỉ đính kèm một hình ảnh.",
+  "TAGS": "thẻ",
+  "ADD_TAGS": "Thêm thẻ",
+  "ADD_MORE_TAGS": "Thêm nhiều thẻ khác",
+  "NO_TAGS_AVAILABLE": "Không có thẻ nào có sẵn"
 }

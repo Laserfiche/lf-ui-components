@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "Kabul edilen formatlar: {0}.",
   "IMAGE_NOT_ATTACHED": "Resim eklenmedi.",
   "ATTACH_IMAGE": "Resim Ekle",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Lütfen sadece bir resim ekleyiniz."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Lütfen sadece bir resim ekleyiniz.",
+  "TAGS": "Etiketler",
+  "ADD_TAGS": "Etiket ekle",
+  "ADD_MORE_TAGS": "Daha fazla etiket ekle",
+  "NO_TAGS_AVAILABLE": "Kullanılabilir etiket yok"
 }
