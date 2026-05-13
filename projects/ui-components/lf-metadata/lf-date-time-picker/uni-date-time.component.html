@@ -5,7 +5,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   @if (settings.showLabel && settings.label) {
     <div class="lib-datetime-label">{{ settings.label }}</div>
   }
-  <div [formGroup]="$any(abstractControl)" class="fl-datetime-inputs" [style]="this.getCombinedStyles(this.settings)">
+  <div [formGroup]="formGroup" class="fl-datetime-inputs" [style]="this.getCombinedStyles(this.settings)">
     <input type="text" #dateTimeInput [formControlName]="dateTimeControlName ?? ''" hidden />
     <br />
     @if (settings.capturedInBackend) {
