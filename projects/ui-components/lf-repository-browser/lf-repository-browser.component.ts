@@ -738,6 +738,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       } finally {
         this.isLoading = false;
         this.ref.detectChanges();
+        setTimeout(() => {
+          this.entryList?.viewport?.checkViewportSize();
+        });
       }
     } else {
       console.error('updateAllPossibleEntriesAsync parentEntry undefined or missing id property');

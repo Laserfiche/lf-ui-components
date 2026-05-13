@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ComponentFixture, TestBed, TestModuleMetadata, flush, fakeAsync } from '@angular/core/testing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -30,6 +31,7 @@ class MockLfSelectionListComponent {
   @Input() itemSize = 42;
   @Input() pageSize = 50;
   @Input() listItemRef?: TemplateRef<unknown>;
+  viewport = { checkViewportSize: vi.fn() } as unknown as CdkVirtualScrollViewport;
 
   @Output() scrollChanged = new EventEmitter<undefined>();
   @Output() itemDoubleClicked = new EventEmitter<unknown>();
@@ -459,6 +461,22 @@ describe('LfRepositoryBrowserComponent', () => {
     await component.openSelectedItemsAsync();
     expect(component.currentFolder).toBe(rootTreeNode);
     expect(component.entryDblClicked.emit).toHaveBeenCalled();
+  });
+
+  it('initAsync should recheck the selection list viewport after loading data', async () => {
+    dataServiceMock.getRootTreeNodeAsync.mockReturnValue(Promise.resolve(rootTreeNode));
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(
+      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
+    );
+    dataServiceMock.getParentTreeNodeAsync.mockReturnValue(Promise.resolve(undefined));
+
+    const checkViewportSizeSpy = vi.spyOn(component.entryList!.viewport, 'checkViewportSize');
+
+    await component.initAsync(dataServiceMock);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(checkViewportSizeSpy).toHaveBeenCalled();
   });
 
   it('openSelectedItemsAsync should emit event if different entry types selected without changing current folder', async () => {
