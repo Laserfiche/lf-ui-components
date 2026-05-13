@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "허용되는 형식은 다음과 같습니다: {0}.",
   "IMAGE_NOT_ATTACHED": "이미지가 첨부되지 않았습니다.",
   "ATTACH_IMAGE": "이미지 첨부",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "이미지는 한 개만 첨부해 주십시오."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "이미지는 한 개만 첨부해 주십시오.",
+  "TAGS": "Ţàğŝ",
+  "ADD_TAGS": "Àďđ ťàĝŝ",
+  "ADD_MORE_TAGS": "Äđď ɱõŕē ťâĝš",
+  "NO_TAGS_AVAILABLE": "Ņŏ ŧåğś âṿåīłαьļĕ"
 }

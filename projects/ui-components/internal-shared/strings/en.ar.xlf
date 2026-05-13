@@ -74,6 +74,22 @@
     <source>please click here.</source>
     <target>الرجاء الضغط هنا.</target>
    </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Áďđ ɱőŕé ŧäĝş</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Ŧǎğŝ</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Ņö ŧàĝś àʋαíłǎβĺë</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Áďđ ťàĝś</target>
+   </segment>
   </unit>
  </file>
 </xliff>

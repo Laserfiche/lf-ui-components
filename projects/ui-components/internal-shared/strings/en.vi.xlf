@@ -74,6 +74,22 @@
     <source>Tell us about your experience</source>
     <target>Hãy cho chúng tôi biết về trải nghiệm của bạn</target>
    </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Áđđ ɱöřě ŧǎĝş</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Áďď ťåĝŝ</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Ţāĝš</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Ņò ŧäğš àʋāıłǎЬĺę</target>
+   </segment>
   </unit>
  </file>
 </xliff>

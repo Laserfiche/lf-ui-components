@@ -74,6 +74,22 @@
     <source>Image not attached.</source>
     <target>Immagine non allegata.</target>
    </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Ţαĝš</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Ńŏ ţāğş àṿǎįļáβļĕ</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Äđđ ɱôŗė ţäğş</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Àđď ŧāĝś</target>
+   </segment>
   </unit>
  </file>
 </xliff>

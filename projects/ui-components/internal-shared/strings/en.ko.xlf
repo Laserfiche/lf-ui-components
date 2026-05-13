@@ -74,6 +74,22 @@
     <source>Attach Image</source>
     <target>이미지 첨부</target>
    </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Ņŏ ŧåğś âṿåīłαьļĕ</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Àďđ ťàĝŝ</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Ţàğŝ</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Äđď ɱõŕē ťâĝš</target>
+   </segment>
   </unit>
  </file>
 </xliff>

@@ -74,6 +74,22 @@
     <source>I have feedback</source>
     <target>Tengo comentarios</target>
    </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Ťàğş</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Āďď ɱőŗè ťāĝš</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Àđđ ŧàğş</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Ñõ ţàğš àṿâĩĺäьľė</target>
+   </segment>
   </unit>
  </file>
 </xliff>

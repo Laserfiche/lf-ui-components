@@ -74,6 +74,22 @@
     <source>我有反馈</source>
     <target>我有反饋</target>
    </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Äďđ ŧαğś</source>
+    <target>Äďđ ŧαğś</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>Ňö ŧåĝš āṿǎîļαьĺē</source>
+    <target>Ňö ŧåĝš āṿǎîļαьĺē</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Àďď ɱōŕê ťăĝş</source>
+    <target>Àďď ɱōŕê ťăĝş</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Ţåğŝ</source>
+    <target>Ţåğŝ</target>
+   </segment>
   </unit>
  </file>
 </xliff>

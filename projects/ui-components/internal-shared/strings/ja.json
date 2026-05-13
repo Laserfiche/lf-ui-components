@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "対応している形式は次のとおりです: {0}。",
   "IMAGE_NOT_ATTACHED": "画像が添付されていません。",
   "ATTACH_IMAGE": "画像を添付する",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "画像は1つだけ添付してください。"
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "画像は1つだけ添付してください。",
+  "TAGS": "Ţăğś",
+  "ADD_TAGS": "Àđď ťäĝś",
+  "ADD_MORE_TAGS": "Ăđď ɱöřé ťāĝş",
+  "NO_TAGS_AVAILABLE": "Ñô ŧáĝś ǎʋàīłαЬļē"
 }

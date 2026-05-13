@@ -74,6 +74,22 @@
     <source>If you have a technical or support issue, or require immediate assistance, please contact your Laserfiche Administrator or Solution Provider as indicated in your service agreement.</source>
     <target>Si vous avez un problème technique ou de support, ou si vous avez besoin d&apos;une assistance immédiate, veuillez contacter votre administrateur Laserfiche ou votre fournisseur de solutions comme indiqué dans votre contrat de service.</target>
    </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Ťāĝš</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Àđď ɱõřē ťāğš</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Ňò ţαĝś αʋāïłàβļè</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Ăďď ŧăğš</target>
+   </segment>
   </unit>
  </file>
 </xliff>

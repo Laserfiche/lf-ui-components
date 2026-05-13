@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "التنسيقات المقبولة هي: {0}.",
   "IMAGE_NOT_ATTACHED": "الصورة غير مرفقة.",
   "ATTACH_IMAGE": "إرفاق الصورة",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "يرجى إرفاق صورة واحدة فقط."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "يرجى إرفاق صورة واحدة فقط.",
+  "TAGS": "Ŧǎğŝ",
+  "ADD_TAGS": "Áďđ ťàĝś",
+  "ADD_MORE_TAGS": "Áďđ ɱőŕé ŧäĝş",
+  "NO_TAGS_AVAILABLE": "Ņö ŧàĝś àʋαíłǎβĺë"
 }

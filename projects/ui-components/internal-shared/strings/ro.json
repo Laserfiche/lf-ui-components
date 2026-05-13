@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "Formatele acceptate sunt: {0}.",
   "IMAGE_NOT_ATTACHED": "Imaginea nu este atașată.",
   "ATTACH_IMAGE": "Atașați imagine",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Vă rugăm să atașați doar o singură imagine."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Vă rugăm să atașați doar o singură imagine.",
+  "TAGS": "Ŧǎğś",
+  "ADD_TAGS": "Âďď ţàĝś",
+  "ADD_MORE_TAGS": "Àđđ ɱòřē ţâĝš",
+  "NO_TAGS_AVAILABLE": "Ňó ţăĝş αʋåìĺåβļë"
 }

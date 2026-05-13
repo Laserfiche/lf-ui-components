@@ -56,6 +56,18 @@
    <segment id="IF_YOUD_LIKE_TO_JOIN_OUR_CUSTOMER_PANEL">
     <source>If you&apos;d like to join our Customer Panel,</source>
    </segment>
+   <segment id="NO_TAGS_AVAILABLE">
+    <source>No tags available</source>
+   </segment>
+   <segment id="ADD_MORE_TAGS">
+    <source>Add more tags</source>
+   </segment>
+   <segment id="ADD_TAGS">
+    <source>Add tags</source>
+   </segment>
+   <segment id="TAGS">
+    <source>Tags</source>
+   </segment>
   </unit>
  </file>
 </xliff>

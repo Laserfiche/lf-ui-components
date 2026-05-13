@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "I formati accettati sono: {0}.",
   "IMAGE_NOT_ATTACHED": "Immagine non allegata.",
   "ATTACH_IMAGE": "Allega immagine",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "La preghiamo di allegare una sola immagine."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "La preghiamo di allegare una sola immagine.",
+  "TAGS": "Ţαĝš",
+  "ADD_TAGS": "Àđď ŧāĝś",
+  "ADD_MORE_TAGS": "Äđđ ɱôŗė ţäğş",
+  "NO_TAGS_AVAILABLE": "Ńŏ ţāğş àṿǎįļáβļĕ"
 }

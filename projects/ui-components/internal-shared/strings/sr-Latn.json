@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "Prihvaćeni formati su: {0}.",
   "IMAGE_NOT_ATTACHED": "Slika nije priložena.",
   "ATTACH_IMAGE": "Priloži sliku",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Molimo Vas da priložite samo jednu sliku."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Molimo Vas da priložite samo jednu sliku.",
+  "TAGS": "Ŧǎĝş",
+  "ADD_TAGS": "Ǎďđ ţǎğś",
+  "ADD_MORE_TAGS": "Āďđ ɱóŕĕ ťâğŝ",
+  "NO_TAGS_AVAILABLE": "Ñŏ ťǎĝŝ ǎʋåıłāьłė"
 }

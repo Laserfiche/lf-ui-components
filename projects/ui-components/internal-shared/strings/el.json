@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "Οι αποδεκτές μορφές είναι: {0}.",
   "IMAGE_NOT_ATTACHED": "Η εικόνα δεν επισυνάφθηκε.",
   "ATTACH_IMAGE": "Επισύναψη εικόνας",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Παρακαλώ επισυνάψτε μόνο μία εικόνα."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Παρακαλώ επισυνάψτε μόνο μία εικόνα.",
+  "TAGS": "Ţâğś",
+  "ADD_TAGS": "Áđď ťαğş",
+  "ADD_MORE_TAGS": "Ǎđď ɱŏŕê ŧâĝś",
+  "NO_TAGS_AVAILABLE": "Ňô ţâĝś ăʋāìľáβľé"
 }

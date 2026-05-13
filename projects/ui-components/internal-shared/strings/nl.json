@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "De geaccepteerde formaten zijn: {0}.",
   "IMAGE_NOT_ATTACHED": "Afbeelding niet toegevoegd.",
   "ATTACH_IMAGE": "Afbeelding bijvoegen",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Voeg alstublieft slechts één afbeelding toe."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Voeg alstublieft slechts één afbeelding toe.",
+  "TAGS": "Ţåĝş",
+  "ADD_TAGS": "Âđđ ţáğş",
+  "ADD_MORE_TAGS": "Ǎđď ɱŏŗë ŧåğŝ",
+  "NO_TAGS_AVAILABLE": "Ñö ŧαĝŝ âṿǎíļäβĺë"
 }

@@ -74,6 +74,22 @@
     <source>The image exceeds the maximum file size of {0}.</source>
     <target>Imej melebihi saiz fail maksimum {0}.</target>
    </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Àđď ɱòŗė ţäğš</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Ăďđ ţàĝş</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Ťáĝś</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Ňő ťāĝś āʋäıļáьľě</target>
+   </segment>
   </unit>
  </file>
 </xliff>

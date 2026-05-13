@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "Các định dạng được chấp nhận là: {0}.",
   "IMAGE_NOT_ATTACHED": "Hình ảnh không đính kèm.",
   "ATTACH_IMAGE": "Đính kèm hình ảnh",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Vui lòng chỉ đính kèm một hình ảnh."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Vui lòng chỉ đính kèm một hình ảnh.",
+  "TAGS": "Ţāĝš",
+  "ADD_TAGS": "Áďď ťåĝŝ",
+  "ADD_MORE_TAGS": "Áđđ ɱöřě ŧǎĝş",
+  "NO_TAGS_AVAILABLE": "Ņò ŧäğš àʋāıłǎЬĺę"
 }
