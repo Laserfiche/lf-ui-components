@@ -52,8 +52,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             }
             <lf-field-base-component
               id="{{ fieldDef.fieldInfo.name }}{{ currentIndex }}"
-              [parentForm]="$any(group)"
-              [lfFieldFormControl]="$any(getSingleField(currentIndex, fieldDef.fieldInfo.id))"
+              [parentForm]="group"
+              [lfFieldFormControl]="getSingleField(currentIndex, fieldDef.fieldInfo.id)"
               [lfFieldValue]="getSingleField(currentIndex, fieldDef.fieldInfo.id)?.value"
               [lfFieldInfo]="fieldDef.fieldInfo"
               [dynamicFieldValueOptions]="getOptions(fieldDef.fieldInfo, currentIndex)"

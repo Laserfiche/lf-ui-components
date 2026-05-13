@@ -12,7 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { FieldDefinition } from '../utils/lf-field-internal-types';
@@ -47,7 +47,7 @@ export class LfFieldGroupComponent {
   /** @internal */
   fieldDefinitions: FieldDefinition[] = [];
   /** @internal */
-  fieldGroups: FormArray;
+  fieldGroups: FormArray<FormGroup>;
   /** @internal */
   fieldValues: Map<number, FieldValue> = new Map<number, FieldValue>();
   /** @internal */
@@ -65,7 +65,7 @@ export class LfFieldGroupComponent {
 
   /** @internal */
   constructor() {
-    this.fieldGroups = this.fb.array([]);
+    this.fieldGroups = this.fb.array<FormGroup>([]);
   }
 
   /** @internal */
@@ -206,10 +206,9 @@ export class LfFieldGroupComponent {
   }
 
   /** @internal */
-  getSingleField(index: number, fieldId: number): AbstractControl | null {
+  getSingleField(index: number, fieldId: number): FormControl {
     const group = this.fieldGroupControlsArray()[index];
-    const field = group.get(fieldId.toString());
-    return field;
+    return group.get(fieldId.toString()) as FormControl;
   }
 
   /** @internal */
@@ -230,7 +229,7 @@ export class LfFieldGroupComponent {
   }
 
   /** @internal */
-  onDragAndDrop(event: CdkDragDrop<AbstractControl[]>) {
+  onDragAndDrop(event: CdkDragDrop<FormGroup[]>) {
     const first: number = Math.min(event.previousIndex, event.currentIndex);
     const last: number = Math.max(event.previousIndex, event.currentIndex);
     const indicesChanged: number[] = [];
@@ -251,7 +250,7 @@ export class LfFieldGroupComponent {
   }
 
   /** @internal */
-  fieldGroupControlsArray() {
+  fieldGroupControlsArray(): FormGroup[] {
     return this.fieldGroups.controls;
   }
 
