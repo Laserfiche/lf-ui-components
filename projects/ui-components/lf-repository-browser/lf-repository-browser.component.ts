@@ -48,6 +48,11 @@ const NAME_COL_50CH: ColumnDef = {
   sortable: true,
 };
 
+type BreadcrumbNavigationEvent = {
+  breadcrumbs: LfTreeNode[];
+  selected: LfTreeNode;
+};
+
 @Component({
   selector: 'lf-repository-browser-component',
   templateUrl: './lf-repository-browser.component.html',
@@ -426,16 +431,27 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * @param event
    * @returns
    */
-  async onBreadcrumbClicked(event: { breadcrumbs: LfBreadcrumb[]; selected: LfBreadcrumb }) {
-    if (!event.breadcrumbs || !event.selected) {
-      console.error('onBreadcrumbClicked event is required to have a breadcrumbs as well as a selected entry');
+  async onBreadcrumbNavigation(navigationEvent: BreadcrumbNavigationEvent) {
+    if (!navigationEvent.breadcrumbs || !navigationEvent.selected) {
+      console.error('Breadcrumb navigation requires breadcrumbs and a selected entry');
       return;
     }
-    this._breadcrumbs = event.breadcrumbs as LfTreeNode[];
-    this._currentFolder = event.selected as LfTreeNode;
+    this._breadcrumbs = navigationEvent.breadcrumbs;
+    this._currentFolder = navigationEvent.selected;
     await this.updateAllPossibleEntriesAsync(this._currentFolder);
     this.entryDblClicked.emit([this._currentFolder]);
     setTimeout(() => this.entryList?.focus());
+  }
+
+  /** @internal */
+  toBreadcrumbNavigationEvent(event: {
+    breadcrumbs: LfBreadcrumb[];
+    selected: LfBreadcrumb;
+  }): BreadcrumbNavigationEvent {
+    return {
+      breadcrumbs: event.breadcrumbs as LfTreeNode[],
+      selected: event.selected as LfTreeNode,
+    };
   }
 
   /**
@@ -617,7 +633,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     while (currentNode) {
       const nextParent: LfTreeNode | undefined = await this.treeNodeService.getParentTreeNodeAsync(currentNode);
       if (nextParent) {
-        this.breadcrumbs.push(nextParent);
+        this._breadcrumbs.push(nextParent);
       }
       currentNode = nextParent;
     }
