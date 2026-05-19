@@ -21,6 +21,8 @@ We welcome contributions and feedback. Please follow our [contributing guideline
 
 ## Development Setup
 
+- Run PowerShell [build-test-locally.ps1](./build-test-locally.ps1) script
+
 ### Build ui-components CDN script
 
 1. Execute [build-test-locally.ps1](./build-test-locally.ps1) to build and test this project.
@@ -78,10 +80,11 @@ to create `./dist/lf-documentation`.
 
 ### View the interactive documentation
 
-1. Configure a web server to serve `./dist` (e.g. IIS on WIndows).
+```sh
+npx ng serve lf-documentation --configuration development --host 127.0.0.1 --port 4200
+```
 
-2. Browse to `http://localhost/dist-folder/lf-documentation/index.html` to view the documentation (assuming that `dist-folder` is mapped to `./dist`).
-   - Note that index.html loads the UI components using `<script src="./../lf-cdn/lf-ui-components.js" defer></script>`
+Or configure a web server to serve `.dist/lf-documentation/browser` (e.g. IIS on WIndows).
 
 ## Things to verify before creating a Pull Request
 

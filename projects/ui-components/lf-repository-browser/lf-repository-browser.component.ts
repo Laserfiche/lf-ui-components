@@ -399,6 +399,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * Used to track if data is currently being pulled
    * */
   private lastDataCall?: Promise<ILfSelectable[]>;
+  /** @internal */
+  private isFetchingData: boolean = false;
 
   /** @internal */
   constructor() {
@@ -406,14 +408,18 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       if (!this._currentFolder) {
         return;
       }
-      if (!this.maximumChildrenReceived) {
+      if (!this.maximumChildrenReceived && !this.isFetchingData) {
         if (this.nextPage && this.nextPage == this.lastCalledPage) {
           // do nothing. nextPage already attempted
           return;
         }
-        await this.makeDataCall(this._currentFolder);
-        this.ref.detectChanges();
-        this.resetSelectedItemsAsync();
+        this.isFetchingData = true;
+        try {
+          await this.makeDataCall(this._currentFolder);
+          this.ref.detectChanges();
+        } finally {
+          this.isFetchingData = false;
+        }
       }
     });
   }
@@ -738,9 +744,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       } finally {
         this.isLoading = false;
         this.ref.detectChanges();
-        setTimeout(() => {
-          this.entryList?.viewport?.checkViewportSize();
-        });
+        this.syncEntryListViewportSize();
       }
     } else {
       console.error('updateAllPossibleEntriesAsync parentEntry undefined or missing id property');
@@ -780,6 +784,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         selectable.push(...additionalData);
         this.lastDataCall = undefined;
       }
+      if (selectable.length === 0) {
+        return selectable;
+      }
       this.currentFolderChildren = this.currentFolderChildren.concat(...selectable);
       return selectable;
     } catch (error) {
@@ -788,6 +795,18 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       this.ref.detectChanges();
       return undefined;
     }
+  }
+
+  /** @internal */
+  private syncEntryListViewportSize() {
+    setTimeout(() => {
+      this.entryList?.viewport?.checkViewportSize();
+      // checkViewportSize calls onDataLengthChanged which resets totalContentSize
+      // to 0 because CDK _dataLength is always 0 (no CdkVirtualForOf). Restore it.
+      if (this.entryList?.viewport) {
+        this.entryList.viewport.setTotalContentSize(this.currentFolderChildren.length * this.entryList.itemSize);
+      }
+    });
   }
 
   /**

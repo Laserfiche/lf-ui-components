@@ -1,8 +1,8 @@
 # Copyright (c) Laserfiche.
 # Licensed under the MIT License. See LICENSE in the project root for license information.
 
-# build-test-locally.ps1
-# Verifies Node 24, then runs all dev build/test steps as defined in README.md.
+# PowerShell script to build and test this project.
+# Requires Node 24.
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -57,10 +57,10 @@ $steps = @(
     Name = 'npx playwright install chromium'
     Command = { npx playwright install chromium }
   }
-  # [PSCustomObject]@{
-  #   Name = 'npm run test:ci'
-  #   Command = { npm run test:ci }
-  # }
+  [PSCustomObject]@{
+    Name = 'npm run test'
+    Command = { npm run test }
+  }
 )
 
 $totalSteps = $steps.Count

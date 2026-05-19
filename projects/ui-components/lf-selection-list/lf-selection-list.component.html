@@ -1,135 +1,192 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-<cdk-virtual-scroll-viewport
-  #viewport
-  id="lf-list-viewport"
-  tabindex="-1"
-  [itemSize]="itemSize"
-  (keydown)="onViewportKeyDown($event)"
->
-  <table
-    #matTable
-    role="grid"
-    mat-table
-    [dataSource]="dataSource!"
-    class="lf-table-selection-list"
-    matSort
-    (matSortChange)="sortData($event)"
+<div class="lf-selection-list-scroll-shell">
+  @if (_showHeader) {
+    <table
+      #headerTable
+      role="presentation"
+      mat-table
+      [dataSource]="[]"
+      class="lf-table-selection-list lf-table-selection-list-header"
+      matSort
+      (matSortChange)="sortData($event)"
+    >
+      @for (column of allColumnDefs; track column; let i = $index) {
+        <ng-container [matColumnDef]="column.id">
+          @switch (column.id) {
+            @case ("name") {
+              <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
+                <div
+                  class="lf-resize-wrapper-div"
+                  [lfResizeColumn]="column.resizable ?? false"
+                  [columnDef]="column"
+                  (widthChanged)="onColumnWidthChanges($event, i)"
+                >
+                  <div
+                    class="column-text-div"
+                    [ngStyle]="{ height: itemSize + 'px' }"
+                    mat-sort-header
+                    [disabled]="!column.sortable"
+                  >
+                    <div class="lf-ellipsis-label">
+                      {{ column.displayName }}
+                    </div>
+                  </div>
+                </div>
+              </th>
+            }
+            @case ("select") {
+              <th mat-header-cell *matHeaderCellDef></th>
+            }
+            @default {
+              <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
+                <div
+                  class="lf-resize-wrapper-div"
+                  [lfResizeColumn]="column.resizable ?? false"
+                  [columnDef]="column"
+                  (widthChanged)="onColumnWidthChanges($event, i)"
+                >
+                  <div
+                    class="column-text-div"
+                    [ngStyle]="{ height: itemSize + 'px' }"
+                    mat-sort-header
+                    [disabled]="!column.sortable"
+                  >
+                    <div class="lf-ellipsis-label">
+                      {{ column.displayName }}
+                    </div>
+                  </div>
+                </div>
+              </th>
+            }
+          }
+        </ng-container>
+      }
+
+      <tr
+        class="lf-selection-list-header-row"
+        [ngStyle]="{ height: itemSize + 'px' }"
+        mat-header-row
+        tabindex="-1"
+        [style.gridTemplateColumns]="columnsWidth"
+        *matHeaderRowDef="allColumnHeaders"
+      ></tr>
+    </table>
+  }
+
+  <cdk-virtual-scroll-viewport
+    #viewport
+    id="lf-list-viewport"
+    tabindex="-1"
+    [itemSize]="itemSize"
+    (keydown)="onViewportKeyDown($event)"
   >
-    @for (column of allColumnDefs; track column; let i = $index) {
-      <ng-container [matColumnDef]="column.id">
-        @switch (column.id) {
-          @case ("name") {
-            <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
-              <div
-                class="lf-resize-wrapper-div"
-                [lfResizeColumn]="column.resizable ?? false"
-                [columnDef]="column"
-                (widthChanged)="onColumnWidthChanges($event, i)"
-              >
+    <table #matTable role="grid" mat-table [dataSource]="dataSource!" class="lf-table-selection-list">
+      @for (column of allColumnDefs; track column; let i = $index) {
+        <ng-container [matColumnDef]="column.id">
+          @switch (column.id) {
+            @case ("name") {
+              <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
                 <div
-                  class="column-text-div"
-                  [ngStyle]="{ height: itemSize + 'px' }"
-                  mat-sort-header
-                  [disabled]="!column.sortable"
+                  class="lf-resize-wrapper-div"
+                  [lfResizeColumn]="column.resizable ?? false"
+                  [columnDef]="column"
+                  (widthChanged)="onColumnWidthChanges($event, i)"
                 >
-                  <div class="lf-ellipsis-label">
-                    {{ column.displayName }}
+                  <div
+                    class="column-text-div"
+                    [ngStyle]="{ height: itemSize + 'px' }"
+                    mat-sort-header
+                    [disabled]="!column.sortable"
+                  >
+                    <div class="lf-ellipsis-label">
+                      {{ column.displayName }}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </th>
-            <td mat-cell *matCellDef="let item">
-              <div class="lf-name-col-container">
-                @if (listItemRef) {
-                  <ng-container *ngTemplateOutlet="listItemRef; context: item"></ng-container>
-                } @else {
-                  <span class="lf-ellipsis-label">{{ item.value.name ?? item.value.id }}</span>
+              </th>
+              <td mat-cell *matCellDef="let item">
+                <div class="lf-name-col-container">
+                  @if (listItemRef) {
+                    <ng-container *ngTemplateOutlet="listItemRef; context: item"></ng-container>
+                  } @else {
+                    <span class="lf-ellipsis-label">{{ item.value.name ?? item.value.id }}</span>
+                  }
+                </div>
+              </td>
+            }
+            @case ("select") {
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell class="multiselect-column" *matCellDef="let row">
+                @if (multipleSelection && row?.isSelectable) {
+                  <mat-checkbox
+                    class="lf-checkbox multiselect-indicator lf-no-ripple"
+                    tabindex="-1"
+                    [checked]="row?.isSelected"
+                    color="primary"
+                    disableRipple
+                  >
+                  </mat-checkbox>
                 }
-              </div>
-            </td>
-          }
-          @case ("select") {
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell class="multiselect-column" *matCellDef="let row">
-              @if (multipleSelection && row?.isSelectable) {
-                <mat-checkbox
-                  class="lf-checkbox multiselect-indicator lf-no-ripple"
-                  tabindex="-1"
-                  [checked]="row?.isSelected"
-                  color="primary"
-                  disableRipple
-                >
-                </mat-checkbox>
-              }
-            </td>
-          }
-          @default {
-            <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
-              <div
-                class="lf-resize-wrapper-div"
-                [lfResizeColumn]="column.resizable ?? false"
-                [columnDef]="column"
-                (widthChanged)="onColumnWidthChanges($event, i)"
-              >
+              </td>
+            }
+            @default {
+              <th mat-header-cell *matHeaderCellDef class="lf-ellipsis-label">
                 <div
-                  class="column-text-div"
-                  [ngStyle]="{ height: itemSize + 'px' }"
-                  mat-sort-header
-                  [disabled]="!column.sortable"
+                  class="lf-resize-wrapper-div"
+                  [lfResizeColumn]="column.resizable ?? false"
+                  [columnDef]="column"
+                  (widthChanged)="onColumnWidthChanges($event, i)"
                 >
-                  <div class="lf-ellipsis-label">
-                    {{ column.displayName }}
+                  <div
+                    class="column-text-div"
+                    [ngStyle]="{ height: itemSize + 'px' }"
+                    mat-sort-header
+                    [disabled]="!column.sortable"
+                  >
+                    <div class="lf-ellipsis-label">
+                      {{ column.displayName }}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </th>
-            <td mat-cell *matCellDef="let row">
-              <div class="column-text-div" [ngStyle]="{ height: itemSize + 'px' }">
-                <div class="lf-ellipsis-label">
-                  {{ row.value.attributes?.get(column.id)?.displayValue }}
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <div class="column-text-div" [ngStyle]="{ height: itemSize + 'px' }">
+                  <div class="lf-ellipsis-label">
+                    {{ row.value.attributes?.get(column.id)?.displayValue }}
+                  </div>
                 </div>
-              </div>
-            </td>
+              </td>
+            }
           }
-        }
-      </ng-container>
-    }
+        </ng-container>
+      }
 
-    <tr
-      class="lf-selection-list-header-row"
-      [ngClass]="{ 'lf-hidden-column-header': !_showHeader }"
-      [ngStyle]="{ height: itemSize + 'px' }"
-      mat-header-row
-      tabindex="-1"
-      [style.gridTemplateColumns]="columnsWidth"
-      *matHeaderRowDef="allColumnHeaders"
-    ></tr>
-
-    <tr
-      mat-row
-      *matRowDef="let row; let i = index; columns: allColumnHeaders"
-      [tabindex]="i === currentFocusIndex ? 0 : -1"
-      class="item-holder"
-      [ngStyle]="{
-        height: itemSize + 'px',
-        'min-height': itemSize + 'px',
-        'max-height': itemSize + 'px',
-      }"
-      [ngClass]="{
-        'non-selectable-option': !row.isSelectable,
-        'selectable-option': row.isSelectable,
-        'node-selected': row.isSelected,
-        'lf-row-border-top': !_showHeader,
-      }"
-      [attr.id]="_computeRowId(i + (dataSource?.dataStart ?? 0))"
-      (click)="onClickMatListOption($event, row, i + (dataSource?.dataStart ?? 0))"
-      (dblclick)="onDblClick($event, row)"
-      (focusin)="onFocused(i + (dataSource?.dataStart ?? 0))"
-      (keydown)="onItemKeyDown($event, row)"
-      (keyup)="onItemKeyUp($event, row)"
-      [style.gridTemplateColumns]="columnsWidth"
-    ></tr>
-  </table>
-</cdk-virtual-scroll-viewport>
+      <tr
+        mat-row
+        *matRowDef="let row; let i = index; columns: allColumnHeaders"
+        [tabindex]="i === currentFocusIndex ? 0 : -1"
+        class="item-holder"
+        [ngStyle]="{
+          height: itemSize + 'px',
+          'min-height': itemSize + 'px',
+          'max-height': itemSize + 'px',
+        }"
+        [ngClass]="{
+          'non-selectable-option': !row.isSelectable,
+          'selectable-option': row.isSelectable,
+          'node-selected': row.isSelected,
+          'lf-row-border-top': !_showHeader,
+        }"
+        [attr.id]="_computeRowId(i + (dataSource?.dataStart ?? 0))"
+        (click)="onClickMatListOption($event, row, i + (dataSource?.dataStart ?? 0))"
+        (dblclick)="onDblClick($event, row)"
+        (focusin)="onFocused(i + (dataSource?.dataStart ?? 0))"
+        (keydown)="onItemKeyDown($event, row)"
+        (keyup)="onItemKeyUp($event, row)"
+        [style.gridTemplateColumns]="columnsWidth"
+      ></tr>
+    </table>
+  </cdk-virtual-scroll-viewport>
+</div>
