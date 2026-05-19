@@ -28,6 +28,7 @@ import { Subscription } from 'rxjs';
 import { GridSelectionListDataSource } from './lf-selection-list-data-source';
 import { ColumnDef, ColumnOrderBy, SelectedItemEvent } from './lf-selection-list-types';
 import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directive';
+import { LfManagedVirtualScrollDirective } from './lf-managed-virtual-scroll.directive';
 
 /** @internal */
 export interface RepositoryBrowserData {
@@ -50,7 +51,15 @@ const SELECT_COL: ColumnDef = {
   styleUrls: ['./lf-selection-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, ScrollingModule, MatCheckboxModule, MatTableModule, MatSortModule, ResizeColumnDirective],
+  imports: [
+    CommonModule,
+    ScrollingModule,
+    MatCheckboxModule,
+    MatTableModule,
+    MatSortModule,
+    ResizeColumnDirective,
+    LfManagedVirtualScrollDirective,
+  ],
 })
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /**@internal */

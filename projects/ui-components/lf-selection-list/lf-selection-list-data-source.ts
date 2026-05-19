@@ -92,6 +92,12 @@ export class GridSelectionListDataSource extends DataSource<any> {
       const scrollBeforeStartOfData = startAccountingForBuffer < this.dataStart;
       if (scrollPastEndOfData || scrollBeforeStartOfData) {
         this.refreshViewAtIndex(currentScrollIndex, numItemsInView);
+      } else {
+        // Always re-assert the rendered range and content offset so CDK's
+        // FixedSizeVirtualScrollStrategy (which sees dataLength = 0 because we
+        // don't use CdkVirtualForOf) cannot pin the slice to {0,0}/offset 0
+        // during rapid scrolling.
+        this.reassertViewportLayout();
       }
 
       // If the viewport is at the end we should try and pull more data
@@ -101,6 +107,12 @@ export class GridSelectionListDataSource extends DataSource<any> {
         this.checkForData.next();
       }
     });
+  }
+
+  private reassertViewportLayout() {
+    const slicedLength = this.dataEnd - this.dataStart;
+    this.viewport.setRenderedRange({ start: 0, end: slicedLength });
+    this.offsetChange.next(this.dataStart * this.itemSize);
   }
 
   private getNumItemsInView(): number {
@@ -134,7 +146,9 @@ export class GridSelectionListDataSource extends DataSource<any> {
       const desiredWindowSize = Math.min(this._data.length, Math.ceil(numItemsInView) + this.extraData * 2);
       nextDataStart = Math.max(0, nextDataEnd - desiredWindowSize);
     }
-    if (nextDataStart === this.dataStart && nextDataEnd === this.dataEnd) {
+    const sliceUnchanged = nextDataStart === this.dataStart && nextDataEnd === this.dataEnd;
+    if (sliceUnchanged) {
+      this.reassertViewportLayout();
       return;
     }
     this.dataStart = nextDataStart;

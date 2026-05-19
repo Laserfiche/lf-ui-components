@@ -31,6 +31,10 @@ describe('GridSelectionListDataSource', () => {
     } as unknown as CdkVirtualScrollViewport;
   }
 
+  function emitScrollIndex(viewport: CdkVirtualScrollViewport, index: number) {
+    (viewport.scrolledIndexChange as Subject<number>).next(index);
+  }
+
   it('extends the rendered slice when more data is appended near the end of the current range', () => {
     const viewport = createViewport();
     const dataSource = new GridSelectionListDataSource(createItems(50), viewport, 42, 50);
@@ -40,7 +44,7 @@ describe('GridSelectionListDataSource', () => {
       renderedRanges.push(data.map((item) => item.value.id));
     });
 
-    (viewport.scrolledIndexChange as Subject<number>).next(40);
+    emitScrollIndex(viewport, 40);
     viewport.elementRef.nativeElement.scrollTop = 40 * 42;
     dataSource.allData = createItems(100);
 
@@ -57,7 +61,7 @@ describe('GridSelectionListDataSource', () => {
       renderedRanges.push(data.map((item) => item.value.id));
     });
 
-    (viewport.scrolledIndexChange as Subject<number>).next(50);
+    emitScrollIndex(viewport, 50);
     viewport.elementRef.nativeElement.scrollTop = 81 * 42;
     dataSource.allData = createItems(106);
 
@@ -75,7 +79,7 @@ describe('GridSelectionListDataSource', () => {
     });
 
     viewport.elementRef.nativeElement.scrollTop = 200 * 42;
-    (viewport.scrolledIndexChange as Subject<number>).next(200);
+    emitScrollIndex(viewport, 200);
 
     expect(renderedRanges.at(-1)?.length).toBeGreaterThan(0);
     expect(renderedRanges.at(-1)?.at(0)).toBe('26');
@@ -86,7 +90,7 @@ describe('GridSelectionListDataSource', () => {
     const viewport = createViewport(401);
     const dataSource = new GridSelectionListDataSource(createItems(10000), viewport, 42, 50);
 
-    (viewport.scrolledIndexChange as Subject<number>).next(9990);
+    emitScrollIndex(viewport, 9990);
 
     expect(dataSource.dataStart).toBe(9940);
     expect(dataSource.dataEnd).toBe(10000);
@@ -143,5 +147,36 @@ describe('GridSelectionListDataSource', () => {
     (viewport.scrolledIndexChange as Subject<number>).next(65);
 
     expect(checkForDataSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('tracks the absolute dataset window while keeping the viewport range relative to the rendered slice', () => {
+    const viewport = createViewport();
+    const dataSource = new GridSelectionListDataSource(createItems(200), viewport, 42, 50);
+
+    emitScrollIndex(viewport, 120);
+
+    expect(dataSource.dataStart).toBe(95);
+    expect(dataSource.dataEnd).toBe(155);
+    expect(viewport.setRenderedRange).toHaveBeenLastCalledWith({ start: 0, end: 60 });
+  });
+
+  it('re-asserts the rendered range and offset on every scroll tick even when the slice is unchanged', () => {
+    const viewport = createViewport();
+    const dataSource = new GridSelectionListDataSource(createItems(200), viewport, 42, 50);
+    const offsets: number[] = [];
+    dataSource.offsetChange.subscribe((offset) => offsets.push(offset));
+
+    emitScrollIndex(viewport, 120);
+    const setRangeCallsAfterFirstScroll = vi.mocked(viewport.setRenderedRange).mock.calls.length;
+    const offsetCallsAfterFirstScroll = offsets.length;
+
+    // Re-emit the same index repeatedly (CDK does this after each scroll event
+    // even when the underlying slice does not need to change).
+    emitScrollIndex(viewport, 120);
+    emitScrollIndex(viewport, 120);
+
+    expect(vi.mocked(viewport.setRenderedRange).mock.calls.length).toBeGreaterThan(setRangeCallsAfterFirstScroll);
+    expect(offsets.length).toBeGreaterThan(offsetCallsAfterFirstScroll);
+    expect(offsets.at(-1)).toBe(dataSource.dataStart * 42);
   });
 });

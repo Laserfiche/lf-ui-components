@@ -79,7 +79,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     #viewport
     id="lf-list-viewport"
     tabindex="-1"
-    [itemSize]="itemSize"
+    [lfManagedItemSize]="itemSize"
     (keydown)="onViewportKeyDown($event)"
   >
     <table #matTable role="grid" mat-table [dataSource]="dataSource!" class="lf-table-selection-list">
