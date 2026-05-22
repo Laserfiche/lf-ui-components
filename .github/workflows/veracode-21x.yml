@@ -31,31 +31,37 @@ jobs:
       - name: npm ci
         run: npm ci
 
-      - name: Npm run build-ui-components
+      - name: npm run build-ui-components-dev
         run: npm run build-ui-components-dev
 
-      - name: Npm run build-lf-cdn-dev
-        run: npm run build-lf-cdn-dev
+      - name: npm run create-types-lf-ui-components
+        run: npm run create-types-lf-ui-components
 
-      - name: Npm run build-lf-documentation-dev
+      - name: npm run create-lf-cdn
+        run: npm run create-lf-cdn
+
+      - name: npm run build-lf-documentation-dev
         run: npm run build-lf-documentation-dev
 
-      - name: Npm run sass-lf
+      - name: npm run sass-lf
         run: npm run sass-lf
 
-      - name: Npm run sass-ms
+      - name: npm run sass-ms
         run: npm run sass-ms
 
-      - name: "create an empty ./dist/ui-components/cdn folder"
+      - name: "create folder ./dist/ui-components/cdn"
         run: "mkdir -p ./dist/ui-components/cdn"
 
-      - name: "move js to ui-components/cdn"
-        run: mv -t ../ui-components/cdn main.js runtime.js polyfills.js main.js.map runtime.js.map polyfills.js.map
-        working-directory: dist/lf-cdn
+      - name: "npm run gulp-replace-placeholders-in-documentation"
+        run: npm run gulp-replace-placeholders-in-documentation
 
-      - name: "move lf-documentation/styles to ui-components/cdn"
-        run: mv -t  ../ui-components/cdn/ lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map
-        working-directory: dist/lf-documentation
+      - name: "copy indigo-pink to ui-components/cdn"
+        run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn
+
+      - name: "move lf-ui-components.js to ui-components/cdn"
+        run: |
+          mv lf-ui-components.js lf-ui-components.js.map ../../ui-components/cdn
+        working-directory: ./dist/lf-cdn/browser
 
       - name: "create an empty ./veracode folder"
         run: "mkdir -p ./veracode"
