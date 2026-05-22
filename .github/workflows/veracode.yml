@@ -1,7 +1,7 @@
 # Copyright Laserfiche.
 # Licensed under the MIT License. See LICENSE in the project root for license information.
 
-name: lf-ui-components-veracode-21x
+name: lf-ui-components-veracode
 
 on:
   # Allows you to run this workflow manually from the Actions tab
