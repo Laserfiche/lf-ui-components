@@ -10,6 +10,9 @@
   "[css]": {
     "powerHeader.commentMode": "block"
   },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[markdown]": {
     "powerHeader.commentMode": "block"
   },
