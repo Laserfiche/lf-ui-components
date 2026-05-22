@@ -37,12 +37,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       @for (fieldDef of fieldDefinitions; track fieldDef) {
         <div>
           <span class="lf-field-container" id="lf-field-container">
-            @if (fieldDef?.fieldInfo.name) {
+            @if (fieldDef?.fieldInfo?.name) {
               <span class="lf-field-title-container">
-                <span class="lf-field-title" title="{{ fieldDef?.fieldInfo.displayName }}">{{
-                  fieldDef?.fieldInfo.displayName
+                <span class="lf-field-title" title="{{ fieldDef?.fieldInfo?.displayName }}">{{
+                  fieldDef?.fieldInfo?.displayName
                 }}</span>
-                @if (fieldDef?.fieldInfo.isRequired) {
+                @if (fieldDef?.fieldInfo?.isRequired) {
                   <span class="lf-field-is-required">*</span>
                 }
                 @if (isLoading(fieldDef.fieldInfo, currentIndex)) {
@@ -54,7 +54,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               id="{{ fieldDef.fieldInfo.name }}{{ currentIndex }}"
               [parentForm]="group"
               [lfFieldFormControl]="getSingleField(currentIndex, fieldDef.fieldInfo.id)"
-              [lfFieldValue]="getSingleField(currentIndex, fieldDef.fieldInfo.id)?.value"
+              [lfFieldValue]="getSingleField(currentIndex, fieldDef.fieldInfo.id).value"
               [lfFieldInfo]="fieldDef.fieldInfo"
               [dynamicFieldValueOptions]="getOptions(fieldDef.fieldInfo, currentIndex)"
               (fieldValueChange)="fieldDataChange($event, fieldDef.fieldInfo, currentIndex)"

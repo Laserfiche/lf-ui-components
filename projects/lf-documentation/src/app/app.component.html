@@ -10,7 +10,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <span id="header-title">Laserfiche UI Components</span>
     <span class="spacer"></span>
     <div class="language-selector-container">
-      <select id="language-selector" class="lf-dropdown" (change)="setLanguage($event.target.value)">
+      <select id="language-selector" class="lf-dropdown" (change)="setLanguage($any($event.target).value)">
         <option value="">Use browser language</option>
         <option value="ar">عربى</option>
         <option value="cs">čeština (Česko)</option>

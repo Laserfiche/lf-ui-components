@@ -24,7 +24,6 @@
     },
     "sourceMap": true,
     "declaration": true,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
@@ -34,9 +33,10 @@
     "types": ["vitest/globals"]
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
+    "strictStandalone": true,
+    "strictTemplates": true,
     "strictInjectionParameters": true,
-    "generateCodeForLibraries": true
+    "enableI18nLegacyMessageIdFormat": false
   },
   "exclude": ["index.d.ts", "dist/*"]
 }

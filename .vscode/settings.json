@@ -10,8 +10,18 @@
   "[css]": {
     "powerHeader.commentMode": "block"
   },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[markdown]": {
     "powerHeader.commentMode": "block"
   },
-  "powerHeader.autoInsert.languages": ["plaintext", "Log", "json"]
+  "powerHeader.autoInsert.languages": ["plaintext", "Log", "json"],
+  "chat.tools.terminal.autoApprove": {
+    "npx vitest": true,
+    "npx ng": true,
+    "type": true,
+    "ForEach-Object": true
+  },
+  "workbench.browser.enableChatTools": true
 }

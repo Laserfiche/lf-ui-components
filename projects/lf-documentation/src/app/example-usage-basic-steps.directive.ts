@@ -3,7 +3,7 @@
 
 import { Directive, inject } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { RouterLinks } from './app.config';
+import { RouterLinks } from './router-links';
 
 @Directive({
   selector: '[appExampleUsageBasicSteps]',

@@ -33,11 +33,11 @@ export class LfLoginDocumentationComponent {
 
   constructor() {}
 
-  loginInitHandler(event: void) {
+  loginInitHandler(event: string | void) {
     console.log('logging in');
   }
 
-  logoutInitHandler(event: void) {
+  logoutInitHandler(event: string | void) {
     console.log('logging out');
   }
 

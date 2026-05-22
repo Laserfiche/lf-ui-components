@@ -128,7 +128,7 @@ export class UserFeedbackDialogComponent implements AfterViewInit, OnDestroy {
   }
 
   @HostListener('document:keydown.escape', ['$event'])
-  onEscKey(event: KeyboardEvent) {
+  onEscKey(event: Event) {
     this.dialogRef.close();
   }
 

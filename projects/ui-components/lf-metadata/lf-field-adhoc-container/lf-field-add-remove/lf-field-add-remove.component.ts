@@ -212,7 +212,7 @@ export class LfFieldAddRemoveComponent implements AfterViewInit {
     this.checkboxUpdate.emit();
   }
 
-  ignoreEscapeKeydown(event: KeyboardEvent) {
+  ignoreEscapeKeydown(event: Event) {
     event.stopPropagation();
   }
 

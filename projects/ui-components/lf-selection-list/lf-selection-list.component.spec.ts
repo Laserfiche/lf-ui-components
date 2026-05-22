@@ -65,6 +65,14 @@ const itemList: ILfSelectable[] = [
   { isSelectable: true, isSelected: false, value: { id: '21' } },
 ];
 
+function createSelectableItems(count: number): ILfSelectable[] {
+  return Array.from({ length: count }, (_, index) => ({
+    isSelectable: true,
+    isSelected: false,
+    value: { id: `${index}` },
+  }));
+}
+
 @Component({
   selector: 'lf-selection-list-test',
   template: `<div [style.width.px]="containerWidth" [style.height.px]="'250'">
@@ -157,6 +165,28 @@ describe('LfListComponent single select', () => {
   it('should create', async () => {
     await waitForRender();
     expect(component).toBeTruthy();
+  });
+
+  it('renders rows when items are populated after the component initializes empty', async () => {
+    const localFixture = TestBed.createComponent(LfSelectionListComponent);
+    localFixture.componentRef.setInput('columns', [name]);
+    localFixture.componentRef.setInput('uniqueIdentifier', 'async-population-test');
+    localFixture.componentRef.setInput('listItems', []);
+    localFixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    await localFixture.whenStable();
+
+    localFixture.componentRef.setInput('listItems', createSelectableItems(5));
+    localFixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    await localFixture.whenStable();
+
+    const rows = localFixture.nativeElement.querySelectorAll('tr.item-holder');
+
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows[0].id).toBe('lf-row-0');
+
+    localFixture.destroy();
   });
 
   it('should emit the itemSelected event when a selectable list item is clicked', async () => {
@@ -278,7 +308,22 @@ describe('LfListComponent single select', () => {
 
       // Assert
       const headerHidden = document.getElementsByClassName('lf-hidden-column-header')[0];
-      expect(headerHidden).toBeTruthy();
+      expect(headerHidden).toBeUndefined();
+    });
+
+    it('keeps the rendered row height equal to itemSize when row dividers are shown', async () => {
+      await waitForRender();
+
+      const firstRow = fixture.nativeElement.querySelector('#lf-row-0.item-holder') as HTMLElement;
+      expect(firstRow.getBoundingClientRect().height).toBe(component.list?.itemSize);
+    });
+
+    it('keeps the first rendered row height equal to itemSize when the header is hidden', async () => {
+      component.alwaysShowHeader = false;
+      await setupRepoBrowserWithColumns([create]);
+
+      const firstRow = fixture.nativeElement.querySelector('#lf-row-0.item-holder') as HTMLElement;
+      expect(firstRow.getBoundingClientRect().height).toBe(component.list?.itemSize);
     });
   });
 
@@ -403,6 +448,117 @@ describe('LfListComponent single select', () => {
       expect(document.activeElement).toEqual(secondFocusItem);
       // @ts-ignore
       expect(component.list?.currentFocusIndex).toBe(0);
+    });
+
+    it('does not hijack PageDown so the viewport can handle native paging', async () => {
+      component.items = createSelectableItems(500);
+      await waitForRender();
+
+      const pageDownEvent = new KeyboardEvent('keydown', {
+        key: 'PageDown',
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
+      const preventDefaultSpy = vi.spyOn(pageDownEvent, 'preventDefault');
+      const stopPropagationSpy = vi.spyOn(pageDownEvent, 'stopPropagation');
+      const scrollToIndexSpy = vi.spyOn(component.list!.viewport!, 'scrollToIndex');
+
+      component.list?.focus();
+      await fixture.whenStable();
+
+      component.list?.onViewportKeyDown(pageDownEvent);
+
+      expect(preventDefaultSpy).not.toHaveBeenCalled();
+      expect(stopPropagationSpy).not.toHaveBeenCalled();
+      expect(scrollToIndexSpy).not.toHaveBeenCalled();
+      expect(component.list?.currentFocusIndex).toBe(0);
+    });
+
+    it('scrolls a deep focused row into the rendered slice before retrying focus', async () => {
+      component.items = createSelectableItems(10000);
+      await waitForRender();
+
+      const scrollToIndexSpy = vi.spyOn(component.list!.viewport!, 'scrollToIndex');
+
+      component.list!.currentFocusIndex = 1065;
+      component.list?.focus();
+      await waitForRender();
+
+      expect(scrollToIndexSpy).toHaveBeenCalledWith(1065);
+    });
+  });
+
+  describe('virtual scroll offset', () => {
+    it('applies the rendered content offset after scrolling past the initial slice', async () => {
+      component.items = createSelectableItems(500);
+      await waitForRender();
+
+      component.list?.viewport?.scrollTo({ top: 14000 });
+      await waitForRender();
+
+      const firstRenderedRow = fixture.nativeElement.querySelector('tr.item-holder') as HTMLElement;
+
+      expect(firstRenderedRow.id).not.toBe('lf-row-0');
+    });
+
+    it('keeps the header pinned to the top of the viewport after the rendered slice shifts', async () => {
+      component.items = createSelectableItems(500);
+      component.cols = [name, create];
+      await waitForRender();
+
+      component.list?.viewport?.scrollTo({ top: 14000 });
+      await waitForRender();
+
+      const shell = fixture.nativeElement.querySelector('.lf-selection-list-scroll-shell') as HTMLElement;
+      const viewport = fixture.nativeElement.querySelector('#lf-list-viewport') as HTMLElement;
+      const header = fixture.nativeElement.querySelector('tr.mat-mdc-header-row') as HTMLElement;
+
+      const firstRenderedRow = fixture.nativeElement.querySelector('tr.item-holder') as HTMLElement;
+
+      expect(firstRenderedRow.id).not.toBe('lf-row-0');
+      expect(Math.abs(header.getBoundingClientRect().top - shell.getBoundingClientRect().top)).toBeLessThanOrEqual(1);
+      expect(
+        Math.abs(header.getBoundingClientRect().bottom - viewport.getBoundingClientRect().top)
+      ).toBeLessThanOrEqual(1);
+    });
+
+    it('keeps rows rendered after deep scrolling into a large list', async () => {
+      component.items = createSelectableItems(500);
+      await waitForRender();
+
+      component.list?.viewport?.scrollTo({ top: 14000 });
+      await waitForRender();
+
+      const rows = fixture.nativeElement.querySelectorAll('tr.item-holder');
+
+      expect(rows.length).toBeGreaterThan(0);
+      expect((rows[0] as HTMLElement).id).not.toBe('lf-row-0');
+    });
+
+    it('keeps the rendered slice at the tail when scrolling to the bottom of a large list', async () => {
+      component.items = createSelectableItems(10000);
+      await waitForRender();
+
+      component.list?.viewport?.scrollTo({ top: 999999 });
+      await waitForRender();
+
+      const rows = fixture.nativeElement.querySelectorAll('tr.item-holder');
+
+      expect(rows.length).toBeGreaterThan(0);
+      expect((rows[0] as HTMLElement).id).not.toBe('lf-row-0');
+    });
+
+    it('anchors the tail-aligned rendered slice from the end of the viewport', async () => {
+      component.items = createSelectableItems(500);
+      await waitForRender();
+
+      const setRenderedContentOffsetSpy = vi.spyOn(component.list!.viewport!, 'setRenderedContentOffset');
+
+      component.list?.viewport?.scrollTo({ top: 999999 });
+      await waitForRender();
+
+      expect(setRenderedContentOffsetSpy.mock.calls).toContainEqual([0, 'to-end']);
     });
   });
 });

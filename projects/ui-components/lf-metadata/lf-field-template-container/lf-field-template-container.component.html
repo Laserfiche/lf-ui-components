@@ -10,7 +10,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </ng-template>
     <mat-select
       panelClass="lf-dropdown-overlay"
-      [placeholder]="emptyTemplateName | async"
+      [placeholder]="(emptyTemplateName | async) ?? ''"
       name="template-dropdown"
       id="template-dropdown"
       class="lf-dropdown"

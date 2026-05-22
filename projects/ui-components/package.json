@@ -26,19 +26,5 @@
   },
   "dependencies": {
     "tslib": "^2.8.1"
-  },
-  "exports": {
-    "./cdn/indigo-pink.css": {
-      "style": "./cdn/indigo-pink.css"
-    },
-    "./cdn/flatpickr.min.css": {
-      "style": "./cdn/flatpickr.min.css"
-    },
-    "./cdn/lf-laserfiche-lite.css": {
-      "style": "./cdn/lf-laserfiche-lite.css"
-    },
-    "./cdn/lf-ms-office-lite.css": {
-      "style": "./cdn/lf-ms-office-lite.css"
-    }
   }
 }

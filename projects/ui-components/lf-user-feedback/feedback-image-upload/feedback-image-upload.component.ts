@@ -148,7 +148,7 @@ export class FeedbackImageUploadComponent {
     fileInput.click();
   }
 
-  async onFileSelectedAsync(event: InputEvent): Promise<void> {
+  async onFileSelectedAsync(event: Event): Promise<void> {
     const file = (event.target as HTMLInputElement)?.files?.item(0) ?? undefined;
     const isFileAttached = await this.tryReadAndValidateImageAsync(file);
     if (!isFileAttached) {

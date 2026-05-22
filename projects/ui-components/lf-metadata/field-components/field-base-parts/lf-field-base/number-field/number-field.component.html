@@ -9,7 +9,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           #tokenTarget
           mask="{{ mask }}"
           thousandSeparator="{{ thousandSeparator }}"
-          decimalMarker="{{ decimalMarker }}"
+          [decimalMarker]="decimalMarker ?? '.'"
           prefix="{{ prefix }}"
           suffix="{{ suffix }}"
           [allowNegativeNumbers]="true"
@@ -24,7 +24,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           (focusout)="onFocusOut()"
           (input)="onEveryInputChange()"
         />
-        @if (focusState && this.lf_field_info?.length) {
+        @if (focusState && this.lf_field_info.length) {
           <mat-hint align="end">
             {{ noTokenCharacterCountHint | async }}
           </mat-hint>
