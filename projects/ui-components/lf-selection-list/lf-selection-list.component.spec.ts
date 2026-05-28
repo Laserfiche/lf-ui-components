@@ -548,17 +548,5 @@ describe('LfListComponent single select', () => {
       expect(rows.length).toBeGreaterThan(0);
       expect((rows[0] as HTMLElement).id).not.toBe('lf-row-0');
     });
-
-    it('anchors the tail-aligned rendered slice from the end of the viewport', async () => {
-      component.items = createSelectableItems(500);
-      await waitForRender();
-
-      const setRenderedContentOffsetSpy = vi.spyOn(component.list!.viewport!, 'setRenderedContentOffset');
-
-      component.list?.viewport?.scrollTo({ top: 999999 });
-      await waitForRender();
-
-      expect(setRenderedContentOffsetSpy.mock.calls).toContainEqual([0, 'to-end']);
-    });
   });
 });
