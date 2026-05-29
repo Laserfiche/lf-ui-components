@@ -23,7 +23,11 @@ export class SelfHostedLoginProvider implements LoginProvider {
   }
 
   getBaseAuthorizeUrl(): string {
-    return this.lfLoginService.self_hosted_account_endpoints?.oauthAuthorizeUrl ?? '';
+    return (
+      this.lfLoginService.self_hosted_account_endpoints?.oauthAuthorizeUrl ??
+      this.lfLoginService.getAccountEndpoints()?.oauthAuthorizeUrl ??
+      ''
+    );
   }
 
   storeInLocalStorage(accessTokenCredentials: AuthorizationCredentials, _accountId: string, _regionalDomain: string) {
