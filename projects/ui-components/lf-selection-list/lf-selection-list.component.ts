@@ -220,13 +220,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.ref.detectChanges();
     });
     const dataOffsetSub = this.dataSource.offsetChange.subscribe((offset) => {
-      const isTailAligned =
-        this.dataSource !== undefined && this.dataSource.dataStart > 0 && this.dataSource.dataEnd >= this.items.length;
-      if (isTailAligned) {
-        this.viewport?.setRenderedContentOffset(0, 'to-end');
-      } else {
-        this.viewport?.setRenderedContentOffset(offset);
-      }
+      this.viewport?.setRenderedContentOffset(offset);
       this.ref.detectChanges();
     });
     this.allSubscriptions?.add(dataSourceSub);
