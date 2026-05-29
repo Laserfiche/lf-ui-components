@@ -35,7 +35,6 @@ describe('SelfHostedLoginProvider', () => {
       extractErrorFromUrl: vi.fn(),
       getAccountEndpoints: vi.fn(),
       accessTokenStorageKey: 'mock-storage-key',
-      getAccountEndpoints: vi.fn(),
     };
 
     provider = new SelfHostedLoginProvider(lfLoginServiceMock as LfLoginService, 'mock-repository-id');
@@ -58,7 +57,7 @@ describe('SelfHostedLoginProvider', () => {
 
   describe('getBaseAuthorizeUrl', () => {
     it('should return the base authorize URL when last OAuth authorize URL exist and host name does not include dev and test environments', () => {
-      lfLoginServiceMock.self_hosted_account_endpoints = accountEndpointsMock;
+      lfLoginServiceMock.getAccountEndpoints = vi.fn().mockReturnValue(accountEndpointsMock);
       const baseAuthorizeUrl = provider.getBaseAuthorizeUrl();
       expect(baseAuthorizeUrl).toBe(accountEndpointsMock.oauthAuthorizeUrl);
     });
