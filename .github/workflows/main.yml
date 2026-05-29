@@ -68,8 +68,8 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: npm run test:ci
-        run: npm run test:ci
+      - name: npm run test
+        run: npm run test
 
       - name: Test Report
         uses: dorny/test-reporter@v3

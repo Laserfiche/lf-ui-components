@@ -8,7 +8,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "serve": "ng serve lf-documentation --configuration development --host 127.0.0.1 --port 4200",
     "build": "npm run build-ui-components-prod && npm run build-lf-documentation-prod && npm run build-lf-cdn-prod && npm run sass-lf && npm run sass-ms",
     "build-lf-documentation-dev": "npm run sass-lf && npm run sass-ms && ng build lf-documentation --configuration development --delete-output-path false",
     "build-lf-documentation-dev-watch": "npm run sass-lf && npm run sass-ms && ng build lf-documentation --configuration development --delete-output-path false --watch",
@@ -19,7 +19,6 @@
     "build-ui-components-dev": "ng build ui-components --configuration development",
     "build-ui-components-dev-watch": "ng build ui-components --configuration development --watch",
     "test": "vitest --browser.enabled --run",
-    "test:ci": "vitest --browser.enabled --run",
     "format:write": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "ng lint",
