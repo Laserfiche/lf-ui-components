@@ -28,19 +28,6 @@ const CDN_UI_COMPONENTS_FILE = 'lf-ui-components.js';
 const CDN_UI_COMPONENTS_MAP_FILE = 'lf-ui-components.js.map';
 const COMPILED_GETTING_STARTED_FILE_PATH = './dist/lf-documentation/browser/main.js';
 const BUILT_INDEX_HTML_FILEPATH = './dist/lf-documentation/browser/index.html';
-const OLD_LF_STYLE_SHEET_PATH = './lf-laserfiche-lite.css';
-const NEW_LF_STYLE_SHEET_PATH =
-  'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-laserfiche-lite.css';
-const OLD_MS_OFFICE_STYLE_SHEET_PATH = './lf-ms-office-lite.css';
-const NEW_MS_OFFICE_STYLE_SHEET_PATH =
-  'https://lfxstatic.com/npm/@laserfiche/lf-ui-components@NPM_VERSION/cdn/lf-ms-office-lite.css';
-
-async function replacePlaceholdersInDocumentation() {
-  src(COMPILED_GETTING_STARTED_FILE_PATH, { base: './' })
-    .pipe(replace(OLD_LF_STYLE_SHEET_PATH, NEW_LF_STYLE_SHEET_PATH))
-    .pipe(replace(OLD_MS_OFFICE_STYLE_SHEET_PATH, NEW_MS_OFFICE_STYLE_SHEET_PATH))
-    .pipe(dest('./'));
-}
 
 async function replaceVersionInDocumentation() {
   src(COMPILED_GETTING_STARTED_FILE_PATH, { base: './' }).pipe(replace(NPM_VERSION, getNpmVersion())).pipe(dest('./'));
@@ -89,7 +76,6 @@ async function renameLfCdn() {
 }
 
 exports.processTypesFile = processTypesFile;
-exports.replacePlaceholdersInDocumentation = replacePlaceholdersInDocumentation;
 exports.replaceVersionInIndexHtml = replaceVersionInIndexHtml;
 exports.replaceVersionInDocumentation = replaceVersionInDocumentation;
 exports.renameLfCdn = renameLfCdn;
