@@ -5,6 +5,16 @@ import angular from '@analogjs/vite-plugin-angular';
 
 export default defineConfig({
   plugins: [angular()],
+  server: {
+    host: '127.0.0.1',
+    port: 4173,
+    strictPort: true,
+  },
+  preview: {
+    host: '127.0.0.1',
+    port: 4173,
+    strictPort: true,
+  },
   resolve: {
     alias: {
       '@laserfiche/lf-ui-components/shared': fileURLToPath(
@@ -24,6 +34,11 @@ export default defineConfig({
     setupFiles: ['./vitest.setup.ts'],
     browser: {
       enabled: true,
+      api: {
+        host: '127.0.0.1',
+        port: 39015,
+        strictPort: true,
+      },
       provider: playwright(),
       instances: [
         {

@@ -39,6 +39,6 @@ export {
   LfTreeNodeService,
 } from './lf-repository-browser/lf-repository-browser-public-api';
 export { LfTagsComponent } from './lf-tags/lf-tags-public-api';
-export type { ILfTagsService, LfTagDefinition } from './lf-tags/lf-tags-public-api';
+export type { LfTagsService, LfTagDefinition } from './lf-tags/lf-tags-public-api';
 export { LfBreadcrumb, LfBreadcrumbsComponent } from './shared/lf-breadcrumbs/lf-breadcrumbs-public-api';
 export { LfToolbarComponent, ToolbarOption } from './shared/lf-toolbar/lf-toolbar-public-api';

@@ -1,9 +1,13 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
+## 21.0.2
+
+- Exposed LfTagsService interface.
+
 ## 21.0.1
 
-- Updated documentation
+- Updated documentation.
 
 ## 21.0.0
 

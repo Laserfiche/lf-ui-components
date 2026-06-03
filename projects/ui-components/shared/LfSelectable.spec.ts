@@ -26,7 +26,12 @@ class SelectionTesting {
     const test = this.testItems[name];
     this.nextId += 1;
     test.value.id = `${this.nextId}`;
-    return JSON.parse(JSON.stringify(test));
+    return {
+      ...test,
+      value: {
+        ...test.value,
+      },
+    };
   }
 }
 
