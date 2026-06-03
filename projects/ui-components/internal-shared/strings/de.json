@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "Die akzeptierten Formate sind: {0}.",
   "IMAGE_NOT_ATTACHED": "Bild nicht angehängt.",
   "ATTACH_IMAGE": "Bild anhängen",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Bitte fügen Sie nur ein Bild an."
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "Bitte fügen Sie nur ein Bild an.",
+  "TAGS": "Tags",
+  "ADD_TAGS": "Tags hinzufügen",
+  "ADD_MORE_TAGS": "Weitere Tags hinzufügen",
+  "NO_TAGS_AVAILABLE": "Keine Tags verfügbar"
 }

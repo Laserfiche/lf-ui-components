@@ -74,6 +74,22 @@
     <source>Your feedback and suggestions will help us improve our product and services.</source>
     <target>ข้อเสนอแนะและข้อเสนอแนะของคุณจะช่วยให้เราปรับปรุงผลิตภัณฑ์และบริการของเรา</target>
    </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>เพิ่มแท็ก</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>ไม่มีแท็ก</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>แท็ก</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>เพิ่มแท็กเพิ่มเติม</target>
+   </segment>
   </unit>
  </file>
 </xliff>

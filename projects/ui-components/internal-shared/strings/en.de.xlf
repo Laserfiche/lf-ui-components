@@ -74,6 +74,22 @@
     <source>Tell us about your idea</source>
     <target>Berichten Sie uns von Ihrer Idee</target>
    </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Weitere Tags hinzufügen</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Tags</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Tags hinzufügen</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Keine Tags verfügbar</target>
+   </segment>
   </unit>
  </file>
 </xliff>

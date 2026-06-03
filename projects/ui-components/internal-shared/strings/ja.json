@@ -16,5 +16,9 @@
   "ACCEPTED_FORMATS_ARE_0": "対応している形式は次のとおりです: {0}。",
   "IMAGE_NOT_ATTACHED": "画像が添付されていません。",
   "ATTACH_IMAGE": "画像を添付する",
-  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "画像は1つだけ添付してください。"
+  "PLEASE_ATTACH_ONLY_ONE_IMAGE": "画像は1つだけ添付してください。",
+  "TAGS": "タグ",
+  "ADD_TAGS": "タグを追加",
+  "ADD_MORE_TAGS": "さらにタグを追加",
+  "NO_TAGS_AVAILABLE": "利用可能なタグはありません"
 }

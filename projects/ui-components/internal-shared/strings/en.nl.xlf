@@ -74,6 +74,22 @@
     <source>Tell us about your experience</source>
     <target>Vertel ons over uw ervaring</target>
    </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Tags</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Voeg meer tags toe</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Tags toevoegen</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Geen tags beschikbaar</target>
+   </segment>
   </unit>
  </file>
 </xliff>

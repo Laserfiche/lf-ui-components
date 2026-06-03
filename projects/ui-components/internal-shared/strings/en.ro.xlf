@@ -74,6 +74,22 @@
     <source>Do you have an idea for a new feature or an improvement? We look forward to hearing about it.</source>
     <target>Aveți o idee pentru o funcționalitate nouă sau o îmbunătățire? Așteptăm cu interes să o auzim.</target>
    </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Nu sunt disponibile etichete</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Etichete</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Adăugați mai multe etichete</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Adăugați etichete</target>
+   </segment>
   </unit>
  </file>
 </xliff>

@@ -74,6 +74,22 @@
     <source>Your feedback and suggestions will help us improve our product and services.</source>
     <target>Vaše povratne informacije i sugestije će nam pomoći da poboljšamo naše proizvode i usluge.</target>
    </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Dodajte oznake</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Bilten</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Dodajte još oznaka</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Nema dostupnih oznaka</target>
+   </segment>
   </unit>
  </file>
 </xliff>

@@ -74,6 +74,22 @@
     <source>I have feedback</source>
     <target>Tengo comentarios</target>
    </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Agregar más etiquetas</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Agregar etiquetas</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Etiquetas</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>No hay etiquetas disponibles</target>
+   </segment>
   </unit>
  </file>
 </xliff>

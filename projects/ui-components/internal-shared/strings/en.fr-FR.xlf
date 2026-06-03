@@ -74,6 +74,22 @@
     <source>Please do not include any confidential or personal information in your feedback</source>
     <target>Veuillez ne pas inclure d&apos;informations confidentielles ou personnelles dans vos commentaires</target>
    </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Ajouter plus d’étiquettes</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Ajouter des étiquettes</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Étiquettes</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Aucune étiquette disponible</target>
+   </segment>
   </unit>
  </file>
 </xliff>

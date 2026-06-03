@@ -74,6 +74,22 @@
     <source>Tell us about your idea</source>
     <target>告诉我们您的想法</target>
    </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>添加标签</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>标签</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>添加更多标签</target>
+   </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>没有可用的标签</target>
+   </segment>
   </unit>
  </file>
 </xliff>

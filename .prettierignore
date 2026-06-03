@@ -2,3 +2,4 @@
 **/node_modules
 **/package-lock.json
 *.xml
+**/projects/ui-components/internal-shared/strings/

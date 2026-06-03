@@ -74,6 +74,22 @@
     <source>I have a suggestion</source>
     <target>Tenho uma sugestão</target>
    </segment>
+   <segment id="NO_TAGS_AVAILABLE" state="translated">
+    <source>No tags available</source>
+    <target>Nenhuma tag disponível</target>
+   </segment>
+   <segment id="ADD_TAGS" state="translated">
+    <source>Add tags</source>
+    <target>Adicionar tags</target>
+   </segment>
+   <segment id="ADD_MORE_TAGS" state="translated">
+    <source>Add more tags</source>
+    <target>Adicionar mais tags</target>
+   </segment>
+   <segment id="TAGS" state="translated">
+    <source>Tags</source>
+    <target>Tags</target>
+   </segment>
   </unit>
  </file>
 </xliff>
