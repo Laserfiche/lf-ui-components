@@ -67,16 +67,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 </table>
 
 <p class="documentation-header">LfTagsProvider</p>
-<p class="documentation-sub-header">ILfTagsService Interface</p>
+<p class="documentation-sub-header">LfTagsService Interface</p>
 <ul>
-  <li>getTagDefinitionsSub(): BehaviorSubject&lt;LfTagDefinition[] | undefined&gt;</li>
-  <li>getTagDefinitions(): LfTagDefinition[] | undefined</li>
+  <li>getTagDefinitions(): Promise&lt;LfTagDefinition[]&gt;</li>
 </ul>
 <p class="documentation-sub-header">LfTagDefinition Interface</p>
 <ul>
-  <li>id?: number</li>
-  <li>name?: string | undefined</li>
-  <li>displayName?: string | undefined</li>
-  <li>description?: string | undefined</li>
-  <li>isSecure?: boolean</li>
+  <li>id: number</li>
+  <li>name: string</li>
+  <li>displayName: string</li>
+  <li>description?: string</li>
+  <li>isSecure: boolean</li>
 </ul>

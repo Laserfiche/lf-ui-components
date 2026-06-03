@@ -27,7 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-shared';
 import { Subscription } from 'rxjs';
-import { ILfTagsService, LfTagDefinition } from './ILfTagsService';
+import { LfTagsService, LfTagDefinition } from './ILfTagsService';
 
 @Component({
   selector: 'lf-tags-component',
@@ -48,7 +48,7 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
   private localizationService = inject(AppLocalizationService);
 
   @Input() initialTags: string[] = [];
-  @Input() tagsService: ILfTagsService | undefined;
+  @Input() tagsService: LfTagsService | undefined;
   @Output() selectedTagsChanged = new EventEmitter<string[]>();
 
   TAGS = this.localizationService.getResourceStringComponents('TAGS');
@@ -79,13 +79,12 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
     );
 
     if (this.tagsService) {
-      const tagsSub = this.tagsService.getTagDefinitionsSub().subscribe((tagDefinitions) => {
+      this.tagsService.getTagDefinitions().then((tagDefinitions) => {
         this.tagDefinitions = tagDefinitions ?? [];
 
         if (this.initialTags.length > 0) {
-          const tags = this.tagsService!.getTagDefinitions() ?? [];
           const initialTagNames = new Set(this.initialTags);
-          const toSelect = tags.filter((t) => t.displayName && initialTagNames.has(t.displayName));
+          const toSelect = this.tagDefinitions.filter((t) => t.displayName && initialTagNames.has(t.displayName));
           setTimeout(() => {
             this.selectedTagNames = toSelect.map((t) => t.displayName!);
             this.emitSelectedTagNames();
@@ -96,8 +95,6 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
           setTimeout(() => this.refreshFilteredTags());
         }
       });
-
-      this.componentSub.add(tagsSub);
     }
   }
 
