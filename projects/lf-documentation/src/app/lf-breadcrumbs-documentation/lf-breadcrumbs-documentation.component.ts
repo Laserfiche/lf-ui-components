@@ -69,7 +69,7 @@ export class LfBreadcrumbsDocumentationComponent {
 
   constructor() {}
 
-  onElementBreadcrumbSelected(breadcrumb: LfBreadcrumb) {
+  onElementBreadcrumbSelected(breadcrumb: LfBreadcrumb | undefined) {
     this.selectedElementBreadcrumb = JSON.stringify(breadcrumb, null, 2);
   }
 }

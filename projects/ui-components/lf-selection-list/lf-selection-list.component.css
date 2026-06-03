@@ -1,10 +1,22 @@
-:root {
+:host {
   display: block;
+  width: 100%;
   height: 100%;
+  min-height: 0;
+}
+
+.lf-selection-list-scroll-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 #lf-list-viewport {
-  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
 }
 
 ::ng-deep .mat-mdc-table.lf-table-selection-list .mat-mdc-header-row,
@@ -20,6 +32,7 @@
 
 .item-holder {
   color: var(--lf-body-text-color, #333333);
+  box-sizing: border-box;
 }
 
 .node-selected.item-holder,
@@ -125,14 +138,16 @@
   flex-direction: column;
   width: fit-content;
 }
-::ng-deep .lf-table-selection-list tr {
-  display: grid;
+
+.lf-table-selection-list-header {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  width: fit-content;
 }
 
-::ng-deep .lf-table-selection-list thead {
-  position: sticky;
-  top: 0;
-  z-index: 1;
+::ng-deep .lf-table-selection-list tr {
+  display: grid;
 }
 
 .lf-table-selection-list .column-text-div {
@@ -142,7 +157,6 @@
 }
 
 ::ng-deep #lf-list-viewport.cdk-virtual-scroll-orientation-vertical .cdk-virtual-scroll-content-wrapper {
-  transform: translateY(0px) !important;
   width: fit-content;
   min-height: 100%;
 }

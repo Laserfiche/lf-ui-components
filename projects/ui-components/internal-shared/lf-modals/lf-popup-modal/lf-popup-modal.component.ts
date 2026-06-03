@@ -3,7 +3,6 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { Observable } from 'rxjs';
 
 /**
@@ -15,7 +14,7 @@ import { Observable } from 'rxjs';
   templateUrl: './lf-popup-modal.component.html',
   styleUrls: ['./lf-popup-modal.component.css'],
   standalone: true,
-  imports: [CommonModule, CdkTrapFocus],
+  imports: [CommonModule],
 })
 export class LfPopupModalComponent {
   @Input() data!: PopupModalData;

@@ -58,7 +58,7 @@ export class FeedbackSubmissionComponent {
     this.feedbackImageBase64 = imageBase64;
   }
 
-  feedbackTextBoxChange(event: InputEvent) {
+  feedbackTextBoxChange(event: Event) {
     const feedbackText = (event.target as HTMLTextAreaElement).value;
     this.feedbackLength = feedbackText.length;
     this.feedbackTextChanged.emit(feedbackText);

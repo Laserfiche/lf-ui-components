@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 env:
-  NPM_VERSION: "21.0.0"
+  NPM_VERSION: "21.0.1"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -24,7 +24,7 @@ permissions:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
@@ -38,45 +38,41 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Update npm
-        run: npm install -g npm@latest
-
       - name: npm ci
         run: npm ci
 
-      - name: Npm run format:check
+      - name: npm run format:check
         run: npm run format:check
 
-      - name: Npm run lint
+      - name: npm run lint
         run: npm run lint
 
-      - name: Npm run build-ui-components
+      - name: npm run build-ui-components-prod
         run: npm run build-ui-components-prod
 
-      - name: Npm run create types ui components
+      - name: npm run create-types-lf-ui-components
         run: npm run create-types-lf-ui-components
 
-      - name: Npm run create-lf-cdn
+      - name: npm run create-lf-cdn
         run: npm run create-lf-cdn
 
-      - name: Npm run build-lf-documentation-prod
+      - name: npm run build-lf-documentation-prod
         run: npm run build-lf-documentation-prod
 
-      - name: Npm run sass-lf
+      - name: npm run sass-lf
         run: npm run sass-lf
 
-      - name: Npm run sass-ms
+      - name: npm run sass-ms
         run: npm run sass-ms
 
       - name: Install Playwright browser
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps chromium
 
-      - name: Npm run test
-        shell: pwsh
-        run: npm run test:ci
+      - name: npm run test
+        run: npm run test
 
       - name: Test Report
-        uses: dorny/test-reporter@v2
+        uses: dorny/test-reporter@v3
         if: always()
         with:
           name: Jest Test Results
@@ -86,16 +82,13 @@ jobs:
           use-actions-summary: "true"
           fail-on-error: "false"
 
-      - name: "create an empty ./dist/ui-components/cdn folder"
+      - name: "create folder ./dist/ui-components/cdn"
         run: "mkdir -p ./dist/ui-components/cdn"
 
-      - name: "npm run gulp-replace-placeholders-in-documentation"
-        run: npm run gulp-replace-placeholders-in-documentation
+      - name: "Copy indigo-pink to ui-components/cdn"
+        run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn
 
-      - name: "move indigo-pink to ui-components/cdn"
-        run: cp ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./dist/ui-components/cdn/indigo-pink.css
-
-      - name: "move lf-ui-components.js to ui-components/cdn"
+      - name: "Move lf-ui-components.js to ui-components/cdn"
         run: |
           mv lf-ui-components.js lf-ui-components.js.map ../../ui-components/cdn
         working-directory: ./dist/lf-cdn/browser
@@ -114,11 +107,11 @@ jobs:
           echo "The following styles are copied from flatpickr.min.css */" >> ./dist/lf-documentation/browser/lf-ms-office-lite.css
           cat ./node_modules/flatpickr/dist/flatpickr.min.css >> ./dist/lf-documentation/browser/lf-ms-office-lite.css
 
-      - name: "move lf-documentation/styles to ui-components/cdn"
-        run: mv lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map ../../ui-components/cdn/
+      - name: "Copy lf-documentation/styles to ui-components/cdn"
+        run: cp lf-laserfiche-lite.css lf-ms-office-lite.css lf-laserfiche-lite.css.map lf-ms-office-lite.css.map ../../ui-components/cdn/
         working-directory: ./dist/lf-documentation/browser
 
-      - name: "move README to ui-components"
+      - name: "Move README to ui-components"
         run: mv README.md ./dist/ui-components
 
       - name: Upload a Build Artifact
@@ -156,11 +149,9 @@ jobs:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Update npm
-        run: npm install -g npm@latest
-
       - name: set NpmPackageVersion environment
-        run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
+        id: preview_version
+        run: echo "value=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_OUTPUT
 
       - name: "copy license"
         run: |
@@ -168,7 +159,7 @@ jobs:
           cp LICENSE ./dist/ui-components
 
       - name: npm version @laserfiche/types-lf-ui-components
-        run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
+        run: npm version ${{ steps.preview_version.outputs.value }} --no-git-tag-version
         working-directory: ./types-lf-ui-components-publish
 
       - name: Npm publish @laserfiche/types-lf-ui-components
@@ -176,7 +167,7 @@ jobs:
         working-directory: ./types-lf-ui-components-publish
 
       - name: npm version @laserfiche/lf-ui-components
-        run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
+        run: npm version ${{ steps.preview_version.outputs.value }} --no-git-tag-version
         working-directory: ./dist/ui-components
 
       - name: Npm publish @laserfiche/lf-ui-components
@@ -186,7 +177,7 @@ jobs:
       - name: Tag commit
         uses: rickstaa/action-create-tag@v1
         with:
-          tag: ${{ env.NpmPackageVersion }}
+          tag: ${{ steps.preview_version.outputs.value }}
           commit_sha: ${{ github.sha }}
           message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
@@ -210,9 +201,6 @@ jobs:
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
-
-      - name: Update npm
-        run: npm install -g npm@latest
 
       - name: "copy license"
         run: |
@@ -272,10 +260,10 @@ jobs:
         run: gulp replaceVersionInIndexHtml --npmVersion ${{ env.NPM_VERSION }}
 
       - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist/lf-documentation/browser
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

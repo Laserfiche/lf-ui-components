@@ -46,7 +46,7 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
   suffix: string | undefined;
   mask: string | undefined;
   thousandSeparator: string | undefined;
-  decimalMarker: string | undefined;
+  decimalMarker: '.' | ',' | undefined;
   separatorLimit: string | undefined;
   focusState: boolean | undefined;
 
@@ -183,14 +183,14 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
     return this.lf_field_value ?? '';
   }
 
-  private getSeparator(separatorType?: string): string {
+  private getSeparator(separatorType?: string): '.' | ',' {
     const numberWithGroupAndDecimalSeparator: number = 11111.1;
     const numberString = numberWithGroupAndDecimalSeparator.toLocaleString(navigator.language);
     const separators = numberString.replace(/1/g, '');
     if (separatorType === 'group') {
-      return separators.slice(0, 1);
+      return separators.slice(0, 1) as '.' | ',';
     } else {
-      return separators.slice(1, 2);
+      return separators.slice(1, 2) as '.' | ',';
     }
   }
 

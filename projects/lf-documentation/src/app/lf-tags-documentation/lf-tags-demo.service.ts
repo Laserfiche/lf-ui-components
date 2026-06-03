@@ -2,13 +2,12 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { ILfTagsService, LfTagDefinition } from './../../../../ui-components/lf-tags/lf-tags-public-api';
+import { LfTagsService, LfTagDefinition } from './../../../../ui-components/lf-tags/lf-tags-public-api';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LfTagsDemoService implements ILfTagsService {
+export class LfTagsDemoService implements LfTagsService {
   private demoTagDefinitions: LfTagDefinition[] = [
     {
       id: 1,
@@ -47,13 +46,7 @@ export class LfTagsDemoService implements ILfTagsService {
     },
   ];
 
-  private tagDefinitionsSub = new BehaviorSubject<LfTagDefinition[] | undefined>(this.demoTagDefinitions);
-
-  getTagDefinitionsSub(): BehaviorSubject<LfTagDefinition[] | undefined> {
-    return this.tagDefinitionsSub;
-  }
-
-  getTagDefinitions(): LfTagDefinition[] | undefined {
-    return this.demoTagDefinitions;
+  getTagDefinitions(): Promise<LfTagDefinition[]> {
+    return Promise.resolve(this.demoTagDefinitions);
   }
 }

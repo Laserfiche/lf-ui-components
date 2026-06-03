@@ -16,7 +16,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ILfSelectable, ItemWithId } from '@laserfiche/lf-ui-components/shared';
+import { ILfSelectable, ItemWithId, LfBreadcrumb } from '@laserfiche/lf-ui-components/shared';
 import { AppLocalizationService, LfLoaderComponent } from '@laserfiche/lf-ui-components/internal-shared';
 import { LfTreeNodeService, LfTreeNode, LfTreeNodePage } from './ILfTreeNodeService';
 import { Subject } from 'rxjs';
@@ -46,6 +46,11 @@ const NAME_COL_50CH: ColumnDef = {
   minWidthPx: 100,
   resizable: true,
   sortable: true,
+};
+
+type BreadcrumbNavigationEvent = {
+  breadcrumbs: LfTreeNode[];
+  selected: LfTreeNode;
 };
 
 @Component({
@@ -394,6 +399,8 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * Used to track if data is currently being pulled
    * */
   private lastDataCall?: Promise<ILfSelectable[]>;
+  /** @internal */
+  private isFetchingData: boolean = false;
 
   /** @internal */
   constructor() {
@@ -401,14 +408,18 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       if (!this._currentFolder) {
         return;
       }
-      if (!this.maximumChildrenReceived) {
+      if (!this.maximumChildrenReceived && !this.isFetchingData) {
         if (this.nextPage && this.nextPage == this.lastCalledPage) {
           // do nothing. nextPage already attempted
           return;
         }
-        await this.makeDataCall(this._currentFolder);
-        this.ref.detectChanges();
-        this.resetSelectedItemsAsync();
+        this.isFetchingData = true;
+        try {
+          await this.makeDataCall(this._currentFolder);
+          this.ref.detectChanges();
+        } finally {
+          this.isFetchingData = false;
+        }
       }
     });
   }
@@ -426,16 +437,27 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * @param event
    * @returns
    */
-  async onBreadcrumbClicked(event: { breadcrumbs: LfTreeNode[]; selected: LfTreeNode }) {
-    if (!event.breadcrumbs || !event.selected) {
-      console.error('onBreadcrumbClicked event is required to have a breadcrumbs as well as a selected entry');
+  async onBreadcrumbNavigation(navigationEvent: BreadcrumbNavigationEvent) {
+    if (!navigationEvent.breadcrumbs || !navigationEvent.selected) {
+      console.error('Breadcrumb navigation requires breadcrumbs and a selected entry');
       return;
     }
-    this._breadcrumbs = event.breadcrumbs;
-    this._currentFolder = event.selected;
+    this._breadcrumbs = navigationEvent.breadcrumbs;
+    this._currentFolder = navigationEvent.selected;
     await this.updateAllPossibleEntriesAsync(this._currentFolder);
     this.entryDblClicked.emit([this._currentFolder]);
     setTimeout(() => this.entryList?.focus());
+  }
+
+  /** @internal */
+  toBreadcrumbNavigationEvent(event: {
+    breadcrumbs: LfBreadcrumb[];
+    selected: LfBreadcrumb;
+  }): BreadcrumbNavigationEvent {
+    return {
+      breadcrumbs: event.breadcrumbs as LfTreeNode[],
+      selected: event.selected as LfTreeNode,
+    };
   }
 
   /**
@@ -453,9 +475,14 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
    * @param entry
    * @returns
    */
-  async onDblClickAsync(treeNode: LfTreeNode | undefined) {
-    await this.openChildFolderAsync(treeNode as LfTreeNode);
-    this.entryDblClicked.emit([treeNode as LfTreeNode]);
+  async onDblClickAsync(treeNode: ItemWithId | undefined) {
+    const entry = treeNode as LfTreeNode | undefined;
+    if (!entry) {
+      return;
+    }
+
+    await this.openChildFolderAsync(entry);
+    this.entryDblClicked.emit([entry]);
   }
 
   /**
@@ -612,7 +639,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
     while (currentNode) {
       const nextParent: LfTreeNode | undefined = await this.treeNodeService.getParentTreeNodeAsync(currentNode);
       if (nextParent) {
-        this.breadcrumbs.push(nextParent);
+        this._breadcrumbs.push(nextParent);
       }
       currentNode = nextParent;
     }
@@ -717,6 +744,7 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       } finally {
         this.isLoading = false;
         this.ref.detectChanges();
+        this.syncEntryListViewportSize();
       }
     } else {
       console.error('updateAllPossibleEntriesAsync parentEntry undefined or missing id property');
@@ -756,6 +784,9 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
         selectable.push(...additionalData);
         this.lastDataCall = undefined;
       }
+      if (selectable.length === 0) {
+        return selectable;
+      }
       this.currentFolderChildren = this.currentFolderChildren.concat(...selectable);
       return selectable;
     } catch (error) {
@@ -764,6 +795,18 @@ export class LfRepositoryBrowserComponent implements OnDestroy, AfterViewInit {
       this.ref.detectChanges();
       return undefined;
     }
+  }
+
+  /** @internal */
+  private syncEntryListViewportSize() {
+    setTimeout(() => {
+      this.entryList?.viewport?.checkViewportSize();
+      // checkViewportSize calls onDataLengthChanged which resets totalContentSize
+      // to 0 because CDK _dataLength is always 0 (no CdkVirtualForOf). Restore it.
+      if (this.entryList?.viewport) {
+        this.entryList.viewport.setTotalContentSize(this.currentFolderChildren.length * this.entryList.itemSize);
+      }
+    });
   }
 
   /**

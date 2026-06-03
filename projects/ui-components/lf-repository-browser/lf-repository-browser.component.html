@@ -2,7 +2,10 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <div class="lf-repository-browser-header">
-  <lf-breadcrumbs-component [breadcrumbs]="breadcrumbs" (breadcrumbClicked)="onBreadcrumbClicked($event)">
+  <lf-breadcrumbs-component
+    [breadcrumbs]="breadcrumbs"
+    (breadcrumbClicked)="onBreadcrumbNavigation(toBreadcrumbNavigationEvent($event))"
+  >
   </lf-breadcrumbs-component>
   <ng-content select="[lf-toolbar]"></ng-content>
 </div>
@@ -23,30 +26,31 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       }
     </div>
   }
-
-  <lf-selection-list-component
-    [hidden]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage"
-    [uniqueIdentifier]="repoBrowserUniqueId"
-    [listItems]="currentFolderChildren"
-    [multipleSelection]="multiple"
-    [itemSize]="item_size"
-    [pageSize]="page_size"
-    (scrollChanged)="onScroll()"
-    [listItemRef]="listOption"
-    (itemDoubleClicked)="onDblClickAsync($event)"
-    (itemSelected)="onItemSelected($event)"
-    (itemFocused)="onEntryFocused($event)"
-    (refreshData)="refreshAsync(false)"
-  >
-    <ng-template #listOption let-item="value">
-      @if (getIcons(item).length > 0) {
-        <div class="fixed-size-icon-container lf-no-user-select">
-          @for (icon of getIcons(item); track icon) {
-            <img src="{{ icon }}" alt="" class="lf-entry-icon" />
-          }
-        </div>
-      }
-      <div title="{{ item?.name }}" class="lf-ellipsis-label lf-no-user-select">{{ item?.name }}</div>
-    </ng-template>
-  </lf-selection-list-component>
+  <div [hidden]="shouldShowErrorMessage || shouldShowEmptyMessage" [ngStyle]="{ height: '100%' }">
+    <lf-selection-list-component
+      [hidden]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage"
+      [uniqueIdentifier]="repoBrowserUniqueId"
+      [listItems]="currentFolderChildren"
+      [multipleSelection]="multiple"
+      [itemSize]="item_size"
+      [pageSize]="page_size"
+      (scrollChanged)="onScroll()"
+      [listItemRef]="listOption"
+      (itemDoubleClicked)="onDblClickAsync($event)"
+      (itemSelected)="onItemSelected($event)"
+      (itemFocused)="onEntryFocused($event)"
+      (refreshData)="refreshAsync(false)"
+    >
+      <ng-template #listOption let-item="value">
+        @if (getIcons(item).length > 0) {
+          <div class="fixed-size-icon-container lf-no-user-select">
+            @for (icon of getIcons(item); track icon) {
+              <img src="{{ icon }}" alt="" class="lf-entry-icon" />
+            }
+          </div>
+        }
+        <div title="{{ item?.name }}" class="lf-ellipsis-label lf-no-user-select">{{ item?.name }}</div>
+      </ng-template>
+    </lf-selection-list-component>
+  </div>
 </div>

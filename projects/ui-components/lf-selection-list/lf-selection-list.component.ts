@@ -13,19 +13,22 @@ import {
   Input,
   OnDestroy,
   Output,
+  QueryList,
   TemplateRef,
   ViewChild,
+  ViewChildren,
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatTableModule } from '@angular/material/table';
+import { MatTable, MatTableModule } from '@angular/material/table';
 import { ILfSelectable, ItemWithId, Selectable } from '@laserfiche/lf-ui-components/shared';
 import { Subscription } from 'rxjs';
 import { GridSelectionListDataSource } from './lf-selection-list-data-source';
 import { ColumnDef, ColumnOrderBy, SelectedItemEvent } from './lf-selection-list-types';
 import { COLUMN_MIN_WIDTH, ResizeColumnDirective } from './resize-column.directive';
+import { LfManagedVirtualScrollDirective } from './lf-managed-virtual-scroll.directive';
 
 /** @internal */
 export interface RepositoryBrowserData {
@@ -48,7 +51,15 @@ const SELECT_COL: ColumnDef = {
   styleUrls: ['./lf-selection-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, ScrollingModule, MatCheckboxModule, MatTableModule, MatSortModule, ResizeColumnDirective],
+  imports: [
+    CommonModule,
+    ScrollingModule,
+    MatCheckboxModule,
+    MatTableModule,
+    MatSortModule,
+    ResizeColumnDirective,
+    LfManagedVirtualScrollDirective,
+  ],
 })
 export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /**@internal */
@@ -84,6 +95,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         this.setNewWidths();
       }
       this.dataSource.allData = this.items;
+      this.ref.markForCheck();
     }
   }
 
@@ -148,6 +160,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
     if (this.matTable) {
       this.matTable.nativeElement.style.width = '100%';
+      this.headerTable?.nativeElement.style.setProperty('width', '100%');
       const templateCOls = widths.join(' ');
       this.columnsWidth = templateCOls;
     }
@@ -158,6 +171,10 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
   /** @internal */
   @ViewChild('matTable', { read: ElementRef }) matTable?: ElementRef;
+  /** @internal */
+  @ViewChildren(MatTable) matTables?: QueryList<MatTable<ILfSelectable>>;
+  /** @internal */
+  @ViewChild('headerTable', { read: ElementRef }) headerTable?: ElementRef;
   /** @internal */
   @ViewChild(MatSort) sort?: MatSort;
 
@@ -193,14 +210,21 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
 
   /** @internal */
   ngAfterViewInit(): void {
+    this.allSubscriptions = new Subscription();
     this.dataSource = new GridSelectionListDataSource(this.items, this.viewport!, this.itemSize, this._pageSize);
     const dataSourceSub = this.dataSource.checkForData.subscribe(() => {
       this.scrollChanged.emit();
     });
+    const dataRenderSub = this.dataSource.connect({} as never).subscribe(() => {
+      this.matTables?.last?.renderRows();
+      this.ref.detectChanges();
+    });
     const dataOffsetSub = this.dataSource.offsetChange.subscribe((offset) => {
       this.viewport?.setRenderedContentOffset(offset);
+      this.ref.detectChanges();
     });
     this.allSubscriptions?.add(dataSourceSub);
+    this.allSubscriptions?.add(dataRenderSub);
     this.allSubscriptions?.add(dataOffsetSub);
 
     if (this.columns.length > 1 || this.alwaysShowHeader === true) {
@@ -247,7 +271,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     if (this.currentFocusIndex >= this.items.length) {
       this.currentFocusIndex = 0;
     }
-    if (!this.items[this.currentFocusIndex] || !this.items[this.currentFocusIndex]) {
+    const currentRow = this.viewport?.elementRef.nativeElement.querySelector('#lf-row-' + this.currentFocusIndex);
+    if (!currentRow) {
       this.viewport?.scrollToIndex(this.currentFocusIndex);
     }
   }
@@ -394,6 +419,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
         } else {
           const containerWidth = this.viewport?.elementRef.nativeElement.getBoundingClientRect().width;
           tableEl.style.width = containerWidth + 'px';
+          this.headerTable?.nativeElement.style.setProperty('width', containerWidth + 'px');
           this.ref.detectChanges();
           const widthsInPixel: string[] = [];
 
@@ -401,10 +427,18 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
             const columnEls = Array.from(
               this.viewport!.elementRef.nativeElement.getElementsByClassName('mat-column-' + col.id)
             );
+            const headerColumnEls = this.headerTable
+              ? Array.from(this.headerTable.nativeElement.getElementsByClassName('mat-column-' + col.id))
+              : [];
             const columnWidthOffset = Math.max(...columnEls.map((c) => (c as HTMLDivElement).offsetWidth));
+            const headerWidthOffset = headerColumnEls.length
+              ? Math.max(...headerColumnEls.map((c) => (c as HTMLDivElement).offsetWidth))
+              : 0;
             const minWidthPx = col.minWidthPx ?? COLUMN_MIN_WIDTH;
             const columnWidthInPixel =
-              col.id !== 'select' ? Math.max(columnWidthOffset, minWidthPx) + 'px' : SELECT_COL.defaultWidth;
+              col.id !== 'select'
+                ? Math.max(columnWidthOffset, headerWidthOffset, minWidthPx) + 'px'
+                : SELECT_COL.defaultWidth;
             widthsInPixel.push(columnWidthInPixel);
           });
 
@@ -414,6 +448,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
           }
 
           tableEl.style.width = 'fit-content';
+          this.headerTable?.nativeElement.style.setProperty('width', 'fit-content');
           this.ref.detectChanges();
         }
       }
@@ -475,7 +510,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     }
     const rowEleRect = rowEle.getBoundingClientRect();
     const scrollRect = this.viewport.elementRef.nativeElement.getBoundingClientRect();
-    const belowTop = rowEleRect.top >= scrollRect.top + (this._showHeader ? this.itemSize : 0);
+    const belowTop = rowEleRect.top >= scrollRect.top;
     const aboveBottom = rowEleRect.bottom <= scrollRect.bottom;
     return belowTop && aboveBottom;
   }
@@ -489,7 +524,14 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     const ele = this.viewport?.elementRef.nativeElement.querySelector(
       '#lf-row-' + this.currentFocusIndex
     ) as HTMLElement;
-    ele?.focus();
+    if (ele) {
+      ele.focus();
+      return;
+    }
+
+    setTimeout(() => {
+      this._focus(tries + 1);
+    });
   }
 
   // column resizing

@@ -39,7 +39,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           (focusout)="onFocusOut()"
           (input)="onEveryInputChange()"
         ></textarea>
-        @if (focusState && this.lf_field_info?.length) {
+        @if (focusState && this.lf_field_info.length) {
           <mat-hint align="end">
             {{ containsToken ? (tokenCharacterCountHint | async) : (noTokenCharacterCountHint | async) }}
           </mat-hint>

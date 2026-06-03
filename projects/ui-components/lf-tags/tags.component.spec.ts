@@ -2,8 +2,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LfTagsComponent } from './tags.component';
-import { BehaviorSubject } from 'rxjs';
-import { ILfTagsService, LfTagDefinition } from './ILfTagsService';
+import { LfTagsService, LfTagDefinition } from './ILfTagsService';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChip } from '@angular/material/chips';
 import { FormControl } from '@angular/forms';
@@ -14,11 +13,9 @@ describe('LfTagsComponent', () => {
   let component: LfTagsComponent;
   let fixture: ComponentFixture<LfTagsComponent>;
   let mockTagDefinitions: LfTagDefinition[];
-  let tagDefinitionsSub: BehaviorSubject<LfTagDefinition[] | undefined>;
 
   let tagsServiceMock: {
     getTagDefinitions: ReturnType<typeof vi.fn>;
-    getTagDefinitionsSub: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(async () => {
@@ -37,12 +34,9 @@ describe('LfTagsComponent', () => {
 
     tagsServiceMock = {
       getTagDefinitions: vi.fn(),
-      getTagDefinitionsSub: vi.fn(),
     };
 
-    tagDefinitionsSub = new BehaviorSubject<LfTagDefinition[] | undefined>(mockTagDefinitions);
-    tagsServiceMock.getTagDefinitions.mockReturnValue([mockTagDefinitions[0]]);
-    tagsServiceMock.getTagDefinitionsSub.mockReturnValue(tagDefinitionsSub);
+    tagsServiceMock.getTagDefinitions.mockResolvedValue(mockTagDefinitions);
 
     await TestBed.configureTestingModule({
       imports: [LfTagsComponent, MatAutocomplete, MatChip],
@@ -60,7 +54,7 @@ describe('LfTagsComponent', () => {
 
     component = fixture.componentInstance;
     component.tagCtrl = new FormControl();
-    component.tagsService = tagsServiceMock as ILfTagsService;
+    component.tagsService = tagsServiceMock as LfTagsService;
     fixture.detectChanges();
   });
 

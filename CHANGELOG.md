@@ -1,6 +1,25 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
+## 21.0.2
+
+- Exposed LfTagsService interface.
+
+## 21.0.1
+
+- Updated documentation.
+
+## 21.0.0
+
+### Chore & Maintenance
+
+- **[BREAKING]**: Update to Angular 21.
+- **[BREAKING]**: Migrated `@angular/material` to version 21.
+- Updated `@analogjs/vite-plugin-angular` to version 2.3.x.
+- Updated `@analogjs/vitest-angular` to version 2.3.x.
+- Improved TypeScript and tooling compatibility with modern Angular ecosystem.
+- Removed dependency from `zone.js`.
+
 ## 18.0.7
 
 ### Features

@@ -4,6 +4,8 @@
 import { ILfSelectable, Selectable } from './LfSelectable';
 
 class SelectionTesting {
+  private nextId = 0;
+
   testItems: { [key: string]: ILfSelectable } = {
     selectable: {
       isSelectable: true,
@@ -22,8 +24,14 @@ class SelectionTesting {
       throw new Error(`${name} was not found`);
     }
     const test = this.testItems[name];
-    test.value.id = `${Math.floor(Math.random() * 100000) + 1}`;
-    return JSON.parse(JSON.stringify(test));
+    this.nextId += 1;
+    test.value.id = `${this.nextId}`;
+    return {
+      ...test,
+      value: {
+        ...test.value,
+      },
+    };
   }
 }
 

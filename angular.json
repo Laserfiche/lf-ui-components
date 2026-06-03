@@ -42,7 +42,14 @@
                   "with": "projects/lf-cdn/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "fonts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                }
+              },
               "outputHashing": "all",
               "sourceMap": true,
               "namedChunks": false,
@@ -124,6 +131,16 @@
               {
                 "glob": "*",
                 "input": "projects/static-assets",
+                "output": ""
+              },
+              {
+                "glob": "lf-*-lite.css",
+                "input": "dist/generated-assets",
+                "output": ""
+              },
+              {
+                "glob": "lf-*-lite.css.map",
+                "input": "dist/generated-assets",
                 "output": ""
               }
             ],

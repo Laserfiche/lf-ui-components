@@ -55,6 +55,7 @@ import { LFDatePickerPlugin } from './plugin-lfDatePicker';
 export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContentInit {
   dateTimeService = inject(UniDateTimeService);
   private ref = inject(ChangeDetectorRef);
+  private readonly emptyFormGroup = new FormGroup({});
 
   @HostBinding('class.required') isRequired = false;
   @HostBinding('class.readonly') isReadonly = false;
@@ -162,6 +163,10 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
   @ViewChild('timedateDiv') timedateDiv!: ElementRef;
   @ViewChild('dateTimeInput') dateTimeInput?: ElementRef;
   supportedLanguage = 'en';
+
+  get formGroup(): FormGroup {
+    return this.abstractControl instanceof FormGroup ? this.abstractControl : this.emptyFormGroup;
+  }
 
   ngOnInit() {
     this.populateConfig();

@@ -17,10 +17,10 @@ import { Observable } from 'rxjs';
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule],
 })
 export class DynamicFieldComponent {
-  @Input() options: string[] = [];
+  @Input() options: string[] | undefined = undefined;
   @Input() formControl!: FormControl;
   @Input() title: string | undefined;
-  @Input() fieldValidationErrorMsg!: Observable<string> | undefined;
+  @Input() fieldValidationErrorMsg: Observable<string | undefined> | undefined;
   @Input() getBrokenValidationRule!: () => ValidationRule | undefined;
   @Output() valueChange = new EventEmitter();
 

@@ -45,7 +45,7 @@ export class ItemsComponent implements OnInit {
 
   @Input() items: ChecklistItem[] = [];
   @Output() itemsChanged: EventEmitter<void> = new EventEmitter<void>();
-  labelPosition: string = 'before';
+  labelPosition: 'before' | 'after' = 'before';
   checklistParentForm: FormGroup;
 
   /** @internal */
@@ -157,7 +157,7 @@ export class ItemsComponent implements OnInit {
     }
   }
 
-  doNothing(event: KeyboardEvent) {
+  doNothing(event: Event) {
     event.preventDefault();
   }
 }

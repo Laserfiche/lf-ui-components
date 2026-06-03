@@ -2,7 +2,8 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { ComponentFixture, TestBed, TestModuleMetadata, flush, fakeAsync } from '@angular/core/testing';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { ComponentFixture, TestBed, TestModuleMetadata } from '@angular/core/testing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
@@ -30,6 +31,7 @@ class MockLfSelectionListComponent {
   @Input() itemSize = 42;
   @Input() pageSize = 50;
   @Input() listItemRef?: TemplateRef<unknown>;
+  viewport = { checkViewportSize: vi.fn(), setTotalContentSize: vi.fn() } as unknown as CdkVirtualScrollViewport;
 
   @Output() scrollChanged = new EventEmitter<undefined>();
   @Output() itemDoubleClicked = new EventEmitter<unknown>();
@@ -459,6 +461,99 @@ describe('LfRepositoryBrowserComponent', () => {
     await component.openSelectedItemsAsync();
     expect(component.currentFolder).toBe(rootTreeNode);
     expect(component.entryDblClicked.emit).toHaveBeenCalled();
+  });
+
+  it('initAsync should recheck the selection list viewport after loading data', async () => {
+    dataServiceMock.getRootTreeNodeAsync.mockReturnValue(Promise.resolve(rootTreeNode));
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(
+      Promise.resolve({ nextPage: undefined, page: rootTreeNodeChildren })
+    );
+    dataServiceMock.getParentTreeNodeAsync.mockReturnValue(Promise.resolve(undefined));
+
+    const viewport = component.entryList?.viewport as CdkVirtualScrollViewport;
+    const checkViewportSizeSpy = vi.spyOn(viewport, 'checkViewportSize');
+
+    await component.initAsync(dataServiceMock);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(checkViewportSizeSpy).toHaveBeenCalled();
+  });
+
+  it('onScroll should not reset cached selections when no items are selected', async () => {
+    const additionalPage: LfTreeNode[] = [
+      {
+        icon: '',
+        id: '4',
+        isContainer: false,
+        isLeaf: true,
+        name: 'tree node (4)',
+        path: '',
+      },
+    ];
+
+    dataServiceMock.getFolderChildrenAsync.mockReset();
+
+    component.treeNodeService = dataServiceMock;
+    // @ts-ignore internal test setup
+    component._currentFolder = rootTreeNode;
+    component.nextPage = 'page-2';
+    component.lastCalledPage = undefined;
+    component.maximumChildrenReceived = false;
+    component.currentFolderChildren = [
+      {
+        isSelectable: true,
+        isSelected: false,
+        value: rootTreeNodeChildren[0],
+      },
+    ];
+
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(
+      Promise.resolve({ nextPage: undefined, page: additionalPage })
+    );
+
+    const resetCachedNodesSpy = vi.spyOn(component.entryList!, 'resetCachedNodesAsync');
+    const viewport = component.entryList?.viewport as CdkVirtualScrollViewport;
+    const checkViewportSizeSpy = vi.spyOn(viewport, 'checkViewportSize');
+    const setTotalContentSizeSpy = vi.spyOn(viewport, 'setTotalContentSize');
+
+    component.onScroll();
+    await new Promise((resolve) => setTimeout(resolve, 260));
+
+    expect(dataServiceMock.getFolderChildrenAsync).toHaveBeenCalledTimes(1);
+    expect(resetCachedNodesSpy).not.toHaveBeenCalled();
+    expect(component.currentFolderChildren.map((item) => item.value.id)).toEqual(['2', '4']);
+    expect(checkViewportSizeSpy).not.toHaveBeenCalled();
+    expect(setTotalContentSizeSpy).not.toHaveBeenCalled();
+  });
+
+  it('does not reassign children when paging reaches the end with an empty terminal page', async () => {
+    dataServiceMock.getFolderChildrenAsync.mockReset();
+
+    component.treeNodeService = dataServiceMock;
+    // @ts-ignore internal test setup
+    component._currentFolder = rootTreeNode;
+    component.nextPage = 'page-2';
+    component.lastCalledPage = undefined;
+    component.maximumChildrenReceived = false;
+    component.currentFolderChildren = [
+      {
+        isSelectable: true,
+        isSelected: false,
+        value: rootTreeNodeChildren[0],
+      },
+    ];
+    const existingChildren = component.currentFolderChildren;
+
+    dataServiceMock.getFolderChildrenAsync.mockReturnValue(Promise.resolve({ nextPage: undefined, page: [] }));
+
+    component.onScroll();
+    await new Promise((resolve) => setTimeout(resolve, 260));
+
+    expect(dataServiceMock.getFolderChildrenAsync).toHaveBeenCalledTimes(1);
+    expect(component.currentFolderChildren).toBe(existingChildren);
+    expect(component.currentFolderChildren.map((item) => item.value.id)).toEqual(['2']);
+    expect(component.maximumChildrenReceived).toBe(true);
   });
 
   it('openSelectedItemsAsync should emit event if different entry types selected without changing current folder', async () => {

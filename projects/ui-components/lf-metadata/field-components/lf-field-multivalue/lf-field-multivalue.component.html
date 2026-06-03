@@ -3,8 +3,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 @if (showField) {
   <span class="lf-field-title-container">
-    <span class="lf-field-title" title="{{ lfFieldInfo?.displayName }}">{{ lfFieldInfo?.displayName }}</span>
-    @if (lfFieldInfo?.isRequired) {
+    <span class="lf-field-title" title="{{ lfFieldInfo.displayName }}">{{ lfFieldInfo.displayName }}</span>
+    @if (lfFieldInfo.isRequired) {
       <span class="lf-field-is-required">*</span>
     }
     @if (isLoading) {
@@ -28,12 +28,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           (fieldValueChange)="onChange($event, currentIndex)"
         >
         </lf-field-base-component>
-        @if (!isLast && lfFieldValues?.length > 1) {
+        @if (!isLast && lfFieldValues.length > 1) {
           <button class="lf-multivalue-remove-button" (click)="removeField(currentIndex)">
             <span class="material-icons" id="lf-multivalue-remove-icon"> close </span>
           </button>
         }
-        @if (isLast && lfFieldValues?.length > 1) {
+        @if (isLast && lfFieldValues.length > 1) {
           <span class="lf-multivalue-remove-span"></span>
         }
       </span>
