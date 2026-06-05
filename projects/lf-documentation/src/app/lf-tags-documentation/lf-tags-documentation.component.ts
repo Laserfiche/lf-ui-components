@@ -19,7 +19,7 @@ export class LfTagsDocumentationComponent {
   selectedTagsOutput: string | undefined;
   initialTags: string[] = ['Reviewed'];
 
-  onSelectedTagsChanged(tagNames: string[]) {
-    this.selectedTagsOutput = JSON.stringify(tagNames, null, 2);
+  onSelectedTagsChanged(tagDefinitions: LfTagDefinition[]) {
+    this.selectedTagsOutput = JSON.stringify(tagDefinitions, null, 2);
   }
 }
