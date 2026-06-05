@@ -81,21 +81,26 @@ describe('LfTagsComponent', () => {
 
   it('should collect the selected tags and emit selectedTagsChanged', async () => {
     const selectedTag = { id: 3, name: 'Tag 3', displayName: 'Tag 3' } as LfTagDefinition;
+    const selectedTagOne = { id: 1, name: 'Tag 1', displayName: 'Tag 1' } as LfTagDefinition;
     await component.ngAfterViewInit();
     await fixture.whenStable();
     fixture.detectChanges();
 
-    component.selectedTagNames = ['Tag 1'];
+    component.selectedTagDefinitions = [selectedTagOne];
     const emitSpy = vi.spyOn(component.selectedTagsChanged, 'emit');
     component.selected({ option: { value: selectedTag } } as MatAutocompleteSelectedEvent);
 
-    expect(component.selectedTagNames.length).toBe(2);
-    expect(component.selectedTagNames.pop()).toBe('Tag 3');
-    expect(emitSpy).toHaveBeenCalledWith(['Tag 1', 'Tag 3']);
+    expect(component.selectedTagDefinitions.length).toBe(2);
+    expect(component.selectedTagDefinitions.pop()).toEqual(selectedTag);
+    expect(emitSpy).toHaveBeenCalledWith([selectedTagOne, selectedTag]);
   });
 
   it('should remove the selected tag', async () => {
-    component.selectedTagNames = ['Tag 1', 'Tag 2', 'Tag 3'];
+    component.selectedTagDefinitions = [
+      { id: 1, name: 'Tag 1', displayName: 'Tag 1' } as LfTagDefinition,
+      { id: 2, name: 'Tag 2', displayName: 'Tag 2' } as LfTagDefinition,
+      { id: 3, name: 'Tag 3', displayName: 'Tag 3' } as LfTagDefinition,
+    ];
     fixture.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -107,11 +112,14 @@ describe('LfTagsComponent', () => {
     removeButton.removed.emit();
     fixture.detectChanges();
 
-    expect(component.selectedTagNames).toHaveLength(2);
+    expect(component.selectedTagDefinitions).toHaveLength(2);
   });
 
   it('should handle keyboard navigation among the tags', async () => {
-    component.selectedTagNames = ['Tag 1', 'Tag 3'];
+    component.selectedTagDefinitions = [
+      { id: 1, name: 'Tag 1', displayName: 'Tag 1' } as LfTagDefinition,
+      { id: 3, name: 'Tag 3', displayName: 'Tag 3' } as LfTagDefinition,
+    ];
     fixture.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     await fixture.whenStable();

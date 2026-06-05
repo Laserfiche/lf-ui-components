@@ -49,7 +49,7 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
 
   @Input() initialTags: string[] = [];
   @Input() tagsService: LfTagsService | undefined;
-  @Output() selectedTagsChanged = new EventEmitter<string[]>();
+  @Output() selectedTagsChanged = new EventEmitter<LfTagDefinition[]>();
 
   TAGS = this.localizationService.getResourceStringComponents('TAGS');
   ADD_TAGS = this.localizationService.getResourceStringComponents('ADD_TAGS');
@@ -59,7 +59,7 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
   private componentSub: Subscription = new Subscription();
   private openPanelTimeout: ReturnType<typeof setTimeout> | undefined;
   tagDefinitions: LfTagDefinition[] = [];
-  selectedTagNames: string[] = [];
+  selectedTagDefinitions: LfTagDefinition[] = [];
   filteredTags: LfTagDefinition[] = [];
 
   tagCtrl = new FormControl();
@@ -86,8 +86,8 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
           const initialTagNames = new Set(this.initialTags);
           const toSelect = this.tagDefinitions.filter((t) => t.displayName && initialTagNames.has(t.displayName));
           setTimeout(() => {
-            this.selectedTagNames = toSelect.map((t) => t.displayName!);
-            this.emitSelectedTagNames();
+            this.selectedTagDefinitions = toSelect;
+            this.emitSelectedTagDefinitions();
             this.refreshFilteredTags();
           });
           this.initialTags = [];
@@ -106,8 +106,9 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
 
   filterTags(value: string) {
     const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
+    const selectedTagDisplayNames = new Set(this.selectedTagDefinitions.map((tag) => tag.displayName));
     return this.tagDefinitions.filter(
-      (tag) => tag.displayName?.toLowerCase().includes(filterValue) && !this.selectedTagNames.includes(tag.displayName!)
+      (tag) => tag.displayName?.toLowerCase().includes(filterValue) && !selectedTagDisplayNames.has(tag.displayName)
     );
   }
 
@@ -116,8 +117,8 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.selectedTagNames.push(event.option.value.displayName);
-    this.emitSelectedTagNames();
+    this.selectedTagDefinitions.push(event.option.value);
+    this.emitSelectedTagDefinitions();
 
     this.refreshFilteredTags();
     this.tagInput.nativeElement.value = '';
@@ -129,12 +130,12 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
     });
   }
 
-  remove(tagName: string): void {
-    const index = this.selectedTagNames.indexOf(tagName);
+  remove(tagDefinition: LfTagDefinition): void {
+    const index = this.selectedTagDefinitions.indexOf(tagDefinition);
 
     if (index >= 0) {
-      this.selectedTagNames.splice(index, 1);
-      this.emitSelectedTagNames();
+      this.selectedTagDefinitions.splice(index, 1);
+      this.emitSelectedTagDefinitions();
     }
 
     this.refreshFilteredTags();
@@ -164,7 +165,7 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
     this.autoCompleteTrigger?.openPanel();
   }
 
-  private emitSelectedTagNames(): void {
-    this.selectedTagsChanged.emit([...this.selectedTagNames]);
+  private emitSelectedTagDefinitions(): void {
+    this.selectedTagsChanged.emit([...this.selectedTagDefinitions]);
   }
 }
