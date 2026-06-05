@@ -3,9 +3,9 @@
 <span class="lf-text-label">{{ TAGS }}</span>
 <mat-form-field class="tag-list" appearance="outline">
   <mat-chip-grid #chipGrid class="chip-list">
-    @for (tagName of selectedTagNames; track tagName; let i = $index) {
-      <mat-chip-row #chip (keydown)="onChipKeyDown($event, i)" (removed)="remove(tagName)" tabindex="0">
-        {{ tagName }}
+    @for (tag of selectedTagDefinitions; track tag; let i = $index) {
+      <mat-chip-row #chip (keydown)="onChipKeyDown($event, i)" (removed)="remove(tag)" tabindex="0">
+        {{ tag.displayName }}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>
@@ -18,7 +18,7 @@
     [formControl]="tagCtrl"
     [matAutocomplete]="auto"
     [matChipInputFor]="chipGrid"
-    placeholder="+ {{ selectedTagNames.length === 0 ? ADD_TAGS : ADD_MORE_TAGS }}"
+    placeholder="+ {{ selectedTagDefinitions.length === 0 ? ADD_TAGS : ADD_MORE_TAGS }}"
   />
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
     @for (tag of filteredTags; track tag) {
