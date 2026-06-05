@@ -45,30 +45,41 @@ import { LfTagsService, LfTagDefinition } from './ILfTagsService';
   ],
 })
 export class LfTagsComponent implements OnDestroy, AfterViewInit {
+  /** @internal */
   private localizationService = inject(AppLocalizationService);
 
   @Input() initialTags: string[] = [];
   @Input() tagsService: LfTagsService | undefined;
   @Output() selectedTagsChanged = new EventEmitter<LfTagDefinition[]>();
-
+  /** @internal */
   TAGS = this.localizationService.getResourceStringComponents('TAGS');
+  /** @internal */
   ADD_TAGS = this.localizationService.getResourceStringComponents('ADD_TAGS');
+  /** @internal */
   ADD_MORE_TAGS = this.localizationService.getResourceStringComponents('ADD_MORE_TAGS');
+  /** @internal */
   NO_TAGS_AVAILABLE = this.localizationService.getResourceStringComponents('NO_TAGS_AVAILABLE');
-
+  /** @internal */
   private componentSub: Subscription = new Subscription();
+  /** @internal */
   private openPanelTimeout: ReturnType<typeof setTimeout> | undefined;
+  /** @internal */
   tagDefinitions: LfTagDefinition[] = [];
+  /** @internal */
   selectedTagDefinitions: LfTagDefinition[] = [];
+  /** @internal */
   filteredTags: LfTagDefinition[] = [];
-
+  /** @internal */
   tagCtrl = new FormControl();
+  /** @internal */
   @ViewChild(MatAutocompleteTrigger) autoCompleteTrigger!: MatAutocompleteTrigger;
+  /** @internal */
   @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
+  /** @internal */
   @ViewChildren('chip', { read: ElementRef }) chips!: QueryList<ElementRef>;
-
+  /** @internal */
   private ref = inject(ChangeDetectorRef);
-
+  /** @internal */
   ngAfterViewInit() {
     this.componentSub.add(
       this.tagCtrl.valueChanges.subscribe((value) => {
@@ -97,13 +108,13 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
       });
     }
   }
-
+  /** @internal */
   ngOnDestroy(): void {
     clearTimeout(this.openPanelTimeout);
     this.autoCompleteTrigger?.closePanel();
     this.componentSub.unsubscribe();
   }
-
+  /** @internal */
   filterTags(value: string) {
     const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
     const selectedTagDisplayNames = new Set(this.selectedTagDefinitions.map((tag) => tag.displayName));
@@ -111,11 +122,12 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
       (tag) => tag.displayName?.toLowerCase().includes(filterValue) && !selectedTagDisplayNames.has(tag.displayName)
     );
   }
-
+  /** @internal */
   refreshFilteredTags() {
     this.filteredTags = this.filterTags(this.tagCtrl.value ?? '');
   }
 
+  /** @internal */
   selected(event: MatAutocompleteSelectedEvent): void {
     this.selectedTagDefinitions.push(event.option.value);
     this.emitSelectedTagDefinitions();
@@ -130,6 +142,7 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
     });
   }
 
+  /** @internal */
   remove(tagDefinition: LfTagDefinition): void {
     const index = this.selectedTagDefinitions.indexOf(tagDefinition);
 
@@ -142,12 +155,12 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
     this.ref.detectChanges();
     this.focusInput();
   }
-
+  /** @internal */
   focusInput() {
     this.tagInput.nativeElement.focus();
     this.openPanel();
   }
-
+  /** @internal */
   onChipKeyDown(event: KeyboardEvent, index: number) {
     const chipsArray = this.chips.toArray();
 
@@ -160,11 +173,11 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
     }
     event.preventDefault();
   }
-
+  /** @internal */
   openPanel() {
     this.autoCompleteTrigger?.openPanel();
   }
-
+  /** @internal */
   private emitSelectedTagDefinitions(): void {
     this.selectedTagsChanged.emit([...this.selectedTagDefinitions]);
   }
