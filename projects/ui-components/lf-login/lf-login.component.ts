@@ -303,7 +303,7 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
       return undefined;
     }
   };
-
+  /** @internal */
   private async loginFlowHandler(startLoginMethodAsync: () => Promise<void>): Promise<string | undefined> {
     try {
       const accessToken: string | undefined = this.authorization_credentials?.accessToken;
@@ -326,7 +326,7 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
       return undefined;
     }
   }
-
+  /** @internal */
   private async startCloudLoginFlowAsync() {
     this.loginService.loginProvider = new CloudLoginProvider(this.loginService);
     await this.startOAuthLoginFlowAsync();
@@ -336,7 +336,7 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
   initLoginFlowAsync: () => Promise<string | undefined> = async () => {
     return await this.loginFlowHandler(() => this.startCloudLoginFlowAsync());
   };
-
+  /** @internal */
   private async startSelfHostedLoginFlow(accountEndpoints: AccountEndpoints, repositoryId: string) {
     this.loginService.loginProvider = new SelfHostedLoginProvider(this.loginService, repositoryId);
     await this.startSelfHostedLoginFlowAsync(accountEndpoints);
@@ -370,8 +370,6 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
   private code_challenge?: string;
   /** @internal */
   private hasLoginError: boolean = false;
-  /** @internal */
-  private initialized: boolean = false;
 
   /** @internal */
   constructor() {
@@ -379,7 +377,7 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
       this.onStorageChanged(ev);
     });
   }
-
+  /** @internal */
   async ngAfterViewInit() {
     const accessToken = this.authorization_credentials?.accessToken;
     if (accessToken) {
@@ -418,7 +416,7 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
       }
     }
   }
-
+  /** @internal */
   private setButtonText() {
     if (this.state === LoginState.LoggedIn) {
       this.buttonText = this._sign_out_text;
@@ -430,7 +428,7 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
       this.buttonText = this._sign_in_text;
     }
   }
-
+  /** @internal */
   private onStorageChanged(ev: StorageEvent) {
     const keyName = ev.key;
     const oldValue = ev.oldValue;
@@ -439,7 +437,7 @@ export class LfLoginComponent implements OnChanges, OnInit, OnDestroy, AfterView
       this.onAccessTokenLocalStorageChange(oldValue, newValue);
     }
   }
-
+  /** @internal */
   private onAccessTokenLocalStorageChange(oldValue: string | null, newValue: string | null) {
     if (oldValue && !newValue) {
       // newly logged out
