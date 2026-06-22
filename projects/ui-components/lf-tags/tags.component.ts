@@ -30,7 +30,7 @@ import { Subscription } from 'rxjs';
 import { LfTagsService, LfTagDefinition } from './ILfTagsService';
 
 @Component({
-  selector: 'lf-tags-component',
+  selector: 'lf-tags',
   templateUrl: './tags.component.html',
   styleUrl: './tags.component.css',
   standalone: true,

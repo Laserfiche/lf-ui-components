@@ -27,14 +27,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </code>
 </p>
 <app-card>
-  <lf-checklist-component
+  <lf-checklist
     #checklist
     [action_button_text]="elementActionButtonText"
     [cancel_button_text]="elementCancelButtonText"
     (actionClick)="onElementActionClick($event)"
     (cancelClick)="onElementCancelClick($event)"
     (checklistChanged)="onElementChecklistChanged($event)"
-  ></lf-checklist-component>
+  ></lf-checklist>
 </app-card>
 <p class="documentation-text">lf-checklist output:</p>
 <textarea disabled cols="80" rows="10">{{ elementOutput }}</textarea>

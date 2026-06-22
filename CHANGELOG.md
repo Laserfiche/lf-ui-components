@@ -4,7 +4,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 ## 21.1.0
 
 - Exposed `LfTagsService` interface.
-- **[BREAKING]**: `lf-tags-component` emits full tag objects (ITagDefinition[]) instead of tag names (string[]) via selectedTagsChanged.
+- **[BREAKING]**: `lf-tags` emits full tag objects (ITagDefinition[]) instead of tag names (string[]) via selectedTagsChanged.
 
 ## 21.0.1
 

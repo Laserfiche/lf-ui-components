@@ -77,7 +77,7 @@ const components = [
   { tag: 'lf-field-template-container', component: LfFieldTemplateContainerComponent },
   { tag: 'lf-repository-browser', component: LfRepositoryBrowserComponent },
   { tag: 'lf-selection-list-component', component: LfSelectionListComponent },
-  { tag: 'lf-tags-component', component: LfTagsComponent },
+  { tag: 'lf-tags', component: LfTagsComponent },
   { tag: 'lf-user-feedback', component: LfUserFeedbackComponent },
   { tag: 'lf-feedback-image-upload', component: FeedbackImageUploadComponent },
   { tag: 'lf-feedback-submission', component: FeedbackSubmissionComponent },

@@ -23,10 +23,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         }
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <lf-field-template-container-component
+    <lf-field-template-container
       (fieldValuesChanged)="onFieldValuesChanged()"
       (templateSelectedChange)="onTemplateSelectedChange($event)"
-    ></lf-field-template-container-component>
+    ></lf-field-template-container>
   </mat-expansion-panel>
   <hr class="combo-container-separater" />
   <mat-expansion-panel
@@ -40,10 +40,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         <p title="{{ FIELDS | async }}" class="lf-text-label field-label lf-ellipsis-label">{{ FIELDS | async }}</p>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <lf-field-adhoc-container-component
+    <lf-field-adhoc-container
       (fieldValuesChanged)="onFieldValuesChanged()"
       (dialogOpened)="onDialogOpened()"
       (dialogClosed)="onDialogClosed()"
-    ></lf-field-adhoc-container-component>
+    ></lf-field-adhoc-container>
   </mat-expansion-panel>
 </div>

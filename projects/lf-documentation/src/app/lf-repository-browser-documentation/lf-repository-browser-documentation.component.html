@@ -3,27 +3,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 <p class="documentation-title">LfRepositoryBrowser</p>
 <p class="documentation-text code-container">
-  <label>Web Element</label>
-  <br />
   <code>
     <span class="code-html-tagname">&lt;lf-repository-browser&gt;&lt;/lf-repository-browser&gt;</span>
   </code>
 </p>
 <p class="documentation-text code-container">
-  <label>Web Element with LfToolbar</label>
+  <label>With LfToolbar</label>
   <br />
   <code>
     <span class="code-html-tagname"
       >&lt;lf-repository-browser&gt;&lt;lf-toolbar&gt;&lt;/lf-toolbar&gt;&lt;/lf-repository-browser&gt;</span
-    >
-  </code>
-</p>
-<p class="documentation-text code-container">
-  <label>Angular Component</label>
-  <br />
-  <code>
-    <span class="code-html-tagname"
-      >&lt;lf-repository-browser-component&gt;&lt;/lf-repository-browser-component&gt;</span
     >
   </code>
 </p>
@@ -41,7 +30,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       minWidthPx: 100, resizable: true, sortable: true &#125;;
     </p>
     <p>const columns: ColumnDef[] = [create];</p>
-    <p>repoBrowser.setAdditionalColumnsToDisplay(columns);</p>
+    <p>repoBrowser.setColumnsToDisplay(columns);</p>
   </code>
 </p>
 <label>
@@ -73,7 +62,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   >
 </div>
 <app-card>
-  <lf-repository-browser-component
+  <lf-repository-browser
     multiple="false"
     id="single-select-repo-browser"
     (entrySelected)="onEntrySelected($event)"
@@ -81,8 +70,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     (entryFocused)="onEntryFocused($event)"
     style="height: 500px"
     #singleSelectRepoBrowser
-    ><lf-toolbar-component [dropdown_options]="elementToolbarOptions"></lf-toolbar-component
-  ></lf-repository-browser-component>
+    ><lf-toolbar [dropdown_options]="elementToolbarOptions"></lf-toolbar
+  ></lf-repository-browser>
 </app-card>
 
 <label>
@@ -115,7 +104,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   >
 </div>
 <app-card>
-  <lf-repository-browser-component
+  <lf-repository-browser
     multiple="true"
     id="repo-browser"
     [isSelectable]="selectable"
@@ -125,7 +114,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     (entryFocused)="onEntryFocused($event)"
     style="height: 500px"
     #repoBrowser
-  ></lf-repository-browser-component>
+  ></lf-repository-browser>
 </app-card>
 <button (click)="setSelectedValue()">Set Selected Values</button>
 <button (click)="toggleSelectable()">
