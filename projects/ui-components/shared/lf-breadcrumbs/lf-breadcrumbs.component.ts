@@ -8,7 +8,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LfBreadcrumb } from './lf-breadcrumbs-types';
 
 @Component({
-  selector: 'lf-breadcrumbs-component',
+  selector: 'lf-breadcrumbs',
   templateUrl: './lf-breadcrumbs.component.html',
   styleUrls: ['./lf-breadcrumbs.component.css'],
   standalone: true,

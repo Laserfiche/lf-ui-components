@@ -7,7 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'lf-toolbar-component',
+  selector: 'lf-toolbar',
   templateUrl: './lf-toolbar.component.html',
   styleUrls: ['./lf-toolbar.component.css'],
   standalone: true,

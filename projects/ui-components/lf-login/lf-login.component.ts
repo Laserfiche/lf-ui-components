@@ -35,7 +35,7 @@ import { SelfHostedLoginProvider } from './login-utils/self-hosted-login-provide
 const LOGIN_REDIRECT_STATE = 'lf-login-redirect';
 const CODE_CHALLENGE_METHOD = 'S256';
 @Component({
-  selector: 'lf-login-component',
+  selector: 'lf-login',
   templateUrl: './lf-login.component.html',
   styleUrls: ['./lf-login.component.css'],
   standalone: true,

@@ -41,7 +41,7 @@ import { DropDownState, TemplateState } from './lf-field-template-container-stat
 import { LfFieldViewDirective } from '../lf-field-view.directive';
 
 @Component({
-  selector: 'lf-field-template-container-component',
+  selector: 'lf-field-template-container',
   templateUrl: './lf-field-template-container.component.html',
   styleUrls: ['./lf-field-template-container.component.css'],
   standalone: true,

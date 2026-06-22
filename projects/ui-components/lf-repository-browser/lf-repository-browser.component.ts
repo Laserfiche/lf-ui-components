@@ -54,7 +54,7 @@ type BreadcrumbNavigationEvent = {
 };
 
 @Component({
-  selector: 'lf-repository-browser-component',
+  selector: 'lf-repository-browser',
   templateUrl: './lf-repository-browser.component.html',
   styleUrls: ['./lf-repository-browser.component.css'],
   standalone: true,

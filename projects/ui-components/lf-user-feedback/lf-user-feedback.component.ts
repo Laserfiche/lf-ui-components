@@ -11,7 +11,7 @@ import { UserFeedbackDialogData, UserFeedbackUserTrackingEvent } from './lf-user
 import { UserFeedbackDialogComponent } from './user-feedback-dialog/user-feedback-dialog.component';
 
 @Component({
-  selector: 'lf-user-feedback-component',
+  selector: 'lf-user-feedback',
   template: `<button id="lf-user-feedback-button" [disabled]="disableFeedbackButton" (click)="handleDialogAsync()">
     {{ feedbackText | async }}
   </button>`,

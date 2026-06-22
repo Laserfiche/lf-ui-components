@@ -23,7 +23,7 @@ export interface LfChecklistProviders {
 }
 
 @Component({
-  selector: 'lf-checklist-component',
+  selector: 'lf-checklist',
   templateUrl: './lf-checklist.component.html',
   styleUrls: ['./lf-checklist.component.css'],
   standalone: true,
