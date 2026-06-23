@@ -1,14 +1,18 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-<p class="documentation-title">Using UI Components from CDN in HTML5</p>
+<p class="documentation-title">Using UI Components with any HTML framework</p>
 <h3 id="cdn-example-lf-tags">Example: <code>lf-tags</code></h3>
 <p>In the example below, the implementation comes from the CDN.</p>
 <ol>
   <li>
     <p class="documentation-text">
-      <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to get started.</a>
+      Import the UI components and CSS in your pages:
     </p>
+    <ul>
+      <li><a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to import from CDN</a></li>
+      <li>Use npm to install the package and include the files at build time. See <a href="https://github.com/Laserfiche/laserfiche-sharepoint-integration" target="_blank">laserfiche-sharepoint-integration</a> for an example implementation.</li>
+    </ul>
   </li>
   <li>
     <p class="documentation-text">Add the CDN script to the <code>&lt;head&gt;</code> of your HTML file.</p>
@@ -44,7 +48,7 @@ document.<span class="code-js-function">getElementById</span>(<span class="code-
 </ol>
 <p class="documentation-sub-header">Live Demo</p>
 <app-card>
-  <lf-tags id="demoTags"></lf-tags>
+  <div id="demoTagsContainer"></div>
 </app-card>
 <p class="documentation-text">selectedTagsChanged output:</p>
 <textarea disabled cols="80" rows="10" id="demoOutput"></textarea>

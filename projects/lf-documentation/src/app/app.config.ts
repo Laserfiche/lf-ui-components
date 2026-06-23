@@ -20,7 +20,6 @@ import { ConvertComponentToElementComponent } from './convert-component-to-eleme
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
 import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angular/example-npm-usage-in-angular.component';
-import { ExampleUsageInAngularComponent } from './example-usage-in-angular/example-usage-in-angular.component';
 import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
 import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-browser-documentation/lf-repository-browser-documentation.component';
 import { LfTagsDocumentationComponent } from './lf-tags-documentation/lf-tags-documentation.component';
@@ -41,7 +40,6 @@ const routes: Routes = [
   { path: RouterLinks.STYLING, component: StylingDocumentationComponent },
   { path: RouterLinks.GETTING_STARTED, component: GettingStartedComponent },
   { path: RouterLinks.EXAMPLE_NPM_USAGE_ANGULAR, component: ExampleNpmUsageInAngularComponent },
-  { path: RouterLinks.EXAMPLE_USAGE_ANGULAR, component: ExampleUsageInAngularComponent },
   { path: RouterLinks.EXAMPLE_USAGE_HTML, component: ExampleUsageInHtmlComponent },
   { path: RouterLinks.OVERVIEW, component: OverviewComponent },
   { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },

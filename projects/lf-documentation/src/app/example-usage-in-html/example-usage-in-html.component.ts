@@ -18,26 +18,25 @@ export class ExampleUsageInHtmlComponent extends ExampleUsageBasicStepsDirective
   private tagsService = new LfTagsDemoService();
 
   ngAfterViewInit() {
-    const tags = document.getElementById('demoTags') as any;
+    const container = document.getElementById('demoTagsContainer');
     const output = document.getElementById('demoOutput') as HTMLTextAreaElement;
 
-    if (tags) {
+    const appendTags = () => {
+      const tags = document.createElement('lf-tags') as any;
       tags.tagsService = this.tagsService;
       tags.initialTags = ['Reviewed'];
-    }
-
-    const attachListener = () => {
-      tags?.addEventListener('selectedTagsChanged', (event: CustomEvent) => {
+      tags.addEventListener('selectedTagsChanged', (event: CustomEvent) => {
         if (output) output.value = JSON.stringify(event.detail, null, 2);
       });
+      container?.appendChild(tags);
     };
 
     if (customElements.get('lf-tags')) {
-      attachListener();
+      appendTags();
     } else {
       const script = document.createElement('script');
       script.src = 'lf-ui-components.js';
-      script.onload = attachListener;
+      script.onload = appendTags;
       document.head.appendChild(script);
     }
   }

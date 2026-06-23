@@ -4,8 +4,7 @@
 export enum RouterLinks {
   OVERVIEW = 'overview',
   GETTING_STARTED = 'getting-started',
-  EXAMPLE_USAGE_ANGULAR = 'using-ui-components-from-cdn-in-angular',
-  EXAMPLE_USAGE_HTML = 'using-ui-components-from-cdn-in-html5',
+EXAMPLE_USAGE_HTML = 'using-ui-components-from-cdn-in-html5',
   EXAMPLE_NPM_USAGE_ANGULAR = 'using-ui-components-from-npm-package-in-angular',
   STYLING = 'styling',
   TROUBLESHOOTING = 'troubleshooting',
