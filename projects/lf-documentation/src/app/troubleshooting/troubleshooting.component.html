@@ -118,16 +118,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <button [matMenuTriggerFor]="testMenu">Test Mat Menu</button>
   <mat-menu #testMenu="matMenu">
     <ng-template matMenuContent>
-      <lf-user-feedback-component
-        mat-menu-item
-        role="menuitem"
+      <lf-user-feedback
         id="my-feedback-button"
         hosting_module="testhostingmodule"
         hosting_context="testhostingcontext"
         [user_id]="testuserid"
         [account_id]="testaccountid"
       >
-      </lf-user-feedback-component>
+      </lf-user-feedback>
     </ng-template>
   </mat-menu>
 </app-card>

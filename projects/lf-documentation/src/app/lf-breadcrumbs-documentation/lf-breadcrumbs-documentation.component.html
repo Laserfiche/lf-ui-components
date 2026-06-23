@@ -18,11 +18,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </code>
 </p>
 <app-card>
-  <lf-breadcrumbs-component
+  <lf-breadcrumbs
     #breadcrumbs
     [breadcrumbs]="elementBreadcrumbOptions"
     (breadcrumbSelected)="onElementBreadcrumbSelected($event)"
-  ></lf-breadcrumbs-component>
+  ></lf-breadcrumbs>
 </app-card>
 <p class="documentation-text">onElementBreadcrumbSelected output:</p>
 <textarea disabled cols="80" rows="10">{{ selectedElementBreadcrumb }}</textarea>

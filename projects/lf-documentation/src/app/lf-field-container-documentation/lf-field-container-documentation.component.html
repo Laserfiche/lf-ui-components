@@ -31,14 +31,14 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 >
 <app-card>
   <div style="min-height: 300px">
-    <lf-field-container-component
+    <lf-field-container
       #fieldContainer
       [collapsible]="elementIsCollapsible"
       [start_collapsed]="true"
       (fieldValuesChanged)="onFieldValueChange($event)"
       (templateSelectedChanged)="onTemplateSelectedChanged($event)"
     >
-    </lf-field-container-component>
+    </lf-field-container>
   </div>
 </app-card>
 

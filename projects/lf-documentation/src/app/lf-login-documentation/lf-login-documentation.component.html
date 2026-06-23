@@ -68,7 +68,7 @@ sign_out_text.
 </p>
 <app-card>
   @if (client_id) {
-    <lf-login-component
+    <lf-login
       [client_id]="client_id"
       [redirect_uri]="redirect_uri"
       [scope]="scope"
@@ -81,7 +81,7 @@ sign_out_text.
       (loginCompleted)="loginCompleteHandler($event)"
       (logoutCompleted)="logoutCompleteHandler($event)"
     >
-    </lf-login-component>
+    </lf-login>
   }
 </app-card>
 
@@ -121,7 +121,7 @@ sign_out_text.
 </p>
 <app-card>
   @if (client_id) {
-    <lf-login-component
+    <lf-login
       [mode]="menuMode"
       #loginMenu
       [client_id]="client_id"
@@ -134,7 +134,7 @@ sign_out_text.
       (loginCompleted)="loginCompleteHandler($event)"
       (logoutCompleted)="logoutCompleteHandler($event)"
     >
-    </lf-login-component>
+    </lf-login>
   }
 </app-card>
 

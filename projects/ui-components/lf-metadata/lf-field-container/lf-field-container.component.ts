@@ -13,7 +13,7 @@ import { Observable, of } from 'rxjs';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
-  selector: 'lf-field-container-component',
+  selector: 'lf-field-container',
   templateUrl: './lf-field-container.component.html',
   styleUrls: ['./lf-field-container.component.css'],
   standalone: true,
