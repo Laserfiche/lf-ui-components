@@ -1,0 +1,89 @@
+<!--Copyright (c) Laserfiche.
+Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
+<p class="documentation-title">lf-tags</p>
+
+<p class="documentation-text">
+  Web Component for selecting and managing tags with an autocomplete input and chip display.
+</p>
+
+<p class="documentation-header">Quick Start</p>
+<p class="documentation-text">Add the CDN bundle to your page, then place the element in your HTML:</p>
+
+<div class="code-container"><span class="code-html-tagname">&lt;script </span><span class="code-html-attribute-name">src</span><span>="</span><span class="code-html-attribute-value">lf-ui-components.js</span><span>"</span><span class="code-html-attribute-name"> defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span></div>
+
+<div class="code-container"><span class="code-ts-comment">// Configure the element before inserting it into the DOM</span>
+<span class="code-js-keyword">const</span> <span class="code-js-prop">tags</span> = document.<span class="code-js-function">createElement</span>(<span class="code-js-string">'lf-tags'</span>);
+
+<span class="code-js-prop">tags</span>.<span class="code-js-prop">tagsService</span> = {
+  <span class="code-js-function">getTagDefinitions</span>() {
+    <span class="code-js-keyword">return</span> Promise.<span class="code-js-function">resolve</span>([
+      { id: 1, name: <span class="code-js-string">'Confidential'</span>, displayName: <span class="code-js-string">'Confidential'</span>, description: <span class="code-js-string">'Contains sensitive information'</span>, isSecure: <span class="code-js-keyword">true</span> },
+      { id: 2, name: <span class="code-js-string">'Reviewed'</span>,     displayName: <span class="code-js-string">'Reviewed'</span>,     description: <span class="code-js-string">'Document has been reviewed'</span>,     isSecure: <span class="code-js-keyword">false</span> },
+    ]);
+  }
+};
+<span class="code-js-prop">tags</span>.<span class="code-js-prop">initialTags</span> = [<span class="code-js-string">'Reviewed'</span>];
+
+document.<span class="code-js-function">getElementById</span>(<span class="code-js-string">'container'</span>).<span class="code-js-function">appendChild</span>(<span class="code-js-prop">tags</span>);
+
+<span class="code-ts-comment">// Listen for selection changes</span>
+<span class="code-js-prop">tags</span>.<span class="code-js-function">addEventListener</span>(<span class="code-js-string">'selectedTagsChanged'</span>, (<span class="code-js-prop">event</span>) =&gt; {
+  console.<span class="code-js-function">log</span>(<span class="code-js-prop">event</span>.detail); <span class="code-ts-comment">// LfTagDefinition[]</span>
+});</div>
+
+<p class="documentation-header">Live Demo</p>
+<div class="demo-card">
+  <lf-tags id="demoTags" ></lf-tags>
+  <p class="output-label">selectedTagsChanged output:</p>
+  <textarea id="demoOutput" readonly rows="8"></textarea>
+</div>
+
+<p class="documentation-header">API Reference</p>
+
+<p class="documentation-sub-header">Properties</p>
+<table>
+  <tr><th>Property</th><th>Type</th><th>Description</th></tr>
+  <tr>
+    <td><code>tagsService</code></td>
+    <td><code>LfTagsService</code></td>
+    <td>
+      Required. Object implementing <code>getTagDefinitions(): Promise&lt;LfTagDefinition[]&gt;</code>.
+      Must be set before the element is inserted into the DOM.
+    </td>
+  </tr>
+  <tr>
+    <td><code>initialTags</code></td>
+    <td><code>string[]</code></td>
+    <td>
+      Optional. Array of tag <code>displayName</code> values to pre-select on initialization.
+      Must be set before the element is inserted into the DOM.
+    </td>
+  </tr>
+</table>
+
+<p class="documentation-sub-header">Events</p>
+<table>
+  <tr><th>Event</th><th>Detail type</th><th>Description</th></tr>
+  <tr>
+    <td><code>selectedTagsChanged</code></td>
+    <td><code>LfTagDefinition[]</code></td>
+    <td>Fired whenever the set of selected tags changes. Access data via <code>event.detail</code>.</td>
+  </tr>
+</table>
+
+<p class="documentation-header">Interfaces</p>
+
+<p class="documentation-sub-header">LfTagsService</p>
+<div class="code-container"><span class="code-js-keyword">interface</span> LfTagsService {
+  <span class="code-js-function">getTagDefinitions</span>(): Promise&lt;LfTagDefinition[]&gt;;
+}</div>
+
+<p class="documentation-sub-header">LfTagDefinition</p>
+<div class="code-container"><span class="code-js-keyword">interface</span> LfTagDefinition {
+  id:           number;
+  name:         string;
+  displayName:  string;
+  description?: string;
+  isSecure:     boolean;
+}</div>

@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/projects/lf-documentation-js/dist
 /tmp
 /out-tsc
 index.d.ts
