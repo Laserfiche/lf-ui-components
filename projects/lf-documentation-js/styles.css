@@ -3,7 +3,7 @@
 
 body {
   margin: 0;
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
   font-size: 16px;
   background: #fff;
 }
@@ -64,10 +64,25 @@ body {
 }
 
 /* ── Typography ── */
-.documentation-title       { font-size: 30px; font-weight: 600; margin-bottom: 8px; }
-.documentation-header      { font-size: 24px; margin-top: 32px; margin-bottom: 8px; }
-.documentation-sub-header  { font-size: 20px; margin-top: 16px; margin-bottom: 4px; }
-.documentation-text        { font-size: 16px; line-height: 1.6; }
+.documentation-title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.documentation-header {
+  font-size: 24px;
+  margin-top: 32px;
+  margin-bottom: 8px;
+}
+.documentation-sub-header {
+  font-size: 20px;
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+.documentation-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
 
 /* ── Code blocks ── */
 .code-container {
@@ -77,18 +92,34 @@ body {
   border-radius: 4px;
   overflow-x: auto;
   white-space: pre;
-  font-family: 'Consolas', 'Courier New', monospace;
+  font-family: "Consolas", "Courier New", monospace;
   font-size: 14px;
   line-height: 1.5;
 }
-.code-html-tagname         { color: #019875; }
-.code-html-attribute-name  { color: #e52690; }
-.code-html-attribute-value { color: #2564d0; }
-.code-js-keyword           { color: #702c00; }
-.code-js-prop              { color: #023b95; }
-.code-js-function          { color: #622cbc; }
-.code-js-string            { color: #032563; }
-.code-ts-comment           { color: #66707b; }
+.code-html-tagname {
+  color: #019875;
+}
+.code-html-attribute-name {
+  color: #e52690;
+}
+.code-html-attribute-value {
+  color: #2564d0;
+}
+.code-js-keyword {
+  color: #702c00;
+}
+.code-js-prop {
+  color: #023b95;
+}
+.code-js-function {
+  color: #622cbc;
+}
+.code-js-string {
+  color: #032563;
+}
+.code-ts-comment {
+  color: #66707b;
+}
 
 /* ── Tables ── */
 table {
@@ -130,12 +161,18 @@ textarea[readonly] {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 8px;
-  font-family: 'Consolas', 'Courier New', monospace;
+  font-family: "Consolas", "Courier New", monospace;
   font-size: 13px;
   resize: vertical;
 }
 
-a { color: #005a9e; }
-li { line-height: 1.6; }
+a {
+  color: #005a9e;
+}
+li {
+  line-height: 1.6;
+}
 ul,
-ol { padding-left: 24px; }
+ol {
+  padding-left: 24px;
+}

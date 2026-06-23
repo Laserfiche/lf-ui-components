@@ -4,11 +4,17 @@
 export const lfTagsDemoService = {
   getTagDefinitions() {
     return Promise.resolve([
-      { id: 1, name: 'Confidential', displayName: 'Confidential', description: 'Contains sensitive information', isSecure: true },
-      { id: 2, name: 'Reviewed',     displayName: 'Reviewed',     description: 'Document has been reviewed',     isSecure: false },
-      { id: 3, name: 'Approved',     displayName: 'Approved',     description: 'Document has been approved',     isSecure: false },
-      { id: 4, name: 'Draft',        displayName: 'Draft',        description: 'Work in progress document',      isSecure: false },
-      { id: 5, name: 'Archived',     displayName: 'Archived',     description: 'Document is archived',           isSecure: false },
+      {
+        id: 1,
+        name: 'Confidential',
+        displayName: 'Confidential',
+        description: 'Contains sensitive information',
+        isSecure: true,
+      },
+      { id: 2, name: 'Reviewed', displayName: 'Reviewed', description: 'Document has been reviewed', isSecure: false },
+      { id: 3, name: 'Approved', displayName: 'Approved', description: 'Document has been approved', isSecure: false },
+      { id: 4, name: 'Draft', displayName: 'Draft', description: 'Work in progress document', isSecure: false },
+      { id: 5, name: 'Archived', displayName: 'Archived', description: 'Document is archived', isSecure: false },
     ]);
   },
 };

@@ -4,8 +4,8 @@ import { lfTagsDemoService } from './lf-tags/lf-tags-demo.service.js';
 const routes = {
   'lf-tags': {
     html: './lf-tags/lf-tags-documentation.html',
-    js:   './lf-tags/lf-tags-documentation.js',
-    css:  './lf-tags/lf-tags-documentation.css',
+    js: './lf-tags/lf-tags-documentation.js',
+    css: './lf-tags/lf-tags-documentation.css',
     args: [lfTagsDemoService],
   },
 };
@@ -42,10 +42,7 @@ async function navigate(route) {
   buildNav(resolvedRoute);
   loadComponentCss(config.css);
 
-  const [htmlText, mod] = await Promise.all([
-    fetch(config.html).then((r) => r.text()),
-    import(config.js),
-  ]);
+  const [htmlText, mod] = await Promise.all([fetch(config.html).then((r) => r.text()), import(config.js)]);
 
   // Parse into a detached node so Angular Element inputs can be set
   // before the element connects to the live DOM. Angular Elements caches
