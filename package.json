@@ -50,8 +50,6 @@
     "flatpickr": "^4.6.13",
     "gulp": "^5.0.1",
     "gulp-replace": "^1.1.4",
-    "http-server": "^14.1.1",
-    "kill-port": "^2.0.1",
     "ng-packagr": "^21.2.2",
     "prettier": "^3.8.2",
     "tslib": "^2.8.1",
