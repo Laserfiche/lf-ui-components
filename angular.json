@@ -147,6 +147,11 @@
                 "glob": "lf-ui-components.js",
                 "input": "dist/lf-cdn/browser",
                 "output": ""
+              },
+              {
+                "glob": "lf-ui-components.js.map",
+                "input": "dist/lf-cdn/browser",
+                "output": ""
               }
             ],
             "styles": ["projects/lf-documentation/src/styles.css", "./node_modules/flatpickr/dist/flatpickr.min.css"],
