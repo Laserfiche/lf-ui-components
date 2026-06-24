@@ -30,11 +30,6 @@
                 "output": ""
               },
               {
-                "glob": "framework-agnostic-ui-component-demo.html",
-                "input": "projects/static-assets",
-                "output": ""
-              },
-              {
                 "glob": "indigo-pink.css",
                 "input": "node_modules/@angular/material/prebuilt-themes",
                 "output": ""
@@ -140,11 +135,6 @@
               "projects/lf-documentation/src/assets",
               {
                 "glob": "*",
-                "input": "projects/static-assets",
-                "output": ""
-              },
-              {
-                "glob": "framework-agnostic-ui-component-demo.html",
                 "input": "projects/static-assets",
                 "output": ""
               },
