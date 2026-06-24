@@ -27,9 +27,7 @@ const TREE_DATA: ComponentNode[] = [
     routerLink: RouterLinks.GETTING_STARTED,
     children: [
       { name: 'Using UI Components from NPM Package in Angular', routerLink: RouterLinks.EXAMPLE_NPM_USAGE_ANGULAR },
-      { name: 'Using UI Components from CDN in Angular', routerLink: RouterLinks.EXAMPLE_USAGE_ANGULAR },
-      { name: 'Using UI Components from CDN in React', routerLink: RouterLinks.EXAMPLE_USAGE_REACT },
-      { name: 'Using UI Components from CDN in HTML5', routerLink: RouterLinks.EXAMPLE_USAGE_HTML },
+      { name: 'Using UI Components with any HTML framework', routerLink: RouterLinks.EXAMPLE_USAGE_HTML },
     ],
   },
   // { name: 'Localization', routerLink: RouterLinks.LOCALIZATION },

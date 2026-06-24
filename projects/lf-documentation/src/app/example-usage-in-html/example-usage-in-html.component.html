@@ -1,43 +1,63 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-<p class="documentation-title">Using UI Components from CDN in HTML5</p>
-<h3 id="cdn-example-react">Example: <code>lf-checklist</code></h3>
-<p>In the example below, the implementation comes from the CDN.</p>
+<p class="documentation-title">Using UI Components in a Framework-Agnostic Way</p>
+<h3 id="cdn-example-lf-tags">Example: <code>lf-tags</code></h3>
+<p>
+  The steps below show how to use <code>lf-tags</code> in a plain HTML file without any framework. A complete working
+  example and live demo are shown at the end.
+</p>
 <ol>
   <li>
-    <p class="documentation-text">
-      <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to get started.</a>
-    </p>
+    <p class="documentation-text">Import the UI components and CSS in your pages:</p>
+    <ul>
+      <li>Option 1: <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to import from a CDN</a></li>
+      <li>
+        Option 2: Use npm to install <code>&#64;laserfiche/lf-ui-components</code> and copy the files from
+        <code>./node_modules/&#64;laserfiche/lf-ui-components/cdn</code> to your distribution folder as a build step.
+        See
+        <a href="https://github.com/Laserfiche/laserfiche-sharepoint-integration" target="_blank"
+          >laserfiche-sharepoint-integration</a
+        >
+        for an example using gulp.
+      </li>
+    </ul>
   </li>
+
   <li>
-    <p class="documentation-text">Add the following tag to the html file of your application.</p>
-    <pre
-      class="code-container"
-    ><span class="code-html-tagname">&lt;lf-checklist</span> <span class="code-html-attribute-name">id="myChecklist"</span> <span class="code-html-tagname">&gt;</span><span class="code-html-tagname">&lt;/lf-checklist&gt;</span>
-</pre>
-  </li>
-  <li>
-    <p dir="auto">In the <code>.js</code> file (e.g.: <code>app.js</code>),</p>
+    <p class="documentation-text">Add the script and CSS to the <code>&lt;head&gt;</code> of your HTML file:</p>
     <pre class="code-container">
-<span class="code-js-import-item">const</span> <span class="code-js-prop">checklist</span> = document.<span class="code-js-function">getElementById</span>('<span class="code-js-string">mychecklist</span>'); <span class="code-ts-comment"
->// create a reference for custom element</span>
-checklist.<span class="code-js-function">initAsync</span>(...);
-
-<span class="code-js-import-item">function</span> onChecklistchanged(event) &#123;
-  const checklistItem = event.detail; <span class="code-ts-comment">// event data will be stored in the detail property</span>
-&#125;
-
-<span class="code-ts-comment">// we have to add event listener to listen for the HTML custom event checklistChanged</span>
-checklist.addEventListener('checklistChanged', onChecklistchanged);
+<span class="code-html-tagname">&lt;script</span> <span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value">"lf-ui-components.js"</span> <span class="code-html-attribute-name">defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+<span class="code-html-tagname">&lt;link</span> <span class="code-html-attribute-name">rel</span><span>=</span><span class="code-html-attribute-value">"stylesheet"</span> <span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value">"indigo-pink.css"</span><span class="code-html-tagname">&gt;</span>
+<span class="code-html-tagname">&lt;link</span> <span class="code-html-attribute-name">rel</span><span>=</span><span class="code-html-attribute-value">"stylesheet"</span> <span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value">"lf-laserfiche-lite.css"</span><span class="code-html-tagname">&gt;</span>
     </pre>
   </li>
+
   <li>
-    <p class="documentation-text">Add the <code>.js</code> script to <code>index.html</code></p>
+    <p dir="auto">Initialize the UI component in a <code>&lt;script&gt;</code> block in your HTML file:</p>
     <pre class="code-container">
-<span class="code-html-tagname"> &lt;script </span><span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value"
->"./app.js"</span> <span class="code-html-attribute-name"
->defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
-</pre>
+  <span class="code-js-import-item">function</span> <span class="code-js-function">initLfTagsComponent</span>() &#123;
+  <span class="code-js-import-item">const</span> <span class="code-js-prop">tagsElement</span> = document.<span class="code-js-function">createElement</span>('<span class="code-js-string">lf-tags</span>'); <span class="code-ts-comment">// create element before connecting to DOM</span>
+
+  <span class="code-js-prop">tagsElement</span>.<span class="code-js-prop">tagsService</span> = tagsService; <span class="code-ts-comment">// required — must be set before appending</span>
+  <span class="code-js-prop">tagsElement</span>.<span class="code-js-prop">initialTags</span> = [<span class="code-js-string">'Reviewed'</span>]; <span class="code-ts-comment">// optional — pre-select by displayName; must be set before appending</span>
+
+  <span class="code-js-prop">tagsElement</span>.<span class="code-js-function">addEventListener</span>('<span class="code-js-string">selectedTagsChanged</span>', <span class="code-js-import-item">function</span>(event) &#123;
+    <span class="code-js-import-item">const</span> <span class="code-js-prop">selectedTags</span> = event.detail; <span class="code-ts-comment">// LfTagDefinition[] — event data is in the detail property</span>
+  &#125;);
+
+  document.<span class="code-js-function">getElementById</span>(<span class="code-js-string">'container'</span>).<span class="code-js-function">appendChild</span>(<span class="code-js-prop">tagsElement</span>);
+&#125;
+
+customElements.<span class="code-js-function">whenDefined</span>('<span class="code-js-string">lf-tags</span>').<span class="code-js-function">then</span>(initLfTagsComponent); <span class="code-ts-comment">// wait for the element to be defined before creating and appending it</span>
+    </pre>
   </li>
 </ol>
+
+<h4>Complete example — <code>framework-agnostic-ui-component-demo.html</code>:</h4>
+<pre class="code-container">{{ demoFileContent() }}</pre>
+
+<p class="documentation-sub-header">Live Demo — <code>framework-agnostic-ui-component-demo.html</code></p>
+<app-card>
+  <iframe src="./framework-agnostic-ui-component-demo.html" class="demo-frame"></iframe>
+</app-card>
