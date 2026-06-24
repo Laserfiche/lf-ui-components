@@ -250,7 +250,7 @@
       "projectType": "library",
       "root": "projects/ui-components",
       "sourceRoot": "projects/ui-components",
-      "prefix": "lib",
+      "prefix": "",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

@@ -16,7 +16,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <p>selectedTagsChanged output:</p>
     <textarea id="demoOutput" rows="10" style="width: 100%; box-sizing: border-box" disabled></textarea>
     <script>
-      const tagsService = {
+      const tagsServiceMock = {
         getTagDefinitions: function () {
           return Promise.resolve([
             {
@@ -46,10 +46,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         },
       };
 
-      function appendTags() {
+      function initLfTagsComponent() {
         const tagsElement = document.createElement("lf-tags"); // create element before connecting to DOM
 
-        tagsElement.tagsService = tagsService; // required — must be set before appending
+        tagsElement.tagsService = tagsServiceMock; // required — must be set before appending
         tagsElement.initialTags = ["Reviewed"]; // optional — pre-select by displayName; must be set before appending
 
         tagsElement.addEventListener("selectedTagsChanged", function (event) {
@@ -59,7 +59,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
         document.getElementById("demoTagsContainer").appendChild(tagsElement);
       }
-      customElements.whenDefined("lf-tags").then(appendTags); // wait for the element to be defined before creating and appending it
+      customElements.whenDefined("lf-tags").then(initLfTagsComponent); // wait for the element to be defined before creating and appending it
     </script>
   </body>
 </html>

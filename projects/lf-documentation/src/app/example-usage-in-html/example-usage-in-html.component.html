@@ -13,11 +13,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <ul>
       <li>Option 1: <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to import from a CDN</a></li>
       <li>
-        Option 2: Use npm to install the package and include the files at build time. See
+        Option 2: Use npm to install <code>&#64;laserfiche/lf-ui-components</code> and copy the files from
+        <code>./node_modules/&#64;laserfiche/lf-ui-components/cdn</code> to your distribution folder as a build step.
+        See
         <a href="https://github.com/Laserfiche/laserfiche-sharepoint-integration" target="_blank"
           >laserfiche-sharepoint-integration</a
         >
-        for an example implementation.
+        for an example using gulp.
       </li>
     </ul>
   </li>
@@ -34,7 +36,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   <li>
     <p dir="auto">Initialize the UI component in a <code>&lt;script&gt;</code> block in your HTML file:</p>
     <pre class="code-container">
-  <span class="code-js-import-item">function</span> <span class="code-js-function">appendTags</span>() &#123;
+  <span class="code-js-import-item">function</span> <span class="code-js-function">initLfTagsComponent</span>() &#123;
   <span class="code-js-import-item">const</span> <span class="code-js-prop">tagsElement</span> = document.<span class="code-js-function">createElement</span>('<span class="code-js-string">lf-tags</span>'); <span class="code-ts-comment">// create element before connecting to DOM</span>
 
   <span class="code-js-prop">tagsElement</span>.<span class="code-js-prop">tagsService</span> = tagsService; <span class="code-ts-comment">// required — must be set before appending</span>
@@ -47,7 +49,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   document.<span class="code-js-function">getElementById</span>(<span class="code-js-string">'container'</span>).<span class="code-js-function">appendChild</span>(<span class="code-js-prop">tagsElement</span>);
 &#125;
 
-customElements.<span class="code-js-function">whenDefined</span>('<span class="code-js-string">lf-tags</span>').<span class="code-js-function">then</span>(appendTags); <span class="code-ts-comment">// wait for the element to be defined before creating and appending it</span>
+customElements.<span class="code-js-function">whenDefined</span>('<span class="code-js-string">lf-tags</span>').<span class="code-js-function">then</span>(initLfTagsComponent); <span class="code-ts-comment">// wait for the element to be defined before creating and appending it</span>
     </pre>
   </li>
 </ol>
