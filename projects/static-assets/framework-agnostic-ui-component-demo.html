@@ -3,63 +3,65 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Framework-Agnostic UI Component Demo</title>
-    <script src="./lf-ui-components.js" defer></script>
-    <link rel="stylesheet" href="./indigo-pink.css" />
-    <link rel="stylesheet" id="lf-stylesheet" href="./lf-laserfiche-lite.css" />
-  </head>
 
-  <body>
-    <div id="demoTagsContainer"></div>
-    <p>selectedTagsChanged output:</p>
-    <textarea id="demoOutput" cols="80" rows="10" disabled></textarea>
-    <script>
-      const tagsService = {
-        getTagDefinitions: function () {
-          return Promise.resolve([
-            {
-              id: 1,
-              name: "Confidential",
-              displayName: "Confidential",
-              description: "Contains sensitive information",
-              isSecure: true,
-            },
-            {
-              id: 2,
-              name: "Reviewed",
-              displayName: "Reviewed",
-              description: "Document has been reviewed",
-              isSecure: false,
-            },
-            {
-              id: 3,
-              name: "Approved",
-              displayName: "Approved",
-              description: "Document has been approved",
-              isSecure: false,
-            },
-            { id: 4, name: "Draft", displayName: "Draft", description: "Work in progress document", isSecure: false },
-            { id: 5, name: "Archived", displayName: "Archived", description: "Document is archived", isSecure: false },
-          ]);
-        },
-      };
+<head>
+  <meta charset="UTF-8" />
+  <title>Framework-Agnostic UI Component Demo</title>
+  <script src="./lf-ui-components.js" defer></script>
+  <link rel="stylesheet" href="./indigo-pink.css" />
+  <link rel="stylesheet" id="lf-stylesheet" href="./lf-laserfiche-lite.css" />
+</head>
 
-      function appendTags() {
-        const tagsElement = document.createElement("lf-tags"); // create element before connecting to DOM
+<body>
+  <div id="demoTagsContainer"></div>
+  <p>selectedTagsChanged output:</p>
+  <textarea id="demoOutput" rows="10" style="width: 100%; box-sizing: border-box;" disabled></textarea>
+  <script>
+    const tagsService = {
+      getTagDefinitions: function () {
+        return Promise.resolve([
+          {
+            id: 1,
+            name: "Confidential",
+            displayName: "Confidential",
+            description: "Contains sensitive information",
+            isSecure: true,
+          },
+          {
+            id: 2,
+            name: "Reviewed",
+            displayName: "Reviewed",
+            description: "Document has been reviewed",
+            isSecure: false,
+          },
+          {
+            id: 3,
+            name: "Approved",
+            displayName: "Approved",
+            description: "Document has been approved",
+            isSecure: false,
+          },
+          { id: 4, name: "Draft", displayName: "Draft", description: "Work in progress document", isSecure: false },
+          { id: 5, name: "Archived", displayName: "Archived", description: "Document is archived", isSecure: false },
+        ]);
+      },
+    };
 
-        tagsElement.tagsService = tagsService; // required — must be set before appending
-        tagsElement.initialTags = ["Reviewed"]; // optional — pre-select by displayName; must be set before appending
+    function appendTags() {
+      const tagsElement = document.createElement("lf-tags"); // create element before connecting to DOM
 
-        tagsElement.addEventListener("selectedTagsChanged", function (event) {
-          const output = document.getElementById("demoOutput");
-          if (output) output.value = JSON.stringify(event.detail, null, 2);
-        });
+      tagsElement.tagsService = tagsService; // required — must be set before appending
+      tagsElement.initialTags = ["Reviewed"]; // optional — pre-select by displayName; must be set before appending
 
-        document.getElementById("demoTagsContainer").appendChild(tagsElement);
-      }
-      customElements.whenDefined("lf-tags").then(appendTags);
-    </script>
-  </body>
+      tagsElement.addEventListener("selectedTagsChanged", function (event) {
+        const output = document.getElementById("demoOutput");
+        if (output) output.value = JSON.stringify(event.detail, null, 2);
+      });
+
+      document.getElementById("demoTagsContainer").appendChild(tagsElement);
+    }
+    customElements.whenDefined("lf-tags").then(appendTags); // wait for the element to be defined before creating and appending it
+  </script>
+</body>
+
 </html>

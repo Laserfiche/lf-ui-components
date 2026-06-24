@@ -4,13 +4,14 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ExampleUsageBasicStepsDirective } from '../example-usage-basic-steps.directive';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-example-usage-in-html',
   templateUrl: './example-usage-in-html.component.html',
   styleUrls: ['./example-usage-in-html.component.css', '../app.component.css'],
   standalone: true,
-  imports: [],
+  imports: [CardComponent],
 })
 export class ExampleUsageInHtmlComponent extends ExampleUsageBasicStepsDirective implements OnInit {
   demoFileContent = signal('');

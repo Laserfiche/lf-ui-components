@@ -4,10 +4,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <p class="documentation-title">Using UI Components in a Framework-Agnostic Way</p>
 <h3 id="cdn-example-lf-tags">Example: <code>lf-tags</code></h3>
 <p>
-  The steps below show how to use <code>lf-tags</code> in a plain HTML file without any framework. Load
-  <code>lf-ui-components.js</code> with a <code>defer</code> script tag, then use
-  <code>customElements.whenDefined</code> to wait for the element to be registered before creating and appending it. A
-  complete working example is shown at the end.
+  The steps below show how to use <code>lf-tags</code> in a plain HTML file without any framework. A complete working
+  example and live demo are shown at the end.
 </p>
 <ol>
   <li>
@@ -16,12 +14,20 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       <li>Option 1: <a (click)="navigateToGettingStarted('cdn-usage')">Follow these steps to import from a CDN</a></li>
       <li>
         Option 2: Use npm to install the package and include the files at build time. See
-        <a href="https://github.com/Laserfiche/laserfiche-sharepoint-integration" target="_blank"
-          >laserfiche-sharepoint-integration</a
-        >
+        <a href="https://github.com/Laserfiche/laserfiche-sharepoint-integration"
+          target="_blank">laserfiche-sharepoint-integration</a>
         for an example implementation.
       </li>
     </ul>
+  </li>
+
+  <li>
+    <p class="documentation-text">Add the script and CSS to the <code>&lt;head&gt;</code> of your HTML file:</p>
+    <pre class="code-container">
+<span class="code-html-tagname">&lt;script</span> <span class="code-html-attribute-name">src</span><span>=</span><span class="code-html-attribute-value">"lf-ui-components.js"</span> <span class="code-html-attribute-name">defer</span><span class="code-html-tagname">&gt;&lt;/script&gt;</span>
+<span class="code-html-tagname">&lt;link</span> <span class="code-html-attribute-name">rel</span><span>=</span><span class="code-html-attribute-value">"stylesheet"</span> <span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value">"indigo-pink.css"</span><span class="code-html-tagname">&gt;</span>
+<span class="code-html-tagname">&lt;link</span> <span class="code-html-attribute-name">rel</span><span>=</span><span class="code-html-attribute-value">"stylesheet"</span> <span class="code-html-attribute-name">href</span><span>=</span><span class="code-html-attribute-value">"lf-laserfiche-lite.css"</span><span class="code-html-tagname">&gt;</span>
+    </pre>
   </li>
 
   <li>
@@ -40,20 +46,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   document.<span class="code-js-function">getElementById</span>(<span class="code-js-string">'container'</span>).<span class="code-js-function">appendChild</span>(<span class="code-js-prop">tagsElement</span>);
 &#125;
 
-customElements.<span class="code-js-function">whenDefined</span>('<span class="code-js-string">lf-tags</span>').<span class="code-js-function">then</span>(appendTags);
+customElements.<span class="code-js-function">whenDefined</span>('<span class="code-js-string">lf-tags</span>').<span class="code-js-function">then</span>(appendTags); <span class="code-ts-comment">// wait for the element to be defined before creating and appending it</span>
     </pre>
-  </li>
-  <li>
-    <p class="documentation-text">Complete example — <code>framework-agnostic-ui-component-demo.html</code>:</p>
-    <pre class="code-container">{{ demoFileContent() }}</pre>
   </li>
 </ol>
 
-<p class="documentation-sub-header">Live Demo — <code>framework-agnostic-ui-component-demo.html</code></p>
 
-<iframe
-  src="./framework-agnostic-ui-component-demo.html"
-  width="100%"
-  height="400px"
-  style="border: 1px solid #ccc"
-></iframe>
+<h4>Complete example — <code>framework-agnostic-ui-component-demo.html</code>:</h4>
+<pre class="code-container">{{ demoFileContent() }}</pre>
+
+<p class="documentation-sub-header">Live Demo — <code>framework-agnostic-ui-component-demo.html</code></p>
+<app-card>
+  <iframe src="./framework-agnostic-ui-component-demo.html" class="demo-frame"></iframe>
+</app-card>
