@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { ApplicationConfig, CUSTOM_ELEMENTS_SCHEMA, provideZonelessChangeDetection } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
@@ -51,5 +52,5 @@ const routes: Routes = [
 ];
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes, withHashLocation()), provideAnimations(), provideZonelessChangeDetection()],
+  providers: [provideRouter(routes, withHashLocation()), provideAnimations(), provideZonelessChangeDetection(), provideHttpClient()],
 };

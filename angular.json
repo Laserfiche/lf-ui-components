@@ -28,6 +28,16 @@
                 "glob": "*",
                 "input": "projects/static-assets",
                 "output": ""
+              },
+              {
+                "glob": "framework-agnostic-ui-component-demo.html",
+                "input": "projects/static-assets",
+                "output": ""
+              },
+              {
+                "glob": "indigo-pink.css",
+                "input": "node_modules/@angular/material/prebuilt-themes",
+                "output": ""
               }
             ],
             "styles": ["projects/lf-cdn/src/styles.css"],
@@ -131,6 +141,16 @@
               {
                 "glob": "*",
                 "input": "projects/static-assets",
+                "output": ""
+              },
+              {
+                "glob": "framework-agnostic-ui-component-demo.html",
+                "input": "projects/static-assets",
+                "output": ""
+              },
+              {
+                "glob": "indigo-pink.css",
+                "input": "node_modules/@angular/material/prebuilt-themes",
                 "output": ""
               },
               {
