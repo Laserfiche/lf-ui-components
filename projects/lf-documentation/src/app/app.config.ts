@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { ApplicationConfig, CUSTOM_ELEMENTS_SCHEMA, provideZonelessChangeDetection } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
@@ -20,8 +21,6 @@ import { ConvertComponentToElementComponent } from './convert-component-to-eleme
 import { LfLoginDocumentationComponent } from './lf-login-documentation/lf-login-documentation.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
 import { ExampleNpmUsageInAngularComponent } from './example-npm-usage-in-angular/example-npm-usage-in-angular.component';
-import { ExampleUsageInAngularComponent } from './example-usage-in-angular/example-usage-in-angular.component';
-import { ExampleUsageInReactComponent } from './example-usage-in-react/example-usage-in-react.component';
 import { ExampleUsageInHtmlComponent } from './example-usage-in-html/example-usage-in-html.component';
 import { LfRepositoryBrowserDocumentationComponent } from './lf-repository-browser-documentation/lf-repository-browser-documentation.component';
 import { LfTagsDocumentationComponent } from './lf-tags-documentation/lf-tags-documentation.component';
@@ -42,8 +41,6 @@ const routes: Routes = [
   { path: RouterLinks.STYLING, component: StylingDocumentationComponent },
   { path: RouterLinks.GETTING_STARTED, component: GettingStartedComponent },
   { path: RouterLinks.EXAMPLE_NPM_USAGE_ANGULAR, component: ExampleNpmUsageInAngularComponent },
-  { path: RouterLinks.EXAMPLE_USAGE_ANGULAR, component: ExampleUsageInAngularComponent },
-  { path: RouterLinks.EXAMPLE_USAGE_REACT, component: ExampleUsageInReactComponent },
   { path: RouterLinks.EXAMPLE_USAGE_HTML, component: ExampleUsageInHtmlComponent },
   { path: RouterLinks.OVERVIEW, component: OverviewComponent },
   { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },
@@ -55,5 +52,10 @@ const routes: Routes = [
 ];
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes, withHashLocation()), provideAnimations(), provideZonelessChangeDetection()],
+  providers: [
+    provideRouter(routes, withHashLocation()),
+    provideAnimations(),
+    provideZonelessChangeDetection(),
+    provideHttpClient(),
+  ],
 };

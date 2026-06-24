@@ -100,6 +100,7 @@ export class LfTagsComponent implements OnDestroy, AfterViewInit {
             this.selectedTagDefinitions = toSelect;
             this.emitSelectedTagDefinitions();
             this.refreshFilteredTags();
+            this.ref.detectChanges();
           });
           this.initialTags = [];
         } else {
