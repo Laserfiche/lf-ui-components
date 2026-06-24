@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ExampleUsageBasicStepsDirective } from '../example-usage-basic-steps.directive';
 import { CardComponent } from '../card/card.component';
@@ -14,11 +14,8 @@ import { CardComponent } from '../card/card.component';
   imports: [CardComponent],
 })
 export class ExampleUsageInHtmlComponent extends ExampleUsageBasicStepsDirective implements OnInit {
+  private http = inject(HttpClient);
   demoFileContent = signal('');
-
-  constructor(private http: HttpClient) {
-    super();
-  }
 
   ngOnInit() {
     this.http.get('./framework-agnostic-ui-component-demo.html', { responseType: 'text' }).subscribe((content) => {
