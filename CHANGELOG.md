@@ -16,10 +16,9 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 - **[BREAKING]**: Update to Angular 21.
 - **[BREAKING]**: Migrated `@angular/material` to version 21.
-- Updated `@analogjs/vite-plugin-angular` to version 2.3.x.
-- Updated `@analogjs/vitest-angular` to version 2.3.x.
+- **[BREAKING]**: Migrated all components from NgModules to standalone components.
 - Improved TypeScript and tooling compatibility with modern Angular ecosystem.
-- Removed dependency from `zone.js`.
+- Removed dependency on `zone.js`.
 
 ## 18.0.7
 
