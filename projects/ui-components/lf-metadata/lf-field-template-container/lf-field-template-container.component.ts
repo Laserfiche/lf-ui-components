@@ -380,6 +380,10 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
     this.allFieldValues = this.metadataFieldConnectorService.getAllFieldValues() ?? {};
     const newFieldIds: number[] = this.allFieldInfos.map((fieldInfo) => fieldInfo.id);
     this.metadataFieldConnectorService.selectTemplateFields(newFieldIds);
+    const noErrorOccurred = this.templateState === TemplateState.LOADING;
+    if (noErrorOccurred) {
+      this.templateState = TemplateState.SHOW_TEMPLATE;
+    }
     await this.renderFieldsAsync(this.allFieldInfos);
   }
 
@@ -450,7 +454,6 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
           }
           return validFieldType;
         });
-        this.templateState = TemplateState.SHOW_TEMPLATE;
       } catch (err: unknown) {
         this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
         var consoleErrMsg = 'getTemplateFieldsAsync failed';
