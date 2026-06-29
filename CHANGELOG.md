@@ -1,5 +1,6 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
+
 ## 21.1.1
 
 ### Fixes
@@ -11,7 +12,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 - Exposed `LfTagsService` interface.
 - **[BREAKING]**: `lf-tags` emits full tag objects (ITagDefinition[]) instead of tag names (string[]) via selectedTagsChanged.
-
 
 ## 21.0.1
 
