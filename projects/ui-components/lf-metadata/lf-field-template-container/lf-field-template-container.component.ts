@@ -391,43 +391,49 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
   private async updateTemplateFieldInfoAsync(): Promise<void> {
     await this.updateAllFieldInfosFromServiceAsync();
 
-    const hasBaseDynamicField = this.allFieldInfos.some(
-      (fieldInfo) => isDynamicField(fieldInfo) && (fieldInfo as TemplateFieldInfo).rule?.ancestors.length === 0
+    const baseDynamicFields = this.allFieldInfos.filter(
+      (fieldInfo): fieldInfo is TemplateFieldInfo =>
+        isDynamicField(fieldInfo) && (fieldInfo as TemplateFieldInfo).rule?.ancestors.length === 0
     );
-
-    let dynamicFieldValueOptions: { [fieldId: number]: string[] } = {};
-    if (hasBaseDynamicField) {
-      try {
-        dynamicFieldValueOptions = await this.getDynamicFieldValueOptionsAsync(0);
-      } catch (err: unknown) {
-        this.templateState = TemplateState.HAS_ERROR;
-        this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
-        let consoleErrMsg: string = 'getDynamicFieldValueOptionsAsync failed';
-        if (err instanceof Error) {
-          consoleErrMsg = consoleErrMsg + ': ' + err.message;
-        }
-        console.error(consoleErrMsg);
-        throw err;
-      }
+    const noDynamicFieldsToInitialize = baseDynamicFields.length === 0;
+    if (noDynamicFieldsToInitialize) {
+      return;
     }
 
-    for (const fieldInfo of this.allFieldInfos) {
-      const fieldInfoAsTemplateFieldInfo: TemplateFieldInfo = fieldInfo as TemplateFieldInfo;
-      const dynamicOptions = this.getOrCreateDynamicOptions(fieldInfo);
-      const isBaseDynamicField = isDynamicField(fieldInfo) && fieldInfoAsTemplateFieldInfo.rule?.ancestors.length === 0;
-      if (isBaseDynamicField) {
-        const fieldValue = this.getOrCreateFieldValue(fieldInfo.id);
-        const numValues = fieldValue.values?.length ?? 1;
-        for (let index = 0; index < numValues; index++) {
-          dynamicOptions[index] = dynamicFieldValueOptions[fieldInfo.id];
-          if (dynamicOptions[index] === undefined) {
-            console.warn(`Could not get dynamic field options of field ${fieldInfo.name} id ${fieldInfo.id}`);
-            continue;
-          }
-          const values: string[] = this.getValueIfSingleOption(dynamicOptions[index]);
-          await this.updateDynamicFieldsAsync(fieldInfo, values, index);
-        }
+    let dynamicFieldValueOptions: { [fieldId: number]: string[] } = {};
+    try {
+      dynamicFieldValueOptions = await this.getDynamicFieldValueOptionsAsync(0);
+    } catch (err: unknown) {
+      this.templateState = TemplateState.HAS_ERROR;
+      this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD;
+      let consoleErrMsg = 'getDynamicFieldValueOptionsAsync failed';
+      if (err instanceof Error) {
+        consoleErrMsg += ': ' + err.message;
       }
+      console.error(consoleErrMsg);
+      throw err;
+    }
+
+    for (const fieldInfo of baseDynamicFields) {
+      await this.initBaseDynamicFieldAsync(fieldInfo, dynamicFieldValueOptions);
+    }
+  }
+
+  /** @internal */
+  private async initBaseDynamicFieldAsync(
+    fieldInfo: TemplateFieldInfo,
+    dynamicFieldValueOptions: { [fieldId: number]: string[] }
+  ): Promise<void> {
+    const dynamicOptions = this.getOrCreateDynamicOptions(fieldInfo);
+    const numValues = this.getOrCreateFieldValue(fieldInfo.id).values?.length ?? 1;
+    for (let index = 0; index < numValues; index++) {
+      dynamicOptions[index] = dynamicFieldValueOptions[fieldInfo.id];
+      if (dynamicOptions[index] === undefined) {
+        console.warn(`Could not get dynamic field options of field ${fieldInfo.name} id ${fieldInfo.id}`);
+        continue;
+      }
+      const values: string[] = this.getValueIfSingleOption(dynamicOptions[index]);
+      await this.updateDynamicFieldsAsync(fieldInfo, values, index);
     }
   }
 
