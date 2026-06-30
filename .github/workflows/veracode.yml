@@ -70,9 +70,10 @@ jobs:
         run: tar -czvf ./veracode/lf-documentation.tar.gz ./dist/lf-documentation
 
       - name: Veracode Upload And Scan (Static application security testing)
-        uses: veracode/veracode-uploadandscan-action@0.2.11
+        uses: veracode/uploadandscan-action@v0.2.2
         with:
           appname: "lf-ui-components"
+          version: "${{ github.run_id }}"
           createprofile: true
           filepath: "veracode"
           vid: "${{ secrets.VERACODE_API_ID }}"
