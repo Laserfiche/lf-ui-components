@@ -259,7 +259,7 @@ export class LfFieldGroupComponent {
     this.fieldGroups.removeAt(index);
     const numIndices = this.fieldGroupControlsArray().length;
     const indicesChanged: number[] = [];
-    for (let tracker = index; tracker <= numIndices; tracker++) {
+    for (let tracker = index; tracker < numIndices; tracker++) {
       indicesChanged.push(tracker);
     }
     this.fieldValues.forEach((fieldValue) => {
@@ -285,7 +285,7 @@ export class LfFieldGroupComponent {
     const formGroup: FormGroup = new FormGroup({});
     const numIndices = this.fieldGroupControlsArray().length + 1;
     const indicesChanged: number[] = [];
-    for (let tracker = currentIndex + 1; tracker <= numIndices; tracker++) {
+    for (let tracker = currentIndex + 1; tracker < numIndices; tracker++) {
       indicesChanged.push(tracker);
     }
     this.fieldDefinitions.forEach((fieldDef) => {
