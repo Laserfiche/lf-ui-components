@@ -7,6 +7,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 - `[lf-field-template-container]`: Fixed `getDynamicFieldValueOptionsAsync` being called once per base dynamic field on template load, causing N redundant network requests. The call is now made once and the result shared across all fields.
 - `[lf-field-template-container]`: Fixed the loading indicator disappearing before all async work completed when loading a template with dynamic fields.
+- `[lf-field-template-container]`: Fixed `lf-list-field-component` showing static list values instead of the correct dynamic options.
 
 ## 21.1.0
 
