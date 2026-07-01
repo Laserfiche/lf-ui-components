@@ -27,13 +27,7 @@ describe('ListFieldComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        ListFieldComponent,
-        FormsModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        ReactiveFormsModule,
-      ],
+      imports: [ListFieldComponent, FormsModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule],
     }).compileComponents();
   });
 
@@ -51,7 +45,8 @@ describe('ListFieldComponent', () => {
 
   function getRenderedOptionValues(): string[] {
     const matSelect = fixture.debugElement.query(By.directive(MatSelect)).componentInstance as MatSelect;
-    return matSelect.options.toArray()
+    return matSelect.options
+      .toArray()
       .map((o) => o.value)
       .filter((v) => v !== undefined && v !== null);
   }
