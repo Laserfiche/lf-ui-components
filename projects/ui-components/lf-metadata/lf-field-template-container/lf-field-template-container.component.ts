@@ -331,6 +331,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         if (this.availableTemplates.length === 0) {
           this.templateState = TemplateState.DEFAULT;
         }
+        this.ref.markForCheck();
       } catch (err) {
         this.dropdownState = DropDownState.HAS_ERROR;
         this.templateSelected = undefined;
