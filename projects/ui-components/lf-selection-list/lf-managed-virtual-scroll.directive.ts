@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Directive, Input, forwardRef, numberAttribute } from '@angular/core';
+import { Directive, Input, Renderer2, forwardRef, inject, numberAttribute } from '@angular/core';
 import { CdkVirtualScrollViewport, VIRTUAL_SCROLL_STRATEGY, VirtualScrollStrategy } from '@angular/cdk/scrolling';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -25,16 +25,44 @@ export class LfManagedVirtualScrollStrategy implements VirtualScrollStrategy {
   readonly scrolledIndexChange: Observable<number> = this._scrolledIndexChange.pipe(distinctUntilChanged());
 
   private _viewport: CdkVirtualScrollViewport | null = null;
+  private _contentWrapper: HTMLElement | null = null;
 
-  constructor(private readonly getItemSize: () => number) {}
+  constructor(
+    private readonly getItemSize: () => number,
+    private readonly renderer: Renderer2
+  ) {}
 
   attach(viewport: CdkVirtualScrollViewport): void {
     this._viewport = viewport;
+    this._contentWrapper = viewport.elementRef.nativeElement.querySelector(
+      '.cdk-virtual-scroll-content-wrapper'
+    ) as HTMLElement | null;
   }
 
   detach(): void {
     this._scrolledIndexChange.complete();
     this._viewport = null;
+    this._contentWrapper = null;
+  }
+
+  /**
+   * Writes `style.transform` on the CDK content wrapper synchronously via `Renderer2`.
+   *
+   * CDK 21 regression: `_markChangeDetectionNeeded` skips re-scheduling when
+   * `_changeDetectionNeeded` is already `true`, so rapid `offsetChange` emissions
+   * can miss the async DOM update. Call this after `setRenderedContentOffset` to
+   * guarantee the transform is applied regardless of CDK's internal signal state.
+   * TODO: remove once https://github.com/angular/components/issues/33484 is resolved.
+   *
+   * Note: RTL negation for horizontal viewports is not replicated here — this
+   * component always uses the default vertical orientation.
+   */
+  applyRenderedOffset(offset: number): void {
+    if (!this._contentWrapper || !this._viewport) {
+      return;
+    }
+    const axis = this._viewport.orientation === 'horizontal' ? 'X' : 'Y';
+    this.renderer.setStyle(this._contentWrapper, 'transform', `translate${axis}(${offset}px)`);
   }
 
   onContentScrolled(): void {
@@ -98,5 +126,9 @@ export class LfManagedVirtualScrollStrategy implements VirtualScrollStrategy {
 export class LfManagedVirtualScrollDirective {
   @Input({ alias: 'lfManagedItemSize', transform: numberAttribute }) itemSize = 42;
 
-  readonly scrollStrategy = new LfManagedVirtualScrollStrategy(() => this.itemSize);
+  readonly scrollStrategy: LfManagedVirtualScrollStrategy;
+
+  constructor() {
+    this.scrollStrategy = new LfManagedVirtualScrollStrategy(() => this.itemSize, inject(Renderer2));
+  }
 }

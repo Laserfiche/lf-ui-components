@@ -170,6 +170,8 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
   /** @internal */
   @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
   /** @internal */
+  @ViewChild(LfManagedVirtualScrollDirective) private scrollDirective?: LfManagedVirtualScrollDirective;
+  /** @internal */
   @ViewChild('matTable', { read: ElementRef }) matTable?: ElementRef;
   /** @internal */
   @ViewChildren(MatTable) matTables?: QueryList<MatTable<ILfSelectable>>;
@@ -221,6 +223,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     });
     const dataOffsetSub = this.dataSource.offsetChange.subscribe((offset) => {
       this.viewport?.setRenderedContentOffset(offset);
+      this.scrollDirective?.scrollStrategy.applyRenderedOffset(offset);
       this.ref.detectChanges();
     });
     this.allSubscriptions?.add(dataSourceSub);
