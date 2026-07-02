@@ -52,8 +52,7 @@ export class LfManagedVirtualScrollStrategy implements VirtualScrollStrategy {
    * `_changeDetectionNeeded` is already `true`, so rapid `offsetChange` emissions
    * can miss the async DOM update. Call this after `setRenderedContentOffset` to
    * guarantee the transform is applied regardless of CDK's internal signal state.
-   * TODO: remove once https://github.com/angular/components/issues tracks a fix for
-   * the `_changeDetectionNeeded` signal not re-firing after `afterNextRender` resets it.
+   * TODO: remove once https://github.com/angular/components/issues/33484 is resolved.
    *
    * Note: RTL negation for horizontal viewports is not replicated here — this
    * component always uses the default vertical orientation.
