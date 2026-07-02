@@ -9,7 +9,8 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldInfo, TemplateFieldInfo } from '../../../utils/lf-field-types';
 import { FieldType } from '@laserfiche/lf-ui-components/shared';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { By } from '@angular/platform-browser';
 
 describe('ListFieldComponent', () => {
   let component: ListFieldComponent;
@@ -40,6 +41,26 @@ describe('ListFieldComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('template rendering', () => {
+    it('renders mat-option elements matching listOptions', () => {
+      const dynamicField: TemplateFieldInfo = {
+        ...listInfo,
+        listValues: ['Static A', 'Static B'],
+        rule: { ancestors: [] },
+      };
+      component.lf_field_info = dynamicField;
+      component.dynamic_field_value_options = ['Dynamic X', 'Dynamic Y'];
+      fixture.detectChanges();
+
+      const matSelect = fixture.debugElement.query(By.directive(MatSelect)).componentInstance as MatSelect;
+      const renderedValues = matSelect.options
+        .toArray()
+        .map((o) => o.value)
+        .filter((v) => v != null);
+      expect(renderedValues).toEqual(component.listOptions);
+    });
   });
 
   describe('listOptions', () => {
