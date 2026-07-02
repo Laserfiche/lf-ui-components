@@ -169,7 +169,7 @@
 
 ::ng-deep .lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
   height: inherit;
-  min-height: 0px;
+  min-height: var(--lf-field-infix-min-height, 0px);
 }
 
 ::ng-deep
