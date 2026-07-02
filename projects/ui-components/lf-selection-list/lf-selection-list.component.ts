@@ -221,7 +221,7 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
     });
     // Resolved once at init to avoid a querySelector on every offsetChange emission.
     const contentWrapper = this.viewport?.elementRef.nativeElement.querySelector(
-      '.cdk-virtual-scroll-content-wrapper',
+      '.cdk-virtual-scroll-content-wrapper'
     ) as HTMLElement | null;
     const dataOffsetSub = this.dataSource.offsetChange.subscribe((offset) => {
       this.viewport?.setRenderedContentOffset(offset);
