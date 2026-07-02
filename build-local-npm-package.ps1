@@ -14,16 +14,16 @@ $flatpickrBlock = "`n/* `n$license`nThe following styles are copied from flatpic
 Add-Content dist/lf-documentation/browser/lf-laserfiche-lite.css $flatpickrBlock
 Add-Content dist/lf-documentation/browser/lf-ms-office-lite.css $flatpickrBlock
 
-cp node_modules/@angular/material/prebuilt-themes/indigo-pink.css dist/ui-components/cdn/
-mv dist/lf-cdn/browser/lf-ui-components.js dist/ui-components/cdn/
-mv dist/lf-cdn/browser/lf-ui-components.js.map dist/ui-components/cdn/
-cp dist/lf-documentation/browser/lf-laserfiche-lite.css dist/ui-components/cdn/
-cp dist/lf-documentation/browser/lf-laserfiche-lite.css.map dist/ui-components/cdn/
-cp dist/lf-documentation/browser/lf-ms-office-lite.css dist/ui-components/cdn/
-cp dist/lf-documentation/browser/lf-ms-office-lite.css.map dist/ui-components/cdn/
+Copy-Item node_modules/@angular/material/prebuilt-themes/indigo-pink.css dist/ui-components/cdn/
+Move-Item dist/lf-cdn/browser/lf-ui-components.js dist/ui-components/cdn/
+Move-Item dist/lf-cdn/browser/lf-ui-components.js.map dist/ui-components/cdn/
+Copy-Item dist/lf-documentation/browser/lf-laserfiche-lite.css dist/ui-components/cdn/
+Copy-Item dist/lf-documentation/browser/lf-laserfiche-lite.css.map dist/ui-components/cdn/
+Copy-Item dist/lf-documentation/browser/lf-ms-office-lite.css dist/ui-components/cdn/
+Copy-Item dist/lf-documentation/browser/lf-ms-office-lite.css.map dist/ui-components/cdn/
 
-cp README.md dist/ui-components/
+Copy-Item README.md dist/ui-components/
 
-cd dist/ui-components
+Push-Location dist/ui-components
 npm pack
-cd ../..
+Pop-Location
