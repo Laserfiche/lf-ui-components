@@ -219,8 +219,18 @@ export class LfSelectionListComponent implements AfterViewInit, OnDestroy {
       this.matTables?.last?.renderRows();
       this.ref.detectChanges();
     });
+    // Resolved once at init to avoid a querySelector on every offsetChange emission.
+    const contentWrapper = this.viewport?.elementRef.nativeElement.querySelector(
+      '.cdk-virtual-scroll-content-wrapper',
+    ) as HTMLElement | null;
     const dataOffsetSub = this.dataSource.offsetChange.subscribe((offset) => {
       this.viewport?.setRenderedContentOffset(offset);
+      // CDK 21: _markChangeDetectionNeeded skips re-firing when _changeDetectionNeeded is already
+      // true, so rapid emissions miss the DOM update. Write synchronously as the authoritative update.
+      if (contentWrapper) {
+        const axis = this.viewport?.orientation === 'horizontal' ? 'X' : 'Y';
+        contentWrapper.style.transform = `translate${axis}(${offset}px)`;
+      }
       this.ref.detectChanges();
     });
     this.allSubscriptions?.add(dataSourceSub);
