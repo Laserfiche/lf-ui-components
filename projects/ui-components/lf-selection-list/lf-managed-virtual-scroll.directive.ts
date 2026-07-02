@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Directive, Input, forwardRef, numberAttribute } from '@angular/core';
+import { Directive, Input, Renderer2, forwardRef, numberAttribute } from '@angular/core';
 import { CdkVirtualScrollViewport, VIRTUAL_SCROLL_STRATEGY, VirtualScrollStrategy } from '@angular/cdk/scrolling';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -27,7 +27,10 @@ export class LfManagedVirtualScrollStrategy implements VirtualScrollStrategy {
   private _viewport: CdkVirtualScrollViewport | null = null;
   private _contentWrapper: HTMLElement | null = null;
 
-  constructor(private readonly getItemSize: () => number) {}
+  constructor(
+    private readonly getItemSize: () => number,
+    private readonly renderer: Renderer2,
+  ) {}
 
   attach(viewport: CdkVirtualScrollViewport): void {
     this._viewport = viewport;
@@ -43,14 +46,16 @@ export class LfManagedVirtualScrollStrategy implements VirtualScrollStrategy {
   }
 
   /**
-   * Writes `style.transform` on the CDK content wrapper synchronously.
+   * Writes `style.transform` on the CDK content wrapper synchronously via `Renderer2`.
    *
    * CDK 21 regression: `_markChangeDetectionNeeded` skips re-scheduling when
    * `_changeDetectionNeeded` is already `true`, so rapid `offsetChange` emissions
    * can miss the async DOM update. Call this after `setRenderedContentOffset` to
    * guarantee the transform is applied regardless of CDK's internal signal state.
+   * TODO: remove once https://github.com/angular/components/issues tracks a fix for
+   * the `_changeDetectionNeeded` signal not re-firing after `afterNextRender` resets it.
    *
-   * Note: RTL negation for horizontal viewports is not replicated here — the
+   * Note: RTL negation for horizontal viewports is not replicated here — this
    * component always uses the default vertical orientation.
    */
   applyRenderedOffset(offset: number): void {
@@ -58,7 +63,7 @@ export class LfManagedVirtualScrollStrategy implements VirtualScrollStrategy {
       return;
     }
     const axis = this._viewport.orientation === 'horizontal' ? 'X' : 'Y';
-    this._contentWrapper.style.transform = `translate${axis}(${offset}px)`;
+    this.renderer.setStyle(this._contentWrapper, 'transform', `translate${axis}(${offset}px)`);
   }
 
   onContentScrolled(): void {
@@ -122,5 +127,9 @@ export class LfManagedVirtualScrollStrategy implements VirtualScrollStrategy {
 export class LfManagedVirtualScrollDirective {
   @Input({ alias: 'lfManagedItemSize', transform: numberAttribute }) itemSize = 42;
 
-  readonly scrollStrategy = new LfManagedVirtualScrollStrategy(() => this.itemSize);
+  readonly scrollStrategy: LfManagedVirtualScrollStrategy;
+
+  constructor(renderer: Renderer2) {
+    this.scrollStrategy = new LfManagedVirtualScrollStrategy(() => this.itemSize, renderer);
+  }
 }
