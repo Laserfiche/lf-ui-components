@@ -3,6 +3,7 @@
 
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Renderer2 } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { LfManagedVirtualScrollDirective, LfManagedVirtualScrollStrategy } from './lf-managed-virtual-scroll.directive';
 
 function fakeRenderer() {
@@ -151,8 +152,14 @@ describe('LfManagedVirtualScrollStrategy', () => {
 });
 
 describe('LfManagedVirtualScrollDirective', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [{ provide: Renderer2, useValue: fakeRenderer() }],
+    });
+  });
+
   it('exposes a LfManagedVirtualScrollStrategy whose item size is driven by the directive input', () => {
-    const directive = new LfManagedVirtualScrollDirective(fakeRenderer());
+    const directive = TestBed.runInInjectionContext(() => new LfManagedVirtualScrollDirective());
     directive.itemSize = 56;
 
     const viewport = {

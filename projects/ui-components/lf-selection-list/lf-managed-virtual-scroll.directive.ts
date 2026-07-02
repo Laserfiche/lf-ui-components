@@ -1,7 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Directive, Input, Renderer2, forwardRef, numberAttribute } from '@angular/core';
+import { Directive, Input, Renderer2, forwardRef, inject, numberAttribute } from '@angular/core';
 import { CdkVirtualScrollViewport, VIRTUAL_SCROLL_STRATEGY, VirtualScrollStrategy } from '@angular/cdk/scrolling';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -128,7 +128,7 @@ export class LfManagedVirtualScrollDirective {
 
   readonly scrollStrategy: LfManagedVirtualScrollStrategy;
 
-  constructor(renderer: Renderer2) {
-    this.scrollStrategy = new LfManagedVirtualScrollStrategy(() => this.itemSize, renderer);
+  constructor() {
+    this.scrollStrategy = new LfManagedVirtualScrollStrategy(() => this.itemSize, inject(Renderer2));
   }
 }
