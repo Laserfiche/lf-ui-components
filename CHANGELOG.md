@@ -3,6 +3,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
 ## 21.1.1
 
+### Features
+
+- `[lf-field-container]`, `[lf-field-adhoc-container]`, `[lf-field-template-container]`: Added the following CSS custom properties, existing defaults unchanged:
+  - `--lf-field-height`
+  - `--lf-field-min-height`
+  - `--lf-field-subscript-display`
+
 ### Fixes
 
 - `[lf-field-template-container]`: Fixed `getDynamicFieldValueOptionsAsync` being called once per base dynamic field on template load, causing N redundant network requests. The call is now made once and the result shared across all fields.

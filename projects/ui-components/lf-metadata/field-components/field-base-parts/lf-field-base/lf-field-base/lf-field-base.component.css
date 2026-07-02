@@ -117,7 +117,7 @@
 
 ::ng-deep mat-form-field.lf-field .mat-mdc-form-field-subscript-wrapper,
 ::ng-deep mat-form-field.lf-textarea .mat-mdc-form-field-subscript-wrapper {
-  display: flex;
+  display: var(--lf-field-subscript-display, flex);
   flex-direction: column;
 }
 
@@ -164,12 +164,12 @@
 }
 
 ::ng-deep .lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex {
-  height: 28px;
+  height: var(--lf-field-height, 28px);
 }
 
 ::ng-deep .lf-field > .mat-mdc-text-field-wrapper > .mat-mdc-form-field-flex > .mat-mdc-form-field-infix {
   height: inherit;
-  min-height: 0px;
+  min-height: var(--lf-field-min-height, 0px);
 }
 
 ::ng-deep

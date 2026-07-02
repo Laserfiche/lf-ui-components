@@ -43,23 +43,34 @@ describe('ListFieldComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  function getRenderedOptionValues(): string[] {
-    const matSelect = fixture.debugElement.query(By.directive(MatSelect)).componentInstance as MatSelect;
-    return matSelect.options
-      .toArray()
-      .map((o) => o.value)
-      .filter((v) => v !== undefined && v !== null);
-  }
+  describe('template rendering', () => {
+    it('renders mat-option elements matching listOptions', () => {
+      const dynamicField: TemplateFieldInfo = {
+        ...listInfo,
+        listValues: ['Static A', 'Static B'],
+        rule: { ancestors: [] },
+      };
+      component.lf_field_info = dynamicField;
+      component.dynamic_field_value_options = ['Dynamic X', 'Dynamic Y'];
+      fixture.detectChanges();
 
-  describe('list-field dropdown options', () => {
-    it('shows static listValues for a non-dynamic list field', () => {
+      const matSelect = fixture.debugElement.query(By.directive(MatSelect)).componentInstance as MatSelect;
+      const renderedValues = matSelect.options
+        .toArray()
+        .map((o) => o.value)
+        .filter((v) => v != null);
+      expect(renderedValues).toEqual(component.listOptions);
+    });
+  });
+
+  describe('listOptions', () => {
+    it('returns listValues for a non-dynamic list field', () => {
       component.lf_field_info = { ...listInfo, listValues: ['Option A', 'Option B'] };
-      fixture.detectChanges();
 
-      expect(getRenderedOptionValues()).toEqual(['Option A', 'Option B']);
+      expect(component.listOptions).toEqual(['Option A', 'Option B']);
     });
 
-    it('shows dynamic options for a dynamic list field', () => {
+    it('returns dynamic_field_value_options for a dynamic list field', () => {
       const dynamicField: TemplateFieldInfo = {
         ...listInfo,
         listValues: ['Static A', 'Static B'],
@@ -67,12 +78,11 @@ describe('ListFieldComponent', () => {
       };
       component.lf_field_info = dynamicField;
       component.dynamic_field_value_options = ['Dynamic X', 'Dynamic Y'];
-      fixture.detectChanges();
 
-      expect(getRenderedOptionValues()).toEqual(['Dynamic X', 'Dynamic Y']);
+      expect(component.listOptions).toEqual(['Dynamic X', 'Dynamic Y']);
     });
 
-    it('does not show static listValues when the field is dynamic', () => {
+    it('does not return static listValues when the field is dynamic', () => {
       const dynamicField: TemplateFieldInfo = {
         ...listInfo,
         listValues: ['Static A', 'Static B'],
@@ -80,11 +90,9 @@ describe('ListFieldComponent', () => {
       };
       component.lf_field_info = dynamicField;
       component.dynamic_field_value_options = ['Dynamic X', 'Dynamic Y'];
-      fixture.detectChanges();
 
-      const texts = getRenderedOptionValues();
-      expect(texts).not.toContain('Static A');
-      expect(texts).not.toContain('Static B');
+      expect(component.listOptions).not.toContain('Static A');
+      expect(component.listOptions).not.toContain('Static B');
     });
   });
 });
