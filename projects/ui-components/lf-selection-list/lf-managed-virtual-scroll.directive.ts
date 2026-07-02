@@ -29,7 +29,7 @@ export class LfManagedVirtualScrollStrategy implements VirtualScrollStrategy {
 
   constructor(
     private readonly getItemSize: () => number,
-    private readonly renderer: Renderer2,
+    private readonly renderer: Renderer2
   ) {}
 
   attach(viewport: CdkVirtualScrollViewport): void {
