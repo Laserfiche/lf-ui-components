@@ -39,6 +39,10 @@ export class ListFieldComponent extends BaseFieldDirective implements OnInit {
     return [];
   }
 
+  get listOptions(): string[] | undefined {
+    return this.isDynamic ? this.dynamic_field_value_options : this.lf_field_info.listValues;
+  }
+
   protected override fieldOnValueChanged(): void {
     const currentValue = this.lf_field_form_control.value;
     this.lf_field_form_control.setValue(currentValue ?? '');
