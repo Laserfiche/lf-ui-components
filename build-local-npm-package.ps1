@@ -4,6 +4,14 @@ npm run build-lf-documentation-prod
 
 New-Item -ItemType Directory -Force -Path dist/ui-components/cdn | Out-Null
 
+# Append flatpickr styles to theme CSS files (mirrors CI pipeline)
+$flatpickrCss = Get-Content node_modules/flatpickr/dist/flatpickr.min.css -Raw
+$license = Get-Content LICENSE -Raw
+$flatpickrBlock = "`n/* `n$license`nThe following styles are copied from flatpickr.min.css */`n$flatpickrCss"
+
+Add-Content dist/lf-documentation/browser/lf-laserfiche-lite.css $flatpickrBlock
+Add-Content dist/lf-documentation/browser/lf-ms-office-lite.css $flatpickrBlock
+
 cp node_modules/@angular/material/prebuilt-themes/indigo-pink.css dist/ui-components/cdn/
 mv dist/lf-cdn/browser/lf-ui-components.js dist/ui-components/cdn/
 mv dist/lf-cdn/browser/lf-ui-components.js.map dist/ui-components/cdn/
