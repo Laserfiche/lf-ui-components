@@ -41,6 +41,7 @@ npm run format:check
 ```
 
 To run a single test file:
+
 ```powershell
 npx vitest --browser.enabled path/to/file.spec.ts
 ```
@@ -53,16 +54,16 @@ This is an Angular monorepo workspace with three projects:
 
 The primary package entry point (`entry.ts`) is a dummy export. The real public API is split across **secondary entry points**, each with its own `ng-package.json` and `*-public-api.ts` barrel file:
 
-| Entry point | Import path |
-|---|---|
-| lf-login | `@laserfiche/lf-ui-components/lf-login` |
-| lf-checklist | `@laserfiche/lf-ui-components/lf-checklist` |
-| lf-metadata | `@laserfiche/lf-ui-components/lf-metadata` |
+| Entry point           | Import path                                          |
+| --------------------- | ---------------------------------------------------- |
+| lf-login              | `@laserfiche/lf-ui-components/lf-login`              |
+| lf-checklist          | `@laserfiche/lf-ui-components/lf-checklist`          |
+| lf-metadata           | `@laserfiche/lf-ui-components/lf-metadata`           |
 | lf-repository-browser | `@laserfiche/lf-ui-components/lf-repository-browser` |
-| lf-tags | `@laserfiche/lf-ui-components/lf-tags` |
-| lf-user-feedback | `@laserfiche/lf-ui-components/lf-user-feedback` |
-| lf-selection-list | `@laserfiche/lf-ui-components/lf-selection-list` |
-| shared | `@laserfiche/lf-ui-components/shared` |
+| lf-tags               | `@laserfiche/lf-ui-components/lf-tags`               |
+| lf-user-feedback      | `@laserfiche/lf-ui-components/lf-user-feedback`      |
+| lf-selection-list     | `@laserfiche/lf-ui-components/lf-selection-list`     |
+| shared                | `@laserfiche/lf-ui-components/shared`                |
 
 `internal-shared/` contains shared components and localization services that are consumed internally but not exposed in the published package.
 
@@ -77,6 +78,7 @@ Interactive demo and manual validation surface for all components. Prefer this p
 ### `projects/styles` — SCSS themes
 
 Two themes compiled to CSS:
+
 - `lf-laserfiche-lite.scss` → Laserfiche branding
 - `lf-ms-office-lite.scss` → Microsoft Office styling
 
