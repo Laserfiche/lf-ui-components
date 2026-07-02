@@ -34,6 +34,20 @@ We welcome contributions and feedback. Please follow our [contributing guideline
    - This command will generate the CDN entry file `dist/lf-cdn/lf-ui-components.js`.
    - If need to output the CDN entry file to a different directory or project for said project local test, change `SCRIPT_DEST` in the root `gulpfile.js`. **Important**: don't commit this change to Pull Request
 
+### Build and install lf-ui-components NPM package locally
+
+Run the script to build the full package (including CDN bundle and CSS assets):
+
+```powershell
+.\build-local-npm-package.ps1
+```
+
+This produces `./dist/ui-components/laserfiche-lf-ui-components-[MajorVersion].0.0.tgz`. To install it in another repo:
+
+```powershell
+npm install C:\git\lf-ui-components\dist\ui-components\laserfiche-lf-ui-components-[MajorVersion].0.0.tgz
+```
+
 ### Build types-lf-ui-components NPM
 
 This will create a package with version [MajorVersion].0.0. If you would like to update the version, change the version at `./types-lf-ui-components-publish/package.json`.

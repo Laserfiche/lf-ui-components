@@ -5,11 +5,26 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { LfManagedVirtualScrollDirective, LfManagedVirtualScrollStrategy } from './lf-managed-virtual-scroll.directive';
 
 describe('LfManagedVirtualScrollStrategy', () => {
-  function fakeViewport(scrollOffset = 0) {
+  function fakeViewport(scrollOffset = 0, orientation: 'vertical' | 'horizontal' = 'vertical') {
     return {
       measureScrollOffset: () => scrollOffset,
       scrollToOffset: vi.fn(),
+      orientation,
+      elementRef: { nativeElement: { querySelector: () => null } },
     } as unknown as CdkVirtualScrollViewport;
+  }
+
+  function fakeViewportWithWrapper(orientation: 'vertical' | 'horizontal' = 'vertical') {
+    const contentWrapper = document.createElement('div');
+    return {
+      viewport: {
+        measureScrollOffset: () => 0,
+        scrollToOffset: vi.fn(),
+        orientation,
+        elementRef: { nativeElement: { querySelector: () => contentWrapper } },
+      } as unknown as CdkVirtualScrollViewport,
+      contentWrapper,
+    };
   }
 
   it('emits the scroll index based on scroll offset / item size', () => {
@@ -82,6 +97,46 @@ describe('LfManagedVirtualScrollStrategy', () => {
 
     expect(emissions).toEqual([]);
   });
+
+  describe('applyRenderedOffset', () => {
+    it('sets translateY on the content wrapper for a vertical viewport', () => {
+      const strategy = new LfManagedVirtualScrollStrategy(() => 42);
+      const { viewport, contentWrapper } = fakeViewportWithWrapper('vertical');
+      strategy.attach(viewport);
+
+      strategy.applyRenderedOffset(420);
+
+      expect(contentWrapper.style.transform).toBe('translateY(420px)');
+    });
+
+    it('sets translateX on the content wrapper for a horizontal viewport', () => {
+      const strategy = new LfManagedVirtualScrollStrategy(() => 42);
+      const { viewport, contentWrapper } = fakeViewportWithWrapper('horizontal');
+      strategy.attach(viewport);
+
+      strategy.applyRenderedOffset(840);
+
+      expect(contentWrapper.style.transform).toBe('translateX(840px)');
+    });
+
+    it('is a no-op when the content wrapper element is not found', () => {
+      const strategy = new LfManagedVirtualScrollStrategy(() => 42);
+      strategy.attach(fakeViewport());
+
+      expect(() => strategy.applyRenderedOffset(420)).not.toThrow();
+    });
+
+    it('is a no-op after detach', () => {
+      const strategy = new LfManagedVirtualScrollStrategy(() => 42);
+      const { viewport, contentWrapper } = fakeViewportWithWrapper();
+      strategy.attach(viewport);
+      strategy.detach();
+
+      strategy.applyRenderedOffset(420);
+
+      expect(contentWrapper.style.transform).toBe('');
+    });
+  });
 });
 
 describe('LfManagedVirtualScrollDirective', () => {
@@ -92,6 +147,8 @@ describe('LfManagedVirtualScrollDirective', () => {
     const viewport = {
       measureScrollOffset: () => 56 * 7,
       scrollToOffset: vi.fn(),
+      orientation: 'vertical',
+      elementRef: { nativeElement: { querySelector: () => null } },
     } as unknown as CdkVirtualScrollViewport;
 
     directive.scrollStrategy.attach(viewport);
