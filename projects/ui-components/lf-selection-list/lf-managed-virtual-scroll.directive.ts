@@ -25,16 +25,40 @@ export class LfManagedVirtualScrollStrategy implements VirtualScrollStrategy {
   readonly scrolledIndexChange: Observable<number> = this._scrolledIndexChange.pipe(distinctUntilChanged());
 
   private _viewport: CdkVirtualScrollViewport | null = null;
+  private _contentWrapper: HTMLElement | null = null;
 
   constructor(private readonly getItemSize: () => number) {}
 
   attach(viewport: CdkVirtualScrollViewport): void {
     this._viewport = viewport;
+    this._contentWrapper = viewport.elementRef.nativeElement.querySelector(
+      '.cdk-virtual-scroll-content-wrapper'
+    ) as HTMLElement | null;
   }
 
   detach(): void {
     this._scrolledIndexChange.complete();
     this._viewport = null;
+    this._contentWrapper = null;
+  }
+
+  /**
+   * Writes `style.transform` on the CDK content wrapper synchronously.
+   *
+   * CDK 21 regression: `_markChangeDetectionNeeded` skips re-scheduling when
+   * `_changeDetectionNeeded` is already `true`, so rapid `offsetChange` emissions
+   * can miss the async DOM update. Call this after `setRenderedContentOffset` to
+   * guarantee the transform is applied regardless of CDK's internal signal state.
+   *
+   * Note: RTL negation for horizontal viewports is not replicated here — the
+   * component always uses the default vertical orientation.
+   */
+  applyRenderedOffset(offset: number): void {
+    if (!this._contentWrapper || !this._viewport) {
+      return;
+    }
+    const axis = this._viewport.orientation === 'horizontal' ? 'X' : 'Y';
+    this._contentWrapper.style.transform = `translate${axis}(${offset}px)`;
   }
 
   onContentScrolled(): void {
