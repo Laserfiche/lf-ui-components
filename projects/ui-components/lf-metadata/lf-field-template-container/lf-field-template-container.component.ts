@@ -369,11 +369,7 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         this.templateState = TemplateState.SHOW_TEMPLATE;
       } catch (error: any) {
         if (error instanceof TypeError) {
-          // Defensive fallback: getTemplateDefinitionAsync's contract is to resolve to
-          // undefined when no template is found (e.g. no template assigned for this
-          // repository). A LfFieldContainerService implementation that instead throws a
-          // TypeError while handling that case (rather than a real network/API failure)
-          // should still be treated as "no template", not surfaced as a scary error.
+          // TypeError here means the service implementation violated its no-template-found contract; treat as no template, not a real failure.
           console.error('getTemplateDefinitionAsync threw unexpectedly for id ' + id + ': ' + error.message);
           this.templateSelected = undefined;
           this.templateState = TemplateState.DEFAULT;
