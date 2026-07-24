@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldTemplateContainerComponent } from './lf-field-template-container.component';
 import { LfFieldTemplateContainerService } from './lf-field-template-container.service';
+import { TemplateState } from './lf-field-template-container-states';
 import {
   City,
   County,
@@ -120,6 +121,37 @@ describe('LfFieldTemplateContainerComponent', () => {
 
     // Assert
     expect(component.templateSelected).toBeUndefined();
+  });
+
+  it('when getTemplateDefinitionAsync throws a TypeError (e.g. service bug handling a not-found template), then fall back to the empty template state instead of an error', async () => {
+    // Arrange
+    const templateId = 9238472;
+    const buggyTemplateService: LfFieldTemplateContainerService = {
+      ...templateService,
+      getTemplateDefinitionAsync: vi.fn().mockRejectedValue(new TypeError('Cannot set properties of undefined (setting \'displayName\')')),
+    };
+
+    // Act
+    await component.initAsync({ templateFieldContainerService: buggyTemplateService }, templateId);
+
+    // Assert
+    expect(component.templateSelected).toBeUndefined();
+    expect(component.templateState).toEqual(TemplateState.DEFAULT);
+  });
+
+  it('when getTemplateDefinitionAsync throws a non-TypeError, then show the generic error state', async () => {
+    // Arrange
+    const templateId = 9238472;
+    const buggyTemplateService: LfFieldTemplateContainerService = {
+      ...templateService,
+      getTemplateDefinitionAsync: vi.fn().mockRejectedValue(new Error('network failure')),
+    };
+
+    // Act
+    await component.initAsync({ templateFieldContainerService: buggyTemplateService }, templateId);
+
+    // Assert
+    expect(component.templateState).toEqual(TemplateState.HAS_ERROR);
   });
 
   it('when no dynamic fields are set, then only dynamic fields that do not depend on any other fields have pickable values', async () => {
