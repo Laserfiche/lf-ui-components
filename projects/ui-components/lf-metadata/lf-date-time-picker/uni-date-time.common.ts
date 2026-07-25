@@ -4,10 +4,10 @@
 import { AbstractControl } from '@angular/forms';
 
 export enum UniControlType {
-  'DateTime_date' = 'dateTime-date',
-  'DateTime_time' = 'dateTime-time',
-  'Time' = 'time',
-  'DateTime' = 'dateTime',
+  DateTime_date = 'dateTime-date',
+  DateTime_time = 'dateTime-time',
+  Time = 'time',
+  DateTime = 'dateTime',
 }
 
 export enum FormatType {

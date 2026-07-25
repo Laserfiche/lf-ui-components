@@ -146,7 +146,9 @@ describe('LfFieldTemplateContainerComponent', () => {
     const templateId = 9238472;
     const buggyTemplateService: LfFieldTemplateContainerService = {
       ...templateService,
-      getTemplateDefinitionAsync: vi.fn().mockRejectedValue(new TypeError("Cannot set properties of undefined (setting 'displayName')")),
+      getTemplateDefinitionAsync: vi
+        .fn()
+        .mockRejectedValue(new TypeError("Cannot set properties of undefined (setting 'displayName')")),
     };
 
     // Act

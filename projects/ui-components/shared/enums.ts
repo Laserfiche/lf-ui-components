@@ -43,8 +43,8 @@ export enum LoginState {
 }
 
 export enum LoginMode {
-  'Button' = 'Button',
-  'Menu' = 'Menu',
+  Button = 'Button',
+  Menu = 'Menu',
 }
 
 export enum LoginType {
