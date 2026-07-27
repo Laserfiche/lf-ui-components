@@ -1,6 +1,12 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
+## 21.1.2
+
+### Fixes
+
+- `[lf-field-template-container]`: Improved the error message when a template fails to load to include the underlying error detail.
+
 ## 21.1.1
 
 ### Features

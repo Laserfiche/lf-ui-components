@@ -192,8 +192,8 @@ export class FeedbackImageUploadComponent {
 
 /** @internal */
 enum ImageUploadErrorType {
-  'TooLarge',
-  'UnsupportedFormat',
+  TooLarge,
+  UnsupportedFormat,
 }
 
 /** @internal */

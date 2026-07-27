@@ -16,7 +16,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule, MatSelectChange } from '@angular/material/select';
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldContainerDirective } from '../lf-field-container.directive';
 import { LfFieldTemplateContainerService } from './lf-field-template-container.service';
@@ -368,9 +368,16 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
         }
         this.templateState = TemplateState.SHOW_TEMPLATE;
       } catch (error: any) {
-        this.templateErrorMessage = this.AN_ERROR_OCCURED;
+        if (error instanceof TypeError) {
+          this.templateSelected = undefined;
+          this.templateState = TemplateState.DEFAULT;
+        } else {
+          this.templateErrorMessage = this.TEMPLATE_HAS_FAILED_TO_LOAD.pipe(
+            map((message) => `${message} ${error.message}`)
+          );
+          this.templateState = TemplateState.HAS_ERROR;
+        }
         console.error('getTemplateDefinitionAsync failed: ' + error.message);
-        this.templateState = TemplateState.HAS_ERROR;
       }
     }
   }

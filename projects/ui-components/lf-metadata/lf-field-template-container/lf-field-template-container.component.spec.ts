@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { firstValueFrom } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { LfFieldMetadataConnectorService } from '../lf-field-metadata-connector.service';
 import { LfFieldTemplateContainerComponent } from './lf-field-template-container.component';
 import { LfFieldTemplateContainerService } from './lf-field-template-container.service';
+import { TemplateState } from './lf-field-template-container-states';
 import {
   City,
   County,
@@ -120,6 +122,41 @@ describe('LfFieldTemplateContainerComponent', () => {
 
     // Assert
     expect(component.templateSelected).toBeUndefined();
+  });
+
+  it('when getTemplateDefinitionAsync throws, then show the template-failed-to-load error state with the underlying error message appended', async () => {
+    // Arrange
+    const templateId = 9238472;
+    const buggyTemplateService: LfFieldTemplateContainerService = {
+      ...templateService,
+      getTemplateDefinitionAsync: vi.fn().mockRejectedValue(new Error('Access denied. [9013]')),
+    };
+
+    // Act
+    await component.initAsync({ templateFieldContainerService: buggyTemplateService }, templateId);
+
+    // Assert
+    expect(component.templateState).toEqual(TemplateState.HAS_ERROR);
+    const errorMessage = await firstValueFrom(component.templateErrorMessage!);
+    expect(errorMessage).toContain('Access denied. [9013]');
+  });
+
+  it('when getTemplateDefinitionAsync throws a TypeError, then fall back to the empty template state instead of an error', async () => {
+    // Arrange
+    const templateId = 9238472;
+    const buggyTemplateService: LfFieldTemplateContainerService = {
+      ...templateService,
+      getTemplateDefinitionAsync: vi
+        .fn()
+        .mockRejectedValue(new TypeError("Cannot set properties of undefined (setting 'displayName')")),
+    };
+
+    // Act
+    await component.initAsync({ templateFieldContainerService: buggyTemplateService }, templateId);
+
+    // Assert
+    expect(component.templateSelected).toBeUndefined();
+    expect(component.templateState).toEqual(TemplateState.DEFAULT);
   });
 
   it('when no dynamic fields are set, then only dynamic fields that do not depend on any other fields have pickable values', async () => {
