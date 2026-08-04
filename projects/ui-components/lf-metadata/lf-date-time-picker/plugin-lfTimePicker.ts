@@ -138,6 +138,10 @@ export function LFTimePickerPlugin(): Plugin {
         }
         (fp as any).lfIsUntouchedEmptyCommit = isUntouchedEmptyCommit;
       },
+      onDestroy() {
+        fp.input.removeEventListener('click', handleInputClickWhenClosed);
+        document.removeEventListener('keydown', handleEnterOpensWhenClosed, { capture: true });
+      },
     };
   };
 }

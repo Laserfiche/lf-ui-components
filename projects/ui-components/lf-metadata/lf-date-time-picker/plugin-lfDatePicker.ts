@@ -79,6 +79,10 @@ export function LFDatePickerPlugin(): Plugin {
       onClose() {
         document.removeEventListener('mousedown', dateHandleMouseDown, { capture: true });
       },
+      onDestroy() {
+        fp.input.removeEventListener('click', handleInputClickWhenClosed);
+        document.removeEventListener('keydown', handleEnterOpensWhenClosed, { capture: true });
+      },
     };
   };
 }

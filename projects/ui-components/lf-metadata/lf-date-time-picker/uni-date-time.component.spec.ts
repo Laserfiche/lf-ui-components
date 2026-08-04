@@ -19,6 +19,12 @@ describe('UniDatetimeComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    // Browser-mode testing disables auto-destroy between tests, so each flatpickr instance
+    // (calendar DOM + document-level listeners) would otherwise leak into later, unrelated spec files.
+    fixture?.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
