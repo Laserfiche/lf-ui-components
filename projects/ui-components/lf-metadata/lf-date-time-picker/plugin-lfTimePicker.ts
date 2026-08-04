@@ -65,6 +65,15 @@ export function LFTimePickerPlugin(): Plugin {
       }
     });
 
+    // flatpickr's spinners always show a default value even untouched, so track whether the user
+    // actually changed one - lets onClose (in uni-date-time.component.ts) tell a real selection
+    // from an untouched default.
+    let wasEmptyOnOpen = false;
+    let touchedSinceOpen = false;
+    fp.config.onChange.push(function () {
+      touchedSinceOpen = true;
+    });
+
     function handleMouseDown(e: any) {
       if (e.target !== fp.input && !fp.timeContainer?.contains(e.target)) {
         let value = fp.input.value;
@@ -83,13 +92,36 @@ export function LFTimePickerPlugin(): Plugin {
       }
     }
 
+    // clickOpens (below) turns off flatpickr's built-in "focus opens the calendar" binding, so
+    // Tab into the input just moves on to the next field instead of opening the picker.
+    function handleInputClickWhenClosed(e: any) {
+      if (!fp.isOpen) {
+        fp.open();
+      }
+    }
+
+    function handleEnterOpensWhenClosed(e: any) {
+      if (e.key === 'Enter' && !fp.isOpen && document.activeElement === fp.input) {
+        e.preventDefault();
+        e.stopPropagation();
+        fp.open();
+      }
+    }
+
     function getRidOffNumTooltip() {
       fp.minuteElement?.setAttribute('title', '');
       fp.secondElement?.setAttribute('title', '');
     }
 
     return {
+      clickOpens: false,
+      onReady() {
+        fp.input.addEventListener('click', handleInputClickWhenClosed);
+        document.addEventListener('keydown', handleEnterOpensWhenClosed, { capture: true });
+      },
       onOpen() {
+        wasEmptyOnOpen = !fp.input.value;
+        touchedSinceOpen = false;
         getRidOffNumTooltip();
         document.addEventListener('mousedown', handleMouseDown, { capture: true });
         document.addEventListener('keydown', handleKeyDown, { capture: true });
@@ -97,6 +129,14 @@ export function LFTimePickerPlugin(): Plugin {
       onClose() {
         document.removeEventListener('mousedown', handleMouseDown, { capture: true });
         document.removeEventListener('keydown', handleKeyDown, { capture: true });
+        const isUntouchedEmptyCommit = wasEmptyOnOpen && !touchedSinceOpen;
+        if (isUntouchedEmptyCommit) {
+          // flatpickr's own commit handling (e.g. Enter's updateTime()) already wrote the spinners'
+          // default into the visible input before onClose fires - clear it back out, since
+          // uni-date-time.component.ts's onClose only skips the Angular-level value, not this text.
+          fp.input.value = '';
+        }
+        (fp as any).lfIsUntouchedEmptyCommit = isUntouchedEmptyCommit;
       },
     };
   };

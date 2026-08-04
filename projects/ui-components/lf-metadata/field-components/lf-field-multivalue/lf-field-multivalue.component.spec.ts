@@ -14,6 +14,9 @@ describe('LfFieldMultivalueComponent', () => {
   let component: LfFieldMultivalueComponent;
   let fixture: ComponentFixture<LfFieldMultivalueComponent>;
 
+  let dateTimeComponent: LfFieldMultivalueComponent;
+  let dateTimeFixture: ComponentFixture<LfFieldMultivalueComponent>;
+
   const info: LfFieldInfo = {
     name: 'element text 1',
     id: 22,
@@ -25,6 +28,19 @@ describe('LfFieldMultivalueComponent', () => {
     displayName: 'element text 1',
   };
   const values: LfFieldValue[] = ['1', '2', '3'];
+
+  const dateTimeInfo: LfFieldInfo = {
+    name: 'DateTime Multi',
+    id: 99,
+    fieldType: FieldType.DateTime,
+    isMultiValue: true,
+    displayName: 'DateTime Multi',
+  };
+
+  function getRowInput(dtFixture: ComponentFixture<LfFieldMultivalueComponent>, rowIndex: number): HTMLInputElement {
+    const rows: NodeListOf<HTMLElement> = dtFixture.nativeElement.querySelectorAll('.single-field-container');
+    return rows[rowIndex].querySelector('.flatpickr-input') as HTMLInputElement;
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -55,6 +71,13 @@ describe('LfFieldMultivalueComponent', () => {
     fixture.detectChanges();
   });
 
+  beforeEach(async () => {
+    dateTimeFixture = TestBed.createComponent(LfFieldMultivalueComponent);
+    dateTimeComponent = dateTimeFixture.componentInstance;
+    await dateTimeComponent.initAsync(dateTimeInfo, []);
+    dateTimeFixture.detectChanges();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -74,5 +97,27 @@ describe('LfFieldMultivalueComponent', () => {
         { value: '3', position: '3' },
       ],
     });
+  });
+
+  it('should leave the newly-added row blank after committing a value in the previous row (DateTime multi-value)', async () => {
+    const row0Input = getRowInput(dateTimeFixture, 0);
+    row0Input.focus();
+    dateTimeFixture.detectChanges();
+
+    row0Input.value = '1/1/2024 10:00:00 AM';
+    row0Input.dispatchEvent(new Event('input', { bubbles: true }));
+    row0Input.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true, composed: true })
+    );
+    dateTimeFixture.detectChanges();
+
+    row0Input.blur();
+    dateTimeFixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    dateTimeFixture.detectChanges();
+
+    expect(dateTimeComponent.lfFieldValues).toEqual(['2024-01-01T10:00:00', '']);
+    expect(getRowInput(dateTimeFixture, 0).value).toBe('1/1/2024 10:00:00 AM');
+    expect(getRowInput(dateTimeFixture, 1).value).toBe('');
   });
 });

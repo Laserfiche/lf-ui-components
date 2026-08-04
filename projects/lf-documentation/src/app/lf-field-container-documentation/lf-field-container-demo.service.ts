@@ -121,6 +121,22 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         isRequired: true,
         displayName: 'Long Time',
       },
+      {
+        name: 'DateTime Multiple',
+        id: 19,
+        fieldType: FieldType.DateTime,
+        format: FieldFormat.ShortDateTime,
+        isMultiValue: true,
+        displayName: 'DateTime Multiple',
+      },
+      {
+        name: 'Time Multiple',
+        id: 20,
+        fieldType: FieldType.Time,
+        format: FieldFormat.ShortTime,
+        isMultiValue: true,
+        displayName: 'Time Multiple',
+      },
     ];
     return allFieldInfos;
   }
@@ -189,6 +205,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             fieldType: FieldType.Blob,
             displayName: 'Test Blob',
           },
+          {
+            name: 'Time Multiple',
+            id: 20,
+            fieldType: FieldType.Time,
+            format: FieldFormat.ShortTime,
+            isMultiValue: true,
+            displayName: 'Time Multiple',
+          },
         ];
         return lunchFields;
       case 2:
@@ -244,6 +268,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             format: FieldFormat.ShortTime,
             isRequired: true,
             displayName: 'Time Sent',
+          },
+          {
+            name: 'DateTime Multiple',
+            id: 19,
+            fieldType: FieldType.DateTime,
+            format: FieldFormat.ShortDateTime,
+            isMultiValue: true,
+            displayName: 'DateTime Multiple',
           },
         ];
         return emailFields;
