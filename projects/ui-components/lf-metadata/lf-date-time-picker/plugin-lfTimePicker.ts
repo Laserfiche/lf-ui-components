@@ -154,6 +154,11 @@ export function LFTimePickerPlugin(): Plugin {
       onDestroy() {
         fp.input.removeEventListener('click', handleInputClickWhenClosed);
         document.removeEventListener('keydown', handleEnterOpensWhenClosed, { capture: true });
+        // onClose normally removes these, but destroy() can happen while the picker is still open
+        // (e.g. a multi-value row removed mid-edit), which would otherwise leave a document-level
+        // listener referencing this now-destroyed fp instance.
+        document.removeEventListener('mousedown', handleMouseDown, { capture: true });
+        document.removeEventListener('keydown', handleKeyDown, { capture: true });
       },
     };
   };
