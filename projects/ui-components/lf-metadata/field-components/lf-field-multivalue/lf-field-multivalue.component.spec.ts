@@ -51,6 +51,15 @@ describe('LfFieldMultivalueComponent', () => {
     return rows[rowIndex].querySelector('.flatpickr-input') as HTMLInputElement;
   }
 
+  // Browser-mode testing shares one page across every spec file in the run, and other suites in
+  // this codebase leave CDK overlay backdrops behind (e.g. an opened mat-select/dialog with no
+  // matching close/fixture.destroy()). A leftover dark backdrop physically intercepts pointer
+  // events, so a real click here can hang until Playwright's timeout regardless of anything this
+  // file does. Only the tests using userEvent.click (real, trusted clicks) are exposed to this.
+  function clearStrayOverlays() {
+    document.querySelectorAll('.cdk-overlay-backdrop, .cdk-overlay-pane').forEach((el) => el.remove());
+  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -150,9 +159,11 @@ describe('LfFieldMultivalueComponent', () => {
     try {
       // Real trusted clicks, not dispatchEvent: only these make the browser actually shift focus
       // the way flatpickr's own outside-click handling depends on.
+      clearStrayOverlays();
       await userEvent.click(getRowInput(timeFixture, 0));
       timeFixture.detectChanges();
 
+      clearStrayOverlays();
       await userEvent.click(elsewhere);
       timeFixture.detectChanges();
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -176,6 +187,7 @@ describe('LfFieldMultivalueComponent', () => {
     document.body.appendChild(timeFixture.nativeElement);
 
     try {
+      clearStrayOverlays();
       await userEvent.click(getRowInput(timeFixture, 0));
       timeFixture.detectChanges();
 
