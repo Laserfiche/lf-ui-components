@@ -7,6 +7,11 @@ import { UniDateTimeService } from './uni-date-time.service';
 
 var dateTimeService = new UniDateTimeService();
 
+/** Marks whether an onClose commit was just flatpickr's untouched default rather than a real user selection. */
+export interface InstanceWithLfFlag extends Instance {
+  lfIsUntouchedEmptyCommit?: boolean;
+}
+
 export function LFTimePickerPlugin(): Plugin {
   return function (fp: Instance) {
     const flatpickerKey: keyof typeof window = 'flatpickr' as keyof typeof window;
@@ -70,6 +75,7 @@ export function LFTimePickerPlugin(): Plugin {
     // from an untouched default.
     let wasEmptyOnOpen = false;
     let touchedSinceOpen = false;
+    let closedViaOutsideClick = false;
     fp.config.onChange.push(function () {
       touchedSinceOpen = true;
     });
@@ -80,6 +86,7 @@ export function LFTimePickerPlugin(): Plugin {
         if (fp.timeContainer?.contains(document.activeElement)) {
           value = parseTimeFromPicker(fp);
         }
+        closedViaOutsideClick = true;
         fp.setDate(value);
         fp.close();
       }
@@ -94,13 +101,13 @@ export function LFTimePickerPlugin(): Plugin {
 
     // clickOpens (below) turns off flatpickr's built-in "focus opens the calendar" binding, so
     // Tab into the input just moves on to the next field instead of opening the picker.
-    function handleInputClickWhenClosed(e: any) {
+    function handleInputClickWhenClosed() {
       if (!fp.isOpen) {
         fp.open();
       }
     }
 
-    function handleEnterOpensWhenClosed(e: any) {
+    function handleEnterOpensWhenClosed(e: KeyboardEvent) {
       if (e.key === 'Enter' && !fp.isOpen && document.activeElement === fp.input) {
         e.preventDefault();
         e.stopPropagation();
@@ -122,6 +129,7 @@ export function LFTimePickerPlugin(): Plugin {
       onOpen() {
         wasEmptyOnOpen = !fp.input.value;
         touchedSinceOpen = false;
+        closedViaOutsideClick = false;
         getRidOffNumTooltip();
         document.addEventListener('mousedown', handleMouseDown, { capture: true });
         document.addEventListener('keydown', handleKeyDown, { capture: true });
@@ -129,14 +137,19 @@ export function LFTimePickerPlugin(): Plugin {
       onClose() {
         document.removeEventListener('mousedown', handleMouseDown, { capture: true });
         document.removeEventListener('keydown', handleKeyDown, { capture: true });
-        const isUntouchedEmptyCommit = wasEmptyOnOpen && !touchedSinceOpen;
+        // closedViaOutsideClick is excluded here because flatpickr's own updateTime() hardcodes "now"
+        // as the default whenever selectedDates is empty and re-derives it from the spinners on its
+        // own outside-click handling regardless of what we do here, so there's no reliable way to
+        // keep that path blank - committing what's shown at least keeps the displayed value and the
+        // model in sync. Tab/Enter don't hit that same flatpickr code path, so they can stay blank.
+        const isUntouchedEmptyCommit = wasEmptyOnOpen && !touchedSinceOpen && !closedViaOutsideClick;
         if (isUntouchedEmptyCommit) {
           // flatpickr's own commit handling (e.g. Enter's updateTime()) already wrote the spinners'
           // default into the visible input before onClose fires - clear it back out, since
           // uni-date-time.component.ts's onClose only skips the Angular-level value, not this text.
           fp.input.value = '';
         }
-        (fp as any).lfIsUntouchedEmptyCommit = isUntouchedEmptyCommit;
+        (fp as InstanceWithLfFlag).lfIsUntouchedEmptyCommit = isUntouchedEmptyCommit;
       },
       onDestroy() {
         fp.input.removeEventListener('click', handleInputClickWhenClosed);

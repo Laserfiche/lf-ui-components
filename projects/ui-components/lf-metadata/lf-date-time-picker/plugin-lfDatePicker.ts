@@ -53,13 +53,13 @@ export function LFDatePickerPlugin(): Plugin {
 
     // clickOpens (below) turns off flatpickr's built-in "focus opens the calendar" binding, so
     // Tab into the input just moves on to the next field instead of opening the picker.
-    function handleInputClickWhenClosed(e: any) {
+    function handleInputClickWhenClosed() {
       if (!fp.isOpen) {
         fp.open();
       }
     }
 
-    function handleEnterOpensWhenClosed(e: any) {
+    function handleEnterOpensWhenClosed(e: KeyboardEvent) {
       if (e.key === 'Enter' && !fp.isOpen && document.activeElement === fp.input) {
         e.preventDefault();
         e.stopPropagation();

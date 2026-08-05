@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { userEvent } from 'vitest/browser';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LfFieldMultivalueComponent } from './lf-field-multivalue.component';
 import { LfFieldInfo, LfFieldValue } from '../../field-components/utils/lf-field-types';
@@ -35,6 +36,14 @@ describe('LfFieldMultivalueComponent', () => {
     fieldType: FieldType.DateTime,
     isMultiValue: true,
     displayName: 'DateTime Multi',
+  };
+
+  const timeInfo: LfFieldInfo = {
+    name: 'Time Multi',
+    id: 100,
+    fieldType: FieldType.Time,
+    isMultiValue: true,
+    displayName: 'Time Multi',
   };
 
   function getRowInput(dtFixture: ComponentFixture<LfFieldMultivalueComponent>, rowIndex: number): HTMLInputElement {
@@ -126,5 +135,61 @@ describe('LfFieldMultivalueComponent', () => {
     expect(dateTimeComponent.lfFieldValues).toEqual(['2024-01-01T10:00:00', '']);
     expect(getRowInput(dateTimeFixture, 0).value).toBe('1/1/2024 10:00:00 AM');
     expect(getRowInput(dateTimeFixture, 1).value).toBe('');
+  });
+
+  it('should commit the displayed default and add a new blank row when clicking away from an untouched time row', async () => {
+    const timeFixture = TestBed.createComponent(LfFieldMultivalueComponent);
+    const timeComponent = timeFixture.componentInstance;
+    await timeComponent.initAsync(timeInfo, []);
+    timeFixture.detectChanges();
+    document.body.appendChild(timeFixture.nativeElement);
+
+    const elsewhere = document.createElement('button');
+    document.body.appendChild(elsewhere);
+
+    try {
+      // Real trusted clicks, not dispatchEvent: only these make the browser actually shift focus
+      // the way flatpickr's own outside-click handling depends on.
+      await userEvent.click(getRowInput(timeFixture, 0));
+      timeFixture.detectChanges();
+
+      await userEvent.click(elsewhere);
+      timeFixture.detectChanges();
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      timeFixture.detectChanges();
+
+      expect(timeComponent.lfFieldValues.length).toBe(2);
+      expect(timeComponent.lfFieldValues[0]).not.toBe('');
+      expect(timeComponent.lfFieldValues[1]).toBe('');
+      expect(getRowInput(timeFixture, 1).value).toBe('');
+    } finally {
+      elsewhere.remove();
+      timeFixture.destroy();
+    }
+  });
+
+  it('should leave an untouched time row blank with no new row when closed via Tab', async () => {
+    const timeFixture = TestBed.createComponent(LfFieldMultivalueComponent);
+    const timeComponent = timeFixture.componentInstance;
+    await timeComponent.initAsync(timeInfo, []);
+    timeFixture.detectChanges();
+    document.body.appendChild(timeFixture.nativeElement);
+
+    try {
+      await userEvent.click(getRowInput(timeFixture, 0));
+      timeFixture.detectChanges();
+
+      getRowInput(timeFixture, 0).dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true, composed: true })
+      );
+      timeFixture.detectChanges();
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      timeFixture.detectChanges();
+
+      expect(timeComponent.lfFieldValues).toEqual(['']);
+      expect(getRowInput(timeFixture, 0).value).toBe('');
+    } finally {
+      timeFixture.destroy();
+    }
   });
 });

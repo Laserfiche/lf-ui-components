@@ -45,6 +45,7 @@ import flatpickr from 'flatpickr';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { LFTimePickerPlugin } from './plugin-lfTimePicker';
 import { LFDatePickerPlugin } from './plugin-lfDatePicker';
+import { InstanceWithLfFlag } from './plugin-lfTimePicker';
 
 @Component({
   selector: 'lf-uni-date-time',
@@ -316,12 +317,12 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           time_24hr: !hasAMPM,
           defaultDate: defaultTime,
           plugins: [LFTimePickerPlugin()],
-          onClose: (selectedDates: Date[], dateStr: string, instance: Instance) => {
+          onClose: (selectedDates: Date[], dateStr: string, instance: InstanceWithLfFlag) => {
             // lfIsUntouchedEmptyCommit (set by LFTimePickerPlugin) is true when the field was blank
             // when opened and the user never actually changed hour/minute/second/AM-PM - in that case
             // selectedDates[0] is just flatpickr's always-present default (e.g. 12:00 AM), not a real
             // selection, so treat this commit as empty rather than filling in that default.
-            const isUntouchedEmptyCommit = (instance as any).lfIsUntouchedEmptyCommit;
+            const isUntouchedEmptyCommit = instance.lfIsUntouchedEmptyCommit;
             this.onDateTimeChange(isUntouchedEmptyCommit ? null : selectedDates[0], false, FormChangeEvent.TimeClose);
           },
           onOpen: (selectedDates: Date[], dateStr: string, instance: Instance) => {
