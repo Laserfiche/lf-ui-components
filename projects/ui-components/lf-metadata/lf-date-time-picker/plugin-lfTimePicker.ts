@@ -76,7 +76,9 @@ export function LFTimePickerPlugin(): Plugin {
     let wasEmptyOnOpen = false;
     let touchedSinceOpen = false;
     let closedViaOutsideClick = false;
-    fp.config.onChange.push(function () {
+    // onValueUpdate (not onChange, which is debounced 300ms and can
+    // lag behind a synchronous close) fires synchronously on every real spinner edit.
+    fp.config.onValueUpdate.push(function () {
       touchedSinceOpen = true;
     });
 
