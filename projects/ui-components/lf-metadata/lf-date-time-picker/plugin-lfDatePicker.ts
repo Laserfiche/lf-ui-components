@@ -51,11 +51,40 @@ export function LFDatePickerPlugin(): Plugin {
       }
     }
 
+    // clickOpens (below) turns off flatpickr's built-in "focus opens the calendar" binding, so
+    // Tab into the input just moves on to the next field instead of opening the picker.
+    function handleInputClickWhenClosed() {
+      if (!fp.isOpen) {
+        fp.open();
+      }
+    }
+
+    function handleEnterOpensWhenClosed(e: KeyboardEvent) {
+      if (e.key === 'Enter' && !fp.isOpen && document.activeElement === fp.input) {
+        e.preventDefault();
+        e.stopPropagation();
+        fp.open();
+      }
+    }
+
     return {
+      clickOpens: false,
+      onReady() {
+        fp.input.addEventListener('click', handleInputClickWhenClosed);
+        document.addEventListener('keydown', handleEnterOpensWhenClosed, { capture: true });
+      },
       onOpen() {
         document.addEventListener('mousedown', dateHandleMouseDown, { capture: true });
       },
       onClose() {
+        document.removeEventListener('mousedown', dateHandleMouseDown, { capture: true });
+      },
+      onDestroy() {
+        fp.input.removeEventListener('click', handleInputClickWhenClosed);
+        document.removeEventListener('keydown', handleEnterOpensWhenClosed, { capture: true });
+        // onClose normally removes this, but destroy() can happen while the picker is still open
+        // (e.g. a multi-value row removed mid-edit), which would otherwise leave a document-level
+        // listener referencing this now-destroyed fp instance.
         document.removeEventListener('mousedown', dateHandleMouseDown, { capture: true });
       },
     };

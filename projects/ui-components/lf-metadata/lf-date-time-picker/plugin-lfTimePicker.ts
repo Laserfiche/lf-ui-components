@@ -7,6 +7,11 @@ import { UniDateTimeService } from './uni-date-time.service';
 
 var dateTimeService = new UniDateTimeService();
 
+/** Marks whether an onClose commit was just flatpickr's untouched default rather than a real user selection. */
+export interface InstanceWithLfFlag extends Instance {
+  lfIsUntouchedEmptyCommit?: boolean;
+}
+
 export function LFTimePickerPlugin(): Plugin {
   return function (fp: Instance) {
     const flatpickerKey: keyof typeof window = 'flatpickr' as keyof typeof window;
@@ -65,12 +70,25 @@ export function LFTimePickerPlugin(): Plugin {
       }
     });
 
+    // flatpickr's spinners always show a default value even untouched, so track whether the user
+    // actually changed one - lets onClose (in uni-date-time.component.ts) tell a real selection
+    // from an untouched default.
+    let wasEmptyOnOpen = false;
+    let touchedSinceOpen = false;
+    let closedViaOutsideClick = false;
+    // onValueUpdate (not onChange, which is debounced 300ms and can
+    // lag behind a synchronous close) fires synchronously on every real spinner edit.
+    fp.config.onValueUpdate.push(function () {
+      touchedSinceOpen = true;
+    });
+
     function handleMouseDown(e: any) {
       if (e.target !== fp.input && !fp.timeContainer?.contains(e.target)) {
         let value = fp.input.value;
         if (fp.timeContainer?.contains(document.activeElement)) {
           value = parseTimeFromPicker(fp);
         }
+        closedViaOutsideClick = true;
         fp.setDate(value);
         fp.close();
       }
@@ -83,18 +101,64 @@ export function LFTimePickerPlugin(): Plugin {
       }
     }
 
+    // clickOpens (below) turns off flatpickr's built-in "focus opens the calendar" binding, so
+    // Tab into the input just moves on to the next field instead of opening the picker.
+    function handleInputClickWhenClosed() {
+      if (!fp.isOpen) {
+        fp.open();
+      }
+    }
+
+    function handleEnterOpensWhenClosed(e: KeyboardEvent) {
+      if (e.key === 'Enter' && !fp.isOpen && document.activeElement === fp.input) {
+        e.preventDefault();
+        e.stopPropagation();
+        fp.open();
+      }
+    }
+
     function getRidOffNumTooltip() {
       fp.minuteElement?.setAttribute('title', '');
       fp.secondElement?.setAttribute('title', '');
     }
 
     return {
+      clickOpens: false,
+      onReady() {
+        fp.input.addEventListener('click', handleInputClickWhenClosed);
+        document.addEventListener('keydown', handleEnterOpensWhenClosed, { capture: true });
+      },
       onOpen() {
+        wasEmptyOnOpen = !fp.input.value;
+        touchedSinceOpen = false;
+        closedViaOutsideClick = false;
         getRidOffNumTooltip();
         document.addEventListener('mousedown', handleMouseDown, { capture: true });
         document.addEventListener('keydown', handleKeyDown, { capture: true });
       },
       onClose() {
+        document.removeEventListener('mousedown', handleMouseDown, { capture: true });
+        document.removeEventListener('keydown', handleKeyDown, { capture: true });
+        // closedViaOutsideClick is excluded here because flatpickr's own updateTime() hardcodes "now"
+        // as the default whenever selectedDates is empty and re-derives it from the spinners on its
+        // own outside-click handling regardless of what we do here, so there's no reliable way to
+        // keep that path blank - committing what's shown at least keeps the displayed value and the
+        // model in sync. Tab/Enter don't hit that same flatpickr code path, so they can stay blank.
+        const isUntouchedEmptyCommit = wasEmptyOnOpen && !touchedSinceOpen && !closedViaOutsideClick;
+        if (isUntouchedEmptyCommit) {
+          // flatpickr's own commit handling (e.g. Enter's updateTime()) already wrote the spinners'
+          // default into the visible input before onClose fires - clear it back out, since
+          // uni-date-time.component.ts's onClose only skips the Angular-level value, not this text.
+          fp.input.value = '';
+        }
+        (fp as InstanceWithLfFlag).lfIsUntouchedEmptyCommit = isUntouchedEmptyCommit;
+      },
+      onDestroy() {
+        fp.input.removeEventListener('click', handleInputClickWhenClosed);
+        document.removeEventListener('keydown', handleEnterOpensWhenClosed, { capture: true });
+        // onClose normally removes these, but destroy() can happen while the picker is still open
+        // (e.g. a multi-value row removed mid-edit), which would otherwise leave a document-level
+        // listener referencing this now-destroyed fp instance.
         document.removeEventListener('mousedown', handleMouseDown, { capture: true });
         document.removeEventListener('keydown', handleKeyDown, { capture: true });
       },

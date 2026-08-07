@@ -6,6 +6,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 ### Fixes
 
 - `[lf-field-template-container]`: Improved the error message when a template fails to load to include the underlying error detail.
+- `[lf-field-container]`, `[lf-field-adhoc-container]`, `[lf-field-template-container]`: Fixed multi-value Date/Time/DateTime fields adding a duplicate row with a copied value instead of one blank row after committing a value.
+- `[lf-field-container]`, `[lf-field-adhoc-container]`, `[lf-field-template-container]`: Fixed Tab focusing a Date/Time/DateTime field from opening its picker, which could trap keyboard focus in an infinite loop of new rows for multi-value Time fields. Tab now moves to the next field; Enter or a click opens the picker.
 
 ## 21.1.1
 

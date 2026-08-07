@@ -192,11 +192,15 @@ export class LfFieldMultivalueComponent {
     this.lfFieldValues[indexChanged] = value;
     const isValidMultiValueFieldValue =
       this.isLastInArray(indexChanged) && this.fieldHasValue(value) && this.lastValueIsValid();
+    // Let this row's value-change settle in its own change detection pass before growing the
+    // array. Otherwise @for's diffing sees a removed key and two added keys in the same pass and
+    // can recycle the removed row's view/component (with its now-stale flatpickr state) into the
+    // newly-added blank row instead of creating it fresh.
+    this.cdr.detectChanges();
     if (isValidMultiValueFieldValue) {
       this.addNewBlankField();
     }
     this.fieldValuesChanged.emit({ fieldValues: this.lfFieldValues, indexChanged });
-    this.cdr.detectChanges();
   }
 
   /** @internal */

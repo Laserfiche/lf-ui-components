@@ -11,6 +11,7 @@ import {
   HostBinding,
   Input,
   AfterContentInit,
+  OnDestroy,
   EventEmitter,
   Output,
   ChangeDetectorRef,
@@ -44,6 +45,7 @@ import flatpickr from 'flatpickr';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { LFTimePickerPlugin } from './plugin-lfTimePicker';
 import { LFDatePickerPlugin } from './plugin-lfDatePicker';
+import { InstanceWithLfFlag } from './plugin-lfTimePicker';
 
 @Component({
   selector: 'lf-uni-date-time',
@@ -52,7 +54,7 @@ import { LFDatePickerPlugin } from './plugin-lfDatePicker';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
 })
-export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   dateTimeService = inject(UniDateTimeService);
   private ref = inject(ChangeDetectorRef);
   private readonly emptyFormGroup = new FormGroup({});
@@ -315,8 +317,13 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
           time_24hr: !hasAMPM,
           defaultDate: defaultTime,
           plugins: [LFTimePickerPlugin()],
-          onClose: (selectedDates: Date[], dateStr: string, instance: Instance) => {
-            this.onDateTimeChange(selectedDates[0], false, FormChangeEvent.TimeClose);
+          onClose: (selectedDates: Date[], dateStr: string, instance: InstanceWithLfFlag) => {
+            // lfIsUntouchedEmptyCommit (set by LFTimePickerPlugin) is true when the field was blank
+            // when opened and the user never actually changed hour/minute/second/AM-PM - in that case
+            // selectedDates[0] is just flatpickr's always-present default (e.g. 12:00 AM), not a real
+            // selection, so treat this commit as empty rather than filling in that default.
+            const isUntouchedEmptyCommit = instance.lfIsUntouchedEmptyCommit;
+            this.onDateTimeChange(isUntouchedEmptyCommit ? null : selectedDates[0], false, FormChangeEvent.TimeClose);
           },
           onOpen: (selectedDates: Date[], dateStr: string, instance: Instance) => {
             this.onCalendarOpen(instance);
@@ -473,6 +480,23 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
   ngAfterContentInit() {
     if (!this.config.isDisplayOnly) {
       this.assignMinMaxForPicker(this.state); // Revise
+    }
+  }
+
+  ngOnDestroy() {
+    // Without this, a destroyed instance's flatpickr popup/listeners and deferred callbacks
+    // (e.g. onBlurWithKey's setTimeout) can keep running and writing into whatever now occupies
+    // this row (multi-value fields recreate rows via trackBy on every commit).
+    // Angular's @for can also physically reuse this input's DOM node for the next view it
+    // creates, so clear its raw value too - otherwise the new instance initializes flatpickr
+    // on top of this leftover text instead of a blank field.
+    if (this.date) {
+      this.date.input.value = '';
+      this.date.destroy();
+    }
+    if (this.time) {
+      this.time.input.value = '';
+      this.time.destroy();
     }
   }
 
@@ -810,7 +834,18 @@ export class UniDateTimeComponent implements OnInit, AfterViewInit, AfterContent
       return;
     }
 
+    const previousData = this.state.data as StateDataDateTime;
     const result = this.processDateTimeValues(value, isDate);
+
+    // flatpickr's onClose and the input's native blur can both call this for one user commit (e.g.
+    // Tab out) - skip a no-op emit so multi-value fields don't see the same commit twice.
+    const isUnchanged =
+      previousData.dateStr === result.dateStr &&
+      previousData.timeStr === result.timeStr &&
+      (previousData.dateTimeObj?.getTime() ?? null) === (result.dateTimeObj?.getTime() ?? null);
+    if (isUnchanged) {
+      return;
+    }
 
     // emit event?
     const controlType = this.settings.combinedDateTime
