@@ -62,6 +62,6 @@ describe('LfFieldContainerComponent', () => {
   it('should not include BlobField in allFieldInfos', async () => {
     const demoService = new LfFieldContainerDemoService();
     await component.initAsync(demoService, 1);
-    expect(component.templateContainer.allFieldInfos.length).toEqual(6);
+    expect(component.templateContainer.allFieldInfos.length).toEqual(7);
   });
 });

@@ -137,6 +137,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
         isMultiValue: true,
         displayName: 'Time Multiple',
       },
+      {
+        name: 'Rating',
+        id: 21,
+        fieldType: FieldType.Number,
+        constraint: '>=1 AND <=10',
+        constraintError: 'Rating must be between 1 and 10, inclusive.',
+        displayName: 'Rating (1-10)',
+      },
     ];
     return allFieldInfos;
   }
@@ -212,6 +220,14 @@ export class LfFieldContainerDemoService implements LfFieldContainerService {
             format: FieldFormat.ShortTime,
             isMultiValue: true,
             displayName: 'Time Multiple',
+          },
+          {
+            name: 'Rating',
+            id: 21,
+            fieldType: FieldType.Number,
+            constraint: '>=1 AND <=10',
+            constraintError: 'Rating must be between 1 and 10, inclusive.',
+            displayName: 'Rating (1-10)',
           },
         ];
         return lunchFields;

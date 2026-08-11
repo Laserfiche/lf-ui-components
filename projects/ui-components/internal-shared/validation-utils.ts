@@ -38,7 +38,7 @@ export class ValidationUtils {
   static numericValidator(constraint: string): ValidatorFn {
     const validatorFn: ValidatorFn = (control: AbstractControl): { [key: string]: any } | null => {
       // Don't try to match regex if there is no value
-      if (!control.value) {
+      if (control.value == null || control.value === '') {
         return null;
       }
       const validationFailedExplanation = { numeric: { value: control.value } };
@@ -54,7 +54,7 @@ export class ValidationUtils {
   static generalRegexValidator(regex: RegExp, ruleName?: string): ValidatorFn {
     const validatorFn: ValidatorFn = (control: AbstractControl): { [key: string]: any } | null => {
       // Don't try to match regex if there is no value
-      if (!control.value) {
+      if (control.value == null || control.value === '') {
         return null;
       }
       ruleName = ruleName ?? ValidationRule.PATTERN; // default regex validation key
