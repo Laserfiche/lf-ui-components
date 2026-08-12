@@ -18,6 +18,17 @@ describe('ValidationUtils', () => {
     expect(badFC.hasError('twoDigit')).toBeTruthy();
   });
 
+  it('should not skip validation for a falsy-but-present value like the number 0', () => {
+    const twoDigitRegex = new RegExp('^[0-9]{2}[:.,-]?$');
+    const regexValidator = ValidationUtils.generalRegexValidator(twoDigitRegex, 'twoDigit');
+    const regexFC: FormControl = new FormControl(0, [regexValidator]);
+    expect(regexFC.hasError('twoDigit')).toBe(true);
+
+    const numericValidator = ValidationUtils.numericValidator('>=10 AND <=99');
+    const numericFC: FormControl = new FormControl(0, [numericValidator]);
+    expect(numericFC.hasError('numeric')).toBe(true);
+  });
+
   it('should create requiredValidator that tests if the input is empty spaces', () => {
     const validator = ValidationUtils.requiredValidator();
     let formControl: FormControl = new FormControl('', [validator]);

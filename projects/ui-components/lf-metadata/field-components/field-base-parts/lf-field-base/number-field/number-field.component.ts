@@ -70,7 +70,10 @@ export class NumberFieldComponent extends BaseFieldDirective implements OnInit, 
   }
 
   protected override fieldOnValueChanged(): void {
-    if (this.lf_field_info.fieldType === FieldType.Number) {
+    if (
+      this.lf_field_info.fieldType === FieldType.Number &&
+      this.lf_field_form_control.hasError(ValidationRule.NUMBER)
+    ) {
       this.lf_field_form_control.setValue('');
     } else {
       const currentValue = this.lf_field_form_control.value;

@@ -339,6 +339,50 @@ describe('NumberFieldComponent', () => {
     expect(value).toEqual(expectedError);
   });
 
+  it('should not clear a well-formed number that violates a numeric constraint, and should auto-revalidate once corrected', async () => {
+    const testNumberWithConstraint: LfFieldInfo = {
+      ...testNumber,
+      constraint: '>=10 AND <=99',
+      constraintError: 'Must be between 10 and 99, inclusive.',
+    };
+    const constraintFixture = TestBed.createComponent(NumberFieldComponent);
+    const constraintComponent = constraintFixture.componentInstance;
+    constraintComponent.lf_field_info = testNumberWithConstraint;
+    constraintComponent.lf_field_value = '';
+    constraintComponent.lf_field_form_control = new FormControl();
+    constraintFixture.detectChanges();
+
+    let value: string | undefined;
+    constraintComponent.fieldValidationErrorMsg.subscribe((val) => {
+      value = val;
+    });
+
+    // Enter a well-formed number that violates the min/max constraint
+    constraintComponent.setLfFieldFormControlValue('5');
+    constraintComponent.onValueChanged();
+    await CoreUtils.waitForConditionAsync(
+      () => value === testNumberWithConstraint.constraintError,
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
+    );
+    expect(value).toEqual(testNumberWithConstraint.constraintError);
+    // the entered value should be preserved (not wiped) while it is out of range
+    expect(constraintComponent.getLfFieldFormControlValue()).toEqual('5');
+
+    // Correct the value so it satisfies the constraint
+    constraintComponent.setLfFieldFormControlValue('50');
+    constraintComponent.onValueChanged();
+    await CoreUtils.waitForConditionAsync(
+      () => value === undefined,
+      () => {
+        throw Error(`Timeout: value was ${value}`);
+      }
+    );
+    expect(value).toBeUndefined();
+    expect(constraintComponent.lf_field_value).toEqual('50');
+  });
+
   it('should serialize valid short integer (200 => 200)', async () => {
     shortIntComponent.setLfFieldFormControlValue('200');
     shortIntComponent.onValueChanged();
