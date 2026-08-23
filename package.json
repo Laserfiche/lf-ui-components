@@ -34,9 +34,9 @@
     "create-types-lf-ui-components": "npm run tsc-cdn && npm run api-extractor && gulp processTypesFile && npm run build-enum-types && cd ./types-lf-ui-components-publish && npm pack"
   },
   "devDependencies": {
-    "@analogjs/vite-plugin-angular": "~2.3.1",
+    "@analogjs/vite-plugin-angular": "~2.7.0",
     "@analogjs/vitest-angular": "~2.3.1",
-    "@angular-devkit/build-angular": "^21.2.7",
+    "@angular-devkit/build-angular": "^22.1.5",
     "@angular-eslint/builder": "^21.3.1",
     "@angular-eslint/schematics": "^21.3.1",
     "@angular/cli": "^21.2.7",
