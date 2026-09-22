@@ -15,23 +15,23 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       </mat-form-field>
     }
     @if (!showTokenTextBox) {
-      <lf-uni-date-time
+      <lfint-uni-date-time
         #tokenTarget
         class="lf-field"
         [config]="uniDateTimeConfig"
         [settings]="uniDateTimeSettings"
         (valueChangedEventHandler)="onUniDateOrTimeChanged($event)"
       >
-      </lf-uni-date-time>
+      </lfint-uni-date-time>
     }
-    <lf-token-picker-component
+    <lfint-token-picker-component
       class="lf-field-token-picker"
       (tokenPicked)="onTokenChosen($event)"
       [data]="lfFieldTokenData"
-    ></lf-token-picker-component>
+    ></lfint-token-picker-component>
   </span>
 } @else {
-  <lf-dynamic-field-component
+  <lfint-dynamic-field-component
     ngDefaultControl
     [options]="dynamic_field_value_options"
     [formControl]="lf_field_form_control"
@@ -41,7 +41,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     (valueChange)="onValueChanged()"
     [compareWith]="compareDateStrings"
   >
-  </lf-dynamic-field-component>
+  </lfint-dynamic-field-component>
 }
 @if (getBrokenValidationRule()) {
   <mat-error>{{ fieldValidationErrorMsg | async }}</mat-error>

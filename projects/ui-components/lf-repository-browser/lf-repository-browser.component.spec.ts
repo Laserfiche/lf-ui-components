@@ -19,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ColumnDef, LfSelectionListComponent } from '@laserfiche/lf-ui-components/lf-selection-list';
 
 @Component({
-  selector: 'lf-selection-list-component',
+  selector: 'lfint-selection-list-component',
   template: '',
   standalone: true,
   providers: [{ provide: LfSelectionListComponent, useExisting: MockLfSelectionListComponent }],

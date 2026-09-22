@@ -11,7 +11,7 @@ import { AppLocalizationService } from '../app-localization.service';
  * Not for public use
  */
 @Component({
-  selector: 'lf-loader-component',
+  selector: 'lfint-loader-component, lf-loader-component',
   templateUrl: './lf-loader.component.html',
   styleUrls: ['./lf-loader.component.css'],
   standalone: true,

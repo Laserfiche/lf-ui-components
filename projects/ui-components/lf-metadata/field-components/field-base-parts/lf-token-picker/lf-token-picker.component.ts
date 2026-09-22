@@ -8,7 +8,7 @@ import { LfFieldTokenService } from '../lf-field-base/lf-field-token.service';
 import { LfToken } from './lf-token.service';
 
 @Component({
-  selector: 'lf-token-picker-component',
+  selector: 'lfint-token-picker-component, lf-token-picker-component',
   templateUrl: './lf-token-picker.component.html',
   styleUrls: ['./lf-token-picker.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -41,7 +41,13 @@ export default tseslint.config(
     rules: {
       ...sharedRules,
       "@angular-eslint/directive-selector": ["error", { type: "attribute", prefix: "lf", style: "camelCase" }],
-      "@angular-eslint/component-selector": ["error", { type: "element", prefix: "lf", style: "kebab-case" }],
+      // `lfint` is the internal selector prefix. A registered custom element tag must never be a
+      // selector Angular matches, or the component renders twice in the element build, so library
+      // templates reference `lfint-*` while `lf-*` stays available to Angular consumers.
+      "@angular-eslint/component-selector": [
+        "error",
+        { type: "element", prefix: ["lf", "lfint"], style: "kebab-case" },
+      ],
     },
   },
 

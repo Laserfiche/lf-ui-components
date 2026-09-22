@@ -29,7 +29,7 @@ import { LfFieldViewDirective } from '../lf-field-view.directive';
 import { CoreUtils } from '@laserfiche/lf-js-utils';
 
 @Component({
-  selector: 'lf-field-adhoc-container',
+  selector: 'lfint-field-adhoc-container, lf-field-adhoc-container',
   templateUrl: './lf-field-adhoc-container.component.html',
   styleUrls: ['./lf-field-adhoc-container.component.css'],
   providers: [AdhocFieldConnectorService],

@@ -19,7 +19,7 @@ import { FieldValue, LfFieldInfo, LfFieldValue } from '../utils/lf-field-types';
 import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
 
 @Component({
-  selector: 'lf-field-multivalue-component',
+  selector: 'lfint-field-multivalue-component, lf-field-multivalue-component',
   templateUrl: './lf-field-multivalue.component.html',
   styleUrls: ['./lf-field-multivalue.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
