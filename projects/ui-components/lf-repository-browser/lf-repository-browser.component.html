@@ -2,11 +2,11 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <div class="lf-repository-browser-header">
-  <lf-breadcrumbs
+  <lfint-breadcrumbs
     [breadcrumbs]="breadcrumbs"
     (breadcrumbClicked)="onBreadcrumbNavigation(toBreadcrumbNavigationEvent($event))"
   >
-  </lf-breadcrumbs>
+  </lfint-breadcrumbs>
   <ng-content select="[lf-toolbar]"></ng-content>
 </div>
 <div
@@ -14,7 +14,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   [attr.tabindex]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage ? 0 : -1"
 >
   @if (isLoading) {
-    <lf-loader-component class="lf-text-body lf-no-user-select"></lf-loader-component>
+    <lfint-loader-component class="lf-text-body lf-no-user-select"></lfint-loader-component>
   }
   @if (!isLoading && (shouldShowErrorMessage || shouldShowEmptyMessage)) {
     <div id="message-display">
@@ -27,7 +27,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </div>
   }
   <div [hidden]="shouldShowErrorMessage || shouldShowEmptyMessage" [ngStyle]="{ height: '100%' }">
-    <lf-selection-list-component
+    <lfint-selection-list-component
       [hidden]="isLoading || shouldShowErrorMessage || shouldShowEmptyMessage"
       [uniqueIdentifier]="repoBrowserUniqueId"
       [listItems]="currentFolderChildren"
@@ -51,6 +51,6 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         }
         <div title="{{ item?.name }}" class="lf-ellipsis-label lf-no-user-select">{{ item?.name }}</div>
       </ng-template>
-    </lf-selection-list-component>
+    </lfint-selection-list-component>
   </div>
 </div>

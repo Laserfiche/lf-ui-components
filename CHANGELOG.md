@@ -1,6 +1,13 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
+## 21.1.3
+
+### Fixes
+
+- In the CDN custom-element build, every component the library instantiates inside another component rendered twice: once from the parent's Angular view and once from the browser upgrading the same host element. `lf-field-container` showed two template pickers and two "Add/remove fields" blocks, `lf-repository-browser` held a second empty breadcrumbs bar, and 28 of the 35 registered tags were affected. Library components now declare an internal `lfint-` selector that the library renders instead of the registered tag. The Angular component build was never affected, and the public tag names, element properties and Angular selectors are all unchanged.
+- The CDN bundle (`lf-ui-components.js`) is now wrapped in a function scope, so its minified top-level declarations are no longer created as globals. On a page that shares `window` with other bundles, such as SharePoint, anything that later assigned one of those short names replaced the library's own binding, and the next component creation failed with an error such as `Rx is not a function`, leaving the custom element un-upgraded and its methods missing. Custom element registration and the source map are unaffected.
+
 ## 21.1.2
 
 ### Fixes

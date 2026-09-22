@@ -16,7 +16,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
   </div>
   <div class="add-remove-content">
     @if (isLoading) {
-      <lf-loader-component class="lf-adhoc-state-message"></lf-loader-component>
+      <lfint-loader-component class="lf-adhoc-state-message"></lfint-loader-component>
     } @else {
       @if (shouldShowErrorMessage) {
         <div class="lf-adhoc-state-message error-entries-text">{{ AN_ERROR_OCCURED | async }}</div>
@@ -69,5 +69,5 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 </div>
 
 <ng-template #addRemoveConfirmModal let-data>
-  <lf-popup-modal-component [data]="data" (buttonClick)="onModalButtonClick($event)"></lf-popup-modal-component>
+  <lfint-popup-modal-component [data]="data" (buttonClick)="onModalButtonClick($event)"></lfint-popup-modal-component>
 </ng-template>

@@ -57,7 +57,7 @@ describe('LfFieldAdhocContainerComponent', () => {
   });
 
   it('should have multivalue field', async () => {
-    const multivalueField = element.querySelector('lf-field-multivalue-component');
+    const multivalueField = element.querySelector('lfint-field-multivalue-component');
     expect(multivalueField).toBeTruthy();
   });
 

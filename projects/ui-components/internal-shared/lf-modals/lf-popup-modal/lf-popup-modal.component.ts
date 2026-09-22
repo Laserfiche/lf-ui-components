@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
  * Not for public use
  */
 @Component({
-  selector: 'lf-popup-modal-component',
+  selector: 'lfint-popup-modal-component, lf-popup-modal-component',
   templateUrl: './lf-popup-modal.component.html',
   styleUrls: ['./lf-popup-modal.component.css'],
   standalone: true,

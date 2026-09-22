@@ -15,7 +15,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
-  selector: 'lf-number-field-component',
+  selector: 'lfint-number-field-component, lf-number-field-component',
   templateUrl: './number-field.component.html',
   styleUrls: ['./number-field.component.css', './../lf-field-base/lf-field-base.component.css'],
   providers: [

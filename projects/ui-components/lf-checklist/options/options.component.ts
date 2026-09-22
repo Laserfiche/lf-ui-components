@@ -8,7 +8,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChecklistOption } from './checklist-option';
 
 @Component({
-  selector: 'lf-options-component',
+  selector: 'lfint-options-component, lf-options-component',
   templateUrl: './options.component.html',
   styleUrls: ['./options.component.css', './../lf-checklist/lf-checklist.component.css'],
   standalone: true,

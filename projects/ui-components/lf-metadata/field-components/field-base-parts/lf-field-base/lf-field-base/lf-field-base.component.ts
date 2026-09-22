@@ -14,7 +14,7 @@ import { ListFieldComponent } from '../list-field/list-field.component';
 import { TimeFieldComponent } from '../time-field/time-field.component';
 
 @Component({
-  selector: 'lf-field-base-component',
+  selector: 'lfint-field-base-component, lf-field-base-component',
   templateUrl: './lf-field-base.component.html',
   styleUrls: ['./lf-field-base.component.css'],
   standalone: true,

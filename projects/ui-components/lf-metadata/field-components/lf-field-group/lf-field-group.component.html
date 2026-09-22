@@ -46,11 +46,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                   <span class="lf-field-is-required">*</span>
                 }
                 @if (isLoading(fieldDef.fieldInfo, currentIndex)) {
-                  <lf-loader-component></lf-loader-component>
+                  <lfint-loader-component></lfint-loader-component>
                 }
               </span>
             }
-            <lf-field-base-component
+            <lfint-field-base-component
               id="{{ fieldDef.fieldInfo.name }}{{ currentIndex }}"
               [parentForm]="group"
               [lfFieldFormControl]="getSingleField(currentIndex, fieldDef.fieldInfo.id)"
@@ -59,7 +59,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               [dynamicFieldValueOptions]="getOptions(fieldDef.fieldInfo, currentIndex)"
               (fieldValueChange)="fieldDataChange($event, fieldDef.fieldInfo, currentIndex)"
             >
-            </lf-field-base-component>
+            </lfint-field-base-component>
           </span>
         </div>
       }

@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 env:
-  NPM_VERSION: "21.1.2"
+  NPM_VERSION: "21.1.3"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -81,6 +81,12 @@ jobs:
           only-summary: "true"
           use-actions-summary: "true"
           fail-on-error: "false"
+
+      # Runs the element build in a browser, which the component unit tests cannot do: they never
+      # register a custom element. Must stay ahead of the step that moves the bundle out of
+      # ./dist/lf-cdn/browser.
+      - name: npm run verify-cdn-demo
+        run: npm run verify-cdn-demo
 
       - name: "create folder ./dist/ui-components/cdn"
         run: "mkdir -p ./dist/ui-components/cdn"
