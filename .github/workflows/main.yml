@@ -36,7 +36,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version-file: ".nvmrc"
 
       - name: npm ci
         run: npm ci
@@ -152,7 +152,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
 
       - name: set NpmPackageVersion environment
@@ -205,7 +205,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
 
       - name: "copy license"
@@ -253,7 +253,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
 
       - name: Npm install gulp
