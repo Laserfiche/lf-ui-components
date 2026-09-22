@@ -1,6 +1,12 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
+## 21.1.3
+
+### Fixes
+
+- The CDN bundle (`lf-ui-components.js`) is now wrapped in a function scope, so its minified top-level declarations are no longer created as globals. On a page that shares `window` with other bundles, such as SharePoint, anything that later assigned one of those short names replaced the library's own binding, and the next component creation failed with an error such as `Rx is not a function`, leaving the custom element un-upgraded and its methods missing. Custom element registration and the source map are unaffected.
+
 ## 21.1.2
 
 ### Fixes
