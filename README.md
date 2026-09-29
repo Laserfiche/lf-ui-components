@@ -73,7 +73,6 @@ npm run build-lf-documentation-dev
 npm run serve
 ```
 
-
 ## Things to verify before creating a Pull Request
 
 ### Run tests
