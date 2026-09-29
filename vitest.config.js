@@ -48,5 +48,15 @@ export default defineConfig({
       ],
     },
     reporters: ['default', ['junit', { outputFile: './test-results.xml' }]],
+    // Collected only when run with --coverage (npm run test:coverage).
+    coverage: {
+      provider: 'v8',
+      include: ['projects/ui-components/**/*.ts'],
+      exclude: ['**/*.spec.ts', '**/*public-api.ts', 'projects/ui-components/entry.ts'],
+      // json-summary and json feed the coverage report in the CI workflow; html is uploaded as an artifact.
+      reporter: ['text-summary', 'html', 'json-summary', 'json'],
+      reportsDirectory: './coverage',
+      reportOnFailure: true,
+    },
   },
 });

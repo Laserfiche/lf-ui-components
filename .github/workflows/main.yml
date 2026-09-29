@@ -21,6 +21,7 @@ permissions:
   pages: write
   id-token: write
   checks: write
+  pull-requests: write
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
@@ -68,8 +69,8 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: npm run test
-        run: npm run test
+      - name: npm run test:coverage
+        run: npm run test:coverage
 
       - name: Test Report
         uses: dorny/test-reporter@v3
@@ -81,6 +82,24 @@ jobs:
           only-summary: "true"
           use-actions-summary: "true"
           fail-on-error: "false"
+
+      # Writes the coverage summary to the job summary and, for PRs from this repository, a PR comment.
+      # PRs from forks get a read-only token, so commenting is skipped for them.
+      - name: Coverage Report
+        uses: davelosert/vitest-coverage-report-action@v2
+        if: ${{ !cancelled() && hashFiles('coverage/coverage-summary.json') != '' }}
+        with:
+          name: Unit Test Coverage
+          json-summary-path: ./coverage/coverage-summary.json
+          json-final-path: ./coverage/coverage-final.json
+          comment-on: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && 'pr' || 'none' }}
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() && hashFiles('coverage/index.html') != '' }}
+        with:
+          name: coverage-report
+          path: ./coverage
 
       # Runs the element build in a browser, which the component unit tests cannot do: they never
       # register a custom element. Must stay ahead of the step that moves the bundle out of

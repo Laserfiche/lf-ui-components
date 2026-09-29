@@ -84,6 +84,11 @@ customElements.<span class="code-js-function">whenDefined</span>('<span class="c
 <pre class="code-container">{{ demoFileContent() }}</pre>
 
 <p class="documentation-sub-header">Live Demo — <code>framework-agnostic-ui-component-demo.html</code></p>
-<app-card>
-  <iframe src="./framework-agnostic-ui-component-demo.html" class="demo-frame"></iframe>
+<app-card fill>
+  <iframe
+    #demoFrame
+    src="./framework-agnostic-ui-component-demo.html"
+    class="demo-frame"
+    (load)="onDemoFrameLoad(demoFrame)"
+  ></iframe>
 </app-card>
