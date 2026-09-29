@@ -70,7 +70,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <section>
       <h2>lf-repository-browser</h2>
       <p>Composite component; renders its own breadcrumbs and projects the toolbar you pass in.</p>
-      <div id="repositoryBrowserHost" style="height: 300px"></div>
+      <div id="repositoryBrowserHost"></div>
     </section>
 
     <!-- A leaf component, and the other documented lifecycle order: properties set before the
@@ -145,7 +145,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       };
 
       /** Implements LfTreeNodeService. */
-      const ROOT_NODE = { id: "root", icon: "", isContainer: true, isLeaf: false, name: "Repository", path: "\\" };
+      const ROOT_NODE = { id: "root", icon: [], isContainer: true, isLeaf: false, name: "Repository", path: "\\" };
 
       const treeNodeServiceMock = {
         getRootTreeNodeAsync: function () {
@@ -157,8 +157,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         getFolderChildrenAsync: function () {
           return Promise.resolve({
             page: [
-              { id: "1", icon: "", isContainer: true, isLeaf: false, name: "Invoices", path: "\\Invoices" },
-              { id: "2", icon: "", isContainer: false, isLeaf: true, name: "Notes.txt", path: "\\Notes.txt" },
+              { id: "1", icon: [], isContainer: true, isLeaf: false, name: "Invoices", path: "\\Invoices" },
+              { id: "2", icon: [], isContainer: false, isLeaf: true, name: "Notes.txt", path: "\\Notes.txt" },
             ],
             nextPage: undefined,
           });
@@ -189,6 +189,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 
       async function initRepositoryBrowser() {
         const element = document.createElement("lf-repository-browser");
+        // The height goes on the element itself; without one the entry list collapses to zero.
+        element.style.height = "300px";
 
         // lf-toolbar is projected by the host, not rendered by the browser itself.
         const toolbar = document.createElement("lf-toolbar");
@@ -228,6 +230,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           view: ".lf-breadcrumbs-container",
         },
         { name: "toolbar in lf-repository-browser", host: "#repositoryBrowserHost", view: "lf-toolbar" },
+        {
+          name: "entry list with non-zero height in lf-repository-browser",
+          host: "#repositoryBrowserHost",
+          view: "cdk-virtual-scroll-viewport",
+          visibleOnly: true,
+        },
         { name: "tags input in lf-tags", host: "#tagsHost", view: "input" },
       ];
 
@@ -235,7 +243,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         const body = document.querySelector("#selfCheck tbody");
         const results = CHECKS.map(function (check) {
           const host = document.querySelector(check.host);
-          const actual = host ? host.querySelectorAll(check.view).length : 0;
+          let matches = host ? Array.from(host.querySelectorAll(check.view)) : [];
+          if (check.visibleOnly) {
+            matches = matches.filter(function (element) {
+              return element.offsetHeight > 0;
+            });
+          }
+          const actual = matches.length;
           const pass = actual === 1;
 
           const row = document.createElement("tr");
