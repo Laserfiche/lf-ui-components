@@ -28,7 +28,7 @@ import { MigrateModulesToStandaloneComponent } from './migrate-modules-to-standa
 import { Routes } from '@angular/router';
 import { RouterLinks } from './router-links';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: RouterLinks.LF_TOOLBAR, component: LfToolbarDocumentationComponent },
   { path: RouterLinks.LF_BREADCRUMBS, component: LfBreadcrumbsDocumentationComponent },
   { path: RouterLinks.LF_CHECKLIST, component: LfChecklistDocumentationComponent },
@@ -42,6 +42,8 @@ const routes: Routes = [
   { path: RouterLinks.GETTING_STARTED, component: GettingStartedComponent },
   { path: RouterLinks.EXAMPLE_NPM_USAGE_ANGULAR, component: ExampleNpmUsageInAngularComponent },
   { path: RouterLinks.EXAMPLE_USAGE_HTML, component: ExampleUsageInHtmlComponent },
+  // The framework-agnostic guide's URL before 21.1.3; external links and bookmarks still use it.
+  { path: 'using-ui-components-from-cdn-in-html5', redirectTo: RouterLinks.EXAMPLE_USAGE_HTML },
   { path: RouterLinks.OVERVIEW, component: OverviewComponent },
   { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },
   { path: RouterLinks.TROUBLESHOOTING, component: TroubleshootingComponent },

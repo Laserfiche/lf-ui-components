@@ -59,13 +59,22 @@ async function processTypesFile() {
 // `window` with other bundles (SharePoint being the obvious case), anything that later assigns
 // one of those names replaces the library's own binding, and the next component creation fails.
 // Wrapping keeps the declarations private; `customElements.define` still registers globally.
-// The opening brace stays on the first line so line numbers - and the shipped source map - hold,
-// and the sourceMappingURL comment is moved past the closing brace so it stays the last line.
+// The wrapper opens on its own first line, so the bundle's own lines keep their columns and the
+// source map only needs one empty line prepended (shiftSourceMapOneLine). The leading `;` ends
+// any unterminated statement in a script the bundle is concatenated after, which would otherwise
+// call the wrapper. The sourceMappingURL comment is moved past the closing brace so it stays last.
 const SOURCE_MAPPING_URL_COMMENT = /\n?\/\/# sourceMappingURL=.*\n?$/;
 
 function wrapInFunctionScope(contents) {
   const sourceMappingUrl = contents.match(SOURCE_MAPPING_URL_COMMENT)?.[0].trim() ?? '';
-  return `(function(){${contents.replace(SOURCE_MAPPING_URL_COMMENT, '')}\n})();\n${sourceMappingUrl}\n`;
+  return `;(function(){\n${contents.replace(SOURCE_MAPPING_URL_COMMENT, '')}\n})();\n${sourceMappingUrl}\n`;
+}
+
+// Matches the line wrapInFunctionScope adds above the bundle: `;` ends an empty generated line.
+function shiftSourceMapOneLine(mapContents) {
+  const map = JSON.parse(mapContents);
+  map.mappings = `;${map.mappings}`;
+  return JSON.stringify(map);
 }
 
 async function renameLfCdn() {
@@ -79,10 +88,12 @@ async function renameLfCdn() {
     const content = fs.readFileSync(mainJsPath, 'utf8');
     fs.writeFileSync(cdnJsPath, wrapInFunctionScope(content.replace(MAIN_SCRIPT_MAP_FILE, CDN_UI_COMPONENTS_MAP_FILE)));
     fs.unlinkSync(mainJsPath);
-  }
 
-  if (fs.existsSync(mainJsMapPath)) {
-    fs.renameSync(mainJsMapPath, cdnJsMapPath);
+    // Only a map that belongs to the bundle just wrapped is shifted, so a rerun never shifts twice.
+    if (fs.existsSync(mainJsMapPath)) {
+      fs.writeFileSync(cdnJsMapPath, shiftSourceMapOneLine(fs.readFileSync(mainJsMapPath, 'utf8')));
+      fs.unlinkSync(mainJsMapPath);
+    }
   }
 
   const indexHtmlContent = fs.readFileSync(lfCdnIndexPath, 'utf8');

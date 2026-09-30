@@ -28,6 +28,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         border-top: 1px solid #ccc;
         padding-top: 1rem;
       }
+      /* lf-field-container opens "Add/remove fields" as an overlay that fills the nearest positioned
+         ancestor, so the host gives it one; without it the overlay covers the whole page. */
+      #fieldContainerHost {
+        position: relative;
+        min-height: 300px;
+      }
       #selfCheck {
         border-collapse: collapse;
       }
@@ -54,10 +60,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       Every component below is created with <code>document.createElement</code> and configured through properties on the
       element. The tags a host may create are the documented entry points: <code>lf-field-container</code>,
       <code>lf-field-template-container</code>, <code>lf-field-adhoc-container</code>,
-      <code>lf-repository-browser</code>, <code>lf-selection-list-component</code>, <code>lf-breadcrumbs</code>,
-      <code>lf-toolbar</code>, <code>lf-tags</code>, <code>lf-login</code>, <code>lf-checklist</code> and
-      <code>lf-user-feedback</code>. Other registered tags are internal; the library renders them itself under
-      <code>lfint-</code> names and they are not part of the supported surface.
+      <code>lf-repository-browser</code>, <code>lf-breadcrumbs</code>, <code>lf-toolbar</code>, <code>lf-tags</code>,
+      <code>lf-login</code>, <code>lf-checklist</code> and <code>lf-user-feedback</code>. Other registered tags are
+      internal; the library renders them itself under <code>lfint-</code> names and they are not part of the supported
+      surface.
     </p>
 
     <!-- A composite component: lf-field-container renders a template container and an adhoc
@@ -77,11 +83,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       <div id="repositoryBrowserHost"></div>
     </section>
 
-    <!-- A leaf component, and the other documented lifecycle order: properties set before the
-         element is appended. Both orders are supported. -->
+    <!-- A leaf component, and the other lifecycle order: properties set before the element is
+         appended. Which order a component needs depends on when it reads its inputs; lf-tags reads
+         them once, when it first renders. -->
     <section>
       <h2>lf-tags</h2>
-      <p>Leaf component. Configured by setting properties <em>before</em> the element is appended.</p>
+      <p>
+        Leaf component. <code>tagsService</code> and <code>initialTags</code> are read once, when the element first
+        renders, so they must be set <em>before</em> the element is appended.
+      </p>
       <div id="tagsHost"></div>
       <p><code>selectedTagsChanged</code> output:</p>
       <textarea id="tagsOutput" rows="8" style="width: 100%; box-sizing: border-box" disabled></textarea>
@@ -322,7 +332,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         {
           name: "add/remove fields button in lf-field-container",
           host: "#fieldContainerHost",
-          view: "[title='Add/remove fields']",
+          // By id, not by title: the title is localized to the browser language.
+          view: "#adhoc-add-remove-button",
         },
         {
           name: "breadcrumbs in lf-repository-browser",

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "serve": "npm run create-lf-cdn && ng serve lf-documentation --configuration development --host 127.0.0.1 --port 4200",
+    "serve": "npm run build-ui-components-dev && npm run create-lf-cdn && ng serve lf-documentation --configuration development --host 127.0.0.1 --port 4200",
     "build": "npm run build-ui-components-prod && npm run build-lf-documentation-prod && npm run sass-lf && npm run sass-ms",
     "build-lf-documentation-dev": "npm run sass-lf && npm run sass-ms && npm run build-ui-components-dev && npm run create-lf-cdn && ng build lf-documentation --configuration development --delete-output-path false",
     "build-lf-documentation-dev-watch": "npm run sass-lf && npm run sass-ms && npm run build-ui-components-dev && npm run create-lf-cdn && ng build lf-documentation --configuration development --delete-output-path false --watch",

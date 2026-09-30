@@ -14,6 +14,12 @@ const libraryTemplates = import.meta.glob('/projects/ui-components/**/*.componen
   eager: true,
 }) as Record<string, string>;
 
+// Raw library and theme stylesheets, for the same reason.
+const libraryStylesheets = import.meta.glob(
+  ['/projects/ui-components/**/*.{css,scss,less}', '/projects/styles/**/*.scss'],
+  { query: '?raw', import: 'default', eager: true }
+) as Record<string, string>;
+
 /**
  * Tags a host creates itself and that no library component ever instantiates. Their Angular
  * selector is allowed to equal their custom element tag because nothing upgrades a second
@@ -74,6 +80,25 @@ describe('registered custom element tags', () => {
       .sort();
 
     expect(alsoAngularHostTags).toEqual(HOST_CREATED_ONLY_TAGS);
+  });
+
+  it('are never used as a style selector for a component the library renders under lfint-', () => {
+    // Library views render these components as <lfint-*>, so a rule written against the registered
+    // tag silently stops matching there. Style the component with :host, or target the lfint- tag.
+    expect(Object.keys(libraryStylesheets).length).toBeGreaterThan(0);
+
+    const violations: string[] = [];
+    for (const c of registeredComponents.filter((c) => angularHostTag(c.component) !== c.tag)) {
+      const selector = new RegExp(`(?<![\\w.#\\[/-])${c.tag}(?![\\w-])`);
+      for (const [file, source] of Object.entries(libraryStylesheets)) {
+        const withoutComments = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|\s)\/\/[^\n]*/g, '$1');
+        if (selector.test(withoutComments)) {
+          violations.push(`${c.tag} in ${file.replace('/projects/', '')}`);
+        }
+      }
+    }
+
+    expect(violations).toEqual([]);
   });
 
   it('keep the public selector available to Angular consumers', () => {

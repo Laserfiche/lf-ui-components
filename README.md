@@ -63,14 +63,20 @@ The command above will output: `./types-lf-ui-components-publish/laserfiche-type
 
 You can use the lf-documentation project for testing changes.
 
-Build style sheets and lf-documentation. These scripts, and `npm run serve`, also build the CDN bundle (`npm run create-lf-cdn`) that the framework-agnostic live demo loads; restart `npm run serve` to pick up a rebuilt bundle.
+Build style sheets and lf-documentation. This script, and `npm run serve`, also build the library and the CDN bundle (`npm run create-lf-cdn`) that the framework-agnostic live demo loads; restart `npm run serve` to pick up a rebuilt bundle.
 
 ```sh
 npm run build-lf-documentation-dev
-# OR npm build-lf-documentation-dev-watch
 
 # Documentation output folder: ./dist/lf-documentation
 npm run serve
+```
+
+For watch mode, start the documentation watch first and, once it is watching, the library watch in a second terminal. The documentation watch builds the library once before it starts watching, and a library watch started during that build deletes the `dist/ui-components` it compiles against.
+
+```sh
+npm run build-lf-documentation-dev-watch
+npm run build-ui-components-dev-watch
 ```
 
 ## Things to verify before creating a Pull Request

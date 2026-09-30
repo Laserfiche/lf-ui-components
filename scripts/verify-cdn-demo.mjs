@@ -72,14 +72,25 @@ function startServer() {
 }
 
 async function checkTheme(browser, port, theme) {
-  const page = await browser.newPage();
+  const origin = `http://127.0.0.1:${port}`;
+  // A fixed locale, so the run does not depend on the machine it runs on.
+  const page = await browser.newPage({ locale: "en-US" });
   const pageErrors = [];
+  const externalErrors = [];
   page.on("pageerror", (error) => pageErrors.push(String(error)));
   page.on("console", (message) => {
-    if (message.type() === "error") pageErrors.push(message.text());
+    if (message.type() !== "error") return;
+    const url = message.location().url;
+    // A failed load of an external resource (the demo's icon sprite, the themes' fonts) is logged as
+    // a console error too. It says nothing about the bundle, so it is reported but does not fail.
+    if (url && !url.startsWith(origin)) {
+      externalErrors.push(`${message.text()} (${url})`);
+    } else {
+      pageErrors.push(url ? `${message.text()} (${url})` : message.text());
+    }
   });
 
-  await page.goto(`http://127.0.0.1:${port}/${DEMO_PAGE}?theme=${theme}`, { waitUntil: "load" });
+  await page.goto(`${origin}/${DEMO_PAGE}?theme=${theme}`, { waitUntil: "load" });
 
   let result;
   try {
@@ -90,7 +101,46 @@ async function checkTheme(browser, port, theme) {
   }
 
   await page.close();
-  return { theme, result, pageErrors };
+  return { theme, result, pageErrors, externalErrors };
+}
+
+// Globals the bundle's dependencies assign to window on purpose, rather than leaking a declaration.
+// flatpickr sets window.flatpickr itself, and the date and time picker plugins read it from there.
+const EXPECTED_GLOBALS = ["flatpickr"];
+
+/**
+ * Loads the bundle alone, as the classic script hosts load it, and returns every property it added
+ * to window. Top-level declarations of an unwrapped bundle land there, so this is what fails if the
+ * function-scope wrapper in gulpfile.js renameLfCdn is ever lost.
+ */
+async function findLeakedGlobals(browser, port) {
+  const page = await browser.newPage();
+  await page.route("**/leaked-globals.html", (route) =>
+    route.fulfill({
+      contentType: "text/html",
+      body:
+        "<!doctype html>" +
+        "<script>window.__lfGlobalsBefore = Object.getOwnPropertyNames(window);</script>" +
+        '<script src="./lf-ui-components.js"></script>',
+    })
+  );
+
+  try {
+    await page.goto(`http://127.0.0.1:${port}/leaked-globals.html`, { waitUntil: "load" });
+    // Registration completes once the Angular application is created, after the script has run.
+    await page.waitForFunction(() => customElements.get("lf-tags") !== undefined, null, { timeout: 30_000 });
+    const leaked = await page.evaluate((expected) => {
+      const before = new Set(window.__lfGlobalsBefore);
+      return Object.getOwnPropertyNames(window).filter(
+        (name) => !before.has(name) && name !== "__lfGlobalsBefore" && !expected.includes(name)
+      );
+    }, EXPECTED_GLOBALS);
+    return { leaked };
+  } catch (error) {
+    return { leaked: [], error: `the bundle never registered its elements (${String(error).split("\n")[0]})` };
+  } finally {
+    await page.close();
+  }
 }
 
 const themes = THEMES.filter((theme) => resolveFile(theme));
@@ -114,7 +164,7 @@ const browser = await chromium.launch({ args: ["--no-sandbox"] });
 let failed = false;
 try {
   for (const theme of themes) {
-    const { result, pageErrors } = await checkTheme(browser, port, theme);
+    const { result, pageErrors, externalErrors } = await checkTheme(browser, port, theme);
 
     console.log(`\n${theme}`);
     for (const check of result.checks ?? []) {
@@ -126,11 +176,26 @@ try {
     for (const error of pageErrors) {
       console.log(`  page error: ${error}`);
     }
+    for (const error of externalErrors) {
+      console.log(`  note: external resource failed, not counted: ${error}`);
+    }
 
     // A page error means the element build threw, which is a failure even if the counts are right.
     if (!result.pass || pageErrors.length > 0) {
       failed = true;
     }
+  }
+
+  const { leaked, error } = await findLeakedGlobals(browser, port);
+  console.log("\nglobals");
+  if (error) {
+    console.log(`  FAIL  ${error}`);
+    failed = true;
+  } else if (leaked.length > 0) {
+    console.log(`  FAIL  the bundle added ${leaked.length} global(s): ${leaked.slice(0, 20).join(", ")}`);
+    failed = true;
+  } else {
+    console.log("  ok    the bundle added no globals");
   }
 } finally {
   await browser.close();

@@ -21,11 +21,18 @@ permissions:
   pages: write
   id-token: write
   checks: write
-  pull-requests: write
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Only this job's coverage report comments on the PR. A job-level block replaces the workflow's,
+    # so it repeats the workflow scopes and keeps pull-requests: write away from the publish jobs.
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+      checks: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v6
         with:
