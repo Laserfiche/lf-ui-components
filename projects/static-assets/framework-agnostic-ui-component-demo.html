@@ -24,6 +24,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       section {
         margin-bottom: 2rem;
       }
+      section + section {
+        border-top: 1px solid #ccc;
+        padding-top: 1rem;
+      }
       #selfCheck {
         border-collapse: collapse;
       }
@@ -81,6 +85,18 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       <div id="tagsHost"></div>
       <p><code>selectedTagsChanged</code> output:</p>
       <textarea id="tagsOutput" rows="8" style="width: 100%; box-sizing: border-box" disabled></textarea>
+    </section>
+
+    <!-- A leaf component whose inputs arrive after it is in the DOM, as they do when a host
+         learns the signed-in user asynchronously. -->
+    <section>
+      <h2>lf-user-feedback</h2>
+      <p>
+        Leaf component. Configured by setting properties <em>after</em> the element is appended; the button stays
+        disabled until both <code>user_id</code> and <code>account_id</code> are set. Submitting sends the feedback as a
+        tracking event, so the demo uses test IDs.
+      </p>
+      <div id="userFeedbackHost"></div>
     </section>
 
     <!-- Renders as a table on the page and is also read by scripts/verify-cdn-demo.mjs in CI.
@@ -144,24 +160,98 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         },
       };
 
-      /** Implements LfTreeNodeService. */
-      const ROOT_NODE = { id: "root", icon: [], isContainer: true, isLeaf: false, name: "Repository", path: "\\" };
+      // The Laserfiche document icons: the sprite IconUtils.getDocumentIconUrlFromIconId in
+      // @laserfiche/lf-js-utils points at. Its ids are listed in @laserfiche/lf-resource-library.
+      const ICON_SPRITE =
+        "https://lfxstatic.com/npm/@laserfiche/lf-resource-library@5/resources/icons/document-icons.svg";
 
+      /** An icon is one sprite id, or several to layer them (a shortcut adds "shortcut-overlay"). */
+      function folder(name, icon, children) {
+        return { name: name, icon: icon, children: children };
+      }
+
+      function file(name, icon) {
+        return { name: name, icon: icon };
+      }
+
+      const SAMPLE_REPOSITORY = folder("Repository", "folder-20", [
+        folder("Accounts Payable", "folder-20", [
+          folder("Invoices 2026", "folder-20", [
+            file("INV-10421 Northwind Traders.pdf", "edoc-pdf-20"),
+            file("INV-10422 Contoso Ltd.pdf", "edoc-pdf-20"),
+            // A scanned Laserfiche document holds image pages rather than an electronic file.
+            file("INV-10423 Fabrikam Inc", "document-20"),
+          ]),
+          file("Payment Approval Policy.docx", "edoc-wordprocessing-20"),
+          file("Vendor Payments Q3 2026.xlsx", "edoc-spreadsheet-20"),
+        ]),
+        folder("Human Resources", "folder-20", [
+          folder("Onboarding", "folder-20", [
+            file("New Hire Checklist.docx", "edoc-wordprocessing-20"),
+            file("Welcome Presentation.pptx", "edoc-presentation-20"),
+          ]),
+          file("Benefits Overview 2026.pdf", "edoc-pdf-20"),
+          file("Employee Handbook 2026.pdf", "edoc-pdf-20"),
+        ]),
+        folder("Legal", "folder-20", [
+          folder("Contract Records", "recordseries-20", [
+            folder("Contoso Ltd", "recordfolder-20", [
+              file("Master Services Agreement", "document-20"),
+              file("Amendment 1.pdf", "edoc-pdf-20"),
+            ]),
+          ]),
+          file("Mutual NDA Template.docx", "edoc-wordprocessing-20"),
+        ]),
+        folder("Marketing", "folder-20", [
+          file("Brand Guidelines.pdf", "edoc-pdf-20"),
+          file("Company Logo.png", "image-20"),
+          file("Product Launch Video.mp4", "edoc-movie-20"),
+        ]),
+        file("Company Directory.xlsx", "edoc-spreadsheet-20"),
+        file("Customer Inquiry - Order 5512.msg", "email-20"),
+        file("Employee Handbook 2026.pdf", ["edoc-pdf-20", "shortcut-overlay"]),
+        file("Project Archive 2025.zip", "edoc-zip-20"),
+        file("Read Me.txt", "edoc-text-20"),
+      ]);
+
+      const CHILDREN_BY_ID = {};
+      const PARENT_BY_ID = {};
+      let lastNodeId = 0;
+
+      /** Maps a sample entry to an LfTreeNode, recording its children and parent for the service. */
+      function toTreeNode(entry, parent) {
+        const icons = Array.isArray(entry.icon) ? entry.icon : [entry.icon];
+        const node = {
+          id: parent ? String(++lastNodeId) : "root",
+          icon: icons.map(function (iconId) {
+            return ICON_SPRITE + "#" + iconId;
+          }),
+          isContainer: entry.children !== undefined,
+          isLeaf: entry.children === undefined,
+          name: entry.name,
+          path: parent ? parent.path.replace(/\\$/, "") + "\\" + entry.name : "\\",
+        };
+        PARENT_BY_ID[node.id] = parent;
+        if (entry.children) {
+          CHILDREN_BY_ID[node.id] = entry.children.map(function (child) {
+            return toTreeNode(child, node);
+          });
+        }
+        return node;
+      }
+
+      const ROOT_NODE = toTreeNode(SAMPLE_REPOSITORY);
+
+      /** Implements LfTreeNodeService. */
       const treeNodeServiceMock = {
         getRootTreeNodeAsync: function () {
           return Promise.resolve(ROOT_NODE);
         },
-        getParentTreeNodeAsync: function () {
-          return Promise.resolve(undefined);
+        getParentTreeNodeAsync: function (node) {
+          return Promise.resolve(PARENT_BY_ID[node.id]);
         },
-        getFolderChildrenAsync: function () {
-          return Promise.resolve({
-            page: [
-              { id: "1", icon: [], isContainer: true, isLeaf: false, name: "Invoices", path: "\\Invoices" },
-              { id: "2", icon: [], isContainer: false, isLeaf: true, name: "Notes.txt", path: "\\Notes.txt" },
-            ],
-            nextPage: undefined,
-          });
+        getFolderChildrenAsync: function (node) {
+          return Promise.resolve({ page: CHILDREN_BY_ID[node.id] ?? [], nextPage: undefined });
         },
       };
 
@@ -212,6 +302,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         document.getElementById("tagsHost").appendChild(element);
       }
 
+      /** Properties set after the element is appended. */
+      function initUserFeedback() {
+        const element = document.createElement("lf-user-feedback");
+        document.getElementById("userFeedbackHost").appendChild(element);
+        element.hosting_module = "testhostingmodule";
+        element.hosting_context = window.location.href;
+        element.user_id = "testuserid";
+        element.account_id = "testaccountid";
+      }
+
       // ---------------------------------------------------------------------
       // Self-check
       // ---------------------------------------------------------------------
@@ -237,6 +337,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           visibleOnly: true,
         },
         { name: "tags input in lf-tags", host: "#tagsHost", view: "input" },
+        // Enabled only once the user_id and account_id properties reached the component.
+        {
+          name: "enabled feedback button in lf-user-feedback",
+          host: "#userFeedbackHost",
+          view: "#lf-user-feedback-button:enabled",
+        },
       ];
 
       function runSelfCheck() {
@@ -284,11 +390,13 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           customElements.whenDefined("lf-repository-browser"),
           customElements.whenDefined("lf-toolbar"),
           customElements.whenDefined("lf-tags"),
+          customElements.whenDefined("lf-user-feedback"),
         ]);
 
         await initFieldContainer();
         await initRepositoryBrowser();
         initTags();
+        initUserFeedback();
 
         // Let the views settle before counting them.
         await new Promise(function (resolve) {

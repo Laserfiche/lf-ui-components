@@ -96,7 +96,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       <span class="code-html-attribute-value">"testhostingmodule" </span>
       <span class="code-html-attribute-name">hosting_context</span>
       <span>=</span>
-      <span class="code-html-attribute-value">"testhostingcontext" </span>
+      <span class="code-html-attribute-value">"{{ pageUrl }}" </span>
       <span class="code-html-attribute-name">user_id</span>
       <span>=</span>
       <span class="code-html-attribute-value">"testuserid" </span>
@@ -121,7 +121,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       <lf-user-feedback
         id="my-feedback-button"
         hosting_module="testhostingmodule"
-        hosting_context="testhostingcontext"
+        [hosting_context]="pageUrl"
         [user_id]="testuserid"
         [account_id]="testaccountid"
       >
