@@ -22,7 +22,7 @@ import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field
 import { LfFieldGroupIndexDisplayPipe } from './lf-field-group-index-display.pipe';
 
 @Component({
-  selector: 'lf-field-group-component',
+  selector: 'lfint-field-group-component, lf-field-group-component',
   templateUrl: './lf-field-group.component.html',
   styleUrls: ['./lf-field-group.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

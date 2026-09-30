@@ -1,6 +1,18 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
+## 21.1.3
+
+### Fixes
+
+- In the CDN custom-element build, every component the library instantiates inside another component rendered twice: once from the parent's Angular view and once from the browser upgrading the same host element. `lf-field-container` showed two template pickers and two "Add/remove fields" blocks, `lf-repository-browser` held a second empty breadcrumbs bar, and 28 of the 35 registered tags were affected. Library components now declare an internal `lfint-` selector that the library renders instead of the registered tag. The registered tag names, element properties and the `lf-` selectors Angular templates use are unchanged.
+- The CDN bundle (`lf-ui-components.js`) is now wrapped in a function scope, so its minified top-level declarations are no longer created as globals. On a page that shares `window` with other bundles, such as SharePoint, anything that later assigned one of those short names replaced the library's own binding, and the next component creation failed with an error such as `Rx is not a function`, leaving the custom element un-upgraded and its methods missing. Custom element registration and the source map are unaffected.
+- `lf-field-template-container` and `lf-field-adhoc-container` no longer report `ExpressionChangedAfterItHasBeenCheckedError` (NG0100) in development mode when a host calls `initAsync` from `ngAfterViewInit`. `lf-field-adhoc-container` could also leave its "no additional fields" message on screen for a moment after rendering fields.
+
+### Changed
+
+- Components that the library renders inside another component now have an `lfint-` host element, in both the Angular package and the CDN build. For example, `lf-repository-browser` renders `<lfint-breadcrumbs>`, `<lfint-selection-list-component>` and `<lfint-loader-component>`, and `lf-field-container` renders `<lfint-field-template-container>` and `<lfint-field-adhoc-container>`. Update any stylesheet rules or test selectors that match those inner elements by their `lf-` tag name. A component you place yourself, as `<lf-breadcrumbs>` in a template or as a custom element, keeps its `lf-` tag. Creating `LfBreadcrumbsComponent`, `LfSelectionListComponent`, `LfFieldTemplateContainerComponent` or `LfFieldAdhocContainerComponent` dynamically, with `ViewContainerRef.createComponent` or `MatDialog.open`, now gives an `lfint-` host element.
+
 ## 21.1.2
 
 ### Fixes

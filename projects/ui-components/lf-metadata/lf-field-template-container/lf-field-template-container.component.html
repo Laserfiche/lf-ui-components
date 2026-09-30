@@ -35,7 +35,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     </mat-select>
   </mat-form-field>
   @if (isTemplateLoading) {
-    <lf-loader-component></lf-loader-component>
+    <lfint-loader-component></lfint-loader-component>
   } @else {
     @if (isTemplateError) {
       <div class="error-message">{{ templateErrorMessage | async }}</div>

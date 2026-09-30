@@ -34,7 +34,7 @@ export enum FeedbackDialogState {
  * @internal
  */
 @Component({
-  selector: 'lf-user-feedback-dialog-component',
+  selector: 'lfint-user-feedback-dialog-component, lf-user-feedback-dialog-component',
   templateUrl: './user-feedback-dialog.component.html',
   styleUrls: ['./user-feedback-dialog.component.css'],
   standalone: true,

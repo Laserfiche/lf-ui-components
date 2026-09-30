@@ -1,8 +1,7 @@
 $ErrorActionPreference = 'Stop'
 
 npm run build-ui-components-prod
-npm run create-lf-cdn
-npm run build-lf-documentation-prod
+npm run build-lf-documentation-prod # also builds the CDN bundle (create-lf-cdn)
 
 New-Item -ItemType Directory -Force -Path dist/ui-components/cdn | Out-Null
 

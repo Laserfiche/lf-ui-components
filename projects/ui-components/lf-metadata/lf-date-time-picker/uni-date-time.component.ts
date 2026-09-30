@@ -48,7 +48,7 @@ import { LFDatePickerPlugin } from './plugin-lfDatePicker';
 import { InstanceWithLfFlag } from './plugin-lfTimePicker';
 
 @Component({
-  selector: 'lf-uni-date-time',
+  selector: 'lfint-uni-date-time, lf-uni-date-time',
   templateUrl: './uni-date-time.component.html',
   styleUrls: ['./uni-date-time.component.less'],
   standalone: true,

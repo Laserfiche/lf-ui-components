@@ -8,7 +8,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       <span class="lf-field-is-required">*</span>
     }
     @if (isLoading) {
-      <lf-loader-component></lf-loader-component>
+      <lfint-loader-component></lfint-loader-component>
     }
   </span>
   <form class="lf-field-form" [formGroup]="multiValueFieldParentForm">
@@ -19,7 +19,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       let isLast = $last
     ) {
       <span class="single-field-container">
-        <lf-field-base-component
+        <lfint-field-base-component
           [parentForm]="multiValueFieldParentForm"
           [lfFieldFormControl]="getSingleField(currentIndex)"
           [lfFieldInfo]="getLfFieldInfo(currentIndex)"
@@ -27,7 +27,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           [dynamicFieldValueOptions]="getOptions()"
           (fieldValueChange)="onChange($event, currentIndex)"
         >
-        </lf-field-base-component>
+        </lfint-field-base-component>
         @if (!isLast && lfFieldValues.length > 1) {
           <button class="lf-multivalue-remove-button" (click)="removeField(currentIndex)">
             <span class="material-icons" id="lf-multivalue-remove-icon"> close </span>

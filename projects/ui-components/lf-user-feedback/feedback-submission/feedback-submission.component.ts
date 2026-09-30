@@ -15,7 +15,7 @@ import { FeedbackImageUploadComponent } from '../feedback-image-upload/feedback-
 
 /** @internal */
 @Component({
-  selector: 'lf-feedback-submission',
+  selector: 'lfint-feedback-submission, lf-feedback-submission',
   templateUrl: './feedback-submission.component.html',
   styleUrls: ['./feedback-submission.component.css', '../user-feedback-dialog/user-feedback-dialog.component.css'],
   standalone: true,

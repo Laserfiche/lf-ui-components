@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v6
         with:
-          node-version: "24"
+          node-version-file: ".nvmrc"
 
       - name: npm ci
         run: npm ci
@@ -37,9 +37,7 @@ jobs:
       - name: npm run create-types-lf-ui-components
         run: npm run create-types-lf-ui-components
 
-      - name: npm run create-lf-cdn
-        run: npm run create-lf-cdn
-
+      # Also builds the CDN bundle (create-lf-cdn) that the documentation's live demo loads.
       - name: npm run build-lf-documentation-dev
         run: npm run build-lf-documentation-dev
 

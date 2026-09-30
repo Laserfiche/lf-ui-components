@@ -12,16 +12,18 @@
   color: red;
 }
 
-::ng-deep lf-field-template-container .lf-template-picker > .mat-mdc-text-field-wrapper {
+/* :host, not the tag name: the host is <lf-field-template-container> when a host creates it, but
+   <lfint-field-template-container> when lf-field-container renders it. */
+:host ::ng-deep .lf-template-picker > .mat-mdc-text-field-wrapper {
   padding-left: 0px;
   padding-right: 0px;
 }
 
-::ng-deep lf-field-template-container {
+:host {
   font-size: 14px;
 }
 
-::ng-deep lf-field-template-container .lf-template-picker > .mat-mdc-form-field-subscript-wrapper {
+:host ::ng-deep .lf-template-picker > .mat-mdc-form-field-subscript-wrapper {
   height: 0px;
 }
 

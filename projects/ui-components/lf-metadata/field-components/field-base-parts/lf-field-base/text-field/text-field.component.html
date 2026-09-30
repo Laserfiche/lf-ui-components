@@ -49,15 +49,15 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         }
       </mat-form-field>
     }
-    <lf-token-picker-component
+    <lfint-token-picker-component
       class="lf-field-token-picker"
       (tokenPicked)="onTextTokenChosen($event)"
       [data]="lfFieldTokenData"
     >
-    </lf-token-picker-component>
+    </lfint-token-picker-component>
   </span>
 } @else {
-  <lf-dynamic-field-component
+  <lfint-dynamic-field-component
     ngDefaultControl
     [options]="dynamic_field_value_options"
     [formControl]="lf_field_form_control"
@@ -66,5 +66,5 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     [getBrokenValidationRule]="getBrokenValidationRule.bind(this)"
     (valueChange)="onTextValueChanged()"
   >
-  </lf-dynamic-field-component>
+  </lfint-dynamic-field-component>
 }

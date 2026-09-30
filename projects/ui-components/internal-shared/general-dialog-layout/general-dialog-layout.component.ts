@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
  * Not for public use
  */
 @Component({
-  selector: 'lf-general-dialog-layout',
+  selector: 'lfint-general-dialog-layout, lf-general-dialog-layout',
   templateUrl: './general-dialog-layout.component.html',
   styleUrls: ['./general-dialog-layout.component.css'],
   standalone: true,

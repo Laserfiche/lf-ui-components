@@ -36,7 +36,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     }
   </span>
 } @else {
-  <lf-dynamic-field-component
+  <lfint-dynamic-field-component
     ngDefaultControl
     [options]="dynamic_field_value_options"
     [formControl]="lf_field_form_control"
@@ -45,5 +45,5 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     [getBrokenValidationRule]="getBrokenValidationRule.bind(this)"
     (valueChange)="onValueChanged()"
   >
-  </lf-dynamic-field-component>
+  </lfint-dynamic-field-component>
 }

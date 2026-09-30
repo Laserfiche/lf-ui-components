@@ -2,7 +2,7 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <div class="user-feedback-content-container lf-dialog-content">
-  <lf-toast-message id="messages" [messages]="toastMessages"></lf-toast-message>
+  <lfint-toast-message id="messages" [messages]="toastMessages"></lfint-toast-message>
   <div class="lf-text-body lf-user-feedback-description">
     {{
       isFeedback
@@ -29,11 +29,11 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <span> / </span>
     <span>{{ maxFeedbackLength }}</span>
   </div>
-  <lf-feedback-image-upload
+  <lfint-feedback-image-upload
     id="image-upload-block"
     (feedbackImageBase64)="onFeedbackImageBase64($event)"
     (imageUploadError)="onImageUploadError($event)"
-  ></lf-feedback-image-upload>
+  ></lfint-feedback-image-upload>
   <div class="email-checkbox-container">
     <mat-checkbox
       color="primary"

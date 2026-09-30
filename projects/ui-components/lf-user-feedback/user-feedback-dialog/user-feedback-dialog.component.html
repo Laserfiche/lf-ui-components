@@ -1,25 +1,25 @@
 <!--Copyright (c) Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-<lf-general-dialog-layout>
+<lfint-general-dialog-layout>
   <span class="lf-dialog-title lf-popup-dialog-title dialog-header">{{ USER_FEEDBACK_TITLE | async }}</span>
   <button class="dialog-header lf-close-button" [title]="localizedStrings.CLOSE | async" (click)="onCloseDialog()">
     <span class="material-icons-outlined"> close </span>
   </button>
   @if (isFirstPane) {
     <div class="dialog-content">
-      <lf-feedback-suggestion-selection
+      <lfint-feedback-suggestion-selection
         (feedbackClicked)="onClickFeedback()"
         (suggestionClicked)="onClickSuggestion()"
-      ></lf-feedback-suggestion-selection>
+      ></lfint-feedback-suggestion-selection>
     </div>
   }
   @if (isFeedback || isSuggestion) {
     <div class="dialog-content">
-      <lf-feedback-submission
+      <lfint-feedback-submission
         [isFeedback]="isFeedback"
         (feedbackTextChanged)="onFeedbackTextChanged($event)"
-      ></lf-feedback-submission>
+      ></lfint-feedback-submission>
     </div>
   }
   @if (isThankYou) {
@@ -57,4 +57,4 @@ Licensed under the MIT License. See LICENSE in the project root for license info
       {{ isThankYou || isError ? (localizedStrings.CLOSE | async) : (localizedStrings.CANCEL | async) }}
     </button>
   </div>
-</lf-general-dialog-layout>
+</lfint-general-dialog-layout>

@@ -16,7 +16,7 @@ import { LfTokenPickerComponent } from '../../lf-token-picker/lf-token-picker.co
 import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 
 @Component({
-  selector: 'lf-date-time-field-component',
+  selector: 'lfint-date-time-field-component, lf-date-time-field-component',
   templateUrl: './date-time-field.component.html',
   styleUrls: ['./date-time-field.component.css', './../lf-field-base/lf-field-base.component.css'],
   providers: [

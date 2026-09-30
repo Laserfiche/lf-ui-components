@@ -20,9 +20,11 @@ npm run build-lf-cdn-prod            # CDN bundle
 # Serve documentation locally (interactive development)
 npm run serve                        # http://127.0.0.1:4200
 
-# Watch mode for active UI development (run both in separate terminals)
-npm run build-ui-components-dev-watch
+# Watch mode for active UI development (run both in separate terminals). Start the documentation
+# watch first: it builds the library once before it starts watching, and a library watch started
+# during that build deletes the dist/ui-components it compiles against.
 npm run build-lf-documentation-dev-watch
+npm run build-ui-components-dev-watch
 
 # Test (Vitest + Playwright Chromium)
 npm run test

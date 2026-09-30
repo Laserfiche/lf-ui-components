@@ -4,7 +4,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
 <span class="field-box">
   @switch (lfFieldInfo.fieldType) {
     @case (fieldTypeDateTime) {
-      <lf-date-time-field-component
+      <lfint-date-time-field-component
         [parent_form]="parentForm"
         [lf_field_form_control]="lfFieldFormControl"
         [lf_field_info]="lfFieldInfo"
@@ -12,10 +12,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         [dynamic_field_value_options]="dynamicFieldValueOptions"
         (fieldValueChange)="onChange($event)"
       >
-      </lf-date-time-field-component>
+      </lfint-date-time-field-component>
     }
     @case (fieldTypeString) {
-      <lf-text-field-component
+      <lfint-text-field-component
         [parent_form]="parentForm"
         [lf_field_form_control]="lfFieldFormControl"
         [lf_field_info]="lfFieldInfo"
@@ -23,10 +23,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         [dynamic_field_value_options]="dynamicFieldValueOptions"
         (fieldValueChange)="onChange($event)"
       >
-      </lf-text-field-component>
+      </lfint-text-field-component>
     }
     @case (fieldTypeDate) {
-      <lf-date-field-component
+      <lfint-date-field-component
         [parent_form]="parentForm"
         [lf_field_form_control]="lfFieldFormControl"
         [lf_field_info]="lfFieldInfo"
@@ -34,10 +34,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         [dynamic_field_value_options]="dynamicFieldValueOptions"
         (fieldValueChange)="onChange($event)"
       >
-      </lf-date-field-component>
+      </lfint-date-field-component>
     }
     @case (fieldTypeShortInteger) {
-      <lf-number-field-component
+      <lfint-number-field-component
         [parent_form]="parentForm"
         [lf_field_form_control]="lfFieldFormControl"
         [lf_field_info]="lfFieldInfo"
@@ -45,10 +45,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         [dynamic_field_value_options]="dynamicFieldValueOptions"
         (fieldValueChange)="onChange($event)"
       >
-      </lf-number-field-component>
+      </lfint-number-field-component>
     }
     @case (fieldTypeLongInteger) {
-      <lf-number-field-component
+      <lfint-number-field-component
         [parent_form]="parentForm"
         [lf_field_form_control]="lfFieldFormControl"
         [lf_field_info]="lfFieldInfo"
@@ -56,10 +56,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         [dynamic_field_value_options]="dynamicFieldValueOptions"
         (fieldValueChange)="onChange($event)"
       >
-      </lf-number-field-component>
+      </lfint-number-field-component>
     }
     @case (fieldTypeList) {
-      <lf-list-field-component
+      <lfint-list-field-component
         [parent_form]="parentForm"
         [lf_field_form_control]="lfFieldFormControl"
         [lf_field_info]="lfFieldInfo"
@@ -67,10 +67,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         [dynamic_field_value_options]="dynamicFieldValueOptions"
         (fieldValueChange)="onChange($event)"
       >
-      </lf-list-field-component>
+      </lfint-list-field-component>
     }
     @case (fieldTypeNumber) {
-      <lf-number-field-component
+      <lfint-number-field-component
         [parent_form]="parentForm"
         [lf_field_form_control]="lfFieldFormControl"
         [lf_field_info]="lfFieldInfo"
@@ -78,10 +78,10 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         [dynamic_field_value_options]="dynamicFieldValueOptions"
         (fieldValueChange)="onChange($event)"
       >
-      </lf-number-field-component>
+      </lfint-number-field-component>
     }
     @case (fieldTypeTime) {
-      <lf-time-field-component
+      <lfint-time-field-component
         [parent_form]="parentForm"
         [lf_field_form_control]="lfFieldFormControl"
         [lf_field_info]="lfFieldInfo"
@@ -89,7 +89,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         [dynamic_field_value_options]="dynamicFieldValueOptions"
         (fieldValueChange)="onChange($event)"
       >
-      </lf-time-field-component>
+      </lfint-time-field-component>
     }
   }
 </span>
