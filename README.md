@@ -63,7 +63,7 @@ The command above will output: `./types-lf-ui-components-publish/laserfiche-type
 
 You can use the lf-documentation project for testing changes.
 
-Build style sheets and lf-documentation:
+Build style sheets and lf-documentation. These scripts, and `npm run serve`, also build the CDN bundle (`npm run create-lf-cdn`) that the framework-agnostic live demo loads; restart `npm run serve` to pick up a rebuilt bundle.
 
 ```sh
 npm run build-lf-documentation-dev

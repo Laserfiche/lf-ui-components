@@ -1,8 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { ExampleUsageBasicStepsDirective } from '../example-usage-basic-steps.directive';
 import { CardComponent } from '../card/card.component';
 
@@ -13,16 +12,8 @@ import { CardComponent } from '../card/card.component';
   standalone: true,
   imports: [CardComponent],
 })
-export class ExampleUsageInHtmlComponent extends ExampleUsageBasicStepsDirective implements OnInit {
-  private http = inject(HttpClient);
+export class ExampleUsageInHtmlComponent extends ExampleUsageBasicStepsDirective {
   private destroyRef = inject(DestroyRef);
-  demoFileContent = signal('');
-
-  ngOnInit() {
-    this.http.get('./framework-agnostic-ui-component-demo.html', { responseType: 'text' }).subscribe((content) => {
-      this.demoFileContent.set(content);
-    });
-  }
 
   /** Grows the demo iframe to its content height, so it opens without a scrollbar; the demo renders asynchronously. */
   onDemoFrameLoad(frame: HTMLIFrameElement) {

@@ -34,10 +34,6 @@ $steps = @(
     Command = { npm run format:write }
   }
   [PSCustomObject]@{
-    Name = 'npm run create-lf-cdn'
-    Command = { npm run create-lf-cdn }
-  }
-  [PSCustomObject]@{
     Name = 'npm run sass-lf'
     Command = { npm run sass-lf }
   }
