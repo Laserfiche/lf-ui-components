@@ -31,6 +31,11 @@ export default defineConfig({
   },
   test: {
     globals: true,
+    // The Analog plugin defaults the pool to vmThreads, and Vitest turns off isolation for VM pools,
+    // which would run every spec file in one shared iframe. Tests run in the browser either way, so
+    // naming a pool only restores the per-file iframe: without it, custom elements registered by the
+    // lf-cdn spec (customElements.define cannot be undone) upgrade elements in later spec files.
+    pool: 'forks',
     setupFiles: ['./vitest.setup.ts'],
     browser: {
       enabled: true,
