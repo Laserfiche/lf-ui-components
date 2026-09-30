@@ -1,6 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+import { ErrorHandler } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -214,5 +215,29 @@ describe('LfFieldAdhocContainerComponent', () => {
       [fieldValueNameExist.fieldName as string]: fieldValueNameExist,
     };
     expect(actualValues).toEqual(expectedValues);
+  });
+});
+
+describe('LfFieldAdhocContainerComponent rendering fields', () => {
+  it('should refresh its own view, not only the field views it creates (NG0100)', async () => {
+    TestBed.configureTestingModule({ imports: [LfFieldAdhocContainerComponent, BrowserAnimationsModule] });
+    const errors: unknown[] = [];
+    vi.spyOn(TestBed.inject(ErrorHandler), 'handleError').mockImplementation((error) => errors.push(error));
+    const fixture = TestBed.createComponent(LfFieldAdhocContainerComponent);
+    // As in an application: change detection runs when the scheduler ticks, not only on demand.
+    fixture.autoDetectChanges();
+    await fixture.whenStable();
+    const service = new LfFieldAdhocContainerDemoService();
+    await fixture.componentInstance.initAsync(service);
+    await fixture.whenStable();
+
+    // Nothing else marks the container for check here, as when a tick runs while fields are still rendering.
+    const fieldInfos = service.mappedFields.map((field) => field.definition);
+    fixture.componentInstance.allFieldInfos = fieldInfos;
+    await fixture.componentInstance.renderFieldsAsync(fieldInfos);
+    await fixture.whenStable();
+
+    expect(errors).toEqual([]);
+    expect(fixture.nativeElement.querySelector('.adhoc-container .fields-empty')).toBeNull();
   });
 });

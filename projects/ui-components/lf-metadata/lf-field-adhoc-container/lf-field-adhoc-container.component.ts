@@ -155,6 +155,10 @@ export class LfFieldAdhocContainerComponent extends LfFieldContainerDirective im
     vf.clear();
     this.componentRefs = [];
     this.groupComponentRefs = [];
+    // The template reads componentRefs through fieldsEmpty(). The field views created below schedule
+    // a change detection that refreshes only them, so without this the empty-state message stays
+    // stale (NG0100 in dev mode). The first field is pushed before that change detection runs.
+    this.ref.markForCheck();
 
     for (const fieldInfo of fieldInfos) {
       const values = this.getValuesById(fieldInfo.id) ?? [];
