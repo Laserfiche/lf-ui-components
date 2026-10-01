@@ -1,7 +1,7 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
-## 21.1.3
+## 21.2.0
 
 ### Breaking Changes
 

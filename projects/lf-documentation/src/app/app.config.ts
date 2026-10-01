@@ -42,7 +42,7 @@ export const routes: Routes = [
   { path: RouterLinks.GETTING_STARTED, component: GettingStartedComponent },
   { path: RouterLinks.EXAMPLE_NPM_USAGE_ANGULAR, component: ExampleNpmUsageInAngularComponent },
   { path: RouterLinks.EXAMPLE_USAGE_HTML, component: ExampleUsageInHtmlComponent },
-  // The framework-agnostic guide's URL before 21.1.3; external links and bookmarks still use it.
+  // The framework-agnostic guide's URL before 21.2.0; external links and bookmarks still use it.
   { path: 'using-ui-components-from-cdn-in-html5', redirectTo: RouterLinks.EXAMPLE_USAGE_HTML },
   { path: RouterLinks.OVERVIEW, component: OverviewComponent },
   { path: RouterLinks.CONVERT_COMPONENT, component: ConvertComponentToElementComponent },
