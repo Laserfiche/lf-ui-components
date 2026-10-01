@@ -59,46 +59,25 @@ npm run create-types-lf-ui-components
 
 The command above will output: `./types-lf-ui-components-publish/laserfiche-types-lf-ui-components-[MajorVersion].0.0.tgz`.
 
-### Build lf-documentation
+### Build and view lf-documentation locally
 
 You can use the lf-documentation project for testing changes.
 
-Build lf-documentation:
+Build style sheets and lf-documentation. This script, and `npm run serve`, also build the library and the CDN bundle (`npm run create-lf-cdn`) that the framework-agnostic live demo loads; restart `npm run serve` to pick up a rebuilt bundle.
 
 ```sh
-cd repo-root-folder
-npm run build-ui-components-prod
-npm run build-lf-documentation-prod
+npm run build-lf-documentation-dev
+
+# Documentation output folder: ./dist/lf-documentation
+npm run serve
 ```
 
-to create `./dist/lf-documentation`.
-
-Build style sheets:
+For watch mode, start the documentation watch first and, once it is watching, the library watch in a second terminal. The documentation watch builds the library once before it starts watching, and a library watch started during that build deletes the `dist/ui-components` it compiles against.
 
 ```sh
-npm run sass-lf
-npm run sass-ms
-```
-
-### For interactive development: Build lf-documentation in watch mode
-
-This allows you to see changes you make to the ui components quickly. You can run the two commands in different windows so that you can see any changes in the browser, even those that are shared across components.
-
-```sh
-cd repo-root-folder
-npm run build-ui-components-dev-watch
 npm run build-lf-documentation-dev-watch
+npm run build-ui-components-dev-watch
 ```
-
-to create `./dist/lf-documentation`.
-
-### View the interactive documentation
-
-```sh
-npx ng serve lf-documentation --configuration development --host 127.0.0.1 --port 4200
-```
-
-Or configure a web server to serve `.dist/lf-documentation/browser` (e.g. IIS on WIndows).
 
 ## Things to verify before creating a Pull Request
 

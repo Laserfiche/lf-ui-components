@@ -17,6 +17,8 @@ import { LfUserFeedbackComponent } from '../../../../ui-components/projects';
 export class TroubleshootingComponent {
   testuserid: string = 'test-user-id';
   testaccountid: string = 'test-account-id';
+  /** Passed as hosting_context, so a submission records the page it came from. */
+  readonly pageUrl: string = window.location.href;
 
   constructor() {}
 }

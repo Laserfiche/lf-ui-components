@@ -24,7 +24,7 @@ export interface LfToastMessage {
 
 /** @internal */
 @Component({
-  selector: 'lf-toast-message',
+  selector: 'lfint-toast-message, lf-toast-message',
   templateUrl: './lf-toast-message.component.html',
   styleUrls: ['./lf-toast-message.component.css'],
   standalone: true,

@@ -13,16 +13,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
               }}</span>
             </div>
             @if (checklist.checklistItems.length > 0) {
-              <lf-items-component
+              <lfint-items-component
                 [items]="checklist.checklistItems"
                 (itemsChanged)="emitChecklistChanges()"
-              ></lf-items-component>
+              ></lfint-items-component>
             }
             @if (checklist.checklistOptions.length > 0) {
-              <lf-options-component
+              <lfint-options-component
                 [options]="checklist.checklistOptions"
                 (optionsChanged)="emitChecklistChanges()"
-              ></lf-options-component>
+              ></lfint-options-component>
             }
           </div>
         }
@@ -37,16 +37,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </mat-panel-title>
               </mat-expansion-panel-header>
               @if (checklist.checklistItems.length > 0) {
-                <lf-items-component
+                <lfint-items-component
                   [items]="checklist.checklistItems"
                   (itemsChanged)="emitChecklistChanges()"
-                ></lf-items-component>
+                ></lfint-items-component>
               }
               @if (checklist.checklistOptions.length > 0) {
-                <lf-options-component
+                <lfint-options-component
                   [options]="checklist.checklistOptions"
                   (optionsChanged)="emitChecklistChanges()"
-                ></lf-options-component>
+                ></lfint-options-component>
               }
             </mat-expansion-panel>
           </div>

@@ -11,7 +11,7 @@ import { AppLocalizationService, LfMessageToastTypes } from '@laserfiche/lf-ui-c
 import { of } from 'rxjs';
 
 @Component({
-  selector: 'lf-feedback-image-upload',
+  selector: 'lfint-feedback-image-upload',
   template: '<p>Mock Image Attach Component</p>',
   standalone: true,
 })

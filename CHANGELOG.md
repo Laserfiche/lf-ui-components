@@ -1,6 +1,21 @@
 <!--Copyright Laserfiche.
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
+## 21.2.0
+
+### Breaking Changes
+
+- **[BREAKING]**: Components the library renders inside another component now use an `lfint-` host element instead of `lf-`, in both the Angular package and the CDN build. For example, `lf-repository-browser` renders `<lfint-breadcrumbs>`, `<lfint-selection-list-component>` and `<lfint-loader-component>`, and `lf-field-container` renders `<lfint-field-template-container>` and `<lfint-field-adhoc-container>`.
+  - **Action required**: Update stylesheet rules and test selectors that match these inner elements by their `lf-` tag name.
+  - Creating `LfBreadcrumbsComponent`, `LfSelectionListComponent`, `LfFieldTemplateContainerComponent` or `LfFieldAdhocContainerComponent` dynamically (`ViewContainerRef.createComponent`, `MatDialog.open`) now also gives an `lfint-` host element.
+  - Not affected: registered tag names, element properties, and components you place yourself (e.g. `<lf-breadcrumbs>` in a template or as a custom element).
+
+### Fixes
+
+- CDN build: Fixed components the library creates inside other components rendering twice (e.g. `lf-field-container` showed two template pickers and two "Add/remove fields" blocks, `lf-repository-browser` had a second empty breadcrumbs bar). Resolved by the `lfint-` rename above.
+- CDN build: `lf-ui-components.js` is now wrapped in a function scope so its minified declarations no longer leak into `window`. On pages that share `window` with other bundles (e.g. SharePoint), a clashing global could break component creation with errors such as `Rx is not a function`.
+- `[lf-field-template-container]`, `[lf-field-adhoc-container]`: Fixed `ExpressionChangedAfterItHasBeenCheckedError` (NG0100) in development mode when `initAsync` is called from `ngAfterViewInit`. `lf-field-adhoc-container` also no longer briefly shows its "no additional fields" message after rendering fields.
+
 ## 21.1.2
 
 ### Fixes

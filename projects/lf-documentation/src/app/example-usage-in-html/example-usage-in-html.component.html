@@ -2,10 +2,33 @@
 Licensed under the MIT License. See LICENSE in the project root for license information.-->
 
 <p class="documentation-title">Using UI Components in a Framework-Agnostic Way</p>
-<h3 id="cdn-example-lf-tags">Example: <code>lf-tags</code></h3>
+
+<h3 id="cdn-host-created-tags">Which tags you can create</h3>
+<p class="documentation-text">
+  The CDN bundle registers a custom element for each of the documented components. These are the tags a host is meant to
+  create:
+</p>
+<ul>
+  <li>
+    <code>lf-field-container</code>, <code>lf-field-template-container</code>, <code>lf-field-adhoc-container</code>
+  </li>
+  <li><code>lf-repository-browser</code>, <code>lf-breadcrumbs</code>, <code>lf-toolbar</code></li>
+  <li><code>lf-tags</code>, <code>lf-login</code>, <code>lf-checklist</code>, <code>lf-user-feedback</code></li>
+</ul>
+<p class="documentation-text">
+  Other registered tags are internal building blocks. The library renders them itself under <code>lfint-</code>
+  selectors, and they are not part of the supported surface — do not create them directly.
+</p>
+<p class="documentation-text">
+  <code>lf-field-container</code> and <code>lf-repository-browser</code> are <em>composite</em>: they render other
+  components inside their own view, and they are what most integrations embed. The live demo at the end of this page
+  shows both, alongside the simpler leaf component taught below, and self-checks that each view rendered exactly once.
+</p>
+
+<h3 id="cdn-example-lf-tags">Simplest example: <code>lf-tags</code></h3>
 <p>
-  The steps below show how to use <code>lf-tags</code> in a plain HTML file without any framework. A complete working
-  example and live demo are shown at the end.
+  The steps below show how to use <code>lf-tags</code>, a leaf component, in a plain HTML file without any framework. A
+  live demo is shown at the end.
 </p>
 <ol>
   <li>
@@ -54,10 +77,15 @@ customElements.<span class="code-js-function">whenDefined</span>('<span class="c
   </li>
 </ol>
 
-<h4>Complete example — <code>framework-agnostic-ui-component-demo.html</code>:</h4>
-<pre class="code-container">{{ demoFileContent() }}</pre>
-
-<p class="documentation-sub-header">Live Demo — <code>framework-agnostic-ui-component-demo.html</code></p>
-<app-card>
-  <iframe src="./framework-agnostic-ui-component-demo.html" class="demo-frame"></iframe>
+<p class="documentation-sub-header">
+  Live demo —
+  <a href="./framework-agnostic-ui-component-demo.html" target="_blank">framework-agnostic-ui-component-demo.html</a>
+</p>
+<app-card fill>
+  <iframe
+    #demoFrame
+    src="./framework-agnostic-ui-component-demo.html"
+    class="demo-frame"
+    (load)="onDemoFrameLoad(demoFrame)"
+  ></iframe>
 </app-card>

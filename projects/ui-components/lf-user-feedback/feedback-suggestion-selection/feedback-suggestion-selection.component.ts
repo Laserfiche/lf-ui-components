@@ -7,7 +7,7 @@ import { AppLocalizationService } from '@laserfiche/lf-ui-components/internal-sh
 
 /** @internal */
 @Component({
-  selector: 'lf-feedback-suggestion-selection',
+  selector: 'lfint-feedback-suggestion-selection, lf-feedback-suggestion-selection',
   templateUrl: './feedback-suggestion-selection.component.html',
   styleUrls: [
     './feedback-suggestion-selection.component.css',

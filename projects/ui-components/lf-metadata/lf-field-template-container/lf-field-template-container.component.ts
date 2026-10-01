@@ -41,7 +41,7 @@ import { DropDownState, TemplateState } from './lf-field-template-container-stat
 import { LfFieldViewDirective } from '../lf-field-view.directive';
 
 @Component({
-  selector: 'lf-field-template-container',
+  selector: 'lfint-field-template-container, lf-field-template-container',
   templateUrl: './lf-field-template-container.component.html',
   styleUrls: ['./lf-field-template-container.component.css'],
   standalone: true,
@@ -110,6 +110,9 @@ export class LfFieldTemplateContainerComponent extends LfFieldContainerDirective
 
   @Input()
   initAsync = async (providers: LfFieldTemplateProviders, templateIdentifier?: number | string): Promise<void> => {
+    // Hosts call this from ngAfterViewInit, inside the change detection pass that has just checked
+    // this view. Starting after that pass keeps the state changes below out of it (NG0100).
+    await Promise.resolve();
     this.resetComponentValues();
     this.templateFieldContainerService = CoreUtils.validateDefined(
       providers.templateFieldContainerService,

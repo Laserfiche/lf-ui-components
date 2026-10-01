@@ -10,19 +10,19 @@ Licensed under the MIT License. See LICENSE in the project root for license info
           <span class="lf-field-is-required">*</span>
         }
         @if (isLoading) {
-          <lf-loader-component></lf-loader-component>
+          <lfint-loader-component></lfint-loader-component>
         }
       </span>
     }
     <form class="lf-field-form" [formGroup]="singleFieldParentForm">
-      <lf-field-base-component
+      <lfint-field-base-component
         [parentForm]="singleFieldParentForm"
         [lfFieldFormControl]="getSingleField()"
         [dynamicFieldValueOptions]="getOptions()"
         [lfFieldInfo]="lfFieldInfo"
         [lfFieldValue]="lfFieldValue"
         (fieldValueChange)="fieldDataChange($event)"
-      ></lf-field-base-component>
+      ></lfint-field-base-component>
     </form>
   </span>
 }

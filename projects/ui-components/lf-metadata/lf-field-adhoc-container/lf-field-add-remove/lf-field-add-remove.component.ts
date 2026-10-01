@@ -50,7 +50,7 @@ export enum AddRemoveState {
  * @internal
  */
 @Component({
-  selector: 'lf-field-add-remove-component',
+  selector: 'lfint-field-add-remove-component, lf-field-add-remove-component',
   templateUrl: './lf-field-add-remove.component.html',
   styleUrls: ['./lf-field-add-remove.component.css'],
   standalone: true,

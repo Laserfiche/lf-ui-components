@@ -24,7 +24,7 @@ import { ItemsValidationTextPipe } from './items-validation-text.pipe';
  * @internal
  */
 @Component({
-  selector: 'lf-items-component',
+  selector: 'lfint-items-component, lf-items-component',
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css', './../lf-checklist/lf-checklist.component.css'],
   standalone: true,

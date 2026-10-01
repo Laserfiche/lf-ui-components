@@ -54,6 +54,29 @@ async function processTypesFile() {
     .pipe(dest(NPM_PUBLISH));
 }
 
+// The CDN bundle is loaded as a classic script, so its minified top-level declarations would
+// otherwise become globals - two-character names like `Rx`, `Nx`, `$`. On a page that shares
+// `window` with other bundles (SharePoint being the obvious case), anything that later assigns
+// one of those names replaces the library's own binding, and the next component creation fails.
+// Wrapping keeps the declarations private; `customElements.define` still registers globally.
+// The wrapper opens on its own first line, so the bundle's own lines keep their columns and the
+// source map only needs one empty line prepended (shiftSourceMapOneLine). The leading `;` ends
+// any unterminated statement in a script the bundle is concatenated after, which would otherwise
+// call the wrapper. The sourceMappingURL comment is moved past the closing brace so it stays last.
+const SOURCE_MAPPING_URL_COMMENT = /\n?\/\/# sourceMappingURL=.*\n?$/;
+
+function wrapInFunctionScope(contents) {
+  const sourceMappingUrl = contents.match(SOURCE_MAPPING_URL_COMMENT)?.[0].trim() ?? '';
+  return `;(function(){\n${contents.replace(SOURCE_MAPPING_URL_COMMENT, '')}\n})();\n${sourceMappingUrl}\n`;
+}
+
+// Matches the line wrapInFunctionScope adds above the bundle: `;` ends an empty generated line.
+function shiftSourceMapOneLine(mapContents) {
+  const map = JSON.parse(mapContents);
+  map.mappings = `;${map.mappings}`;
+  return JSON.stringify(map);
+}
+
 async function renameLfCdn() {
   const mainJsPath = LF_CDN_BROWSER_DIR + MAIN_SCRIPT_FILE;
   const mainJsMapPath = LF_CDN_BROWSER_DIR + MAIN_SCRIPT_MAP_FILE;
@@ -63,12 +86,14 @@ async function renameLfCdn() {
 
   if (fs.existsSync(mainJsPath)) {
     const content = fs.readFileSync(mainJsPath, 'utf8');
-    fs.writeFileSync(cdnJsPath, content.replace(MAIN_SCRIPT_MAP_FILE, CDN_UI_COMPONENTS_MAP_FILE));
+    fs.writeFileSync(cdnJsPath, wrapInFunctionScope(content.replace(MAIN_SCRIPT_MAP_FILE, CDN_UI_COMPONENTS_MAP_FILE)));
     fs.unlinkSync(mainJsPath);
-  }
 
-  if (fs.existsSync(mainJsMapPath)) {
-    fs.renameSync(mainJsMapPath, cdnJsMapPath);
+    // Only a map that belongs to the bundle just wrapped is shifted, so a rerun never shifts twice.
+    if (fs.existsSync(mainJsMapPath)) {
+      fs.writeFileSync(cdnJsMapPath, shiftSourceMapOneLine(fs.readFileSync(mainJsMapPath, 'utf8')));
+      fs.unlinkSync(mainJsMapPath);
+    }
   }
 
   const indexHtmlContent = fs.readFileSync(lfCdnIndexPath, 'utf8');

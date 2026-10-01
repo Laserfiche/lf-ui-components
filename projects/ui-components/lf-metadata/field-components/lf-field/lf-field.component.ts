@@ -19,7 +19,7 @@ import { FieldValue, LfFieldInfo, LfFieldValue } from '../utils/lf-field-types';
 import { LfFieldBaseComponent } from '../field-base-parts/lf-field-base/lf-field-base/lf-field-base.component';
 
 @Component({
-  selector: 'lf-field-component',
+  selector: 'lfint-field-component, lf-field-component',
   templateUrl: './lf-field.component.html',
   styleUrls: ['./lf-field.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

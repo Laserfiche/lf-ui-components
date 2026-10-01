@@ -12,7 +12,7 @@ import { ValidationRule } from '@laserfiche/lf-ui-components/internal-shared';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'lf-list-field-component',
+  selector: 'lfint-list-field-component, lf-list-field-component',
   templateUrl: './list-field.component.html',
   styleUrls: ['./list-field.component.css', './../lf-field-base/lf-field-base.component.css'],
   providers: [

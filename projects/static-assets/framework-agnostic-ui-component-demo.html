@@ -9,57 +9,417 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <script src="./lf-ui-components.js" defer></script>
     <link rel="stylesheet" href="./indigo-pink.css" />
     <link rel="stylesheet" id="lf-stylesheet" href="./lf-laserfiche-lite.css" />
+    <script>
+      // Lets the same page be checked under each shipped theme (see scripts/verify-cdn-demo.mjs).
+      const requestedTheme = new URLSearchParams(location.search).get("theme");
+      if (requestedTheme && /^[a-z0-9.-]+\.css$/.test(requestedTheme)) {
+        document.getElementById("lf-stylesheet").setAttribute("href", "./" + requestedTheme);
+      }
+    </script>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 1rem;
+      }
+      section {
+        margin-bottom: 2rem;
+      }
+      section + section {
+        border-top: 1px solid #ccc;
+        padding-top: 1rem;
+      }
+      /* lf-field-container opens "Add/remove fields" as an overlay that fills the nearest positioned
+         ancestor, so the host gives it one; without it the overlay covers the whole page. */
+      #fieldContainerHost {
+        position: relative;
+        min-height: 300px;
+      }
+      #selfCheck {
+        border-collapse: collapse;
+      }
+      #selfCheck td,
+      #selfCheck th {
+        border: 1px solid #ccc;
+        padding: 0.25rem 0.75rem;
+        text-align: left;
+      }
+      .pass {
+        color: #1b5e20;
+      }
+      .fail {
+        color: #b71c1c;
+        font-weight: bold;
+      }
+    </style>
   </head>
 
   <body>
-    <div id="demoTagsContainer"></div>
-    <p>selectedTagsChanged output:</p>
-    <textarea id="demoOutput" rows="10" style="width: 100%; box-sizing: border-box" disabled></textarea>
+    <h1>Framework-agnostic UI components</h1>
+
+    <p>
+      Every component below is created with <code>document.createElement</code> and configured through properties on the
+      element. The tags a host may create are the documented entry points: <code>lf-field-container</code>,
+      <code>lf-field-template-container</code>, <code>lf-field-adhoc-container</code>,
+      <code>lf-repository-browser</code>, <code>lf-breadcrumbs</code>, <code>lf-toolbar</code>, <code>lf-tags</code>,
+      <code>lf-login</code>, <code>lf-checklist</code> and <code>lf-user-feedback</code>. Other registered tags are
+      internal; the library renders them itself under <code>lfint-</code> names and they are not part of the supported
+      surface.
+    </p>
+
+    <!-- A composite component: lf-field-container renders a template container and an adhoc
+         container inside its own view. This is the shape that regressed when inner components
+         were reachable under a registered tag, so it is the primary example. -->
+    <section>
+      <h2>lf-field-container</h2>
+      <p>Composite component. Configured with <code>initAsync</code> <em>after</em> the element is in the DOM.</p>
+      <div id="fieldContainerHost"></div>
+    </section>
+
+    <!-- A second nesting pattern: lf-repository-browser renders lf-breadcrumbs in its own view
+         and projects an lf-toolbar the host supplies. -->
+    <section>
+      <h2>lf-repository-browser</h2>
+      <p>Composite component; renders its own breadcrumbs and projects the toolbar you pass in.</p>
+      <div id="repositoryBrowserHost"></div>
+    </section>
+
+    <!-- A leaf component, and the other lifecycle order: properties set before the element is
+         appended. Which order a component needs depends on when it reads its inputs; lf-tags reads
+         them once, when it first renders. -->
+    <section>
+      <h2>lf-tags</h2>
+      <p>
+        Leaf component. <code>tagsService</code> and <code>initialTags</code> are read once, when the element first
+        renders, so they must be set <em>before</em> the element is appended.
+      </p>
+      <div id="tagsHost"></div>
+      <p><code>selectedTagsChanged</code> output:</p>
+      <textarea id="tagsOutput" rows="8" style="width: 100%; box-sizing: border-box" disabled></textarea>
+    </section>
+
+    <!-- A leaf component whose inputs arrive after it is in the DOM, as they do when a host
+         learns the signed-in user asynchronously. -->
+    <section>
+      <h2>lf-user-feedback</h2>
+      <p>
+        Leaf component. Configured by setting properties <em>after</em> the element is appended; the button stays
+        disabled until both <code>user_id</code> and <code>account_id</code> are set. Submitting sends the feedback as a
+        tracking event, so the demo uses test IDs.
+      </p>
+      <div id="userFeedbackHost"></div>
+    </section>
+
+    <!-- Renders as a table on the page and is also read by scripts/verify-cdn-demo.mjs in CI.
+         Every count here must be 1: a component that renders twice is the defect this guards. -->
+    <section>
+      <h2>Self-check</h2>
+      <p>Each view must render exactly once. Two of anything means a component was instantiated twice.</p>
+      <table id="selfCheck">
+        <thead>
+          <tr>
+            <th>Check</th>
+            <th>Expected</th>
+            <th>Actual</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
     <script>
+      // ---------------------------------------------------------------------
+      // Service mocks. A host supplies these; they are the whole integration
+      // surface, so the demo is self-contained and needs no repository.
+      // ---------------------------------------------------------------------
+
+      const TEMPLATES = [
+        { id: 1, name: "Invoice", displayName: "Invoice", description: "Accounts payable", fieldCount: 2 },
+        { id: 2, name: "Contract", displayName: "Contract", description: "Legal agreements", fieldCount: 1 },
+      ];
+
+      const TEMPLATE_FIELDS = {
+        1: [
+          { id: 11, name: "Vendor", displayName: "Vendor", fieldType: "String", length: 100, isRequired: true },
+          { id: 12, name: "Amount", displayName: "Amount", fieldType: "Number" },
+        ],
+        2: [{ id: 21, name: "CounterParty", displayName: "Counter party", fieldType: "String", length: 100 }],
+      };
+
+      const ADHOC_FIELDS = [
+        { id: 101, name: "Reviewer", displayName: "Reviewer", fieldType: "String", length: 100 },
+        { id: 102, name: "ReviewedOn", displayName: "Reviewed on", fieldType: "Date" },
+      ];
+
+      /** Implements LfFieldContainerService. */
+      const fieldContainerServiceMock = {
+        getAvailableTemplatesAsync: function () {
+          return Promise.resolve(TEMPLATES);
+        },
+        getTemplateFieldsAsync: function (templateIdentifier) {
+          return Promise.resolve(TEMPLATE_FIELDS[templateIdentifier] ?? []);
+        },
+        getTemplateDefinitionAsync: function (templateIdentifier) {
+          return Promise.resolve(TEMPLATES.find((t) => t.id === templateIdentifier || t.name === templateIdentifier));
+        },
+        getDynamicFieldValueOptionsAsync: function () {
+          return Promise.resolve({});
+        },
+        getAllFieldDefinitionsAsync: function () {
+          return Promise.resolve(ADHOC_FIELDS);
+        },
+      };
+
+      // The Laserfiche document icons: the sprite IconUtils.getDocumentIconUrlFromIconId in
+      // @laserfiche/lf-js-utils points at. Its ids are listed in @laserfiche/lf-resource-library.
+      const ICON_SPRITE =
+        "https://lfxstatic.com/npm/@laserfiche/lf-resource-library@5/resources/icons/document-icons.svg";
+
+      /** An icon is one sprite id, or several to layer them (a shortcut adds "shortcut-overlay"). */
+      function folder(name, icon, children) {
+        return { name: name, icon: icon, children: children };
+      }
+
+      function file(name, icon) {
+        return { name: name, icon: icon };
+      }
+
+      const SAMPLE_REPOSITORY = folder("Repository", "folder-20", [
+        folder("Accounts Payable", "folder-20", [
+          folder("Invoices 2026", "folder-20", [
+            file("INV-10421 Northwind Traders.pdf", "edoc-pdf-20"),
+            file("INV-10422 Contoso Ltd.pdf", "edoc-pdf-20"),
+            // A scanned Laserfiche document holds image pages rather than an electronic file.
+            file("INV-10423 Fabrikam Inc", "document-20"),
+          ]),
+          file("Payment Approval Policy.docx", "edoc-wordprocessing-20"),
+          file("Vendor Payments Q3 2026.xlsx", "edoc-spreadsheet-20"),
+        ]),
+        folder("Human Resources", "folder-20", [
+          folder("Onboarding", "folder-20", [
+            file("New Hire Checklist.docx", "edoc-wordprocessing-20"),
+            file("Welcome Presentation.pptx", "edoc-presentation-20"),
+          ]),
+          file("Benefits Overview 2026.pdf", "edoc-pdf-20"),
+          file("Employee Handbook 2026.pdf", "edoc-pdf-20"),
+        ]),
+        folder("Legal", "folder-20", [
+          folder("Contract Records", "recordseries-20", [
+            folder("Contoso Ltd", "recordfolder-20", [
+              file("Master Services Agreement", "document-20"),
+              file("Amendment 1.pdf", "edoc-pdf-20"),
+            ]),
+          ]),
+          file("Mutual NDA Template.docx", "edoc-wordprocessing-20"),
+        ]),
+        folder("Marketing", "folder-20", [
+          file("Brand Guidelines.pdf", "edoc-pdf-20"),
+          file("Company Logo.png", "image-20"),
+          file("Product Launch Video.mp4", "edoc-movie-20"),
+        ]),
+        file("Company Directory.xlsx", "edoc-spreadsheet-20"),
+        file("Customer Inquiry - Order 5512.msg", "email-20"),
+        file("Employee Handbook 2026.pdf", ["edoc-pdf-20", "shortcut-overlay"]),
+        file("Project Archive 2025.zip", "edoc-zip-20"),
+        file("Read Me.txt", "edoc-text-20"),
+      ]);
+
+      const CHILDREN_BY_ID = {};
+      const PARENT_BY_ID = {};
+      let lastNodeId = 0;
+
+      /** Maps a sample entry to an LfTreeNode, recording its children and parent for the service. */
+      function toTreeNode(entry, parent) {
+        const icons = Array.isArray(entry.icon) ? entry.icon : [entry.icon];
+        const node = {
+          id: parent ? String(++lastNodeId) : "root",
+          icon: icons.map(function (iconId) {
+            return ICON_SPRITE + "#" + iconId;
+          }),
+          isContainer: entry.children !== undefined,
+          isLeaf: entry.children === undefined,
+          name: entry.name,
+          path: parent ? parent.path.replace(/\\$/, "") + "\\" + entry.name : "\\",
+        };
+        PARENT_BY_ID[node.id] = parent;
+        if (entry.children) {
+          CHILDREN_BY_ID[node.id] = entry.children.map(function (child) {
+            return toTreeNode(child, node);
+          });
+        }
+        return node;
+      }
+
+      const ROOT_NODE = toTreeNode(SAMPLE_REPOSITORY);
+
+      /** Implements LfTreeNodeService. */
+      const treeNodeServiceMock = {
+        getRootTreeNodeAsync: function () {
+          return Promise.resolve(ROOT_NODE);
+        },
+        getParentTreeNodeAsync: function (node) {
+          return Promise.resolve(PARENT_BY_ID[node.id]);
+        },
+        getFolderChildrenAsync: function (node) {
+          return Promise.resolve({ page: CHILDREN_BY_ID[node.id] ?? [], nextPage: undefined });
+        },
+      };
+
+      /** Implements LfTagsService. */
       const tagsServiceMock = {
         getTagDefinitions: function () {
           return Promise.resolve([
-            {
-              id: 1,
-              name: "Confidential",
-              displayName: "Confidential",
-              description: "Contains sensitive information",
-              isSecure: true,
-            },
-            {
-              id: 2,
-              name: "Reviewed",
-              displayName: "Reviewed",
-              description: "Document has been reviewed",
-              isSecure: false,
-            },
-            {
-              id: 3,
-              name: "Approved",
-              displayName: "Approved",
-              description: "Document has been approved",
-              isSecure: false,
-            },
-            { id: 4, name: "Draft", displayName: "Draft", description: "Work in progress document", isSecure: false },
-            { id: 5, name: "Archived", displayName: "Archived", description: "Document is archived", isSecure: false },
+            { id: 1, name: "Confidential", displayName: "Confidential", isSecure: true },
+            { id: 2, name: "Reviewed", displayName: "Reviewed", isSecure: false },
+            { id: 3, name: "Approved", displayName: "Approved", isSecure: false },
           ]);
         },
       };
 
-      function initLfTagsComponent() {
-        const tagsElement = document.createElement("lf-tags"); // create element before connecting to DOM
+      // ---------------------------------------------------------------------
+      // Creating the components
+      // ---------------------------------------------------------------------
 
-        tagsElement.tagsService = tagsServiceMock; // required — must be set before appending
-        tagsElement.initialTags = ["Reviewed"]; // optional — pre-select by displayName; must be set before appending
+      /** initAsync after the element is in the DOM. */
+      async function initFieldContainer() {
+        const element = document.createElement("lf-field-container");
+        document.getElementById("fieldContainerHost").appendChild(element);
+        await element.initAsync(fieldContainerServiceMock, 1);
+      }
 
-        tagsElement.addEventListener("selectedTagsChanged", function (event) {
-          const output = document.getElementById("demoOutput");
-          if (output) output.value = JSON.stringify(event.detail, null, 2);
+      async function initRepositoryBrowser() {
+        const element = document.createElement("lf-repository-browser");
+        // The height goes on the element itself; without one the entry list collapses to zero.
+        element.style.height = "300px";
+
+        // lf-toolbar is projected by the host, not rendered by the browser itself.
+        const toolbar = document.createElement("lf-toolbar");
+        toolbar.setAttribute("lf-toolbar", "");
+        element.appendChild(toolbar);
+
+        document.getElementById("repositoryBrowserHost").appendChild(element);
+        await element.initAsync(treeNodeServiceMock, ROOT_NODE);
+      }
+
+      /** Properties set before the element is appended. */
+      function initTags() {
+        const element = document.createElement("lf-tags");
+        element.tagsService = tagsServiceMock;
+        element.initialTags = ["Reviewed"];
+        element.addEventListener("selectedTagsChanged", function (event) {
+          document.getElementById("tagsOutput").value = JSON.stringify(event.detail, null, 2);
+        });
+        document.getElementById("tagsHost").appendChild(element);
+      }
+
+      /** Properties set after the element is appended. */
+      function initUserFeedback() {
+        const element = document.createElement("lf-user-feedback");
+        document.getElementById("userFeedbackHost").appendChild(element);
+        element.hosting_module = "testhostingmodule";
+        element.hosting_context = window.location.href;
+        element.user_id = "testuserid";
+        element.account_id = "testaccountid";
+      }
+
+      // ---------------------------------------------------------------------
+      // Self-check
+      // ---------------------------------------------------------------------
+
+      const CHECKS = [
+        { name: "template picker in lf-field-container", host: "#fieldContainerHost", view: ".lf-template-picker" },
+        { name: "adhoc container in lf-field-container", host: "#fieldContainerHost", view: ".adhoc-container" },
+        {
+          name: "add/remove fields button in lf-field-container",
+          host: "#fieldContainerHost",
+          // By id, not by title: the title is localized to the browser language.
+          view: "#adhoc-add-remove-button",
+        },
+        {
+          name: "breadcrumbs in lf-repository-browser",
+          host: "#repositoryBrowserHost",
+          view: ".lf-breadcrumbs-container",
+        },
+        { name: "toolbar in lf-repository-browser", host: "#repositoryBrowserHost", view: "lf-toolbar" },
+        {
+          name: "entry list with non-zero height in lf-repository-browser",
+          host: "#repositoryBrowserHost",
+          view: "cdk-virtual-scroll-viewport",
+          visibleOnly: true,
+        },
+        { name: "tags input in lf-tags", host: "#tagsHost", view: "input" },
+        // Enabled only once the user_id and account_id properties reached the component.
+        {
+          name: "enabled feedback button in lf-user-feedback",
+          host: "#userFeedbackHost",
+          view: "#lf-user-feedback-button:enabled",
+        },
+      ];
+
+      function runSelfCheck() {
+        const body = document.querySelector("#selfCheck tbody");
+        const results = CHECKS.map(function (check) {
+          const host = document.querySelector(check.host);
+          let matches = host ? Array.from(host.querySelectorAll(check.view)) : [];
+          if (check.visibleOnly) {
+            matches = matches.filter(function (element) {
+              return element.offsetHeight > 0;
+            });
+          }
+          const actual = matches.length;
+          const pass = actual === 1;
+
+          const row = document.createElement("tr");
+          row.innerHTML =
+            "<td>" +
+            check.name +
+            "</td><td>1</td><td>" +
+            actual +
+            '</td><td class="' +
+            (pass ? "pass" : "fail") +
+            '">' +
+            (pass ? "PASS" : "FAIL") +
+            "</td>";
+          body.appendChild(row);
+
+          return { name: check.name, expected: 1, actual: actual, pass: pass };
         });
 
-        document.getElementById("demoTagsContainer").appendChild(tagsElement);
+        // Read by CI. `pass` is false if any view rendered a number of times other than once.
+        window.__lfDemoResult = {
+          theme: document.getElementById("lf-stylesheet").getAttribute("href"),
+          pass: results.every(function (r) {
+            return r.pass;
+          }),
+          checks: results,
+        };
       }
-      customElements.whenDefined("lf-tags").then(initLfTagsComponent); // wait for the element to be defined before creating and appending it
+
+      async function main() {
+        await Promise.all([
+          customElements.whenDefined("lf-field-container"),
+          customElements.whenDefined("lf-repository-browser"),
+          customElements.whenDefined("lf-toolbar"),
+          customElements.whenDefined("lf-tags"),
+          customElements.whenDefined("lf-user-feedback"),
+        ]);
+
+        await initFieldContainer();
+        await initRepositoryBrowser();
+        initTags();
+        initUserFeedback();
+
+        // Let the views settle before counting them.
+        await new Promise(function (resolve) {
+          setTimeout(resolve, 500);
+        });
+        runSelfCheck();
+      }
+
+      main().catch(function (error) {
+        console.error(error);
+        window.__lfDemoResult = { pass: false, error: String(error), checks: [] };
+      });
     </script>
   </body>
 </html>

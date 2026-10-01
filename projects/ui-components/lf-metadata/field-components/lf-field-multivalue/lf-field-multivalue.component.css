@@ -63,7 +63,7 @@ span#lf-multivalue-remove-icon:hover {
   display: flex;
 }
 
-lf-field-base-component {
+lfint-field-base-component {
   flex-grow: 1;
   min-width: 85px;
 }

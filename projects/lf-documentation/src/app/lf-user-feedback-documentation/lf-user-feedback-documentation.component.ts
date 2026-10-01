@@ -13,5 +13,8 @@ import { LfUserFeedbackComponent } from 'projects/ui-components/projects';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LfUserFeedbackDocumentationComponent {
+  /** Passed as hosting_context, so a submission records the page it came from. */
+  readonly pageUrl: string = window.location.href;
+
   constructor() {}
 }

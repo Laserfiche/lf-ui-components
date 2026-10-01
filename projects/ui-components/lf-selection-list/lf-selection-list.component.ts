@@ -46,7 +46,7 @@ const SELECT_COL: ColumnDef = {
 
 /** @internal */
 @Component({
-  selector: 'lf-selection-list-component',
+  selector: 'lfint-selection-list-component, lf-selection-list-component',
   templateUrl: './lf-selection-list.component.html',
   styleUrls: ['./lf-selection-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

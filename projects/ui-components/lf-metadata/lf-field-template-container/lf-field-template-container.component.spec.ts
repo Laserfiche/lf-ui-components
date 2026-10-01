@@ -1,6 +1,7 @@
 // Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+import { AfterViewInit, Component, ErrorHandler, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 
@@ -315,5 +316,42 @@ describe('LfFieldTemplateContainerComponent', () => {
       { value: '', position: '1' },
       { value: City.LasVegas, position: '2' },
     ]);
+  });
+});
+
+/** Initializes the container the way hosts do: from ngAfterViewInit, where the ViewChild first exists. */
+@Component({
+  template: '<lf-field-template-container #container></lf-field-template-container>',
+  standalone: true,
+  imports: [LfFieldTemplateContainerComponent],
+})
+class InitializingHostComponent implements AfterViewInit {
+  @ViewChild('container') container!: LfFieldTemplateContainerComponent;
+  initialized!: Promise<void>;
+
+  ngAfterViewInit() {
+    this.initialized = this.container.initAsync(
+      { templateFieldContainerService: new LfFieldTemplateContainerDemoService() },
+      TemplateIds.String
+    );
+  }
+}
+
+describe('LfFieldTemplateContainerComponent initialized from a host ngAfterViewInit', () => {
+  it('should not change its view during the host change detection (NG0100)', async () => {
+    TestBed.configureTestingModule({
+      imports: [InitializingHostComponent],
+      providers: [LfFieldMetadataConnectorService],
+    });
+    const errors: unknown[] = [];
+    vi.spyOn(TestBed.inject(ErrorHandler), 'handleError').mockImplementation((error) => errors.push(error));
+
+    const fixture = TestBed.createComponent(InitializingHostComponent);
+    fixture.detectChanges();
+    await fixture.componentInstance.initialized;
+    await fixture.whenStable();
+
+    expect(errors).toEqual([]);
+    expect(fixture.componentInstance.container.templateState).toBe(TemplateState.SHOW_TEMPLATE);
   });
 });
